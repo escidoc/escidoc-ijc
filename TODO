@@ -1,0 +1,61 @@
+----------
+ TODO
+----------
+08.09.2008
+	- Relations (at least for Container)
+	- Organizational Units
+
+21.07.2008
+	Most of the bullet points are marked by a step number and the
+	developer.
+
+	- finish Handler Interfaces (1, Steffen)
+		- inherit interface structure
+
+	- Exception mapping (1, Henk)
+
+	- extend example objects (1, Steffen)
+		- and extended list of examples has to be part of eSciDocTest project
+
+	- AA (1, Michael)
+		- design class
+		- define JibX mapping
+		- intergration into the handler
+
+	- Container, Context, Organizational Unit, Search, Statistic, WorkflowManager (2)
+		- design interfaces for objects and handlers
+		- design classes
+		- define JibX mapping
+
+		> Search
+		- design interfaces for objects and handlers (1, Steffen)
+		- design classes (2, Henk)
+		- define JibX mapping (2, Henk)
+
+	- Tests (2)
+		(we should use the JUnit 4.x)
+		- extend mapping tests (Steffen)
+		- add functional tests
+		- intergration in the automatic build and test process (Steffen)
+
+	- Documentation (3)
+		- common
+			- UML design of classes
+		- developer doc
+			- guide and rule to develop
+			- checkstyle, codestyle, ..
+			- javadoc to html
+		- user doc
+			- brief usage introduction
+			- example code/application
+
+	- Extend functionality
+		- add support for sub resource methods (4)
+		- support REST interface/transport (5)
+		- add caching (5)
+
+	- Publication on escidoc website/mailinglist (3)
+		- code package
+		- pdf documentation
+		- javadoc pages
+

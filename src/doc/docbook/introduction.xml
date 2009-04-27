@@ -1,0 +1,113 @@
+<chapter>
+	<title>eSciDocCore Infrastructure Client Library</title>
+	<section>
+		<title>Communcation with eSciDocCore Infrastructure</title>
+		<para>
+			The client library uses the eSciDocCore Infrastructure SOAP
+			interface to invoke the methods of the resource handlers.
+			The SOAP client classes are generated from eSciDocCore
+			Infrastructure wsdl files.
+		</para>
+		<para>
+			The host and port where eSciDocCore Infrastructure is
+			deployed are configured via a user specific properties file.
+			The default host is localhost, the default port is 8080. The
+			default values are only taken in case no appropriate
+			properties file is found.
+		</para>
+	</section>
+	<section>
+		<title>Client Handlers</title>
+		<para>
+			Each deployed web service will have its own corresponding
+			client, e.g. to access ItemHandlerService methods an
+			ItemHandlerClient will be created. The ItemHandlerClient
+			methods will have the same names but possibly an other
+			signature, in fact all occurences of the xml representation
+			of an item will be replaced by its java representation. The
+			method
+		</para>
+		<programlisting>
+			String create(String itemXml) throws Exceptions
+		</programlisting>
+		<para>will be implemented as</para>
+		<programlisting>
+			ItemInterface create(ItemInterface item) throws Exceptions
+		</programlisting>
+		<para>
+			and act as following: The method serializes the item to its
+			xml representation, fetches the SOAP client and calls the
+			method create with the xml represenation as parameter. If
+			the method execution is successful and an item xml is
+			returned the new item java object will be instantiated with
+			the item xml and returned to the calling method. If an error
+			occurs, i.e. the underlying SOAP client throws an exception,
+			the exception will be thrown to the caller.
+		</para>
+		<para>
+			and perform the following steps:
+			<itemizedlist mark="opencircle" spacing="compact">
+				<listitem>
+					serialize the item to its xml representation
+				</listitem>
+				<listitem>get the SOAP client of the item</listitem>
+				<listitem>
+					call method create with the serialized xml
+					represenation as parameter
+				</listitem>
+				<listitem>
+					if method execution was successfull:
+					<itemizedlist spacing="compact">
+						<listitem>
+							a new item java object will be instantiated
+							on the basis of the item xml (created by
+							ItemHandlerService)
+						</listitem>
+						<listitem>
+							the new item java object will be returned to
+							the calling method
+						</listitem>
+					</itemizedlist>
+
+				</listitem>
+				<listitem>
+					if an error occurs (i.e. the underlying SOAP client
+					throws an exception):
+					<itemizedlist spacing="compact">
+						<listitem>
+							the exception will be thrown to the calling
+							method
+						</listitem>
+					</itemizedlist>
+				</listitem>
+			</itemizedlist>
+		</para>
+		<para>
+			<xref linkend="API-REFERENCE" />
+			contains a description for all available resource clients.
+		</para>
+	</section>
+	<section>
+		<title>Data Binding</title>
+		<para>
+			For every resource (e.g. item) a java representation besides
+			the existing REST and SOAP representation is available.
+			Every of these java objects has an marshaller/unmarshaller
+			based on the jibx framework (
+			<emphasis>http://jibx.sourceforge.net/index.html</emphasis>
+			) that is able to parse valid SOAP xml representation to
+			create the corresponding java representation, to update any
+			values and to serialize to the SOAP xml representation. The
+			details of marshalling/unmarschalling from xml to java
+			object and vice-versa are not really interesting for an
+			application developed using the eSciDocCore infrastructure
+			client library. Therefore the client handlers cover these
+			details and only deal with java objects in their interfaces.
+		</para>
+		<para>
+			<xref linkend="API-REFERENCE" />
+			contains a description for all available data binding
+			classes.
+		</para>
+	</section>
+</chapter>

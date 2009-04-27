@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<mapping name="root" class="nl.knaw.dans.client.test.Root">
+
+		<value name="normal-element" field="normalElement" usage="optional"/>
+		<structure name="mdRecord" field="mdRecord" usage="optional"/>
+	</mapping>
+
+	<mapping class="nl.knaw.dans.client.test.Root$MDRecord" abstract="true">
+		<structure field="anyElement" type="org.w3c.dom.Element" marshaller="org.jibx.extras.DomElementMapper"
+				unmarshaller="org.jibx.extras.DomElementMapper" usage="optional"/>
+	</mapping>
+</binding>

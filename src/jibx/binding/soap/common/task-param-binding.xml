@@ -1,0 +1,51 @@
+<binding>
+	<!-- start: binding of a task param -->
+	<mapping name="param"
+		class="de.escidoc.core.resources.common.TaskParam">
+
+		<!-- *****************************************
+			Root attributes 
+			****************************************** -->
+		<value name="last-modification-date" style="attribute"
+			set-method="setLastModificationDateAsString"
+			get-method="getLastModificationDateAsString" usage="optional" />
+
+		<!-- *****************************************
+			Comment 
+			****************************************** -->
+		<value name="comment" set-method="setComment"
+			get-method="getComment" usage="optional" />
+
+		<!-- *****************************************
+			Pid 
+			****************************************** -->
+		<value name="pid" set-method="setPid" get-method="getPid"
+			usage="optional" />
+			
+			<!-- *****************************************
+			Password
+			****************************************** -->
+		<value name="password" set-method="setPassword" get-method="getPassword"
+			usage="optional" />
+			
+
+		<!-- *****************************************
+			Url 
+			****************************************** -->
+		<value name="url" set-method="setUrl" get-method="getUrl"
+			usage="optional" />
+
+		<!-- *****************************************
+			Filter 
+			****************************************** -->
+		<collection field="filters"
+			factory="de.escidoc.core.resources.common.TaskParam.filtersFactory">
+			<structure name="filter"
+				type="de.escidoc.core.resources.common.Filter"
+					marshaller="de.escidoc.core.common.jibx.binding.Filter"
+					unmarshaller="de.escidoc.core.common.jibx.binding.Filter"
+				/>
+		</collection>
+	</mapping>
+	<!-- end: binding of a task param -->
+</binding>

@@ -1,0 +1,10 @@
+<chapter>
+	<title>Overview</title>
+	<para>
+		This document contains a short overview of the architecture and
+		usage of the client library in Chapter 2. Chapter 3
+		consists of an adaption of the JavaDoc of the eSciDocCore
+		Infrastructure Client source code to give an overview on the available
+		classes. Generated classes for webservice access are excluded. 
+	</para>
+</chapter>

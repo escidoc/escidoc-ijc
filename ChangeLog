@@ -1,0 +1,29 @@
+06.09.2008 - SWA
+* reworked binding for Item, Context, Container
+* consistent usage of DateTime for timestamps
+* quite more tests
+
+22.07.2008 - MSC
+* Moved package de.escidoc.core.client.security and its content to package
+  de.escidoc.core.client.soap.security, because PWCallback is only used with 
+  SOAP transport.
+* Splittet jibx item binding. Added abstract bindings for properties of versionable 
+  resources and md-records.   
+* Added jibx binding for container and container-list.
+* Added java classes StructMap, ItemRef, and ContainerRef.
+
+22.07.2008 - HB
+* Refactored de.escidoc.core.client.exceptions.ExceptionMapper
+
+21.07.2008 - MSC
+* Added some comments to jibx bindings.
+* Moved exceptions from package de.escidoc.core.client.exceptions.api.exceptions
+  to package de.escidoc.core.client.exceptions.exceptions.
+* Fixed pid handling for latest-release section of jibx item binding.
+* Removed SoapWrapperContainerHandlerClient and SoapWrapperItemHandlerClient.
+* Moved exception mapping from axis faults to EscidocClientExceptions to
+  SoapContainerClient and SoapItemClient.
+* Changed method signatures in SoapContainerHandlerClient and SoapItemHandlerClient
+   to be String based and moved Unmarshalling/Marshalling between Java Objects and
+   xml Strings to ContainerHandlerClient and ItemHandlerClient.
+
