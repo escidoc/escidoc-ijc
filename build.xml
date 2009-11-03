@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="eSciDoc java client - main build file" basedir="." default="build">
+
+	<property environment="env" />
+	<property file="etc/client.default.properties" />
+	<property file="etc/project.properties" />
+
+	<property name="jibx-home" value="${basedir}/lib/jibx-1.2.1/" />
+	<property name="binding.dir" value="${java.src.dir}/de/escidoc/core/om/data/binding/" />
+
+	<!-- set classpath for compiling and running application with JiBX -->
+	<path id="classpath">
+		<pathelement path="${classpath}" />
+		<fileset dir="${jibx-home}" includes="*.jar" />
+		<dirset dir="${build.dir}">
+			<include name="classes/**" />
+		</dirset>
+	</path>
+
+	<!-- make sure required jars are present -->
+	<condition property="runtime-jars-found">
+		<available file="${jibx-home}/jibx-run.jar" />
+	</condition>
+	<condition property="binding-jars-found">
+		<and>
+			<available file="${jibx-home}/bcel.jar" />
+			<available file="${jibx-home}/jibx-bind.jar" />
+			<available file="${jibx-home}/jibx-run.jar" />
+		</and>
+	</condition>
+	<available property="extras-jar-found" file="${jibx-home}/jibx-extras.jar" />
+
+	<path id="build.classpath">
+		<fileset dir="lib" includes="**/*.jar" />
+	</path>
+
+	<target name="clean">
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="build" />
+		</delete>
+	</target>
+
+	<target name="build" depends="define-label, clean, prepare, generate, copy, compile, bind-jibx" />
+
+	<target name="generate">
+		<ant antfile="${src.bin.dir}/build-axis.xml" target="generate-axis-remote-classes" dir="" />
+		<ant antfile="${src.bin.dir}/build-client-exceptions.xml" target="generate-client-exceptions" dir="" />
+	</target>
+
+	<target name="generate-client">
+		<ant antfile="${src.bin.dir}/build-client-exceptions.xml" target="generate-client-exceptions" dir="" />
+	</target>
+
+	<target name="copy">
+		<copy todir="${java.build.dir}">
+			<fileset dir="${java.src.dir}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+
+			<fileset dir="${jibx.src.dir}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile">
+		<javac destdir="${java.build.dir}" classpathref="build.classpath" debug="on">
+			<src path="${java.src.dir}" />
+			<src path="${axis.gen.dir}" />
+			<src path="${client.gen.dir}" />
+			<src path="${junit.src.dir}" />
+			<include name="**/*.java" />
+		</javac>
+	</target>
+
+	<target name="bind-jibx">
+		<ant antfile="${src.bin.dir}/build-jibx.xml" target="bind-jibx" dir="" />
+	</target>
+
+	<target name="build-documentation">
+		<ant antfile="${src.bin.dir}/build-documentation.xml" target="build-all" dir="" />
+	</target>
+
+	<target name="prepare">
+		<mkdir dir="${java.build.dir}" />
+		<mkdir dir="build/gen-axis" />
+		<mkdir dir="build/gen-client" />
+
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.ant.dir}" />
+		<mkdir dir="${dist.bin.dir}" />
+		<mkdir dir="${dist.doc.dir}" />
+		<mkdir dir="${dist.javadoc.dir}" />
+		<mkdir dir="${dist.license.dir}" />
+		<mkdir dir="${dist.etc.dir}" />
+		<mkdir dir="${dist.jar.dir}" />
+		<mkdir dir="${dist.lib.dir}" />
+		<!-- mkdir dir="${dist.src.dir}" / -->
+	</target>
+
+	<!-- create jar file -->
+	<target name="jar" depends="build" description="build the jar of the project">
+		<jar basedir="${java.build.dir}" destfile="${dist.jar.dir}/escidoc-core-client-lib-${build.version}.jar" />
+	</target>
+
+	<!-- Distribution package -->
+	<target name="dist" depends="define-label, jar, build-documentation" description="Create a distribution zip package">
+
+		<!-- copy client lib jar -->
+		<copy file="build/dist/jar/escidoc-core-client-lib-${build.version}.jar" todir="${dist.zip}" />
+		
+		<!-- copy documentation -->
+		<copy todir="${dist.zip}/doc">
+			<fileset dir="${doc.dir}" />
+		</copy>
+		<!-- copy libraries -->
+		<copy todir="${dist.zip}/lib">
+			<fileset dir="${lib.dir}">
+				<exclude name="doc" />
+				<exclude name="doc/**/*" />
+				<exclude name="junit4.4" />
+				<exclude name="junit4.4/**/*" />
+				<exclude name="httpjunit-1.7" />
+				<exclude name="httpjunit-1.7/**/*" />
+				<exclude name="ant-contrib-1.0b1.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.zip}/license">
+			<fileset dir="${license.dir}" />
+		</copy>
+		<copy todir="${dist.zip}/etc">
+			<fileset dir="${etc.dir}" >
+				<include name="client.default.properties" />
+				<include name="log4j.xml" />
+			</fileset>
+		</copy>
+		
+		<zip destfile="${dist.dir}/escidoc-core-client-lib-${build.version}.zip">
+			<zipfileset dir="${dist.zip}" prefix="escidoc-core-client-lib-${build.version}"/>
+		</zip>
+
+	</target>
+
+	<!-- 
+		Compute build.version properties (which contains version number 
+		and/or build number).
+		The build.version property consist usally of version number and build
+		numer (e.g. 1.1-build23). But this value could be over written by
+		RELEASE_LABEL property. If RELEASE_LABEL is defined, than is this 
+		value the only used label. 
+		If you want to define a release build, which has only the version 
+		number in the label, than define RELEASE_LABEL=1.x.
+		If build number and version number undefined, than is are this 
+		values set to HEAD.
+		Use ${build.version} as version label in further scripts. 
+	 -->
+	<target name="define-label">
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+			<classpath>
+				<pathelement location="lib/ant-contrib-1.0b1.jar" />
+			</classpath>
+		</taskdef>
+		<if>
+			<isset property="RELEASE_LABEL" />
+			<then>
+				<echo>Using ${RELEASE_LABEL} as label</echo>
+				<property name="build.version" value="${RELEASE_LABEL}" />
+			</then>
+			<else>
+				<if>
+					<isset property="env.BUILD_NUMBER" />
+					<then>
+						<echo>Using ${env.BUILD_NUMBER} as build number</echo>
+						<property name="label-suffix" value="-build${env.BUILD_NUMBER}" />
+					</then>
+					<else>
+						<echo>Using HEAD as build number</echo>
+						<property name="label-suffix" value="-buildHEAD" />
+					</else>
+				</if>
+				<property name="build.version" value="${version}${label-suffix}" />
+			</else>
+		</if>
+	</target>
+</project>
+

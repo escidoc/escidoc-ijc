@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Jibx" basedir="../.." default="bind-jibx">
+
+	<property file="${basedir}/etc/${user.name}.properties" />
+	<property file="${basedir}/etc/project.properties" />
+
+
+	<!-- bind JiBX -->
+	<target name="bind-jibx">
+		<echo message="Running JiBX binding compiler" />
+		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+			<classpath>
+				<pathelement location="${lib.jibx.dir}/jibx-bind.jar" />
+				<pathelement location="${basedir}/lib/joda-time-1.5.2/joda-time-1.5.2.jar" />
+				<pathelement location="${basedir}/lib/dom4j/dom4j-1.6.1.jar" />
+				<pathelement location="${basedir}/lib/jibx-1.2.1/jibx-extras.jar" />
+			</classpath>
+		</taskdef>
+		<bind binding="${basedir}/${jibx.soap.resource.binding.file}" verbose="true" load="true">
+			<classpathset dir="${java.build.dir}" />
+		</bind>
+	</target>
+
+	<!-- bind JiBX struct-map -->
+	<target name="bind-jibx-struct-map">
+		<echo message="Running JiBX binding compiler" />
+		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+			<classpath>
+				<pathelement location="${lib.jibx.dir}/jibx-bind.jar" />
+				<pathelement location="${basedir}/lib/joda-time-1.5.2/joda-time-1.5.2.jar" />
+			</classpath>
+		</taskdef>
+		<bind binding="${basedir}/${jibx.binding.base.dir}/soap/common/0.4/struct-map-binding.xml" verbose="true" load="true">
+			<classpathset dir="${java.build.dir}" />
+		</bind>
+	</target>
+
+	<!-- bind JiBX result -->
+	<target name="bind-jibx-result">
+		<echo message="Running JiBX binding compiler" />
+		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+			<classpath>
+				<pathelement location="${lib.jibx.dir}/jibx-bind.jar" />
+				<pathelement location="${basedir}/lib/joda-time-1.5.2/joda-time-1.5.2.jar" />
+			</classpath>
+		</taskdef>
+		<bind binding="${basedir}/${jibx.binding.base.dir}/soap/common/0.1/result-binding.xml" verbose="true" load="true">
+			<classpathset dir="${java.build.dir}" />
+		</bind>
+	</target>
+
+	<!-- bind JiBX Context -->
+	<target name="bind-jibx-context">
+		<echo message="Running JiBX binding compiler" />
+		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+			<classpath>
+				<pathelement location="${lib.jibx.dir}/jibx-bind.jar" />
+				<pathelement location="${basedir}/lib/joda-time-1.5.2/joda-time-1.5.2.jar" />
+			</classpath>
+		</taskdef>
+		<bind binding="${basedir}/${jibx.binding.base.dir}/soap/om/context/0.6/context-binding.xml" verbose="true" load="true">
+			<classpathset dir="${java.build.dir}" />
+		</bind>
+	</target>
+
+	<!-- bind JiBX relations -->
+	<target name="bind-jibx-relations">
+		<echo message="Running JiBX binding compiler" />
+		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+			<classpath>
+				<pathelement location="${lib.jibx.dir}/jibx-bind.jar" />
+				<pathelement location="${basedir}/lib/joda-time-1.5.2/joda-time-1.5.2.jar" />
+			</classpath>
+		</taskdef>
+		<bind binding="${basedir}/${jibx.binding.base.dir}/soap/common/0.3/relations-binding.xml" verbose="true" load="true">
+			<classpathset dir="${java.build.dir}" />
+		</bind>
+	</target>
+
+	<!-- test binding with jibx-extras roundtripping tool -->
+		<target name="roundtripItem" >
+			<echo message="Roundtripping the document using binding..." />
+			<java classname="org.jibx.extras.TestRoundtrip" fork="true" failonerror="true">
+				<classpath refid="classpath" />
+				<arg value="de.escidoc.core.om.resources.Item" />
+				<arg value="${basedir}/templates/soap/0.7/item.xml" />
+			</java>
+			<echo message="Roundtrip test successful" />
+		</target>
+
+		<!-- run the included test program to read and then write to separate file -->
+		<target name="runItem" >
+			<echo message="Running the Item test..." />
+
+			<java classname="de.escidoc.core.test.client.om.item.ItemTest" fork="true" failonerror="true">
+				<classpath refid="classpath" />
+				<arg value="${basedir}/templates/soap/0.7/item.xml" />
+				<arg value="${basedir}/item-out.xml" />
+			</java>
+			<echo message="Generated output document item-out.xml" />
+		</target>
+
+</project>
