@@ -1,0 +1,35 @@
+<binding>
+	<!--  SOAP Binding -->
+
+	<mapping name="results"
+		class="de.escidoc.core.resources.aa.pdp.RequestsResults"
+		ns="http://www.escidoc.de/schemas/pdp/0.3/results">
+		<namespace uri="http://www.escidoc.de/schemas/pdp/0.3/results" 
+		default="elements"/>
+		<namespace uri="urn:oasis:names:tc:xacml:1.0:context"
+			prefix="xacml-context" />
+
+
+		<!-- *****************************************
+			Results
+			****************************************** -->
+		<collection field="results" create-type="java.util.LinkedList">
+			<structure
+				ns="http://www.escidoc.de/schemas/pdp/0.3/results" name="result"
+				type="de.escidoc.core.resources.aa.pdp.Result">
+				<collection field="responses"
+					create-type="java.util.LinkedList">
+					<structure ns="urn:oasis:names:tc:xacml:1.0:context"
+						name="Response" type="org.w3c.dom.Element"
+						marshaller="org.jibx.extras.DomElementMapper"
+						unmarshaller="org.jibx.extras.DomElementMapper"
+						usage="optional" />
+				</collection>
+				<value name="decision" set-method="setDecision"
+					get-method="getDecision" style="attribute" usage="optional" />
+			</structure>
+		</collection>
+
+	</mapping>
+
+</binding>

@@ -1,0 +1,26 @@
+<binding>
+	<!--  SOAP Binding -->
+
+	<mapping name="requests"
+		class="de.escidoc.core.resources.aa.pdp.Requests"
+		ns="http://www.escidoc.de/schemas/pdp/0.3/requests">
+		<namespace uri="http://www.escidoc.de/schemas/pdp/0.3/requests"
+			prefix="requests" />
+		<namespace uri="urn:oasis:names:tc:xacml:1.0:context"
+			prefix="xacml-context" />
+
+
+		<!-- *****************************************
+			Requests
+			****************************************** -->
+		<collection field="requests" 
+			create-type="java.util.LinkedList">
+			<structure ns="urn:oasis:names:tc:xacml:1.0:context"
+				name="Request" type="org.w3c.dom.Element"
+				marshaller="org.jibx.extras.DomElementMapper"
+				unmarshaller="org.jibx.extras.DomElementMapper" usage="optional" />
+		</collection>
+
+	</mapping>
+
+</binding>

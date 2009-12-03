@@ -1,0 +1,40 @@
+<binding>
+
+	<!-- common -->
+	<include path="common/task-param-binding.xml" />
+	<include path="common/version-history-binding.xml" />
+	<include path="common/0.1/result-binding.xml" />
+	<include path="common/0.4/properties-binding.xml" />
+	<include path="common/0.4/md-records-binding.xml" />
+	<include path="common/0.4/abstract-struct-map-binding.xml" />
+	<include path="common/0.3/relations-binding.xml" />
+	<include path="common/0.8/member-list-binding.xml" />
+	<!--  include path="common/0.6/toc-binding.xml" / -->
+	<!--  include path="common/0.4/properties-no-versioned-binding.xml" / -->
+	<!--  include path="common/0.4/abstract-relations-binding.xml" / -->
+
+	<!-- OUM -->
+	<include path="oum/0.7/organizational-unit-binding.xml" />
+
+	<!-- OM -->
+	<include path="om/container/0.8/container-binding.xml" />
+	<include path="om/context/0.6/context-binding.xml" />
+	<include path="om/item/0.8/item-binding.xml" />
+
+	<!-- AA -->
+	<include path="aa/0.5/user-account-binding.xml" />
+	<include path="aa/0.4/grant-binding.xml" />
+	<include path="aa/0.4/role-binding.xml" />
+	<include path="aa/0.3/requests-binding.xml" />
+	<include path="aa/0.3/requests-results-binding.xml" />
+	<include path="aa/0.4/unsecured-actions-binding.xml" />
+
+	<!-- SB -->
+	<include path="sb/0.7/search-result-record-binding.xml" />
+	<include path="sb/0.7/explain-record-binding.xml" />
+	
+	
+	<!-- Test -->
+	<include path="test/root-binding.xml" />
+
+</binding>
