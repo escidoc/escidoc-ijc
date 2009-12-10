@@ -28,13 +28,18 @@
  */
 package de.escidoc.core.test.client.oum;
 
+import java.util.Collection;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.common.Filter;
+import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
+import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -148,4 +153,83 @@ public class OrganizationalUnitHandlerClientTest extends EscidocClientTestBase {
         }
     }
 
+    /**
+     * Test retrieving child organizational units.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testRetrieveChildObjects() throws Exception {
+        OrganizationalUnitHandlerClient ic =
+            new OrganizationalUnitHandlerClient();
+
+        logger.debug(ic
+            .retrieveChildObjects(EXAMPLE_ORGANIZATIONAL_UNIT_ID)
+            .getOrganizationalUnits());
+    }
+
+    /**
+     * Test retrieving organizational units through filter request.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testRetrieveOrganizationalUnits() throws Exception {
+        TaskParam filterParam = new TaskParam();
+        Collection<Filter> filters = TaskParam.filtersFactory();
+
+        filters.add(getFilter(
+            "http://escidoc.de/core/01/structural-relations/created-by",
+            "escidoc:exuser1", null));
+        filterParam.setFilters(filters);
+        logger.debug("Call retrieveOrganizationalUnits with filter "
+            + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
+        OrganizationalUnitHandlerClient ic =
+            new OrganizationalUnitHandlerClient();
+        OrganizationalUnitList ouList =
+            ic.retrieveOrganizationalUnits(filterParam);
+
+        assertTrue("result list is empty, try another filter", ouList
+            .getOrganizationalUnits().size() != 0);
+    }
+
+    /**
+     * Test retrieving parent organizational units.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testRetrieveParentObjects() throws Exception {
+        OrganizationalUnitHandlerClient ic =
+            new OrganizationalUnitHandlerClient();
+
+        logger.debug(ic
+            .retrieveParentObjects(EXAMPLE_ORGANIZATIONAL_UNIT_ID)
+            .getOrganizationalUnits());
+    }
+
+    /**
+     * Prepare and Filter class from the parameter collection.
+     * 
+     * @param name
+     *            name of the filter criteria
+     * @param value
+     *            value of the filter criteria
+     * @param ids
+     *            list of ids to filter
+     * 
+     * @return filter
+     */
+    private Filter getFilter(
+        final String name, final String value, final Collection<String> ids) {
+
+        Filter filter = new Filter();
+        filter.setName(name);
+        filter.setValue(value);
+        filter.setIds(ids);
+        return filter;
+    }
 }

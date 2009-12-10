@@ -43,6 +43,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
+import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
 
 /**
@@ -356,14 +357,58 @@ public class OrganizationalUnitHandlerClient
         throw new InternalClientException("Method not yet supported.");
     }
 
-    public StructMap retrieveParentObjects(final String id)
+    public OrganizationalUnitList retrieveParentObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
-        throw new InternalClientException("Method not yet supported.");
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapOrganizationalUnitHandlerClient().retrieveParentObjects(
+                    id);
+        }
+        else {
+            xml =
+                getRestOrganizationalUnitHandlerClient().retrieveParentObjects(
+                    id);
+        }
+        return Factory.getOrganizationalUnitListMarshaller().unmarshalDocument(
+            xml);
     }
 
-    public StructMap retrieveChildObjects(final String id)
+    public OrganizationalUnitList retrieveChildObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
-        throw new InternalClientException("Method not yet supported.");
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapOrganizationalUnitHandlerClient().retrieveChildObjects(
+                    id);
+        }
+        else {
+            xml =
+                getRestOrganizationalUnitHandlerClient().retrieveChildObjects(
+                    id);
+        }
+        return Factory.getOrganizationalUnitListMarshaller().unmarshalDocument(
+            xml);
+    }
+
+    public OrganizationalUnitList retrieveOrganizationalUnits(
+        final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapOrganizationalUnitHandlerClient()
+                    .retrieveOrganizationalUnits(taskParamString);
+        }
+        else {
+            xml =
+                getRestOrganizationalUnitHandlerClient()
+                    .retrieveOrganizationalUnits(taskParamString);
+        }
+        return Factory.getOrganizationalUnitListMarshaller().unmarshalDocument(
+            xml);
     }
 
     public PathList retrievePathList(final String id) throws EscidocException,

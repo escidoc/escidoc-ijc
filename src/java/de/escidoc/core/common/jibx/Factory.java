@@ -28,6 +28,8 @@ import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.toc.Toc;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
+import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.PathList;
 import de.escidoc.core.resources.sb.explain.ExplainRecord;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 
@@ -41,6 +43,9 @@ public class Factory {
     private static Marshaller<OrganizationalUnit> organizationalUnitMarshaller =
         null;
 
+    private static Marshaller<OrganizationalUnitList> organizationalUnitListMarshaller =
+        null;
+
     private static Marshaller<Context> contextMarshaller = null;
 
     private static Marshaller<ContentModel> contentModelMarshaller = null;
@@ -48,6 +53,8 @@ public class Factory {
     private static Marshaller<MemberList> memberListMarshaller = null;
 
     private static Marshaller<Item> itemMarshaller = null;
+
+    private static Marshaller<PathList> pathListMarshaller = null;
 
     private static Marshaller<SearchResultRecord> searchResultMarshaller = null;
 
@@ -232,6 +239,30 @@ public class Factory {
                 new Marshaller<OrganizationalUnit>(OrganizationalUnit.class);
         }
         return organizationalUnitMarshaller;
+    }
+
+    /**
+     * @return the organizationalUnitListMarshaller
+     */
+    public static Marshaller<OrganizationalUnitList> getOrganizationalUnitListMarshaller() {
+
+        if (organizationalUnitListMarshaller == null) {
+            organizationalUnitListMarshaller =
+                new Marshaller<OrganizationalUnitList>(
+                    OrganizationalUnitList.class);
+        }
+        return organizationalUnitListMarshaller;
+    }
+
+    /**
+     * @return the pathListMarshaller
+     */
+    public static Marshaller<PathList> getPathListMarshaller() {
+
+        if (pathListMarshaller == null) {
+            pathListMarshaller = new Marshaller<PathList>(PathList.class);
+        }
+        return pathListMarshaller;
     }
 
     /**
