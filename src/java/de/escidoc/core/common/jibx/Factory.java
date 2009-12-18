@@ -23,6 +23,7 @@ import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.resources.om.context.ContextList;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.component.Component;
@@ -89,6 +90,8 @@ public class Factory {
     private static Marshaller<ItemList> itemListMarshaller = null;
 
     private static Marshaller<ContainerList> containerListMarshaller = null;
+
+    private static Marshaller<ContextList> contextListMarshaller = null;
 
     private static Marshaller<TaskParam> taskParamMarshaller = null;
 
@@ -204,6 +207,18 @@ public class Factory {
             containerMarshaller = new Marshaller<Container>(Container.class);
         }
         return containerMarshaller;
+    }
+
+    /**
+     * @return the contextListMarshaller
+     */
+    public static Marshaller<ContextList> getContextListMarshaller() {
+
+        if (contextListMarshaller == null) {
+            contextListMarshaller =
+                new Marshaller<ContextList>(ContextList.class);
+        }
+        return contextListMarshaller;
     }
 
     /**

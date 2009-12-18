@@ -49,6 +49,7 @@ import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.resources.om.context.ContextList;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -99,6 +100,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         try {
 
             ContextHandlerClient ic = new ContextHandlerClient();
+            ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
             ic.retrieve(INVALID_RESOURCE_ID);
             fail("Missing Exception");
         }
@@ -140,11 +142,11 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             AdminDescriptors adminDescriptors = new AdminDescriptors();
             AdminDescriptor adminDescriptor = new AdminDescriptor();
             adminDescriptor.setName("AdminDescriptorDemoName");
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory factory =
+                DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.newDocument();
-            Element element = doc.createElementNS(
-                null, "admin-descriptor");
+            Element element = doc.createElementNS(null, "admin-descriptor");
             adminDescriptor.setContent(element);
 
             adminDescriptors.addAdminDescriptor(adminDescriptor);
@@ -191,12 +193,11 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             AdminDescriptors adminDescriptors = new AdminDescriptors();
             AdminDescriptor adminDescriptor = new AdminDescriptor();
             adminDescriptor.setName("AdminDescriptorDemoName");
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory factory =
+                DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.newDocument();
-            Element element = doc.createElementNS(
-                null,
-                "admin-descriptor");
+            Element element = doc.createElementNS(null, "admin-descriptor");
             adminDescriptor.setContent(element);
 
             adminDescriptors.addAdminDescriptor(adminDescriptor);
@@ -214,6 +215,33 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             fail("Wrong exception caught: " + e.getMessage());
         }
     }
+
+    /**
+     * Test retrieving contexts through filter request.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testRetrieveContexts() throws Exception {
+        ContextHandlerClient cc = new ContextHandlerClient();
+
+        TaskParam filterParam = new TaskParam();
+        Collection<Filter> filters = TaskParam.filtersFactory();
+
+        filters.add(getFilter(
+            "http://escidoc.de/core/01/structural-relations/created-by",
+            "escidoc:user42", null));
+        filterParam.setFilters(filters);
+        logger.debug("Call retrieveContexts with filter "
+            + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
+
+        ContextList contextList = cc.retrieveContexts(filterParam);
+
+        assertTrue("result list is empty, try another filter", contextList
+            .getContexts().size() != 0);
+    }
+
     /**
      * Test retrieving Members through filter request.
      * 
@@ -223,7 +251,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     @Test
     public void testRetrieveMembers() throws Exception {
         ContextHandlerClient cc = new ContextHandlerClient();
-        
+
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
@@ -231,27 +259,32 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        logger.debug("Call retrieveMamber with filter "
+        logger.debug("Call retrieveMembers with filter "
             + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
-        
-        MemberList memberList = cc.retrieveMembers("escidoc:persistent3", filterParam);
-        Marshaller<MemberList> m = new Marshaller<MemberList>(memberList.getClass());
+
+        MemberList memberList = cc.retrieveMembers("escidoc:ex1", filterParam);
+        Marshaller<MemberList> m =
+            new Marshaller<MemberList>(memberList.getClass());
         String xml = m.marshalDocument(memberList);
         System.out.println(xml);
 
-        // FIXME check memberList
+        assertTrue("result list is empty, try another filter", memberList
+            .getMembers().size() != 0);
     }
-    
+
     /**
      * Prepare and Filter class from the parameter collection.
      * 
      * @param name
+     *            name
      * @param value
+     *            value
      * @param ids
-     * @return
+     *            ids
+     * @return filter
      */
     private Filter getFilter(
-        final String name, final String value, Collection<String> ids) {
+        final String name, final String value, final Collection<String> ids) {
 
         Filter filter = new Filter();
         filter.setName(name);

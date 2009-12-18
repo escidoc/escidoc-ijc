@@ -166,5 +166,24 @@
 					marshaller="org.jibx.extras.DomElementMapper"
 					unmarshaller="org.jibx.extras.DomElementMapper" usage="optional" />
 	</mapping>
+
+	<!-- start: binding of a context unit list -->
+	<mapping ns="http://www.escidoc.de/schemas/contextlist/0.6"
+		name="context-list" class="de.escidoc.core.resources.om.context.ContextList">
+		<namespace uri="http://www.escidoc.de/schemas/contextlist/0.6"
+			prefix="context-list" />
+		<namespace uri="http://www.escidoc.de/schemas/context/0.6"
+			prefix="context" />
+		<collection field="contexts"
+			factory="de.escidoc.core.resources.om.context.ContextList.contextsFactory">
+			<structure name="context"
+				ns="http://www.escidoc.de/schemas/context/0.6"
+				type="de.escidoc.core.resources.om.context.Context">
+				<structure map-as="abstract-context" />
+			</structure>
+		</collection>
+	</mapping>
+	<!-- end: binding of a context list -->
+
 </binding>
 
