@@ -7,7 +7,7 @@
 			prefix="member-list" />
 		<namespace uri="http://www.escidoc.de/schemas/item/0.8"
 			prefix="escidocItem" />
-			<namespace uri="http://www.escidoc.de/schemas/container/0.8"
+			<namespace uri="http://www.escidoc.de/schemas/container/0.7"
 			prefix="escidocContainer" />
 		<collection field="members"
 			factory="de.escidoc.core.resources.om.MemberList.membersFactory">
@@ -17,7 +17,7 @@
 				<structure map-as="abstract-item" />
 			</structure>
 			<structure name="container"
-				ns="http://www.escidoc.de/schemas/container/0.8"
+				ns="http://www.escidoc.de/schemas/container/0.7"
 				type="de.escidoc.core.resources.om.container.Container">
 				<structure map-as="abstract-container" />
 			</structure>

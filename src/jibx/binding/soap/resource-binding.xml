@@ -17,7 +17,7 @@
 	<include path="oum/0.7/organizational-unit-binding.xml" />
 
 	<!-- OM -->
-	<include path="om/container/0.8/container-binding.xml" />
+	<include path="om/container/0.7/container-binding.xml" />
 	<include path="om/context/0.6/context-binding.xml" />
 	<include path="om/item/0.8/item-binding.xml" />
 
