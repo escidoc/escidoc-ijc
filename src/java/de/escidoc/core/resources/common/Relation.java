@@ -38,6 +38,13 @@ import de.escidoc.core.resources.ResourceRef;
  */
 public class Relation extends ResourceRef {
     private String predicate;
+
+    /**
+     * Create a new relation.
+     */
+    public Relation() {
+    }
+
     /**
      * 
      * @param id
@@ -50,9 +57,11 @@ public class Relation extends ResourceRef {
         setTitle(id.getTitle());
 
     }
+
     public String getPredicate() {
         return predicate;
     }
+
     public void setPredicate(String predicate) {
         this.predicate = predicate;
     }
