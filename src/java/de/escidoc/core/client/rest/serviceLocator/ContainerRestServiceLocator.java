@@ -1,7 +1,6 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
 
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
@@ -20,7 +19,6 @@ import de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNo
 import de.escidoc.core.common.exceptions.remote.application.notfound.ContainerNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.ContentRelationNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContentStreamNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException;
@@ -49,34 +47,27 @@ import de.escidoc.core.om.ContainerHandler;
 public class ContainerRestServiceLocator extends RestServiceMethod
     implements ContainerHandler {
 
-    private static final String PATH_ITEM = "/ir/container";
+    private static final String PATH_CONTAINER = "/ir/container";
 
-    public String retrieveTocs(final String in0, final String in1) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        ContainerNotFoundException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveTocs(final String id, final String filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, ContainerNotFoundException,
+        AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return null;
+        return post(PATH_CONTAINER + "/" + id + "/tocs/filter", filter);
     }
 
-    public String retrieveTocs(final String in0, final HashMap in1) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        ContainerNotFoundException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String addTocs(final String id, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException,
+        LockingException, MissingMethodParameterException,
+        MissingAttributeValueException, ContainerNotFoundException,
+        InvalidContextException, AuthenticationException,
+        AuthorizationException, InvalidContentException {
 
-        return null;
+        return post(PATH_CONTAINER + "/" + id + "/tocs/add", taskParam);
     }
 
-    public String addTocs(final String in0, final String in1) throws RemoteException,
-        OptimisticLockingException, SystemException, LockingException,
-        MissingMethodParameterException, MissingAttributeValueException,
-        ContainerNotFoundException, InvalidContextException,
-        AuthenticationException, AuthorizationException,
-        InvalidContentException {
-        return null;
-    }
-
-    public String createContainer(final String in0, final String in1)
+    public String createContainer(final String id, final String containerXml)
         throws RemoteException, SystemException, LockingException,
         MissingAttributeValueException, ContainerNotFoundException,
         InvalidContextException, MissingMdRecordException,
@@ -86,20 +77,23 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidStatusException,
         ContentModelNotFoundException, MissingElementValueException,
         InvalidXmlException {
-        return null;
+
+        return post(PATH_CONTAINER + "/" + id + "/create-container",
+            containerXml);
     }
 
-    public String addMembers(final String in0, final String in1) throws RemoteException,
-        OptimisticLockingException, SystemException, LockingException,
-        MissingMethodParameterException, MissingAttributeValueException,
-        ContainerNotFoundException, InvalidContextException,
-        AuthenticationException, AuthorizationException,
-        InvalidContentException {
-        return null;
+    public String addMembers(final String id, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException,
+        LockingException, MissingMethodParameterException,
+        MissingAttributeValueException, ContainerNotFoundException,
+        InvalidContextException, AuthenticationException,
+        AuthorizationException, InvalidContentException {
+
+        return post(PATH_CONTAINER + "/" + id + "/members/add", taskParam);
     }
 
-    public String removeMembers(final String in0, final String in1) throws RemoteException,
-        InvalidItemStatusException, SystemException,
+    public String removeMembers(final String id, final String taskParam)
+        throws RemoteException, InvalidItemStatusException, SystemException,
         WorkflowViolationException, LockingException,
         AdminDescriptorViolationException, ContainerNotFoundException,
         AuthenticationException, InvalidContextStatusException,
@@ -107,32 +101,27 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         ContextNotFoundException, InvalidContentException,
         XmlSchemaValidationException {
 
-        return null;
+        return post(PATH_CONTAINER + "/" + id + "/members/remove", taskParam);
     }
 
-    public String retrieveStructMap(final String in0) throws RemoteException,
+    public String retrieveStructMap(final String id) throws RemoteException,
         SystemException, MissingMethodParameterException,
         ContainerNotFoundException, AuthenticationException,
         AuthorizationException {
-        return null;
 
+        return get(PATH_CONTAINER + "/" + id + "/struct-map");
     }
 
-    public String retrieveMembers(final String in0, final String in1)
+    public String retrieveMembers(final String id, final String filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, ContainerNotFoundException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
-        return null;
+
+        return post(PATH_CONTAINER + "/" + id + "/members/filter", filter);
     }
 
-    public String retrieveMembers(final String in0, final HashMap in1)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, ContainerNotFoundException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
-        return null;
-    }
-
-    public String updateMetadataRecord(final String in0, final String in1, final String in2)
+    public String updateMetadataRecord(
+        final String in0, final String in1, final String in2)
         throws RemoteException, SystemException, XmlSchemaValidationException,
         ReadonlyVersionException, LockingException,
         MissingMethodParameterException, InvalidStatusException,
@@ -143,7 +132,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         return null;
     }
 
-    public String createItem(final String in0, final String in1)
+    public String createItem(final String id, final String itemXml)
         throws RemoteException, SystemException, MissingContentException,
         MissingAttributeValueException, LockingException,
         InvalidContextException, ContainerNotFoundException,
@@ -156,7 +145,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         ReadonlyElementViolationException, ContentModelNotFoundException,
         InvalidXmlException, MissingElementValueException {
 
-        return null;
+        return post(PATH_CONTAINER + "/" + id + "/create-item", itemXml);
     }
 
     public String create(final String containerXml) throws RemoteException,
@@ -170,7 +159,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         ReadonlyElementViolationException, ContentModelNotFoundException,
         InvalidXmlException, MissingElementValueException {
 
-        return put(PATH_ITEM, containerXml);
+        return put(PATH_CONTAINER, containerXml);
     }
 
     public String update(final String containerId, final String containerXml)
@@ -186,15 +175,16 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         NotPublishedException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
 
-        return put(PATH_ITEM + "/" + containerId, containerXml);
+        return put(PATH_CONTAINER + "/" + containerId, containerXml);
     }
 
-    public void delete(final String in0) throws RemoteException, SystemException,
-        LockingException, MissingMethodParameterException,
+    public void delete(final String id) throws RemoteException,
+        SystemException, LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
         ContainerNotFoundException, AlreadyPublishedException,
         AuthorizationException {
 
+        del(PATH_CONTAINER + "/" + id);
     }
 
     public String lock(final String id, final String userId)
@@ -203,245 +193,158 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         AuthenticationException, ContainerNotFoundException,
         AuthorizationException, InvalidContentException, InvalidXmlException {
 
-        return null;
+        return post(PATH_CONTAINER + "/" + id + "/lock", userId);
     }
 
-    public String unlock(final String in0, final String in1) throws RemoteException,
-        OptimisticLockingException, SystemException, LockingException,
-        MissingMethodParameterException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException, InvalidXmlException {
-        return null;
-    }
-
-    public String release(final String in0, final String in1) throws RemoteException,
-        OptimisticLockingException, SystemException, ReadonlyVersionException,
+    public String unlock(final String id, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException,
         LockingException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyViolationException,
         AuthenticationException, ContainerNotFoundException,
         AuthorizationException, InvalidXmlException {
-        return null;
+
+        return post(PATH_CONTAINER + "/" + id + "/unlock", taskParam);
     }
 
-    public String retrieve(final String itemId) throws RemoteException,
+    public String release(final String id, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException,
+        ReadonlyVersionException, LockingException,
+        MissingMethodParameterException, InvalidStatusException,
+        ReadonlyViolationException, AuthenticationException,
+        ContainerNotFoundException, AuthorizationException, InvalidXmlException {
+
+        return post(PATH_CONTAINER + "/" + id + "/release", taskParam);
+    }
+
+    public String retrieve(final String id) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, ContainerNotFoundException,
         AuthorizationException {
 
-        return get(PATH_ITEM + "/" + itemId);
+        return get(PATH_CONTAINER + "/" + id);
     }
 
-    public String submit(final String in0, final String in1) throws RemoteException,
-        OptimisticLockingException, SystemException, ReadonlyVersionException,
-        LockingException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyViolationException,
-        AuthenticationException, ContainerNotFoundException,
-        AuthorizationException, InvalidXmlException {
-        return null;
-    }
-
-    public String createComponent(final String in0, final String in1)
-        throws RemoteException, SystemException,
-        MissingAttributeValueException, MissingContentException,
-        LockingException, AuthenticationException, ContainerNotFoundException,
-        AuthorizationException, InvalidContentException,
-        OptimisticLockingException, FileNotFoundException,
+    public String submit(final String id, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException,
+        ReadonlyVersionException, LockingException,
         MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, InvalidXmlException,
-        MissingElementValueException {
-        return null;
+        ReadonlyViolationException, AuthenticationException,
+        ContainerNotFoundException, AuthorizationException, InvalidXmlException {
+
+        return post(PATH_CONTAINER + "/" + id + "/submit", taskParam);
     }
 
-    public String retrieveComponent(final String in0, final String in1)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException {
-        return null;
-    }
-
-    public String retrieveComponentMdRecords(final String in0, final String in1)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException {
-        return null;
-    }
-
-    public String retrieveComponentMdRecord(final String in0, final String in1, final String in2)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException,
-        MdRecordNotFoundException {
-        return null;
-    }
-
-    public String updateComponent(final String in0, final String in1, final String in2)
-        throws RemoteException, SystemException, ReadonlyVersionException,
-        MissingContentException, ComponentNotFoundException, LockingException,
-        MissingAttributeValueException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException,
-        InvalidContentException, OptimisticLockingException,
-        FileNotFoundException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyViolationException, InvalidXmlException {
-        return null;
-    }
-
-    public String retrieveComponents(final String in0) throws RemoteException,
-        SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException {
-        return null;
-    }
-
-    public String retrieveComponentProperties(final String in0, final String in1)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException {
-        return null;
-    }
-
-    public String createMetadataRecord(final String in0, final String in1)
+    public String createMetadataRecord(final String id, final String xmlData)
         throws RemoteException, SystemException, LockingException,
         MissingAttributeValueException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
         XmlSchemaNotFoundException, ContainerNotFoundException,
         AuthorizationException, InvalidXmlException {
-        return null;
+
+        return put(PATH_CONTAINER + "/" + id + "/md-records/md-record", xmlData);
     }
 
-    public String retrieveMdRecord(final String in0, final String in1)
+    public String retrieveMdRecord(final String id, final String mdRecordId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ContainerNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
-        return null;
+
+        return get(PATH_CONTAINER + "/" + id + "/md-records/md-record/"
+            + mdRecordId);
     }
 
-    public String updateMdRecord(final String in0, final String in1, final String in2)
-        throws RemoteException, SystemException, ReadonlyVersionException,
-        LockingException, AuthenticationException, XmlSchemaNotFoundException,
-        ContainerNotFoundException, AuthorizationException,
-        InvalidContentException, OptimisticLockingException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, MdRecordNotFoundException,
-        InvalidXmlException {
-        return null;
-    }
-
-    public String retrieveMdRecords(final String in0) throws RemoteException,
+    public String retrieveMdRecords(final String id) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, ContainerNotFoundException,
         AuthorizationException {
-        return null;
+
+        return get(PATH_CONTAINER + "/" + id + "/md-records");
     }
 
-    public String retrieveContentStreams(final String in0) throws RemoteException,
+    public String retrieveProperties(final String id) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, ContainerNotFoundException,
         AuthorizationException {
-        return null;
+
+        return get(PATH_CONTAINER + "/" + id + "/properties");
     }
 
-    public String retrieveContentStream(final String in0, final String in1)
+    public String retrieveVersionHistory(final String id)
         throws RemoteException, SystemException,
-        ContentStreamNotFoundException, MissingMethodParameterException,
-        AuthenticationException, ContainerNotFoundException,
-        AuthorizationException {
-        return null;
+        MissingMethodParameterException, AuthenticationException,
+        ContainerNotFoundException, AuthorizationException {
+
+        return get(PATH_CONTAINER + "/" + id + "/resources/version-history");
     }
 
-    public String retrieveProperties(final String in0) throws RemoteException,
+    public String retrieveRelations(final String id) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, ContainerNotFoundException,
         AuthorizationException {
-        return null;
+
+        return get(PATH_CONTAINER + "/" + id + "/relations");
     }
 
-    public String retrieveVersionHistory(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ContainerNotFoundException,
-        AuthorizationException {
-        return null;
+    public String revise(final String id, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException,
+        ReadonlyVersionException, LockingException,
+        MissingMethodParameterException, InvalidStatusException,
+        ReadonlyViolationException, AuthenticationException,
+        AuthorizationException, ContainerNotFoundException,
+        InvalidContentException, InvalidXmlException {
+
+        return post(PATH_CONTAINER + "/" + id + "/revise", taskParam);
     }
 
-    public String retrieveRelations(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ContainerNotFoundException,
-        AuthorizationException {
-        return null;
-    }
-
-    public String revise(final String in0, final String in1) throws RemoteException,
-        OptimisticLockingException, SystemException, ReadonlyVersionException,
-        LockingException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyViolationException,
-        AuthenticationException, AuthorizationException,
-        ContainerNotFoundException, InvalidContentException,
-        InvalidXmlException {
-        return null;
-    }
-
-    public String withdraw(final String in0, final String in1) throws RemoteException,
-        SystemException, ReadonlyVersionException, LockingException,
-        AlreadyWithdrawnException, AuthenticationException,
+    public String withdraw(final String id, final String taskParam)
+        throws RemoteException, SystemException, ReadonlyVersionException,
+        LockingException, AlreadyWithdrawnException, AuthenticationException,
         ContainerNotFoundException, AuthorizationException,
         OptimisticLockingException, MissingMethodParameterException,
         NotPublishedException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
-        return null;
+
+        return post(PATH_CONTAINER + "/" + id + "/withdraw", taskParam);
     }
 
-    public void deleteComponent(final String in0, final String in1) throws RemoteException,
-        SystemException, ComponentNotFoundException, LockingException,
+    public String moveToContext(final String id, final String taskParam)
+        throws RemoteException, SystemException, LockingException,
         MissingMethodParameterException, InvalidStatusException,
         AuthenticationException, ContainerNotFoundException,
-        AuthorizationException {
+        AuthorizationException, ContextNotFoundException,
+        InvalidContentException {
+
+        return post(PATH_CONTAINER + "/" + id + "/move-to-context", taskParam);
     }
 
-    public String moveToContext(final String in0, final String in1) throws RemoteException,
-        SystemException, LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException,
-        ContextNotFoundException, InvalidContentException {
-        return null;
-    }
-
-    public String retrieveContainers(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
-        return null;
-    }
-
-    public String retrieveContainers(final HashMap in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
-        return null;
-    }
-
-    public String assignVersionPid(final String in0, final String in1)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException, InvalidXmlException {
-        return null;
-    }
-
-    public String assignObjectPid(final String in0, final String in1)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        ContainerNotFoundException, AuthorizationException, InvalidXmlException {
-        return null;
-    }
-
-    public String assignContentPid(final String in0, final String in1, final String in2)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        ComponentNotFoundException, InvalidStatusException,
-        AuthenticationException, ContainerNotFoundException,
+    public String retrieveContainers(final String filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
-        return null;
+
+        return post(PATH_CONTAINER + "s/filter", filter);
     }
 
-    public String addContentRelations(final String in0, final String in1)
+    public String assignVersionPid(final String id, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException,
+        LockingException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException,
+        ContainerNotFoundException, AuthorizationException, InvalidXmlException {
+
+        return post(PATH_CONTAINER + "/" + id + "/assign-version-pid",
+            taskParam);
+    }
+
+    public String assignObjectPid(final String id, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException,
+        LockingException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException,
+        ContainerNotFoundException, AuthorizationException, InvalidXmlException {
+
+        return post(PATH_CONTAINER + "/" + id + "/assign-object-pid", taskParam);
+    }
+
+    public String addContentRelations(final String id, final String taskParam)
         throws RemoteException, SystemException, ReadonlyVersionException,
         LockingException, AlreadyExistsException, AuthenticationException,
         ReferencedResourceNotFoundException, AuthorizationException,
@@ -450,10 +353,12 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         ReadonlyAttributeViolationException, MissingMethodParameterException,
         InvalidStatusException, ReadonlyViolationException,
         MissingElementValueException, InvalidXmlException {
-        return null;
+
+        return post(PATH_CONTAINER + "/" + id + "/content-relations/add",
+            taskParam);
     }
 
-    public String removeContentRelations(final String in0, final String in1)
+    public String removeContentRelations(final String id, final String taskParam)
         throws RemoteException, SystemException,
         ContentRelationNotFoundException, ReadonlyVersionException,
         LockingException, AuthenticationException, ContainerNotFoundException,
@@ -462,7 +367,9 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         InvalidStatusException, ReadonlyViolationException,
         AlreadyDeletedException, InvalidXmlException,
         MissingElementValueException {
-        return null;
+
+        return post(PATH_CONTAINER + "/" + id + "/content-relations/remove",
+            taskParam);
     }
 
 }

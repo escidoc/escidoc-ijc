@@ -499,13 +499,41 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public String retrieveRelations(final String id)
-        throws EscidocException, InternalClientException,
-        TransportException {
-        
+    public String retrieveRelations(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
         String result = null;
         try {
             result = getClient().retrieveRelations(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve TOC list via REST.
+     * 
+     * @param id
+     *            object id of Container.
+     * @param filter
+     *            XML filter
+     * 
+     * @return XML representation of TOC list.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public String retrieveTocs(final String id, final String filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveTocs(id, filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
