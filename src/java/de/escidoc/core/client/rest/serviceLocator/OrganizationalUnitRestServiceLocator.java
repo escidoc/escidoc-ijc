@@ -122,8 +122,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-    return get("/oum/organizational-units", filter);
-}
+        return get("/oum/organizational-units", filter);
+    }
 
     /**
      * See Interface for functional description.
