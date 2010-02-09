@@ -177,9 +177,8 @@ public class SoapRoleHandlerClient extends ClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory.getContextMarshaller()
-                    .unmarshalDocument(getClient().retrieve(id)))
-                    .getLastModificationDate();
+                (Factory.getContextMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -209,13 +208,13 @@ public class SoapRoleHandlerClient extends ClientBase {
                 }
                 String path = url.getFile();
                 adress = getServiceAddress() + path;
-                
+
                 try {
                     url = new URL(adress);
                 }
                 catch (MalformedURLException e) {
                     throw new ServiceException(e);
-                }  
+                }
                 soapClient = serviceLocator.getRoleHandlerService(url);
             }
         }
@@ -224,6 +223,5 @@ public class SoapRoleHandlerClient extends ClientBase {
         }
         return soapClient;
     }
-    
-    
+
 }

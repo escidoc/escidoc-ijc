@@ -244,8 +244,9 @@ public class SoapOrganizationalUnitHandlerClient extends ClientBase {
      * @param id
      *            The identifier of the Organizational Unit.
      * 
-     * @return The XML representation of the path list of that OrganizationalUnit
-     *         corresponding to XMLschema "organizational-unit-path-list.xsd"
+     * @return The XML representation of the path list of that
+     *         OrganizationalUnit corresponding to XMLschema
+     *         "organizational-unit-path-list.xsd"
      * 
      * @throws EscidocException
      *             e

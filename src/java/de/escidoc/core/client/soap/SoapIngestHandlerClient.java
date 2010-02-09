@@ -48,9 +48,9 @@ import de.escidoc.core.om.IngestHandlerServiceLocator;
 
 /**
  * SOAP Handler for Item.
- *
+ * 
  * @author SWA
- *
+ * 
  */
 public class SoapIngestHandlerClient extends ClientBase
     implements IngestHandlerInterface {
@@ -66,7 +66,7 @@ public class SoapIngestHandlerClient extends ClientBase
     }
 
     /**
-     *
+     * 
      * @param resourceXml
      * @return
      * @throws EscidocException
@@ -89,7 +89,7 @@ public class SoapIngestHandlerClient extends ClientBase
 
     /**
      * Get the last-modification timestamp of the item.
-     *
+     * 
      * @param id
      *            The id of the item.
      * @return The timestamp of the last modification of the item.
