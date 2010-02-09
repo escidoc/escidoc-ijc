@@ -39,12 +39,13 @@ import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.ws.security.WSPasswordCallback;
 
 /**
- * PWCallback for the Client.<p/>
+ * PWCallback for the Client.
+ * <p/>
  * 
  * Sets the eSciDoc user handle as the password if the technical username
  * "eSciDocUser" is provided when calling the webservice.<br>
- * This password can be changed by using the <code>setHandle</code> and reset
- * by using the <code>resetHandle</code> methods
+ * This password can be changed by using the <code>setHandle</code> and reset by
+ * using the <code>resetHandle</code> methods
  * 
  * @aa
  */
@@ -114,8 +115,8 @@ public class PWCallback implements CallbackHandler {
     /**
      * Adds cookie escidocCookie storing the eSciDoc user handle as the content
      * of the cookie escidocCookie to to the provided http method object.<br>
-     * The adding is skipped, if the current user handle is <code>null</code>
-     * or equals to an empty <code>String</code>.
+     * The adding is skipped, if the current user handle is <code>null</code> or
+     * equals to an empty <code>String</code>.
      * 
      * @param method
      *            The http method object to add the cookie to.
