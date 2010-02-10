@@ -334,9 +334,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String retrieveProperties(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException {
+    public String retrieveProperties(final String itemId)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException {
 
         return get(PATH_ITEM + "/" + itemId + "/properties");
     }
