@@ -26,7 +26,7 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.test.client.rest.om.ingest;
+package de.escidoc.core.test.client.RESTHandler.om.ingest;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;

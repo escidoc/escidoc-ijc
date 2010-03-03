@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.rest.aa.user_account;
+package de.escidoc.core.test.client.RESTHandler.aa.user_account;
 
 import java.io.File;
 

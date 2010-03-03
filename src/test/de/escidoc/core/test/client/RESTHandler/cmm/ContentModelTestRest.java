@@ -26,7 +26,7 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.test.client.rest.cmm;
+package de.escidoc.core.test.client.RESTHandler.cmm;
 
 import java.io.File;
 
