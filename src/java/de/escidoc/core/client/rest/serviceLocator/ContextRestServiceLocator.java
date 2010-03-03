@@ -18,11 +18,9 @@ import de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNo
 import de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.StreamNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.XmlSchemaNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
 import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
 import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException;
@@ -104,15 +102,15 @@ public class ContextRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTEXT + "/" + contextId + "/admin-descriptors");
     }
 
-    public String updateAdminDescriptor(final String in0, final String in1)
+    public String updateAdminDescriptor(
+        final String contextId, final String adminDescriptorId)
         throws RemoteException, OptimisticLockingException, SystemException,
         AdminDescriptorNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException,
         ContextNotFoundException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
-        // return put(PATH_CONTEXT + "/" + contextId
-        // + "/admin-descriptors/admin-descriptor/" + admId);
+        return put(PATH_CONTEXT + "/" + contextId
+            + "/admin-descriptors/admin-descriptor/" + adminDescriptorId, "");
     }
 
     /**

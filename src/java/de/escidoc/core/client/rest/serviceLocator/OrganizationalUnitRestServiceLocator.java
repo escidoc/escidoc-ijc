@@ -125,21 +125,6 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         return get("/oum/organizational-units", filter);
     }
 
-    /**
-     * See Interface for functional description.
-     * 
-     * @param ouId
-     * @throws RemoteException
-     * @throws SystemException
-     * @throws LockingException
-     * @throws MissingMethodParameterException
-     * @throws InvalidStatusException
-     * @throws AuthenticationException
-     * @throws OrganizationalUnitNotFoundException
-     * @throws AlreadyPublishedException
-     * @throws AuthorizationException
-     * @see de.escidoc.core.om.OrganizationalUnitHandler#delete(String)
-     */
     public void delete(final String ouId) throws RemoteException,
         SystemException, LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
@@ -286,44 +271,49 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         return get(PATH_OU + "/" + ouId + "/resources/successors");
     };
 
-    public String createMetadataRecord(String in0, String in1)
-        throws RemoteException, SystemException, LockingException,
-        MissingAttributeValueException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
-        AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+    public String createMetadataRecord(
+        final String ouId, final String mdRecordXml) throws RemoteException,
+        SystemException, LockingException, MissingAttributeValueException,
+        MissingMethodParameterException, InvalidStatusException,
+        AuthenticationException, XmlSchemaNotFoundException,
+        OrganizationalUnitNotFoundException, AuthorizationException,
+        InvalidXmlException {
+
+        return put(PATH_OU + "/" + ouId + "/md-records/md-record", mdRecordXml);
     }
 
-    public String retrieveMdRecord(String in0, String in1)
+    public String retrieveMdRecord(final String ouId, final String mdRecordId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         OrganizationalUnitNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_OU + "/" + ouId + "/md-records/md-record/" + mdRecordId);
     }
 
-    public String updateMdRecords(String in0, String in1)
+    public String updateMdRecords(final String ouId, final String mdRecordsXml)
         throws RemoteException, OptimisticLockingException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException,
         OrganizationalUnitNameNotUniqueException, MissingElementValueException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return put(PATH_OU + "/" + ouId + "/md-records", mdRecordsXml);
     }
 
-    public String retrieveMdRecords(String in0) throws RemoteException,
+    public String retrieveMdRecords(String ouId) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_OU + "/" + ouId + "/md-records");
     }
 
-    public String retrieveProperties(String in0) throws RemoteException,
+    public String retrieveProperties(final String ouId) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_OU + "/" + ouId + "/properties");
     }
 
 }

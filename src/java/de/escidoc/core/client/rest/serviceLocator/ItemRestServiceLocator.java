@@ -253,7 +253,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     public String updateComponent(
-        final String in0, final String in1, final String in2)
+        final String itemId, final String componentId, final String componentXml)
         throws RemoteException, SystemException, ReadonlyVersionException,
         MissingContentException, ComponentNotFoundException, LockingException,
         MissingAttributeValueException, AuthenticationException,
@@ -261,7 +261,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         OptimisticLockingException, FileNotFoundException,
         MissingMethodParameterException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return put(PATH_ITEM + "/" + itemId + "/components/component/"
+            + componentId, componentXml);
     }
 
     public String retrieveComponents(final String itemId)
@@ -282,13 +284,15 @@ public class ItemRestServiceLocator extends RestServiceMethod
             + componentId + "/properties");
     }
 
-    public String createMetadataRecord(final String in0, final String in1)
-        throws RemoteException, SystemException, LockingException,
-        MissingAttributeValueException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        XmlSchemaNotFoundException, ItemNotFoundException,
-        AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+    public String createMetadataRecord(
+        final String itemId, final String mdRecordXml) throws RemoteException,
+        SystemException, LockingException, MissingAttributeValueException,
+        MissingMethodParameterException, InvalidStatusException,
+        AuthenticationException, XmlSchemaNotFoundException,
+        ItemNotFoundException, AuthorizationException, InvalidXmlException {
+
+        return put(PATH_ITEM + "/" + itemId + "/md-records/md-record",
+            mdRecordXml);
     }
 
     public String retrieveMdRecord(final String itemId, final String mdRecordId)
@@ -302,14 +306,16 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     public String updateMdRecord(
-        final String in0, final String in1, final String in2)
+        final String itemId, final String mdRecordId, final String mdRecordXml)
         throws RemoteException, SystemException, ReadonlyVersionException,
         LockingException, AuthenticationException, XmlSchemaNotFoundException,
         ItemNotFoundException, AuthorizationException, InvalidContentException,
         OptimisticLockingException, MissingMethodParameterException,
         InvalidStatusException, ReadonlyViolationException,
         MdRecordNotFoundException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_ITEM + "/" + itemId + "/md-records/md-record/"
+            + mdRecordId, mdRecordXml);
     }
 
     public String retrieveMdRecords(final String itemId)
@@ -320,18 +326,22 @@ public class ItemRestServiceLocator extends RestServiceMethod
         return get(PATH_ITEM + "/" + itemId + "/md-records");
     }
 
-    public String retrieveContentStreams(final String in0)
+    public String retrieveContentStreams(final String itemId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_ITEM + "/" + itemId + "/content-streams");
     }
 
-    public String retrieveContentStream(final String in0, final String in1)
+    public String retrieveContentStream(
+        final String itemId, final String contentStreamId)
         throws RemoteException, SystemException,
         ContentStreamNotFoundException, MissingMethodParameterException,
         AuthenticationException, ItemNotFoundException, AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_ITEM + "/" + itemId
+            + "/content-streams/content-stream/" + contentStreamId);
     }
 
     public String retrieveProperties(final String itemId)
@@ -358,31 +368,35 @@ public class ItemRestServiceLocator extends RestServiceMethod
         return get(PATH_ITEM + "/" + itemId + "/relations");
     }
 
-    public String revise(final String in0, final String in1)
+    public String revise(final String itemId, final String taskParam)
         throws RemoteException, OptimisticLockingException, SystemException,
         ReadonlyVersionException, LockingException,
         MissingMethodParameterException, InvalidStatusException,
         ReadonlyViolationException, AuthenticationException,
         AuthorizationException, ItemNotFoundException, InvalidContentException,
         InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_ITEM + "/" + itemId + "/revise", taskParam);
     }
 
-    public String withdraw(final String in0, final String in1)
+    public String withdraw(final String itemId, final String taskParam)
         throws RemoteException, SystemException, ReadonlyVersionException,
         LockingException, AlreadyWithdrawnException, AuthenticationException,
         ItemNotFoundException, AuthorizationException,
         OptimisticLockingException, MissingMethodParameterException,
         NotPublishedException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_ITEM + "/" + itemId + "/withdraw", taskParam);
     }
 
-    public void deleteComponent(final String in0, final String in1)
+    public void deleteComponent(final String itemId, final String componentId)
         throws RemoteException, SystemException, ComponentNotFoundException,
         LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException, ItemNotFoundException,
         AuthorizationException {
+
+        del(PATH_ITEM + "/" + itemId + "/components/component/" + componentId);
     }
 
     public String moveToContext(final String in0, final String in1)
@@ -393,66 +407,76 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String retrieveItems(final String in0) throws RemoteException,
+    public String retrieveItems(final String filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_ITEM + "s/filter", filter);
     }
 
-    public String retrieveItems(final HashMap in0) throws RemoteException,
+    public String retrieveItems(final HashMap filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_ITEM + "s/", filter);
     }
 
-    public String assignVersionPid(final String in0, final String in1)
+    public String assignVersionPid(final String itemId, final String taskParam)
         throws RemoteException, OptimisticLockingException, SystemException,
         LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException, ItemNotFoundException,
         AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_ITEM + "/" + itemId + "/assign-version-pid", taskParam);
     }
 
-    public String assignObjectPid(final String in0, final String in1)
+    public String assignObjectPid(final String itemId, final String taskParam)
         throws RemoteException, OptimisticLockingException, SystemException,
         LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException, ItemNotFoundException,
         AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_ITEM + "/" + itemId + "/assign-object-pid", taskParam);
     }
 
     public String assignContentPid(
-        final String in0, final String in1, final String in2)
+        final String itemId, final String componentId, final String taskParam)
         throws RemoteException, OptimisticLockingException, SystemException,
         LockingException, MissingMethodParameterException,
         ComponentNotFoundException, InvalidStatusException,
         AuthenticationException, ItemNotFoundException, AuthorizationException,
         InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_ITEM + "/" + itemId + "/components/component/"
+            + componentId + "/assign-content-pid", taskParam);
     }
 
-    public String addContentRelations(final String in0, final String in1)
-        throws RemoteException, SystemException, ReadonlyVersionException,
-        LockingException, AlreadyExistsException, AuthenticationException,
+    public String addContentRelations(
+        final String itemId, final String taskParam) throws RemoteException,
+        SystemException, ReadonlyVersionException, LockingException,
+        AlreadyExistsException, AuthenticationException,
         ReferencedResourceNotFoundException, AuthorizationException,
         ItemNotFoundException, InvalidContentException,
         OptimisticLockingException, RelationPredicateNotFoundException,
         ReadonlyAttributeViolationException, MissingMethodParameterException,
         InvalidStatusException, ReadonlyViolationException,
         MissingElementValueException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_ITEM + "/" + itemId + "/content-relations/add",
+            taskParam);
     }
 
-    public String removeContentRelations(final String in0, final String in1)
-        throws RemoteException, SystemException,
-        ContentRelationNotFoundException, ReadonlyVersionException,
-        LockingException, AuthenticationException, ItemNotFoundException,
-        AuthorizationException, InvalidContentException,
+    public String removeContentRelations(
+        final String itemId, final String taskParam) throws RemoteException,
+        SystemException, ContentRelationNotFoundException,
+        ReadonlyVersionException, LockingException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException, InvalidContentException,
         OptimisticLockingException, MissingMethodParameterException,
         InvalidStatusException, ReadonlyViolationException,
         AlreadyDeletedException, InvalidXmlException,
         MissingElementValueException {
-        throw new SystemException(500, "Method not yet supported", "");
-    }
 
+        return (PATH_ITEM + "/" + itemId + "/content-relations/remove");
+
+    }
 }
