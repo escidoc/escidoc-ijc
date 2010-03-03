@@ -41,6 +41,9 @@ public class Components {
 
     private Collection<Component> components = new LinkedList<Component>();
 
+    /**
+     * Components.
+     */
     public Components() {
 
     }
@@ -52,7 +55,7 @@ public class Components {
     /**
      * Get all Component of Components.
      * 
-     * @return
+     * @return Collection of Components.
      */
     public Collection<Component> getComponents() {
 
@@ -60,11 +63,11 @@ public class Components {
     }
 
     /**
-     * Get the id of a Component selected by id.
+     * Get the id of a Component selected by objid of Component.
      * 
-     * @param componentName
+     * @param componentId
      *            The name of the Component.
-     * @return
+     * @return Component
      */
     public Component getComponent(final String componentId) {
 
@@ -79,8 +82,10 @@ public class Components {
     }
 
     /**
+     * Add a Component.
      * 
      * @param component
+     *            A new Component
      */
     public void add(final Component component) {
 
@@ -91,8 +96,10 @@ public class Components {
     }
 
     /**
+     * Delete a Component.
      * 
-     * @param component
+     * @param componentId
+     *            The objid of the to delete Component.
      */
     public void del(final String componentId) {
         if (components != null) {

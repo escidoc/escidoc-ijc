@@ -58,9 +58,9 @@ public class ComponentProperties implements ComponentPropertiesInterface {
     private String mimeType = null;
 
     private String checksum = null;
-    
+
     private String checksumAlgorithm = null;
-    
+
     private String visibility = null;
 
     private String validStatus = null;
@@ -168,8 +168,7 @@ public class ComponentProperties implements ComponentPropertiesInterface {
     /**
      * See Interface for functional description.
      * 
-     * @return
-     * @see de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface#getName()
+     * @return Name of Component
      */
     public String getName() {
         return this.name;
@@ -179,7 +178,7 @@ public class ComponentProperties implements ComponentPropertiesInterface {
      * See Interface for functional description.
      * 
      * @param name
-     * @see de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface#setName(java.lang.String)
+     *            Name of Component
      */
     public void setName(final String name) {
         this.name = name;
@@ -226,28 +225,28 @@ public class ComponentProperties implements ComponentPropertiesInterface {
 
     }
 
-	public void setChecksum(String checksum) {
-		this.checksum = checksum;
-	}
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
+    }
 
-	public String getChecksum() {
-		return checksum;
-	}
+    public String getChecksum() {
+        return checksum;
+    }
 
-	public void setChecksumAlgorithm(String checksumAlgorithm) {
-		this.checksumAlgorithm = checksumAlgorithm;
-	}
+    public void setChecksumAlgorithm(String checksumAlgorithm) {
+        this.checksumAlgorithm = checksumAlgorithm;
+    }
 
-	public String getChecksumAlgorithm() {
-		return checksumAlgorithm;
-	}
+    public String getChecksumAlgorithm() {
+        return checksumAlgorithm;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
 }
