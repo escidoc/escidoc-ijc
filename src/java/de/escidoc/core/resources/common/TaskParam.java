@@ -22,18 +22,29 @@ public class TaskParam {
 
     private String password = null;
 
+    private String username = null;
+
     private Collection<Filter> filters = new LinkedList<Filter>();
 
+    /**
+     * TaskParam.
+     */
     public TaskParam() {
     }
 
     /**
+     * TaskParam.
      * 
      * @param lastModificationDate
+     *            The last-modification-date.
      * @param comment
+     *            The comment.
      * @param pid
+     *            The Persistent ID.
      * @param url
+     *            The URL.
      * @param filters
+     *            Filters.
      */
     public TaskParam(final DateTime lastModificationDate, final String comment,
         final String pid, final String url, final Collection<Filter> filters) {
@@ -46,6 +57,10 @@ public class TaskParam {
         this.filters = filters;
     }
 
+    /**
+     * 
+     * @return Linked List with all filters.
+     */
     public static LinkedList<Filter> filtersFactory() {
         return new LinkedList<Filter>();
     }
@@ -147,12 +162,41 @@ public class TaskParam {
         this.filters = filters;
     }
 
+    /**
+     * Get password.
+     * 
+     * @return password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Set Password.
+     * 
+     * @param password
+     *            Password.
+     */
     public void setPassword(final String password) {
         this.password = password;
     }
 
+    /**
+     * Set Username.
+     * 
+     * @param username
+     *            Name of user.
+     */
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
+    /**
+     * Get Username.
+     * 
+     * @return Username
+     */
+    public String getUsername() {
+        return username;
+    }
 }
