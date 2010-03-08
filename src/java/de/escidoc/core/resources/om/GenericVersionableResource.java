@@ -86,15 +86,15 @@ public class GenericVersionableResource extends GenericResource {
     /**
      * Get the object id form a id with version number.
      * 
-     * @return id
-     * 
-     * @throws SystemException
-     *             Thrown
+     * @param id
+     *            objid with or without version number
+     * @return obid without version number
      */
-    private String getObjectId(final String id) throws SystemException {
-        // FIXME
-        String objId = id; // remove version information
-        return objId;
+    private String getObjectId(final String id) {
+
+        // split up optional version number (escidoc:1234[:2])
+        String[] v = id.split(":");
+        return v[0] + ":" + v[1];
     }
 
     /**
