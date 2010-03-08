@@ -35,13 +35,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import com.sun.jimi.core.component.AbstractRenderer.ResizeWatcher;
 
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
@@ -66,9 +63,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * 
  */
 public class ContainerCreateTest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(ContainerCreateTest.class.getName());
 
     /**
      * Set up the tests.

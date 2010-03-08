@@ -40,7 +40,6 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -48,13 +47,10 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
-import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.common.Relation;
-import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
@@ -374,51 +370,33 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem09() throws Exception {
 
         ItemHandlerClient ihc = new ItemHandlerClient();
-        // cc.setServiceAddress("http://escidev6:8080");
-        ihc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            EscidocClientTestBase.SYSTEM_ADMIN_USER,
+            EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
-        ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
-        // Content-model-specific
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff1");
-        element1.setTextContent("33333333333333333333");
 
-        List<Element> cmsContent = new LinkedList<Element>();
-        cmsContent.add(contentModelSpecific);
-        cmsContent.add(element1);
-        ContentModelSpecific cms = new ContentModelSpecific();
+        item.getProperties().setContext(
+            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
 
-        cms.setContent(cmsContent);
+        // Content-model
+        ContentModelSpecific cms = getContentModelSpecific();
+        item.getProperties().setContentModelSpecific(cms);
 
-        properties.setContentModelSpecific(cms);
-
-        item.setProperties(properties);
+        // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
-
-        Element element = doc.createElementNS(null, "myMdRecord");
-        mdRecord.setContent(element);
-
-        mdRecords.add(mdRecord);
+        MetadataRecord mdrecord = getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
-        Relations relations = new Relations();
-        Relation relation = new Relation(new ResourceRef(EXAMPLE_ITEM_ID));
-        relation
-            .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
-        relations.add(relation);
-        item.setRelations(relations);
-
+        // create
         Item createdItem = ihc.create(item);
 
-        // compare the new created Item with the Item from the request
+        /*
+         * compare the new created Item with the Item from the request
+         */
         String objId = createdItem.getObjid();
 
         assertNotNull("Object id is null", objId);
@@ -426,52 +404,6 @@ public class ItemCreateTest extends EscidocClientTestBase {
             .getProperties().getContext().getObjid());
         assertEquals(item.getProperties().getContentModel().getObjid(),
             createdItem.getProperties().getContentModel().getObjid());
-
-        Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(item.getMetadataRecords().get(
-                "escidoc").getClass());
-        String xml1 =
-            m1.marshalDocument(item.getMetadataRecords().get("escidoc"));
-
-        // Marshaller<Item> m1 =
-        // new Marshaller<Item>(item.getClass());
-        // String xml1 =
-        // m1.marshalDocument(item);
-        System.out.println("md-record " + xml1);
-
-        Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
-        Node mdRecordBeforeCreateNode =
-            selectSingleNode(mdRecordBeforeCreate, "/md-record");
-        org.w3c.dom.Element mdRecordBeforeCreateContent =
-            (org.w3c.dom.Element) mdRecordBeforeCreateNode.getFirstChild();
-
-        MetadataRecord createdContainerMdRecord =
-            createdItem.getMetadataRecords().get("escidoc");
-
-        Marshaller<MetadataRecord> m2 =
-            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass());
-        String xml2 = m2.marshalDocument(createdContainerMdRecord);
-
-        Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
-        Node mdRecordAfterCreateNode =
-            selectSingleNode(mdRecordAfterCreate, "/md-record");
-        org.w3c.dom.Element mdRecordAfterCreateContent =
-            (org.w3c.dom.Element) mdRecordAfterCreateNode.getFirstChild();
-
-        assertXmlEquals("Metadata Records differ",
-            (Node) mdRecordAfterCreateContent,
-            (Node) mdRecordBeforeCreateContent);
-
-        // Relations
-        Relations masterRelations = item.getRelations();
-        Relations compareRelations = createdItem.getRelations();
-
-        assertEquals("Number of Relations differ",
-            masterRelations.get().size(), compareRelations.get().size());
-        assertEquals("Missing Relations", 1, masterRelations.get().size());
-        Relations retrievedRelations = ihc.retrieveRelations(objId);
-        assertEquals("Number of Relations differ", retrievedRelations
-            .get().size(), compareRelations.get().size());
     }
 
     /**
@@ -483,89 +415,47 @@ public class ItemCreateTest extends EscidocClientTestBase {
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
 
-        ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        ItemHandlerClient ihc = new ItemHandlerClient();
+        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            EscidocClientTestBase.SYSTEM_ADMIN_USER,
+            EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
-        ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff1");
-        element1.setTextContent("33333333333333333333");
 
-        List<Element> cmsContent = new LinkedList<Element>();
-        cmsContent.add(contentModelSpecific);
-        cmsContent.add(element1);
-        ContentModelSpecific cms = new ContentModelSpecific();
+        item.getProperties().setContext(
+            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
 
-        cms.setContent(cmsContent);
+        // Content-model
+        ContentModelSpecific cms = getContentModelSpecific();
+        item.getProperties().setContentModelSpecific(cms);
 
-        properties.setContentModelSpecific(cms);
-        item.setProperties(properties);
+        // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
 
-        Document doc1 = builder.newDocument();
-        Element element = doc1.createElementNS(null, "myMdRecord");
+        MetadataRecord mdrecord1 = getMdRecord("escidoc");
+        mdRecords.add(mdrecord1);
 
-        mdRecord.setContent(element);
-        mdRecords.add(mdRecord);
+        MetadataRecord mdrecord2 = getMdRecord("mdRecord2");
+        mdRecords.add(mdrecord2);
 
-        MetadataRecord mdRecord2 = new MetadataRecord();
-        mdRecord2.setName("md-record2");
-        Document doc2 = builder.newDocument();
-        Element element2 = doc2.createElementNS(null, "myMdRecord");
-        element2.setTextContent("222222222");
-
-        mdRecord2.setContent(element2);
-
-        mdRecords.add(mdRecord2);
-
-        MetadataRecord mdRecord3 = new MetadataRecord();
-        mdRecord3.setName("md-record3");
-        Document doc3 = builder.newDocument();
-        Element element3 = doc3.createElementNS(null, "myMdRecord");
-        Document doc4 = builder.newDocument();
-        Element element4 = doc4.createElementNS(null, "some-other-stuff");
-        element4.setTextContent("33333333333333333333");
-        element3.appendChild(element4);
-
-        mdRecord3.setContent(element3);
-        mdRecords.add(mdRecord3);
+        MetadataRecord mdrecord3 = getMdRecord("mdRecord3");
+        mdRecords.add(mdrecord3);
 
         item.setMetadataRecords(mdRecords);
 
-        Item createdItem = cc.create(item);
+        // create
+        Item createdItem = ihc.create(item);
 
         // compare the new created Item with the Item from the request
-        String objId = createdItem.getObjid();
-        assertNotNull("Object id is null", objId);
+        assertNotNull("Object id is null", createdItem.getObjid());
         assertEquals(item.getProperties().getContext().getObjid(), createdItem
             .getProperties().getContext().getObjid());
         assertEquals(item.getProperties().getContentModel().getObjid(),
             createdItem.getProperties().getContentModel().getObjid());
-
-        assertMdRecords(item.getMetadataRecords(), createdItem
-            .getMetadataRecords());
-
-        // now delete some metadataRecords
-        createdItem.getMetadataRecords().del("md-record2");
-        Item updatedItem1 = cc.update(createdItem);
-
-        assertNotNull("Object id is null", objId);
-        assertEquals(item.getProperties().getContext().getObjid(), createdItem
-            .getProperties().getContext().getObjid());
-        assertEquals(item.getProperties().getContentModel().getObjid(),
-            createdItem.getProperties().getContentModel().getObjid());
-
-        assertMdRecords(createdItem.getMetadataRecords(), updatedItem1
-            .getMetadataRecords());
-
+        assertEquals(item.getMetadataRecords().getMetadataRecords().size(),
+            createdItem.getMetadataRecords().getMetadataRecords().size());
     }
 
     /**
@@ -578,7 +468,6 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItemWithOneComponent() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        // cc.setServiceAddress("http://escidev6:8080");
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
         Item item = new Item();
@@ -636,117 +525,6 @@ public class ItemCreateTest extends EscidocClientTestBase {
     }
 
     /**
-     * Test if values of requested Item compares to the values of the response.
-     * 
-     * @throws Exception
-     *             Thrown if creation failed or non-volatile Item values differ.
-     */
-    @Test
-    public void testloginAndCreateItem01() throws Exception {
-
-        ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login("http://localhost:8080",
-            EscidocClientTestBase.SYSTEM_ADMIN_USER,
-            EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
-
-        Item item = new Item();
-        ItemProperties properties = item.getProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
-        // Content-model-specific
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff1");
-        element1.setTextContent("33333333333333333333");
-
-        List<Element> cmsContent = new LinkedList<Element>();
-        cmsContent.add(contentModelSpecific);
-        cmsContent.add(element1);
-        ContentModelSpecific cms = new ContentModelSpecific();
-
-        cms.setContent(cmsContent);
-
-        properties.setContentModelSpecific(cms);
-
-        item.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
-
-        Element element = doc.createElementNS(null, "myMdRecord");
-        mdRecord.setContent(element);
-
-        mdRecords.add(mdRecord);
-        item.setMetadataRecords(mdRecords);
-
-        Relations relations = new Relations();
-        Relation relation = new Relation(new ResourceRef(EXAMPLE_ITEM_ID));
-        relation
-            .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
-        relations.add(relation);
-        item.setRelations(relations);
-
-        Item createdItem = cc.create(item);
-
-        // compare the new created Item with the Item from the request
-        String objId = createdItem.getObjid();
-
-        assertNotNull("Object id is null", objId);
-        assertEquals(item.getProperties().getContext().getObjid(), createdItem
-            .getProperties().getContext().getObjid());
-        assertEquals(item.getProperties().getContentModel().getObjid(),
-            createdItem.getProperties().getContentModel().getObjid());
-
-        Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(item.getMetadataRecords().get(
-                "escidoc").getClass());
-        String xml1 =
-            m1.marshalDocument(item.getMetadataRecords().get("escidoc"));
-
-        // Marshaller<Item> m1 =
-        // new Marshaller<Item>(item.getClass());
-        // String xml1 =
-        // m1.marshalDocument(item);
-        // System.out.println("md-record " + xml1);
-
-        Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
-        Node mdRecordBeforeCreateNode =
-            selectSingleNode(mdRecordBeforeCreate, "/md-record");
-        org.w3c.dom.Element mdRecordBeforeCreateContent =
-            (org.w3c.dom.Element) mdRecordBeforeCreateNode.getFirstChild();
-
-        MetadataRecord createdContainerMdRecord =
-            createdItem.getMetadataRecords().get("escidoc");
-
-        Marshaller<MetadataRecord> m2 =
-            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass());
-        String xml2 = m2.marshalDocument(createdContainerMdRecord);
-
-        Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
-        Node mdRecordAfterCreateNode =
-            selectSingleNode(mdRecordAfterCreate, "/md-record");
-        org.w3c.dom.Element mdRecordAfterCreateContent =
-            (org.w3c.dom.Element) mdRecordAfterCreateNode.getFirstChild();
-
-        assertXmlEquals("Metadata Records differ",
-            (Node) mdRecordAfterCreateContent,
-            (Node) mdRecordBeforeCreateContent);
-
-        // Relations
-        Relations masterRelations = item.getRelations();
-        Relations compareRelations = createdItem.getRelations();
-
-        assertEquals("Number of Relations differ",
-            masterRelations.get().size(), compareRelations.get().size());
-        assertEquals("Missing Relations", 1, masterRelations.get().size());
-        Relations retrievedRelations = cc.retrieveRelations(objId);
-        assertEquals("Number of Relations differ", retrievedRelations
-            .get().size(), compareRelations.get().size());
-    }
-
-    /**
      * Test login to framework and create an Item with one Component.
      * 
      * @throws Exception
@@ -756,7 +534,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testloginAndCreateItemWith02() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login("http://localhost:8080",
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             EscidocClientTestBase.SYSTEM_ADMIN_USER,
             EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
@@ -813,7 +591,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
         Item item = createItem();
 
         ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.login("http://localhost:8080",
+        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             EscidocClientTestBase.SYSTEM_ADMIN_USER,
             EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
@@ -822,7 +600,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
         // submit --------------------------------------------------------------
         TaskParam tp = new TaskParam();
         tp.setLastModificationDate(item.getLastModificationDate());
-        tp.setComment("Submitted on eSciDoc Days 2009");
+        tp.setComment("submitted as java client lib test");
 
         Result result = ihc.submit(item, tp);
 
@@ -894,12 +672,12 @@ public class ItemCreateTest extends EscidocClientTestBase {
     private MetadataRecord getMdRecord(final String name)
         throws ParserConfigurationException {
 
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName(name);
-
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
+
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName(name);
 
         Element element = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
@@ -908,7 +686,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
     }
 
     /**
-     * Create an Item with on Component.
+     * Create an Item with one Component.
      * 
      * @return Just created Item.
      * 
@@ -921,7 +699,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
         TransportException, ParserConfigurationException {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login("http://localhost:8080",
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             EscidocClientTestBase.SYSTEM_ADMIN_USER,
             EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
@@ -956,4 +734,32 @@ public class ItemCreateTest extends EscidocClientTestBase {
 
         return cc.create(item);
     }
+
+    /**
+     * Get content model specific.
+     * 
+     * @return ContentModelSpecific with some content
+     * @throws ParserConfigurationException
+     */
+    private static ContentModelSpecific getContentModelSpecific()
+        throws ParserConfigurationException {
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+
+        Element contentModelSpecific = doc.createElementNS(null, "cms");
+        Element element1 = doc.createElement("some-other-stuff");
+        element1.setTextContent("some content - " + System.nanoTime());
+
+        List<Element> cmsContent = new LinkedList<Element>();
+        cmsContent.add(contentModelSpecific);
+        cmsContent.add(element1);
+
+        ContentModelSpecific cms = new ContentModelSpecific();
+        cms.setContent(cmsContent);
+
+        return cms;
+    }
+
 }
