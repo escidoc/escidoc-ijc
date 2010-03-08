@@ -48,6 +48,11 @@ public class Components {
 
     }
 
+    /**
+     * Linked Component Factory.
+     * 
+     * @return LinkedList of Components
+     */
     public static LinkedList<Component> componentsFactory() {
         return new LinkedList<Component>();
     }
