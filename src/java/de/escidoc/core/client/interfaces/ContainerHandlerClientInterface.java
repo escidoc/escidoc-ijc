@@ -96,19 +96,19 @@ public interface ContainerHandlerClientInterface<Container>
     Container removeContentRelations(final String id, TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
-    Container addMembers(final String id, TaskParam taskParam)
+    Result addMembers(final String id, TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
-    Container removeMembers(final String id, TaskParam taskParam)
+    Result removeMembers(final String id, TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
     ContainerList retrieveContainers(final TaskParam taskParam)
-    throws EscidocClientException, InternalClientException,
-    TransportException;
-    
-    Relations retrieveRelations(final String id) throws EscidocClientException, InternalClientException,
-    TransportException;
-    
-    MemberList retrieveMembers(final String id, final TaskParam taskParam) throws EscidocException,
-    InternalClientException, TransportException;
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Relations retrieveRelations(final String id) throws EscidocClientException,
+        InternalClientException, TransportException;
+
+    MemberList retrieveMembers(final String id, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException;
 }

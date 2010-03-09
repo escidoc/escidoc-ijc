@@ -1,9 +1,12 @@
 package de.escidoc.core.resources.common;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.joda.time.DateTime;
+
+import de.escidoc.core.resources.ResourceRef;
 
 /**
  * 
@@ -25,6 +28,8 @@ public class TaskParam {
     private String username = null;
 
     private Collection<Filter> filters = new LinkedList<Filter>();
+
+    private String[] ids;
 
     /**
      * TaskParam.
@@ -198,5 +203,31 @@ public class TaskParam {
      */
     public String getUsername() {
         return username;
+    }
+
+    /**
+     * Get collection of resource references.
+     * 
+     * @return resource references
+     */
+    public String[] getResourceRefs() {
+
+        return this.ids;
+    }
+
+    public void addResourceRef(final String objid) {
+
+        if (this.ids == null) {
+            this.ids = new String[1];
+        }
+        else {
+            String[] t = new String[this.ids.length + 1];
+            for (int i = 0; i < this.ids.length; i++) {
+                t[i] = this.ids[i];
+            }
+            this.ids = t;
+        }
+        this.ids[this.ids.length -1] = objid;
+
     }
 }

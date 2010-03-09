@@ -35,7 +35,6 @@ import java.util.LinkedList;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.GenericVersionableResource;
 
@@ -49,13 +48,13 @@ public class Container extends GenericVersionableResource {
 
     private MetadataRecords mdRecords = new MetadataRecords();
 
-    private Properties properties = null;
+    private ContainerProperties properties = new ContainerProperties();
 
     private StructMap structMap = null;
 
     private Relations relations = null;
 
-    //private Collection<ResourceRef> members = new LinkedList<ResourceRef>();
+    private Collection<ResourceRef> members = new LinkedList<ResourceRef>();
 
     /**
      * 
@@ -68,7 +67,7 @@ public class Container extends GenericVersionableResource {
      * 
      * @return properties
      */
-    public Properties getProperties() {
+    public ContainerProperties getProperties() {
         return this.properties;
     }
 
@@ -78,7 +77,7 @@ public class Container extends GenericVersionableResource {
      * @param properties
      *            The new ContextProperties.
      */
-    public void setProperties(final Properties properties) {
+    public void setProperties(final ContainerProperties properties) {
         this.properties = properties;
     }
 
@@ -131,10 +130,10 @@ public class Container extends GenericVersionableResource {
      * 
      * @return Members of Container.
      */
-//    public Collection<ResourceRef> getMembers() {
-//
-//        return this.members;
-//    }
+    public Collection<ResourceRef> getMembers() {
+
+        return this.members;
+    }
 
     /**
      * Make Item to Container member.
@@ -143,10 +142,29 @@ public class Container extends GenericVersionableResource {
      *            The resourceRef of the resource which is to add as member to
      *            the Container.
      */
-//    public void addMember(final ResourceRef resourceRef) {
-//
-//        this.members.add(resourceRef);
-//    }
+    public void addMember(final ResourceRef resourceRef) {
+
+        this.members.add(resourceRef);
+    }
+
+    /**
+     * Remove a member.
+     * 
+     * @param resourceRef
+     *            The resourceRef of the member which is to remove.
+     */
+    public void removeMember(final ResourceRef resourceRef) {
+        Iterator<ResourceRef> memberIter = this.members.iterator();
+
+        while (memberIter.hasNext()) {
+            ResourceRef next = memberIter.next();
+            String nextObjid = next.getObjid();
+            String memberObjid = resourceRef.getObjid();
+            if (memberObjid.equals(nextObjid)) {
+                memberIter.remove();
+            }
+        }
+    }
 
     /**
      * Get the StuctMap of the Container.

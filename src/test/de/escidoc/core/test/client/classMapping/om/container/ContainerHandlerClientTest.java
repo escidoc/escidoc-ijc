@@ -49,10 +49,10 @@ import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
+import de.escidoc.core.resources.om.container.ContainerProperties;
 
 public class ContainerHandlerClientTest extends TestCase {
 
@@ -98,22 +98,24 @@ public class ContainerHandlerClientTest extends TestCase {
         try {
             ContainerHandlerClient cc = new ContainerHandlerClient();
             cc.setHandle("Shibboleth-Handle-1");
-            
 
             Container containerNew = new Container();
-            Properties properties = new Properties();
-            properties.setContext(new ResourceRef(de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
-            properties.setContentModel(new ResourceRef(de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
+            ContainerProperties properties = new ContainerProperties();
+            properties
+                .setContext(new ResourceRef(
+                    de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
+            properties
+                .setContentModel(new ResourceRef(
+                    de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
             containerNew.setProperties(properties);
             MetadataRecords mdRecords = new MetadataRecords();
             MetadataRecord mdRecord = new MetadataRecord();
             mdRecord.setName("escidoc");
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory factory =
+                DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.newDocument();
-            Element element = doc.createElementNS(
-                null,
-                "myMdRecord");
+            Element element = doc.createElementNS(null, "myMdRecord");
             mdRecord.setContent(element);
 
             mdRecords.add(mdRecord);
@@ -147,6 +149,7 @@ public class ContainerHandlerClientTest extends TestCase {
             fail("Wrong exception caught: " + e.getMessage());
         }
     }
+
     /**
      * Test retrieving Containers through filter request.
      * 
@@ -166,13 +169,14 @@ public class ContainerHandlerClientTest extends TestCase {
             + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
         ContainerHandlerClient cc = new ContainerHandlerClient();
         ContainerList containerList = cc.retrieveContainers(filterParam);
-        Marshaller<ContainerList> m = new Marshaller<ContainerList>(containerList.getClass());
+        Marshaller<ContainerList> m =
+            new Marshaller<ContainerList>(containerList.getClass());
         String xml = m.marshalDocument(containerList);
         System.out.println(xml);
 
         // FIXME check containerList
     }
-    
+
     /**
      * Test retrieving Members through filter request.
      * 
@@ -183,12 +187,15 @@ public class ContainerHandlerClientTest extends TestCase {
     public void testRetrieveMembers() throws Exception {
         ContainerHandlerClient cc = new ContainerHandlerClient();
         cc.setHandle("Shibboleth-Handle-1");
-        
 
         Container containerNew = new Container();
-        Properties properties = new Properties();
-        properties.setContext(new ResourceRef(de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
+        ContainerProperties properties = new ContainerProperties();
+        properties
+            .setContext(new ResourceRef(
+                de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
+        properties
+            .setContentModel(new ResourceRef(
+                de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -196,9 +203,7 @@ public class ContainerHandlerClientTest extends TestCase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element element = doc.createElementNS(
-            null,
-            "myMdRecord");
+        Element element = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
@@ -208,8 +213,7 @@ public class ContainerHandlerClientTest extends TestCase {
         Container container = cc.retrieve(objid);
         logger.debug(Factory.getContainerMarshaller().marshalDocument(
             (Container) container));
-        
-        
+
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
@@ -219,14 +223,16 @@ public class ContainerHandlerClientTest extends TestCase {
         filterParam.setFilters(filters);
         logger.debug("Call retrieveMamber with filter "
             + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
-        
+
         MemberList memberList = cc.retrieveMembers(objid, filterParam);
-        Marshaller<MemberList> m = new Marshaller<MemberList>(memberList.getClass());
+        Marshaller<MemberList> m =
+            new Marshaller<MemberList>(memberList.getClass());
         String xml = m.marshalDocument(memberList);
         System.out.println(xml);
 
         // FIXME check containerList
     }
+
     /**
      * Prepare and Filter class from the parameter collection.
      * 

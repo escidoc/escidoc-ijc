@@ -191,27 +191,28 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String retrieveProperties(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ContentModelNotFoundException,
-        AuthorizationException {
-
-        throw new SystemException(500, "Method not yet supported", "");
-    }
-
-    public java.lang.String retrieveResources(final String in0)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, ContentModelNotFoundException,
-        AuthenticationException, AuthorizationException {
-
-        throw new SystemException(500, "Method not yet supported", "");
-    }
-
-    public String retrieveVersionHistory(final String in0)
+    public String retrieveProperties(final String contentModelId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ContentModelNotFoundException, AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return get(PATH_CONTENT_MODEL + "/" + contentModelId + "/properties");
+    }
+
+    public java.lang.String retrieveResources(final String contentModelId)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, ContentModelNotFoundException,
+        AuthenticationException, AuthorizationException {
+
+        return get(PATH_CONTENT_MODEL + "/" + contentModelId + "/resources");
+    }
+
+    public String retrieveVersionHistory(final String contentModelId)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        ContentModelNotFoundException, AuthorizationException {
+
+        return get(PATH_CONTENT_MODEL + "/" + contentModelId
+            + "/version-history");
     }
 }

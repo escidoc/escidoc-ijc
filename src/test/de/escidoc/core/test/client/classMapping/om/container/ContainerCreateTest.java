@@ -54,6 +54,7 @@ import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.common.structmap.ContainerRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
+import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -157,7 +158,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
         Container container = new Container();
-        Properties properties = new Properties();
+        ContainerProperties properties = new ContainerProperties();
         container.setProperties(properties);
         try {
             cc.create(container);
@@ -184,7 +185,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
         Container container = new Container();
-        Properties properties = new Properties();
+        ContainerProperties properties = new ContainerProperties();
         container.setProperties(properties);
         try {
             cc.create(container);
@@ -211,7 +212,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
         Container container = new Container();
-        Properties properties = new Properties();
+        ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         try {
@@ -241,7 +242,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
         Container container = new Container();
-        Properties properties = new Properties();
+        ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
@@ -276,7 +277,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
         Container container = new Container();
-        Properties properties = new Properties();
+        ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
@@ -312,7 +313,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
         Container container = new Container();
-        Properties properties = new Properties();
+        ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
@@ -321,10 +322,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element element = doc.createElementNS(
-            null,
-            "myMdRecord");
-        
+        Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);
 
@@ -358,20 +356,18 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
         Container container = new Container();
-        Properties properties = new Properties();
+        ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
-        
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element element = doc.createElementNS(
-            null,
-            "myMdRecord");
+        Element element = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
@@ -494,8 +490,8 @@ public class ContainerCreateTest extends EscidocClientTestBase {
             masterRelations.get().size(), compareRelations.get().size());
         assertEquals("Missing Relations", 1, masterRelations.get().size());
         Relations retrievedRelations = cc.retrieveRelations(objId);
-        assertEquals("Number of Relations differ",
-            retrievedRelations.get().size(), compareRelations.get().size());
+        assertEquals("Number of Relations differ", retrievedRelations
+            .get().size(), compareRelations.get().size());
     }
 
     /**
@@ -514,7 +510,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
 
         Container container = createContainerWithMinContent();
         Container memberContainer = createContainerWithMinContent();
-        
+
         Container createdMemberContainer = cc.create(memberContainer);
         String memberId = createdMemberContainer.getObjid();
         StructMap structMap = new StructMap();
@@ -531,16 +527,16 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         Collection<ResourceRef> members = createdStructMap.getMembers();
         assertEquals("Number of members is wrong", 1, members.size());
         Iterator<ResourceRef> iterator = members.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ResourceRef memberResource = iterator.next();
-            assertEquals("member is the wrong resource type", 
-                memberResource.getClass(), member.getClass());
-            
-            assertEquals("member has a wrong id", 
-                memberResource.getObjid(), memberId);
-            
+            assertEquals("member is the wrong resource type", memberResource
+                .getClass(), member.getClass());
+
+            assertEquals("member has a wrong id", memberResource.getObjid(),
+                memberId);
+
         }
-        
+
     }
 
     /**
@@ -689,10 +685,11 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     // toCompareDoc);
     // }
     // }
-    
-    Container createContainerWithMinContent() throws ParserConfigurationException {
+
+    Container createContainerWithMinContent()
+        throws ParserConfigurationException {
         Container container = new Container();
-        Properties properties = new Properties();
+        ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
 
@@ -704,19 +701,16 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element element = doc.createElementNS(
-            null,
-            "myMdRecord");
+        Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);
         mdRecords.add(mdRecord);
         MetadataRecord mdRecord2 = new MetadataRecord();
         mdRecord2.setName("md-record2");
         Document doc2 = builder.newDocument();
-        Element element2 = doc.createElementNS(
-            null, "myMdRecord");
+        Element element2 = doc.createElementNS(null, "myMdRecord");
         element2.setTextContent("222222222");
-        
+
         mdRecord2.setContent(element2);
 
         mdRecords.add(mdRecord2);
@@ -724,17 +718,15 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         MetadataRecord mdRecord3 = new MetadataRecord();
         mdRecord3.setName("md-record3");
         Document doc3 = builder.newDocument();
-        Element element3 = doc.createElementNS(
-            null, "myMdRecord");
+        Element element3 = doc.createElementNS(null, "myMdRecord");
         Document doc4 = builder.newDocument();
-        Element element4= doc.createElementNS(
-            null, "some-other-stuff");
+        Element element4 = doc.createElementNS(null, "some-other-stuff");
         element2.setTextContent("33333333333333333333");
         element2.appendChild(element4);
-        
+
         mdRecord3.setContent(element3);
         mdRecords.add(mdRecord3);
-        
+
         container.setMetadataRecords(mdRecords);
         return container;
 

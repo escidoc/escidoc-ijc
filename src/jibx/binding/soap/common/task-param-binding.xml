@@ -5,39 +5,46 @@
 
 		<!-- *****************************************
 			Root attributes 
-			****************************************** -->
+			******************************************-->
 		<value name="last-modification-date" style="attribute"
 			set-method="setLastModificationDateAsString"
 			get-method="getLastModificationDateAsString" usage="optional" />
 
 		<!-- *****************************************
 			Comment 
-			****************************************** -->
+			******************************************-->
 		<value name="comment" set-method="setComment"
 			get-method="getComment" usage="optional" />
 
 		<!-- *****************************************
 			Pid 
-			****************************************** -->
+			******************************************-->
 		<value name="pid" set-method="setPid" get-method="getPid"
 			usage="optional" />
 			
 			<!-- *****************************************
 			Password
-			****************************************** -->
+			******************************************-->
 		<value name="password" set-method="setPassword" get-method="getPassword"
 			usage="optional" />
 			
 
 		<!-- *****************************************
 			Url 
-			****************************************** -->
+			******************************************-->
 		<value name="url" set-method="setUrl" get-method="getUrl"
 			usage="optional" />
 
 		<!-- *****************************************
+			IDs 
+			******************************************-->
+		<collection field="ids" usage="optional">
+			<value name="id" />
+		</collection>
+
+		<!-- *****************************************
 			Filter 
-			****************************************** -->
+			******************************************-->
 		<collection field="filters"
 			factory="de.escidoc.core.resources.common.TaskParam.filtersFactory">
 			<structure name="filter"
