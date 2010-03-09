@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.test.client.classMapping.om.container;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -120,8 +123,186 @@ public class MemberTest extends TestCase {
         assertEquals("Wrong member count", 1, updatedContainer
             .getMembers().size());
 
+        Iterator<ResourceRef> it = updatedContainer.getMembers().iterator();
+        assertEquals("Wrong member ref", item.getObjid(), it.next().getObjid());
     }
 
+    /**
+     * Test to add multiple Item as members of a Container.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void testAddMember02() throws Exception {
+
+        ContainerHandlerClient cc = new ContainerHandlerClient();
+        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+
+        // create Container
+        Container container = createContainer(cc);
+
+        // create Item
+        Item item1 = createItem();
+        Item item2 = createItem();
+        Item item3 = createItem();
+        Item item4 = createItem();
+        Item item5 = createItem();
+        Item item6 = createItem();
+
+        // task oriented methods take values via task param
+        TaskParam taskParam = new TaskParam();
+        taskParam.setLastModificationDate(container.getLastModificationDate());
+        taskParam.addResourceRef(item1.getObjid());
+        taskParam.addResourceRef(item2.getObjid());
+        taskParam.addResourceRef(item3.getObjid());
+        taskParam.addResourceRef(item4.getObjid());
+        taskParam.addResourceRef(item5.getObjid());
+        taskParam.addResourceRef(item6.getObjid());
+
+        // call addMembers method
+        cc.addMembers(container.getObjid(), taskParam);
+
+        Container updatedContainer = cc.retrieve(container.getObjid());
+
+        assertEquals("Wrong member count", 6, updatedContainer
+            .getMembers().size());
+
+        /*
+         * compare objids of members
+         */
+
+        // prepare values
+        Collection<String> ids = new ArrayList<String>();
+        Iterator<ResourceRef> it = updatedContainer.getMembers().iterator();
+        while (it.hasNext()) {
+            ids.add(it.next().getObjid());
+        }
+
+        assertTrue("Missing item 1", ids.contains(item1.getObjid()));
+        assertTrue("Missing item 2", ids.contains(item2.getObjid()));
+        assertTrue("Missing item 3", ids.contains(item3.getObjid()));
+        assertTrue("Missing item 4", ids.contains(item4.getObjid()));
+        assertTrue("Missing item 5", ids.contains(item5.getObjid()));
+        assertTrue("Missing item 6", ids.contains(item6.getObjid()));
+    }
+
+    /**
+     * Test to delete Item as members of a Container.
+     * 
+     * <p>
+     * The test creates a Container, creates multiple Items and adds these Items
+     * as members of the Container. Afterwards are two Items removed from the
+     * Container.
+     * </p>
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void testDeleteMember02() throws Exception {
+
+        ContainerHandlerClient cc = new ContainerHandlerClient();
+        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+
+        // create Container
+        Container container = createContainer(cc);
+
+        // create Item
+        Item item1 = createItem();
+        Item item2 = createItem();
+        Item item3 = createItem();
+        Item item4 = createItem();
+        Item item5 = createItem();
+        Item item6 = createItem();
+
+        // task oriented methods take values via task param
+        TaskParam taskParam = new TaskParam();
+        taskParam.setLastModificationDate(container.getLastModificationDate());
+        taskParam.addResourceRef(item1.getObjid());
+        taskParam.addResourceRef(item2.getObjid());
+        taskParam.addResourceRef(item3.getObjid());
+        taskParam.addResourceRef(item4.getObjid());
+        taskParam.addResourceRef(item5.getObjid());
+        taskParam.addResourceRef(item6.getObjid());
+
+        // call addMembers method
+        cc.addMembers(container.getObjid(), taskParam);
+
+        Container updatedContainer = cc.retrieve(container.getObjid());
+
+        assertEquals("Wrong member count", 6, updatedContainer
+            .getMembers().size());
+
+        /*
+         * compare objids of members
+         */
+
+        // prepare values
+        Collection<String> ids = new ArrayList<String>();
+        Iterator<ResourceRef> it = updatedContainer.getMembers().iterator();
+        while (it.hasNext()) {
+            ids.add(it.next().getObjid());
+        }
+
+        assertTrue("Missing item 1", ids.contains(item1.getObjid()));
+        assertTrue("Missing item 2", ids.contains(item2.getObjid()));
+        assertTrue("Missing item 3", ids.contains(item3.getObjid()));
+        assertTrue("Missing item 4", ids.contains(item4.getObjid()));
+        assertTrue("Missing item 5", ids.contains(item5.getObjid()));
+        assertTrue("Missing item 6", ids.contains(item6.getObjid()));
+
+        /*
+         * Check remove of members
+         */
+        
+        // task oriented methods take values via task param
+        TaskParam taskParam2 = new TaskParam();
+        taskParam2.setLastModificationDate(updatedContainer
+            .getLastModificationDate());
+        taskParam2.addResourceRef(item3.getObjid());
+        taskParam2.addResourceRef(item6.getObjid());
+
+        // remove members
+        cc.removeMembers(container.getObjid(), taskParam2);
+
+        Container updatedContainer2 = cc.retrieve(container.getObjid());
+
+        assertEquals("Wrong member count", 4, updatedContainer2
+            .getMembers().size());
+
+        /*
+         * compare objids of members
+         */
+
+        // prepare values
+        Collection<String> ids2 = new ArrayList<String>();
+        Iterator<ResourceRef> it2 = updatedContainer2.getMembers().iterator();
+        while (it2.hasNext()) {
+            ids2.add(it2.next().getObjid());
+        }
+
+        assertTrue("Missing item 1", ids2.contains(item1.getObjid()));
+        assertTrue("Missing item 2", ids2.contains(item2.getObjid()));
+        assertFalse("Missing item 3", ids2.contains(item3.getObjid()));
+        assertTrue("Missing item 4", ids2.contains(item4.getObjid()));
+        assertTrue("Missing item 5", ids2.contains(item5.getObjid()));
+        assertFalse("Missing item 6", ids2.contains(item6.getObjid()));
+
+    }
+
+    /**
+     * Create a Container at infrastructure (with default values).
+     * 
+     * @param cc
+     *            ContainerHandler
+     * @return created Container
+     * 
+     * @throws ParserConfigurationException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     private Container createContainer(final ContainerHandlerClient cc)
         throws ParserConfigurationException, EscidocException,
         InternalClientException, TransportException {
@@ -149,6 +330,16 @@ public class MemberTest extends TestCase {
         return cc.create(container);
     }
 
+    /**
+     * Create Item at infrastructure (with default values).
+     * 
+     * @return created Item
+     * 
+     * @throws ParserConfigurationException
+     * @throws InternalClientException
+     * @throws EscidocException
+     * @throws TransportException
+     */
     private Item createItem() throws ParserConfigurationException,
         InternalClientException, EscidocException, TransportException {
 
