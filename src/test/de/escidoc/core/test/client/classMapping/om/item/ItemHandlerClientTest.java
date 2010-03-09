@@ -316,7 +316,7 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
         tp.setUrl("http://www.escidoc.de/test-pid");
         Result pidResult = ic.assignObjectPid(resultItem.getObjid(), tp);
         assertNotNull("AssignObjectPid returns null", pidResult);
-        assertNotNull("PID is missing", pidResult.getPid());
+        assertNotNull("PID is missing", pidResult.getPidParam());
         
         // retrieve
         resultItem = ic.retrieve(resultItem.getObjid());
