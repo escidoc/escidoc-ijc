@@ -217,7 +217,9 @@ public class ContainerProperties {
      *            the lockDate to set
      */
     public void setLockDate(final String lockDate) {
-        this.lockDate = new DateTime(lockDate);
+        if (lockDate != null) {
+            this.lockDate = new DateTime(lockDate);
+        }
     }
 
     /**
