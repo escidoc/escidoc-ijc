@@ -36,12 +36,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
-import org.apache.xpath.XPathAPI;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -68,31 +66,6 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
 
     private final Logger logger =
         Logger.getLogger(ItemHandlerClientTest.class.getName());
-
-    /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
 
     /**
      * Test retrieving settings from properties.

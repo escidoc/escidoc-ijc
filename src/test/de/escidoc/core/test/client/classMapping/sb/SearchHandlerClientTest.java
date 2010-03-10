@@ -11,7 +11,6 @@ import gov.loc.www.zing.srw.TermType;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.axis.types.PositiveInteger;
-import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.SearchHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
@@ -30,9 +29,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 
 
 public class SearchHandlerClientTest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(SearchHandlerClientTest.class.getName());
 
     /**
      * Test to search repository.

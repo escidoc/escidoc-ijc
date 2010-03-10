@@ -56,31 +56,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 public class OuDeleteTest extends EscidocClientTestBase {
 
     /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
-
-    /**
      * Test delete of Organizational Unit.
      * 
      * @throws Exception

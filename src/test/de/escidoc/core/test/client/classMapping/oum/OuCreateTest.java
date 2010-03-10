@@ -69,34 +69,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class OuCreateTest extends EscidocClientTestBase {
 
-    // private final Logger logger = Logger
-    // .getLogger(OuCreateTest.class.getName());
-
-    /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
-
     /**
      * Test if the right exception is thrown if calling create with an
      * incomplete OrganizationalUnit.

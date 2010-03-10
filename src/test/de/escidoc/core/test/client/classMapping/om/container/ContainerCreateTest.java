@@ -50,7 +50,6 @@ import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relation;
 import de.escidoc.core.resources.common.Relations;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.common.structmap.ContainerRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
@@ -64,31 +63,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * 
  */
 public class ContainerCreateTest extends EscidocClientTestBase {
-
-    /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
 
     /**
      * Test if the right exception is thrown if calling create with an

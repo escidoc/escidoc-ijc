@@ -5,8 +5,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import junit.framework.TestCase;
 
-import org.apache.log4j.Logger;
-
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,39 +27,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContextCreateTest extends TestCase {
 	
-    private final Logger logger =
-        Logger.getLogger(ContextHandlerClientTest.class.getName());
-
     /**
      * 
      */
     public ContextCreateTest() {
         super("ContextCreateTest");
-    }
-
-    /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
     }
 
     /**

@@ -64,31 +64,6 @@ public class ContainerHandlerClientTest extends TestCase {
     }
 
     /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
-
-    /**
      * Test retrieving existing Container.
      * 
      * @throws Exception
@@ -137,7 +112,7 @@ public class ContainerHandlerClientTest extends TestCase {
         try {
 
             ContainerHandlerClient cc = new ContainerHandlerClient();
-            Container container = cc.retrieve("escidoc:-1");
+            cc.retrieve("escidoc:-1");
             fail("Missing Exception");
         }
         catch (ContainerNotFoundException e) {

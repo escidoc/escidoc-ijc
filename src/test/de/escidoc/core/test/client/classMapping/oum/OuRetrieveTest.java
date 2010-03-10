@@ -30,8 +30,6 @@ package de.escidoc.core.test.client.classMapping.oum;
 
 import java.io.StringWriter;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -42,19 +40,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
-import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
-import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
 import de.escidoc.core.resources.common.MetadataRecord;
-import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.resources.oum.Predecessor;
-import de.escidoc.core.resources.oum.Predecessors;
-import de.escidoc.core.resources.oum.Properties;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -64,31 +54,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * 
  */
 public class OuRetrieveTest extends EscidocClientTestBase {
-
-    /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
 
     /**
      * Test retrieving one OU of the example set.

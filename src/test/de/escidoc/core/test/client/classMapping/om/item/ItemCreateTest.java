@@ -74,31 +74,6 @@ public class ItemCreateTest extends EscidocClientTestBase {
         Logger.getLogger(ItemCreateTest.class.getName());
 
     /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
-
-    /**
      * Test if the right exception is thrown if calling create with an
      * incomplete Item.
      * 
