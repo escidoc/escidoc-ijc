@@ -44,142 +44,136 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
-import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 
 public class SoapActionHandlerClient extends ClientBase {
-    private String serviceAddress = null;
-    private final Logger logger =
-        Logger.getLogger(SoapActionHandlerClient.class.getName());
 
-    private ActionHandler soapClient = null;
+	private String serviceAddress = null;
 
-    public SoapActionHandlerClient() throws InternalClientException {
+	private final Logger logger = Logger
+			.getLogger(SoapActionHandlerClient.class.getName());
 
-        super();
-        
-    }
+	private ActionHandler soapClient = null;
 
-    /**
-     * 
-     * @param contextId
-     * @param actions
-     * @return
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String createUnsecuredActions(
-        final String contextId, final String actions)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-        String result = null;
-        try {
-            result = getClient().createUnsecuredActions(contextId, actions);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
+	public SoapActionHandlerClient() throws InternalClientException {
 
-    /**
-     * 
-     * @param contextId
-     * @return
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String retrieveUnsecuredActions(final String contextId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-        String result = null;
-        try {
-            result = getClient().retrieveUnsecuredActions(contextId);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
+		super();
 
-    /**
-     * 
-     * @param contextId
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public void deleteUnsecuredActions(final String contextId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-        try {
-            getClient().deleteUnsecuredActions(contextId);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-    }
+	}
 
-    /**
-     * Place holder method.
-     * 
-     * @param id
-     *            The id of the context.
-     * @return The timestamp of the last modification of the context.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+	/**
+	 * 
+	 * @param contextId
+	 * @param actions
+	 * @return
+	 * @throws EscidocClientException
+	 * @throws InternalClientException
+	 * @throws TransportException
+	 */
+	public String createUnsecuredActions(final String contextId,
+			final String actions) throws EscidocClientException,
+			InternalClientException, TransportException {
+		String result = null;
+		try {
+			result = getClient().createUnsecuredActions(contextId, actions);
+		} catch (Exception e) {
+			ExceptionMapper.map(e);
+		}
+		return result;
+	}
 
-        DateTime result = null;
+	/**
+	 * 
+	 * @param contextId
+	 * @return
+	 * @throws EscidocClientException
+	 * @throws InternalClientException
+	 * @throws TransportException
+	 */
+	public String retrieveUnsecuredActions(final String contextId)
+			throws EscidocClientException, InternalClientException,
+			TransportException {
+		String result = null;
+		try {
+			result = getClient().retrieveUnsecuredActions(contextId);
+		} catch (Exception e) {
+			ExceptionMapper.map(e);
+		}
+		return result;
+	}
 
-        return result;
-    }
+	/**
+	 * 
+	 * @param contextId
+	 * @throws EscidocClientException
+	 * @throws InternalClientException
+	 * @throws TransportException
+	 */
+	public void deleteUnsecuredActions(final String contextId)
+			throws EscidocClientException, InternalClientException,
+			TransportException {
+		try {
+			getClient().deleteUnsecuredActions(contextId);
+		} catch (Exception e) {
+			ExceptionMapper.map(e);
+		}
+	}
 
-    /**
-     * @return Returns the soapClient.
-     * @throws InternalClientException
-     * @see de.escidoc.core.client.ClientBase#getClient()
-     */
-    @Override
-    public ActionHandler getClient() throws InternalClientException {
+	/**
+	 * Place holder method.
+	 * 
+	 * @param id
+	 *            The id of the context.
+	 * @return The timestamp of the last modification of the context.
+	 * @param id
+	 * @return
+	 * @throws EscidocException
+	 * @throws InternalClientException
+	 * @throws TransportException
+	 * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
+	 */
+	@Override
+	public DateTime getLastModificationDate(final String id)
+			throws EscidocException, InternalClientException,
+			TransportException {
 
-        try {
-            if (soapClient == null) {
-                ActionHandlerServiceLocator serviceLocator =
-                    new ActionHandlerServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getActionHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-                
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
-                soapClient = serviceLocator.getActionHandlerService(url);
-            }
-        }
-        catch (ServiceException e) {
-            throw new InternalClientException(e.getMessage(), e);
-        }
-        return soapClient;
-    }
-    
+		DateTime result = null;
+
+		return result;
+	}
+
+	/**
+	 * @return Returns the soapClient.
+	 * @throws InternalClientException
+	 * @see de.escidoc.core.client.ClientBase#getClient()
+	 */
+	@Override
+	public ActionHandler getClient() throws InternalClientException {
+
+		try {
+			if (soapClient == null) {
+				ActionHandlerServiceLocator serviceLocator = new ActionHandlerServiceLocator(
+						getEngineConfig());
+				String adress = serviceLocator.getActionHandlerServiceAddress();
+				URL url = null;
+				try {
+					url = new URL(adress);
+				} catch (MalformedURLException e) {
+					throw new InternalClientException(e);
+				}
+				String path = url.getFile();
+				adress = getServiceAddress() + path;
+
+				try {
+					url = new URL(adress);
+				} catch (MalformedURLException e) {
+					throw new ServiceException(e);
+				}
+				soapClient = serviceLocator.getActionHandlerService(url);
+			}
+		} catch (ServiceException e) {
+			throw new InternalClientException(e.getMessage(), e);
+		}
+		return soapClient;
+	}
+
 }

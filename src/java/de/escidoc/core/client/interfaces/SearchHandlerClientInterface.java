@@ -37,7 +37,6 @@ import gov.loc.www.zing.srw.SearchRetrieveResponseType;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
 import de.escidoc.core.resources.sb.wrapper.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.wrapper.search.SearchResponse;
 

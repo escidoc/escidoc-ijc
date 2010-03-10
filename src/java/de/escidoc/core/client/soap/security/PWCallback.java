@@ -120,7 +120,7 @@ public class PWCallback implements CallbackHandler {
      * @param method
      *            The http method object to add the cookie to.
      */
-    public static void addEscidocUserHandleCokie(final HttpMethod method) {
+    public static void addEscidocUserHandleCookie(final HttpMethod method) {
 
         if (handle == null || "".equals(handle)) {
             return;

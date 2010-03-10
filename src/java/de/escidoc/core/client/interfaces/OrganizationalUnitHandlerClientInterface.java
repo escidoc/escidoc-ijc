@@ -34,6 +34,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.structmap.StructMap;
+import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
 
 /**
@@ -73,16 +74,18 @@ public interface OrganizationalUnitHandlerClientInterface<OrganizationalUnit>
     StructMap updateParents(final String id, final String xml)
         throws EscidocException, InternalClientException, TransportException;
 
-    StructMap retrieveParentObjects(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    OrganizationalUnitList retrieveParentObjects(final String id)
+        throws EscidocException, InternalClientException, TransportException;
 
-    StructMap retrieveChildObjects(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    OrganizationalUnitList retrieveChildObjects(final String id)
+        throws EscidocException, InternalClientException, TransportException;
+
+    OrganizationalUnitList retrieveOrganizationalUnits(final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException;
 
     PathList retrievePathList(final String id) throws EscidocException,
         InternalClientException, TransportException;
 
-    // retrieveOrganizationalUnits
     // updateMdRecords
 
 }

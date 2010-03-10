@@ -90,6 +90,9 @@ public class SearchResultRecordMarshaller extends MarshallingBase
             }
 
             ctx.closeStartContent();
+
+            ctx.element(0, "score", record.getScore());
+
             if (record.getHighlight() instanceof IMarshallable) {
 
                 ((IMarshallable) record.getHighlight()).marshal(ctx);
@@ -98,6 +101,7 @@ public class SearchResultRecordMarshaller extends MarshallingBase
             else {
                 throw new JiBXException("Mapped value is not marshallable");
             }
+
             if (record.getContent() instanceof IMarshallable) {
 
                 ((IMarshallable) record.getContent()).marshal(ctx);
@@ -138,11 +142,8 @@ public class SearchResultRecordMarshaller extends MarshallingBase
         de.escidoc.core.resources.sb.search.SearchResultRecord result =
             (de.escidoc.core.resources.sb.search.SearchResultRecord) arg0;
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
-        if (!ctx.isAt("http://www.escidoc.de/schemas/searchresult/0.7",
-            "search-result-record")) {
-            ctx.throwStartTagNameError(
-                "http://www.escidoc.de/schemas/searchresult/0.7",
-                "search-result-record");
+        if (!ctx.isAt(getUri(), getName())) {
+            ctx.throwStartTagNameError(getUri(), getName());
         }
 
         if (arg0 == null) {
@@ -154,34 +155,42 @@ public class SearchResultRecordMarshaller extends MarshallingBase
             "http://www.w3.org/XML/1998/namespace", "base", null));
 
         ctx.parsePastStartTag(getUri(), getName());
-        Highlight highlight = (Highlight) ctx.unmarshalElement();
 
-        result.setHighlight(highlight);
-
-        if (ctx.isAt("http://www.escidoc.de/schemas/item/0.7", "item")) {
-            Item item = (Item) ctx.unmarshalElement();
-            result.setContent(item);
+        // loop over all elements
+        while (true) {
+            if (ctx.isAt(getUri(), "score")) {
+                result.setScore(ctx.parseElementText(getUri(), "score"));
+            }
+            else if (ctx.isAt(getUri(), "highlight")) {
+                Highlight highlight = (Highlight) ctx.unmarshalElement();
+                result.setHighlight(highlight);
+           }
+            else if (ctx.isAt("http://www.escidoc.de/schemas/item/0.9", "item")) {
+                Item item = (Item) ctx.unmarshalElement();
+                result.setContent(item);
+            }
+            else if (ctx.isAt("http://www.escidoc.de/schemas/container/0.8",
+                "container")) {
+                Container container = (Container) ctx.unmarshalElement();
+                result.setContent(container);
+            }
+            else if (ctx.isAt(
+                "http://www.escidoc.de/schemas/organizationalunit/0.8",
+                "organizational-unit")) {
+                OrganizationalUnit ou =
+                    (OrganizationalUnit) ctx.unmarshalElement();
+                result.setContent(ou);
+            }
+            else if (ctx.isAt("http://www.escidoc.de/schemas/context/0.7",
+                "context")) {
+                Context context = (Context) ctx.unmarshalElement();
+                result.setContent(context);
+            }
+            else {
+                break;
+            }
         }
-        else if (ctx.isAt("http://www.escidoc.de/schemas/container/0.7",
-            "container")) {
-            Container container = (Container) ctx.unmarshalElement();
-            result.setContent(container);
-        }
-        else if (ctx.isAt(
-            "http://www.escidoc.de/schemas/organizationalunit/0.6",
-            "organizational-unit")) {
-            OrganizationalUnit ou = (OrganizationalUnit) ctx.unmarshalElement();
-            result.setContent(ou);
-        }
-        else if (ctx.isAt("http://www.escidoc.de/schemas/context/0.6",
-            "context")) {
-            Context context = (Context) ctx.unmarshalElement();
-            result.setContent(context);
-        }
-
-        ctx.isEnd();
         ctx.parsePastEndTag(getUri(), getName());
         return result;
     }
-
 }

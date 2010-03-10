@@ -36,7 +36,6 @@ import javax.xml.rpc.ServiceException;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.aa.PolicyDecisionPointServiceLocator;
 import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -44,7 +43,6 @@ import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.aa.useraccount.PropertiesUserAccount;
 import de.escidoc.core.um.UserAccountHandler;
 import de.escidoc.core.um.UserAccountHandlerServiceLocator;
 

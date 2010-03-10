@@ -153,7 +153,7 @@
 
 			<structure
 				ns="http://escidoc.de/core/01/structural-relations/"
-				name="organizational-unit"
+				name="parent"
 				type="de.escidoc.core.resources.ResourceRef" usage="optional">
 
 				<value name="objid" style="attribute"

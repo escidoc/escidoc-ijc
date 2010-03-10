@@ -17,6 +17,13 @@
 		</dirset>
 	</path>
 
+        <!-- library class path used for JUnit tests -->
+        <path id="lib-classpath">
+                <fileset dir="${lib.dir}">
+                        <include name="**/*.jar"/>
+                </fileset>
+        </path>
+
 	<!-- make sure required jars are present -->
 	<condition property="runtime-jars-found">
 		<available file="${jibx-home}/jibx-run.jar" />
@@ -184,5 +191,24 @@
 			</else>
 		</if>
 	</target>
+
+	<target name="junit">
+	    <junit printsummary="yes">
+	        <classpath>
+		    <pathelement path="${java.build.dir}"/>
+		    <pathelement path="${build.classpath}"/>
+		    <path refid="lib-classpath"/>
+		</classpath>
+
+		<formatter type="plain"/>
+
+		<batchtest fork="yes">
+		    <fileset dir="${junit.src.dir}">
+		        <include name="**/*Test*.java"/>
+		    </fileset>
+		</batchtest>
+	    </junit>
+	</target>
+
 </project>
 

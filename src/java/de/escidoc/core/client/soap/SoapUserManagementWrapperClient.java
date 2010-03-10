@@ -36,7 +36,6 @@ import javax.xml.rpc.ServiceException;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.aa.PolicyDecisionPointServiceLocator;
 import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;

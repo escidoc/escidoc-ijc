@@ -236,6 +236,27 @@ public class SoapContextHandlerClient extends ClientBase {
 
     /**
      * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContexts(final String filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContexts(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
      * @param id
      * @param filter
      * @return

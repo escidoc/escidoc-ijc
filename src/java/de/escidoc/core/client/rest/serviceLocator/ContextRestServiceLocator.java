@@ -1,7 +1,36 @@
+/*
+ * CDDL HEADER START
+ *
+ * The contents of this file are subject to the terms of the
+ * Common Development and Distribution License, Version 1.0 only
+ * (the "License").  You may not use this file except in compliance
+ * with the License.
+ *
+ * You can obtain a copy of the license at license/ESCIDOC.LICENSE
+ * or http://www.escidoc.de/license.
+ * See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * When distributing Covered Code, include this CDDL HEADER in each
+ * file and include the License file at license/ESCIDOC.LICENSE.
+ * If applicable, add the following below this CDDL HEADER, with the
+ * fields enclosed by brackets "[]" replaced with your own identifying
+ * information: Portions Copyright [yyyy] [name of copyright owner]
+ *
+ * CDDL HEADER END
+ */
+
+/*
+ * Copyright 2006-2008 Fachinformationszentrum Karlsruhe Gesellschaft
+ * fuer wissenschaftlich-technische Information mbH and Max-Planck-
+ * Gesellschaft zur Foerderung der Wissenschaft e.V.  
+ * All rights reserved.  Use is subject to license terms.
+ */
 package de.escidoc.core.client.rest.serviceLocator;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.Map;
 
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
@@ -18,11 +47,9 @@ import de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNo
 import de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.notfound.StreamNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.XmlSchemaNotFoundException;
 import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
 import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
 import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException;
@@ -83,7 +110,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
         AuthorizationException, ContextNotFoundException, InvalidXmlException {
 
         return get(PATH_CONTEXT + "/" + contextId + "/resources/members",
-            filter);
+            (Map<String, String[]>) filter);
     }
 
     public String retrieveAdminDescriptor(
@@ -235,57 +262,26 @@ public class ContextRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTEXT + "/" + contextId);
     }
 
-    public String createMetadataRecord(final String in0, final String in1)
-        throws RemoteException, SystemException, LockingException,
-        MissingAttributeValueException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        XmlSchemaNotFoundException, ContextNotFoundException,
-        AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
-    }
-
-    public String retrieveMdRecord(final String in0, final String in1)
+    public String retrieveProperties(final String contextId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
-        ContextNotFoundException, AuthorizationException,
-        MdRecordNotFoundException {
-        throw new SystemException(500, "Method not yet supported", "");
+        ContextNotFoundException, AuthorizationException {
+
+        return get(PATH_CONTEXT + "/" + contextId + "/properties");
     }
 
-    public String updateMdRecord(final String in0, final String in1, final String in2)
-        throws RemoteException, SystemException, ReadonlyVersionException,
-        LockingException, AuthenticationException, XmlSchemaNotFoundException,
-        ContextNotFoundException, AuthorizationException,
-        InvalidContentException, OptimisticLockingException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, MdRecordNotFoundException,
-        InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
-    }
-
-    public String retrieveMdRecords(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ContextNotFoundException,
-        AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
-    }
-
-    public String retrieveProperties(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ContextNotFoundException,
-        AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
-    }
-
-    public String retrieveContexts(final String in0) throws RemoteException,
+    public String retrieveContexts(final String filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return post(PATH_CONTEXT + "s/filter", filter);
     }
 
-    public String retrieveContexts(final HashMap in0) throws RemoteException,
+    public String retrieveContexts(final HashMap filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
+        
+        //return post(PATH_CONTEXT + "s/filter", filter);
         throw new SystemException(500, "Method not yet supported", "");
     }
 }

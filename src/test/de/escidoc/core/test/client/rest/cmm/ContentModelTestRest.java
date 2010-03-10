@@ -60,7 +60,7 @@ public class ContentModelTestRest extends EscidocClientTestBase {
 
         // load XML template of organizational unit
         File templOu =
-            new File("./templates/rest/content-model/0.2/content-model.xml");
+            new File("./templates/rest/content-model/0.1/content-model.xml");
         String ouXml = getXmlFileAsString(templOu);
 
         // create

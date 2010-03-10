@@ -44,7 +44,6 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.oum.OrganizationalUnitHandlerServiceLocator;
 
 public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
 

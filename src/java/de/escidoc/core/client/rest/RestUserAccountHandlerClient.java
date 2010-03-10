@@ -154,6 +154,28 @@ public class RestUserAccountHandlerClient extends ClientBase {
 
     /**
      * 
+     * @param id
+     * @param context
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#update(java.lang.String,
+     *      java.lang.String)
+     */
+    public void updatePassword(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        try {
+            getClient().updatePassword(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+    }
+
+    /**
+     * 
      * @param taskParam
      * @return
      * @throws EscidocException

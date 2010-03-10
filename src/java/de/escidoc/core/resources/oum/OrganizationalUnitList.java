@@ -29,7 +29,6 @@
 package de.escidoc.core.resources.oum;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -38,7 +37,7 @@ import java.util.LinkedList;
  * @author SWA
  * 
  */
-public class OrganizationalUnits {
+public class OrganizationalUnitList {
 
     private Collection<OrganizationalUnit> organizationalUnits =
         new LinkedList<OrganizationalUnit>();
@@ -46,7 +45,16 @@ public class OrganizationalUnits {
     /**
      * 
      */
-    public OrganizationalUnits() {
+    public OrganizationalUnitList() {
+    }
+
+    /**
+     * OrganizationalUnitList factory.
+     * 
+     * @return OrganizationalUnitList
+     */
+    public static LinkedList<OrganizationalUnit> organizationalUnitsFactory() {
+        return new LinkedList<OrganizationalUnit>();
     }
 
     /**
@@ -59,27 +67,6 @@ public class OrganizationalUnits {
     }
 
     /**
-     * Get a OrganizationalUnit.
-     * 
-     * @param organizationalUnitId
-     *            The id of the OrganizationalUnit.
-     * @return The OrganizationalUnit with the provided objid.
-     */
-    public OrganizationalUnit get(final String organizationalUnitId) {
-        OrganizationalUnit result = null;
-        Iterator<OrganizationalUnit> ouIter =
-            this.organizationalUnits.iterator();
-        while (ouIter.hasNext()) {
-            OrganizationalUnit next = ouIter.next();
-            if (next.getObjid().equals(organizationalUnitId)) {
-                result = next;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /**
      * Set Collection of OrganizationalUnits.
      * 
      * @param organizationalUnits
@@ -89,5 +76,4 @@ public class OrganizationalUnits {
         final Collection<OrganizationalUnit> organizationalUnits) {
         this.organizationalUnits = organizationalUnits;
     }
-
 }

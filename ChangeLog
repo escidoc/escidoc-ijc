@@ -1,3 +1,9 @@
+03.12.2009 - sche
+* fixed mapping for parent OUs
+
+02.12.2009 - SWA
+* add OU tests
+
 12.10.2009 - SWA
 * fix handling of large REST response body
 * add content model SOAP/REST handler

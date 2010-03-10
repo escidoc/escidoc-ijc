@@ -767,11 +767,11 @@ public class ContainerHandlerClient
             Factory.getContainerMarshaller().marshalDocument(container);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContainerHandlerClient().createItem(id, containerString);
+                getSoapContainerHandlerClient().createContainer(id, containerString);
         }
         else {
             xml =
-                getRestContainerHandlerClient().createItem(id, containerString);
+                getRestContainerHandlerClient().createContainer(id, containerString);
         }
         return Factory.getContainerMarshaller().unmarshalDocument(xml);
     }

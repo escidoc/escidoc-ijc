@@ -44,6 +44,7 @@ import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.resources.om.context.ContextList;
 
 /**
  * This is the generic ContextSoapContextHandlerClient which binds the transport
@@ -351,6 +352,35 @@ public class ContextHandlerClient
     }
 
     /**
+     * Retrieve a list of contexts.
+     * 
+     * @param taskParam
+     *            Filter for result
+     * @return Contexts.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ContextList retrieveContexts(final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        String xml = null;
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContextHandlerClient().retrieveContexts(taskParamString);
+        }
+        else {
+            xml =
+                getRestContextHandlerClient().retrieveContexts(taskParamString);
+        }
+        return Factory.getContextListMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
      * Retrieve Members from Context.
      * 
      * @param id
@@ -371,7 +401,6 @@ public class ContextHandlerClient
         String taskParamString =
             Factory.getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
-
             xml =
                 getSoapContextHandlerClient().retrieveMembers(id,
                     taskParamString);
@@ -382,7 +411,6 @@ public class ContextHandlerClient
                     taskParamString);
         }
         return Factory.getMemberListMarshaller().unmarshalDocument(xml);
-
     }
 
     /**

@@ -38,21 +38,26 @@ import de.escidoc.core.resources.ResourceRef;
  */
 public class Relation extends ResourceRef {
     private String predicate;
+
+    public Relation() {
+    }
+
     /**
      * 
      * @param id
      *            The resource reference.
      */
     public Relation(final ResourceRef id) {
-        super();
         setObjid(id.getObjid());
         setHref(id.getHref());
         setTitle(id.getTitle());
 
     }
+
     public String getPredicate() {
         return predicate;
     }
+
     public void setPredicate(String predicate) {
         this.predicate = predicate;
     }

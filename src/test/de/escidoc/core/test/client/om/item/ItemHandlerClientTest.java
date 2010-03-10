@@ -141,7 +141,7 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
             fail("Missing Exception retrieving an non existing Item.");
         }
         catch (Exception e) {
-            Class<?> ec = ItemNotFoundException.class;
+            Class< ? > ec = ItemNotFoundException.class;
             EscidocClientTestBase.assertExceptionType(ec.getName()
                 + " expected.", ec, e);
 
@@ -193,14 +193,15 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
+            "escidoc:exuser1", null));
         filterParam.setFilters(filters);
         logger.debug("Call retrieveItems with filter "
             + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
         ItemHandlerClient ic = new ItemHandlerClient();
         ItemList itemList = ic.retrieveItems(filterParam);
 
-        // FIXME check itemList
+        assertTrue("result list is empty, try another filter", itemList
+            .getItems().size() != 0);
     }
 
     /**
@@ -248,22 +249,17 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(
-            null,
-            "props");
+        Element contentModelSpecific = doc.createElementNS(null, "props");
         contentModelSpecific.setTextContent("3. 2. 1. ");
-        Element element1= doc.createElement("some-other-stuff1");
+        Element element1 = doc.createElement("some-other-stuff1");
         element1.setTextContent("33333333333333333333");
-        
-        
-        
+
         List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
         cmsContent.add(element1);
         ContentModelSpecific cms = new ContentModelSpecific();
-        
+
         cms.setContent(cmsContent);
-        
 
         result.getProperties().setContentModelSpecific(cms);
 
@@ -368,12 +364,16 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
      * Prepare and Filter class from the parameter collection.
      * 
      * @param name
+     *            name of the filter criteria
      * @param value
+     *            value of the filter criteria
      * @param ids
-     * @return
+     *            list of ids to filter
+     * 
+     * @return filter
      */
     private Filter getFilter(
-        final String name, final String value, Collection<String> ids) {
+        final String name, final String value, final Collection<String> ids) {
 
         Filter filter = new Filter();
         filter.setName(name);

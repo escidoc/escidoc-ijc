@@ -37,13 +37,11 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.om.ContainerHandlerServiceLocator;
 import de.escidoc.core.om.ItemHandler;
 import de.escidoc.core.om.ItemHandlerServiceLocator;
 

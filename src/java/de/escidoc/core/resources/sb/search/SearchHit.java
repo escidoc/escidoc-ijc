@@ -10,7 +10,7 @@ public class SearchHit {
     public Collection<TextFragment> getTextFragments() {
         return textFragments;
     }
-    public void setTextFragment(Collection<TextFragment> textFragments) {
+    public void setTextFragments(Collection<TextFragment> textFragments) {
         this.textFragments = textFragments;
     }
     public Type getType() {

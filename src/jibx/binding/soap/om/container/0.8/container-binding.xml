@@ -14,10 +14,10 @@
 		*****************************************
 		Root attributes 
 		****************************************** -->
-	<mapping ns="http://www.escidoc.de/schemas/containerlist/0.7"
+	<mapping ns="http://www.escidoc.de/schemas/containerlist/0.8"
 		name="container-list"
 		class="de.escidoc.core.resources.om.container.ContainerList">
-		<namespace uri="http://www.escidoc.de/schemas/containerlist/0.7"
+		<namespace uri="http://www.escidoc.de/schemas/containerlist/0.8"
 			prefix="cl" />
 		<namespace uri="http://www.escidoc.de/schemas/container/0.8"
 			prefix="escidocContainer" />
@@ -49,7 +49,7 @@
 		<namespace uri="http://www.escidoc.de/schemas/relations/0.3"
 			prefix="relations" />
 		<namespace
-			uri="http://www.escidoc.de/schemas/metadatarecords/0.4"
+			uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
 			prefix="escidocMetadataRecords" />
 		<namespace uri="http://www.escidoc.de/schemas/structmap/0.4"
 			prefix="struct-map" />
@@ -81,7 +81,7 @@
 			MD-Records 
 			****************************************** -->
 		<structure
-			ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
+			ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
 			name="md-records"
 			type="de.escidoc.core.resources.common.MetadataRecords"
 			field="mdRecords" usage="optional">

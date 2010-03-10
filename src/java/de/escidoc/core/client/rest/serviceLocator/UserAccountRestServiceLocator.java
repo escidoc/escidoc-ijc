@@ -55,7 +55,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return put(PATH_USER_ACCOUNT, userAccountXml);
     }
 
-    public String update(final String in0, final String in1)
+    public String update(final String accountId, final String body)
         throws RemoteException, UserAccountNotFoundException,
         UniqueConstraintViolationException, OptimisticLockingException,
         SystemException, OrganizationalUnitNotFoundException,
@@ -63,67 +63,70 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         InvalidStatusException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return put(PATH_USER_ACCOUNT + "/" + accountId, body);
     }
 
-    public String retrieve(final String in0) throws RemoteException,
+    public String retrieve(final String accountId) throws RemoteException,
         UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return get(PATH_USER_ACCOUNT + "/" + accountId);
     }
 
-    public void activate(final String in0, final String in1)
+    public void activate(final String accountId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, SystemException, AlreadyActiveException,
         MissingMethodParameterException, MissingAttributeValueException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        post(PATH_USER_ACCOUNT + "/activate", taskParam);
     }
 
-    public void deactivate(final String in0, final String in1)
+    public void deactivate(final String accountId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, SystemException,
         MissingMethodParameterException, MissingAttributeValueException,
         AuthenticationException, AlreadyDeactiveException,
         AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        post(PATH_USER_ACCOUNT + "/deactivate", taskParam);
     }
 
-    public void updatePassword(final String in0, final String in1)
+    public void updatePassword(final String accountId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, SystemException,
         MissingMethodParameterException, InvalidStatusException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        post(PATH_USER_ACCOUNT + "/" + accountId + "/update-password",
+            taskParam);
     }
 
-    public String retrieveCurrentGrants(final String in0)
+    public String retrieveCurrentGrants(final String accountId)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return get(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/current-grants");
     }
 
-    public String retrieveGrant(final String in0, final String in1)
+    public String retrieveGrant(final String accountId, final String grantId)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, GrantNotFoundException,
         AuthenticationException, AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return get(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/grants/grant/" + grantId);
     }
 
-    public String retrieveGrants(final String in0) throws RemoteException,
+    public String retrieveGrants(final String filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException,
         InvalidContentException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return post("/aa/grants/filter", filter);
     }
 
     public String createGrant(final String objid, final String userAccountXml)
@@ -136,154 +139,171 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             userAccountXml);
     }
 
-    public void revokeGrant(final String in0, final String in1, final String in2)
+    public void revokeGrant(
+        final String accountId, final String grantId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingAttributeValueException, MissingMethodParameterException,
         GrantNotFoundException, AuthenticationException,
         AlreadyRevokedException, AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        post(PATH_USER_ACCOUNT + "/" + accountId + "/resources/grants/grant/"
+            + grantId + "/revoke-grant", taskParam);
     }
 
-    public void revokeGrants(final String in0, final String in1)
+    public void revokeGrants(final String accountId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingAttributeValueException, MissingMethodParameterException,
         GrantNotFoundException, AuthenticationException,
         AlreadyRevokedException, AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        post(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/grants/revoke-grants", taskParam);
     }
 
-    public String retrieveUserAccounts(final String in0)
+    public String retrieveUserAccounts(final String filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException, InvalidContentException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return post(PATH_USER_ACCOUNT + "/filter", filter);
     }
 
-    public String retrievePreferences(final String in0) throws RemoteException,
-        UserAccountNotFoundException, SystemException,
+    public String retrievePreferences(final String accountId)
+        throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return get(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/preferences");
     }
 
-    public String createPreference(final String in0, final String in1)
+    public String createPreference(final String accountId, final String body)
         throws RemoteException, UserAccountNotFoundException,
         PreferenceNotFoundException, SystemException,
         MissingMethodParameterException, AlreadyExistsException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return put(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/preferences/preference", body);
     }
 
-    public String updatePreferences(final String in0, final String in1)
+    public String updatePreferences(final String accountId, final String body)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, SystemException,
         MissingMethodParameterException, MissingAttributeValueException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return put(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/preferences", body);
     }
 
     public String updatePreference(
-        final String in0, final String in1, final String in2)
+        final String accountId, final String prefName, final String body)
         throws RemoteException, UserAccountNotFoundException,
         PreferenceNotFoundException, OptimisticLockingException,
         SystemException, MissingMethodParameterException,
         MissingAttributeValueException, AlreadyExistsException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return put(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/preferences/preference/" + prefName, body);
     }
 
-    public String retrievePreference(final String in0, final String in1)
+    public String retrievePreference(
+        final String accountId, final String prefName) throws RemoteException,
+        UserAccountNotFoundException, PreferenceNotFoundException,
+        SystemException, MissingMethodParameterException,
+        AuthenticationException, AuthorizationException {
+
+        return get(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/preferences/preference/" + prefName);
+    }
+
+    public void deletePreference(final String accountId, final String prefName)
         throws RemoteException, UserAccountNotFoundException,
         PreferenceNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        del(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/preferences/preference/" + prefName);
     }
 
-    public void deletePreference(final String in0, final String in1)
-        throws RemoteException, UserAccountNotFoundException,
-        PreferenceNotFoundException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException {
-
-        throw new SystemException(500, "Method not yet supported", "");
-    }
-
-    public String createAttribute(final String in0, final String in1)
+    public String createAttribute(final String accountId, final String body)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AlreadyExistsException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return put(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/attributes/attribute", body);
     }
 
-    public void deleteAttribute(final String in0, final String in1)
+    public void deleteAttribute(final String accountId, final String attId)
         throws RemoteException, UserAccountNotFoundException,
         UserAttributeNotFoundException, SystemException,
         MissingMethodParameterException, ReadonlyElementViolationException,
         AuthenticationException, AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        del(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/attributes/attribute/" + attId);
     }
 
-    public String retrieveAttribute(final String in0, final String in1)
+    public String retrieveAttribute(final String accountId, final String attId)
         throws RemoteException, UserAccountNotFoundException,
         UserAttributeNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return get(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/attributes/attribute/" + attId);
     }
 
-    public String retrieveAttributes(final String in0) throws RemoteException,
-        UserAccountNotFoundException, SystemException,
+    public String retrieveAttributes(final String accountId)
+        throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return get(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/attributes");
     }
 
-    public String retrieveGrants(final HashMap in0) throws RemoteException,
+    public String retrieveGrants(final HashMap filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         InvalidSearchQueryException, AuthenticationException,
         AuthorizationException {
 
+        // return post("/aa/grants/filter", filter);
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String retrieveNamedAttributes(final String in0, final String in1)
-        throws RemoteException, UserAccountNotFoundException,
-        UserAttributeNotFoundException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException {
+    public String retrieveNamedAttributes(
+        final String accountId, final String attName) throws RemoteException,
+        UserAccountNotFoundException, UserAttributeNotFoundException,
+        SystemException, MissingMethodParameterException,
+        AuthenticationException, AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return get(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/attributes/" + attName);
     }
 
-    public String retrieveUserAccounts(final HashMap in0)
+    public String retrieveUserAccounts(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, InvalidSearchQueryException,
         AuthenticationException, AuthorizationException {
 
+        // return post("/aa/user-accounts/filter", filter);
         throw new SystemException(500, "Method not yet supported", "");
     }
 
     public String updateAttribute(
-        final String in0, final String in1, final String in2)
+        final String accountId, final String attId, final String body)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, UserAttributeNotFoundException,
         SystemException, MissingMethodParameterException,
         ReadonlyElementViolationException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        return put(PATH_USER_ACCOUNT + "/" + accountId
+            + "/resources/attributes/attribute/" + attId, body);
     }
 }

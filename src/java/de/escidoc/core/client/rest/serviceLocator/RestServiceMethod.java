@@ -90,7 +90,7 @@ public class RestServiceMethod {
 
         String result = null;
         PutMethod put = new PutMethod(this.serviceAddress + path);
-        PWCallback.addEscidocUserHandleCokie(put);
+        PWCallback.addEscidocUserHandleCookie(put);
         RequestEntity entity;
         try {
             entity = new StringRequestEntity(content, "text/xml", "UTF-8");
@@ -135,7 +135,7 @@ public class RestServiceMethod {
 
         String result = null;
         PostMethod post = new PostMethod(this.serviceAddress + path);
-        PWCallback.addEscidocUserHandleCokie(post);
+        PWCallback.addEscidocUserHandleCookie(post);
         RequestEntity entity;
         try {
             entity = new StringRequestEntity(content, "text/xml", "UTF-8");
@@ -179,7 +179,7 @@ public class RestServiceMethod {
 
         String result = null;
         GetMethod get = new GetMethod(this.serviceAddress + path);
-        PWCallback.addEscidocUserHandleCokie(get);
+        PWCallback.addEscidocUserHandleCookie(get);
 
         try {
             try {
@@ -211,12 +211,12 @@ public class RestServiceMethod {
      *            map containing the request parameters as key - value pairs
      * 
      * @return encoded GET URL
-     * @throws SystemException
+     * @throws RemoteException
      *             thrown if an internal error occurred
      * @throws EscidocException
      */
     public String get(final String path, final Map<String, String[]> parameters)
-        throws SystemException, RemoteException {
+        throws RemoteException {
         StringBuffer result = new StringBuffer(path);
 
         if (parameters != null) {
@@ -260,7 +260,7 @@ public class RestServiceMethod {
 
         String result = null;
         DeleteMethod del = new DeleteMethod(this.serviceAddress + path);
-        PWCallback.addEscidocUserHandleCokie(del);
+        PWCallback.addEscidocUserHandleCookie(del);
 
         try {
             try {

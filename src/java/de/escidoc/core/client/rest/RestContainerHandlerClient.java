@@ -34,7 +34,6 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -56,11 +55,29 @@ public class RestContainerHandlerClient extends ClientBase {
 
     private ContainerHandler restClient = null;
 
+    /**
+     * Container Handler for REST interface.
+     * 
+     * @throws InternalClientException
+     *             Thrown if an exception happend on client layer
+     */
     public RestContainerHandlerClient() throws InternalClientException {
 
         super();
     }
 
+    /**
+     * Add a Content Relation to the Container.
+     * 
+     * @param id
+     *            Objid of Container
+     * @param taskParam
+     *            taskParameter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String addContentRelations(final String id, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -75,20 +92,26 @@ public class RestContainerHandlerClient extends ClientBase {
     }
 
     /**
+     * Create Container.
      * 
-     * @param item
-     * @return
+     * @param containerXml
+     *            XML representation of the to create Container
+     * @return XML representation of the created Container
+     * 
      * @throws EscidocException
+     *             Thrown if the eSciDoc framework throws an exception
      * @throws InternalClientException
+     *             Thrown if an exception happens on client layer
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#create(java.lang.String)
+     *             Thrown if a failure on transport level occurs
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#create(java.lang.String)
      */
-    public String create(final String item) throws EscidocException,
+    public String create(final String containerXml) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().create(item);
+            result = getClient().create(containerXml);
         }
         catch (Exception e) {
             logger.debug(e);
@@ -103,7 +126,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#delete(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#delete(java.lang.String)
      */
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -123,7 +146,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#retrieve(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#retrieve(java.lang.String)
      */
     public String retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -146,7 +169,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#update(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
     public String update(final String id, final String item)
@@ -169,7 +192,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#release(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#release(java.lang.String,
      *      java.lang.String)
      */
     public String release(final String id, final String taskParam)
@@ -192,7 +215,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#revise(java.lang.String,java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#revise(java.lang.String,java.lang.String)
      */
     public String revise(final String id, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -214,7 +237,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#submit(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#submit(java.lang.String,
      *      java.lang.String)
      */
     public String submit(final String id, final String taskParam)
@@ -237,7 +260,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#submit(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#submit(java.lang.String,
      *      java.lang.String)
      */
     public String withdraw(final String id, final String taskParam)
@@ -261,7 +284,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#assignVersionPid(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#assignVersionPid(java.lang.String,
      *      java.lang.String)
      */
     public String assignVersionPid(final String id, final String taskParam)
@@ -285,7 +308,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#assignObjectPid(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#assignObjectPid(java.lang.String,
      *      java.lang.String)
      */
     public String assignObjectPid(final String id, final String taskParam)
@@ -308,7 +331,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#retrieveVersionHistory(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#retrieveVersionHistory(java.lang.String)
      */
     public String retrieveVersionHistory(final String id)
         throws EscidocException, InternalClientException, TransportException {
@@ -330,7 +353,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#lock(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#lock(java.lang.String,
      *      java.lang.String)
      */
     public String lock(final String id, final String taskParam)
@@ -353,7 +376,7 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#unlock(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#unlock(java.lang.String,
      *      java.lang.String)
      */
     public String unlock(final String id, final String taskParam)
@@ -422,6 +445,31 @@ public class RestContainerHandlerClient extends ClientBase {
     }
 
     /**
+     * Create Container.
+     * 
+     * @param id
+     *            objid of Container
+     * @param containerXml
+     *            XML of to create Container (as member of the Container)
+     * @return The created Container
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String createContainer(final String id, final String containerXml)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().createContainer(id, containerXml);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
      * 
      * @param id
      * @return
@@ -465,13 +513,18 @@ public class RestContainerHandlerClient extends ClientBase {
     }
 
     /**
+     * Filter for Containers.
      * 
      * @param taskParam
-     * @return
+     *            Filter parameter
+     * @return XMl representation that match the filter
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#retrieveItems(java.lang.String)
+     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#retrieveItems(java.lang.String)
      */
     public String retrieveContainers(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -500,13 +553,41 @@ public class RestContainerHandlerClient extends ClientBase {
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public String retrieveRelations(final String id)
-        throws EscidocException, InternalClientException,
-        TransportException {
-        
+    public String retrieveRelations(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
         String result = null;
         try {
             result = getClient().retrieveRelations(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve TOC list via REST.
+     * 
+     * @param id
+     *            object id of Container.
+     * @param filter
+     *            XML filter
+     * 
+     * @return XML representation of TOC list.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public String retrieveTocs(final String id, final String filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveTocs(id, filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -523,8 +604,11 @@ public class RestContainerHandlerClient extends ClientBase {
      * @param id
      * @return
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
      */
     @Override
@@ -546,6 +630,7 @@ public class RestContainerHandlerClient extends ClientBase {
     /**
      * @return Returns the soapClient.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override

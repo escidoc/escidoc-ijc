@@ -116,26 +116,15 @@
 			<param name="component" value="sm" />
 			<param name="service" value="ScopeHandlerService" />
 		</antcall>
-
+<!--		
+		<antcall target="wsdl2java">
+			<param name="component" value="st" />
+			<param name="service" value="StagingFileHandlerService" />
+		</antcall>
+-->
 		<antcall target="wsdl2java">
 			<param name="component" value="tme" />
 			<param name="service" value="JhoveHandlerService" />
-		</antcall>
-		<antcall target="wsdl2java">
-			<param name="component" value="wm" />
-			<param name="service" value="WorkflowTypeHandlerService" />
-		</antcall>
-		<antcall target="wsdl2java">
-			<param name="component" value="wm" />
-			<param name="service" value="WorkflowDefinitionHandlerService" />
-		</antcall>
-		<antcall target="wsdl2java">
-			<param name="component" value="wm" />
-			<param name="service" value="WorkflowTemplateHandlerService" />
-		</antcall>
-		<antcall target="wsdl2java">
-			<param name="component" value="wm" />
-			<param name="service" value="WorkflowInstanceHandlerService" />
 		</antcall>
 	</target>
 

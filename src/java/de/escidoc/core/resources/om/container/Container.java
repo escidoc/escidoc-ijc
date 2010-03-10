@@ -28,11 +28,6 @@
  */
 package de.escidoc.core.resources.om.container;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.properties.Properties;
@@ -49,13 +44,13 @@ public class Container extends GenericVersionableResource {
 
     private MetadataRecords mdRecords = new MetadataRecords();
 
-    private Properties properties = null;
+    private Properties properties = new Properties();
 
     private StructMap structMap = null;
 
     private Relations relations = null;
 
-    //private Collection<ResourceRef> members = new LinkedList<ResourceRef>();
+    // private Collection<ResourceRef> members = new LinkedList<ResourceRef>();
 
     /**
      * 
@@ -131,11 +126,10 @@ public class Container extends GenericVersionableResource {
      * 
      * @return Members of Container.
      */
-//    public Collection<ResourceRef> getMembers() {
-//
-//        return this.members;
-//    }
-
+    // public Collection<ResourceRef> getMembers() {
+    //
+    // return this.members;
+    // }
     /**
      * Make Item to Container member.
      * 
@@ -143,11 +137,10 @@ public class Container extends GenericVersionableResource {
      *            The resourceRef of the resource which is to add as member to
      *            the Container.
      */
-//    public void addMember(final ResourceRef resourceRef) {
-//
-//        this.members.add(resourceRef);
-//    }
-
+    // public void addMember(final ResourceRef resourceRef) {
+    //
+    // this.members.add(resourceRef);
+    // }
     /**
      * Get the StuctMap of the Container.
      * 

@@ -231,22 +231,29 @@ public class ItemRestServiceLocator extends RestServiceMethod
             + componentId);
     }
 
-    public String retrieveComponentMdRecords(final String in0, final String in1)
-        throws RemoteException, SystemException, ComponentNotFoundException,
+    public String retrieveComponentMdRecords(
+        final String itemId, final String componentId) throws RemoteException,
+        SystemException, ComponentNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_ITEM + "/" + itemId + "/components/component/"
+            + componentId + "/md-records");
     }
 
-    public String retrieveComponentMdRecord(final String in0, final String in1, final String in2)
+    public String retrieveComponentMdRecord(
+        final String itemId, final String componentId, final String mdRecordId)
         throws RemoteException, SystemException, ComponentNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_ITEM + "/" + itemId + "/components/component/"
+            + componentId + "/md-records/md-record/" + mdRecordId);
     }
 
-    public String updateComponent(final String in0, final String in1, final String in2)
+    public String updateComponent(
+        final String itemId, final String componentId, final String body)
         throws RemoteException, SystemException, ReadonlyVersionException,
         MissingContentException, ComponentNotFoundException, LockingException,
         MissingAttributeValueException, AuthenticationException,
@@ -254,41 +261,51 @@ public class ItemRestServiceLocator extends RestServiceMethod
         OptimisticLockingException, FileNotFoundException,
         MissingMethodParameterException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return put(PATH_ITEM + "/" + "/components/component/" + componentId,
+            body);
     }
 
-    public String retrieveComponents(final String in0) throws RemoteException,
-        SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
-    }
-
-    public String retrieveComponentProperties(final String in0, final String in1)
+    public String retrieveComponents(final String itemId)
         throws RemoteException, SystemException, ComponentNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_ITEM + "/" + itemId + "/components");
     }
 
-    public String createMetadataRecord(final String in0, final String in1)
+    public String retrieveComponentProperties(
+        final String itemId, final String componentId) throws RemoteException,
+        SystemException, ComponentNotFoundException,
+        MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException {
+
+        return get(PATH_ITEM + "/" + itemId + "/components/component/"
+            + componentId + "/properties");
+    }
+
+    public String createMetadataRecord(final String itemId, final String body)
         throws RemoteException, SystemException, LockingException,
         MissingAttributeValueException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
         XmlSchemaNotFoundException, ItemNotFoundException,
         AuthorizationException, InvalidXmlException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return put(PATH_ITEM + "/" + itemId + "/md-records/md-record", body);
     }
 
-    public String retrieveMdRecord(final String in0, final String in1)
+    public String retrieveMdRecord(final String itemId, final String mdRecordId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
-        throw new SystemException(500, "Method not yet supported", "");
+
+        return get(PATH_ITEM + "/" + itemId + "/md-records/md-record/"
+            + mdRecordId);
     }
 
-    public String updateMdRecord(final String in0, final String in1, final String in2)
+    public String updateMdRecord(
+        final String in0, final String in1, final String in2)
         throws RemoteException, SystemException, ReadonlyVersionException,
         LockingException, AuthenticationException, XmlSchemaNotFoundException,
         ItemNotFoundException, AuthorizationException, InvalidContentException,
@@ -304,9 +321,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String retrieveContentStreams(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException {
+    public String retrieveContentStreams(final String in0)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException {
         throw new SystemException(500, "Method not yet supported", "");
     }
 
@@ -323,9 +341,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String retrieveVersionHistory(final String in0) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException {
+    public String retrieveVersionHistory(final String in0)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException {
         throw new SystemException(500, "Method not yet supported", "");
     }
 
@@ -335,18 +354,19 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String revise(final String in0, final String in1) throws RemoteException,
-        OptimisticLockingException, SystemException, ReadonlyVersionException,
-        LockingException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyViolationException,
-        AuthenticationException, AuthorizationException, ItemNotFoundException,
-        InvalidContentException, InvalidXmlException {
+    public String revise(final String in0, final String in1)
+        throws RemoteException, OptimisticLockingException, SystemException,
+        ReadonlyVersionException, LockingException,
+        MissingMethodParameterException, InvalidStatusException,
+        ReadonlyViolationException, AuthenticationException,
+        AuthorizationException, ItemNotFoundException, InvalidContentException,
+        InvalidXmlException {
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String withdraw(final String in0, final String in1) throws RemoteException,
-        SystemException, ReadonlyVersionException, LockingException,
-        AlreadyWithdrawnException, AuthenticationException,
+    public String withdraw(final String in0, final String in1)
+        throws RemoteException, SystemException, ReadonlyVersionException,
+        LockingException, AlreadyWithdrawnException, AuthenticationException,
         ItemNotFoundException, AuthorizationException,
         OptimisticLockingException, MissingMethodParameterException,
         NotPublishedException, InvalidStatusException,
@@ -354,17 +374,18 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public void deleteComponent(final String in0, final String in1) throws RemoteException,
-        SystemException, ComponentNotFoundException, LockingException,
-        MissingMethodParameterException, InvalidStatusException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException {
+    public void deleteComponent(final String in0, final String in1)
+        throws RemoteException, SystemException, ComponentNotFoundException,
+        LockingException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException, ItemNotFoundException,
+        AuthorizationException {
     }
 
-    public String moveToContext(final String in0, final String in1) throws RemoteException,
-        SystemException, LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException, ItemNotFoundException,
-        AuthorizationException, ContextNotFoundException,
-        InvalidContentException {
+    public String moveToContext(final String in0, final String in1)
+        throws RemoteException, SystemException, LockingException,
+        MissingMethodParameterException, InvalidStatusException,
+        AuthenticationException, ItemNotFoundException, AuthorizationException,
+        ContextNotFoundException, InvalidContentException {
         throw new SystemException(500, "Method not yet supported", "");
     }
 
@@ -396,7 +417,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
-    public String assignContentPid(final String in0, final String in1, final String in2)
+    public String assignContentPid(
+        final String in0, final String in1, final String in2)
         throws RemoteException, OptimisticLockingException, SystemException,
         LockingException, MissingMethodParameterException,
         ComponentNotFoundException, InvalidStatusException,

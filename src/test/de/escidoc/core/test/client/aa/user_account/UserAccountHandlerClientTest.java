@@ -3,7 +3,6 @@ package de.escidoc.core.test.client.aa.user_account;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.UserAccountHandlerClient;
@@ -18,8 +17,6 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class UserAccountHandlerClientTest extends EscidocClientTestBase {
-    private final Logger logger =
-        Logger.getLogger(UserAccountHandlerClientTest.class.getName());
 
     /**
      * Test to create and retrieve user account.
@@ -38,8 +35,6 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
         String xml =
             Factory.getUserAccountMarshaller().marshalDocument(
                 (UserAccount) uac.retrieve(objId));
-        System.out.println(" created ua " + xml);
-
     }
 
     /**
@@ -55,7 +50,7 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
         PropertiesUserAccount properties = createdUa.getProperties();
-        
+
         properties.setName("new Name");
         String newLoginName = getUnicLoginName();
         properties.setLoginName(newLoginName);
@@ -64,12 +59,11 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
             updatedUserAccont.getProperties();
         String updatedName = updatedProperties.getName();
         String updatedLoginName = updatedProperties.getLoginName();
-       
-            assertEquals("new Name", updatedName);
-        
-            assertEquals(newLoginName, updatedLoginName);
-        
-       
+
+        assertEquals("new Name", updatedName);
+
+        assertEquals(newLoginName, updatedLoginName);
+
         String xml =
             Factory.getUserAccountMarshaller().marshalDocument(
                 (UserAccount) updatedUserAccont);
@@ -118,17 +112,13 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
             "escidoc:user42", null));
         filterParam.setFilters(filters);
         try {
-            logger
-                .debug("Call retrieves with filter "
-                    + Factory.getTaskParamMarshaller().marshalDocument(
-                        filterParam));
             UserAccountHandlerClient uac = new UserAccountHandlerClient();
             uac.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
             UserAccounts userAccountList =
                 uac.retrieveUserAccounts(filterParam);
-            logger.debug("------------------------ ");
-            String xml = Factory.getUserAccountListMarshaller().marshalDocument(userAccountList);
-            System.out.println("user account list " + xml);
+            String xml =
+                Factory.getUserAccountListMarshaller().marshalDocument(
+                    userAccountList);
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
@@ -148,15 +138,14 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
         UserAccount ua = createUserAccount();
-        
+
         UserAccount createdUa = uac.create(ua);
         String objId = createdUa.getObjid();
-
         String xml =
             Factory.getGrantsMarshaller().marshalDocument(
                 (Grants) uac.retrieveCurrentGrants(objId));
-        System.out.println(" grants " + xml);
 
+        System.out.println(" grants " + xml);
     }
 
     public void testupdatePassword() throws Exception {
@@ -178,13 +167,11 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
         UserAccount ua = new UserAccount();
         PropertiesUserAccount properties = new PropertiesUserAccount();
         properties.setName("name");
-        properties.setEmail("email@com");
         properties.setLoginName(getUnicLoginName());
         ResourceRef ouRef1 = new ResourceRef();
         ouRef1.setObjid("escidoc:persistent1");
         Collection<ResourceRef> ous = new LinkedList<ResourceRef>();
         ous.add(ouRef1);
-        properties.setOus(ous);
         ua.setProperties(properties);
         return ua;
     }

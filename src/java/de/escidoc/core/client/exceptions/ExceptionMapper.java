@@ -100,7 +100,6 @@ public class ExceptionMapper extends Exception {
         RemoteException result = null;
         String exceptionClassName = null;
         String exceptionMessage = null;
-        String exceptionCause = null;
 
         int pos = statusText.indexOf("</class>");
         String subString = statusText.substring(0, pos + 10);
