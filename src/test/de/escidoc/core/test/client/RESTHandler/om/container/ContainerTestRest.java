@@ -28,8 +28,6 @@
  */
 package de.escidoc.core.test.client.RESTHandler.om.container;
 
-import org.apache.log4j.Logger;
-
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -40,9 +38,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * 
  */
 public class ContainerTestRest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(ContainerTestRest.class.getName());
 
     /**
      * 
@@ -59,16 +54,20 @@ public class ContainerTestRest extends EscidocClientTestBase {
     }
 
     /**
-     * 
+     * Test successful creating a Container.
+     *  
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    public void testCreatecontainer01() throws Exception {
+    public void testCreateContainer01() throws Exception {
 
         RestContainerHandlerClient cc = new RestContainerHandlerClient();
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
+        // get a valid container
         String container = cc.retrieve(EXAMPLE_CONTAINER_ID);
+        
+        // create a new one (on basis of the retrieved)
         cc.create(container);
     }
 

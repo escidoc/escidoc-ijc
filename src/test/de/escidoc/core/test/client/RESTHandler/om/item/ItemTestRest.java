@@ -28,8 +28,6 @@
  */
 package de.escidoc.core.test.client.RESTHandler.om.item;
 
-import org.apache.log4j.Logger;
-
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -40,9 +38,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * 
  */
 public class ItemTestRest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(ItemTestRest.class.getName());
 
     /**
      * Test if retrieve Item via REST is successful.
@@ -55,13 +50,11 @@ public class ItemTestRest extends EscidocClientTestBase {
         RestItemHandlerClient cc = new RestItemHandlerClient();
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
-        String item = cc.retrieve(EXAMPLE_ITEM_ID);
-        System.out.println(item);
+        cc.retrieve(EXAMPLE_ITEM_ID);
     }
 
     /**
-     * Test if the right exception is thrown if calling create with an
-     * incomplete Item.
+     * Test creating an Item.
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
@@ -71,7 +64,10 @@ public class ItemTestRest extends EscidocClientTestBase {
         RestItemHandlerClient cc = new RestItemHandlerClient();
         cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
+        // retrieve a valid Item
         String item = cc.retrieve(EXAMPLE_ITEM_ID);
+
+        // create a new Item (on basis of the valid)
         cc.create(item);
     }
 
