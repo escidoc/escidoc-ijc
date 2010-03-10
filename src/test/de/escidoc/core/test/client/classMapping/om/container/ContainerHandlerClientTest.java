@@ -53,6 +53,7 @@ import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.container.ContainerProperties;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class ContainerHandlerClientTest extends TestCase {
 
@@ -72,7 +73,7 @@ public class ContainerHandlerClientTest extends TestCase {
     public void testRetrieve() throws Exception {
         try {
             ContainerHandlerClient cc = new ContainerHandlerClient();
-            cc.setHandle("Shibboleth-Handle-1");
+            cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
 
             Container containerNew = new Container();
             ContainerProperties properties = new ContainerProperties();
@@ -147,7 +148,6 @@ public class ContainerHandlerClientTest extends TestCase {
         Marshaller<ContainerList> m =
             new Marshaller<ContainerList>(containerList.getClass());
         String xml = m.marshalDocument(containerList);
-        System.out.println(xml);
 
         // FIXME check containerList
     }
@@ -203,7 +203,6 @@ public class ContainerHandlerClientTest extends TestCase {
         Marshaller<MemberList> m =
             new Marshaller<MemberList>(memberList.getClass());
         String xml = m.marshalDocument(memberList);
-        System.out.println(xml);
 
         // FIXME check containerList
     }
