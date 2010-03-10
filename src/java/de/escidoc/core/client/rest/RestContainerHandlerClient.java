@@ -421,6 +421,31 @@ public class RestContainerHandlerClient extends ClientBase {
     }
 
     /**
+     * Create Container.
+     * 
+     * @param id
+     *            objid of Container
+     * @param containerXml
+     *            XML of to create Container (as member of the Container)
+     * @return The created Container
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String createContainer(final String id, final String containerXml)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().createContainer(id, containerXml);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
      * 
      * @param id
      * @return
