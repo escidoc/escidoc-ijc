@@ -519,7 +519,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
-        properties.setContentModelSpecific(getContentModelData());
+        properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
         // Md-Record
@@ -611,31 +611,6 @@ public class ItemCreateTest extends EscidocClientTestBase {
     }
 
     /**
-     * Prepare data for Content-model specific.
-     * 
-     * @return content-model-specific
-     * @throws ParserConfigurationException
-     *             Thrown if instance of DocumentBuiler failed to create.
-     */
-    private ContentModelSpecific getContentModelData()
-        throws ParserConfigurationException {
-
-        // Content-model-specific
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-
-        List<Element> cmsContent = new LinkedList<Element>();
-        cmsContent.add(contentModelSpecific);
-
-        ContentModelSpecific cms = new ContentModelSpecific();
-        cms.setContent(cmsContent);
-
-        return cms;
-    }
-
-    /**
      * Get md record with provided name.
      * 
      * @param name
@@ -684,7 +659,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
-        properties.setContentModelSpecific(getContentModelData());
+        properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
         // Md-Record
@@ -711,7 +686,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
     }
 
     /**
-     * Get content model specific.
+     * Prepare data for content model specific.
      * 
      * @return ContentModelSpecific with some content
      * @throws ParserConfigurationException
