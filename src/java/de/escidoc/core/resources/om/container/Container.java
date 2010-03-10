@@ -54,8 +54,6 @@ public class Container extends GenericVersionableResource {
 
     private Relations relations = null;
 
-    private Collection<ResourceRef> members = new LinkedList<ResourceRef>();
-
     /**
      * 
      */
@@ -132,38 +130,7 @@ public class Container extends GenericVersionableResource {
      */
     public Collection<ResourceRef> getMembers() {
 
-        return this.members;
-    }
-
-    /**
-     * Make Item to Container member.
-     * 
-     * @param resourceRef
-     *            The resourceRef of the resource which is to add as member to
-     *            the Container.
-     */
-    public void addMember(final ResourceRef resourceRef) {
-
-        this.members.add(resourceRef);
-    }
-
-    /**
-     * Remove a member.
-     * 
-     * @param resourceRef
-     *            The resourceRef of the member which is to remove.
-     */
-    public void removeMember(final ResourceRef resourceRef) {
-        Iterator<ResourceRef> memberIter = this.members.iterator();
-
-        while (memberIter.hasNext()) {
-            ResourceRef next = memberIter.next();
-            String nextObjid = next.getObjid();
-            String memberObjid = resourceRef.getObjid();
-            if (memberObjid.equals(nextObjid)) {
-                memberIter.remove();
-            }
-        }
+        return this.structMap.getMembers();
     }
 
     /**
