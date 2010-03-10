@@ -10,9 +10,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 import de.escidoc.core.client.RoleHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocException;
