@@ -1,13 +1,18 @@
 package de.escidoc.core.client.exceptions;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.apache.ws.security.WSSecurityException;
+import org.junit.Test;
 
 import de.escidoc.core.client.exceptions.application.invalid.ContextNotEmptyException;
 
-public class ExceptionMapperTest extends TestCase {
+public class ExceptionMapperTest {
 
+    @Test
     public void testMapInternalClientException() {
         InternalClientException ice = new InternalClientException();
         try {
@@ -25,6 +30,7 @@ public class ExceptionMapperTest extends TestCase {
         }
     }
 
+    @Test
     public void testMapEscidocException() {
         de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException cne =
             new de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException(
@@ -41,7 +47,6 @@ public class ExceptionMapperTest extends TestCase {
             assertEquals("123 error", e.getHttpStatusLine());
             assertEquals(123, e.getHttpStatusCode());
             assertSame(cause, e.getCause().getCause());
-            // e.printStackTrace();
         }
         catch (InternalClientException e) {
             fail("Threw wrong exception.");
@@ -51,6 +56,7 @@ public class ExceptionMapperTest extends TestCase {
         }
     }
 
+    @Test
     public void testMapEscidocException2() {
         de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException cne =
             null;
@@ -63,40 +69,15 @@ public class ExceptionMapperTest extends TestCase {
         }
         catch (InternalClientException e) {
             assertEquals(InternalClientException.class, e.getClass());
-            // e.printStackTrace();
         }
         catch (TransportException e) {
             fail("Threw wrong exception.");
         }
     }
 
-    // public void testMapEscidocException3() {
-    // BrandNewException bne = new BrandNewException();
-    // try {
-    // ExceptionMapper.map(bne);
-    // fail("expected exception");
-    // }
-    // catch (EscidocException e) {
-    // fail("Didn't expect this exception.");
-    // }
-    // catch (InternalClientException e) {
-    // assertEquals(InternalClientException.class, e.getClass());
-    // }
-    // catch (TransportException e) {
-    // fail("Threw wrong exception.");
-    // }
-    // }
-    //
-    // private class BrandNewException extends
-    // de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException
-    // {
-    // /**
-    // *
-    // */
-    // private static final long serialVersionUID = -1437297204047524784L;
-    // }
-
+    @Test
     public void testTransportException() {
+
         Exception cause = new IndexOutOfBoundsException("foo != bar");
         WSSecurityException wse = new WSSecurityException("foo message", cause);
         try {
@@ -114,10 +95,10 @@ public class ExceptionMapperTest extends TestCase {
             assertSame(wse, e.getCause());
             assertSame(cause, e.getCause().getCause());
             assertTrue(e.getCause().getMessage().startsWith("foo message"));
-            // e.printStackTrace();
         }
     }
 
+    @Test
     public void testOtherException() {
         Exception ex = new IndexOutOfBoundsException("foo != bar");
         try {
@@ -130,7 +111,6 @@ public class ExceptionMapperTest extends TestCase {
         catch (InternalClientException e) {
             assertEquals(InternalClientException.class, e.getClass());
             assertEquals(ex, e.getCause());
-            // e.printStackTrace();
         }
         catch (TransportException e) {
             fail("Threw wrong exception.");
