@@ -28,6 +28,10 @@
  */
 package de.escidoc.core.test.client.classMapping.om.container;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -37,8 +41,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -57,7 +59,7 @@ import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
 /**
  * Test add and delete members of Container.
@@ -65,7 +67,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class MemberTest extends TestCase {
+public class MemberTest {
 
     /**
      * Test to add an Item as member of a Container.
@@ -77,7 +79,7 @@ public class MemberTest extends TestCase {
     public void testAddMember01() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         // create Container
         Container container = createContainer(cc);
@@ -112,7 +114,7 @@ public class MemberTest extends TestCase {
     public void testAddMember02() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         // create Container
         Container container = createContainer(cc);
@@ -178,7 +180,7 @@ public class MemberTest extends TestCase {
     public void testDeleteMember02() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         // create Container
         Container container = createContainer(cc);
@@ -230,7 +232,7 @@ public class MemberTest extends TestCase {
         /*
          * Check remove of members
          */
-        
+
         // task oriented methods take values via task param
         TaskParam taskParam2 = new TaskParam();
         taskParam2.setLastModificationDate(updatedContainer
@@ -286,10 +288,9 @@ public class MemberTest extends TestCase {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(
-            EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(
-            EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         container.setProperties(properties);
 
         // Content-model-specific
@@ -321,9 +322,9 @@ public class MemberTest extends TestCase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model
         ContentModelSpecific cms = getContentModelSpecific();
@@ -337,7 +338,7 @@ public class MemberTest extends TestCase {
 
         // login
         ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        ihc.setHandle(Constants.DEFAULT_HANDLE);
 
         // create
         Item newItem = ihc.create(item);

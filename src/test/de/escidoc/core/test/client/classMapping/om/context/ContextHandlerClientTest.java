@@ -28,12 +28,14 @@
  */
 package de.escidoc.core.test.client.classMapping.om.context;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,6 +54,7 @@ import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextList;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -61,34 +64,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContextHandlerClientTest extends EscidocClientTestBase {
 
-    private final Logger logger =
-        Logger.getLogger(ContextHandlerClientTest.class.getName());
-
-    /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
-
     /**
      * Test if the right exception is thrown if a non existing Context is
      * retrieved.
@@ -96,19 +71,19 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if not the right exception is caught.
      */
+    @Test
     public void testRetrieveUnknown() throws Exception {
         try {
 
             ContextHandlerClient ic = new ContextHandlerClient();
-            ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
-            ic.retrieve(INVALID_RESOURCE_ID);
+            ic.setHandle(Constants.DEFAULT_HANDLE);
+            ic.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
         }
         catch (ContextNotFoundException e) {
-            logger.debug("Caught right exception ContextNotFoundException");
+            return;
         }
         catch (Exception e) {
-            logger.debug(e);
             fail("Wrong exception caught: " + e.getMessage());
         }
     }
@@ -119,10 +94,11 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if retrieve and/or marshalling failed.
      */
+    @Test
     public void testRetrieve01() throws Exception {
         try {
             ContextHandlerClient ic = new ContextHandlerClient();
-            ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+            ic.setHandle(Constants.DEFAULT_HANDLE);
             Context context = new Context();
             Properties properties = new Properties();
             properties.setDescription("ContextDescription");
@@ -155,11 +131,10 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             Context createdContext = ic.create(context);
             String objid = createdContext.getObjid();
             Context retrievedContext = ic.retrieve(objid);
-            logger.debug(Factory.getContextMarshaller().marshalDocument(
-                (Context) retrievedContext));
+
+            Factory.getContextMarshaller().marshalDocument(retrievedContext);
         }
         catch (Exception e) {
-            logger.debug(e);
             fail("Wrong exception caught: " + e.getMessage());
         }
     }
@@ -170,10 +145,11 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if retrieve and/or marshalling failed.
      */
+    @Test
     public void testRetrieveUpdate() throws Exception {
         try {
             ContextHandlerClient ic = new ContextHandlerClient();
-            ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+            ic.setHandle(Constants.DEFAULT_HANDLE);
             Context context = new Context();
             Properties properties = new Properties();
             properties.setDescription("ContextDescription");
@@ -207,11 +183,9 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             String objid = createdContext.getObjid();
             Context retrivedContext = ic.retrieve(objid);
             ic.update(retrivedContext);
-            logger.debug(Factory.getContextMarshaller().marshalDocument(
-                (Context) retrivedContext));
+            Factory.getContextMarshaller().marshalDocument(retrivedContext);
         }
         catch (Exception e) {
-            logger.debug(e);
             fail("Wrong exception caught: " + e.getMessage());
         }
     }
@@ -233,8 +207,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        logger.debug("Call retrieveContexts with filter "
-            + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
+        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
 
         ContextList contextList = cc.retrieveContexts(filterParam);
 
@@ -259,8 +232,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        logger.debug("Call retrieveMembers with filter "
-            + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
+
+        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
 
         MemberList memberList = cc.retrieveMembers("escidoc:ex1", filterParam);
         Marshaller<MemberList> m =

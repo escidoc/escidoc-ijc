@@ -28,14 +28,13 @@
  */
 package de.escidoc.core.test.client.classMapping.om.container;
 
+import static org.junit.Assert.fail;
+
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.TestCase;
-
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -53,16 +52,9 @@ import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.container.ContainerProperties;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
-public class ContainerHandlerClientTest extends TestCase {
-
-    private final Logger logger =
-        Logger.getLogger(ContainerHandlerClientTest.class.getName());
-
-    public ContainerHandlerClientTest() {
-        super("ContainerHandlerClientTest");
-    }
+public class ContainerHandlerClientTest {
 
     /**
      * Test retrieving existing Container.
@@ -70,19 +62,18 @@ public class ContainerHandlerClientTest extends TestCase {
      * @throws Exception
      *             Thrown if retrieving or unmarshalling failed.
      */
+    @Test
     public void testRetrieve() throws Exception {
         try {
             ContainerHandlerClient cc = new ContainerHandlerClient();
-            cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+            cc.setHandle(Constants.DEFAULT_HANDLE);
 
             Container containerNew = new Container();
             ContainerProperties properties = new ContainerProperties();
             properties
-                .setContext(new ResourceRef(
-                    de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
-            properties
-                .setContentModel(new ResourceRef(
-                    de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
+                .setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+            properties.setContentModel(new ResourceRef(
+                Constants.EXAMPLE_CONTENT_MODEL_ID));
             containerNew.setProperties(properties);
             MetadataRecords mdRecords = new MetadataRecords();
             MetadataRecord mdRecord = new MetadataRecord();
@@ -99,8 +90,8 @@ public class ContainerHandlerClientTest extends TestCase {
             Container createdContainer = cc.create(containerNew);
             String objid = createdContainer.getObjid();
             Container container = cc.retrieve(objid);
-            logger.debug(Factory.getContainerMarshaller().marshalDocument(
-                (Container) container));
+
+            Factory.getContainerMarshaller().marshalDocument(container);
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
@@ -109,6 +100,11 @@ public class ContainerHandlerClientTest extends TestCase {
         }
     }
 
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
     public void testRetrieveUnknown() throws Exception {
         try {
 
@@ -117,7 +113,7 @@ public class ContainerHandlerClientTest extends TestCase {
             fail("Missing Exception");
         }
         catch (ContainerNotFoundException e) {
-            logger.debug("Caught right ContainerNotFoundException");
+            return;
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
@@ -141,8 +137,9 @@ public class ContainerHandlerClientTest extends TestCase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        logger.debug("Call retrieveContainers with filter "
-            + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
+
+        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
         ContainerList containerList = cc.retrieveContainers(filterParam);
         Marshaller<ContainerList> m =
@@ -165,12 +162,9 @@ public class ContainerHandlerClientTest extends TestCase {
 
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties
-            .setContext(new ResourceRef(
-                de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
-        properties
-            .setContentModel(new ResourceRef(
-                de.escidoc.core.test.client.EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -186,8 +180,7 @@ public class ContainerHandlerClientTest extends TestCase {
         Container createdContainer = cc.create(containerNew);
         String objid = createdContainer.getObjid();
         Container container = cc.retrieve(objid);
-        logger.debug(Factory.getContainerMarshaller().marshalDocument(
-            (Container) container));
+        Factory.getContainerMarshaller().marshalDocument(container);
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
@@ -196,8 +189,7 @@ public class ContainerHandlerClientTest extends TestCase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        logger.debug("Call retrieveMamber with filter "
-            + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
+        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
 
         MemberList memberList = cc.retrieveMembers(objid, filterParam);
         Marshaller<MemberList> m =
@@ -213,7 +205,7 @@ public class ContainerHandlerClientTest extends TestCase {
      * @param name
      * @param value
      * @param ids
-     * @return
+     * @return Filter
      */
     private Filter getFilter(
         final String name, final String value, Collection<String> ids) {

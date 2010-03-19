@@ -28,6 +28,10 @@
  */
 package de.escidoc.core.test.client.classMapping.om.item;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +39,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -50,10 +53,10 @@ import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
-import de.escidoc.core.resources.common.versionhistory.Version;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -62,10 +65,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemHandlerClientTest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(ItemHandlerClientTest.class.getName());
+public class ItemHandlerClientTest {
 
     /**
      * Test retrieving settings from properties.
@@ -73,13 +73,10 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
      * @throws InternalClientException
      *             Thrown if ConfigurationProvider failed.
      */
+    @Test
     public void testProperties() throws InternalClientException {
 
         ConfigurationProvider cp = ConfigurationProvider.getInstance();
-        logger.debug("Server name: "
-            + cp.getProperty(ConfigurationProvider.PROP_SERVER_NAME));
-        logger.debug("Server port: "
-            + cp.getProperty(ConfigurationProvider.PROP_SERVER_PORT));
     }
 
     /**
@@ -92,8 +89,8 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieve01() throws Exception {
 
         ItemHandlerClient ic = new ItemHandlerClient();
-        ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
-        Item item = ic.retrieve(EXAMPLE_ITEM_ID);
+        ic.setHandle(Constants.DEFAULT_HANDLE);
+        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
         Factory.getItemMarshaller().marshalDocument(item);
     }
 
@@ -107,10 +104,9 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieve02() throws Exception {
         try {
             ItemHandlerClient ic = new ItemHandlerClient();
-            ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
-            Item item = ic.retrieve(INVALID_RESOURCE_ID);
-            logger.debug(Factory.getItemMarshaller().marshalDocument(
-                (Item) item));
+            ic.setHandle(Constants.DEFAULT_HANDLE);
+            Item item = ic.retrieve(Constants.INVALID_RESOURCE_ID);
+
             fail("Missing Exception retrieving an non existing Item.");
         }
         catch (Exception e) {
@@ -139,7 +135,7 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
         Collection<String> ids = new LinkedList<String>();
         ids.add("escidoc:7043");
         ids.add("escidoc:7044");
-        ids.add(EXAMPLE_ITEM_ID);
+        ids.add(Constants.EXAMPLE_ITEM_ID);
         filters.add(getFilter("http://purl.org/dc/elements/1.1/identifier",
             null, ids));
         filters.add(getFilter(
@@ -149,8 +145,6 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         tp.setFilters(filters);
-        logger.debug(Factory.getTaskParamMarshaller().marshalDocument(tp));
-
     }
 
     /**
@@ -168,12 +162,13 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        logger.debug("Call retrieveItems with filter "
-            + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
+
         ItemHandlerClient ic = new ItemHandlerClient();
         ItemList itemList = ic.retrieveItems(filterParam);
 
         // FIXME check itemList
+        assertNotSame("Wrong number of elements in list", 0, itemList
+            .getItems().size());
     }
 
     /**
@@ -187,7 +182,7 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
 
         ItemHandlerClient ihc = new ItemHandlerClient();
         ihc.setServiceAddress("http://localhost:8080");
-        Item item = ihc.retrieve(EXAMPLE_ITEM_ID);
+        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
         Item resultItem = ihc.create(item);
 
@@ -212,31 +207,26 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieveVersionHistory() throws Exception {
 
         ItemHandlerClient ic = new ItemHandlerClient();
-        Item item = ic.retrieve(EXAMPLE_ITEM_ID);
+        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
 
         Item result = ic.create(item);
         VersionHistory vh1 =
             ic.retrieveVersionHistory(((Item) result).getObjid());
-        logger.debug(vh1.getLastModificationDate() + " " + vh1.getObjid());
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(
-            null,
-            "props");
+        Element contentModelSpecific = doc.createElementNS(null, "props");
         contentModelSpecific.setTextContent("3. 2. 1. ");
-        Element element1= doc.createElement("some-other-stuff1");
+        Element element1 = doc.createElement("some-other-stuff1");
         element1.setTextContent("33333333333333333333");
-        
-        
-        
+
         List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
         cmsContent.add(element1);
         ContentModelSpecific cms = new ContentModelSpecific();
-        
+
         cms.setContent(cmsContent);
-        
 
         result.getProperties().setContentModelSpecific(cms);
 
@@ -244,15 +234,6 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
 
         VersionHistory vh2 =
             ic.retrieveVersionHistory(((Item) result).getObjid());
-
-        logger.debug(vh2.getLastModificationDate());
-        for (Version version : vh2.getVersions()) {
-            logger.debug("=========================");
-            logger.debug(version.getHref());
-            logger.debug(version.getObjid());
-            logger.debug(version.getTimestamp());
-            logger.debug(version.getComment());
-        }
 
     }
 
@@ -266,12 +247,9 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
     public void testItemLifecycle() throws Exception {
 
         ItemHandlerClient ic = new ItemHandlerClient();
-        Item item = ic.retrieve(EXAMPLE_ITEM_ID);
+        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
 
         Item resultItem = ic.create(item);
-        logger.debug("Created Item with id '" + resultItem.getObjid()
-            + "' and status '" + resultItem.getProperties().getPublicStatus()
-            + "'.");
         TaskParam tp = new TaskParam();
         tp.setLastModificationDate(resultItem.getLastModificationDate());
 
@@ -279,9 +257,6 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
         tp.setComment("Item '" + resultItem.getObjid() + " will be submitted.");
         ic.submit(resultItem.getObjid(), tp);
         resultItem = ic.retrieve(resultItem.getObjid());
-        logger.debug("Submitted Item with id '" + resultItem.getObjid()
-            + "', status '" + resultItem.getProperties().getPublicStatus()
-            + "'.");
 
         // assign object pid
         tp.setLastModificationDate(resultItem.getLastModificationDate());
@@ -290,7 +265,7 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
         Result pidResult = ic.assignObjectPid(resultItem.getObjid(), tp);
         assertNotNull("AssignObjectPid returns null", pidResult);
         assertNotNull("PID is missing", pidResult.getPidParam());
-        
+
         // retrieve
         resultItem = ic.retrieve(resultItem.getObjid());
 
@@ -306,9 +281,6 @@ public class ItemHandlerClientTest extends EscidocClientTestBase {
         tp.setComment("Item '" + resultItem.getObjid() + " will be released.");
         ic.release(resultItem.getObjid(), tp);
         resultItem = ic.retrieve(resultItem.getObjid());
-        logger.debug("Released Item with id '" + resultItem.getObjid()
-            + "', status '" + resultItem.getProperties().getPublicStatus()
-            + "'.");
 
     }
 

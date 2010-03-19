@@ -1,9 +1,9 @@
 package de.escidoc.core.test.client.classMapping.om.context;
 
+import static org.junit.Assert.fail;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -17,6 +17,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -25,14 +26,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ContextCreateTest extends TestCase {
-	
-    /**
-     * 
-     */
-    public ContextCreateTest() {
-        super("ContextCreateTest");
-    }
+public class ContextCreateTest {
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -45,7 +39,7 @@ public class ContextCreateTest extends TestCase {
     public void testCreateContext01() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Context context = new Context();
         try {
@@ -70,7 +64,7 @@ public class ContextCreateTest extends TestCase {
     public void testCreateContext02() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -98,7 +92,7 @@ public class ContextCreateTest extends TestCase {
     public void testCreateContext03() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -128,7 +122,7 @@ public class ContextCreateTest extends TestCase {
     public void testCreateContext04() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -139,10 +133,7 @@ public class ContextCreateTest extends TestCase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element element = doc.createElementNS(
-            null,
-            "adminDescriptor");
-        
+        Element element = doc.createElementNS(null, "adminDescriptor");
 
         adminDescriptor.setContent(element);
 
@@ -171,7 +162,7 @@ public class ContextCreateTest extends TestCase {
     public void testCreateContext08() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -194,7 +185,6 @@ public class ContextCreateTest extends TestCase {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
         Element element = doc.createElement("admin-descriptor");
-       
 
         adminDescriptor.setContent(element);
 

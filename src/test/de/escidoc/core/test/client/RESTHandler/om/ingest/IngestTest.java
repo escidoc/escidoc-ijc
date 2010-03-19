@@ -28,14 +28,13 @@
  */
 package de.escidoc.core.test.client.RESTHandler.om.ingest;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
 /**
  * Test ingest REST interface.
@@ -43,9 +42,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class IngestTest extends EscidocClientTestBase {
-
-    private final Logger logger = Logger.getLogger(IngestTest.class.getName());
+public class IngestTest {
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -59,13 +56,13 @@ public class IngestTest extends EscidocClientTestBase {
 
         // organize Item
         ItemHandlerClient ic = new ItemHandlerClient();
-        ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
-        Item item = ic.retrieve(EXAMPLE_ITEM_ID);
+        ic.setHandle(Constants.DEFAULT_HANDLE);
+        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
         String itemXml = Factory.getItemMarshaller().marshalDocument(item);
 
         // ingest Item
         RestIngestHandlerClient cc = new RestIngestHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
         cc.ingest(itemXml);
     }
 

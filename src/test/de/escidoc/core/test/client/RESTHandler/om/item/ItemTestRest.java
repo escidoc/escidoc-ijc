@@ -28,8 +28,10 @@
  */
 package de.escidoc.core.test.client.RESTHandler.om.item;
 
+import org.junit.Test;
+
 import de.escidoc.core.client.rest.RestItemHandlerClient;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
 /**
  * Test create Item.
@@ -37,7 +39,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemTestRest extends EscidocClientTestBase {
+public class ItemTestRest {
 
     /**
      * Test if retrieve Item via REST is successful.
@@ -45,12 +47,13 @@ public class ItemTestRest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
+    @Test
     public void testRetrieveItem01() throws Exception {
 
         RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
-        cc.retrieve(EXAMPLE_ITEM_ID);
+        cc.retrieve(Constants.EXAMPLE_ITEM_ID);
     }
 
     /**
@@ -59,13 +62,14 @@ public class ItemTestRest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
+    @Test
     public void testCreateItem01() throws Exception {
 
         RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         // retrieve a valid Item
-        String item = cc.retrieve(EXAMPLE_ITEM_ID);
+        String item = cc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
         // create a new Item (on basis of the valid)
         cc.create(item);

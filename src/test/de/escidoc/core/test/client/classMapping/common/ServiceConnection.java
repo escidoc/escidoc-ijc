@@ -1,12 +1,13 @@
 package de.escidoc.core.test.client.classMapping.common;
 
+import static org.junit.Assert.assertNotNull;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
 /**
  * Test the Service Connection.
@@ -14,7 +15,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ServiceConnection extends EscidocClientTestBase {
+public class ServiceConnection {
 
     private static final String ITEM_SERVICE =
         "http://escidev2:8080/axis/services/ItemHandlerService";
@@ -42,7 +43,7 @@ public class ServiceConnection extends EscidocClientTestBase {
 
         ItemHandlerClient cc = new ItemHandlerClient();
         cc.setServiceAddress(ITEM_SERVICE);
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = cc.retrieve(ITEM_ID);
         String lmd = item.getLastModificationDateAsString();
@@ -61,7 +62,7 @@ public class ServiceConnection extends EscidocClientTestBase {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
         cc.setServiceAddress(CONTAINER_SERVICE);
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = cc.retrieve(CONTAINER_ID);
         String lmd = container.getLastModificationDateAsString();
@@ -80,7 +81,7 @@ public class ServiceConnection extends EscidocClientTestBase {
 
         ContextHandlerClient cc = new ContextHandlerClient();
         cc.setServiceAddress(CONTEXT_SERVICE);
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Context context = cc.retrieve(CONTEXT_ID);
         String lmd = context.getLastModificationDateAsString();

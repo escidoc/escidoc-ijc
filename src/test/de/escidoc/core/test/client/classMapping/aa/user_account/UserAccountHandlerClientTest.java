@@ -1,22 +1,31 @@
 package de.escidoc.core.test.client.classMapping.aa.user_account;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
 import org.joda.time.DateTime;
+import org.junit.Test;
 
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.PropertiesUserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
-public class UserAccountHandlerClientTest extends EscidocClientTestBase {
+/**
+ * Test client lib user account handler.
+ * 
+ * @author ROF
+ * 
+ */
+public class UserAccountHandlerClientTest {
 
     /**
      * Test to create and retrieve user account.
@@ -24,17 +33,16 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if anythings failed.
      */
+    @Test
     public void testCreateAndRetrieveSuccessfulUserAccount() throws Exception {
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        uac.setHandle(Constants.DEFAULT_HANDLE);
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
         String objId = createdUa.getObjid();
 
-        String xml =
-            Factory.getUserAccountMarshaller().marshalDocument(
-                (UserAccount) uac.retrieve(objId));
+        Factory.getUserAccountMarshaller().marshalDocument(uac.retrieve(objId));
     }
 
     /**
@@ -43,10 +51,11 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if anythings failed.
      */
+    @Test
     public void testUpdateUserAccount() throws Exception {
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        uac.setHandle(Constants.DEFAULT_HANDLE);
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
         PropertiesUserAccount properties = createdUa.getProperties();
@@ -64,16 +73,17 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
 
         assertEquals(newLoginName, updatedLoginName);
 
-        String xml =
-            Factory.getUserAccountMarshaller().marshalDocument(
-                (UserAccount) updatedUserAccont);
-        System.out.println(" created ua " + xml);
-
+        Factory.getUserAccountMarshaller().marshalDocument(updatedUserAccont);
     }
 
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
     public void testDeactivate_Activate() throws Exception {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        uac.setHandle(Constants.DEFAULT_HANDLE);
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
         DateTime lastModificationDate = createdUa.getLastModificationDate();
@@ -103,6 +113,7 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
      * 
      * @throws Exception
      */
+    @Test
     public void testRetrieveUserAccounts() throws Exception {
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
@@ -111,20 +122,12 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        try {
-            UserAccountHandlerClient uac = new UserAccountHandlerClient();
-            uac.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
-            UserAccounts userAccountList =
-                uac.retrieveUserAccounts(filterParam);
-            String xml =
-                Factory.getUserAccountListMarshaller().marshalDocument(
-                    userAccountList);
-        }
-        catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            throw e;
-        }
+
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setHandle(Constants.DEFAULT_HANDLE);
+        UserAccounts userAccountList = uac.retrieveUserAccounts(filterParam);
+
+        Factory.getUserAccountListMarshaller().marshalDocument(userAccountList);
     }
 
     /**
@@ -136,22 +139,21 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
     public void testretrieveGrants() throws Exception {
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        uac.setHandle(Constants.DEFAULT_HANDLE);
         UserAccount ua = createUserAccount();
 
         UserAccount createdUa = uac.create(ua);
         String objId = createdUa.getObjid();
 
-        String xml =
-            Factory.getGrantsMarshaller().marshalDocument(
-                (Grants) uac.retrieveCurrentGrants(objId));
-        System.out.println(" grants " + xml);
+        Factory.getGrantsMarshaller().marshalDocument(
+            uac.retrieveCurrentGrants(objId));
 
     }
 
+    @Test
     public void testupdatePassword() throws Exception {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        uac.setHandle(Constants.DEFAULT_HANDLE);
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
         String objId = createdUa.getObjid();
@@ -164,6 +166,7 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
         // TODO: check login with a new password
     }
 
+    @Test
     public UserAccount createUserAccount() {
         UserAccount ua = new UserAccount();
         PropertiesUserAccount properties = new PropertiesUserAccount();
@@ -191,7 +194,7 @@ public class UserAccountHandlerClientTest extends EscidocClientTestBase {
      * @param name
      * @param value
      * @param ids
-     * @return
+     * @return Filter
      */
     private Filter getFilter(
         final String name, final String value, Collection<String> ids) {

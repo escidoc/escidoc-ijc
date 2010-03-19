@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.test.client.classMapping.oum;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.StringWriter;
 
 import javax.xml.transform.Result;
@@ -45,7 +47,7 @@ import org.w3c.dom.Node;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
 /**
  * Test retrieving OrganizationalUnit.
@@ -53,7 +55,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class OuRetrieveTest extends EscidocClientTestBase {
+public class OuRetrieveTest {
 
     /**
      * Test retrieving one OU of the example set.
@@ -66,7 +68,7 @@ public class OuRetrieveTest extends EscidocClientTestBase {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit ou = cc.retrieve("escidoc:ex3");
 
@@ -75,7 +77,7 @@ public class OuRetrieveTest extends EscidocClientTestBase {
         System.out.println(xmlToString(mdRecord.getContent()));
     }
 
-    public static String xmlToString(Node node) {
+    private static String xmlToString(Node node) {
         try {
             Source source = new DOMSource(node);
             StringWriter stringWriter = new StringWriter();

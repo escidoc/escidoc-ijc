@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.test.client.classMapping.oum;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -59,7 +62,9 @@ import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.Predecessor;
 import de.escidoc.core.resources.oum.Predecessors;
 import de.escidoc.core.resources.oum.Properties;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Asserts;
 
 /**
  * Test create OrganizationalUnit.
@@ -67,7 +72,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class OuCreateTest extends EscidocClientTestBase {
+public class OuCreateTest {
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -83,7 +88,7 @@ public class OuCreateTest extends EscidocClientTestBase {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         try {
@@ -112,7 +117,7 @@ public class OuCreateTest extends EscidocClientTestBase {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         MetadataRecords mdRecords = new MetadataRecords();
@@ -153,7 +158,7 @@ public class OuCreateTest extends EscidocClientTestBase {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -197,7 +202,7 @@ public class OuCreateTest extends EscidocClientTestBase {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -267,7 +272,7 @@ public class OuCreateTest extends EscidocClientTestBase {
         // create OU
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
 
@@ -337,7 +342,7 @@ public class OuCreateTest extends EscidocClientTestBase {
         // create OU
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
     }
@@ -382,37 +387,17 @@ public class OuCreateTest extends EscidocClientTestBase {
         // create parent OU
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit parentOU = cc.create(organizationalUnit);
-
 
         // create child OU
         Parents parents = new Parents();
         parents.addParentRef(new ResourceRef(parentOU.getObjid()));
         organizationalUnit.setParents(parents);
-    
-        OrganizationalUnit childOU = cc.create(organizationalUnit);
-    
-    }
 
-    public static String xmlToString(Node node) {
-        try {
-            Source source = new DOMSource(node);
-            StringWriter stringWriter = new StringWriter();
-            Result result = new StreamResult(stringWriter);
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer();
-            transformer.transform(source, result);
-            return stringWriter.getBuffer().toString();
-        }
-        catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        }
-        catch (TransformerException e) {
-            e.printStackTrace();
-        }
-        return null;
+        OrganizationalUnit childOU = cc.create(organizationalUnit);
+
     }
 
     /**
@@ -426,7 +411,7 @@ public class OuCreateTest extends EscidocClientTestBase {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         // OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
@@ -476,7 +461,7 @@ public class OuCreateTest extends EscidocClientTestBase {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -530,7 +515,7 @@ public class OuCreateTest extends EscidocClientTestBase {
         String objId = createdOrganizationalUnit.getObjid();
         assertNotNull("Object id is null", objId);
 
-        assertMdRecords(organizationalUnit.getMetadataRecords(),
+        Asserts.assertMdRecords(organizationalUnit.getMetadataRecords(),
             createdOrganizationalUnit.getMetadataRecords());
 
         // now delete some metadataRecords
@@ -540,8 +525,27 @@ public class OuCreateTest extends EscidocClientTestBase {
 
         assertNotNull("Object id is null", objId);
 
-        assertMdRecords(createdOrganizationalUnit.getMetadataRecords(),
+        Asserts.assertMdRecords(createdOrganizationalUnit.getMetadataRecords(),
             updatedOrganizationalUnit1.getMetadataRecords());
+    }
+
+    private static String xmlToString(Node node) {
+        try {
+            Source source = new DOMSource(node);
+            StringWriter stringWriter = new StringWriter();
+            Result result = new StreamResult(stringWriter);
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer transformer = factory.newTransformer();
+            transformer.transform(source, result);
+            return stringWriter.getBuffer().toString();
+        }
+        catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        }
+        catch (TransformerException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -28,8 +28,10 @@
  */
 package de.escidoc.core.test.client.RESTHandler.om.container;
 
+import org.junit.Test;
+
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
 /**
  * Test methods for Container on REST interface of client lib.
@@ -37,36 +39,38 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ContainerTestRest extends EscidocClientTestBase {
+public class ContainerTestRest {
 
     /**
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
+    @Test
     public void testRetrieveContainer01() throws Exception {
 
         RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
-        String container = cc.retrieve(EXAMPLE_CONTAINER_ID);
+        String container = cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
         System.out.println(container);
     }
 
     /**
      * Test successful creating a Container.
-     *  
+     * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
+    @Test
     public void testCreateContainer01() throws Exception {
 
         RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         // get a valid container
-        String container = cc.retrieve(EXAMPLE_CONTAINER_ID);
-        
+        String container = cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
+
         // create a new one (on basis of the retrieved)
         cc.create(container);
     }

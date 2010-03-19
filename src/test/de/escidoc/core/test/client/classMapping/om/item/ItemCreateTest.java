@@ -28,6 +28,10 @@
  */
 package de.escidoc.core.test.client.classMapping.om.item;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,7 +39,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -60,6 +63,7 @@ import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -68,10 +72,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemCreateTest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(ItemCreateTest.class.getName());
+public class ItemCreateTest {
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -84,7 +85,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem01() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         try {
@@ -112,7 +113,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem02() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         item.setTitle("New title for test");
@@ -138,7 +139,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem03() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -165,7 +166,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem04() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -192,11 +193,11 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem05() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         item.setProperties(properties);
         try {
             cc.create(item);
@@ -222,11 +223,11 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem06() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -257,11 +258,11 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem07() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -293,11 +294,11 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItem08() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -346,15 +347,14 @@ public class ItemCreateTest extends EscidocClientTestBase {
 
         ItemHandlerClient ihc = new ItemHandlerClient();
         ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            EscidocClientTestBase.SYSTEM_ADMIN_USER,
-            EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model
         ContentModelSpecific cms = getContentModelSpecific();
@@ -392,15 +392,14 @@ public class ItemCreateTest extends EscidocClientTestBase {
 
         ItemHandlerClient ihc = new ItemHandlerClient();
         ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            EscidocClientTestBase.SYSTEM_ADMIN_USER,
-            EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTEXT_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(EscidocClientTestBase.EXAMPLE_CONTENT_MODEL_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model
         ContentModelSpecific cms = getContentModelSpecific();
@@ -443,12 +442,13 @@ public class ItemCreateTest extends EscidocClientTestBase {
     public void testCreateItemWithOneComponent() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -490,13 +490,12 @@ public class ItemCreateTest extends EscidocClientTestBase {
         content.setStorage("internal-managed");
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);
+
         Marshaller<Item> m = new Marshaller<Item>(item.getClass());
-        String xml = m.marshalDocument(item);
-        logger.debug("ITem to create:\n" + xml);
+        m.marshalDocument(item);
 
         Item createdItem = cc.create(item);
-        String createdItemXml = m.marshalDocument(createdItem);
-        logger.debug("created item\n" + createdItemXml);
+        m.marshalDocument(createdItem);
     }
 
     /**
@@ -510,15 +509,15 @@ public class ItemCreateTest extends EscidocClientTestBase {
 
         ItemHandlerClient cc = new ItemHandlerClient();
         cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            EscidocClientTestBase.SYSTEM_ADMIN_USER,
-            EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
@@ -544,14 +543,12 @@ public class ItemCreateTest extends EscidocClientTestBase {
 
         // only for debug
         Marshaller<Item> m = new Marshaller<Item>(item.getClass());
-        String xml = m.marshalDocument(item);
-        logger.debug("ITem to create:\n" + xml);
+        m.marshalDocument(item);
 
         Item createdItem = cc.create(item);
 
         // only for debug
-        String createdItemXml = m.marshalDocument(createdItem);
-        logger.debug("created item\n" + createdItemXml);
+        m.marshalDocument(createdItem);
     }
 
     /**
@@ -567,8 +564,7 @@ public class ItemCreateTest extends EscidocClientTestBase {
 
         ItemHandlerClient ihc = new ItemHandlerClient();
         ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            EscidocClientTestBase.SYSTEM_ADMIN_USER,
-            EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         System.out.println(item.getObjid());
 
@@ -650,15 +646,15 @@ public class ItemCreateTest extends EscidocClientTestBase {
 
         ItemHandlerClient cc = new ItemHandlerClient();
         cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            EscidocClientTestBase.SYSTEM_ADMIN_USER,
-            EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 

@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.test.client.classMapping.om.item;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,7 +48,8 @@ import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.util.Asserts;
 
 /**
  * Test update Item.
@@ -53,7 +57,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemUpdateTest extends EscidocClientTestBase {
+public class ItemUpdateTest {
 
     /**
      * Test update Item by adding one more MetadataRecord.
@@ -67,17 +71,16 @@ public class ItemUpdateTest extends EscidocClientTestBase {
         Item item = createItem();
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         MetadataRecord mdRecord2 = new MetadataRecord();
         mdRecord2.setName("md-record2");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element element = doc.createElementNS(
-            null, "myMdRecord");
+        Element element = doc.createElementNS(null, "myMdRecord");
         element.setTextContent("2222222222");
-        
+
         mdRecord2.setContent(element);
 
         item.getMetadataRecords().add(mdRecord2);
@@ -96,7 +99,7 @@ public class ItemUpdateTest extends EscidocClientTestBase {
         assertEquals(updatedItem.getProperties().getCreatedBy().getObjid(),
             updatedItem.getProperties().getVersion().getModifiedBy().getObjid());
 
-        assertMdRecords(item.getMetadataRecords(), updatedItem
+        Asserts.assertMdRecords(item.getMetadataRecords(), updatedItem
             .getMetadataRecords());
 
     }
@@ -110,7 +113,7 @@ public class ItemUpdateTest extends EscidocClientTestBase {
     private Item createItem() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -119,19 +122,17 @@ public class ItemUpdateTest extends EscidocClientTestBase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(
-            null,
-            "cms");
-        Element element1= doc.createElement("some-other-stuff1");
+        Element contentModelSpecific = doc.createElementNS(null, "cms");
+        Element element1 = doc.createElement("some-other-stuff1");
         element1.setTextContent("33333333333333333333");
-       
+
         List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
         cmsContent.add(element1);
         ContentModelSpecific cms = new ContentModelSpecific();
-        
+
         cms.setContent(cmsContent);
-        
+
         properties.setContentModelSpecific(cms);
         item.setProperties(properties);
 
@@ -139,9 +140,8 @@ public class ItemUpdateTest extends EscidocClientTestBase {
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
         Document doc1 = builder.newDocument();
-        Element element = doc.createElementNS(
-            null, "myMdRecord");
-        
+        Element element = doc.createElementNS(null, "myMdRecord");
+
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);

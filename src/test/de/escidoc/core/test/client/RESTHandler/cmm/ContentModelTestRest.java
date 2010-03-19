@@ -30,9 +30,8 @@ package de.escidoc.core.test.client.RESTHandler.cmm;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
-
 import de.escidoc.core.client.rest.RestContentModelHandlerClient;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -41,10 +40,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ContentModelTestRest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(ContentModelTestRest.class.getName());
+public class ContentModelTestRest {
 
     /**
      * 
@@ -55,17 +51,17 @@ public class ContentModelTestRest extends EscidocClientTestBase {
 
         RestContentModelHandlerClient rcmhc =
             new RestContentModelHandlerClient();
-        rcmhc.login(DEFAULT_SERVICE_URL, SYSTEM_ADMIN_USER,
-            SYSTEM_ADMIN_PASSWORD);
+        rcmhc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // load XML template of organizational unit
         File templOu =
             new File("./templates/rest/content-model/0.2/content-model.xml");
-        String ouXml = getXmlFileAsString(templOu);
+        String ouXml = EscidocClientTestBase.getXmlFileAsString(templOu);
 
         // create
         String crtdOuXML = rcmhc.create(ouXml);
-        String[] objidLmd = obtainObjidAndLmd(crtdOuXML);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(crtdOuXML);
 
         System.out.println("Content Model with objid='" + objidLmd[0]
             + "' at '" + objidLmd[1] + "' created");

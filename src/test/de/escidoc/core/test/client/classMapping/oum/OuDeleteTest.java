@@ -45,7 +45,7 @@ import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.Properties;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
 /**
  * Test deletion of OrganizationalUnit.
@@ -53,7 +53,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class OuDeleteTest extends EscidocClientTestBase {
+public class OuDeleteTest {
 
     /**
      * Test delete of Organizational Unit.
@@ -67,7 +67,7 @@ public class OuDeleteTest extends EscidocClientTestBase {
         // create OU
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         OrganizationalUnit createdOU = cc.create(createOu());
 

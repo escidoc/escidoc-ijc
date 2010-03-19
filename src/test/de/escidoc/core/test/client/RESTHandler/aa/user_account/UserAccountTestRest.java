@@ -2,9 +2,10 @@ package de.escidoc.core.test.client.RESTHandler.aa.user_account;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+import org.junit.Test;
 
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -13,10 +14,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class UserAccountTestRest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(UserAccountTestRest.class.getName());
+public class UserAccountTestRest {
 
     /**
      * Test to create and retrieve user account.
@@ -24,16 +22,17 @@ public class UserAccountTestRest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if anythings failed.
      */
+    @Test
     public void testCreateAndRetrieveSuccessfulUserAccount() throws Exception {
 
         RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
-        uahc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        uahc.setHandle(Constants.DEFAULT_HANDLE);
 
         // load XML template of organizational unit
         File templ =
             new File("./templates/rest/aa/user_account/"
                 + "escidoc_useraccount_for_create.xml");
-        String resourceXml = getXmlFileAsString(templ);
+        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
 
         String cAccountXml = uahc.create(resourceXml);
     }

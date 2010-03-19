@@ -28,9 +28,11 @@
  */
 package de.escidoc.core.test.client.classMapping.oum;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
@@ -40,17 +42,14 @@ import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.Constants;
 
 /**
  * 
  * @author SWA
  * 
  */
-public class OrganizationalUnitHandlerClientTest extends EscidocClientTestBase {
-
-    private final Logger logger =
-        Logger.getLogger(OrganizationalUnitHandlerClientTest.class.getName());
+public class OrganizationalUnitHandlerClientTest {
 
     /**
      * Test if the right exception is thrown if a non existing OrganizationUnit
@@ -65,16 +64,14 @@ public class OrganizationalUnitHandlerClientTest extends EscidocClientTestBase {
 
             OrganizationalUnitHandlerClient ic =
                 new OrganizationalUnitHandlerClient();
-            ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
-            ic.retrieve(INVALID_RESOURCE_ID);
+            ic.setHandle(Constants.DEFAULT_HANDLE);
+            ic.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
         }
         catch (OrganizationalUnitNotFoundException e) {
-            logger
-                .debug("Caught right exception OrganizationUnitNotFoundException");
+            return;
         }
         catch (Exception e) {
-            logger.debug(e);
             fail("Wrong exception caught: " + e.getMessage());
         }
     }
@@ -87,20 +84,14 @@ public class OrganizationalUnitHandlerClientTest extends EscidocClientTestBase {
      */
     @Test
     public void testRetrieve01() throws Exception {
-        try {
-            OrganizationalUnitHandlerClient ic =
-                new OrganizationalUnitHandlerClient();
-            ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
-            OrganizationalUnit organizationUnit =
-                ic.retrieve(EXAMPLE_ORGANIZATIONAL_UNIT_ID);
-            logger.debug(Factory
-                .getOrganizationalUnitMarshaller().marshalDocument(
-                    (OrganizationalUnit) organizationUnit));
-        }
-        catch (Exception e) {
-            logger.debug(e);
-            fail("Wrong exception caught: " + e.getMessage());
-        }
+        OrganizationalUnitHandlerClient ic =
+            new OrganizationalUnitHandlerClient();
+        ic.setHandle(Constants.DEFAULT_HANDLE);
+        OrganizationalUnit organizationUnit =
+            ic.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+
+        Factory.getOrganizationalUnitMarshaller().marshalDocument(
+            organizationUnit);
     }
 
     /**
@@ -111,21 +102,14 @@ public class OrganizationalUnitHandlerClientTest extends EscidocClientTestBase {
      */
     @Test
     public void testRetrieveUpdate() throws Exception {
-        try {
-            OrganizationalUnitHandlerClient ic =
-                new OrganizationalUnitHandlerClient();
-            ic.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
-            OrganizationalUnit organizationUnit =
-                ic.retrieve(EXAMPLE_ORGANIZATIONAL_UNIT_ID);
-            ic.update(organizationUnit);
-            logger.debug(Factory
-                .getOrganizationalUnitMarshaller().marshalDocument(
-                    (OrganizationalUnit) organizationUnit));
-        }
-        catch (Exception e) {
-            logger.debug(e);
-            fail("Wrong exception caught: " + e.getMessage());
-        }
+        OrganizationalUnitHandlerClient ic =
+            new OrganizationalUnitHandlerClient();
+        ic.setHandle(Constants.DEFAULT_HANDLE);
+        OrganizationalUnit organizationUnit =
+            ic.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+        ic.update(organizationUnit);
+        Factory.getOrganizationalUnitMarshaller().marshalDocument(
+            organizationUnit);
     }
 
     /**
@@ -139,9 +123,9 @@ public class OrganizationalUnitHandlerClientTest extends EscidocClientTestBase {
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
 
-        logger.debug(ic
-            .retrieveChildObjects(EXAMPLE_ORGANIZATIONAL_UNIT_ID)
-            .getOrganizationalUnits());
+        ic
+            .retrieveChildObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID)
+            .getOrganizationalUnits();
     }
 
     /**
@@ -159,8 +143,8 @@ public class OrganizationalUnitHandlerClientTest extends EscidocClientTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:exuser1", null));
         filterParam.setFilters(filters);
-        logger.debug("Call retrieveOrganizationalUnits with filter "
-            + Factory.getTaskParamMarshaller().marshalDocument(filterParam));
+        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
+
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
         OrganizationalUnitList ouList =
@@ -181,9 +165,9 @@ public class OrganizationalUnitHandlerClientTest extends EscidocClientTestBase {
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
 
-        logger.debug(ic
-            .retrieveParentObjects(EXAMPLE_ORGANIZATIONAL_UNIT_ID)
-            .getOrganizationalUnits());
+        ic
+            .retrieveParentObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID)
+            .getOrganizationalUnits();
     }
 
     /**

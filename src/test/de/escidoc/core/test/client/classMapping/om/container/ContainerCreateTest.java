@@ -28,6 +28,10 @@
  */
 package de.escidoc.core.test.client.classMapping.om.container;
 
+import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -35,6 +39,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.xpath.XPathAPI;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,7 +59,9 @@ import de.escidoc.core.resources.common.structmap.ContainerRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Asserts;
 
 /**
  * Test create Container.
@@ -75,7 +82,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer01() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         try {
@@ -103,7 +110,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer02() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         container.setTitle("New title for test");
@@ -129,7 +136,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer03() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -156,7 +163,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer04() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -183,11 +190,11 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer05() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         try {
             cc.create(container);
@@ -213,11 +220,11 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer06() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -248,11 +255,11 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer07() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -284,11 +291,11 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer08() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -327,12 +334,13 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer09() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -366,7 +374,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
-            selectSingleNode(mdRecordBeforeCreate, "/md-record");
+            XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
         org.w3c.dom.Element mdRecordBeforeCreateContent =
             (org.w3c.dom.Element) mdRecordBeforeCreateNode.getFirstChild();
 
@@ -379,11 +387,11 @@ public class ContainerCreateTest extends EscidocClientTestBase {
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =
-            selectSingleNode(mdRecordAfterCreate, "/md-record");
+            XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
         org.w3c.dom.Element mdRecordAfterCreateContent =
             (org.w3c.dom.Element) mdRecordAfterCreateNode.getFirstChild();
 
-        assertXmlEquals("Metadata Records differ",
+        Asserts.assertXmlEquals("Metadata Records differ",
             (Node) mdRecordAfterCreateContent,
             (Node) mdRecordBeforeCreateContent);
 
@@ -401,11 +409,12 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer10() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
-        Relation relation = new Relation(new ResourceRef(EXAMPLE_ITEM_ID));
+        Relation relation =
+            new Relation(new ResourceRef(Constants.EXAMPLE_ITEM_ID));
         relation
             .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
         relations.add(relation);
@@ -435,7 +444,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
-            selectSingleNode(mdRecordBeforeCreate, "/md-record");
+            XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
         org.w3c.dom.Element mdRecordBeforeCreateContent =
             (org.w3c.dom.Element) mdRecordBeforeCreateNode.getFirstChild();
 
@@ -448,11 +457,11 @@ public class ContainerCreateTest extends EscidocClientTestBase {
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =
-            selectSingleNode(mdRecordAfterCreate, "/md-record");
+            XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
         org.w3c.dom.Element mdRecordAfterCreateContent =
             (org.w3c.dom.Element) mdRecordAfterCreateNode.getFirstChild();
 
-        assertXmlEquals("Metadata Records differ",
+        Asserts.assertXmlEquals("Metadata Records differ",
             (Node) mdRecordAfterCreateContent,
             (Node) mdRecordBeforeCreateContent);
 
@@ -480,7 +489,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainerWithOneMember() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = createContainerWithMinContent();
         Container memberContainer = createContainerWithMinContent();
@@ -525,7 +534,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testCreateContainer20() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);
@@ -547,7 +556,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
-            selectSingleNode(mdRecordBeforeCreate, "/md-record");
+            XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
         org.w3c.dom.Element mdRecordBeforeCreateContent =
             (org.w3c.dom.Element) mdRecordBeforeCreateNode.getFirstChild();
 
@@ -560,11 +569,11 @@ public class ContainerCreateTest extends EscidocClientTestBase {
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =
-            selectSingleNode(mdRecordAfterCreate, "/md-record");
+            XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
         org.w3c.dom.Element mdRecordAfterCreateContent =
             (org.w3c.dom.Element) mdRecordAfterCreateNode.getFirstChild();
 
-        assertXmlEquals("Metadata Records differ",
+        Asserts.assertXmlEquals("Metadata Records differ",
             (Node) mdRecordAfterCreateContent,
             (Node) mdRecordBeforeCreateContent);
     }
@@ -579,7 +588,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     public void testMultipleMetadataRecords01() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(EscidocClientTestBase.DEFAULT_HANDLE);
+        cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);
@@ -593,8 +602,8 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         assertEquals(container.getProperties().getContentModel().getObjid(),
             createdContainer.getProperties().getContentModel().getObjid());
 
-        assertMdRecords(container.getMetadataRecords(), createdContainer
-            .getMetadataRecords());
+        Asserts.assertMdRecords(container.getMetadataRecords(),
+            createdContainer.getMetadataRecords());
 
         // now delete some metadataRecords
         createdContainer.getMetadataRecords().del("md-record2");
@@ -606,7 +615,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         assertEquals(container.getProperties().getContentModel().getObjid(),
             createdContainer.getProperties().getContentModel().getObjid());
 
-        assertMdRecords(createdContainer.getMetadataRecords(),
+        Asserts.assertMdRecords(createdContainer.getMetadataRecords(),
             updatedContainer1.getMetadataRecords());
 
     }
@@ -664,8 +673,9 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         throws ParserConfigurationException {
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
