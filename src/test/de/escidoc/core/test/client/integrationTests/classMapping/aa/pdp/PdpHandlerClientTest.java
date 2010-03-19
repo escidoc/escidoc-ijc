@@ -61,9 +61,7 @@ public class PdpHandlerClientTest {
         Requests requests = createRequests();
         RequestsResults results = pdpc.evaluate(requests);
 
-        String xml =
-            Factory.getRequestsResultsMarshaller().marshalDocument(results);
-        System.out.println(" results " + xml);
+        Factory.getRequestsResultsMarshaller().marshalDocument(results);
 
     }
 
@@ -109,12 +107,10 @@ public class PdpHandlerClientTest {
 
         Marshaller<Requests> m = new Marshaller<Requests>(requests.getClass());
         String xml = m.marshalDocument(requests);
-        System.out.println(xml);
 
         Requests urequests = m.unmarshalDocument(xml);
-        String requestsXml =
-            Factory.getRequestsMarshaller().marshalDocument(urequests);
-        System.out.println("requests" + requestsXml);
+        Factory.getRequestsMarshaller().marshalDocument(urequests);
+
         return requests;
 
     }
