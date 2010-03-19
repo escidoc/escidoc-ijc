@@ -12,12 +12,6 @@ import java.io.StringWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.transform.TransformerException;
-
-import org.apache.xpath.XPathAPI;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 /**
  * Utiltiy methods for Tests.
  * 
@@ -76,24 +70,6 @@ public class EscidocClientTestBase {
     }
 
     /**
-     * Adds the stack trace to the provided string buffer, if debug logging
-     * level is enabled.
-     * 
-     * @param msg
-     *            The StringBuffer to append the stack trace to.
-     * @param e
-     *            The exception for that the stack trace shall be appended.
-     */
-    private static void appendStackTrace(
-        final StringBuffer msg, final Exception e) {
-
-        if (log.isDebugEnabled()) {
-            msg.append("\n");
-            msg.append(getStackTrace(e));
-        }
-    }
-
-    /**
      * Retrieve the stack trace from the provided exception and returns it in a
      * <code>String</code>.
      * 
@@ -107,25 +83,6 @@ public class EscidocClientTestBase {
         PrintWriter printwriter = new PrintWriter(writer);
         e.printStackTrace(printwriter);
         return writer.toString();
-    }
-
-    /**
-     * Return the list of children of the node selected by the xPath.
-     * 
-     * @param node
-     *            The node.
-     * 
-     * @param xPath
-     *            The xPath.
-     * @return The list of children of the node selected by the xPath.
-     * @throws TransformerException
-     *             If anything fails.
-     */
-    @Deprecated
-    public static NodeList selectNodeList(final Node node, final String xPath)
-        throws TransformerException {
-        NodeList result = XPathAPI.selectNodeList(node, xPath);
-        return result;
     }
 
     /**
@@ -194,5 +151,24 @@ public class EscidocClientTestBase {
 
         return objidLmd;
     }
+
+    /**
+     * Adds the stack trace to the provided string buffer, if debug logging
+     * level is enabled.
+     * 
+     * @param msg
+     *            The StringBuffer to append the stack trace to.
+     * @param e
+     *            The exception for that the stack trace shall be appended.
+     */
+    private static void appendStackTrace(
+        final StringBuffer msg, final Exception e) {
+
+        if (log.isDebugEnabled()) {
+            msg.append("\n");
+            msg.append(getStackTrace(e));
+        }
+    }
+
 
 }
