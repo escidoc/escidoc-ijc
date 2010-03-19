@@ -26,7 +26,7 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.test.client.marshaller;
+package de.escidoc.core.test.client.classMapping.marshaller;
 
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.useraccount.PropertiesUserAccount;
@@ -48,33 +48,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * 
  */
 public class TestMarshalling extends EscidocClientTestBase {
-
-    // private final Logger logger =
-    // Logger.getLogger(TestMarshalling.class.getName());
-
-    /**
-     * Set up the tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-    }
-
-    /**
-     * Clean up after tests.
-     * 
-     * @throws Exception
-     *             If anything fails.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-
-        super.tearDown();
-    }
 
     /**
      * Test un-/marshalling Item.

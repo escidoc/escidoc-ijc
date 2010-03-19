@@ -1,4 +1,4 @@
-package de.escidoc.core.client.exceptions;
+package de.escidoc.core.test.client.exceptions;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -8,10 +8,22 @@ import static org.junit.Assert.fail;
 import org.apache.ws.security.WSSecurityException;
 import org.junit.Test;
 
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.ExceptionMapper;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.invalid.ContextNotEmptyException;
 
+/**
+ * Test mapping of Exceptions.
+ * 
+ * 
+ */
 public class ExceptionMapperTest {
 
+    /**
+     * 
+     */
     @Test
     public void testMapInternalClientException() {
         InternalClientException ice = new InternalClientException();
@@ -30,6 +42,9 @@ public class ExceptionMapperTest {
         }
     }
 
+    /**
+     * 
+     */
     @Test
     public void testMapEscidocException() {
         de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException cne =
@@ -56,6 +71,9 @@ public class ExceptionMapperTest {
         }
     }
 
+    /**
+     * 
+     */
     @Test
     public void testMapEscidocException2() {
         de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException cne =
@@ -75,6 +93,9 @@ public class ExceptionMapperTest {
         }
     }
 
+    /**
+     * 
+     */
     @Test
     public void testTransportException() {
 
@@ -98,6 +119,9 @@ public class ExceptionMapperTest {
         }
     }
 
+    /**
+     * 
+     */
     @Test
     public void testOtherException() {
         Exception ex = new IndexOutOfBoundsException("foo != bar");
