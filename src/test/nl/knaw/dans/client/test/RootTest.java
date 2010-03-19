@@ -15,9 +15,14 @@ import de.escidoc.core.common.jibx.Marshaller;
 
 public class RootTest {
 
+    /**
+     * 
+     * @throws InternalClientException
+     * @throws ParserConfigurationException
+     */
     @Test
-    public void testMandU() throws InternalClientException, ParserConfigurationException
-    {
+    public void testMandU() throws InternalClientException,
+        ParserConfigurationException {
         Root root = new Root();
         root.setNormalElement("<foo>Why 1 < 2, and not 2 &lt; 1</foo>");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -32,8 +37,10 @@ public class RootTest {
         System.out.println(xml);
 
         Root uroot = m.unmarshalDocument(xml);
-        assertEquals("<foo>Why 1 < 2, and not 2 &lt; 1</foo>", uroot.getNormalElement());
-        assertEquals("Why 1 < 2, and not 2 &lt; 1", uroot.getMdRecord().getAnyElement().getTextContent());
+        assertEquals("<foo>Why 1 < 2, and not 2 &lt; 1</foo>", uroot
+            .getNormalElement());
+        assertEquals("Why 1 < 2, and not 2 &lt; 1", uroot
+            .getMdRecord().getAnyElement().getTextContent());
     }
 
 }
