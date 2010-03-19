@@ -330,9 +330,6 @@ public class OuCreateTest {
         // mdRecord.setContent(doc.getDocumentElement());
         mdRecords.add(mdRecord);
 
-        System.out.println(xmlToString(mdRecord.getContent()));
-        System.out.println("------------------------------");
-        // System.out.println(xmlToString(tmpl.getMetadataRecords().get("escidoc").getContent()));
         // mdRecord.setContent(tmpl.getMetadataRecords().get("escidoc").getContent());
         // mdRecords.add(mdRecord);
 

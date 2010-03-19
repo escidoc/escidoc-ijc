@@ -52,8 +52,7 @@ public class ContainerTestRest {
         RestContainerHandlerClient cc = new RestContainerHandlerClient();
         cc.setHandle(Constants.DEFAULT_HANDLE);
 
-        String container = cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
-        System.out.println(container);
+        cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
     }
 
     /**

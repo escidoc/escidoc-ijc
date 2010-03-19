@@ -56,13 +56,12 @@ public class ActionHandlerClientTest {
         // Marshaller<UnsecuredActions> m = new
         // Marshaller<UnsecuredActions>(actions.getClass());
         // String xml = m.marshalDocument(actions);
-        // System.out.println(xml);
         //
         // UnsecuredActions uactions = m.unmarshalDocument(xml);
         // String actionsXml =
         // Factory.getUnsecuredActionsMarshaller().marshalDocument(
         // uactions);
-        // System.out.println("actions " + actionsXml);
+
         UnsecuredActions ua =
             ac.createUnsecuredActions("escidoc:persistent3", actions);
 
@@ -129,7 +128,6 @@ public class ActionHandlerClientTest {
     // rc.retrieveRoles(filterParam);
     // logger.debug("------------------------ ");
     // String xml = Factory.getRoleListMarshaller().marshalDocument(roleList);
-    // System.out.println("role list " + xml);
     // }
     // catch (Exception e) {
     // // TODO Auto-generated catch block
@@ -165,13 +163,11 @@ public class ActionHandlerClientTest {
     // role.setPolicyOrPolicySet(root);
     // Marshaller<Role> m = new Marshaller<Role>(role.getClass());
     // String xml = m.marshalDocument(role);
-    // System.out.println(xml);
     //
     // Role urole = m.unmarshalDocument(xml);
     // String roleXml =
     // Factory.getRoleMarshaller().marshalDocument(
     // urole);
-    // System.out.println("role " + roleXml);
     // return role;
     //
     // }

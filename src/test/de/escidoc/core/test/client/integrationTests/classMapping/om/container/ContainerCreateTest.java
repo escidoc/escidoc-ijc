@@ -424,7 +424,7 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         Marshaller<Container> c1 =
             new Marshaller<Container>(createdContainer.getClass());
         String xmlc1 = c1.marshalDocument(createdContainer);
-        System.out.println("cretaed container " + xmlc1);
+
         // compare the new created Container with the Container from the
         // request
         String objId = createdContainer.getObjid();
@@ -504,8 +504,8 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         Container createdContainer = cc.create(container);
         Marshaller<Container> c1 =
             new Marshaller<Container>(createdContainer.getClass());
-        String xmlc1 = c1.marshalDocument(createdContainer);
-        System.out.println("created container " + xmlc1);
+        c1.marshalDocument(createdContainer);
+
         StructMap createdStructMap = createdContainer.getStructMap();
         Collection<ResourceRef> members = createdStructMap.getMembers();
         assertEquals("Number of members is wrong", 1, members.size());

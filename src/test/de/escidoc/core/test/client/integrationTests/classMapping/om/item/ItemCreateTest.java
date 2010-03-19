@@ -566,8 +566,6 @@ public class ItemCreateTest {
         ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        System.out.println(item.getObjid());
-
         // submit --------------------------------------------------------------
         TaskParam tp = new TaskParam();
         tp.setLastModificationDate(item.getLastModificationDate());

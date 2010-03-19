@@ -187,11 +187,10 @@ public class RoleHandlerClientTest {
         role.setPolicyOrPolicySet(root);
         Marshaller<Role> m = new Marshaller<Role>(role.getClass());
         String xml = m.marshalDocument(role);
-        System.out.println(xml);
 
         Role urole = m.unmarshalDocument(xml);
-        String roleXml = Factory.getRoleMarshaller().marshalDocument(urole);
-        System.out.println("role " + roleXml);
+        Factory.getRoleMarshaller().marshalDocument(urole);
+        
         return role;
 
     }

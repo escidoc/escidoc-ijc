@@ -77,15 +77,11 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         request.setQuery("escidoc.metadata=escidoc*");
         SearchRetrieveResponseType response = rc.search(request, null);
         NonNegativeInteger zahl = response.getNumberOfRecords();
-        System.out.println("response length " + zahl.toString());
+
         RecordType[] records = response.getRecords();
         for (int i = 0; i < records.length; i++) {
             RecordType record = records[i];
-            String recordData =
-                decodeCharacters(record.getRecordData().get_any()[0]
-                    .getAsString());
-            System.out.println("search record data " + recordData);
-
+            decodeCharacters(record.getRecordData().get_any()[0].getAsString());
         }
 
     }
@@ -105,7 +101,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         request.setQuery("escidoc.metadata=escidoc*");
         SearchResponse response = rc.search2(request, null);
         NonNegativeInteger zahl = response.getNumberOfRecords();
-        System.out.println("response length " + zahl.toString());
+
         MyRecordSearchType[] records = response.getRecords();
         for (int i = 0; i < records.length; i++) {
             MyRecordSearchType record = records[i];
@@ -113,23 +109,16 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
             SearchResultRecord resultrecord = stringFragment.getResultRecord();
 
             String base = resultrecord.getBase();
-            System.out
-                .println("**************************************************");
-            System.out.println("number " + i);
-            System.out.println("base url " + base);
             ResourceRef content = resultrecord.getContent();
             if (content instanceof Item) {
                 Item item = (Item) content;
                 String lmd = item.getLastModificationDateAsString();
                 String versionNumber =
                     item.getProperties().getVersion().getNumber();
-                System.out.println("item last mod date" + lmd);
-                System.out.println("item version number " + versionNumber);
 
                 Marshaller<SearchResultRecord> m =
                     new Marshaller<SearchResultRecord>(resultrecord.getClass());
-                String xml = m.marshalDocument(resultrecord);
-                System.out.println(xml);
+                m.marshalDocument(resultrecord);
 
             }
 
@@ -155,7 +144,6 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
         String recordData =
             decodeCharacters(record.getRecordData().get_any()[0].getAsString());
-        System.out.println("record data " + recordData);
 
     }
 
@@ -179,12 +167,10 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
         ServerInfo si = resultrecord.getServerInfo();
         String host = si.getHost();
-        System.out.println("host " + host);
 
         Marshaller<ExplainRecord> m =
             new Marshaller<ExplainRecord>(resultrecord.getClass());
-        String xml = m.marshalDocument(resultrecord);
-        System.out.println(xml);
+        m.marshalDocument(resultrecord);
 
     }
 
@@ -207,10 +193,10 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         ScanResponseType response = rc.scan(request, null);
         TermType[] terms = response.getTerms();
         for (int i = 0; i < terms.length; i++) {
-            System.out.println("term value " + terms[i].getValue());
+            terms[i].getValue();
 
         }
-        System.out.println("version " + response.getVersion());
+        response.getVersion();
     }
 
     /**

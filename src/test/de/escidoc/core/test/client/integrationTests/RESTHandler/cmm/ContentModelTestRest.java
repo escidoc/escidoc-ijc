@@ -61,10 +61,6 @@ public class ContentModelTestRest {
 
         // create
         String crtdOuXML = rcmhc.create(ouXml);
-        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(crtdOuXML);
-
-        System.out.println("Content Model with objid='" + objidLmd[0]
-            + "' at '" + objidLmd[1] + "' created");
     }
 
 }

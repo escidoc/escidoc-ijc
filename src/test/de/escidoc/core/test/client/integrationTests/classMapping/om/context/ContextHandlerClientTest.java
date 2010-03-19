@@ -238,8 +238,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         MemberList memberList = cc.retrieveMembers("escidoc:ex1", filterParam);
         Marshaller<MemberList> m =
             new Marshaller<MemberList>(memberList.getClass());
-        String xml = m.marshalDocument(memberList);
-        System.out.println(xml);
+        m.marshalDocument(memberList);
 
         assertTrue("result list is empty, try another filter", memberList
             .getMembers().size() != 0);

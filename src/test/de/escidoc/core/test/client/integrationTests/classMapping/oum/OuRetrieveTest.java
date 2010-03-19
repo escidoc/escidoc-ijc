@@ -74,7 +74,6 @@ public class OuRetrieveTest {
 
         MetadataRecord mdRecord = ou.getMetadataRecords().get("escidoc");
         assertEquals("wrong name", "escidoc", mdRecord.getName());
-        System.out.println(xmlToString(mdRecord.getContent()));
     }
 
     private static String xmlToString(Node node) {
