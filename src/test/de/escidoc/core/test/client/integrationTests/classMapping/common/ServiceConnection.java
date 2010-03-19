@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.classMapping.common;
+package de.escidoc.core.test.client.integrationTests.classMapping.common;
 
 import static org.junit.Assert.assertNotNull;
 import de.escidoc.core.client.ContainerHandlerClient;

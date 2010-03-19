@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.classMapping.aa.actions;
+package de.escidoc.core.test.client.integrationTests.classMapping.aa.actions;
 
 import org.junit.Test;
 
@@ -37,11 +37,9 @@ public class ActionHandlerClientTest {
         // System.out.println("actions " + actionsXml);
         UnsecuredActions ua =
             ac.createUnsecuredActions("escidoc:persistent3", actions);
-        String retrievedActionsXml =
-            Factory.getUnsecuredActionsMarshaller().marshalDocument(
-                (UnsecuredActions) ac
-                    .retrieveUnsecuredActions("escidoc:persistent3"));
-        System.out.println(" retrieved actions " + retrievedActionsXml);
+
+        Factory.getUnsecuredActionsMarshaller().marshalDocument(
+            ac.retrieveUnsecuredActions("escidoc:persistent3"));
 
     }
 

@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.classMapping.aa.pdp;
+package de.escidoc.core.test.client.integrationTests.classMapping.aa.pdp;
 
 import java.io.InputStream;
 

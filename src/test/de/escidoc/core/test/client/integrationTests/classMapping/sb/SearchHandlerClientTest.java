@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.classMapping.sb;
+package de.escidoc.core.test.client.integrationTests.classMapping.sb;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ExplainResponseType;
@@ -27,12 +27,16 @@ import de.escidoc.core.resources.sb.wrapper.search.MyStringFragmentSearch;
 import de.escidoc.core.resources.sb.wrapper.search.SearchResponse;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
-
+/**
+ * Test of search handler.
+ * 
+ * 
+ */
 public class SearchHandlerClientTest extends EscidocClientTestBase {
 
     /**
      * Test to search repository.
-     *
+     * 
      * @throws Exception
      *             Thrown if anythings failed.
      */
@@ -60,7 +64,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
     /**
      * Test to search2 repository.
-     *
+     * 
      * @throws Exception
      *             Thrown if anythings failed.
      */
@@ -80,24 +84,26 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
             MyStringFragmentSearch stringFragment = record.getStringFragment();
             SearchResultRecord resultrecord = stringFragment.getResultRecord();
 
+            String base = resultrecord.getBase();
+            System.out
+                .println("**************************************************");
+            System.out.println("number " + i);
+            System.out.println("base url " + base);
+            ResourceRef content = resultrecord.getContent();
+            if (content instanceof Item) {
+                Item item = (Item) content;
+                String lmd = item.getLastModificationDateAsString();
+                String versionNumber =
+                    item.getProperties().getVersion().getNumber();
+                System.out.println("item last mod date" + lmd);
+                System.out.println("item version number " + versionNumber);
 
-                String base = resultrecord.getBase();
-                System.out.println("**************************************************");
-                System.out.println("number " + i);
-                System.out.println("base url " + base);
-                ResourceRef content = resultrecord.getContent();
-                if (content instanceof Item) {
-                    Item item = (Item)content;
-                    String lmd = item.getLastModificationDateAsString();
-                    String versionNumber = item.getProperties().getVersion().getNumber();
-                    System.out.println("item last mod date" + lmd);
-                    System.out.println("item version number " + versionNumber);
+                Marshaller<SearchResultRecord> m =
+                    new Marshaller<SearchResultRecord>(resultrecord.getClass());
+                String xml = m.marshalDocument(resultrecord);
+                System.out.println(xml);
 
-                    Marshaller<SearchResultRecord> m = new Marshaller<SearchResultRecord>(resultrecord.getClass());
-                    String xml = m.marshalDocument(resultrecord);
-                    System.out.println(xml);
-
-                }
+            }
 
         }
 
@@ -105,7 +111,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
     /**
      * Test explain method.
-     *
+     * 
      * @throws Exception
      *             Thrown if anythings failed.
      */
@@ -119,12 +125,9 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         ExplainResponseType response = rc.explain(request, null);
         RecordType record = response.getRecord();
 
-            String recordData =
-                decodeCharacters(record.getRecordData().get_any()[0]
-                    .getAsString());
-            System.out.println("record data " + recordData);
-
-
+        String recordData =
+            decodeCharacters(record.getRecordData().get_any()[0].getAsString());
+        System.out.println("record data " + recordData);
 
     }
 
@@ -140,27 +143,26 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
         ExplainRequestType request = new ExplainRequestType();
         request.setVersion("1.1");
-        
+
         ExplainResponse response = rc.explain2(request, null);
         MyRecordExplainType record = response.getRecord();
         MyStringFragmentExplain stringFragment = record.getStringFragment();
         ExplainRecord resultrecord = stringFragment.getResultRecord();
-        
+
         ServerInfo si = resultrecord.getServerInfo();
         String host = si.getHost();
         System.out.println("host " + host);
-        
-            
-        Marshaller<ExplainRecord> m = new Marshaller<ExplainRecord>(resultrecord.getClass());
+
+        Marshaller<ExplainRecord> m =
+            new Marshaller<ExplainRecord>(resultrecord.getClass());
         String xml = m.marshalDocument(resultrecord);
         System.out.println(xml);
-       
 
     }
-    
+
     /**
      * Test scan method.
-     *
+     * 
      * @throws Exception
      *             Thrown if anythings failed.
      */
@@ -175,20 +177,21 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         request.setResponsePosition(new PositiveInteger("1"));
 
         ScanResponseType response = rc.scan(request, null);
-        TermType [] terms = response.getTerms();
-        for (int i = 0; i<terms.length; i++) {
-          System.out.println("term value " + terms[i].getValue());
+        TermType[] terms = response.getTerms();
+        for (int i = 0; i < terms.length; i++) {
+            System.out.println("term value " + terms[i].getValue());
 
         }
         System.out.println("version " + response.getVersion());
     }
+
     /**
      * Replaces special Characters..
-     *
+     * 
      * @return String Replaced String
      * @param text
      *            String text to replace
-     *
+     * 
      * @sb
      */
     private String decodeCharacters(String text) {

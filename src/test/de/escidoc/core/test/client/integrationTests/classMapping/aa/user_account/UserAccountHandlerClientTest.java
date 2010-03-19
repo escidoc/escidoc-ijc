@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.classMapping.aa.user_account;
+package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_account;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

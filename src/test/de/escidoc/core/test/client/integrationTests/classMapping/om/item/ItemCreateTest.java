@@ -26,7 +26,7 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.test.client.classMapping.om.item;
+package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

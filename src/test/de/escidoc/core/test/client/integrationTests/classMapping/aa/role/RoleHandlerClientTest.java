@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.classMapping.aa.role;
+package de.escidoc.core.test.client.integrationTests.classMapping.aa.role;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

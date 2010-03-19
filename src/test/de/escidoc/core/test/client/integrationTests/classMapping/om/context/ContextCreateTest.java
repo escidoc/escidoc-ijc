@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.classMapping.om.context;
+package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.fail;
 

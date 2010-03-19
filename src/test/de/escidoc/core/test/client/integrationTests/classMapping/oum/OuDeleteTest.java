@@ -26,7 +26,7 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.test.client.classMapping.oum;
+package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

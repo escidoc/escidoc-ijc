@@ -26,7 +26,7 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.test.client.classMapping.marshaller;
+package de.escidoc.core.test.client.integrationTests.classMapping.marshaller;
 
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.useraccount.PropertiesUserAccount;
@@ -200,12 +200,13 @@ public class TestMarshalling extends EscidocClientTestBase {
     public void testMarshallingUserAccount01() throws Exception {
 
         UserAccount userAccount = new UserAccount();
-        String xml = Factory.getUserAccountMarshaller().marshalDocument(userAccount);
+        String xml =
+            Factory.getUserAccountMarshaller().marshalDocument(userAccount);
         Factory.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
     /* ********************************************************************** */
-    
+
     /**
      * Test un-/marshalling PropertiesUserAccount.
      * 
@@ -214,8 +215,11 @@ public class TestMarshalling extends EscidocClientTestBase {
      */
     public void testMarshallingUserAccountProperties01() throws Exception {
 
-        PropertiesUserAccount userAccountProperties = new PropertiesUserAccount();
-        String xml = Factory.getUserAccountPropertiesMarshaller().marshalDocument(userAccountProperties);
+        PropertiesUserAccount userAccountProperties =
+            new PropertiesUserAccount();
+        String xml =
+            Factory.getUserAccountPropertiesMarshaller().marshalDocument(
+                userAccountProperties);
         Factory.getUserAccountPropertiesMarshaller().unmarshalDocument(xml);
     }
 

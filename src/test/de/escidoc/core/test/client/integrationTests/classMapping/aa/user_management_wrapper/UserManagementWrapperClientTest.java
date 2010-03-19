@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.classMapping.aa.user_management_wrapper;
+package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_management_wrapper;
 
 import de.escidoc.core.client.UserManagementWrapperClient;
 import de.escidoc.core.test.client.EscidocClientTestBase;
