@@ -1,10 +1,16 @@
 ----------
  TODO
 ----------
+23.03.2010
+	- update JiBX library
+	- complete tests
+	- include sources (at least interfaces) into jar package to 
+	support developers with javadoc
+	
 12.10.2009
 	- Content Model class mapping (JiBX)
 29.04.2009
-	- add Predecesors to OU
+	- add Predecessors to OU
 	 
 08.09.2008
 	- Relations (at least for Container)

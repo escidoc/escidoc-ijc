@@ -6,7 +6,7 @@ import de.escidoc.core.resources.aa.pdp.RequestsResults;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.aa.useraccount.Grants;
-import de.escidoc.core.resources.aa.useraccount.PropertiesUserAccount;
+import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.cmm.ContentModel;
@@ -73,7 +73,7 @@ public class Factory {
 
     private static Marshaller<Role> roleMarshaller = null;
 
-    private static Marshaller<PropertiesUserAccount> userAccountPropertiesMarshaller =
+    private static Marshaller<UserAccountProperties> userAccountPropertiesMarshaller =
         null;
 
     private static Marshaller<Grants> grantsMarshaller = null;
@@ -422,10 +422,10 @@ public class Factory {
         return roleMarshaller;
     }
 
-    public static Marshaller<PropertiesUserAccount> getUserAccountPropertiesMarshaller() {
+    public static Marshaller<UserAccountProperties> getUserAccountPropertiesMarshaller() {
         if (userAccountPropertiesMarshaller == null) {
             userAccountPropertiesMarshaller =
-                new Marshaller<PropertiesUserAccount>(UserAccount.class);
+                new Marshaller<UserAccountProperties>(UserAccount.class);
 
         }
         return userAccountPropertiesMarshaller;

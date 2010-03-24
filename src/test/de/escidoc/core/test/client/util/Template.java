@@ -26,28 +26,35 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_management_wrapper;
+package de.escidoc.core.test.client.util;
 
-import de.escidoc.core.client.UserManagementWrapperClient;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
+ * Utility class to handle template.
  * 
  * @author SWA
- *
+ * 
  */
-public class UserManagementWrapperClientTest extends EscidocClientTestBase {
+public class Template {
 
     /**
-     * Test to logout.
+     * Get FileInputStream from template.
      * 
-     * @throws Exception
-     *             Thrown if anythings failed.
+     * @param path
+     *            Path to template file
+     * @return FileInputStream
+     * 
+     * @throws FileNotFoundException
+     *             If file could not be found
      */
-    public void testLogout() throws Exception {
+    public static FileInputStream load(final String path)
+        throws FileNotFoundException {
 
-        UserManagementWrapperClient umw = new UserManagementWrapperClient();
-
+        File f = new File(path);
+        return new FileInputStream(f);
     }
 
 }

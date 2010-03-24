@@ -29,6 +29,7 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_account;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
@@ -38,9 +39,10 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.aa.useraccount.PropertiesUserAccount;
+import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.Filter;
@@ -50,7 +52,7 @@ import de.escidoc.core.test.client.Constants;
 /**
  * Test client lib user account handler.
  * 
- * @author ROF
+ * @author ROF, SWA
  * 
  */
 public class UserAccountHandlerClientTest {
@@ -59,17 +61,22 @@ public class UserAccountHandlerClientTest {
      * Test to create and retrieve user account.
      * 
      * @throws Exception
-     *             Thrown if anythings failed.
+     *             If creation of user account happens not as expected
      */
     @Test
-    public void testCreateAndRetrieveSuccessfulUserAccount() throws Exception {
+    public void testCreateUserAccount() throws Exception {
 
+        UserAccount ua = createUserAccount();
+
+        // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setHandle(Constants.DEFAULT_HANDLE);
-        UserAccount ua = createUserAccount();
-        UserAccount createdUa = uac.create(ua);
-        String objId = createdUa.getObjid();
 
+        // create
+        UserAccount createdUa = uac.create(ua);
+
+        // test marshalling
+        String objId = createdUa.getObjid();
         Factory.getUserAccountMarshaller().marshalDocument(uac.retrieve(objId));
     }
 
@@ -82,58 +89,80 @@ public class UserAccountHandlerClientTest {
     @Test
     public void testUpdateUserAccount() throws Exception {
 
+        UserAccount ua = createUserAccount();
+
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setHandle(Constants.DEFAULT_HANDLE);
-        UserAccount ua = createUserAccount();
+
         UserAccount createdUa = uac.create(ua);
-        PropertiesUserAccount properties = createdUa.getProperties();
+
+        // alter Properties
+        UserAccountProperties properties = createdUa.getProperties();
 
         properties.setName("new Name");
-        String newLoginName = getUnicLoginName();
+        String newLoginName = getUniqueLoginName();
         properties.setLoginName(newLoginName);
+
+        // update at infrastructure
         UserAccount updatedUserAccont = uac.update(createdUa);
-        PropertiesUserAccount updatedProperties =
+
+        UserAccountProperties updatedProperties =
             updatedUserAccont.getProperties();
-        String updatedName = updatedProperties.getName();
-        String updatedLoginName = updatedProperties.getLoginName();
 
-        assertEquals("new Name", updatedName);
+        assertEquals("new Name", updatedProperties.getName());
+        assertEquals(newLoginName, updatedProperties.getLoginName());
 
-        assertEquals(newLoginName, updatedLoginName);
-
+        // test marshalling
         Factory.getUserAccountMarshaller().marshalDocument(updatedUserAccont);
     }
 
     /**
+     * Test create an user account and test deactivation and activation of the
+     * account.
      * 
-     * @throws Exception
+     * @throws EscidocClientException
+     *             If an error occurs at framework, transport or client lib
+     *             level
      */
     @Test
-    public void testDeactivate_Activate() throws Exception {
+    public void testDeactivateAndActivate() throws EscidocClientException {
+
+        UserAccount ua = createUserAccount();
+
+        // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setHandle(Constants.DEFAULT_HANDLE);
-        UserAccount ua = createUserAccount();
+
         UserAccount createdUa = uac.create(ua);
-        DateTime lastModificationDate = createdUa.getLastModificationDate();
+
+        // prepare task param for deactivation of user account
         TaskParam taskParam = new TaskParam();
-        taskParam.setLastModificationDate(lastModificationDate);
+        taskParam.setLastModificationDate(createdUa.getLastModificationDate());
+
+        // FIXME there is something redundant! The objid has to be set in the
+        // task param and in the method call?
         String objId = createdUa.getObjid();
         taskParam.setPid(objId);
         uac.deactivate(objId, taskParam);
+
+        // check user account
         UserAccount deactivatedUserAccount = uac.retrieve(objId);
-        PropertiesUserAccount properties =
+        UserAccountProperties properties =
             deactivatedUserAccount.getProperties();
-        boolean isActive = properties.isActive();
-        assertTrue(!isActive);
-        DateTime newLastModificationDate =
-            deactivatedUserAccount.getLastModificationDate();
-        taskParam.setLastModificationDate(newLastModificationDate);
+
+        assertFalse(properties.isActive());
+
+        // activate user account
+        taskParam.setLastModificationDate(deactivatedUserAccount
+            .getLastModificationDate());
         uac.activate(objId, taskParam);
+
+        // check activated user account
         UserAccount reactivatedUserAccount = uac.retrieve(objId);
-        PropertiesUserAccount propertiesReactivated =
+        UserAccountProperties propertiesReactivated =
             reactivatedUserAccount.getProperties();
-        isActive = propertiesReactivated.isActive();
-        assertTrue(isActive);
+
+        assertTrue(propertiesReactivated.isActive());
     }
 
     /**
@@ -175,9 +204,15 @@ public class UserAccountHandlerClientTest {
 
         Factory.getGrantsMarshaller().marshalDocument(
             uac.retrieveCurrentGrants(objId));
-
     }
 
+    /**
+     * Test update of user password (This is restricted to internal database. An
+     * password update is impossible through this method if Shibboleth or LDAP
+     * is used.)
+     * 
+     * @throws Exception
+     */
     @Test
     public void testupdatePassword() throws Exception {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
@@ -191,29 +226,45 @@ public class UserAccountHandlerClientTest {
         taskParam.setLastModificationDate(lastModificationDate);
         taskParam.setPassword(password);
         uac.updatePassword(objId, taskParam);
-        // TODO: check login with a new password
+
+        // TODO check login with a new password
     }
 
-    @Test
-    public UserAccount createUserAccount() {
+    /**
+     * Create an UserAccount object (not created at infrastructure).
+     * 
+     * @return UserAccount
+     */
+    private UserAccount createUserAccount() {
+
         UserAccount ua = new UserAccount();
-        PropertiesUserAccount properties = new PropertiesUserAccount();
+
+        // user properties
+        UserAccountProperties properties = new UserAccountProperties();
         properties.setName("name");
         properties.setEmail("email@com");
-        properties.setLoginName(getUnicLoginName());
+        properties.setLoginName(getUniqueLoginName());
+
+        // OU references
         ResourceRef ouRef1 = new ResourceRef();
         ouRef1.setObjid("escidoc:persistent1");
         Collection<ResourceRef> ous = new LinkedList<ResourceRef>();
         ous.add(ouRef1);
         properties.setOus(ous);
+
         ua.setProperties(properties);
+
         return ua;
     }
 
-    private String getUnicLoginName() {
-        String loginName = "login name";
-        loginName += System.currentTimeMillis();
-        return loginName;
+    /**
+     * Get unique login name.
+     * 
+     * @return unique login name
+     */
+    private String getUniqueLoginName() {
+
+        return "login" + System.currentTimeMillis();
     }
 
     /**
@@ -223,7 +274,9 @@ public class UserAccountHandlerClientTest {
      * @param value
      * @param ids
      * @return Filter
+     * 
      */
+    // FIXME method is duplicated (see role handler)
     private Filter getFilter(
         final String name, final String value, Collection<String> ids) {
 

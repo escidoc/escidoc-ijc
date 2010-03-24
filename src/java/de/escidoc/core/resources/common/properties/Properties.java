@@ -51,7 +51,7 @@ public class Properties implements PropertiesInterface {
 
     protected ResourceRef createdBy;
 
-    private ResourceRef modifedBy;
+    private ResourceRef modifiedBy;
 
     private String publicStatus;
 
@@ -118,7 +118,7 @@ public class Properties implements PropertiesInterface {
      *            the creationDate to set
      */
     public void setCreationDate(final DateTime creationDate) {
-        
+
         this.creationDate = creationDate;
     }
 
@@ -129,8 +129,9 @@ public class Properties implements PropertiesInterface {
     public void setCreationDateAsString(final String creationDate) {
         if (creationDate == null) {
             this.creationDate = null;
-        } else {
-        this.creationDate = new DateTime(creationDate);
+        }
+        else {
+            this.creationDate = new DateTime(creationDate);
         }
     }
 
@@ -153,15 +154,15 @@ public class Properties implements PropertiesInterface {
      * @return the modifedBy
      */
     public ResourceRef getModifiedBy() {
-        return this.modifedBy;
+        return this.modifiedBy;
     }
 
     /**
-     * @param modifedBy
+     * @param modifiedBy
      *            the createdBy to set
      */
-    public void setModifiedBy(final ResourceRef modifedBy) {
-        this.modifedBy = modifedBy;
+    public void setModifiedBy(final ResourceRef modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
 
     /**

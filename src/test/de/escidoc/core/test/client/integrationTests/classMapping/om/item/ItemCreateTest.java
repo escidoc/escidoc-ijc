@@ -449,6 +449,7 @@ public class ItemCreateTest {
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID));
+
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();

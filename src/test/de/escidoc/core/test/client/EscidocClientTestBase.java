@@ -41,7 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Utiltiy methods for Tests.
+ * Utility methods for Tests.
  * 
  * @author SWA
  * 

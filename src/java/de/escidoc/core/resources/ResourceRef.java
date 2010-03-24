@@ -21,7 +21,7 @@
  */
 
 /*
- * Copyright 2006-2008 Fachinformationszentrum Karlsruhe Gesellschaft
+ * Copyright 2006-2010 Fachinformationszentrum Karlsruhe Gesellschaft
  * fuer wissenschaftlich-technische Information mbH and Max-Planck-
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
@@ -239,7 +239,7 @@ public class ResourceRef {
      *         the same class and with the same attribute settings as this XLink
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         return false;
     }
 

@@ -26,56 +26,33 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.resources.aa.role;
+package de.escidoc.core.test.client.integrationTests.classMapping.aa.login;
+
+import org.junit.Test;
+
+import de.escidoc.core.client.UserManagementWrapperClient;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
- * Policies.
+ * Test login/logout methods.
  * 
- * @author ?, SWA
+ * @author SWA
  * 
  */
-public class Policies {
-
-    private String policy;
-
-    private String policySet;
+public class AuthenticationTest extends EscidocClientTestBase {
 
     /**
-     * Get policy.
+     * Test to logout.
      * 
-     * @return policy
+     * @throws Exception
+     *             Thrown if anythings failed.
      */
-    public String getPolicy() {
-        return policy;
-    }
+    @Test
+    public void testLogout() throws Exception {
 
-    /**
-     * Set policy.
-     * 
-     * @param policy
-     *            Policy
-     */
-    public void setPolicy(final String policy) {
-        this.policy = policy;
-    }
+        UserManagementWrapperClient umw = new UserManagementWrapperClient();
+        umw.logout();
 
-    /**
-     * Get policy set (as String).
-     * 
-     * @return policy set
-     */
-    public String getPolicySet() {
-        return policySet;
-    }
-
-    /**
-     * Set policy set.
-     * 
-     * @param policySet
-     *            Set of policies
-     */
-    public void setPolicySet(final String policySet) {
-        this.policySet = policySet;
     }
 
 }

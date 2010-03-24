@@ -34,6 +34,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -55,6 +57,7 @@ import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relation;
 import de.escidoc.core.resources.common.Relations;
+import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.structmap.ContainerRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
@@ -69,7 +72,7 @@ import de.escidoc.core.test.client.util.Asserts;
  * @author SWA
  * 
  */
-public class ContainerCreateTest extends EscidocClientTestBase {
+public class ContainerCreateTest {
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -281,8 +284,12 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     /**
      * Test if the right exception is thrown if calling create with an
      * incomplete Container.
-     * 
+     * <p>
+     * At last content model is missing.
+     * </p>
+     * <p>
      * MetadataRecord has name and content. Relations is at least missing.
+     * <p>
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
@@ -294,9 +301,13 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
+        
+        // properties
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
+        
+        // md-record
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
@@ -314,10 +325,8 @@ public class ContainerCreateTest extends EscidocClientTestBase {
             cc.create(container);
             fail("Missing Exception");
         }
-        catch (Exception e) {
-            Class<?> ec = InvalidXmlException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
+        catch (XmlSchemaValidationException e) {
+            return;
         }
     }
 
@@ -337,19 +346,39 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         cc.setHandle(Constants.DEFAULT_HANDLE);
 
         Container container = new Container();
+
+        // properties
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID));
+        
+        // Content-model-specific
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element contentModelSpecific = doc.createElementNS(null, "cms");
+//        Element element1 = doc.createElement("some-other-stuff1");
+//        element1.setTextContent("33333333333333333333");
+//
+        List<Element> cmsContent = new LinkedList<Element>();
+        cmsContent.add(contentModelSpecific);
+//        cmsContent.add(element1);
+        ContentModelSpecific cms = new ContentModelSpecific();
+
+        cms.setContent(cmsContent);
+
+        properties.setContentModelSpecific(cms);
         container.setProperties(properties);
+        
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
+//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document docMdRecord = builder.newDocument();
+        Element element = docMdRecord.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
@@ -421,6 +450,8 @@ public class ContainerCreateTest extends EscidocClientTestBase {
         container.setRelations(relations);
 
         Container createdContainer = cc.create(container);
+
+        // test marshalling created Container.
         Marshaller<Container> c1 =
             new Marshaller<Container>(createdContainer.getClass());
         String xmlc1 = c1.marshalDocument(createdContainer);
@@ -669,8 +700,9 @@ public class ContainerCreateTest extends EscidocClientTestBase {
     // }
     // }
 
-    Container createContainerWithMinContent()
+    private Container createContainerWithMinContent()
         throws ParserConfigurationException {
+
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
@@ -713,6 +745,5 @@ public class ContainerCreateTest extends EscidocClientTestBase {
 
         container.setMetadataRecords(mdRecords);
         return container;
-
     }
 }

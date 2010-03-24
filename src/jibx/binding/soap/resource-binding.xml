@@ -22,7 +22,7 @@
 	<include path="om/item/0.8/item-binding.xml" />
 
 	<!-- AA -->
-	<include path="aa/0.5/user-account-binding.xml" />
+	<include path="aa/0.6/user-account-binding.xml" />
 	<include path="aa/0.4/grant-binding.xml" />
 	<include path="aa/0.4/role-binding.xml" />
 	<include path="aa/0.3/requests-binding.xml" />

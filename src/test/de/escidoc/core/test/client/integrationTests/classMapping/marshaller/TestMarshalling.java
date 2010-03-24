@@ -28,8 +28,10 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.marshaller;
 
+import org.junit.Test;
+
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.aa.useraccount.PropertiesUserAccount;
+import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
@@ -39,7 +41,6 @@ import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test un-/marshalling the resources.
@@ -47,7 +48,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class TestMarshalling extends EscidocClientTestBase {
+public class TestMarshalling {
 
     /**
      * Test un-/marshalling Item.
@@ -55,6 +56,7 @@ public class TestMarshalling extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingItem01() throws Exception {
 
         Item item = new Item();
@@ -62,14 +64,13 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getItemMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling Container.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingContainer01() throws Exception {
 
         Container container = new Container();
@@ -84,6 +85,7 @@ public class TestMarshalling extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingContainer02() throws Exception {
 
         Container container = new Container();
@@ -94,14 +96,13 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getContainerMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling Context.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingContext01() throws Exception {
 
         Context context = new Context();
@@ -109,14 +110,13 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getContextMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling Result.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingResult01() throws Exception {
 
         Result result = new Result();
@@ -124,14 +124,13 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getResultMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling TaskParam.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingTaskParam01() throws Exception {
 
         TaskParam taskParam = new TaskParam();
@@ -140,14 +139,13 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getTaskParamMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling StructMap.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingStructMap01() throws Exception {
 
         StructMap structMap = new StructMap();
@@ -156,14 +154,13 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getStructMapMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling MetadataRecords.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingMetadataRecords01() throws Exception {
 
         MetadataRecords metadataRecords = new MetadataRecords();
@@ -173,14 +170,13 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getMetadataRecordsMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling Properties.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingProperties01() throws Exception {
 
         Properties properties = new Properties();
@@ -189,14 +185,13 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getPropertiesMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling UserAccount.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingUserAccount01() throws Exception {
 
         UserAccount userAccount = new UserAccount();
@@ -205,23 +200,20 @@ public class TestMarshalling extends EscidocClientTestBase {
         Factory.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
-    /* ********************************************************************** */
-
     /**
      * Test un-/marshalling PropertiesUserAccount.
      * 
      * @throws Exception
      *             Thrown if un-/marshalling failed.
      */
+    @Test
     public void testMarshallingUserAccountProperties01() throws Exception {
 
-        PropertiesUserAccount userAccountProperties =
-            new PropertiesUserAccount();
+        UserAccountProperties userAccountProperties =
+            new UserAccountProperties();
         String xml =
             Factory.getUserAccountPropertiesMarshaller().marshalDocument(
                 userAccountProperties);
         Factory.getUserAccountPropertiesMarshaller().unmarshalDocument(xml);
     }
-
-    /* ********************************************************************** */
 }

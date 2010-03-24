@@ -35,7 +35,13 @@ import java.util.LinkedList;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.properties.Properties;
 
-public class PropertiesUserAccount extends Properties {
+/**
+ * Properties of User Account.
+ * 
+ * @author ?, SWA
+ * 
+ */
+public class UserAccountProperties extends Properties {
 
     private String email;
 
@@ -45,7 +51,7 @@ public class PropertiesUserAccount extends Properties {
 
     private boolean active;
 
-    public Collection<ResourceRef> ous = new LinkedList<ResourceRef>();
+    private Collection<ResourceRef> ous = new LinkedList<ResourceRef>();
 
     /**
      * @return the email
@@ -55,66 +61,81 @@ public class PropertiesUserAccount extends Properties {
     }
 
     /**
+     * Set e-mail of user.
      * 
      * @param email
+     *            User e-mail address
      */
     public void setEmail(final String email) {
         this.email = email;
     }
 
     /**
-     * @return the loginName
+     * Get login name of user.
+     * 
+     * @return the login name
      */
     public String getLoginName() {
         return this.loginName;
     }
 
     /**
+     * Set login name of user.
      * 
      * @param loginName
+     *            User login name
      */
     public void setLoginName(final String loginName) {
         this.loginName = loginName;
     }
 
     /**
+     * Is user account active.
      * 
-     * @return
+     * @return true if active, false otherwise
      */
     public boolean isActive() {
         return this.active;
     }
 
     /**
+     * Get related Organizational Unit.
      * 
-     * @return
+     * @return Collection of Organizational Units
      */
-
     public Collection<ResourceRef> getOus() {
         return ous;
     }
 
     /**
+     * Set related Organizational Units.
      * 
      * @param ous
+     *            Collection of Organizational Units
      */
     public void setOus(final Collection<ResourceRef> ous) {
         this.ous = ous;
     }
 
     /**
+     * Add an Organizational Unit to the list of related Organizational Units.
      * 
-     * @param OrganizationalUnitid
+     * @param organizationalUnitRef
+     *            ResourceRef of related Organizational Unit
      */
     public void add(final ResourceRef organizationalUnitRef) {
         this.ous.add(organizationalUnitRef);
     }
 
     /**
+     * Delete an Organizational Unit from the related Organizational Unit list.
      * 
      * @param organizationalUnitId
+     *            objid of organizational Unit
+     * 
      */
     public void del(final String organizationalUnitId) {
+
         Iterator<ResourceRef> resRefIter = this.ous.iterator();
         while (resRefIter.hasNext()) {
             ResourceRef next = resRefIter.next();
@@ -127,7 +148,9 @@ public class PropertiesUserAccount extends Properties {
     }
 
     /**
-     * @return the createdBy
+     * Get ResourceRef of latest modifier.
+     * 
+     * @return modified by
      */
     public ResourceRef getModifiedBy() {
         return this.modifiedBy;

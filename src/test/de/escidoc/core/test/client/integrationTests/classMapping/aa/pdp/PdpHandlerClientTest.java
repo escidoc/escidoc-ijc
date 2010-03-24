@@ -28,22 +28,32 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.aa.pdp;
 
-import java.io.InputStream;
+import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import de.escidoc.core.client.PolicyDecisionPointHandlerClient;
+import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.RequestsResults;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.util.Template;
 
+/**
+ * Test PDP Handler.
+ * 
+ * @author
+ * 
+ */
 public class PdpHandlerClientTest {
 
     /**
@@ -58,50 +68,62 @@ public class PdpHandlerClientTest {
         PolicyDecisionPointHandlerClient pdpc =
             new PolicyDecisionPointHandlerClient();
         pdpc.setHandle(Constants.DEFAULT_HANDLE);
+
         Requests requests = createRequests();
         RequestsResults results = pdpc.evaluate(requests);
 
         Factory.getRequestsResultsMarshaller().marshalDocument(results);
-
     }
 
     /**
+     * Create a PDP request message.
      * 
-     * @return
-     * @throws Exception
+     * @return PDP Request message.
+     * 
+     * @throws ParserConfigurationException
+     *             If parser configuration failed
+     * @throws IOException
+     *             If template access failed.
+     * @throws SAXException
+     *             If template parsing failed
+     * @throws InternalClientException
+     *             If internal client errors occur
      */
-    private Requests createRequests() throws Exception {
+    private Requests createRequests() throws ParserConfigurationException,
+        SAXException, IOException, InternalClientException {
+
         Requests requests = new Requests();
 
-        InputStream input = getClass().getResourceAsStream("request1.xml");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(input);
+
+        Document doc =
+            builder.parse(Template.load("templates/soap/pdp/request1.xml"));
         Element root1 = doc.getDocumentElement();
         requests.addRequest(root1);
 
-        input = getClass().getResourceAsStream("request2.xml");
-        Document doc2 = builder.parse(input);
+        Document doc2 =
+            builder.parse(Template.load("templates/soap/pdp/request2.xml"));
         Element root2 = doc2.getDocumentElement();
         requests.addRequest(root2);
 
-        input = getClass().getResourceAsStream("request3.xml");
-        Document doc3 = builder.parse(input);
+        Document doc3 =
+            builder.parse(Template.load("templates/soap/pdp/request3.xml"));
         Element root3 = doc3.getDocumentElement();
         requests.addRequest(root3);
 
-        input = getClass().getResourceAsStream("request4.xml");
-        Document doc4 = builder.parse(input);
+        Document doc4 =
+            builder.parse(Template.load("templates/soap/pdp/request4.xml"));
         Element root4 = doc4.getDocumentElement();
         requests.addRequest(root4);
 
-        input = getClass().getResourceAsStream("request5.xml");
-        Document doc5 = builder.parse(input);
+        Document doc5 =
+            builder.parse(Template.load("templates/soap/pdp/request5.xml"));
         Element root5 = doc5.getDocumentElement();
         requests.addRequest(root5);
 
-        input = getClass().getResourceAsStream("request6.xml");
-        Document doc6 = builder.parse(input);
+        Document doc6 =
+            builder.parse(Template.load("templates/soap/pdp/request6.xml"));
         Element root6 = doc6.getDocumentElement();
         requests.addRequest(root6);
 
@@ -112,7 +134,5 @@ public class PdpHandlerClientTest {
         Factory.getRequestsMarshaller().marshalDocument(urequests);
 
         return requests;
-
     }
-
 }

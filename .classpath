@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="src/jibx"/>
 	<classpathentry kind="src" path="build/gen-axis"/>
 	<classpathentry kind="src" path="build/gen-client"/>
-	<classpathentry kind="src" path="src/test"/>
+	<classpathentry excluding="de/escidoc/core/test/client/integrationTests/classMapping/templates/" kind="src" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/junit4.4/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="lib/httpunit-1.7/httpunit.jar"/>

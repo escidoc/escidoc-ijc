@@ -35,6 +35,12 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.test.client.Constants;
 
+/**
+ * Test Action Handler.
+ * 
+ * @author ?, SWA
+ * 
+ */
 public class ActionHandlerClientTest {
 
     /**
@@ -48,7 +54,7 @@ public class ActionHandlerClientTest {
 
         ActionHandlerClient ac = new ActionHandlerClient();
         ac.setHandle(Constants.DEFAULT_HANDLE);
-        // rc.setServiceAddress("http://localhost:8080");
+
         UnsecuredActions actions = new UnsecuredActions();
         actions.addAction("1");
         actions.addAction("2");

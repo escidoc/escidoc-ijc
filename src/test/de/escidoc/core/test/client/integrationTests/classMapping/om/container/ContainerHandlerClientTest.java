@@ -54,6 +54,12 @@ import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.test.client.Constants;
 
+/**
+ * Test ContainerHandler.
+ * 
+ * @author SWA
+ * 
+ */
 public class ContainerHandlerClientTest {
 
     /**
@@ -94,15 +100,15 @@ public class ContainerHandlerClientTest {
             Factory.getContainerMarshaller().marshalDocument(container);
         }
         catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
             fail("Unexpected exception caught: " + e.getMessage());
         }
     }
 
     /**
+     * Test retrieving a Container which does not exists.
      * 
      * @throws Exception
+     *             If infrastructure throws no or wrong Exception.
      */
     @Test
     public void testRetrieveUnknown() throws Exception {
@@ -116,8 +122,6 @@ public class ContainerHandlerClientTest {
             return;
         }
         catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
             fail("Wrong exception caught: " + e.getMessage());
         }
     }
@@ -207,6 +211,7 @@ public class ContainerHandlerClientTest {
      * @param ids
      * @return Filter
      */
+    // FIXME redundant method
     private Filter getFilter(
         final String name, final String value, Collection<String> ids) {
 

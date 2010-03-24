@@ -21,7 +21,7 @@
  */
 
 /*
- * Copyright 2006-2008 Fachinformationszentrum Karlsruhe Gesellschaft
+ * Copyright 2006-2010 Fachinformationszentrum Karlsruhe Gesellschaft
  * fuer wissenschaftlich-technische Information mbH and Max-Planck-
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
@@ -31,16 +31,33 @@ package de.escidoc.core.resources.aa.role;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.properties.Properties;
 
+/**
+ * Properties of a Role.
+ * 
+ * @author SWA
+ * 
+ */
 public class RoleProperties extends Properties {
 
-    ResourceRef modifiedBy;
+    private ResourceRef modifiedBy;
 
+    /**
+     * Get modified by.
+     * 
+     * @return reference to latest modifier
+     */
     public ResourceRef getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(ResourceRef modifiedBy) {
+    /**
+     * Set modified by.
+     * 
+     * @param modifiedBy
+     *            ResourceRef of latest modifier
+     */
+    public void setModifiedBy(final ResourceRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
-   
+
 }
