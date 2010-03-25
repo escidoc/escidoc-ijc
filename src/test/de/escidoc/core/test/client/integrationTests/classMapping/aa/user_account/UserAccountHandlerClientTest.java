@@ -35,19 +35,19 @@ import static org.junit.Assert.assertTrue;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
+import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test client lib user account handler.
@@ -212,22 +212,34 @@ public class UserAccountHandlerClientTest {
      * is used.)
      * 
      * @throws Exception
+     *             If update of password failed
      */
     @Test
-    public void testupdatePassword() throws Exception {
+    public void testUpdatePassword() throws Exception {
+
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setHandle(Constants.DEFAULT_HANDLE);
+        
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
-        String objId = createdUa.getObjid();
-        DateTime lastModificationDate = createdUa.getLastModificationDate();
-        final String password = "new-pass";
+        
+        final String objId = createdUa.getObjid();
+
+        final String login = createdUa.getProperties().getLoginName();
+        final String password = String.valueOf(System.nanoTime());
+        
         TaskParam taskParam = new TaskParam();
-        taskParam.setLastModificationDate(lastModificationDate);
+        taskParam.setLastModificationDate(createdUa.getLastModificationDate());
         taskParam.setPassword(password);
+        
         uac.updatePassword(objId, taskParam);
 
-        // TODO check login with a new password
+        // check login with a new password
+        // it assumed that a user is allowed to retrieve its own account
+        UserAccountHandlerClient uac2 = new UserAccountHandlerClient();
+        uac2.login(EscidocClientTestBase.DEFAULT_SERVICE_URL, login, password);
+     
+        uac2.retrieve(objId);
     }
 
     /**
