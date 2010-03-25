@@ -5,9 +5,9 @@
     xmlns:srel="http://escidoc.de/core/01/structural-relations/"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <user-account:properties>
-        <prop:email>max.mustermann@email.de</prop:email>
-        <prop:name>Max Mustermann</prop:name>
-        <prop:login-name>mustermann</prop:login-name>
+        <prop:email>###EMAIL###</prop:email>
+        <prop:name>###NAME###</prop:name>
+        <prop:login-name>###LOGIN###</prop:login-name>
         <prop:organizational-units>
             <srel:organizational-unit
                 xlink:href="/oum/organizational-unit/escidoc:ex3"/>
