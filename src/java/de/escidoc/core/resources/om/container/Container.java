@@ -29,8 +29,6 @@
 package de.escidoc.core.resources.om.container;
 
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecords;
