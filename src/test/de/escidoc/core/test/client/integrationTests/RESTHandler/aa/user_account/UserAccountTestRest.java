@@ -28,10 +28,13 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.aa.user_account;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -62,6 +65,66 @@ public class UserAccountTestRest {
                 + "escidoc_useraccount_for_create.xml");
         String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
 
+        // prepare template
+        resourceXml =
+            resourceXml.replace("###EMAIL###", System.nanoTime()
+                + "-test@escidoc.org");
+        resourceXml =
+            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml =
+            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+
         String cAccountXml = uahc.create(resourceXml);
+
+        String[] objidLmd =
+            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+
+        uahc.retrieve(objidLmd[0]);
     }
+
+    /**
+     * Test to delete an user account.
+     * 
+     * @throws Exception
+     *             If behavior is not as expected.
+     */
+    @Test
+    public void testDeleteUserAccount() throws Exception {
+
+        RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
+        uahc.setHandle(Constants.DEFAULT_HANDLE);
+
+        // load XML template of organizational unit
+        File templ =
+            new File("./templates/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml");
+        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+
+        // prepare template
+        resourceXml =
+            resourceXml.replace("###EMAIL###", System.nanoTime()
+                + "-test@escidoc.org");
+        resourceXml =
+            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml =
+            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+
+        String cAccountXml = uahc.create(resourceXml);
+
+        // delete
+        String[] objidLmd =
+            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+
+        uahc.delete(objidLmd[0]);
+
+        // test retrieve
+        try {
+            uahc.retrieve(objidLmd[0]);
+            fail("User Account still exists after delete.");
+        }
+        catch (UserAccountNotFoundException e) {
+            return;
+        }
+    }
+
 }

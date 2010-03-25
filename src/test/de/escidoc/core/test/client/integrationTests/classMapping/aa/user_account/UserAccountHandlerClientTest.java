@@ -286,9 +286,10 @@ public class UserAccountHandlerClientTest {
 
         // user properties
         UserAccountProperties properties = new UserAccountProperties();
-        properties.setName("name");
-        properties.setEmail("email@com");
-        properties.setLoginName(getUniqueLoginName());
+        String login = getUniqueLoginName();
+        properties.setName("Name " + login);
+        properties.setEmail(login + "@escidoc.org");
+        properties.setLoginName(login);
 
         // OU references
         ResourceRef ouRef1 = new ResourceRef();
