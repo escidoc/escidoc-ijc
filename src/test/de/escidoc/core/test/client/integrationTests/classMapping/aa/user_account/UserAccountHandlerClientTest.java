@@ -31,6 +31,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_accoun
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -39,6 +40,7 @@ import org.junit.Test;
 
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
@@ -84,7 +86,7 @@ public class UserAccountHandlerClientTest {
      * Test to update an user account.
      * 
      * @throws Exception
-     *             Thrown if anythings failed.
+     *             If update behavior is not as expected
      */
     @Test
     public void testUpdateUserAccount() throws Exception {
@@ -169,6 +171,7 @@ public class UserAccountHandlerClientTest {
      * Test retrieving RetrieveUserAccounts through filter request.
      * 
      * @throws Exception
+     *             If retrieve or marshalling fail
      */
     @Test
     public void testRetrieveUserAccounts() throws Exception {
@@ -188,12 +191,42 @@ public class UserAccountHandlerClientTest {
     }
 
     /**
+     * Test to delete an user account.
+     * 
+     * @throws Exception
+     *             If deletion of user account happens not as expected
+     */
+    @Test
+    public void testDeleteUserAccount() throws Exception {
+
+        UserAccount ua = createUserAccount();
+
+        // login
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setHandle(Constants.DEFAULT_HANDLE);
+
+        // create
+        UserAccount createdUa = uac.create(ua);
+
+        uac.delete(createdUa.getObjid());
+
+        try {
+            uac.retrieve(createdUa.getObjid());
+            fail("User Account still exists after delete.");
+        }
+        catch (UserAccountNotFoundException e) {
+            return;
+        }
+
+    }
+
+    /**
      * Test to create and retrieve user account.
      * 
      * @throws Exception
-     *             Thrown if anythings failed.
+     *             If retrieve or marshalling fail
      */
-    public void testretrieveGrants() throws Exception {
+    public void testRetrieveGrants() throws Exception {
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setHandle(Constants.DEFAULT_HANDLE);
@@ -219,26 +252,26 @@ public class UserAccountHandlerClientTest {
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setHandle(Constants.DEFAULT_HANDLE);
-        
+
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
-        
+
         final String objId = createdUa.getObjid();
 
         final String login = createdUa.getProperties().getLoginName();
         final String password = String.valueOf(System.nanoTime());
-        
+
         TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(createdUa.getLastModificationDate());
         taskParam.setPassword(password);
-        
+
         uac.updatePassword(objId, taskParam);
 
         // check login with a new password
         // it assumed that a user is allowed to retrieve its own account
         UserAccountHandlerClient uac2 = new UserAccountHandlerClient();
         uac2.login(EscidocClientTestBase.DEFAULT_SERVICE_URL, login, password);
-     
+
         uac2.retrieve(objId);
     }
 
