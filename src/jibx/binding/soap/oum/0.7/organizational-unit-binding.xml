@@ -166,5 +166,23 @@
 		</collection>
 	</mapping>
 
+	<!-- start: binding of an organizational unit list -->
+	<mapping ns="http://www.escidoc.de/schemas/organizationalunitlist/0.7"
+		name="organizational-unit-list" class="de.escidoc.core.resources.oum.OrganizationalUnitList">
+		<namespace uri="http://www.escidoc.de/schemas/organizationalunitlist/0.7"
+			prefix="organizational-unit-list" />
+		<namespace uri="http://www.escidoc.de/schemas/organizationalunit/0.7"
+			prefix="organizational-unit" />
+		<collection field="organizationalUnits"
+			factory="de.escidoc.core.resources.oum.OrganizationalUnitList.organizationalUnitsFactory">
+			<structure name="organizational-unit"
+				ns="http://www.escidoc.de/schemas/organizationalunit/0.7"
+				type="de.escidoc.core.resources.oum.OrganizationalUnit">
+				<structure map-as="abstract-organizational-unit" />
+			</structure>
+		</collection>
+	</mapping>
+	<!-- end: binding of an organizational unit list -->
+
 </binding>
 

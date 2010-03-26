@@ -41,7 +41,8 @@ import de.escidoc.core.resources.om.GenericVersionableResource;
  */
 public class MemberList extends GenericResource {
 
-    private Collection<GenericVersionableResource> members = new LinkedList<GenericVersionableResource>();
+    private Collection<GenericVersionableResource> members =
+        new LinkedList<GenericVersionableResource>();
 
     public static LinkedList<GenericVersionableResource> membersFactory() {
         return new LinkedList<GenericVersionableResource>();
@@ -61,10 +62,10 @@ public class MemberList extends GenericResource {
     }
 
     /**
-     * @param items
+     * @param members
      *            the items to set
      */
-    public void setMembers(Collection<GenericVersionableResource> items) {
+    public void setMembers(final Collection<GenericVersionableResource> members) {
         this.members = members;
     }
 

@@ -66,10 +66,6 @@
 		</antcall>
 		<antcall target="wsdl2java">
 			<param name="component" value="om" />
-			<param name="service" value="TocHandlerService" />
-		</antcall>
-		<antcall target="wsdl2java">
-			<param name="component" value="om" />
 			<param name="service" value="SemanticStoreHandlerService" />
 		</antcall>
 		<antcall target="wsdl2java">

@@ -192,18 +192,19 @@ public class RestContextHandlerClient extends ClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMembers(final String id, final String filter) throws EscidocException,
-    InternalClientException, TransportException {
+    public String retrieveMembers(final String id, final String filter)
+        throws EscidocException, InternalClientException, TransportException {
 
-    String result = null;
-    try {
-        result = getClient().retrieveMembers(id, filter);
+        String result = null;
+        try {
+            result = getClient().retrieveMembers(id, filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
     }
-    catch (Exception e) {
-        ExceptionMapper.map(e);
-    }
-    return result;
-}
+
     public String retrieveAdminDescriptor(final String id, final String admId)
         throws EscidocException, InternalClientException, TransportException {
 

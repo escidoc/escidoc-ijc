@@ -52,21 +52,22 @@ public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
 
     private PolicyDecisionPoint soapClient = null;
 
-    public SoapPolicyDecisionPointHandlerClient() throws InternalClientException {
+    public SoapPolicyDecisionPointHandlerClient()
+        throws InternalClientException {
 
         super();
     }
-/**
- * 
- * @param requestsXml
- * @return
- * @throws EscidocClientException
- * @throws InternalClientException
- * @throws TransportException
- */
-    public String evaluate(final String requestsXml)
-    throws EscidocException, InternalClientException,
-    TransportException {
+
+    /**
+     * 
+     * @param requestsXml
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String evaluate(final String requestsXml) throws EscidocException,
+        InternalClientException, TransportException {
         String result = null;
         try {
             result = getClient().evaluate(requestsXml);
@@ -76,10 +77,10 @@ public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
         }
         return result;
     }
-    
-   
+
     /**
      * Place holder method.
+     * 
      * @param id
      *            The id of the context.
      * @return The timestamp of the last modification of the context.
@@ -95,7 +96,7 @@ public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         DateTime result = null;
-        
+
         return result;
     }
 
@@ -111,7 +112,8 @@ public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
             if (soapClient == null) {
                 PolicyDecisionPointServiceLocator serviceLocator =
                     new PolicyDecisionPointServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getPolicyDecisionPointServiceAddress();
+                String adress =
+                    serviceLocator.getPolicyDecisionPointServiceAddress();
                 URL url = null;
                 try {
                     url = new URL(adress);
@@ -121,7 +123,7 @@ public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
                 }
                 String path = url.getFile();
                 adress = getServiceAddress() + path;
-                
+
                 try {
                     url = new URL(adress);
                 }
@@ -136,5 +138,5 @@ public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
         }
         return soapClient;
     }
-   
+
 }

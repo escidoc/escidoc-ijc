@@ -2,6 +2,7 @@ package de.escidoc.core.client.rest.serviceLocator;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.Map;
 
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
@@ -272,8 +273,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         InvalidSearchQueryException, AuthenticationException,
         AuthorizationException {
 
-        // return post("/aa/grants/filter", filter);
-        throw new SystemException(500, "Method not yet supported", "");
+        return get("/aa/grants/filter", (Map<String, String[]>) filter);
     }
 
     public String retrieveNamedAttributes(
@@ -291,8 +291,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidSearchQueryException,
         AuthenticationException, AuthorizationException {
 
-        // return post("/aa/user-accounts/filter", filter);
-        throw new SystemException(500, "Method not yet supported", "");
+        return get("/aa/user-accounts/filter", (Map<String, String[]>) filter);
     }
 
     public String updateAttribute(

@@ -22,18 +22,31 @@ public class TaskParam {
 
     private String password = null;
 
+    private String username = null;
+
     private Collection<Filter> filters = new LinkedList<Filter>();
 
+    private String[] ids;
+
+    /**
+     * TaskParam.
+     */
     public TaskParam() {
     }
 
     /**
+     * TaskParam.
      * 
      * @param lastModificationDate
+     *            The last-modification-date.
      * @param comment
+     *            The comment.
      * @param pid
+     *            The Persistent ID.
      * @param url
+     *            The URL.
      * @param filters
+     *            Filters.
      */
     public TaskParam(final DateTime lastModificationDate, final String comment,
         final String pid, final String url, final Collection<Filter> filters) {
@@ -46,6 +59,10 @@ public class TaskParam {
         this.filters = filters;
     }
 
+    /**
+     * 
+     * @return Linked List with all filters.
+     */
     public static LinkedList<Filter> filtersFactory() {
         return new LinkedList<Filter>();
     }
@@ -78,13 +95,13 @@ public class TaskParam {
     }
 
     /**
-     * @param lastModificationDate
+     * @param lmd
      *            the lastModificationDate to set
      */
     public void setLastModificationDateAsString(
-        final String lastModificationDate) {
+        final String lmd) {
 
-        this.lastModificationDate = new DateTime(lastModificationDate);
+        this.lastModificationDate = new DateTime(lmd);
     }
 
     /**
@@ -147,12 +164,73 @@ public class TaskParam {
         this.filters = filters;
     }
 
+    /**
+     * Get password.
+     * 
+     * @return password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Set Password.
+     * 
+     * @param password
+     *            Password.
+     */
     public void setPassword(final String password) {
         this.password = password;
     }
 
+    /**
+     * Set Username.
+     * 
+     * @param username
+     *            Name of user.
+     */
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
+    /**
+     * Get Username.
+     * 
+     * @return Username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Get collection of resource references.
+     * 
+     * @return resource references
+     */
+    public String[] getResourceRefs() {
+
+        return this.ids;
+    }
+
+    /**
+     * Add resource reference.
+     * 
+     * @param objid
+     *            The objid of the new resoure reference
+     */
+    public void addResourceRef(final String objid) {
+
+        if (this.ids == null) {
+            this.ids = new String[1];
+        }
+        else {
+            String[] t = new String[this.ids.length + 1];
+            for (int i = 0; i < this.ids.length; i++) {
+                t[i] = this.ids[i];
+            }
+            this.ids = t;
+        }
+        this.ids[this.ids.length - 1] = objid;
+
+    }
 }

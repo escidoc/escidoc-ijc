@@ -148,7 +148,7 @@ public abstract class ClientBase {
 
         final int pSize = "http://".length();
         final int tSize = 5;
-        
+
         String result = serviceUrl;
         if (!serviceUrl.startsWith("http://")) {
             String tmp = serviceUrl.substring(pSize);
@@ -232,9 +232,8 @@ public abstract class ClientBase {
      *             Thrown if in case of failure on transport level.
      */
     public String login(
-        final String serviceUrl, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
+        final String serviceUrl, final String username, final String password)
+        throws EscidocException, InternalClientException, TransportException {
 
         setServiceAddress(serviceUrl);
 

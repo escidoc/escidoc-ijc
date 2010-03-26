@@ -131,15 +131,15 @@ public class ContextRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTEXT + "/" + contextId + "/admin-descriptors");
     }
 
-    public String updateAdminDescriptor(final String in0, final String in1)
+    public String updateAdminDescriptor(
+        final String contextId, final String adminDescriptorId)
         throws RemoteException, OptimisticLockingException, SystemException,
         AdminDescriptorNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException,
         ContextNotFoundException, InvalidXmlException {
 
-        throw new SystemException(500, "Method not yet supported", "");
-        // return put(PATH_CONTEXT + "/" + contextId
-        // + "/admin-descriptors/admin-descriptor/" + admId);
+        return put(PATH_CONTEXT + "/" + contextId
+            + "/admin-descriptors/admin-descriptor/" + adminDescriptorId, "");
     }
 
     /**
@@ -277,11 +277,11 @@ public class ContextRestServiceLocator extends RestServiceMethod
         return post(PATH_CONTEXT + "s/filter", filter);
     }
 
-    public String retrieveContexts(final HashMap filter) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
-        
-        //return post(PATH_CONTEXT + "s/filter", filter);
-        throw new SystemException(500, "Method not yet supported", "");
+    public String retrieveContexts(final HashMap filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTEXT + "s/filter", filter);
     }
 }

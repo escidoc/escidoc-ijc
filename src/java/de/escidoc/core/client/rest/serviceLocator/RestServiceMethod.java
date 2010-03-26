@@ -217,29 +217,11 @@ public class RestServiceMethod {
      */
     public String get(final String path, final Map<String, String[]> parameters)
         throws RemoteException {
-        StringBuffer result = new StringBuffer(path);
 
-        if (parameters != null) {
-            result.append('?');
+        String url = prepareUrl(path, parameters);
 
-            boolean isFirstParameter = true;
-
-            for (final String parameter : parameters.keySet()) {
-                final String[] values = parameters.get(parameter);
-
-                if ((values != null) && (values.length > 0)) {
-                    if (!isFirstParameter) {
-                        result.append('&');
-                    }
-                    result.append(parameter);
-                    result.append('=');
-                    result.append(values[0]);
-                }
-                isFirstParameter = false;
-            }
-        }
         try {
-            return get(new URLCodec().encode(result.toString()));
+            return get(new URLCodec().encode(url));
         }
         catch (EncoderException e) {
             throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, e
@@ -251,7 +233,7 @@ public class RestServiceMethod {
      * Call HTTP DEL Method.
      * 
      * @param path
-     * @return
+     * @return Status Code
      * @throws SystemException
      * @throws EscidocException
      */
@@ -336,4 +318,41 @@ public class RestServiceMethod {
 
         return sb.toString();
     }
+
+    /**
+     * Add a parameter map from an Map to an URL.
+     * 
+     * @param path
+     *            The plain path
+     * @param parameters
+     *            The parameter map
+     * @return URL with URL parameters (The URL is not URL encoded!)
+     */
+    private String prepareUrl(
+        final String path, final Map<String, String[]> parameters) {
+
+        StringBuffer result = new StringBuffer(path);
+
+        if (parameters != null) {
+            result.append('?');
+
+            boolean isFirstParameter = true;
+
+            for (final String parameter : parameters.keySet()) {
+                final String[] values = parameters.get(parameter);
+
+                if ((values != null) && (values.length > 0)) {
+                    if (!isFirstParameter) {
+                        result.append('&');
+                    }
+                    result.append(parameter);
+                    result.append('=');
+                    result.append(values[0]);
+                }
+                isFirstParameter = false;
+            }
+        }
+        return result.toString();
+    }
+
 }

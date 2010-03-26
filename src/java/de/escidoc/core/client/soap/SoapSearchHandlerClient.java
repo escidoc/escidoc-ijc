@@ -58,7 +58,7 @@ public class SoapSearchHandlerClient extends ClientBase {
 
     private final Logger logger =
         Logger.getLogger(SoapSearchHandlerClient.class.getName());
-    
+
     private SRWPort searchSoapClient = null;
 
     private ExplainPort explainSoapClient = null;
@@ -67,11 +67,13 @@ public class SoapSearchHandlerClient extends ClientBase {
 
         super();
     }
+
     /**
      * 
      * @param request
-     * @param database database used for search
-     *        if null, database "escidoc_all" will be used for search
+     * @param database
+     *            database used for search if null, database "escidoc_all" will
+     *            be used for search
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException
@@ -94,8 +96,9 @@ public class SoapSearchHandlerClient extends ClientBase {
     /**
      * 
      * @param request
-     * @param database database used for search
-     *        if null, database "escidoc_all" will be used for search
+     * @param database
+     *            database used for search if null, database "escidoc_all" will
+     *            be used for search
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException
@@ -118,14 +121,16 @@ public class SoapSearchHandlerClient extends ClientBase {
     /**
      * 
      * @param request
-     * @param database database used for search
-     *        if null, database "escidoc_all" will be used for search
+     * @param database
+     *            database used for search if null, database "escidoc_all" will
+     *            be used for search
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException
      * @throws TransportException
      */
-    public ScanResponseType scan(final ScanRequestType request, final String database)
+    public ScanResponseType scan(
+        final ScanRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
         ScanResponseType result = null;
@@ -140,8 +145,9 @@ public class SoapSearchHandlerClient extends ClientBase {
 
     /**
      * 
-     * @param database database used for search
-     *        if null, database "escidoc_all" will be used for search
+     * @param database
+     *            database used for search if null, database "escidoc_all" will
+     *            be used for search
      * @return
      * @throws ServiceException
      */
@@ -155,37 +161,40 @@ public class SoapSearchHandlerClient extends ClientBase {
 
         SRWSampleServiceLocator service = new SRWSampleServiceLocator();
         if (database != null) {
-        URL url;
-        // String adress="http://localhost:8080/srw/search/escidoc_all?wsdl";
-        String adress = service.getExplainSOAPAddress();
-        
-        try {
-            url = new URL(adress);
+            URL url;
+            // String
+            // adress="http://localhost:8080/srw/search/escidoc_all?wsdl";
+            String adress = service.getExplainSOAPAddress();
+
+            try {
+                url = new URL(adress);
+            }
+            catch (MalformedURLException e) {
+                throw new InternalClientException(e);
+            }
+            String path = url.getFile();
+
+            int index = path.lastIndexOf("/");
+            path = path.substring(0, index + 1);
+            try {
+                url = new URL(getServiceAddress() + path + database);
+            }
+            catch (MalformedURLException e) {
+                throw new ServiceException(e);
+            }
+            explainSoapClient = service.getExplainSOAP(url);
         }
-        catch (MalformedURLException e) {
-            throw new InternalClientException(e);
-        }
-        String path = url.getFile();
-        
-        int index = path.lastIndexOf("/");
-        path = path.substring(0, index + 1);
-        try {
-            url = new URL(getServiceAddress() + path + database);
-        }
-        catch (MalformedURLException e) {
-            throw new ServiceException(e);
-        }
-        explainSoapClient = service.getExplainSOAP(url);
-        } else {
-        explainSoapClient = service.getExplainSOAP();    
+        else {
+            explainSoapClient = service.getExplainSOAP();
         }
         return explainSoapClient;
     }
 
     /**
      * 
-     * @param database database used for search
-     *        if null, database "escidoc_all" will be used for search
+     * @param database
+     *            database used for search if null, database "escidoc_all" will
+     *            be used for search
      * @return
      * @throws ServiceException
      */
@@ -196,9 +205,10 @@ public class SoapSearchHandlerClient extends ClientBase {
         SRWSampleServiceLocator service = new SRWSampleServiceLocator();
         if (database != null) {
             URL url;
-            // String adress="http://localhost:8080/srw/search/escidoc_all?wsdl";
+            // String
+            // adress="http://localhost:8080/srw/search/escidoc_all?wsdl";
             String adress = service.getSRWAddress();
-            
+
             try {
                 url = new URL(adress);
             }
@@ -206,7 +216,7 @@ public class SoapSearchHandlerClient extends ClientBase {
                 throw new InternalClientException(e);
             }
             String path = url.getFile();
-            
+
             int index = path.lastIndexOf("/");
             path = path.substring(0, index + 1);
             try {
@@ -216,20 +226,22 @@ public class SoapSearchHandlerClient extends ClientBase {
                 throw new ServiceException(e);
             }
             searchSoapClient = service.getSRW(url);
-            } else {
-            searchSoapClient = service.getSRW();    
-            }
-            
+        }
+        else {
+            searchSoapClient = service.getSRW();
+        }
+
         return searchSoapClient;
     }
+
     public Remote getClient() throws InternalClientException {
-       
+
         throw new InternalClientException("The method is not supported");
     }
-  
+
     public DateTime getLastModificationDate(final String id)
-    throws EscidocException, InternalClientException, TransportException {
+        throws EscidocException, InternalClientException, TransportException {
         throw new InternalClientException("The method is not supported");
     }
-   
+
 }

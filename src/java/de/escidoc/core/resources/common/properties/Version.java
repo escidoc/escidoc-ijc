@@ -71,9 +71,10 @@ public class Version extends ResourceRef
 
     public void setDateAsString(final String date) {
         if (date == null) {
-            this.date = null;  
-        } else {
-        this.date = new DateTime(date);
+            this.date = null;
+        }
+        else {
+            this.date = new DateTime(date);
         }
     }
 

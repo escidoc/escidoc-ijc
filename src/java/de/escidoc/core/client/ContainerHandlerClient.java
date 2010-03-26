@@ -662,7 +662,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public Container addMembers(final String id, final TaskParam taskParam)
+    public Result addMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
@@ -676,7 +676,7 @@ public class ContainerHandlerClient
             xml =
                 getRestContainerHandlerClient().addMembers(id, taskParamString);
         }
-        return Factory.getContainerMarshaller().unmarshalDocument(xml);
+        return Factory.getResultMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -694,7 +694,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public Container removeMembers(final String id, final TaskParam taskParam)
+    public Result removeMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
@@ -710,7 +710,7 @@ public class ContainerHandlerClient
                 getRestContainerHandlerClient().removeMembers(id,
                     taskParamString);
         }
-        return Factory.getContainerMarshaller().unmarshalDocument(xml);
+        return Factory.getResultMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -767,11 +767,13 @@ public class ContainerHandlerClient
             Factory.getContainerMarshaller().marshalDocument(container);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContainerHandlerClient().createContainer(id, containerString);
+                getSoapContainerHandlerClient().createContainer(id,
+                    containerString);
         }
         else {
             xml =
-                getRestContainerHandlerClient().createContainer(id, containerString);
+                getRestContainerHandlerClient().createContainer(id,
+                    containerString);
         }
         return Factory.getContainerMarshaller().unmarshalDocument(xml);
     }

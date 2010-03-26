@@ -232,9 +232,8 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory.getContextMarshaller()
-                    .unmarshalDocument(getClient().retrieve(id)))
-                    .getLastModificationDate();
+                (Factory.getContextMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -254,7 +253,8 @@ public class SoapUserAccountHandlerClient extends ClientBase {
             if (soapClient == null) {
                 UserAccountHandlerServiceLocator serviceLocator =
                     new UserAccountHandlerServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getUserAccountHandlerServiceAddress();
+                String adress =
+                    serviceLocator.getUserAccountHandlerServiceAddress();
                 URL url = null;
                 try {
                     url = new URL(adress);
@@ -264,13 +264,13 @@ public class SoapUserAccountHandlerClient extends ClientBase {
                 }
                 String path = url.getFile();
                 adress = getServiceAddress() + path;
-                
+
                 try {
                     url = new URL(adress);
                 }
                 catch (MalformedURLException e) {
                     throw new ServiceException(e);
-                }  
+                }
                 soapClient = serviceLocator.getUserAccountHandlerService(url);
             }
         }
@@ -279,5 +279,5 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         }
         return soapClient;
     }
-    
+
 }

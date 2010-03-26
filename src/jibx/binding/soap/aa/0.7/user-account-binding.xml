@@ -61,7 +61,7 @@
 	</mapping>
 	<!-- start: abstract binding of properties of user account -->
 	<mapping ns="http://escidoc.de/core/01/properties/"
-		class="de.escidoc.core.resources.aa.useraccount.PropertiesUserAccount"
+		class="de.escidoc.core.resources.aa.useraccount.UserAccountProperties"
 		abstract="true" type-name="abstract-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"

@@ -38,7 +38,7 @@ public class Filter {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -53,7 +53,7 @@ public class Filter {
      * @param value
      *            the value to set
      */
-    public void setValue(String value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 
@@ -68,7 +68,7 @@ public class Filter {
      * @param ids
      *            the ids to set
      */
-    public void setIds(Collection<String> ids) {
+    public void setIds(final Collection<String> ids) {
         this.ids = ids;
     }
 

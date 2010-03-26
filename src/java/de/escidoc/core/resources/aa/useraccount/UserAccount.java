@@ -3,13 +3,13 @@ package de.escidoc.core.resources.aa.useraccount;
 import de.escidoc.core.resources.om.GenericResource;
 
 public class UserAccount extends GenericResource {
-    private PropertiesUserAccount properties;
+    private UserAccountProperties properties;
 
-    public PropertiesUserAccount getProperties() {
+    public UserAccountProperties getProperties() {
         return properties;
     }
 
-    public void setProperties(PropertiesUserAccount properties) {
+    public void setProperties(UserAccountProperties properties) {
         this.properties = properties;
     }
     

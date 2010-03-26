@@ -353,7 +353,7 @@ public class SoapItemHandlerClient extends ClientBase {
      */
     public String retrieveRelations(final String id) throws EscidocException,
         InternalClientException, TransportException {
-        
+
         String result = null;
         try {
             result = getClient().retrieveRelations(id);

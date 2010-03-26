@@ -28,9 +28,11 @@
  */
 package de.escidoc.core.resources.om.container;
 
+import java.util.Collection;
+
+import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.GenericVersionableResource;
 
@@ -44,13 +46,11 @@ public class Container extends GenericVersionableResource {
 
     private MetadataRecords mdRecords = new MetadataRecords();
 
-    private Properties properties = new Properties();
+    private ContainerProperties properties = new ContainerProperties();
 
     private StructMap structMap = null;
 
     private Relations relations = null;
-
-    // private Collection<ResourceRef> members = new LinkedList<ResourceRef>();
 
     /**
      * 
@@ -63,7 +63,7 @@ public class Container extends GenericVersionableResource {
      * 
      * @return properties
      */
-    public Properties getProperties() {
+    public ContainerProperties getProperties() {
         return this.properties;
     }
 
@@ -73,7 +73,7 @@ public class Container extends GenericVersionableResource {
      * @param properties
      *            The new ContextProperties.
      */
-    public void setProperties(final Properties properties) {
+    public void setProperties(final ContainerProperties properties) {
         this.properties = properties;
     }
 
@@ -126,21 +126,11 @@ public class Container extends GenericVersionableResource {
      * 
      * @return Members of Container.
      */
-    // public Collection<ResourceRef> getMembers() {
-    //
-    // return this.members;
-    // }
-    /**
-     * Make Item to Container member.
-     * 
-     * @param resourceRef
-     *            The resourceRef of the resource which is to add as member to
-     *            the Container.
-     */
-    // public void addMember(final ResourceRef resourceRef) {
-    //
-    // this.members.add(resourceRef);
-    // }
+    public Collection<ResourceRef> getMembers() {
+
+        return this.structMap.getMembers();
+    }
+
     /**
      * Get the StuctMap of the Container.
      * 

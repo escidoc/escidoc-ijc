@@ -30,7 +30,6 @@ package de.escidoc.core.client.soap;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Logger;
 
 import javax.xml.rpc.ServiceException;
 
@@ -46,9 +45,6 @@ import de.escidoc.core.um.UserManagementWrapper;
 import de.escidoc.core.um.UserManagementWrapperServiceLocator;
 
 public class SoapUserManagementWrapperClient extends ClientBase {
-
-    private final Logger logger =
-        Logger.getLogger(SoapUserManagementWrapperClient.class.getName());
 
     private UserManagementWrapper soapClient = null;
 
@@ -79,7 +75,8 @@ public class SoapUserManagementWrapperClient extends ClientBase {
             if (soapClient == null) {
                 UserManagementWrapperServiceLocator serviceLocator =
                     new UserManagementWrapperServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getUserManagementWrapperServiceAddress();
+                String adress =
+                    serviceLocator.getUserManagementWrapperServiceAddress();
                 URL url = null;
                 try {
                     url = new URL(adress);
@@ -89,14 +86,15 @@ public class SoapUserManagementWrapperClient extends ClientBase {
                 }
                 String path = url.getFile();
                 adress = getServiceAddress() + path;
-                
+
                 try {
                     url = new URL(adress);
                 }
                 catch (MalformedURLException e) {
                     throw new ServiceException(e);
-                }  
-                soapClient = serviceLocator.getUserManagementWrapperService(url);
+                }
+                soapClient =
+                    serviceLocator.getUserManagementWrapperService(url);
             }
         }
         catch (ServiceException e) {
@@ -134,5 +132,5 @@ public class SoapUserManagementWrapperClient extends ClientBase {
         // }
         return result;
     }
-   
+
 }

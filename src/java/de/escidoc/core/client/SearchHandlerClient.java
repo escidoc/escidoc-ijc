@@ -71,7 +71,10 @@ public class SearchHandlerClient implements SearchHandlerClientInterface {
 
     /*
      * (non-Javadoc)
-     * @see de.escidoc.core.client.interfaces.SearchHandlerClientInterface#explain(gov.loc.www.zing.srw.ExplainRequestType, java.lang.String)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#explain
+     * (gov.loc.www.zing.srw.ExplainRequestType, java.lang.String)
      */
     public ExplainResponseType explain(
         final ExplainRequestType request, final String database)
@@ -80,19 +83,21 @@ public class SearchHandlerClient implements SearchHandlerClientInterface {
         return getSoapSearchHandlerClient().explain(request, database);
     }
 
-  
-    
     public ExplainResponse explain2(
         final ExplainRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        ExplainResponseType result = getSoapSearchHandlerClient().explain(request, database);
+        ExplainResponseType result =
+            getSoapSearchHandlerClient().explain(request, database);
         return new ExplainResponse(result);
     }
 
     /*
      * (non-Javadoc)
-     * @see de.escidoc.core.client.interfaces.SearchHandlerClientInterface#search(gov.loc.www.zing.srw.SearchRetrieveRequestType, java.lang.String)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#search
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType, java.lang.String)
      */
     public SearchRetrieveResponseType search(
         final SearchRetrieveRequestType request, final String database)
@@ -100,21 +105,29 @@ public class SearchHandlerClient implements SearchHandlerClientInterface {
         TransportException {
         return getSoapSearchHandlerClient().search(request, database);
     }
-/*
- * (non-Javadoc)
- * @see de.escidoc.core.client.interfaces.SearchHandlerClientInterface#search2(gov.loc.www.zing.srw.SearchRetrieveRequestType, java.lang.String)
- */
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#search2
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType, java.lang.String)
+     */
     public SearchResponse search2(
         final SearchRetrieveRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        SearchRetrieveResponseType result = getSoapSearchHandlerClient().search(request, database);
+        SearchRetrieveResponseType result =
+            getSoapSearchHandlerClient().search(request, database);
         return new SearchResponse(result);
     }
-       
+
     /*
      * (non-Javadoc)
-     * @see de.escidoc.core.client.interfaces.SearchHandlerClientInterface#scan(gov.loc.www.zing.srw.ScanRequestType, java.lang.String)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#scan(gov
+     * .loc.www.zing.srw.ScanRequestType, java.lang.String)
      */
     public ScanResponseType scan(
         final ScanRequestType request, final String database)
@@ -123,7 +136,6 @@ public class SearchHandlerClient implements SearchHandlerClientInterface {
         return getSoapSearchHandlerClient().scan(request, database);
     }
 
-  
     /**
      * @return the soapContainerHandlerClient
      */

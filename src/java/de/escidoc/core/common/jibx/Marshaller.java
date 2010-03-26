@@ -13,9 +13,9 @@ import org.jibx.runtime.JiBXException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 
 /**
- *
+ * 
  * @author
- *
+ * 
  * @param <E>
  */
 public class Marshaller<E> {
@@ -23,7 +23,7 @@ public class Marshaller<E> {
     private Class resourceClass = null;
 
     /**
-     *
+     * 
      * @param resourceClass
      */
     public Marshaller(final Class resourceClass) {
@@ -32,7 +32,7 @@ public class Marshaller<E> {
 
     /**
      * Unmarshall XML document to Java class.
-     *
+     * 
      * @param xmlDocument
      *            The XML document.
      * @return The corresponding java class.
@@ -67,7 +67,7 @@ public class Marshaller<E> {
 
     /**
      * Marshall the Java class to XML representation.
-     *
+     * 
      * @param resource
      *            The Java resource
      * @return The XML representation of the class.
@@ -85,8 +85,8 @@ public class Marshaller<E> {
             mctx.setIndent(2);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             mctx.marshalDocument(resource, "UTF-8", null, out);
-            result =
-                new String(out.toByteArray(), "UTF-8");//.replaceAll("&lt;", "<");
+            result = new String(out.toByteArray(), "UTF-8");// .replaceAll("&lt;",
+            // "<");
 
         }
         catch (UnsupportedEncodingException e) {
