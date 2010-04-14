@@ -284,12 +284,41 @@ public class ItemRestServiceLocator extends RestServiceMethod
             + componentId + "/properties");
     }
 
+    /**
+     * Deprecated because of inconsistent naming. Use createMdRecord instead of.
+     * 
+     * @param itemId
+     * @param mdRecordXml
+     * @return
+     * @throws RemoteException
+     * @throws SystemException
+     * @throws LockingException
+     * @throws MissingAttributeValueException
+     * @throws MissingMethodParameterException
+     * @throws InvalidStatusException
+     * @throws AuthenticationException
+     * @throws XmlSchemaNotFoundException
+     * @throws ItemNotFoundException
+     * @throws AuthorizationException
+     * @throws InvalidXmlException
+     */
+    @Deprecated
     public String createMetadataRecord(
         final String itemId, final String mdRecordXml) throws RemoteException,
         SystemException, LockingException, MissingAttributeValueException,
         MissingMethodParameterException, InvalidStatusException,
         AuthenticationException, XmlSchemaNotFoundException,
         ItemNotFoundException, AuthorizationException, InvalidXmlException {
+
+        return createMdRecord(itemId, mdRecordXml);
+    }
+
+    public String createMdRecord(final String itemId, final String mdRecordXml)
+        throws RemoteException, SystemException, LockingException,
+        MissingAttributeValueException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException,
+        XmlSchemaNotFoundException, ItemNotFoundException,
+        AuthorizationException, InvalidXmlException {
 
         return put(PATH_ITEM + "/" + itemId + "/md-records/md-record",
             mdRecordXml);

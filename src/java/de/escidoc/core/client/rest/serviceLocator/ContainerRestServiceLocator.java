@@ -292,7 +292,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         return post(PATH_CONTAINER + "/" + containerId + "/submit", taskParam);
     }
 
-    public String createMetadataRecord(
+    public String createMdRecord(
         final String containerId, final String xmlData) throws RemoteException,
         SystemException, LockingException, MissingAttributeValueException,
         MissingMethodParameterException, InvalidStatusException,

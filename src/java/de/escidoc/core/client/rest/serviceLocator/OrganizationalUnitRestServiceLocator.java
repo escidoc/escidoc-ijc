@@ -271,7 +271,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         return get(PATH_OU + "/" + ouId + "/resources/successors");
     };
 
-    public String createMetadataRecord(
+    public String createMdRecord(
         final String ouId, final String mdRecordXml) throws RemoteException,
         SystemException, LockingException, MissingAttributeValueException,
         MissingMethodParameterException, InvalidStatusException,
