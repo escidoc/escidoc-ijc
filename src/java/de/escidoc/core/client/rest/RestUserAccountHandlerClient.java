@@ -29,7 +29,6 @@
 package de.escidoc.core.client.rest;
 
 import java.net.MalformedURLException;
-import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -40,10 +39,6 @@ import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.serviceLocator.UserAccountRestServiceLocator;
-import de.escidoc.core.common.exceptions.remote.application.notfound.UserAccountNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.um.UserAccountHandler;
 
