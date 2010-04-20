@@ -30,7 +30,6 @@ package de.escidoc.core.client.soap;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Logger;
 
 import javax.xml.rpc.ServiceException;
 
@@ -47,9 +46,6 @@ import de.escidoc.core.um.UserAccountHandler;
 import de.escidoc.core.um.UserAccountHandlerServiceLocator;
 
 public class SoapUserAccountHandlerClient extends ClientBase {
-
-    private final Logger logger =
-        Logger.getLogger(SoapUserAccountHandlerClient.class.getName());
 
     private UserAccountHandler soapClient = null;
 
