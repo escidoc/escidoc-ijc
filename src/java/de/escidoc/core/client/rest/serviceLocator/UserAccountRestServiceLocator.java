@@ -305,4 +305,12 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return put(PATH_USER_ACCOUNT + "/" + accountId
             + "/resources/attributes/attribute/" + attId, body);
     }
+
+    public String retrieveCurrentUser() throws RemoteException,
+        UserAccountNotFoundException, SystemException, AuthenticationException,
+        AuthorizationException {
+
+        return get("/aa/user-account/current");
+    }
+
 }
