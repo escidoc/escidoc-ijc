@@ -109,7 +109,10 @@
 
 	<!-- create jar file -->
 	<target name="jar" depends="build" description="build the jar of the project">
-		<jar basedir="${java.build.dir}" destfile="${dist.jar.dir}/escidoc-core-client-lib-${build.version}.jar" />
+		<jar basedir="${java.build.dir}" destfile="${dist.jar.dir}/escidoc-core-client-lib-${build.version}.jar" >
+			 <fileset dir="${java.src.dir}"/>
+			 <fileset dir="${dist.license.dir}"/>
+		</jar>
 	</target>
 
 	<!-- Distribution package -->
