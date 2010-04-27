@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="eSciDoc java client - main build file" basedir="." default="build">
+<project name="Java Client for eSciDoc 1.2 - main build file" basedir="." default="build">
 
 	<property environment="env" />
 	<property file="etc/client.default.properties" />
