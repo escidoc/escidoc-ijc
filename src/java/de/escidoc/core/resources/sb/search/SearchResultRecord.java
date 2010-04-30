@@ -15,7 +15,7 @@ public class SearchResultRecord {
         return base;
     }
 
-    public void setBase(String base) {
+    public void setBase(final String base) {
         this.base = base;
     }
 
@@ -23,7 +23,7 @@ public class SearchResultRecord {
         return highlight;
     }
 
-    public void setHighlight(Highlight highlight) {
+    public void setHighlight(final Highlight highlight) {
         this.highlight = highlight;
     }
 
@@ -31,7 +31,7 @@ public class SearchResultRecord {
         return this.content;
     }
 
-    public void setContent(ResourceRef content) {
+    public void setContent(final ResourceRef content) {
         this.content = content;
     }
 

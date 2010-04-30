@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public class Highlight {
+    
     private Collection<SearchHit> searchHits = new LinkedList<SearchHit>();
 
     public Collection<SearchHit> getSearchHits() {
