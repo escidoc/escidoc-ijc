@@ -28,10 +28,6 @@ public class MyRecordExplainType {
         return new MyStringFragmentExplain(record.getRecordData());
     }
 
-    public MyStringFragmentExplain setStringFragment() {
-        return this.stringFragment;
-    }
-
     public void setStringFragment(final MyStringFragmentExplain stringFragment) {
         this.stringFragment = stringFragment;
     }

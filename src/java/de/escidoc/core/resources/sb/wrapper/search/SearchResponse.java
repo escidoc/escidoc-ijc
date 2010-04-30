@@ -29,50 +29,53 @@ public class SearchResponse {
     }
 
     /**
- * 
- */
+     * 
+     * @return
+     */
     public org.apache.axis.types.NonNegativeInteger getNumberOfRecords() {
         return response.getNumberOfRecords();
     }
 
     /**
- * 
- */
+     * 
+     * @return
+     */
     public java.lang.String getResultSetId() {
         return response.getResultSetId();
     }
 
-    /**
- * 
- */
     public org.apache.axis.types.PositiveInteger getResultSetIdleTime() {
         return response.getResultSetIdleTime();
     }
 
     /**
- * 
- */
+     * 
+     * @return
+     */
     public org.apache.axis.types.PositiveInteger getNextRecordPosition() {
         return response.getNextRecordPosition();
     }
 
     /**
- * 
- */
+     * 
+     * @return
+     */
     public gov.loc.www.zing.srw.EchoedSearchRetrieveRequestType getEchoedSearchRetrieveRequest() {
         return response.getEchoedSearchRetrieveRequest();
     }
 
     /**
- * 
- */
+     * 
+     * @return
+     */
     public gov.loc.www.zing.srw.diagnostic.DiagnosticType[] getDiagnostics() {
         return response.getDiagnostics();
     }
 
     /**
- * 
- */
+     * 
+     * @return
+     */
     public gov.loc.www.zing.srw.ExtraDataType getExtraResponseData() {
         return response.getExtraResponseData();
     }
