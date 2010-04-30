@@ -57,7 +57,8 @@ public class UserAccountTestRest {
     public void testCreateAndRetrieveSuccessfulUserAccount() throws Exception {
 
         RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
-        uahc.setHandle(Constants.DEFAULT_HANDLE);
+        uahc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // load XML template of organizational unit
         File templ =
@@ -92,7 +93,8 @@ public class UserAccountTestRest {
     public void testDeleteUserAccount() throws Exception {
 
         RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
-        uahc.setHandle(Constants.DEFAULT_HANDLE);
+        uahc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // load XML template of organizational unit
         File templ =

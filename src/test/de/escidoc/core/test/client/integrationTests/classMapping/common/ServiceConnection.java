@@ -36,6 +36,7 @@ import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test the Service Connection.
@@ -44,15 +45,6 @@ import de.escidoc.core.test.client.Constants;
  * 
  */
 public class ServiceConnection {
-
-    private static final String ITEM_SERVICE =
-        "http://escidev2:8080/axis/services/ItemHandlerService";
-
-    private static final String CONTAINER_SERVICE =
-        "http://escidev2:8080/axis/services/ContainerHandlerService";
-
-    private static final String CONTEXT_SERVICE =
-        "http://escidev2:8080/axis/services/ContextHandlerService";
 
     private static final String ITEM_ID = "escidoc:ex5";
 
@@ -70,8 +62,8 @@ public class ServiceConnection {
     public void testItem01() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(ITEM_SERVICE);
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = cc.retrieve(ITEM_ID);
         String lmd = item.getLastModificationDateAsString();
@@ -89,8 +81,8 @@ public class ServiceConnection {
     public void testContainer01() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setServiceAddress(CONTAINER_SERVICE);
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = cc.retrieve(CONTAINER_ID);
         String lmd = container.getLastModificationDateAsString();
@@ -108,8 +100,8 @@ public class ServiceConnection {
     public void testContext01() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setServiceAddress(CONTEXT_SERVICE);
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Context context = cc.retrieve(CONTEXT_ID);
         String lmd = context.getLastModificationDateAsString();

@@ -43,6 +43,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * 
@@ -64,7 +65,9 @@ public class OrganizationalUnitHandlerClientTest {
 
             OrganizationalUnitHandlerClient ic =
                 new OrganizationalUnitHandlerClient();
-            ic.setHandle(Constants.DEFAULT_HANDLE);
+            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            
             ic.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
         }
@@ -84,9 +87,12 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieve01() throws Exception {
+        
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
-        ic.setHandle(Constants.DEFAULT_HANDLE);
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        
         OrganizationalUnit organizationUnit =
             ic.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
 
@@ -102,9 +108,12 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieveUpdate() throws Exception {
+        
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
-        ic.setHandle(Constants.DEFAULT_HANDLE);
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        
         OrganizationalUnit organizationUnit =
             ic.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
         ic.update(organizationUnit);

@@ -85,7 +85,8 @@ public class ContainerCreateTest {
     public void testCreateContainer01() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
         try {
@@ -113,7 +114,8 @@ public class ContainerCreateTest {
     public void testCreateContainer02() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
         container.setTitle("New title for test");
@@ -139,7 +141,8 @@ public class ContainerCreateTest {
     public void testCreateContainer03() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -166,7 +169,8 @@ public class ContainerCreateTest {
     public void testCreateContainer04() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -193,7 +197,8 @@ public class ContainerCreateTest {
     public void testCreateContainer05() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -223,7 +228,8 @@ public class ContainerCreateTest {
     public void testCreateContainer06() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -258,7 +264,8 @@ public class ContainerCreateTest {
     public void testCreateContainer07() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -298,15 +305,16 @@ public class ContainerCreateTest {
     public void testCreateContainer08() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
-        
+
         // properties
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
-        
+
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -325,16 +333,13 @@ public class ContainerCreateTest {
             cc.create(container);
             fail("Missing Exception");
         }
-        catch (XmlSchemaValidationException e) {
+        catch (InvalidXmlException e) {
             return;
         }
     }
 
     /**
-     * Test if the right exception is thrown if calling create with an
-     * incomplete Container.
-     * 
-     * MetadataRecord has name and content, ContentModel is added.
+     * Test successfully creation of a Container.
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
@@ -343,7 +348,8 @@ public class ContainerCreateTest {
     public void testCreateContainer09() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = new Container();
 
@@ -352,31 +358,26 @@ public class ContainerCreateTest {
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID));
-        
+
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
         Element contentModelSpecific = doc.createElementNS(null, "cms");
-//        Element element1 = doc.createElement("some-other-stuff1");
-//        element1.setTextContent("33333333333333333333");
-//
+
         List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
-//        cmsContent.add(element1);
         ContentModelSpecific cms = new ContentModelSpecific();
 
         cms.setContent(cmsContent);
 
         properties.setContentModelSpecific(cms);
         container.setProperties(properties);
-        
+
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
 
-//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//        DocumentBuilder builder = factory.newDocumentBuilder();
         Document docMdRecord = builder.newDocument();
         Element element = docMdRecord.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
@@ -389,6 +390,7 @@ public class ContainerCreateTest {
         // compare the new created Container with the Container from the
         // request
         String objId = createdContainer.getObjid();
+
         assertNotNull("Object id is null", objId);
         assertEquals(container.getProperties().getContext().getObjid(),
             createdContainer.getProperties().getContext().getObjid());
@@ -404,8 +406,8 @@ public class ContainerCreateTest {
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
             XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
-        org.w3c.dom.Element mdRecordBeforeCreateContent =
-            (org.w3c.dom.Element) mdRecordBeforeCreateNode.getFirstChild();
+        Node mdRecordBeforeCreateContent =
+            mdRecordBeforeCreateNode.getFirstChild();
 
         MetadataRecord createdContainerMdRecord =
             createdContainer.getMetadataRecords().get("escidoc");
@@ -417,12 +419,11 @@ public class ContainerCreateTest {
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =
             XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
-        org.w3c.dom.Element mdRecordAfterCreateContent =
-            (org.w3c.dom.Element) mdRecordAfterCreateNode.getFirstChild();
+        Node mdRecordAfterCreateContent =
+            mdRecordAfterCreateNode.getFirstChild();
 
         Asserts.assertXmlEquals("Metadata Records differ",
-            (Node) mdRecordAfterCreateContent,
-            (Node) mdRecordBeforeCreateContent);
+            mdRecordAfterCreateContent, mdRecordBeforeCreateContent);
 
     }
 
@@ -438,7 +439,8 @@ public class ContainerCreateTest {
     public void testCreateContainer10() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
@@ -476,8 +478,8 @@ public class ContainerCreateTest {
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
             XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
-        org.w3c.dom.Element mdRecordBeforeCreateContent =
-            (org.w3c.dom.Element) mdRecordBeforeCreateNode.getFirstChild();
+        Node mdRecordBeforeCreateContent =
+            mdRecordBeforeCreateNode.getFirstChild();
 
         MetadataRecord createdContainerMdRecord =
             createdContainer.getMetadataRecords().get("escidoc");
@@ -489,12 +491,11 @@ public class ContainerCreateTest {
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =
             XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
-        org.w3c.dom.Element mdRecordAfterCreateContent =
-            (org.w3c.dom.Element) mdRecordAfterCreateNode.getFirstChild();
+        Node mdRecordAfterCreateContent =
+            mdRecordAfterCreateNode.getFirstChild();
 
         Asserts.assertXmlEquals("Metadata Records differ",
-            (Node) mdRecordAfterCreateContent,
-            (Node) mdRecordBeforeCreateContent);
+            mdRecordAfterCreateContent, mdRecordBeforeCreateContent);
 
         // Relations
         Relations masterRelations = container.getRelations();
@@ -520,7 +521,8 @@ public class ContainerCreateTest {
     public void testCreateContainerWithOneMember() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = createContainerWithMinContent();
         Container memberContainer = createContainerWithMinContent();
@@ -565,7 +567,8 @@ public class ContainerCreateTest {
     public void testCreateContainer20() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);
@@ -588,8 +591,8 @@ public class ContainerCreateTest {
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
             XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
-        org.w3c.dom.Element mdRecordBeforeCreateContent =
-            (org.w3c.dom.Element) mdRecordBeforeCreateNode.getFirstChild();
+        Node mdRecordBeforeCreateContent =
+            mdRecordBeforeCreateNode.getFirstChild();
 
         MetadataRecord createdContainerMdRecord =
             createdContainer.getMetadataRecords().get("escidoc");
@@ -601,12 +604,11 @@ public class ContainerCreateTest {
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =
             XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
-        org.w3c.dom.Element mdRecordAfterCreateContent =
-            (org.w3c.dom.Element) mdRecordAfterCreateNode.getFirstChild();
+        Node mdRecordAfterCreateContent =
+            mdRecordAfterCreateNode.getFirstChild();
 
         Asserts.assertXmlEquals("Metadata Records differ",
-            (Node) mdRecordAfterCreateContent,
-            (Node) mdRecordBeforeCreateContent);
+            mdRecordAfterCreateContent, mdRecordBeforeCreateContent);
     }
 
     /**
@@ -619,7 +621,8 @@ public class ContainerCreateTest {
     public void testMultipleMetadataRecords01() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);

@@ -28,13 +28,16 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,13 +52,17 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.Filter;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
+import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -89,7 +96,8 @@ public class ItemHandlerClientTest {
     public void testRetrieve01() throws Exception {
 
         ItemHandlerClient ic = new ItemHandlerClient();
-        ic.setHandle(Constants.DEFAULT_HANDLE);
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
         Factory.getItemMarshaller().marshalDocument(item);
     }
@@ -104,8 +112,9 @@ public class ItemHandlerClientTest {
     public void testRetrieve02() throws Exception {
         try {
             ItemHandlerClient ic = new ItemHandlerClient();
-            ic.setHandle(Constants.DEFAULT_HANDLE);
-            Item item = ic.retrieve(Constants.INVALID_RESOURCE_ID);
+            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            ic.retrieve(Constants.INVALID_RESOURCE_ID);
 
             fail("Missing Exception retrieving an non existing Item.");
         }
@@ -155,20 +164,90 @@ public class ItemHandlerClientTest {
      */
     @Test
     public void testRetrieveItems() throws Exception {
+
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
+            "non-existing-user", null));
         filterParam.setFilters(filters);
 
         ItemHandlerClient ic = new ItemHandlerClient();
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemList itemList = ic.retrieveItems(filterParam);
 
-        // FIXME check itemList
-        assertNotSame("Wrong number of elements in list", 0, itemList
+        assertEquals("Wrong number of elements in list", 0, itemList
             .getItems().size());
+    }
+
+    /**
+     * Test retrieving Items through filter request.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testRetrieveItems02() throws Exception {
+
+        // create an Item
+        Item item = new Item();
+
+        // Properties
+        ItemProperties properties = new ItemProperties();
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        // properties.setContentModelSpecific(getContentModelSpecific());
+        item.setProperties(properties);
+
+         // Md-Record
+         MetadataRecord mdRecord = new MetadataRecord();
+         mdRecord.setName("escidoc");
+
+         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+         DocumentBuilder builder = factory.newDocumentBuilder();
+         Document doc = builder.newDocument();
+         Element element = doc.createElementNS(null, "myMdRecord");
+         mdRecord.setContent(element);
+         
+         MetadataRecords mdRecords = new MetadataRecords();
+         mdRecords.add(mdRecord);
+         item.setMetadataRecords(mdRecords);
+
+        ItemHandlerClient ic = new ItemHandlerClient();
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        Item createdItem = ic.create(item);
+
+        // now check if at least this Item is in the list
+        TaskParam filterParam = new TaskParam();
+        Collection<Filter> filters = TaskParam.filtersFactory();
+
+        filters.add(getFilter(
+            "http://escidoc.de/core/01/structural-relations/created-by",
+            Constants.SYSTEM_ADMIN_USER, null));
+        filterParam.setFilters(filters);
+
+        ItemList itemList = ic.retrieveItems(filterParam);
+        
+        assertTrue("Wrong number of elements in list", itemList
+            .getItems().size() > 0);
+
+        List<String> idList = new Vector<String>();
+
+        Iterator<Item> it = itemList.getItems().iterator();
+        while (it.hasNext()) {
+            Item n = it.next();
+            idList.add(n.getObjid());
+        }
+
+        assertTrue("Created Item missing in list", idList.contains(createdItem
+            .getObjid()));
+
     }
 
     /**
@@ -181,7 +260,9 @@ public class ItemHandlerClientTest {
     public void testCreateAndSubmit() throws Exception {
 
         ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.setServiceAddress("http://localhost:8080");
+        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
         Item resultItem = ihc.create(item);
@@ -311,7 +392,9 @@ public class ItemHandlerClientTest {
      * Prepare and Filter class from the parameter collection.
      * 
      * @param name
+     *            Parameter name
      * @param value
+     *            filter value
      * @param ids
      * @return
      */

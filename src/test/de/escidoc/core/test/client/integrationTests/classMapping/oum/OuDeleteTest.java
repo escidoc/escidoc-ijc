@@ -46,6 +46,7 @@ import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.Properties;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test deletion of OrganizationalUnit.
@@ -67,7 +68,8 @@ public class OuDeleteTest {
         // create OU
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit createdOU = cc.create(createOu());
 

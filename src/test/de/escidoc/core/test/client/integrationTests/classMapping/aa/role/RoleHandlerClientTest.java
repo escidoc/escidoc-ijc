@@ -59,6 +59,7 @@ import de.escidoc.core.resources.aa.role.ScopeDef;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
 /**
@@ -78,7 +79,8 @@ public class RoleHandlerClientTest {
     public void testCreateAndRetrieveSuccessfulRole() throws Exception {
 
         RoleHandlerClient rc = new RoleHandlerClient();
-        rc.setHandle(Constants.DEFAULT_HANDLE);
+        rc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Role role = createRole();
         Role createdRole = rc.create(role);
@@ -97,7 +99,8 @@ public class RoleHandlerClientTest {
     public void testUpdateSuccessfulRole() throws Exception {
 
         RoleHandlerClient rc = new RoleHandlerClient();
-        rc.setHandle(Constants.DEFAULT_HANDLE);
+        rc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Role role = createRole();
         Role createdRole = rc.create(role);
@@ -120,7 +123,8 @@ public class RoleHandlerClientTest {
         
         // login
         RoleHandlerClient rc = new RoleHandlerClient();
-        rc.setHandle(Constants.DEFAULT_HANDLE);
+        rc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
    
         Role createdRole = rc.create(role);
 
@@ -176,7 +180,8 @@ public class RoleHandlerClientTest {
         filterParam.setFilters(filters);
 
         RoleHandlerClient rc = new RoleHandlerClient();
-        rc.setHandle(Constants.DEFAULT_HANDLE);
+        rc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         Roles roleList = rc.retrieveRoles(filterParam);
 
         // test deserialize Role XML

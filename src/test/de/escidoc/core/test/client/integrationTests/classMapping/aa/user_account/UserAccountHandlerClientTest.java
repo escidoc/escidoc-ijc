@@ -72,7 +72,8 @@ public class UserAccountHandlerClientTest {
 
         // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(Constants.DEFAULT_HANDLE);
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // create
         UserAccount createdUa = uac.create(ua);
@@ -94,7 +95,8 @@ public class UserAccountHandlerClientTest {
         UserAccount ua = createUserAccount();
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(Constants.DEFAULT_HANDLE);
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         UserAccount createdUa = uac.create(ua);
 
@@ -133,7 +135,8 @@ public class UserAccountHandlerClientTest {
 
         // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(Constants.DEFAULT_HANDLE);
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         UserAccount createdUa = uac.create(ua);
 
@@ -175,6 +178,7 @@ public class UserAccountHandlerClientTest {
      */
     @Test
     public void testRetrieveUserAccounts() throws Exception {
+        
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
@@ -184,7 +188,8 @@ public class UserAccountHandlerClientTest {
         filterParam.setFilters(filters);
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(Constants.DEFAULT_HANDLE);
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         UserAccounts userAccountList = uac.retrieveUserAccounts(filterParam);
 
         Factory.getUserAccountListMarshaller().marshalDocument(userAccountList);
@@ -203,7 +208,8 @@ public class UserAccountHandlerClientTest {
 
         // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(Constants.DEFAULT_HANDLE);
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // create
         UserAccount createdUa = uac.create(ua);
@@ -229,7 +235,9 @@ public class UserAccountHandlerClientTest {
     public void testRetrieveGrants() throws Exception {
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(Constants.DEFAULT_HANDLE);
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        
         UserAccount ua = createUserAccount();
 
         UserAccount createdUa = uac.create(ua);
@@ -251,7 +259,8 @@ public class UserAccountHandlerClientTest {
     public void testUpdatePassword() throws Exception {
 
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(Constants.DEFAULT_HANDLE);
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);

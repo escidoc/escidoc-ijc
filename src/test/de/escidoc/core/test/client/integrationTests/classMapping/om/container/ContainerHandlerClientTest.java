@@ -53,6 +53,7 @@ import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test ContainerHandler.
@@ -72,7 +73,8 @@ public class ContainerHandlerClientTest {
     public void testRetrieve() throws Exception {
         try {
             ContainerHandlerClient cc = new ContainerHandlerClient();
-            cc.setHandle(Constants.DEFAULT_HANDLE);
+            cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
             Container containerNew = new Container();
             ContainerProperties properties = new ContainerProperties();
@@ -115,6 +117,8 @@ public class ContainerHandlerClientTest {
         try {
 
             ContainerHandlerClient cc = new ContainerHandlerClient();
+            cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
             cc.retrieve("escidoc:-1");
             fail("Missing Exception");
         }
@@ -134,6 +138,7 @@ public class ContainerHandlerClientTest {
      */
     @Test
     public void testRetrieveContainers() throws Exception {
+        
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
@@ -161,8 +166,10 @@ public class ContainerHandlerClientTest {
      */
     @Test
     public void testRetrieveMembers() throws Exception {
+        
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle("Shibboleth-Handle-1");
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();

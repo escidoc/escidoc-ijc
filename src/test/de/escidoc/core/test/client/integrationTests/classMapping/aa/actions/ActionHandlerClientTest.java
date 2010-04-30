@@ -34,6 +34,7 @@ import de.escidoc.core.client.ActionHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test Action Handler.
@@ -53,7 +54,8 @@ public class ActionHandlerClientTest {
     public void testCreateAndRetrieveSuccessfulActions() throws Exception {
 
         ActionHandlerClient ac = new ActionHandlerClient();
-        ac.setHandle(Constants.DEFAULT_HANDLE);
+        ac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         UnsecuredActions actions = new UnsecuredActions();
         actions.addAction("1");

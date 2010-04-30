@@ -88,7 +88,8 @@ public class OuCreateTest {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         try {
@@ -117,7 +118,8 @@ public class OuCreateTest {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         MetadataRecords mdRecords = new MetadataRecords();
@@ -158,7 +160,8 @@ public class OuCreateTest {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -202,7 +205,8 @@ public class OuCreateTest {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -272,7 +276,8 @@ public class OuCreateTest {
         // create OU
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
 
@@ -339,7 +344,8 @@ public class OuCreateTest {
         // create OU
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
     }
@@ -384,7 +390,8 @@ public class OuCreateTest {
         // create parent OU
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit parentOU = cc.create(organizationalUnit);
 
@@ -408,7 +415,8 @@ public class OuCreateTest {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
@@ -458,7 +466,8 @@ public class OuCreateTest {
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -483,7 +492,7 @@ public class OuCreateTest {
         MetadataRecord mdRecord2 = new MetadataRecord();
         mdRecord2.setName("md-record2");
         Document doc1 = builder.newDocument();
-        Element element2 = doc.createElementNS(null, "myMdRecord ");
+        Element element2 = doc.createElementNS(null, "myMdRecord");
         element2.setTextContent("222222222");
 
         mdRecord2.setContent(element2);

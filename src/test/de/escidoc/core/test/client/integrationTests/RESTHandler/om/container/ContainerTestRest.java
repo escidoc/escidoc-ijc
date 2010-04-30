@@ -32,6 +32,7 @@ import org.junit.Test;
 
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test methods for Container on REST interface of client lib.
@@ -50,8 +51,9 @@ public class ContainerTestRest {
     public void testRetrieveContainer01() throws Exception {
 
         RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
-
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        
         cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
     }
 
@@ -65,7 +67,8 @@ public class ContainerTestRest {
     public void testCreateContainer01() throws Exception {
 
         RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // get a valid container
         String container = cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);

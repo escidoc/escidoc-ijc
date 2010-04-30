@@ -76,7 +76,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         try {
 
             ContextHandlerClient ic = new ContextHandlerClient();
-            ic.setHandle(Constants.DEFAULT_HANDLE);
+            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
             ic.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
         }
@@ -98,7 +99,9 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieve01() throws Exception {
         try {
             ContextHandlerClient ic = new ContextHandlerClient();
-            ic.setHandle(Constants.DEFAULT_HANDLE);
+            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            
             Context context = new Context();
             Properties properties = new Properties();
             properties.setDescription("ContextDescription");
@@ -149,7 +152,9 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieveUpdate() throws Exception {
         try {
             ContextHandlerClient ic = new ContextHandlerClient();
-            ic.setHandle(Constants.DEFAULT_HANDLE);
+            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            
             Context context = new Context();
             Properties properties = new Properties();
             properties.setDescription("ContextDescription");

@@ -85,7 +85,8 @@ public class ItemCreateTest {
     public void testCreateItem01() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         try {
@@ -113,7 +114,8 @@ public class ItemCreateTest {
     public void testCreateItem02() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         item.setTitle("New title for test");
@@ -139,7 +141,8 @@ public class ItemCreateTest {
     public void testCreateItem03() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -166,7 +169,8 @@ public class ItemCreateTest {
     public void testCreateItem04() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -193,7 +197,8 @@ public class ItemCreateTest {
     public void testCreateItem05() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -223,7 +228,8 @@ public class ItemCreateTest {
     public void testCreateItem06() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -258,7 +264,8 @@ public class ItemCreateTest {
     public void testCreateItem07() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -294,7 +301,8 @@ public class ItemCreateTest {
     public void testCreateItem08() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -442,7 +450,8 @@ public class ItemCreateTest {
     public void testCreateItemWithOneComponent() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -454,6 +463,7 @@ public class ItemCreateTest {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
+        
         Element contentModelSpecific = doc.createElementNS(null, "cms");
         Element element1 = doc.createElement("some-other-stuff1");
         element1.setTextContent("33333333333333333333");

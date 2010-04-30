@@ -35,6 +35,7 @@ import de.escidoc.core.client.rest.RestIngestHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test ingest REST interface.
@@ -56,13 +57,14 @@ public class IngestTest {
 
         // organize Item
         ItemHandlerClient ic = new ItemHandlerClient();
-        ic.setHandle(Constants.DEFAULT_HANDLE);
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
         String itemXml = Factory.getItemMarshaller().marshalDocument(item);
 
         // ingest Item
         RestIngestHandlerClient cc = new RestIngestHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.setHandle(ic.getHandle());
         cc.ingest(itemXml);
     }
 

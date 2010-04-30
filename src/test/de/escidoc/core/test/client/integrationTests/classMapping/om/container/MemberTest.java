@@ -60,6 +60,7 @@ import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test add and delete members of Container.
@@ -79,7 +80,8 @@ public class MemberTest {
     public void testAddMember01() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // create Container
         Container container = createContainer(cc);
@@ -114,7 +116,8 @@ public class MemberTest {
     public void testAddMember02() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // create Container
         Container container = createContainer(cc);
@@ -180,7 +183,8 @@ public class MemberTest {
     public void testDeleteMember02() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // create Container
         Container container = createContainer(cc);
@@ -338,7 +342,8 @@ public class MemberTest {
 
         // login
         ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.setHandle(Constants.DEFAULT_HANDLE);
+        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // create
         Item newItem = ihc.create(item);

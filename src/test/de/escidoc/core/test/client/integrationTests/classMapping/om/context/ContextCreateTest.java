@@ -67,7 +67,8 @@ public class ContextCreateTest {
     public void testCreateContext01() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Context context = new Context();
         try {
@@ -92,7 +93,8 @@ public class ContextCreateTest {
     public void testCreateContext02() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -120,7 +122,8 @@ public class ContextCreateTest {
     public void testCreateContext03() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -150,7 +153,8 @@ public class ContextCreateTest {
     public void testCreateContext04() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -190,7 +194,8 @@ public class ContextCreateTest {
     public void testCreateContext08() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Context context = new Context();
         Properties properties = new Properties();

@@ -46,6 +46,7 @@ import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.RequestsResults;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
 /**
@@ -67,7 +68,8 @@ public class PdpHandlerClientTest {
 
         PolicyDecisionPointHandlerClient pdpc =
             new PolicyDecisionPointHandlerClient();
-        pdpc.setHandle(Constants.DEFAULT_HANDLE);
+        pdpc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Requests requests = createRequests();
         RequestsResults results = pdpc.evaluate(requests);

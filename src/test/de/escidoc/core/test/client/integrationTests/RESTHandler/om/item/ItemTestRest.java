@@ -32,6 +32,7 @@ import org.junit.Test;
 
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test create Item.
@@ -51,7 +52,8 @@ public class ItemTestRest {
     public void testRetrieveItem01() throws Exception {
 
         RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         cc.retrieve(Constants.EXAMPLE_ITEM_ID);
     }
@@ -66,7 +68,8 @@ public class ItemTestRest {
     public void testCreateItem01() throws Exception {
 
         RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // retrieve a valid Item
         String item = cc.retrieve(Constants.EXAMPLE_ITEM_ID);

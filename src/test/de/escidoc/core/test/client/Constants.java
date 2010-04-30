@@ -44,17 +44,6 @@ public class Constants {
 
     public static final String SYSTEM_ADMIN_PASSWORD = "eSciDoc";
 
-    /*
-     * Login Handles
-     */
-    public static final String DEFAULT_HANDLE = "Shibboleth-Handle-1";
-
-    public static final String DEPOSITOR_HANDLE = "test_dep_scientist";
-
-    public static final String ADMINISTRATOR_HANDLE = "test_dep_scientist";
-
-    public static final String AUTHOR_HANDLE = "test_author";
-
     /**
      * This is definitive an invalid identifier (resource not found).
      */

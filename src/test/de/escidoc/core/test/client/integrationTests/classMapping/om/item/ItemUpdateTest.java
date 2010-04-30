@@ -49,6 +49,7 @@ import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Asserts;
 
 /**
@@ -71,7 +72,8 @@ public class ItemUpdateTest {
         Item item = createItem();
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         MetadataRecord mdRecord2 = new MetadataRecord();
         mdRecord2.setName("md-record2");
@@ -113,7 +115,8 @@ public class ItemUpdateTest {
     private Item createItem() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setHandle(Constants.DEFAULT_HANDLE);
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
