@@ -295,6 +295,11 @@ public class RestServiceMethod {
      * @return String
      */
     private String convertStreamToString(final InputStream is) {
+
+        if (is == null) {
+            return null;
+        }
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 
