@@ -29,7 +29,7 @@
 package de.escidoc.core.resources.oum;
 
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.om.GenericVersionableResource;
+import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * OrganizationalUnit of eSciDoc.
@@ -37,7 +37,7 @@ import de.escidoc.core.resources.om.GenericVersionableResource;
  * @author SWA
  * 
  */
-public class OrganizationalUnit extends GenericVersionableResource {
+public class OrganizationalUnit extends GenericResource {
 
 	private Properties properties = null;
 
