@@ -6,7 +6,7 @@
 	<classpathentry kind="src" path="build/gen-client"/>
 	<classpathentry kind="src" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/junit4.4/junit-4.4.jar"/>
+	<classpathentry kind="lib" path="lib/junit4.4/junit-4.4.jar" sourcepath="/home/SWA/.m2/repository/junit/junit/4.4/junit-4.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib/httpunit-1.7/httpunit.jar"/>
 	<classpathentry kind="lib" path="lib/axis1.4/activation.jar"/>
 	<classpathentry kind="lib" path="lib/axis1.4/axis.jar"/>
@@ -39,15 +39,17 @@
 	<classpathentry kind="lib" path="lib/xerces-2.9.1/xml-apis.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/commons/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/bcel.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/jibx-bind.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/jibx-extras.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/jibx-run.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/jibx-schema.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/jibx-tools.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/stax-api.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/wstx-asl.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/xmlpull_1_1_4.jar"/>
-	<classpathentry kind="lib" path="lib/jibx-1.2.1/xpp3.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/bcel.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/jibx-bind.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/jibx-extras.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/jibx-run.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/jibx-schema.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/jibx-tools.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/qdox.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/stax-api.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/wstx-asl.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/xbis-jibx.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/xmlpull_1_1_4.jar"/>
+	<classpathentry kind="lib" path="lib/jibx-1.2.2/xpp3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
