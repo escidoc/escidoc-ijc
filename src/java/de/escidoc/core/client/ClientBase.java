@@ -203,6 +203,17 @@ public abstract class ClientBase {
         throws EscidocException, InternalClientException, TransportException;
 
     /**
+     * Get Authentication Handle.
+     * 
+     * @return
+     *            the handle to set
+     */
+    public String getHandle() {
+
+        return PWCallback.getHandle();
+    }
+
+    /**
      * Set Authentication Handle.
      * 
      * @param handle

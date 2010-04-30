@@ -471,26 +471,28 @@ public class SoapItemHandlerClient extends ClientBase {
 
         try {
             if (soapClient == null) {
+
+                // build service URL from config file 
                 ItemHandlerServiceLocator serviceLocator =
                     new ItemHandlerServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getItemHandlerServiceAddress();
 
                 URL url = null;
                 try {
-                    url = new URL(adress);
+                    url =
+                        new URL(serviceLocator.getItemHandlerServiceAddress());
                 }
                 catch (MalformedURLException e) {
                     throw new InternalClientException(e);
                 }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
 
                 try {
-                    url = new URL(adress);
+                    url = new URL(getServiceAddress() + url.getFile());
                 }
                 catch (MalformedURLException e) {
                     throw new ServiceException(e);
                 }
+                
+                
                 soapClient = serviceLocator.getItemHandlerService(url);
             }
         }

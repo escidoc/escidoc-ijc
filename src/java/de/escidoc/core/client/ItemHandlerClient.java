@@ -966,6 +966,23 @@ public class ItemHandlerClient implements ItemHandlerClientInterface<Item> {
     }
 
     /**
+     * Get Login-Handle.
+     * 
+     * @return Login-Handle
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     */
+    public String getHandle() throws InternalClientException {
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            return getSoapItemHandlerClient().getHandle();
+        }
+        else {
+            return getRestItemHandlerClient().getHandle();
+        }
+    }
+
+    /**
      * Set the service endpoint address.
      * 
      * @param address
