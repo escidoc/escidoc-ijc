@@ -141,9 +141,12 @@ public class ExceptionMapper extends Exception {
                     PREFIX_REMOTE, PREFIX_CLIENT));
             Constructor<?> constructor =
                 exClass.getDeclaredConstructor(parameterTypes);
-            result =
-                (EscidocException) constructor.newInstance(
-                    commonE.getMessage(), commonE);
+
+            String msg = commonE.getMessage();
+            if (msg == null) {
+                msg = commonE.getHttpStatusMsg();
+            }
+            result = (EscidocException) constructor.newInstance(msg, commonE);
         }
         catch (Exception e) {
             String msg = "Unable to map exception: " + commonE;
