@@ -10,7 +10,7 @@
 	</mapping>
 	<!-- end: binding of a single user account -->
 
-<!-- start: binding of an user account list -->
+	<!-- start: binding of an user account list -->
 	<mapping ns="http://www.escidoc.de/schemas/useraccountlist/0.7"
 		name="user-account-list" class="de.escidoc.core.resources.aa.useraccount.UserAccounts">
 		<namespace uri="http://www.escidoc.de/schemas/useraccountlist/0.7"
@@ -59,6 +59,7 @@
 			<structure map-as="abstract-properties" usage="optional" />
 		</structure>
 	</mapping>
+	
 	<!-- start: abstract binding of properties of user account -->
 	<mapping ns="http://escidoc.de/core/01/properties/"
 		class="de.escidoc.core.resources.aa.useraccount.UserAccountProperties"
@@ -95,19 +96,6 @@
 
 		<value ns="http://escidoc.de/core/01/properties/" name="active"
 			field="active" usage="optional" />
-
-		<collection name="organizational-units"
-			ns="http://escidoc.de/core/01/properties/" field="ous"
-			create-type="java.util.LinkedList">
-			<structure
-				ns="http://escidoc.de/core/01/structural-relations/"
-				name="organizational-unit"
-				type="de.escidoc.core.resources.ResourceRef">
-				<value name="objid" set-method="setObjid"
-					get-method="getObjid" style="attribute" usage="optional" />
-			</structure>
-		</collection>
-
 
 	</mapping>
 	<!-- end: abstract binding of properties of user account -->

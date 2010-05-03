@@ -56,19 +56,19 @@ public class SoapUserAccountHandlerClient extends ClientBase {
 
     /**
      * 
-     * @param context
+     * @param userAccount
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#create(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#create(java.lang.String)
      */
-    public String create(final String context) throws EscidocException,
+    public String create(final String userAccount) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().create(context);
+            result = getClient().create(userAccount);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -82,7 +82,7 @@ public class SoapUserAccountHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#delete(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#delete(java.lang.String)
      */
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -102,7 +102,7 @@ public class SoapUserAccountHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#retrieve(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#retrieve(java.lang.String)
      */
     public String retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -120,20 +120,20 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     /**
      * 
      * @param id
-     * @param context
+     * @param userAccount
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#update(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String context)
+    public String update(final String id, final String userAccount)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().update(id, context);
+            result = getClient().update(id, userAccount);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -209,11 +209,11 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the context.
+     * Get the last-modification timestamp of the User Account.
      * 
      * @param id
-     *            The id of the context.
-     * @return The timestamp of the last modification of the context.
+     *            The id of the User Account.
+     * @return The timestamp of the last modification of the User Account.
      * @param id
      * @return
      * @throws EscidocException
@@ -228,7 +228,7 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory.getContextMarshaller().unmarshalDocument(getClient()
+                (Factory.getUserAccountMarshaller().unmarshalDocument(getClient()
                     .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {

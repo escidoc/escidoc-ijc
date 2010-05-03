@@ -89,7 +89,8 @@ public class OrganizationalUnitHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String orgUnitString =
-            Factory.getOrganizationalUnitMarshaller().marshalDocument(organizationalUnit);
+            Factory.getOrganizationalUnitMarshaller().marshalDocument(
+                organizationalUnit);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
@@ -393,6 +394,7 @@ public class OrganizationalUnitHandlerClient
     public OrganizationalUnitList retrieveOrganizationalUnits(
         final TaskParam taskParam) throws EscidocException,
         InternalClientException, TransportException {
+
         String taskParamString =
             Factory.getTaskParamMarshaller().marshalDocument(taskParam);
         String xml = null;

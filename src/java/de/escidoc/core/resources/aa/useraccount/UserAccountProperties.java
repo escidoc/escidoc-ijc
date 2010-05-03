@@ -28,10 +28,6 @@
  */
 package de.escidoc.core.resources.aa.useraccount;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.properties.Properties;
 
@@ -48,8 +44,6 @@ public class UserAccountProperties extends Properties {
     private ResourceRef modifiedBy;
 
     private boolean active;
-
-    private Collection<ResourceRef> ous = new LinkedList<ResourceRef>();
 
     /**
      * Get login name of user.
@@ -77,55 +71,6 @@ public class UserAccountProperties extends Properties {
      */
     public boolean isActive() {
         return this.active;
-    }
-
-    /**
-     * Get related Organizational Unit.
-     * 
-     * @return Collection of Organizational Units
-     */
-    public Collection<ResourceRef> getOus() {
-        return ous;
-    }
-
-    /**
-     * Set related Organizational Units.
-     * 
-     * @param ous
-     *            Collection of Organizational Units
-     */
-    public void setOus(final Collection<ResourceRef> ous) {
-        this.ous = ous;
-    }
-
-    /**
-     * Add an Organizational Unit to the list of related Organizational Units.
-     * 
-     * @param organizationalUnitRef
-     *            ResourceRef of related Organizational Unit
-     */
-    public void add(final ResourceRef organizationalUnitRef) {
-        this.ous.add(organizationalUnitRef);
-    }
-
-    /**
-     * Delete an Organizational Unit from the related Organizational Unit list.
-     * 
-     * @param organizationalUnitId
-     *            objid of organizational Unit
-     * 
-     */
-    public void del(final String organizationalUnitId) {
-
-        Iterator<ResourceRef> resRefIter = this.ous.iterator();
-        while (resRefIter.hasNext()) {
-            ResourceRef next = resRefIter.next();
-            if (next.getObjid().equals(organizationalUnitId)) {
-                resRefIter.remove();
-                break;
-            }
-        }
-
     }
 
     /**

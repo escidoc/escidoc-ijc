@@ -150,12 +150,13 @@ public class OrganizationalUnitHandlerClientTest {
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:exuser1", null));
+            Constants.SYSTEM_ADMIN_USER, null));
         filterParam.setFilters(filters);
         Factory.getTaskParamMarshaller().marshalDocument(filterParam);
 
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
+        
         OrganizationalUnitList ouList =
             ic.retrieveOrganizationalUnits(filterParam);
 

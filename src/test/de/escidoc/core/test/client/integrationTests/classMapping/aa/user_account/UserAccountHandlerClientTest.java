@@ -34,7 +34,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
 import org.junit.Test;
 
@@ -42,7 +41,6 @@ import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
@@ -298,13 +296,6 @@ public class UserAccountHandlerClientTest {
         String login = getUniqueLoginName();
         properties.setName("Name " + login);
         properties.setLoginName(login);
-
-        // OU references
-        ResourceRef ouRef1 = new ResourceRef();
-        ouRef1.setObjid("escidoc:persistent1");
-        Collection<ResourceRef> ous = new LinkedList<ResourceRef>();
-        ous.add(ouRef1);
-        properties.setOus(ous);
 
         ua.setProperties(properties);
 
