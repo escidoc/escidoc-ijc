@@ -94,10 +94,10 @@ public class PWCallback implements CallbackHandler {
      *             Exception
      * @see javax.security.auth.callback.CallbackHandler#handle
      *      (javax.security.auth.callback.Callback[])
-     * @aa
      */
     public void handle(final Callback[] callbacks) throws IOException,
         UnsupportedCallbackException {
+        
         for (int i = 0; i < callbacks.length; i++) {
             if (callbacks[i] instanceof WSPasswordCallback) {
                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
