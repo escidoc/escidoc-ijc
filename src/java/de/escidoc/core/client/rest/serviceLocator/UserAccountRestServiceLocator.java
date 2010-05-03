@@ -56,7 +56,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return put(PATH_USER_ACCOUNT, userAccountXml);
     }
 
-    public String update(final String accountId, final String body)
+    public String update(final String accountId, final String userAccountXml)
         throws RemoteException, UserAccountNotFoundException,
         UniqueConstraintViolationException, OptimisticLockingException,
         SystemException, OrganizationalUnitNotFoundException,
@@ -64,7 +64,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         InvalidStatusException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT + "/" + accountId, body);
+        return put(PATH_USER_ACCOUNT + "/" + accountId, userAccountXml);
     }
 
     public String retrieve(final String accountId) throws RemoteException,

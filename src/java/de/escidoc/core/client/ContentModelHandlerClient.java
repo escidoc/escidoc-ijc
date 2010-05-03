@@ -250,6 +250,23 @@ public class ContentModelHandlerClient
     }
 
     /**
+     * Get Login-Handle.
+     * 
+     * @return Login-Handle
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     */
+    public String getHandle() throws InternalClientException {
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            return getSoapContentModelHandlerClient().getHandle();
+        }
+        else {
+            return getRestContentModelHandlerClient().getHandle();
+        }
+    }
+
+    /**
      * Set Login-Handle.
      * 
      * @param handle

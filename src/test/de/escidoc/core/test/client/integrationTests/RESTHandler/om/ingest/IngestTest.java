@@ -30,9 +30,11 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.om.ingest;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -46,14 +48,13 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 public class IngestTest {
 
     /**
-     * Test if the right exception is thrown if calling create with an
-     * incomplete Item.
+     * Test ingesting an Item.
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void testIngest01() throws Exception {
+    public void testIngestItem01() throws Exception {
 
         // organize Item
         ItemHandlerClient ic = new ItemHandlerClient();
@@ -66,6 +67,28 @@ public class IngestTest {
         RestIngestHandlerClient cc = new RestIngestHandlerClient();
         cc.setHandle(ic.getHandle());
         cc.ingest(itemXml);
+    }
+
+    /**
+     * Test ingesting a Container.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void testIngestContainer02() throws Exception {
+
+        // organize Container
+        ContainerHandlerClient ic = new ContainerHandlerClient();
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        Container container = ic.retrieve(Constants.EXAMPLE_CONTAINER_ID);
+        String containerXml = Factory.getContainerMarshaller().marshalDocument(container);
+
+        // ingest Item
+        RestIngestHandlerClient cc = new RestIngestHandlerClient();
+        cc.setHandle(ic.getHandle());
+        cc.ingest(containerXml);
     }
 
 }

@@ -80,8 +80,17 @@ public interface CrudHandlerInterface<T> {
     /**
      * Set the Authentication Handle.
      * 
+     * @return handle The Authentication Handle.
+     * @throws InternalClientException
+     *             Thrown if getting failed.
+     */
+    String getHandle() throws InternalClientException;
+
+    /**
+     * Set the Authentication Handle.
+     * 
      * @param handle
-     *            The Authentication Handle Shibboleth).
+     *            The Authentication Handle.
      * @throws InternalClientException
      *             Thrown if setting failed.
      */

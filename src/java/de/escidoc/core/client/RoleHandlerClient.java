@@ -29,6 +29,7 @@
 package de.escidoc.core.client;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.joda.time.DateTime;
 
@@ -37,6 +38,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
+import de.escidoc.core.client.rest.RestRoleHandlerClient;
 import de.escidoc.core.client.soap.SoapRoleHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.role.Role;
@@ -53,7 +55,12 @@ import de.escidoc.core.resources.common.TaskParam;
  */
 public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
 
+    // Set SOAP as default transport protocol (for now :-()
+    private TransportProtocol transport = TransportProtocol.SOAP;
+
     private SoapRoleHandlerClient soapRoleHandlerClient = null;
+
+    private RestRoleHandlerClient restRoleHandlerClient = null;
 
     private Authentication auth = null;
 
@@ -82,9 +89,16 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     public Role create(final Role role) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml =
-            getSoapRoleHandlerClient().create(
-                Factory.getRoleMarshaller().marshalDocument((Role) role));
+        String xml = null;
+        String roleString = Factory.getRoleMarshaller().marshalDocument(role);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapRoleHandlerClient().create(roleString);
+        }
+        else {
+            xml = getRestRoleHandlerClient().create(roleString);
+        }
+
         return Factory.getRoleMarshaller().unmarshalDocument(xml);
     }
 
@@ -99,8 +113,14 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     public Role retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        return Factory.getRoleMarshaller().unmarshalDocument(
-            getSoapRoleHandlerClient().retrieve(id));
+        String roleString = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            roleString = getSoapRoleHandlerClient().retrieve(id);
+        }
+        else {
+            roleString = getRestRoleHandlerClient().retrieve(id);
+        }
+        return Factory.getRoleMarshaller().unmarshalDocument(roleString);
     }
 
     /**
@@ -113,7 +133,12 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        getSoapRoleHandlerClient().delete(id);
+        if (getTransport() == TransportProtocol.SOAP) {
+            getSoapRoleHandlerClient().delete(id);
+        }
+        else {
+            getRestRoleHandlerClient().delete(id);
+        }
     }
 
     /**
@@ -127,9 +152,17 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     public Role update(final Role role) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml =
-            getSoapRoleHandlerClient().update(((Role) role).getObjid(),
-                Factory.getRoleMarshaller().marshalDocument((Role) role));
+        String xml = null;
+        String roleString = Factory.getRoleMarshaller().marshalDocument(role);
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapRoleHandlerClient().update(role.getObjid(), roleString);
+        }
+        else {
+            xml =
+                getRestRoleHandlerClient().update(role.getObjid(), roleString);
+        }
+
         return Factory.getRoleMarshaller().unmarshalDocument(xml);
     }
 
@@ -140,11 +173,30 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     public Roles retrieveRoles(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        String xml =
-            getSoapRoleHandlerClient().retrieveRoles(
-                Factory.getTaskParamMarshaller().marshalDocument(taskParam));
+
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        String xml = null;
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapRoleHandlerClient().retrieveRoles(taskParamString);
+        }
+        else {
+            xml = getRestRoleHandlerClient().retrieveRoles(taskParamString);
+        }
         return Factory.getRoleListMarshaller().unmarshalDocument(xml);
 
+    }
+
+    public Roles retrieveRoles(final HashMap filter)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        // String xml =
+        // getSoapRoleHandlerClient().retrieveRoles(
+        // Factory.getTaskParamMarshaller().marshalDocument(taskParam));
+        // return Factory.getRoleListMarshaller().unmarshalDocument(xml);
+        return null;
     }
 
     /**
@@ -160,7 +212,12 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        return getSoapRoleHandlerClient().getLastModificationDate(id);
+        if (getTransport() == TransportProtocol.SOAP) {
+            return getSoapRoleHandlerClient().getLastModificationDate(id);
+        }
+        else {
+            return getRestRoleHandlerClient().getLastModificationDate(id);
+        }
     }
 
     /*
@@ -175,21 +232,14 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         final String password) throws EscidocException,
         InternalClientException, TransportException {
 
-        setServiceAddress(serviceAddress);
-
-        if (this.auth == null) {
-            try {
-                auth = new Authentication(serviceAddress, username, password);
-            }
-            catch (IOException e) {
-                throw new InternalClientException("Login failed.", e);
-            }
+        if (getTransport() == TransportProtocol.SOAP) {
+            return getSoapRoleHandlerClient().login(serviceAddress, username,
+                password);
         }
-
-        String handle = this.auth.getAuthHandle();
-        setHandle(handle);
-
-        return handle;
+        else {
+            return getRestRoleHandlerClient().login(serviceAddress, username,
+                password);
+        }
     }
 
     /*
@@ -204,21 +254,69 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     }
 
     /**
+     * Get Login-Handle.
+     * 
+     * @return Login-Handle
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     */
+    public String getHandle() throws InternalClientException {
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            return getSoapRoleHandlerClient().getHandle();
+        }
+        else {
+            return getRestRoleHandlerClient().getHandle();
+        }
+    }
+
+    /**
      * See Interface for functional description.
      * 
      * @param handle
      * @see de.escidoc.core.client.interfaces.BaseClientHandlerInterface#setHandle(java.lang.String)
      */
-    public void setHandle(final String handle) {
+    public void setHandle(final String handle) throws InternalClientException {
 
-        getSoapRoleHandlerClient().setHandle(handle);
+        if (getTransport() == TransportProtocol.SOAP) {
+            getSoapRoleHandlerClient().setHandle(handle);
+        }
+        else {
+            getRestRoleHandlerClient().setHandle(handle);
+        }
     }
 
     /**
-     * @return the soapContainerHandlerClient
+     * Get the REST handler.
+     * 
+     * @return RestRoleHandlerClient
+     * @throws InternalClientException
+     *             Thrown if creating instance of RestRoleHandlerClient failed.
      */
-    public SoapRoleHandlerClient getSoapRoleHandlerClient() {
-        return soapRoleHandlerClient;
+    public RestRoleHandlerClient getRestRoleHandlerClient()
+        throws InternalClientException {
+
+        if (this.restRoleHandlerClient == null) {
+            this.restRoleHandlerClient = new RestRoleHandlerClient();
+        }
+        return this.restRoleHandlerClient;
+    }
+
+    /**
+     * Get the SOAP handler.
+     * 
+     * @return SoapRoleHandlerClient
+     * @throws InternalClientException
+     *             Thrown if creating instance of SoapRoleHandlerClient failed.
+     */
+    public SoapRoleHandlerClient getSoapRoleHandlerClient()
+        throws InternalClientException {
+
+        if (this.soapRoleHandlerClient == null) {
+            this.soapRoleHandlerClient = new SoapRoleHandlerClient();
+        }
+
+        return this.soapRoleHandlerClient;
     }
 
     /**
@@ -231,18 +329,32 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
      */
     public void setServiceAddress(final String address)
         throws InternalClientException {
-        getSoapRoleHandlerClient().setServiceAddress(address);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            getSoapRoleHandlerClient().setServiceAddress(address);
+        }
+        else {
+            getRestRoleHandlerClient().setServiceAddress(address);
+        }
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Set the Transport Protocol (REST/SOAP).
      * 
-     * @see
-     * de.escidoc.core.client.interfaces.CrudHandlerInterface#setTransport(de
-     * .escidoc.core.client.TransportProtocol)
+     * @param tp
+     *            The transport protocol.
      */
-    public void setTransport(TransportProtocol tp) {
-        // Purposely not implemented
+    public void setTransport(final TransportProtocol tp) {
+        this.transport = tp;
+    }
+
+    /**
+     * Set the Transport Protocol (REST/SOAP).
+     * 
+     * @return The used transport protocol.
+     */
+    public TransportProtocol getTransport() {
+        return this.transport;
     }
 
 }

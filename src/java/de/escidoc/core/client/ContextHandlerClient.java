@@ -481,6 +481,23 @@ public class ContextHandlerClient
     }
 
     /**
+     * Get Login-Handle.
+     * 
+     * @return Login-Handle
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     */
+    public String getHandle() throws InternalClientException {
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            return getSoapContextHandlerClient().getHandle();
+        }
+        else {
+            return getRestContextHandlerClient().getHandle();
+        }
+    }
+
+    /**
      * Set Login-Handle.
      * 
      * @param handle
