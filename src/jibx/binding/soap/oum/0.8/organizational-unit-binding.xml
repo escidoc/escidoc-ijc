@@ -77,6 +77,16 @@
 				usage="optional" />
 		</structure>
 
+		<!-- *****************************************
+			Predecessors
+			****************************************** -->
+		<structure ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
+			name="predecessors"
+			type="de.escidoc.core.resources.oum.Predecessors"
+			field="predecessors" usage="optional">
+			<structure map-as="abstract-predecessors"
+				usage="optional" />
+		</structure>
 
 	</mapping>
 	<!-- end: abstract binding of a single container -->
@@ -154,6 +164,34 @@
 			<structure
 				ns="http://escidoc.de/core/01/structural-relations/"
 				name="parent"
+				type="de.escidoc.core.resources.ResourceRef" usage="optional">
+
+				<value name="objid" style="attribute"
+					set-method="setObjid" get-method="getObjid" usage="optional" />
+				<value name="href" style="attribute"
+					set-method="setHref" get-method="getHref" usage="optional" />
+				<value name="title" style="attribute"
+					set-method="setTitle" get-method="getTitle" usage="optional" />
+			</structure>
+		</collection>
+	</mapping>
+
+	<!-- *****************************************
+		Abstract Predecessors 
+		****************************************** -->
+	<mapping ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
+		class="de.escidoc.core.resources.oum.Predecessors"
+		abstract="true" type-name="abstract-predecessors">
+
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+
+		<collection field="predecessorRefs"
+			create-type="java.util.LinkedList" usage="optional">
+
+			<structure
+				ns="http://escidoc.de/core/01/structural-relations/"
+				name="predecessor"
 				type="de.escidoc.core.resources.ResourceRef" usage="optional">
 
 				<value name="objid" style="attribute"

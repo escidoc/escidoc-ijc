@@ -96,6 +96,19 @@
 		<value ns="http://escidoc.de/core/01/properties/" name="active"
 			field="active" usage="optional" />
 
+		<collection name="organizational-units"
+			ns="http://escidoc.de/core/01/properties/" field="ous"
+			create-type="java.util.LinkedList">
+			<structure
+				ns="http://escidoc.de/core/01/structural-relations/"
+				name="organizational-unit"
+				type="de.escidoc.core.resources.ResourceRef">
+				<value name="objid" set-method="setObjid"
+					get-method="getObjid" style="attribute" usage="optional" />
+			</structure>
+		</collection>
+
+
 	</mapping>
 	<!-- end: abstract binding of properties of user account -->
 

@@ -43,8 +43,6 @@ import de.escidoc.core.resources.common.properties.Properties;
  */
 public class UserAccountProperties extends Properties {
 
-    private String email;
-
     private String loginName;
 
     private ResourceRef modifiedBy;
@@ -52,23 +50,6 @@ public class UserAccountProperties extends Properties {
     private boolean active;
 
     private Collection<ResourceRef> ous = new LinkedList<ResourceRef>();
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return this.email;
-    }
-
-    /**
-     * Set e-mail of user.
-     * 
-     * @param email
-     *            User e-mail address
-     */
-    public void setEmail(final String email) {
-        this.email = email;
-    }
 
     /**
      * Get login name of user.

@@ -13,7 +13,7 @@
 				<pathelement location="${lib.jibx.dir}/jibx-bind.jar" />
 				<pathelement location="${basedir}/lib/joda-time-1.5.2/joda-time-1.5.2.jar" />
 				<pathelement location="${basedir}/lib/dom4j/dom4j-1.6.1.jar" />
-				<pathelement location="${basedir}/lib/jibx-1.2.1/jibx-extras.jar" />
+				<pathelement location="${lib.jibx.dir}/jibx-extras.jar" />
 			</classpath>
 		</taskdef>
 		<bind binding="${basedir}/${jibx.soap.resource.binding.file}" verbose="true" load="true">

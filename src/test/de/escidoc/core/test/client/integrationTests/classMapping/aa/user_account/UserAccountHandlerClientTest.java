@@ -297,7 +297,6 @@ public class UserAccountHandlerClientTest {
         UserAccountProperties properties = new UserAccountProperties();
         String login = getUniqueLoginName();
         properties.setName("Name " + login);
-        properties.setEmail(login + "@escidoc.org");
         properties.setLoginName(login);
 
         // OU references

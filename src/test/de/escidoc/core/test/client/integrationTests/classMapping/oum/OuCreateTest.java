@@ -59,7 +59,6 @@ import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.Parents;
-import de.escidoc.core.resources.oum.Predecessor;
 import de.escidoc.core.resources.oum.Predecessors;
 import de.escidoc.core.resources.oum.Properties;
 import de.escidoc.core.test.client.Constants;
@@ -300,8 +299,7 @@ public class OuCreateTest {
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
-
+        // md-record "escidoc"
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
 
@@ -310,19 +308,41 @@ public class OuCreateTest {
         factory.setCoalescing(true);
         factory.setValidating(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
+
         Document doc = builder.newDocument();
+        Element element = doc.createElementNS(null, "myMdRecord");
+        mdRecord.setContent(element);
 
-        Element mdRecordCnt =
-            doc.createElementNS("http://escidoc.mpg.de/"
-                + "metadataprofile/schema/0.1/organization",
-                "ou:organization-details");
-
-        // dc:title
+        // // dc:title
         Element title =
             doc.createElementNS("http://purl.org/dc/elements/1.1/", "dc:title");
-        title.setTextContent("name" + System.currentTimeMillis());
-        mdRecordCnt.appendChild(title);
+        // title.setTextContent("name" + System.currentTimeMillis());
+        element.appendChild(title);
+        //        
+        // mdRecord.setContent(title);
+
+        // MetadataRecord mdRecord = new MetadataRecord();
+        // mdRecord.setName("escidoc");
         //
+        // DocumentBuilderFactory factory =
+        // DocumentBuilderFactory.newInstance();
+        // factory.setNamespaceAware(true);
+        // factory.setCoalescing(true);
+        // factory.setValidating(true);
+        // DocumentBuilder builder = factory.newDocumentBuilder();
+        // Document doc = builder.newDocument();
+        //
+        // Element mdRecordCnt =
+        // doc.createElementNS("http://escidoc.mpg.de/"
+        // + "metadataprofile/schema/0.1/organization",
+        // "ou:organization-details");
+        //
+        // // dc:title
+        // Element title =
+        // doc.createElementNS("http://purl.org/dc/elements/1.1/", "dc:title");
+        // title.setTextContent("name" + System.currentTimeMillis());
+        // mdRecordCnt.appendChild(title);
+        //        
         // // dc:description
         // Element description =
         // doc.createElementNS("http://purl.org/dc/elements/1.1/",
@@ -330,9 +350,10 @@ public class OuCreateTest {
         // description.setTextContent("Just a generic organizational unit.");
         // mdRecordCnt.appendChild(description);
         //
-        mdRecord.setContent(mdRecordCnt);
-
+        // mdRecord.setContent(mdRecordCnt);
         // mdRecord.setContent(doc.getDocumentElement());
+
+        MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
 
         // mdRecord.setContent(tmpl.getMetadataRecords().get("escidoc").getContent());
@@ -446,7 +467,7 @@ public class OuCreateTest {
         Properties properties2 = new Properties();
         properties.setName("Organizational_Unit_Test_Name");
         ou2.setProperties(properties2);
-        Predecessor predecessor = new Predecessor();
+        ResourceRef predecessor = new ResourceRef();
         predecessor.setObjid(ou1.getObjid());
         Predecessors predecessors = new Predecessors();
         predecessors.addPredecessorRef(predecessor);

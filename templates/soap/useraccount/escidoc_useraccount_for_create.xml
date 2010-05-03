@@ -5,8 +5,6 @@
     xmlns:prefix-srel="http://escidoc.de/core/01/structural-relations/"
     xmlns:prefix-xlink="http://www.w3.org/1999/xlink">
     <prefix-user-account:properties>
-        <prefix-prop:email>
-            email@email.de°^^"§$%/()=ß?\´`@€+*~#,;.:-_|> &amp;&gt;&lt;&quot;&apos; &amp;amp; &amp;gt; &amp;lt; &amp;quot; &amp;apos; <![CDATA[< & > " '    &lt; &amp; &gt; &quot; &apos;]]></prefix-prop:email>
         <prefix-prop:name>°^^"§$%/()=ß?\´`@€+*~#,;.:-_|> &amp;&gt;&lt;&quot;&apos; &amp;amp; &amp;gt; &amp;lt; &amp;quot; &amp;apos; <![CDATA[< & > " '    &lt; &amp; &gt; &quot; &apos;]]></prefix-prop:name>
         <prefix-prop:login-name>test_dep_scientist</prefix-prop:login-name>
         <prefix-prop:organizational-units>

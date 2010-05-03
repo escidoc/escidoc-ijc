@@ -89,8 +89,7 @@ public class OrganizationalUnitHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String orgUnitString =
-            Factory.getOrganizationalUnitMarshaller().marshalDocument(
-                (OrganizationalUnit) organizationalUnit);
+            Factory.getOrganizationalUnitMarshaller().marshalDocument(organizationalUnit);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =

@@ -104,9 +104,6 @@ public class UserAccountTestRest {
 
         // prepare template
         resourceXml =
-            resourceXml.replace("###EMAIL###", System.nanoTime()
-                + "-test@escidoc.org");
-        resourceXml =
             resourceXml.replace("###NAME###", System.nanoTime() + "-test");
         resourceXml =
             resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
