@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.client;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.joda.time.DateTime;
@@ -61,8 +60,6 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     private SoapRoleHandlerClient soapRoleHandlerClient = null;
 
     private RestRoleHandlerClient restRoleHandlerClient = null;
-
-    private Authentication auth = null;
 
     /**
      * Create ContainersoapContainerHandlerClient instance. The service protocol
