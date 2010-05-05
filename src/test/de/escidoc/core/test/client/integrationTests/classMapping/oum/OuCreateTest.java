@@ -34,7 +34,6 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -477,7 +476,7 @@ public class OuCreateTest {
         final String title, final String description)
         throws ParserConfigurationException {
 
-        // md-record "escidoc"
+        // md-record
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName(mdRecordName);
 
@@ -503,7 +502,7 @@ public class OuCreateTest {
             doc.createElementNS("http://purl.org/dc/elements/1.1/",
                 "description");
         descriptionElmt.setPrefix("dc");
-        descriptionElmt.setTextContent("Just a generic Organizational Unit.");
+        descriptionElmt.setTextContent(description);
         mdRecordContent.appendChild(descriptionElmt);
         mdRecord.setContent(mdRecordContent);
 
