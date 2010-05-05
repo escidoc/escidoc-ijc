@@ -103,8 +103,7 @@ public class Asserts {
             Document mdRecordMaster = XmlUtility.getDocument(xml1);
             Node mdRecordMasterNode =
                 XPathAPI.selectSingleNode(mdRecordMaster, "/md-record");
-            org.w3c.dom.Element mdRecordMasterContent =
-                (org.w3c.dom.Element) mdRecordMasterNode.getFirstChild();
+            Node mdRecordMasterContent = mdRecordMasterNode.getFirstChild();
 
             Marshaller<MetadataRecord> m2 =
                 new Marshaller<MetadataRecord>(mdToComp.getClass());
@@ -113,8 +112,8 @@ public class Asserts {
             Document mdRecordToCompare = XmlUtility.getDocument(xml2);
             Node mdRecordToCompareNode =
                 XPathAPI.selectSingleNode(mdRecordToCompare, "/md-record");
-            org.w3c.dom.Element mdRecordToCompareContent =
-                (org.w3c.dom.Element) mdRecordToCompareNode.getFirstChild();
+            Node mdRecordToCompareContent =
+                mdRecordToCompareNode.getFirstChild();
 
             assertXmlEquals("Metadata Records differ",
                 (Node) mdRecordToCompareContent, (Node) mdRecordMasterContent);

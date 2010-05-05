@@ -32,8 +32,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.ResourceRef;
-
 /**
  * Organizational Unit Predecessors.
  * 
@@ -42,7 +40,7 @@ import de.escidoc.core.resources.ResourceRef;
  */
 public class Predecessors {
 
-	private Collection<ResourceRef> predecessorRefs = new LinkedList<ResourceRef>();
+	private Collection<Predecessor> predecessorRefs = new LinkedList<Predecessor>();
 
 	/**
 	 * Set the whole Predecessors collection.
@@ -50,7 +48,7 @@ public class Predecessors {
 	 * @param predecessorRef
 	 *            Collection of Predecessors for the OrganizationalUnit.
 	 */
-	public void setPredecessorRef(final Collection<ResourceRef> predecessorRef) {
+	public void setPredecessorRef(final Collection<Predecessor> predecessorRef) {
 		this.predecessorRefs = predecessorRef;
 	}
 
@@ -61,7 +59,7 @@ public class Predecessors {
 	 * @param predecessorRef
 	 *            New resource reference to the predecessor.
 	 */
-	public void addPredecessorRef(final ResourceRef predecessorRef) {
+	public void addPredecessorRef(final Predecessor predecessorRef) {
 		this.predecessorRefs.add(predecessorRef);
 	}
 
@@ -70,7 +68,7 @@ public class Predecessors {
 	 * 
 	 * @return Iterator
 	 */
-	public Iterator<ResourceRef> iterator() {
+	public Iterator<Predecessor> iterator() {
 		return this.predecessorRefs.iterator();
 	}
 }

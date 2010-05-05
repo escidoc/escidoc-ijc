@@ -192,7 +192,7 @@
 			<structure
 				ns="http://escidoc.de/core/01/structural-relations/"
 				name="predecessor"
-				type="de.escidoc.core.resources.ResourceRef" usage="optional">
+				type="de.escidoc.core.resources.oum.Predecessor" usage="optional">
 
 				<value name="objid" style="attribute"
 					set-method="setObjid" get-method="getObjid" usage="optional" />
@@ -200,6 +200,8 @@
 					set-method="setHref" get-method="getHref" usage="optional" />
 				<value name="title" style="attribute"
 					set-method="setTitle" get-method="getTitle" usage="optional" />
+				<value name="form" style="attribute"
+					set-method="setFormAsString" get-method="getFormAsString" usage="optional" />
 			</structure>
 		</collection>
 	</mapping>

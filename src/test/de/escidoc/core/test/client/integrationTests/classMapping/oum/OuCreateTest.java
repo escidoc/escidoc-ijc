@@ -34,9 +34,11 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -59,6 +61,8 @@ import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.Parents;
+import de.escidoc.core.resources.oum.Predecessor;
+import de.escidoc.core.resources.oum.PredecessorForm;
 import de.escidoc.core.resources.oum.Predecessors;
 import de.escidoc.core.resources.oum.Properties;
 import de.escidoc.core.test.client.Constants;
@@ -244,7 +248,7 @@ public class OuCreateTest {
      *             Thrown if successful creation failed.
      */
     @Test
-    public void testCreateOU05() throws Exception {
+    public void testCreateOrganizationalUni05() throws Exception {
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -310,56 +314,26 @@ public class OuCreateTest {
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
-        mdRecord.setContent(element);
+        Element mdRecordContent = doc.createElementNS(null, "myMdRecord");
+        mdRecord.setContent(mdRecordContent);
 
-        // // dc:title
+        // title
         Element title =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "dc:title");
-        // title.setTextContent("name" + System.currentTimeMillis());
-        element.appendChild(title);
-        //        
-        // mdRecord.setContent(title);
+            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        title.setTextContent("name" + System.currentTimeMillis());
+        mdRecordContent.appendChild(title);
 
-        // MetadataRecord mdRecord = new MetadataRecord();
-        // mdRecord.setName("escidoc");
-        //
-        // DocumentBuilderFactory factory =
-        // DocumentBuilderFactory.newInstance();
-        // factory.setNamespaceAware(true);
-        // factory.setCoalescing(true);
-        // factory.setValidating(true);
-        // DocumentBuilder builder = factory.newDocumentBuilder();
-        // Document doc = builder.newDocument();
-        //
-        // Element mdRecordCnt =
-        // doc.createElementNS("http://escidoc.mpg.de/"
-        // + "metadataprofile/schema/0.1/organization",
-        // "ou:organization-details");
-        //
-        // // dc:title
-        // Element title =
-        // doc.createElementNS("http://purl.org/dc/elements/1.1/", "dc:title");
-        // title.setTextContent("name" + System.currentTimeMillis());
-        // mdRecordCnt.appendChild(title);
-        //        
-        // // dc:description
-        // Element description =
-        // doc.createElementNS("http://purl.org/dc/elements/1.1/",
-        // "dc:description");
-        // description.setTextContent("Just a generic organizational unit.");
-        // mdRecordCnt.appendChild(description);
-        //
-        // mdRecord.setContent(mdRecordCnt);
-        // mdRecord.setContent(doc.getDocumentElement());
+        // dc:description
+        Element description =
+            doc.createElementNS("http://purl.org/dc/elements/1.1/",
+                "description");
+        description.setTextContent("Just a generic organizational unit.");
+        mdRecordContent.appendChild(description);
+        mdRecord.setContent(mdRecordContent);
 
         MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
 
-        // mdRecord.setContent(tmpl.getMetadataRecords().get("escidoc").getContent());
-        // mdRecords.add(mdRecord);
-
-        // mdRecords.add(tmpl.getMetadataRecords().get("escidoc"));
         organizationalUnit.setMetadataRecords(mdRecords);
 
         // create OU
@@ -369,6 +343,8 @@ public class OuCreateTest {
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
+
+        // TODO assert values
     }
 
     /**
@@ -380,7 +356,7 @@ public class OuCreateTest {
      *             Thrown if successful creation failed.
      */
     @Test
-    public void testCreateOU07() throws Exception {
+    public void testCreateOrganizationalUni07() throws Exception {
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -442,37 +418,96 @@ public class OuCreateTest {
         // OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
         Properties properties = new Properties();
-        properties.setName("Organizational_Unit_Test_Name");
         ou1.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
-        Element childElement =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "cd:title");
-        childElement.setTextContent("name" + System.currentTimeMillis());
+        MetadataRecord mdRecord =
+            createMdRecordDC("escidoc", "myMdRecord", "Test OU "
+                + System.currentTimeMillis(), "The fist OU of a test. ");
 
-        element.appendChild(childElement);
-        mdRecord.setContent(element);
+        MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
 
-        cc.create(ou1);
+        ou1.setMetadataRecords(mdRecords);
+
+        ou1 = cc.create(ou1);
 
         // OU 2
         OrganizationalUnit ou2 = new OrganizationalUnit();
         Properties properties2 = new Properties();
-        properties.setName("Organizational_Unit_Test_Name");
         ou2.setProperties(properties2);
-        ResourceRef predecessor = new ResourceRef();
-        predecessor.setObjid(ou1.getObjid());
+
+        // set OU1 Predecessor of OU2
         Predecessors predecessors = new Predecessors();
+
+        Predecessor predecessor = new Predecessor(ou1.getObjid(), PredecessorForm.REPLACEMENT);
         predecessors.addPredecessorRef(predecessor);
         ou2.setPredecessors(predecessors);
+
+        mdRecord =
+            createMdRecordDC("escidoc", "myMdRecord", "Test OU "
+                + System.currentTimeMillis(), "The second OU of a test. "
+                + System.currentTimeMillis());
+
+        mdRecords = new MetadataRecords();
+        mdRecords.add(mdRecord);
+
+        ou2.setMetadataRecords(mdRecords);
+
         cc.create(ou2);
+
+    }
+
+    /**
+     * Creates an Metadata Record with DC content.
+     * 
+     * @param mdRecordName
+     *            Name of the MdRecord
+     * @param rootElementName
+     *            Name of the root element of the MdRecord content
+     * @param title
+     *            The title which is to set in the DC metadata
+     * @param description
+     *            The description which is to set in the DC metadata
+     * @return The MetadataRecord with the given values
+     * @throws ParserConfigurationException
+     *             If instantiation of DocumentBuilder fail
+     */
+    private MetadataRecord createMdRecordDC(
+        final String mdRecordName, final String rootElementName,
+        final String title, final String description)
+        throws ParserConfigurationException {
+
+        // md-record "escidoc"
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName(mdRecordName);
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setCoalescing(true);
+        factory.setValidating(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        Document doc = builder.newDocument();
+        Element mdRecordContent = doc.createElementNS(null, rootElementName);
+        mdRecord.setContent(mdRecordContent);
+
+        // title
+        Element titleElmt =
+            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        titleElmt.setPrefix("dc");
+        titleElmt.setTextContent(title);
+        mdRecordContent.appendChild(titleElmt);
+
+        // dc:description
+        Element descriptionElmt =
+            doc.createElementNS("http://purl.org/dc/elements/1.1/",
+                "description");
+        descriptionElmt.setPrefix("dc");
+        descriptionElmt.setTextContent("Just a generic Organizational Unit.");
+        mdRecordContent.appendChild(descriptionElmt);
+        mdRecord.setContent(mdRecordContent);
+
+        return mdRecord;
 
     }
 
@@ -492,44 +527,23 @@ public class OuCreateTest {
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
-        properties.setName("name");
         organizationalUnit.setProperties(properties);
+        
+        MetadataRecord mdRecord =
+            createMdRecordDC("escidoc", "myMdRecord", "Test OU "
+                + System.currentTimeMillis(), "The fist OU of a test. ");
+
+        MetadataRecord mdRecord2 =
+            createMdRecordDC("md-record2", "mySecondMdRecord", "Test OU "
+                + System.currentTimeMillis(), "22222222222222222222222");
+        
+        MetadataRecord mdRecord3 =
+            createMdRecordDC("md-record3", "myThirdMdRecord", "Test OU "
+                + System.currentTimeMillis(), "some-other-stuff");
+        
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
-        Element childElement =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "cd:title");
-        childElement.setTextContent("name" + System.currentTimeMillis());
-
-        // childElement.setParent(element);
-        element.appendChild(childElement);
-        mdRecord.setContent(element);
         mdRecords.add(mdRecord);
-
-        MetadataRecord mdRecord2 = new MetadataRecord();
-        mdRecord2.setName("md-record2");
-        Document doc1 = builder.newDocument();
-        Element element2 = doc.createElementNS(null, "myMdRecord");
-        element2.setTextContent("222222222");
-
-        mdRecord2.setContent(element2);
-
         mdRecords.add(mdRecord2);
-
-        MetadataRecord mdRecord3 = new MetadataRecord();
-        mdRecord3.setName("md-record3");
-        Document doc3 = builder.newDocument();
-        Element element3 = doc.createElementNS(null, "myMdRecord");
-        Document doc4 = builder.newDocument();
-        Element element4 = doc.createElementNS(null, "some-other-stuff");
-        element2.setTextContent("33333333333333333333");
-        element2.appendChild(element4);
-
-        mdRecord3.setContent(element3);
         mdRecords.add(mdRecord3);
 
         organizationalUnit.setMetadataRecords(mdRecords);

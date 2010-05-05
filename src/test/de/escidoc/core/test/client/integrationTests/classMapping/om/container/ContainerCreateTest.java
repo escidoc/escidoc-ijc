@@ -319,9 +319,11 @@ public class ContainerCreateTest {
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
+        
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
+        
         Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);

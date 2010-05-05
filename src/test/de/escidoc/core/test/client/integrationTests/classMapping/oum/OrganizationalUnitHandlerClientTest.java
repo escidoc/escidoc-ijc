@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 
@@ -67,7 +68,7 @@ public class OrganizationalUnitHandlerClientTest {
                 new OrganizationalUnitHandlerClient();
             ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-            
+
             ic.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
         }
@@ -87,12 +88,12 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieve01() throws Exception {
-        
+
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
         ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        
+
         OrganizationalUnit organizationUnit =
             ic.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
 
@@ -108,12 +109,12 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieveUpdate() throws Exception {
-        
+
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
         ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        
+
         OrganizationalUnit organizationUnit =
             ic.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
         ic.update(organizationUnit);
@@ -156,7 +157,7 @@ public class OrganizationalUnitHandlerClientTest {
 
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
-        
+
         OrganizationalUnitList ouList =
             ic.retrieveOrganizationalUnits(filterParam);
 
@@ -175,9 +176,11 @@ public class OrganizationalUnitHandlerClientTest {
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
 
-        ic
-            .retrieveParentObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID)
-            .getOrganizationalUnits();
+        OrganizationalUnitList ouList =
+            ic.retrieveParentObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+
+        Collection<OrganizationalUnit> cou = ouList.getOrganizationalUnits();
+        assertEquals("Wrong number ob OUs in List", 3, cou.size());
     }
 
     /**
