@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
-	<!-- 
-		<mapping name="result" ns="http://www.escidoc.de/schemas/result/0.1"
-		class="de.escidoc.core.resources.common.Result">
-		<namespace uri="http://www.escidoc.de/schemas/result/0.1"
-		prefix="result" default="all" />
-		<value name="last-modification-date" style="attribute"
-		set-method="setLastModificationDateAsString"
-		get-method="getLastModificationDateAsString" usage="optional" />
-		
-		<structure field="param"
-		ns="http://www.escidoc.de/schemas/result/0.1" name="pid"
-		marshaller="de.escidoc.core.common.jibx.binding.ResultMarshaller"
-		unmarshaller="de.escidoc.core.common.jibx.binding.ResultMarshaller" usage="optional"/>
-		</mapping>
-	-->
 
+	<!-- FIXME Result mapping is incomplete -->
 	<mapping name="result" ns="http://www.escidoc.de/schemas/result/0.1"
 		class="de.escidoc.core.resources.common.Result">
 		
@@ -26,56 +12,10 @@
 			set-method="setLastModificationDateAsString"
 			get-method="getLastModificationDateAsString" usage="optional" />
 
-		<structure name="pid"
-			marshaller="de.escidoc.core.common.jibx.binding.ResultMarshaller"
-			unmarshaller="de.escidoc.core.common.jibx.binding.ResultMarshaller"
-			set-method="setPidParamAsString" get-method="getPidParamAsString" usage="optional" />
-		<!-- 
-			Template for other elements. Unfortunatly is the "any" attribute not well supported in JiBX (and other).
-			 
-			<structure name="pid"
-			marshaller="de.escidoc.core.common.jibx.binding.ResultMarshaller"
-			unmarshaller="de.escidoc.core.common.jibx.binding.ResultMarshaller"
-			set-method="setParam" get-method="getParam" usage="optional" />
-		-->
+		<structure
+			field="pidParam" type="org.w3c.dom.Element"
+			marshaller="org.jibx.extras.DomElementMapper"
+			unmarshaller="org.jibx.extras.DomElementMapper" usage="optional" />
 	</mapping>
 
 </binding>
-
-
-
-
-
-<!-- 
-	<binding>
-	
-	<mapping ns="http://www.escidoc.de/schemas/result/0.1" name="result" class="de.escidoc.core.resources.common.Result"
-	marshaller="de.escidoc.core.common.jibx.binding.ResultMarshaller"
-	unmarshaller="de.escidoc.core.common.jibx.binding.ResultMarshaller">
-	</mapping>
--->
-<!-- start: binding of a result 
-	<mapping name="result" ns="http://www.escidoc.de/schemas/result/0.1"
-	class="de.escidoc.core.resources.common.Result">
--->
-<!-- *****************************************
-	Root attributes 
-	****************************************** -->
-<!-- value name="last-modification-date" style="attribute"
-	set-method="setLastModificationDateAsString"
-	get-method="getLastModificationDateAsString" usage="optional" / -->
-
-
-
-<!-- *****************************************
-	Mapper 
-	****************************************** -->
-<!-- 	<mapping class="de.escidoc.core.resources.common.Result" ns="http://www.escidoc.de/schemas/result/0.1"
-	
-	name="result" marshaller="de.escidoc.core.common.jibx.binding.Result"
-	unmarshaller="de.escidoc.core.common.jibx.binding.Result" />
--->
-<!-- end: binding of a result -->
-<!-- 
-	</binding>
--->

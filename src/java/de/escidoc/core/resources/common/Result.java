@@ -7,7 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -29,7 +29,7 @@ public class Result {
 
     private String param = null;
 
-    private Document pidParam = null;
+    private Element pidParam = null;
 
     /**
      * See Interface for functional description.
@@ -131,7 +131,7 @@ public class Result {
      * Get PID parameter.
      * 
      */
-    public Document getPidParam() throws EscidocClientException,
+    public Element getPidParam() throws EscidocClientException,
         InternalClientException, TransportException {
 
         return this.pidParam;
@@ -145,7 +145,7 @@ public class Result {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void setPidParam(final Document pidParam)
+    public void setPidParam(final Element pidParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
 
@@ -205,7 +205,8 @@ public class Result {
         }
 
         try {
-            this.pidParam = XmlUtility.getDocument(pidParam);
+            this.pidParam =
+                XmlUtility.getDocument(pidParam).getDocumentElement();
         }
         catch (UnsupportedEncodingException e) {
             LOGGER.debug(e);

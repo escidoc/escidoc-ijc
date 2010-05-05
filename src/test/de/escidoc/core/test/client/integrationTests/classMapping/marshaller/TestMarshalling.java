@@ -139,51 +139,54 @@ public class TestMarshalling {
         Factory.getTaskParamMarshaller().unmarshalDocument(xml);
     }
 
-    /**
-     * Test un-/marshalling StructMap.
-     * 
-     * @throws Exception
-     *             Thrown if un-/marshalling failed.
-     */
-    @Test
-    public void testMarshallingStructMap01() throws Exception {
+    // mapping of subresources currently not supported
+    // /**
+    // * Test un-/marshalling StructMap.
+    // *
+    // * @throws Exception
+    // * Thrown if un-/marshalling failed.
+    // */
+    // @Test
+    // public void testMarshallingStructMap01() throws Exception {
+    //
+    // StructMap structMap = new StructMap();
+    // String xml =
+    // Factory.getStructMapMarshaller().marshalDocument(structMap);
+    // Factory.getStructMapMarshaller().unmarshalDocument(xml);
+    // }
 
-        StructMap structMap = new StructMap();
-        String xml =
-            Factory.getStructMapMarshaller().marshalDocument(structMap);
-        Factory.getStructMapMarshaller().unmarshalDocument(xml);
-    }
+    // mapping of subresources currently not supported
+    // /**
+    // * Test un-/marshalling MetadataRecords.
+    // *
+    // * @throws Exception
+    // * Thrown if un-/marshalling failed.
+    // */
+    // @Test
+    // public void testMarshallingMetadataRecords01() throws Exception {
+    //
+    // MetadataRecords metadataRecords = new MetadataRecords();
+    // String xml =
+    // Factory.getMetadataRecordsMarshaller().marshalDocument(
+    // metadataRecords);
+    // Factory.getMetadataRecordsMarshaller().unmarshalDocument(xml);
+    // }
 
-    /**
-     * Test un-/marshalling MetadataRecords.
-     * 
-     * @throws Exception
-     *             Thrown if un-/marshalling failed.
-     */
-    @Test
-    public void testMarshallingMetadataRecords01() throws Exception {
-
-        MetadataRecords metadataRecords = new MetadataRecords();
-        String xml =
-            Factory.getMetadataRecordsMarshaller().marshalDocument(
-                metadataRecords);
-        Factory.getMetadataRecordsMarshaller().unmarshalDocument(xml);
-    }
-
-    /**
-     * Test un-/marshalling Properties.
-     * 
-     * @throws Exception
-     *             Thrown if un-/marshalling failed.
-     */
-    @Test
-    public void testMarshallingProperties01() throws Exception {
-
-        Properties properties = new Properties();
-        String xml =
-            Factory.getPropertiesMarshaller().marshalDocument(properties);
-        Factory.getPropertiesMarshaller().unmarshalDocument(xml);
-    }
+    // mapping of subresources currently not supported
+    // /**
+    // * Test un-/marshalling Properties.
+    // *
+    // * @throws Exception
+    // * Thrown if un-/marshalling failed.
+    // */
+    // @Test
+    // public void testMarshallingProperties01() throws Exception {
+    //
+    // Properties properties = new Properties();
+    // String xml =
+    // Factory.getPropertiesMarshaller().marshalDocument(properties);
+    // Factory.getPropertiesMarshaller().unmarshalDocument(xml);
+    // }
 
     /**
      * Test un-/marshalling UserAccount.
@@ -200,20 +203,21 @@ public class TestMarshalling {
         Factory.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
-    /**
-     * Test un-/marshalling PropertiesUserAccount.
-     * 
-     * @throws Exception
-     *             Thrown if un-/marshalling failed.
-     */
-    @Test
-    public void testMarshallingUserAccountProperties01() throws Exception {
-
-        UserAccountProperties userAccountProperties =
-            new UserAccountProperties();
-        String xml =
-            Factory.getUserAccountPropertiesMarshaller().marshalDocument(
-                userAccountProperties);
-        Factory.getUserAccountPropertiesMarshaller().unmarshalDocument(xml);
-    }
+    // mapping of subresources currently not supported
+    // /**
+    // * Test un-/marshalling PropertiesUserAccount.
+    // *
+    // * @throws Exception
+    // * Thrown if un-/marshalling failed.
+    // */
+    // @Test
+    // public void testMarshallingUserAccountProperties01() throws Exception {
+    //
+    // UserAccountProperties userAccountProperties =
+    // new UserAccountProperties();
+    // String xml =
+    // Factory.getUserAccountPropertiesMarshaller().marshalDocument(
+    // userAccountProperties);
+    // Factory.getUserAccountPropertiesMarshaller().unmarshalDocument(xml);
+    // }
 }
