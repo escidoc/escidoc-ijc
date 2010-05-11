@@ -48,11 +48,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -65,6 +67,7 @@ import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.um.UserAccountHandler;
 
 /**
  * Test the Item Handler Client.
@@ -227,9 +230,13 @@ public class ItemHandlerClientTest {
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setHandle(ic.getHandle());
+        UserAccount me = uac.retrieveCurrentUser();
+
         filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            Constants.SYSTEM_ADMIN_USER, null));
+            "http://escidoc.de/core/01/structural-relations/created-by", me
+                .getObjid(), null));
         filterParam.setFilters(filters);
 
         ItemList itemList = ic.retrieveItems(filterParam);

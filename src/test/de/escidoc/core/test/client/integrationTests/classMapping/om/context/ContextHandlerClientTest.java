@@ -41,10 +41,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.ContextHandlerClient;
+import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundException;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.MemberList;
@@ -230,12 +232,19 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieveMembers() throws Exception {
         ContextHandlerClient cc = new ContextHandlerClient();
 
+        // just getting a valid objid of a user
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        UserAccount me = uac.retrieveCurrentUser();
+        
+        
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
+            me.getObjid(), null));
         filterParam.setFilters(filters);
 
         Factory.getTaskParamMarshaller().marshalDocument(filterParam);
