@@ -31,19 +31,19 @@ package de.escidoc.core.resources.om.item;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.om.GenericResource;
-
 /**
+ * List of Items.
  * 
  * @author SWA
  * 
+ *         TODO support paging
  */
-public class ItemList extends GenericResource {
+public class ItemList {
 
     private Collection<Item> items = new LinkedList<Item>();
 
     /**
-     * ItemList Fectory.
+     * ItemList Factory.
      * 
      * @return ItemList
      */
