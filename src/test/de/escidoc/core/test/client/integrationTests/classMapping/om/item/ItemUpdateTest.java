@@ -142,7 +142,6 @@ public class ItemUpdateTest {
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
-        Document doc1 = builder.newDocument();
         Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);
