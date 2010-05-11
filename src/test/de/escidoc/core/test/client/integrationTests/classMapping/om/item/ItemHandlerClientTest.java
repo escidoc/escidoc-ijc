@@ -203,19 +203,19 @@ public class ItemHandlerClientTest {
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
-         // Md-Record
-         MetadataRecord mdRecord = new MetadataRecord();
-         mdRecord.setName("escidoc");
+        // Md-Record
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName("escidoc");
 
-         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-         DocumentBuilder builder = factory.newDocumentBuilder();
-         Document doc = builder.newDocument();
-         Element element = doc.createElementNS(null, "myMdRecord");
-         mdRecord.setContent(element);
-         
-         MetadataRecords mdRecords = new MetadataRecords();
-         mdRecords.add(mdRecord);
-         item.setMetadataRecords(mdRecords);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element element = doc.createElementNS(null, "myMdRecord");
+        mdRecord.setContent(element);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+        mdRecords.add(mdRecord);
+        item.setMetadataRecords(mdRecords);
 
         ItemHandlerClient ic = new ItemHandlerClient();
         ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -233,7 +233,7 @@ public class ItemHandlerClientTest {
         filterParam.setFilters(filters);
 
         ItemList itemList = ic.retrieveItems(filterParam);
-        
+
         assertTrue("Wrong number of elements in list", itemList
             .getItems().size() > 0);
 
@@ -288,11 +288,19 @@ public class ItemHandlerClientTest {
     public void testRetrieveVersionHistory() throws Exception {
 
         ItemHandlerClient ic = new ItemHandlerClient();
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
 
-        Item result = ic.create(item);
-        VersionHistory vh1 =
-            ic.retrieveVersionHistory(((Item) result).getObjid());
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        Item item2 = ic.create(item);
+        VersionHistory vh1 = ic.retrieveVersionHistory(item2.getObjid());
+
+        assertEquals("WOV has wrong number of versions in WOV of Item '"
+            + item2.getObjid() + "'", 1, vh1.getVersions().size());
+        assertEquals("Wrong timestamp in Item '" + item2.getObjid() + "'",
+            item2.getProperties().getCreationDate(), vh1
+                .getVersions().iterator().next().getTimestamp());
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -309,12 +317,12 @@ public class ItemHandlerClientTest {
 
         cms.setContent(cmsContent);
 
-        result.getProperties().setContentModelSpecific(cms);
+        item2.getProperties().setContentModelSpecific(cms);
 
-        result = ic.update(result);
+        item2 = ic.update(item2);
 
         VersionHistory vh2 =
-            ic.retrieveVersionHistory(((Item) result).getObjid());
+            ic.retrieveVersionHistory(((Item) item2).getObjid());
 
     }
 

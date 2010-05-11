@@ -31,11 +31,11 @@ package de.escidoc.core.resources.common.versionhistory;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.ResourceRef;
+import org.joda.time.DateTime;
 
-public class VersionHistory extends ResourceRef {
+public class VersionHistory {
 
-    private String lastModificationDate = null;
+    private DateTime lastModificationDate = null;
 
     private Collection<Version> versions = new LinkedList<Version>();
 
@@ -53,7 +53,17 @@ public class VersionHistory extends ResourceRef {
     /**
      * @return the lastModificationDate
      */
-    public String getLastModificationDate() {
+    public String getLastModificationDateAsString() {
+        if (this.lastModificationDate != null) {
+            return lastModificationDate.toString();
+        }
+        return null;
+    }
+
+    /**
+     * @return the lastModificationDate
+     */
+    public DateTime getLastModificationDate() {
         return lastModificationDate;
     }
 
@@ -61,8 +71,22 @@ public class VersionHistory extends ResourceRef {
      * @param lastModificationDate
      *            the lastModificationDate to set
      */
-    public void setLastModificationDate(String lastModificationDate) {
+    public void setLastModificationDate(final DateTime lastModificationDate) {
         this.lastModificationDate = lastModificationDate;
+    }
+
+    /**
+     * @param lastModificationDate
+     *            the lastModificationDate to set
+     */
+    public void setLastModificationDateAsString(
+        final String lastModificationDate) {
+        if (lastModificationDate == null) {
+            this.lastModificationDate = null;
+        }
+        else {
+            this.lastModificationDate = new DateTime(lastModificationDate);
+        }
     }
 
     /**
@@ -76,7 +100,7 @@ public class VersionHistory extends ResourceRef {
      * @param versions
      *            the versions to set
      */
-    public void setVersions(Collection<Version> versions) {
+    public void setVersions(final Collection<Version> versions) {
         this.versions = versions;
     }
 }

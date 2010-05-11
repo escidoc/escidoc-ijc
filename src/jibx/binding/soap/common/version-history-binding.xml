@@ -13,14 +13,6 @@
 		<!-- *****************************************
 			Root attributes 
 			****************************************** -->
-		<value name="objid" style="attribute" set-method="setObjid"
-			get-method="getObjid" usage="optional" />
-		<value ns="http://www.w3.org/1999/xlink" name="href"
-			style="attribute" set-method="setHref" get-method="getHref"
-			usage="optional" />
-		<value ns="http://www.w3.org/1999/xlink" name="title"
-			style="attribute" set-method="setTitle" get-method="getTitle"
-			usage="optional" />
 		<value name="last-modification-date" style="attribute"
 			set-method="setLastModificationDate"
 			get-method="getLastModificationDate" />

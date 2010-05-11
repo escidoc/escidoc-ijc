@@ -31,13 +31,15 @@ package de.escidoc.core.resources.common.versionhistory;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.joda.time.DateTime;
+
 import de.escidoc.core.resources.ResourceRef;
 
 public class Version extends ResourceRef {
 
     private String versionNumber;
 
-    private String timestamp;
+    private DateTime timestamp;
 
     private String versionStatus;
 
@@ -67,16 +69,39 @@ public class Version extends ResourceRef {
     /**
      * @return the timestamp
      */
-    public String getTimestamp() {
+    public DateTime getTimestamp() {
         return timestamp;
+    }
+
+    /**
+     * @return the timestamp as String
+     */
+    public String getTimestampAsString() {
+        if (this.timestamp != null) {
+            return timestamp.toString();
+        }
+        return null;
     }
 
     /**
      * @param timestamp
      *            the timestamp to set
      */
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(final DateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    /**
+     * @param timestamp
+     *            as String the timestamp to set
+     */
+    public void setTimestampAsString(final String timestamp) {
+        if (timestamp == null) {
+            this.timestamp = null;
+        }
+        else {
+            this.timestamp = new DateTime(timestamp);
+        }
     }
 
     /**
