@@ -44,6 +44,15 @@ public class Parents {
     private Collection<ResourceRef> parentRefs = new LinkedList<ResourceRef>();
 
     /**
+     * Get the whole Parents collection.
+     * 
+     * @return Collection of Parents for the OrganizationalUnit.
+     */
+    public Collection<ResourceRef> getParentRef() {
+        return this.parentRefs;
+    }
+
+    /**
      * Set the whole Parents collection.
      * 
      * @param parentRef

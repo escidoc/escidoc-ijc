@@ -28,29 +28,20 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
@@ -249,9 +240,10 @@ public class OuCreateTest {
     @Test
     public void testCreateOrganizationalUni05() throws Exception {
 
+        final String ouName = "Generic Organizational Unit";
+
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
-        properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
@@ -263,8 +255,7 @@ public class OuCreateTest {
                 + "<ou:organization-details "
                 + "xmlns:ou=\"http://escidoc.mpg.de/metadataprofile/schema/0.1/organization\">\n"
                 + "<dc:title xmlns:dc=\"http://purl.org/dc/elements/1.1/\">"
-                + "Generic Organizational Unit</dc:title>\n"
-                + "</ou:organization-details>";
+                + ouName + "</dc:title>\n" + "</ou:organization-details>";
         InputStream in = new ByteArrayInputStream(str.getBytes());
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -283,7 +274,9 @@ public class OuCreateTest {
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
 
-        // validate createdOU
+        // assert values of created OU
+        assertEquals("Name of OU wrong", createdOU.getProperties().getName(),
+            ouName);
     }
 
     /**
@@ -296,6 +289,9 @@ public class OuCreateTest {
      */
     @Test
     public void testCreateOrganizationalUnit06() throws Exception {
+
+        final String ouName = "name" + System.currentTimeMillis();
+        final String ouDescription = "Just a generic organizational unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -319,14 +315,14 @@ public class OuCreateTest {
         // title
         Element title =
             doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
-        title.setTextContent("name" + System.currentTimeMillis());
+        title.setTextContent(ouName);
         mdRecordContent.appendChild(title);
 
         // dc:description
         Element description =
             doc.createElementNS("http://purl.org/dc/elements/1.1/",
                 "description");
-        description.setTextContent("Just a generic organizational unit.");
+        description.setTextContent(ouDescription);
         mdRecordContent.appendChild(description);
         mdRecord.setContent(mdRecordContent);
 
@@ -343,7 +339,11 @@ public class OuCreateTest {
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
 
-        // TODO assert values
+        // assert values of created OU
+        assertEquals("Name of OU wrong", createdOU.getProperties().getName(),
+            ouName);
+        assertEquals("Description of OU wrong", createdOU
+            .getProperties().getDescription(), ouDescription);
     }
 
     /**
@@ -357,30 +357,22 @@ public class OuCreateTest {
     @Test
     public void testCreateOrganizationalUni07() throws Exception {
 
+        final String ouName =
+            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouDescription = "Description of Organizational Unit.";
+
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
 
-        String str =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                + "<ou:organization-details "
-                + "xmlns:ou=\"http://escidoc.mpg.de/metadataprofile/schema/0.1/organization\">\n"
-                + "<dc:title xmlns:dc=\"http://purl.org/dc/elements/1.1/\">"
-                + "Generic Organizational Unit</dc:title>\n"
-                + "</ou:organization-details>";
-        InputStream in = new ByteArrayInputStream(str.getBytes());
+        MetadataRecord mdRecord =
+            createMdRecordDC("escidoc", "organization-details", ouName,
+                ouDescription);
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(in);
-        mdRecord.setContent(doc.getDocumentElement());
         mdRecords.add(mdRecord);
-
         organizationalUnit.setMetadataRecords(mdRecords);
 
         // create parent OU
@@ -397,6 +389,18 @@ public class OuCreateTest {
         organizationalUnit.setParents(parents);
 
         OrganizationalUnit childOU = cc.create(organizationalUnit);
+
+        // assert values of created OU
+        assertEquals("Name of OU wrong", childOU.getProperties().getName(),
+            ouName);
+        assertEquals("Description of OU wrong", childOU
+            .getProperties().getDescription(), ouDescription);
+
+        assertEquals("Number of parents wrong", childOU
+            .getParents().getParentRef().size(), parents.getParentRef().size());
+        assertEquals("Wrong parent objid", childOU
+            .getParents().getParentRef().iterator().next().getObjid(), parents
+            .getParentRef().iterator().next().getObjid());
 
     }
 
@@ -438,7 +442,8 @@ public class OuCreateTest {
         // set OU1 Predecessor of OU2
         Predecessors predecessors = new Predecessors();
 
-        Predecessor predecessor = new Predecessor(ou1.getObjid(), PredecessorForm.REPLACEMENT);
+        Predecessor predecessor =
+            new Predecessor(ou1.getObjid(), PredecessorForm.REPLACEMENT);
         predecessors.addPredecessorRef(predecessor);
         ou2.setPredecessors(predecessors);
 
@@ -527,7 +532,7 @@ public class OuCreateTest {
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
         organizationalUnit.setProperties(properties);
-        
+
         MetadataRecord mdRecord =
             createMdRecordDC("escidoc", "myMdRecord", "Test OU "
                 + System.currentTimeMillis(), "The fist OU of a test. ");
@@ -535,11 +540,11 @@ public class OuCreateTest {
         MetadataRecord mdRecord2 =
             createMdRecordDC("md-record2", "mySecondMdRecord", "Test OU "
                 + System.currentTimeMillis(), "22222222222222222222222");
-        
+
         MetadataRecord mdRecord3 =
             createMdRecordDC("md-record3", "myThirdMdRecord", "Test OU "
                 + System.currentTimeMillis(), "some-other-stuff");
-        
+
         MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
         mdRecords.add(mdRecord2);
@@ -568,24 +573,4 @@ public class OuCreateTest {
         Asserts.assertMdRecords(createdOrganizationalUnit.getMetadataRecords(),
             updatedOrganizationalUnit1.getMetadataRecords());
     }
-
-    private static String xmlToString(Node node) {
-        try {
-            Source source = new DOMSource(node);
-            StringWriter stringWriter = new StringWriter();
-            Result result = new StreamResult(stringWriter);
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer();
-            transformer.transform(source, result);
-            return stringWriter.getBuffer().toString();
-        }
-        catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        }
-        catch (TransformerException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 }
