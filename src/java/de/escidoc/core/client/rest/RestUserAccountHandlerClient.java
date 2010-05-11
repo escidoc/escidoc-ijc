@@ -222,7 +222,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
 
     /**
      * 
-     * @return
+     * @return The XML representation of the current used (logged in) user.
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException

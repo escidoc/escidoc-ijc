@@ -28,20 +28,27 @@
  */
 package de.escidoc.core.resources.aa.useraccount;
 
+import org.joda.time.DateTime;
+
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.common.properties.Properties;
 
 /**
  * Properties of User Account.
  * 
- * @author ?, SWA
+ * @author SWA
  * 
  */
-public class UserAccountProperties extends Properties {
+public class UserAccountProperties {
+
+    private DateTime creationDate = null;
 
     private String loginName;
 
+    private ResourceRef createdBy;
+
     private ResourceRef modifiedBy;
+
+    private String name;
 
     private boolean active;
 
@@ -65,12 +72,40 @@ public class UserAccountProperties extends Properties {
     }
 
     /**
+     * Get name of user.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Set name of user.
+     * 
+     * @param name
+     *            User name
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
      * Is user account active.
      * 
      * @return true if active, false otherwise
      */
     public boolean isActive() {
         return this.active;
+    }
+
+    /**
+     * Get ResourceRef of creator.
+     * 
+     * @return the creator of the User Account
+     */
+    public ResourceRef getCreatedBy() {
+        return this.createdBy;
     }
 
     /**
@@ -81,4 +116,53 @@ public class UserAccountProperties extends Properties {
     public ResourceRef getModifiedBy() {
         return this.modifiedBy;
     }
+
+    /**
+     * Get creation date of User Account.
+     * 
+     * @return creation date
+     */
+    public DateTime getCreationDate() {
+        return this.creationDate;
+    }
+
+    /**
+     * Get creation date as String
+     * 
+     * @return the creationDate
+     */
+    public String getCreationDateAsString() {
+        if (this.creationDate != null) {
+            return this.creationDate.toString();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set creation date of User Account.
+     * 
+     * @param creationDate
+     *            the creationDate to set
+     */
+    public void setCreationDate(final DateTime creationDate) {
+
+        this.creationDate = creationDate;
+    }
+
+    /**
+     * Set creation date of User Account.
+     * 
+     * @param creationDate
+     *            the creationDate to set
+     */
+    public void setCreationDateAsString(final String creationDate) {
+        if (creationDate == null) {
+            this.creationDate = null;
+        }
+        else {
+            this.creationDate = new DateTime(creationDate);
+        }
+    }
+
 }

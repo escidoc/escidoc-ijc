@@ -174,6 +174,19 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         }
     }
 
+    public String retrieveCurrentUser() throws EscidocClientException,
+        InternalClientException, TransportException {
+        
+        String result = null;
+        try {
+            result = getClient().retrieveCurrentUser();
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
     //
     // Subresource - current grants
     //
@@ -228,8 +241,9 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory.getUserAccountMarshaller().unmarshalDocument(getClient()
-                    .retrieve(id))).getLastModificationDate();
+                (Factory.getUserAccountMarshaller()
+                    .unmarshalDocument(getClient().retrieve(id)))
+                    .getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

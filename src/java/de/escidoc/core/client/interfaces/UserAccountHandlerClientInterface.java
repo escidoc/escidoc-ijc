@@ -32,6 +32,7 @@ import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.aa.useraccount.Grants;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
 
@@ -57,6 +58,9 @@ public interface UserAccountHandlerClientInterface<T>
     void deactivate(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
+
+    UserAccount retrieveCurrentUser() throws EscidocClientException,
+        InternalClientException, TransportException;
 
     //
     // Subresource - current grants

@@ -165,6 +165,13 @@ public class UserAccountHandlerClient
             Factory.getTaskParamMarshaller().marshalDocument(taskParam));
     }
 
+    public UserAccount retrieveCurrentUser() throws EscidocClientException,
+        InternalClientException, TransportException {
+
+        String xml = getSoapUserAccountHandlerClient().retrieveCurrentUser();
+        return Factory.getUserAccountMarshaller().unmarshalDocument(xml);
+    }
+
     //
     // Subresource - current grants
     //
