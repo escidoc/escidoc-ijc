@@ -47,11 +47,10 @@ import org.apache.ws.security.WSPasswordCallback;
  * This password can be changed by using the <code>setHandle</code> and reset by
  * using the <code>resetHandle</code> methods
  * 
- * @aa
  */
 public class PWCallback implements CallbackHandler {
 
-    private static String handle = null;
+    private static String handle = "";
 
     /**
      * Gets the eSciDoc user handle.
