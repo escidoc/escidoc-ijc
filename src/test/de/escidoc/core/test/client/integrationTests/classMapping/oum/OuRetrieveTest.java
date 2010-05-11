@@ -30,19 +30,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.StringWriter;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.junit.Test;
-import org.w3c.dom.Node;
 
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -76,25 +64,6 @@ public class OuRetrieveTest {
 
         MetadataRecord mdRecord = ou.getMetadataRecords().get("escidoc");
         assertEquals("wrong name", "escidoc", mdRecord.getName());
-    }
-
-    private static String xmlToString(Node node) {
-        try {
-            Source source = new DOMSource(node);
-            StringWriter stringWriter = new StringWriter();
-            Result result = new StreamResult(stringWriter);
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer();
-            transformer.transform(source, result);
-            return stringWriter.getBuffer().toString();
-        }
-        catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        }
-        catch (TransformerException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }
