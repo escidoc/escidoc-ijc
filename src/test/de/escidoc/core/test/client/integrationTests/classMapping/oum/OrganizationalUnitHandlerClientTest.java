@@ -37,8 +37,10 @@ import java.util.Collection;
 import org.junit.Test;
 
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
+import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
@@ -146,12 +148,19 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieveOrganizationalUnits() throws Exception {
+        
+        // just getting a valid objid of a user
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        UserAccount me = uac.retrieveCurrentUser();
+
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",
-            Constants.SYSTEM_ADMIN_USER, null));
+            me.getObjid(), null));
         filterParam.setFilters(filters);
         Factory.getTaskParamMarshaller().marshalDocument(filterParam);
 
@@ -163,24 +172,6 @@ public class OrganizationalUnitHandlerClientTest {
 
         assertTrue("result list is empty, try another filter", ouList
             .getOrganizationalUnits().size() != 0);
-    }
-
-    /**
-     * Test retrieving parent organizational units.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testRetrieveParentObjects() throws Exception {
-        OrganizationalUnitHandlerClient ic =
-            new OrganizationalUnitHandlerClient();
-
-        OrganizationalUnitList ouList =
-            ic.retrieveParentObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
-
-        Collection<OrganizationalUnit> cou = ouList.getOrganizationalUnits();
-        assertEquals("Wrong number ob OUs in List", 3, cou.size());
     }
 
     /**

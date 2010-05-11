@@ -34,6 +34,7 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -50,6 +51,8 @@ import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
+import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.Parent;
 import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.Predecessor;
 import de.escidoc.core.resources.oum.PredecessorForm;
@@ -385,7 +388,7 @@ public class OuCreateTest {
 
         // create child OU
         Parents parents = new Parents();
-        parents.addParentRef(new ResourceRef(parentOU.getObjid()));
+        parents.addParentRef(new Parent(parentOU.getObjid()));
         organizationalUnit.setParents(parents);
 
         OrganizationalUnit childOU = cc.create(organizationalUnit);
@@ -470,6 +473,94 @@ public class OuCreateTest {
             .getPredecessors().iterator().next().getObjid(), ou1.getObjid());
         assertEquals("Wrong predecessor", 1, ou2
             .getPredecessors().getPredecessorRef().size());
+    }
+
+    /**
+     * Test create and retrieve of parent Organizational Units.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testParentObjects01() throws Exception {
+
+        final String ou1Name = "Test OU 1 " + System.currentTimeMillis();
+        final String ou1Description = "The fist OU of a test. ";
+
+        final String ou2Name = "Test OU 2 " + System.currentTimeMillis();
+        final String ou2Description =
+            "The second OU of a test. " + System.currentTimeMillis();
+
+        final String ou3Name = "Test OU 3 " + System.currentTimeMillis();
+        final String ou3Description =
+            "The third OU of a test. " + System.currentTimeMillis();
+
+        final String ou4Name = "Test OU 4 " + System.currentTimeMillis();
+        final String ou4Description =
+            "The forth OU of a test. " + System.currentTimeMillis();
+
+        OrganizationalUnitHandlerClient cc =
+            new OrganizationalUnitHandlerClient();
+        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // create OU 1
+        OrganizationalUnit ou1 = new OrganizationalUnit();
+        Properties properties = new Properties();
+        ou1.setProperties(properties);
+        MetadataRecord mdRecord =
+            createMdRecordDC("escidoc", "myMdRecord", ou1Name, ou1Description);
+        MetadataRecords mdRecords = new MetadataRecords();
+        mdRecords.add(mdRecord);
+        ou1.setMetadataRecords(mdRecords);
+        ou1 = cc.create(ou1);
+
+        // create OU 2
+        OrganizationalUnit ou2 = new OrganizationalUnit();
+        Properties properties2 = new Properties();
+        ou2.setProperties(properties2);
+        mdRecord =
+            createMdRecordDC("escidoc", "myMdRecord", ou2Name, ou2Description);
+        mdRecords = new MetadataRecords();
+        mdRecords.add(mdRecord);
+        ou2.setMetadataRecords(mdRecords);
+        ou2 = cc.create(ou2);
+
+        // create OU 3
+        OrganizationalUnit ou3 = new OrganizationalUnit();
+        Properties properties3 = new Properties();
+        ou3.setProperties(properties3);
+        mdRecord =
+            createMdRecordDC("escidoc", "myMdRecord", ou3Name, ou3Description);
+        mdRecords = new MetadataRecords();
+        mdRecords.add(mdRecord);
+        ou3.setMetadataRecords(mdRecords);
+        ou3 = cc.create(ou3);
+
+        // create OU 4
+        OrganizationalUnit ou4 = new OrganizationalUnit();
+        Properties properties4 = new Properties();
+
+        Parents parents = new Parents();
+        parents.addParentRef(new Parent(ou1.getObjid()));
+        parents.addParentRef(new Parent(ou2.getObjid()));
+        parents.addParentRef(new Parent(ou3.getObjid()));
+        ou4.setParents(parents);
+
+        ou4.setProperties(properties4);
+        mdRecord =
+            createMdRecordDC("escidoc", "myMdRecord", ou4Name, ou4Description);
+        mdRecords = new MetadataRecords();
+        mdRecords.add(mdRecord);
+        ou4.setMetadataRecords(mdRecords);
+        ou4 = cc.create(ou4);
+
+        // retrieve
+        OrganizationalUnitList ouList =
+            cc.retrieveParentObjects(ou4.getObjid());
+
+        Collection<OrganizationalUnit> cou = ouList.getOrganizationalUnits();
+        assertEquals("Wrong number ob OUs in List", 3, cou.size());
     }
 
     /**

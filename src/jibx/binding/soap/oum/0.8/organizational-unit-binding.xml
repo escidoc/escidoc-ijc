@@ -164,7 +164,7 @@
 			<structure
 				ns="http://escidoc.de/core/01/structural-relations/"
 				name="parent"
-				type="de.escidoc.core.resources.ResourceRef" usage="optional">
+				type="de.escidoc.core.resources.oum.Parent" usage="optional">
 
 				<value name="objid" style="attribute"
 					set-method="setObjid" get-method="getObjid" usage="optional" />

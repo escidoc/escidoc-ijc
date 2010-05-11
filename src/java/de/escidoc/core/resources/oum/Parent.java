@@ -28,58 +28,29 @@
  */
 package de.escidoc.core.resources.oum;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import de.escidoc.core.resources.ResourceRef;
 
 /**
- * Organizational Unit Parents.
+ * Organizational Unit as Parent reference.
  * 
  * @author SWA
  * 
  */
-public class Parents {
-
-    private Collection<Parent> parentRefs =
-        new LinkedList<Parent>();
-
+public class Parent extends ResourceRef {
 
     /**
-     * Get the whole Parents collection.
      * 
-     * @return Collection of Parents for the OrganizationalUnit.
      */
-    public Collection<Parent> getParentRef() {
-        return this.parentRefs;
+    public Parent() {
     }
 
     /**
-     * Set the whole Parents collection.
      * 
-     * @param parentRef
-     *            Collection of Parents for the OrganizationalUnit.
+     * @param objid
+     *            The objid of the parent Organizational Unit.
      */
-    public void setParentRef(final Collection<Parent> parentRef) {
-        this.parentRefs = parentRef;
-    }
+    public Parent(final String objid) {
 
-    /**
-     * Add a Parent to the parent collection of the
-     * OrganizationalUnit.
-     * 
-     * @param parentRef
-     *            New resource reference to the parent.
-     */
-    public void addParentRef(final Parent parentRef) {
-        this.parentRefs.add(parentRef);
-    }
-
-    /**
-     * Iterator over Parents.
-     * 
-     * @return Iterator
-     */
-    public Iterator<Parent> iterator() {
-        return this.parentRefs.iterator();
+        super.setObjid(objid);
     }
 }
