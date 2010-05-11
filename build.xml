@@ -109,7 +109,7 @@
 
 	<!-- create jar file -->
 	<target name="jar" depends="build" description="build the jar of the project">
-		<jar basedir="${java.build.dir}" destfile="${dist.jar.dir}/escidoc-core-client-lib-${build.version}.jar" >
+		<jar basedir="${java.build.dir}" destfile="${dist.jar.dir}/escidoc-core-1.2-client-lib-${build.version}.jar" >
 			 <fileset dir="${java.src.dir}"/>
 			 <fileset dir="${dist.license.dir}"/>
 		</jar>
@@ -119,7 +119,7 @@
 	<target name="dist" depends="define-label, jar, build-documentation" description="Create a distribution zip package">
 
 		<!-- copy client lib jar -->
-		<copy file="build/dist/jar/escidoc-core-client-lib-${build.version}.jar" todir="${dist.zip}" />
+		<copy file="build/dist/jar/escidoc-core-1.2-client-lib-${build.version}.jar" todir="${dist.zip}" />
 		
 		<!-- copy documentation -->
 		<copy todir="${dist.zip}/doc">
@@ -147,8 +147,8 @@
 			</fileset>
 		</copy>
 		
-		<zip destfile="${dist.dir}/escidoc-core-client-lib-${build.version}.zip">
-			<zipfileset dir="${dist.zip}" prefix="escidoc-core-client-lib-${build.version}"/>
+		<zip destfile="${dist.dir}/escidoc-core-1.2-client-lib-${build.version}.zip">
+			<zipfileset dir="${dist.zip}" prefix="escidoc-core-1.2-client-lib-${build.version}"/>
 		</zip>
 
 	</target>
