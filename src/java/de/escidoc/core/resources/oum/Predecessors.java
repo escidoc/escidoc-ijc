@@ -40,35 +40,45 @@ import java.util.LinkedList;
  */
 public class Predecessors {
 
-	private Collection<Predecessor> predecessorRefs = new LinkedList<Predecessor>();
+    private Collection<Predecessor> predecessorRefs =
+        new LinkedList<Predecessor>();
 
-	/**
-	 * Set the whole Predecessors collection.
-	 * 
-	 * @param predecessorRef
-	 *            Collection of Predecessors for the OrganizationalUnit.
-	 */
-	public void setPredecessorRef(final Collection<Predecessor> predecessorRef) {
-		this.predecessorRefs = predecessorRef;
-	}
+    /**
+     * Get the whole Predecessors collection.
+     * 
+     * @return Collection of Predecessors for the OrganizationalUnit.
+     */
+    public Collection<Predecessor> getPredecessorRef() {
+        return this.predecessorRefs;
+    }
 
-	/**
-	 * Add a Predecessor to the predecessor collection of the
-	 * OrganizationalUnit.
-	 * 
-	 * @param predecessorRef
-	 *            New resource reference to the predecessor.
-	 */
-	public void addPredecessorRef(final Predecessor predecessorRef) {
-		this.predecessorRefs.add(predecessorRef);
-	}
+    /**
+     * Set the whole Predecessors collection.
+     * 
+     * @param predecessorRef
+     *            Collection of Predecessors for the OrganizationalUnit.
+     */
+    public void setPredecessorRef(final Collection<Predecessor> predecessorRef) {
+        this.predecessorRefs = predecessorRef;
+    }
 
-	/**
-	 * Iterator over Predecessors.
-	 * 
-	 * @return Iterator
-	 */
-	public Iterator<Predecessor> iterator() {
-		return this.predecessorRefs.iterator();
-	}
+    /**
+     * Add a Predecessor to the predecessor collection of the
+     * OrganizationalUnit.
+     * 
+     * @param predecessorRef
+     *            New resource reference to the predecessor.
+     */
+    public void addPredecessorRef(final Predecessor predecessorRef) {
+        this.predecessorRefs.add(predecessorRef);
+    }
+
+    /**
+     * Iterator over Predecessors.
+     * 
+     * @return Iterator
+     */
+    public Iterator<Predecessor> iterator() {
+        return this.predecessorRefs.iterator();
+    }
 }

@@ -405,13 +405,22 @@ public class OuCreateTest {
     }
 
     /**
-     * Test creating Organizational Unit with predecessors.
+     * Test creating Organizational Unit with predecessors. Two Organizational
+     * Units are created whereas the first OU is set as Predecessor of the
+     * second.
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
     public void testOuPredecessor05() throws Exception {
+
+        final String ou1Name = "Test OU 1 " + System.currentTimeMillis();
+        final String ou1Description = "The fist OU of a test. ";
+
+        final String ou2Name = "Test OU 2 " + System.currentTimeMillis();
+        final String ou2Description =
+            "The second OU of a test. " + System.currentTimeMillis();
 
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
@@ -424,8 +433,7 @@ public class OuCreateTest {
         ou1.setProperties(properties);
 
         MetadataRecord mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", "Test OU "
-                + System.currentTimeMillis(), "The fist OU of a test. ");
+            createMdRecordDC("escidoc", "myMdRecord", ou1Name, ou1Description);
 
         MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
@@ -448,17 +456,20 @@ public class OuCreateTest {
         ou2.setPredecessors(predecessors);
 
         mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", "Test OU "
-                + System.currentTimeMillis(), "The second OU of a test. "
-                + System.currentTimeMillis());
+            createMdRecordDC("escidoc", "myMdRecord", ou2Name, ou2Description);
 
         mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
 
         ou2.setMetadataRecords(mdRecords);
 
-        cc.create(ou2);
+        ou2 = cc.create(ou2);
 
+        // assert OU values
+        assertEquals("Wrong predecessor", ou2
+            .getPredecessors().iterator().next().getObjid(), ou1.getObjid());
+        assertEquals("Wrong predecessor", 1, ou2
+            .getPredecessors().getPredecessorRef().size());
     }
 
     /**
