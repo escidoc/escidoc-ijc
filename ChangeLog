@@ -1,3 +1,22 @@
+1-11.05.2010 - SWA
+* parent OU restructured (could break code)
+* added predecessor handling
+* improve UserAccount handling
+* remove unused properties from ItemList
+* remove unused values from VersionHistory (WOV)
+* fix mdRecord create method
+* added and fixed a lot of tests
+
+3.4.2010
+* improve Exception Handling for REST handler
+* update to JIBX 1.2.2 (solves namespace issue with metadata)
+* made HitWord start and stop index method visible
+* fix id sets in taskParam
+* fix OU (is unversioned resource)
+
+23.4.2010
+* added sources to jar (javadoc support by IDE is possible)
+ 
 03.12.2009 - sche
 * fixed mapping for parent OUs
 
