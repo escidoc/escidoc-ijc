@@ -30,6 +30,8 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.cmm;
 
 import java.io.File;
 
+import org.junit.Test;
+
 import de.escidoc.core.client.rest.RestContentModelHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -47,6 +49,7 @@ public class ContentModelTestRest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
+    @Test
     public void testRetrieveContentModel01() throws Exception {
 
         RestContentModelHandlerClient rcmhc =
