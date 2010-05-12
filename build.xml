@@ -207,7 +207,7 @@
 
 		<batchtest fork="yes">
 		    <fileset dir="${junit.src.dir}">
-		        <include name="**/test/*.java"/>
+		        <include name="**/*Test*.java"/>
 		    </fileset>
 		</batchtest>
 	    </junit>
