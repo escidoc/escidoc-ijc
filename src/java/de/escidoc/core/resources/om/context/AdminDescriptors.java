@@ -32,9 +32,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.common.MetadataRecord;
-
 /**
+ * Admin Descriptors.
  * 
  * @author SWA
  * 
