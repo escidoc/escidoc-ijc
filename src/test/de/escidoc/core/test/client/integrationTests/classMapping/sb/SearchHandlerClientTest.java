@@ -39,6 +39,7 @@ import gov.loc.www.zing.srw.TermType;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.axis.types.PositiveInteger;
+import org.junit.Test;
 
 import de.escidoc.core.client.SearchHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
@@ -68,6 +69,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if anythings failed.
      */
+    @Test
     public void testSearch() throws Exception {
 
         SearchHandlerClient rc = new SearchHandlerClient();
@@ -92,6 +94,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if anythings failed.
      */
+    @Test
     public void testSearch2() throws Exception {
 
         SearchHandlerClient rc = new SearchHandlerClient();
@@ -132,6 +135,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if anythings failed.
      */
+    @Test
     public void testExplain() throws Exception {
 
         SearchHandlerClient rc = new SearchHandlerClient();
@@ -153,6 +157,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if anythings failed.
      */
+    @Test
     public void testExplain2() throws Exception {
 
         SearchHandlerClient rc = new SearchHandlerClient();
@@ -180,6 +185,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
      * @throws Exception
      *             Thrown if anythings failed.
      */
+    @Test
     public void testScan() throws Exception {
 
         SearchHandlerClient rc = new SearchHandlerClient();
@@ -205,8 +211,6 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
      * @return String Replaced String
      * @param text
      *            String text to replace
-     * 
-     * @sb
      */
     private String decodeCharacters(String text) {
         text = text.replaceAll("&lt;", "<");
