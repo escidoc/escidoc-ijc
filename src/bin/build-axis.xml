@@ -112,12 +112,6 @@
 			<param name="component" value="sm" />
 			<param name="service" value="ScopeHandlerService" />
 		</antcall>
-<!--		
-		<antcall target="wsdl2java">
-			<param name="component" value="st" />
-			<param name="service" value="StagingFileHandlerService" />
-		</antcall>
--->
 		<antcall target="wsdl2java">
 			<param name="component" value="tme" />
 			<param name="service" value="JhoveHandlerService" />
