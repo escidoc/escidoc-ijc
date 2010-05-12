@@ -99,49 +99,43 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      */
     @Test
     public void testRetrieve01() throws Exception {
-        try {
-            ContextHandlerClient ic = new ContextHandlerClient();
-            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-            
-            Context context = new Context();
-            Properties properties = new Properties();
-            properties.setDescription("ContextDescription");
-            properties.setName("ContextName" + System.currentTimeMillis());
-            properties.setPublicStatus("opened");
-            properties.setPublicStatusComment("PublicStatusComment");
 
-            OrganizationalUnitRefs organizationalUnitRefs =
-                new OrganizationalUnitRefs();
-            ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-            organizationalUnitRefs
-                .addOrganizationalUnitRef(organizationalUnitRef);
-            properties.setOrganizationalUnitRefs(organizationalUnitRefs);
-            properties.setType("type");
-            context.setProperties(properties);
+        ContextHandlerClient ic = new ContextHandlerClient();
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-            AdminDescriptors adminDescriptors = new AdminDescriptors();
-            AdminDescriptor adminDescriptor = new AdminDescriptor();
-            adminDescriptor.setName("AdminDescriptorDemoName");
-            DocumentBuilderFactory factory =
-                DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.newDocument();
-            Element element = doc.createElementNS(null, "admin-descriptor");
-            adminDescriptor.setContent(element);
+        Context context = new Context();
+        Properties properties = new Properties();
+        properties.setDescription("ContextDescription");
+        properties.setName("ContextName" + System.currentTimeMillis());
+        properties.setPublicStatus("opened");
+        properties.setPublicStatusComment("PublicStatusComment");
 
-            adminDescriptors.addAdminDescriptor(adminDescriptor);
-            context.setAdminDescriptors(adminDescriptors);
+        OrganizationalUnitRefs organizationalUnitRefs =
+            new OrganizationalUnitRefs();
+        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
+        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        properties.setOrganizationalUnitRefs(organizationalUnitRefs);
+        properties.setType("type");
+        context.setProperties(properties);
 
-            Context createdContext = ic.create(context);
-            String objid = createdContext.getObjid();
-            Context retrievedContext = ic.retrieve(objid);
+        AdminDescriptors adminDescriptors = new AdminDescriptors();
+        AdminDescriptor adminDescriptor = new AdminDescriptor();
+        adminDescriptor.setName("AdminDescriptorDemoName");
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element element = doc.createElementNS(null, "admin-descriptor");
+        adminDescriptor.setContent(element);
 
-            Factory.getContextMarshaller().marshalDocument(retrievedContext);
-        }
-        catch (Exception e) {
-            fail("Wrong exception caught: " + e.getMessage());
-        }
+        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        context.setAdminDescriptors(adminDescriptors);
+
+        Context createdContext = ic.create(context);
+        String objid = createdContext.getObjid();
+        Context retrievedContext = ic.retrieve(objid);
+
+        Factory.getContextMarshaller().marshalDocument(retrievedContext);
     }
 
     /**
@@ -152,49 +146,43 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      */
     @Test
     public void testRetrieveUpdate() throws Exception {
-        try {
-            ContextHandlerClient ic = new ContextHandlerClient();
-            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-            
-            Context context = new Context();
-            Properties properties = new Properties();
-            properties.setDescription("ContextDescription");
-            properties.setName("ContextName" + System.currentTimeMillis());
-            properties.setPublicStatus("opened");
-            properties.setPublicStatusComment("PublicStatusComment");
 
-            OrganizationalUnitRefs organizationalUnitRefs =
-                new OrganizationalUnitRefs();
-            ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-            organizationalUnitRefs
-                .addOrganizationalUnitRef(organizationalUnitRef);
-            properties.setOrganizationalUnitRefs(organizationalUnitRefs);
-            properties.setType("type");
-            context.setProperties(properties);
+        ContextHandlerClient ic = new ContextHandlerClient();
+        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-            AdminDescriptors adminDescriptors = new AdminDescriptors();
-            AdminDescriptor adminDescriptor = new AdminDescriptor();
-            adminDescriptor.setName("AdminDescriptorDemoName");
-            DocumentBuilderFactory factory =
-                DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.newDocument();
-            Element element = doc.createElementNS(null, "admin-descriptor");
-            adminDescriptor.setContent(element);
+        Context context = new Context();
+        Properties properties = new Properties();
+        properties.setDescription("ContextDescription");
+        properties.setName("ContextName" + System.currentTimeMillis());
+        properties.setPublicStatus("opened");
+        properties.setPublicStatusComment("PublicStatusComment");
 
-            adminDescriptors.addAdminDescriptor(adminDescriptor);
-            context.setAdminDescriptors(adminDescriptors);
+        OrganizationalUnitRefs organizationalUnitRefs =
+            new OrganizationalUnitRefs();
+        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
+        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        properties.setOrganizationalUnitRefs(organizationalUnitRefs);
+        properties.setType("type");
+        context.setProperties(properties);
 
-            Context createdContext = ic.create(context);
-            String objid = createdContext.getObjid();
-            Context retrivedContext = ic.retrieve(objid);
-            ic.update(retrivedContext);
-            Factory.getContextMarshaller().marshalDocument(retrivedContext);
-        }
-        catch (Exception e) {
-            fail("Wrong exception caught: " + e.getMessage());
-        }
+        AdminDescriptors adminDescriptors = new AdminDescriptors();
+        AdminDescriptor adminDescriptor = new AdminDescriptor();
+        adminDescriptor.setName("AdminDescriptorDemoName");
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element element = doc.createElementNS(null, "admin-descriptor");
+        adminDescriptor.setContent(element);
+
+        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        context.setAdminDescriptors(adminDescriptors);
+
+        Context createdContext = ic.create(context);
+        String objid = createdContext.getObjid();
+        Context retrivedContext = ic.retrieve(objid);
+        ic.update(retrivedContext);
+        Factory.getContextMarshaller().marshalDocument(retrivedContext);
     }
 
     /**
@@ -237,14 +225,13 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         UserAccount me = uac.retrieveCurrentUser();
-        
-        
+
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            me.getObjid(), null));
+            "http://escidoc.de/core/01/structural-relations/created-by", me
+                .getObjid(), null));
         filterParam.setFilters(filters);
 
         Factory.getTaskParamMarshaller().marshalDocument(filterParam);

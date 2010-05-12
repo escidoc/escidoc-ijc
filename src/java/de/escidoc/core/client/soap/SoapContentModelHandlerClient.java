@@ -51,9 +51,6 @@ import de.escidoc.core.cmm.ContentModelHandlerServiceLocator;
  */
 public class SoapContentModelHandlerClient extends ClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(SoapContentModelHandlerClient.class.getName());
-
     private ContentModelHandler soapClient = null;
 
     public SoapContentModelHandlerClient() throws InternalClientException {

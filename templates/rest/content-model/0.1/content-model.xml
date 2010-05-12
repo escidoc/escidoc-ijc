@@ -2,9 +2,7 @@
 <content-model:content-model
 	xmlns:content-model="http://www.escidoc.de/schemas/contentmodel/0.1"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
-        xmlns:prop="http://escidoc.de/core/01/properties/"
-	xlink:href="/cmm/content-model/escidoc:ex4" xlink:title="Generic Content Model"
-	xlink:type="simple">
+        xmlns:prop="http://escidoc.de/core/01/properties/">
 
 	<content-model:properties xlink:title="Properties"
 		xlink:type="simple">

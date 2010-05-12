@@ -30,7 +30,6 @@ package de.escidoc.core.client.rest;
 
 import java.net.MalformedURLException;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
@@ -49,9 +48,6 @@ import de.escidoc.core.common.jibx.Factory;
  * 
  */
 public class RestContentModelHandlerClient extends ClientBase {
-
-    private final Logger logger =
-        Logger.getLogger(RestContentModelHandlerClient.class.getName());
 
     private ContentModelHandler restClient = null;
 
@@ -77,7 +73,6 @@ public class RestContentModelHandlerClient extends ClientBase {
             result = getClient().create(contentModel);
         }
         catch (Exception e) {
-            logger.debug(e);
             ExceptionMapper.map(e);
         }
         return result;
