@@ -14,7 +14,7 @@
 		<echo>Workspace ${env.WORKSPACE}</echo>
 
 		<checkstyle config="${env.WORKSPACE}/src/eSciDocCoreClient/etc/eSciDoc_checkstyle.xml" failOnViolation="false">
-			<fileset dir="${env.WORKSPACE}/src/" casesensitive="yes">
+			<fileset dir="${env.WORKSPACE}/src/eSciDocCoreClient/src" casesensitive="yes">
 				<include name="**/*.java" />
 				<exclude name="**/build/" />
 				<exclude name="**/gen/" />
