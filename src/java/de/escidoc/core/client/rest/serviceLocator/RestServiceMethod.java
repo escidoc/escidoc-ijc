@@ -1,9 +1,13 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -103,6 +107,116 @@ public class RestServiceMethod {
         try {
             try {
                 getRestClient().executeMethod(put);
+                InputStream in = put.getResponseBodyAsStream();
+                result = convertStreamToString(in);
+            }
+            catch (HttpException e) {
+                throw new SystemException(e.getReasonCode(), e.getMessage(), e
+                    .toString());
+            }
+            catch (IOException e) {
+                throw new SystemException(500, e.getMessage(), e.toString());
+            }
+            decideStatusCode(put, result);
+        }
+        finally {
+            put.releaseConnection();
+        }
+        return result;
+    }
+
+    /**
+     * Call HTTP PUT method.
+     * 
+     * @param path
+     *            path of resource
+     * @param ins
+     *            InputStream of content
+     * @return Response body as String
+     * @throws SystemException
+     *             Thrown if request failed.
+     * @throws FileNotFoundException
+     * @throws EscidocException
+     */
+    public String put(final String path, final File f) throws SystemException,
+        RemoteException, FileNotFoundException {
+
+        String result = null;
+        PutMethod put = new PutMethod(this.serviceAddress + path);
+        PWCallback.addEscidocUserHandleCookie(put);
+        RequestEntity entity;
+
+        put.setRequestBody(new FileInputStream(f));
+        // try {
+        // entity = new StringRequestEntity(content, "text/xml", "UTF-8");
+        // }
+        // catch (UnsupportedEncodingException e1) {
+        // throw new SystemException(500, e1.getMessage(), "");
+        // }
+        // put.setRequestEntity(entity);
+
+        try {
+            try {
+
+                put
+                    .setRequestHeader("Content-type",
+                        "application/octet-stream");
+                int statusCode = getRestClient().executeMethod(put);
+                InputStream in = put.getResponseBodyAsStream();
+                result = convertStreamToString(in);
+            }
+            catch (HttpException e) {
+                throw new SystemException(e.getReasonCode(), e.getMessage(), e
+                    .toString());
+            }
+            catch (IOException e) {
+                throw new SystemException(500, e.getMessage(), e.toString());
+            }
+            decideStatusCode(put, result);
+        }
+        finally {
+            put.releaseConnection();
+        }
+        return result;
+    }
+
+    /**
+     * Call HTTP PUT method.
+     * 
+     * @param path
+     *            path of resource
+     * @param ins
+     *            InputStream of content
+     * @return Response body as String
+     * @throws SystemException
+     *             Thrown if request failed.
+     * @throws FileNotFoundException
+     * @throws EscidocException
+     */
+    public String put(final String path, final InputStream ins)
+        throws SystemException, RemoteException, FileNotFoundException {
+
+        String result = null;
+        PutMethod put = new PutMethod(this.serviceAddress + path);
+        PWCallback.addEscidocUserHandleCookie(put);
+        RequestEntity entity;
+
+        put.setRequestBody(ins);
+        // try {
+        // entity = new StringRequestEntity(content, "text/xml", "UTF-8");
+        // }
+        // catch (UnsupportedEncodingException e1) {
+        // throw new SystemException(500, e1.getMessage(), "");
+        // }
+        // put.setRequestEntity(entity);
+
+        try {
+            try {
+
+                put
+                    .setRequestHeader("Content-type",
+                        "application/octet-stream");
+                int statusCode = getRestClient().executeMethod(put);
                 InputStream in = put.getResponseBodyAsStream();
                 result = convertStreamToString(in);
             }
