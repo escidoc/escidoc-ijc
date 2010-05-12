@@ -203,7 +203,8 @@
 		    <path refid="lib-classpath"/>
 		</classpath>
 
-		<formatter type="plain"/>
+		<formatter type="brief" usefile="false" />
+		<formatter type="xml" />
 
 		<batchtest fork="yes">
 		    <fileset dir="${junit.src.dir}">
