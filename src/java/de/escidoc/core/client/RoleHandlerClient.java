@@ -45,7 +45,7 @@ import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
 
 /**
- * This is the generic ContainerSoapContainerHandlerClient which binds the
+ * This is the generic RoleContainerHandlerClient which binds the
  * transport specific classes. The transport specification is done via
  * properties configuration of the eSciDoc client.
  * 
@@ -62,7 +62,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     private RestRoleHandlerClient restRoleHandlerClient = null;
 
     /**
-     * Create ContainersoapContainerHandlerClient instance. The service protocol
+     * Create RoleHandlerClient instance. The service protocol
      * (REST/SOAP/..) selected from the configuration. Default is SOAP.
      * 
      * @throws ClientException

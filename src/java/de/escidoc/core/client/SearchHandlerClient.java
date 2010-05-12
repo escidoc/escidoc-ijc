@@ -44,7 +44,7 @@ import de.escidoc.core.resources.sb.wrapper.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.wrapper.search.SearchResponse;
 
 /**
- * This is the generic ContainerSoapContainerHandlerClient which binds the
+ * This is the generic SearchHandlerClient which binds the
  * transport specific classes. The transport specification is done via
  * properties configuration of the eSciDoc client.
  * 
@@ -56,7 +56,7 @@ public class SearchHandlerClient implements SearchHandlerClientInterface {
     private SoapSearchHandlerClient soapSearchHandlerClient = null;
 
     /**
-     * Create ContainersoapContainerHandlerClient instance. The service protocol
+     * Create SearchHandlerClient instance. The service protocol
      * (REST/SOAP/..) selected from the configuration. Default is SOAP.
      * 
      * @throws ClientException

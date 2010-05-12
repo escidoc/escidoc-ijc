@@ -43,7 +43,7 @@ import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.RequestsResults;
 
 /**
- * This is the generic ContainerSoapContainerHandlerClient which binds the
+ * This is the generic PolicyDecisionPointHandlerClient which binds the
  * transport specific classes. The transport specification is done via
  * properties configuration of the eSciDoc client.
  * 
@@ -59,7 +59,7 @@ public class PolicyDecisionPointHandlerClient
     private Authentication auth = null;
 
     /**
-     * Create ContainersoapContainerHandlerClient instance. The service protocol
+     * Create PolicyDecisionPointHandlerClient instance. The service protocol
      * (REST/SOAP/..) selected from the configuration. Default is SOAP.
      * 
      * @throws ClientException
