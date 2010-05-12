@@ -193,14 +193,21 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      */
     @Test
     public void testRetrieveContexts() throws Exception {
+
+        // just getting a valid objid of a user
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        UserAccount me = uac.retrieveCurrentUser();
+
         ContextHandlerClient cc = new ContextHandlerClient();
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
+            "http://escidoc.de/core/01/structural-relations/created-by", me
+                .getObjid(), null));
         filterParam.setFilters(filters);
         Factory.getTaskParamMarshaller().marshalDocument(filterParam);
 
