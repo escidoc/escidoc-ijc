@@ -44,6 +44,12 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.um.UserManagementWrapper;
 import de.escidoc.core.um.UserManagementWrapperServiceLocator;
 
+/**
+ * SOAP Handler for User Management.
+ * 
+ * @author SWA
+ * 
+ */
 public class SoapUserManagementWrapperClient extends ClientBase {
 
     private UserManagementWrapper soapClient = null;

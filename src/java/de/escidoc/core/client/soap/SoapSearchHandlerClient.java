@@ -41,7 +41,6 @@ import gov.loc.www.zing.srw.service.SRWSampleServiceLocator;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.Remote;
-import java.util.logging.Logger;
 
 import javax.xml.rpc.ServiceException;
 
@@ -54,10 +53,13 @@ import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 
+/**
+ * SOAP Handler for Search requests.
+ * 
+ * @author SWA
+ * 
+ */
 public class SoapSearchHandlerClient extends ClientBase {
-
-    private final Logger logger =
-        Logger.getLogger(SoapSearchHandlerClient.class.getName());
 
     private SRWPort searchSoapClient = null;
 

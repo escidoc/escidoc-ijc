@@ -33,7 +33,6 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
@@ -54,9 +53,6 @@ import de.escidoc.core.om.IngestHandlerServiceLocator;
  */
 public class SoapIngestHandlerClient extends ClientBase
     implements IngestHandlerInterface {
-
-    private final Logger logger =
-        Logger.getLogger(SoapIngestHandlerClient.class.getName());
 
     private IngestHandler soapClient = null;
 

@@ -45,6 +45,12 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.um.UserAccountHandler;
 import de.escidoc.core.um.UserAccountHandlerServiceLocator;
 
+/**
+ * SOAP Handler for User Account.
+ * 
+ * @author SWA
+ * 
+ */
 public class SoapUserAccountHandlerClient extends ClientBase {
 
     private UserAccountHandler soapClient = null;
@@ -176,7 +182,7 @@ public class SoapUserAccountHandlerClient extends ClientBase {
 
     public String retrieveCurrentUser() throws EscidocClientException,
         InternalClientException, TransportException {
-        
+
         String result = null;
         try {
             result = getClient().retrieveCurrentUser();

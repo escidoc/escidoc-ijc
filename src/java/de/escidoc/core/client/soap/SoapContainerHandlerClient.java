@@ -45,15 +45,12 @@ import de.escidoc.core.om.ContainerHandler;
 import de.escidoc.core.om.ContainerHandlerServiceLocator;
 
 /**
- * 
+ * SOAP Handler for Container.
  * 
  * @author SWA
  * 
  */
 public class SoapContainerHandlerClient extends ClientBase {
-
-    // private final Logger logger =
-    // Logger.getLogger(SoapContainerHandlerClient.class.getName());
 
     public SoapContainerHandlerClient() throws InternalClientException {
 

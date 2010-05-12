@@ -33,7 +33,6 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
@@ -51,9 +50,6 @@ import de.escidoc.core.om.ContextHandlerServiceLocator;
  * 
  */
 public class SoapContextHandlerClient extends ClientBase {
-
-    private final Logger logger =
-        Logger.getLogger(SoapContextHandlerClient.class.getName());
 
     private ContextHandler soapClient = null;
 

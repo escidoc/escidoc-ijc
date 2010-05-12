@@ -44,6 +44,12 @@ import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 
+/**
+ * SOAP Handler for Action.
+ * 
+ * @author SWA
+ * 
+ */
 public class SoapActionHandlerClient extends ClientBase {
 
     private ActionHandler soapClient = null;

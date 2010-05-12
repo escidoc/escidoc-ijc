@@ -30,7 +30,6 @@ package de.escidoc.core.client.soap;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Logger;
 
 import javax.xml.rpc.ServiceException;
 
@@ -45,10 +44,13 @@ import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 
+/**
+ * SOAP Handler for Policy Decision Point.
+ * 
+ * @author SWA
+ * 
+ */
 public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
-
-    private final Logger logger =
-        Logger.getLogger(SoapPolicyDecisionPointHandlerClient.class.getName());
 
     private PolicyDecisionPoint soapClient = null;
 

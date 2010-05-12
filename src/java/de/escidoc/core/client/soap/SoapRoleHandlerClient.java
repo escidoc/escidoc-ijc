@@ -30,7 +30,6 @@ package de.escidoc.core.client.soap;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Logger;
 
 import javax.xml.rpc.ServiceException;
 
@@ -45,10 +44,13 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.common.jibx.Factory;
 
+/**
+ * SOAP Handler for Roles.
+ * 
+ * @author SWA
+ * 
+ */
 public class SoapRoleHandlerClient extends ClientBase {
-
-    private final Logger logger =
-        Logger.getLogger(SoapRoleHandlerClient.class.getName());
 
     private RoleHandler soapClient = null;
 
