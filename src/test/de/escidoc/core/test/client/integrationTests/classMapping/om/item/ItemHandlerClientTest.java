@@ -67,7 +67,6 @@ import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
-import de.escidoc.core.um.UserAccountHandler;
 
 /**
  * Test the Item Handler Client.
