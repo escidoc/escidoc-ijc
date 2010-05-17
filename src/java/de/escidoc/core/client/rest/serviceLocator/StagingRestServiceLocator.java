@@ -2,6 +2,7 @@ package de.escidoc.core.client.rest.serviceLocator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
 
@@ -21,7 +22,7 @@ public class StagingRestServiceLocator extends RestServiceMethod
     private static final String PATH_STAGING = "/st/staging-file";
 
     public String upload(final File f) throws RemoteException,
-        AuthenticationException, AuthorizationException, FileNotFoundException {
+        AuthenticationException, AuthorizationException, FileNotFoundException, IOException {
 
         return put(PATH_STAGING, f);
     }

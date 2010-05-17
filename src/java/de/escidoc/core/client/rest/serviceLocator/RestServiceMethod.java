@@ -7,13 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
@@ -60,21 +61,6 @@ public class RestServiceMethod {
 
         URL url = new URL(address);
         this.serviceAddress = url.toString();
-    }
-
-    private synchronized HttpClient getRestClient() {
-
-        if (this.client == null) {
-            this.client = new HttpClient(getConnectionManager());
-        }
-        return this.client;
-    }
-
-    private synchronized MultiThreadedHttpConnectionManager getConnectionManager() {
-        if (this.connectionManager == null) {
-            this.connectionManager = new MultiThreadedHttpConnectionManager();
-        }
-        return this.connectionManager;
     }
 
     /**
@@ -133,51 +119,18 @@ public class RestServiceMethod {
      * @param ins
      *            InputStream of content
      * @return Response body as String
-     * @throws SystemException
-     *             Thrown if request failed.
-     * @throws FileNotFoundException
+     * @throws IOException
      * @throws EscidocException
      */
-    public String put(final String path, final File f) throws SystemException,
-        RemoteException, FileNotFoundException {
+    public String put(final String path, final File f) throws IOException {
 
-        String result = null;
-        PutMethod put = new PutMethod(this.serviceAddress + path);
-        PWCallback.addEscidocUserHandleCookie(put);
-        RequestEntity entity;
+        FileInputStream fin = new FileInputStream(f);
 
-        put.setRequestBody(new FileInputStream(f));
-        // try {
-        // entity = new StringRequestEntity(content, "text/xml", "UTF-8");
-        // }
-        // catch (UnsupportedEncodingException e1) {
-        // throw new SystemException(500, e1.getMessage(), "");
-        // }
-        // put.setRequestEntity(entity);
+        String result = put(path, fin);
+        fin.close();
 
-        try {
-            try {
-
-                put
-                    .setRequestHeader("Content-type",
-                        "application/octet-stream");
-                int statusCode = getRestClient().executeMethod(put);
-                InputStream in = put.getResponseBodyAsStream();
-                result = convertStreamToString(in);
-            }
-            catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(), e
-                    .toString());
-            }
-            catch (IOException e) {
-                throw new SystemException(500, e.getMessage(), e.toString());
-            }
-            decideStatusCode(put, result);
-        }
-        finally {
-            put.releaseConnection();
-        }
         return result;
+
     }
 
     /**
@@ -199,16 +152,8 @@ public class RestServiceMethod {
         String result = null;
         PutMethod put = new PutMethod(this.serviceAddress + path);
         PWCallback.addEscidocUserHandleCookie(put);
-        RequestEntity entity;
 
         put.setRequestBody(ins);
-        // try {
-        // entity = new StringRequestEntity(content, "text/xml", "UTF-8");
-        // }
-        // catch (UnsupportedEncodingException e1) {
-        // throw new SystemException(500, e1.getMessage(), "");
-        // }
-        // put.setRequestEntity(entity);
 
         try {
             try {
@@ -217,6 +162,9 @@ public class RestServiceMethod {
                     .setRequestHeader("Content-type",
                         "application/octet-stream");
                 int statusCode = getRestClient().executeMethod(put);
+                if ((statusCode / 100) != 2) {
+                    throw new RemoteException("Upload failed");
+                }
                 InputStream in = put.getResponseBodyAsStream();
                 result = convertStreamToString(in);
             }
@@ -392,13 +340,25 @@ public class RestServiceMethod {
         throws SystemException, RemoteException {
 
         if (method.getStatusCode() / 100 != 2) {
-            // throw new SystemException(method.getStatusCode(), method
-            // .getStatusLine().toString(), method.getStatusText());
-
             ExceptionMapper.constructEscidocException(method.getStatusCode(),
                 method.getStatusLine().toString(), body);
         }
 
+    }
+
+    private synchronized HttpClient getRestClient() {
+
+        if (this.client == null) {
+            this.client = new HttpClient(getConnectionManager());
+        }
+        return this.client;
+    }
+
+    private synchronized MultiThreadedHttpConnectionManager getConnectionManager() {
+        if (this.connectionManager == null) {
+            this.connectionManager = new MultiThreadedHttpConnectionManager();
+        }
+        return this.connectionManager;
     }
 
     /**
