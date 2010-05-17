@@ -28,7 +28,15 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.st;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import org.junit.Test;
@@ -60,7 +68,30 @@ public class StagingTest extends EscidocClientTestBase {
 
         File f = new File("./templates/soap/item/0.6/item.xml");
         URL url = sthc.upload(f);
-        
-        // assert file location
+
+        // assert file
+        String stagingFile = "";
+        String s;
+        InputStream ins = url.openStream();
+        DataInputStream dis = new DataInputStream(new BufferedInputStream(ins));
+        while ((s = dis.readLine()) != null) {
+            stagingFile += s;
+        }
+
+        String localFile = "";
+        BufferedReader in =
+            new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+        try {
+            String line;
+            while ((line = in.readLine()) != null) {
+                localFile += line;
+            }
+        }
+        finally {
+            in.close();
+        }
+
+        // compare both
+        assertEquals("Uploaded File differs from local", localFile, stagingFile);
     }
 }
