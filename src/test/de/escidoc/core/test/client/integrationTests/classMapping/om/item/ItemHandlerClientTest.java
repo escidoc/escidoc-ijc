@@ -30,14 +30,11 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,23 +45,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
-import de.escidoc.core.resources.common.MetadataRecord;
-import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.om.item.ItemList;
-import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -126,134 +116,6 @@ public class ItemHandlerClientTest {
                 + " expected.", ec, e);
 
         }
-    }
-
-    /**
-     * Test binding filter.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testFilterBinding() throws Exception {
-
-        TaskParam tp = new TaskParam();
-        tp.setLastModificationDate(new DateTime(System.currentTimeMillis()));
-        tp.setComment("Lalalala!");
-        tp.setPid("pid");
-
-        Collection<Filter> filters = TaskParam.filtersFactory();
-        Collection<String> ids = new LinkedList<String>();
-        ids.add("escidoc:7043");
-        ids.add("escidoc:7044");
-        ids.add(Constants.EXAMPLE_ITEM_ID);
-        filters.add(getFilter("http://purl.org/dc/elements/1.1/identifier",
-            null, ids));
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/properties/public-status", "pending",
-            null));
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
-        tp.setFilters(filters);
-    }
-
-    /**
-     * Test retrieving Items through filter request.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testRetrieveItems() throws Exception {
-
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
-
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            "non-existing-user", null));
-        filterParam.setFilters(filters);
-
-        ItemHandlerClient ic = new ItemHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemList itemList = ic.retrieveItems(filterParam);
-
-        assertEquals("Wrong number of elements in list", 0, itemList
-            .getItems().size());
-    }
-
-    /**
-     * Test retrieving Items through filter request.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testRetrieveItems02() throws Exception {
-
-        // create an Item
-        Item item = new Item();
-
-        // Properties
-        ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
-        // properties.setContentModelSpecific(getContentModelSpecific());
-        item.setProperties(properties);
-
-        // Md-Record
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
-        mdRecord.setContent(element);
-
-        MetadataRecords mdRecords = new MetadataRecords();
-        mdRecords.add(mdRecord);
-        item.setMetadataRecords(mdRecords);
-
-        ItemHandlerClient ic = new ItemHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        Item createdItem = ic.create(item);
-
-        // now check if at least this Item is in the list
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
-
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(ic.getHandle());
-        UserAccount me = uac.retrieveCurrentUser();
-
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by", me
-                .getObjid(), null));
-        filterParam.setFilters(filters);
-
-        ItemList itemList = ic.retrieveItems(filterParam);
-
-        assertTrue("Wrong number of elements in list", itemList
-            .getItems().size() > 0);
-
-        List<String> idList = new Vector<String>();
-
-        Iterator<Item> it = itemList.getItems().iterator();
-        while (it.hasNext()) {
-            Item n = it.next();
-            idList.add(n.getObjid());
-        }
-
-        assertTrue("Created Item missing in list", idList.contains(createdItem
-            .getObjid()));
-
     }
 
     /**
@@ -402,23 +264,4 @@ public class ItemHandlerClientTest {
         return result;
     }
 
-    /**
-     * Prepare and Filter class from the parameter collection.
-     * 
-     * @param name
-     *            Parameter name
-     * @param value
-     *            filter value
-     * @param ids
-     * @return
-     */
-    private Filter getFilter(
-        final String name, final String value, Collection<String> ids) {
-
-        Filter filter = new Filter();
-        filter.setName(name);
-        filter.setValue(value);
-        filter.setIds(ids);
-        return filter;
-    }
 }
