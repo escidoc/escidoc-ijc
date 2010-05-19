@@ -220,6 +220,7 @@ public class UserAccountHandlerClient
      * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
      * .String, java.lang.String, java.lang.String)
      */
+    @Deprecated
     public String login(
         final String serviceAddress, final String username,
         final String password) throws EscidocException,
@@ -231,12 +232,12 @@ public class UserAccountHandlerClient
             try {
                 auth = new Authentication(serviceAddress, username, password);
             }
-            catch (IOException e) {
+            catch (EscidocClientException e) {
                 throw new InternalClientException("Login failed.", e);
             }
         }
 
-        String handle = this.auth.getAuthHandle();
+        String handle = this.auth.getHandle();
         setHandle(handle);
 
         return handle;
@@ -247,6 +248,7 @@ public class UserAccountHandlerClient
      * 
      * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#logout()
      */
+    @Deprecated
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
 

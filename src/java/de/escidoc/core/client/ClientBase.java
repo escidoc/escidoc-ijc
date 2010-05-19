@@ -38,6 +38,7 @@ import org.apache.axis.configuration.FileProvider;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
+import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -242,6 +243,7 @@ public abstract class ClientBase {
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public String login(
         final String serviceUrl, final String username, final String password)
         throws EscidocException, InternalClientException, TransportException {
@@ -252,12 +254,12 @@ public abstract class ClientBase {
             try {
                 auth = new Authentication(serviceUrl, username, password);
             }
-            catch (IOException e) {
+            catch (EscidocClientException e) {
                 throw new InternalClientException("Login failed.", e);
             }
         }
 
-        String handle = this.auth.getAuthHandle();
+        String handle = this.auth.getHandle();
         setHandle(handle);
 
         return handle;

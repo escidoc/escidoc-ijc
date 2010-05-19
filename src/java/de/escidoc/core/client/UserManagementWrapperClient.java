@@ -88,6 +88,7 @@ public class UserManagementWrapperClient
      * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
      * .String, java.lang.String, java.lang.String)
      */
+    @Deprecated
     public String login(
         final String serviceAddress, final String username,
         final String password) throws EscidocException,
@@ -99,12 +100,12 @@ public class UserManagementWrapperClient
             try {
                 auth = new Authentication(serviceAddress, username, password);
             }
-            catch (IOException e) {
+            catch (EscidocClientException e) {
                 throw new InternalClientException("Login failed.", e);
             }
         }
 
-        String handle = this.auth.getAuthHandle();
+        String handle = this.auth.getHandle();
         setHandle(handle);
 
         return handle;

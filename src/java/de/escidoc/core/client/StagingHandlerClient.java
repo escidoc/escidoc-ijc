@@ -136,6 +136,7 @@ public class StagingHandlerClient implements StagingHandlerInterface {
      * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
      * .String, java.lang.String, java.lang.String)
      */
+    @Deprecated
     public String login(
         final String serviceAddress, final String username,
         final String password) throws EscidocException,
@@ -156,6 +157,7 @@ public class StagingHandlerClient implements StagingHandlerInterface {
      * 
      * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#logout()
      */
+    @Deprecated
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
 

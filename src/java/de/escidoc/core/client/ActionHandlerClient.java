@@ -56,7 +56,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
     private Authentication auth = null;
 
     /**
-     * Create ContainersoapContainerHandlerClient instance. The service protocol
+     * Create ActionHandlerClient instance. The service protocol
      * (REST/SOAP/..) selected from the configuration. Default is SOAP.
      * 
      * @throws EscidocException
@@ -162,6 +162,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public String login(
         final String serviceAddress, final String username,
         final String password) throws EscidocException,
@@ -173,12 +174,12 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
             try {
                 auth = new Authentication(serviceAddress, username, password);
             }
-            catch (IOException e) {
+            catch (EscidocClientException e) {
                 throw new InternalClientException("Login failed.", e);
             }
         }
 
-        String handle = this.auth.getAuthHandle();
+        String handle = this.auth.getHandle();
         setHandle(handle);
 
         return handle;
@@ -194,6 +195,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
 

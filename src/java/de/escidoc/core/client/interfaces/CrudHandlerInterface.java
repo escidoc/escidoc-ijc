@@ -59,23 +59,11 @@ public interface CrudHandlerInterface<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
+    @Deprecated
     String login(
         final String serviceAddress, final String username,
         final String password) throws EscidocClientException,
         InternalClientException, TransportException;
-
-    /**
-     * Logout at framework.
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    void logout() throws EscidocClientException, InternalClientException,
-        TransportException;
 
     /**
      * Set the Authentication Handle.

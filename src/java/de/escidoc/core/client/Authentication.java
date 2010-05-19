@@ -35,6 +35,11 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
+import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+
 /**
  * Authenticate against eSciDoc framework.
  * 
@@ -67,7 +72,7 @@ public class Authentication {
      *             Thrown if Authentication failed.
      */
     public Authentication(final String serviceAddress, final String username,
-        final String password) throws IOException {
+        final String password) throws EscidocClientException {
 
         login(serviceAddress, username, password);
     }
@@ -77,7 +82,7 @@ public class Authentication {
      * 
      * @return handle (or null)
      */
-    public String getAuthHandle() {
+    public String getHandle() {
         return this.handle;
     }
 
@@ -91,62 +96,73 @@ public class Authentication {
      * @param password
      *            Password.
      * @return eSciDoc Authentication handle
+     * @throws TransportException
+     * @throws AuthenticationException
      * 
      * @throws IOException
      *             Thrown if Authentication failed.
      */
     public String login(
         final String serviceUrl, final String username, final String password)
-        throws IOException {
+        throws InternalClientException, TransportException,
+        AuthenticationException {
 
         this.serviceAddress = unifyAddress(serviceUrl);
 
-        URL loginUrl = new URL(this.serviceAddress + "aa/login");
-        URL authURL =
-            new URL(this.serviceAddress + "aa/j_spring_security_check");
+        try {
+            URL loginUrl = new URL(this.serviceAddress + "aa/login");
+            URL authURL =
+                new URL(this.serviceAddress + "aa/j_spring_security_check");
 
-        HttpURLConnection.setFollowRedirects(false);
+            HttpURLConnection.setFollowRedirects(false);
 
-        // 1) Make a login request in order to get the session cookie.
-        HttpURLConnection restrictedConn =
-            (HttpURLConnection) loginUrl.openConnection();
-        restrictedConn.connect();
+            // 1) Make a login request in order to get the session cookie.
+            HttpURLConnection restrictedConn =
+                (HttpURLConnection) loginUrl.openConnection();
+            restrictedConn.connect();
 
-        // 2) Make a POST request sending the login credentials and the
-        // previous session cookie in order to get the next session cookie.
-        HttpURLConnection authConn =
-            (HttpURLConnection) authURL.openConnection();
-        authConn.setRequestMethod("POST");
-        authConn.setDoOutput(true);
+            // 2) Make a POST request sending the login credentials and the
+            // previous session cookie in order to get the next session cookie.
+            HttpURLConnection authConn =
+                (HttpURLConnection) authURL.openConnection();
+            authConn.setRequestMethod("POST");
+            authConn.setDoOutput(true);
 
-        authConn.setRequestProperty("Cookie", restrictedConn
-            .getHeaderField("Set-Cookie"));
-        String params = "j_username=" + username + "&j_password=" + password;
+            authConn.setRequestProperty("Cookie", restrictedConn
+                .getHeaderField("Set-Cookie"));
+            String params =
+                "j_username=" + username + "&j_password=" + password;
 
-        OutputStreamWriter w =
-            new OutputStreamWriter(authConn.getOutputStream());
-        w.write(params);
-        w.close();
+            OutputStreamWriter w =
+                new OutputStreamWriter(authConn.getOutputStream());
+            w.write(params);
+            w.close();
 
-        authConn.connect();
-        List<String> cookieList = authConn.getHeaderFields().get("Set-Cookie");
+            authConn.connect();
+            List<String> cookieList =
+                authConn.getHeaderFields().get("Set-Cookie");
 
-        // 3) Make a login request with the previous session cookie in order
-        // to get the auth cookie.
-        HttpURLConnection redirectConn =
-            (HttpURLConnection) loginUrl.openConnection();
-        if (cookieList != null) {
-            Iterator<String> cookieIt = cookieList.iterator();
-            while (cookieIt.hasNext()) {
-                redirectConn.addRequestProperty("Cookie", cookieIt.next());
+            // 3) Make a login request with the previous session cookie in order
+            // to get the auth cookie.
+            HttpURLConnection redirectConn =
+                (HttpURLConnection) loginUrl.openConnection();
+            if (cookieList != null) {
+                Iterator<String> cookieIt = cookieList.iterator();
+                while (cookieIt.hasNext()) {
+                    redirectConn.addRequestProperty("Cookie", cookieIt.next());
+                }
             }
+            redirectConn.connect();
+            cookieList = redirectConn.getHeaderFields().get("Set-Cookie");
+            this.handle = getEsciDocCookie(cookieList);
         }
-        redirectConn.connect();
-        cookieList = redirectConn.getHeaderFields().get("Set-Cookie");
+        catch (IOException e) {
+            throw new TransportException(e);
+        }
 
-        this.handle = getEsciDocCookie(cookieList);
         if (handle == null) {
-            throw new IOException("Authorization failed.");
+            throw new AuthenticationException("Authorization failed.",
+                new Throwable("Empty handle."));
         }
         return handle;
     }
@@ -154,16 +170,18 @@ public class Authentication {
     /**
      * Logout from framework.
      * 
-     * @throws IOException
-     *             Thrown if logout failed.
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
      */
-    public void logout() throws IOException {
+    public void logout() throws EscidocClientException,
+        InternalClientException, TransportException {
 
-        // FIXME
-        // URL logoutUrl = new URL(this.serviceAddress + "aa/logout");
+        UserManagementWrapperClient umwc = new UserManagementWrapperClient();
+        umwc.setServiceAddress(this.serviceAddress);
+        umwc.setHandle(this.handle);
 
-        this.handle = null;
-        throw new IOException("Method not implemented.");
+        umwc.logout();
     }
 
     /**

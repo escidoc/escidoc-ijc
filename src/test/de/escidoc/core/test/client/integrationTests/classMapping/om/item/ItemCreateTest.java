@@ -44,7 +44,9 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -84,9 +86,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         try {
@@ -113,9 +119,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem02() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         item.setTitle("New title for test");
@@ -140,9 +150,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem03() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -168,9 +182,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem04() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -196,9 +214,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem05() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -227,9 +249,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem06() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -263,9 +289,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem07() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -300,9 +330,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem08() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -353,9 +387,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItem09() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
 
         Item item = new Item();
 
@@ -398,9 +436,13 @@ public class ItemCreateTest {
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
 
         Item item = new Item();
 
@@ -449,9 +491,13 @@ public class ItemCreateTest {
     @Test
     public void testCreateItemWithOneComponent() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -463,7 +509,7 @@ public class ItemCreateTest {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        
+
         Element contentModelSpecific = doc.createElementNS(null, "cms");
         Element element1 = doc.createElement("some-other-stuff1");
         element1.setTextContent("33333333333333333333");
@@ -518,9 +564,13 @@ public class ItemCreateTest {
     @Test
     public void testloginAndCreateItemWith02() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Item item = new Item();
 
@@ -571,11 +621,17 @@ public class ItemCreateTest {
     @Test
     public void testLifecycleItem01() throws Exception {
 
-        Item item = createItem();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        Item item =
+            createItem(EscidocClientTestBase.DEFAULT_SERVICE_URL, auth
+                .getHandle());
 
         ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
 
         // submit --------------------------------------------------------------
         TaskParam tp = new TaskParam();
@@ -650,12 +706,13 @@ public class ItemCreateTest {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private Item createItem() throws EscidocException, InternalClientException,
+    private Item createItem(final String serviceAddress, final String handle)
+        throws EscidocClientException, InternalClientException,
         TransportException, ParserConfigurationException {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(serviceAddress);
+        cc.setHandle(handle);
 
         Item item = new Item();
 

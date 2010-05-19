@@ -943,6 +943,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public String login(
         final String serviceAddress, final String username,
         final String password) throws EscidocException,
@@ -968,6 +969,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
 
