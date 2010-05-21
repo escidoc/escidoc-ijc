@@ -2,7 +2,14 @@ package de.escidoc.core.resources.sb.search;
 
 import de.escidoc.core.resources.ResourceRef;
 
+/**
+ * SearchResultRecord.
+ * 
+ * @author ?
+ * 
+ */
 public class SearchResultRecord {
+    
     private String score;
 
     private Highlight highlight;

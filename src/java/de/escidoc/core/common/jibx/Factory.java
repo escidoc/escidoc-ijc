@@ -1,13 +1,14 @@
 package de.escidoc.core.common.jibx;
 
+import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.RequestsResults;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.aa.useraccount.Grants;
-import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
+import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -58,6 +59,9 @@ public class Factory {
     private static Marshaller<PathList> pathListMarshaller = null;
 
     private static Marshaller<SearchResultRecord> searchResultMarshaller = null;
+
+    private static Marshaller<SearchRetrieveResponseType> filterResponseMarshaller =
+        null;
 
     private static Marshaller<ExplainRecord> explainRecordMarshaller = null;
 
@@ -130,6 +134,23 @@ public class Factory {
     }
 
     /**
+     * FIXME Filter and Search should be the same.
+     * 
+     * @return the filterResponseMarshaller
+     */
+    public static Marshaller<SearchRetrieveResponseType> getFilterResponseMarshaller() {
+
+        if (filterResponseMarshaller == null) {
+            filterResponseMarshaller =
+                new Marshaller<SearchRetrieveResponseType>(
+                    SearchRetrieveResponseType.class);
+        }
+        return filterResponseMarshaller;
+    }
+
+    /**
+     * FIXME Filter and Search should be the same.
+     * 
      * @return the searchResultMarshaller
      */
     public static Marshaller<SearchResultRecord> getSearchResultMarshaller() {

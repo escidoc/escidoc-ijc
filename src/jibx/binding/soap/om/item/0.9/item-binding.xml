@@ -223,10 +223,10 @@
 			</collection>
 		</structure>
 		
-<!-- *****************************************
+		<!-- *****************************************
 			Relations 
-			****************************************** -->
-			<structure ns="http://www.escidoc.de/schemas/relations/0.3"
+		****************************************** -->
+		<structure ns="http://www.escidoc.de/schemas/relations/0.3"
 			field="relations" type="de.escidoc.core.resources.common.Relations"
 			usage="optional" />
 	</mapping>

@@ -17,7 +17,7 @@ import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.sb.search.Highlight;
 
 /**
- * Role Marshaller.
+ * SearchResultRecord Marshaller.
  * 
  * @author
  * 
@@ -164,7 +164,7 @@ public class SearchResultRecordMarshaller extends MarshallingBase
             else if (ctx.isAt(getUri(), "highlight")) {
                 Highlight highlight = (Highlight) ctx.unmarshalElement();
                 result.setHighlight(highlight);
-           }
+            }
             else if (ctx.isAt("http://www.escidoc.de/schemas/item/0.9", "item")) {
                 Item item = (Item) ctx.unmarshalElement();
                 result.setContent(item);

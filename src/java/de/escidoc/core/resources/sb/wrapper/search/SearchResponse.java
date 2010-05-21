@@ -4,6 +4,7 @@ import gov.loc.www.zing.srw.RecordType;
 import gov.loc.www.zing.srw.SearchRetrieveResponseType;
 
 public class SearchResponse {
+    
     private SearchRetrieveResponseType response = null;
 
     private MyRecordSearchType[] records = null;
@@ -12,7 +13,7 @@ public class SearchResponse {
      * 
      * @param response
      */
-    public SearchResponse(SearchRetrieveResponseType response) {
+    public SearchResponse(final SearchRetrieveResponseType response) {
         this.response = response;
     }
 

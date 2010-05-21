@@ -117,8 +117,10 @@ public class SearchHandlerClient implements SearchHandlerClientInterface {
         final SearchRetrieveRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+        
         SearchRetrieveResponseType result =
             getSoapSearchHandlerClient().search(request, database);
+        
         return new SearchResponse(result);
     }
 
@@ -133,6 +135,7 @@ public class SearchHandlerClient implements SearchHandlerClientInterface {
         final ScanRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+        
         return getSoapSearchHandlerClient().scan(request, database);
     }
 

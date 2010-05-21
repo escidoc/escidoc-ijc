@@ -37,7 +37,7 @@ import de.escidoc.core.resources.om.item.component.Components;
 /**
  * Item.
  * 
- * 
+ * @author ?, SWA
  */
 public class Item extends GenericVersionableResource {
 
@@ -52,7 +52,7 @@ public class Item extends GenericVersionableResource {
     private Relations relations = new Relations();
 
     /**
-     * 
+     * Item.
      */
     public Item() {
     }

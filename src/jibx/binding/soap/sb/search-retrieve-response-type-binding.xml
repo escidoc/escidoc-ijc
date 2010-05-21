@@ -1,0 +1,79 @@
+<binding>
+	<!--
+		This is a binding for the SRW/U reference implementation and there
+		classes.
+	-->
+	<!--
+		Filter and Search should be identical, but there aren't at least on
+		SOAP interface. Whereas the Search delivers via SOAP a class structure
+		(like one can actually expect via SOAP) delivers Filter the XML
+		representation as response. Furthermore differ the method parameter.
+		Both using not plain Strings. Filter requires a HashMap as data
+		structure and Search makes usage of SRW classes.
+	-->
+	<!--
+		A wrapper class around the
+		gov.loc.www.zing.srw.SearchRetrieveResponseType is used to allow JiBX
+		to weave in the mapping code.
+	-->
+	<!-- start: binding of a search-retrieve-response-type -->
+	<mapping name="searchRetrieveResponse" ns="http://www.loc.gov/zing/srw/"
+		class="de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType">
+		<namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" />
+		<structure map-as="abstract-search-retrieve-response" />
+	</mapping>
+
+
+	<!--
+		start: abstract binding of a single search-retrieve-response-type
+	-->
+	<mapping ns="http://www.loc.gov/zing/srw/"
+		class="de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType"
+		abstract="true" type-name="abstract-search-retrieve-response">
+
+		<namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" />
+
+		<value name="version" ns="http://www.loc.gov/zing/srw/"
+			set-method="setVersion" get-method="getVersion" usage="optional" />
+		<value name="numberOfRecords" ns="http://www.loc.gov/zing/srw/"
+			set-method="setNumberOfRecords" get-method="getNumberOfRecords"
+			usage="optional" />
+
+		<structure name="records" ns="http://www.loc.gov/zing/srw/"
+			usage="optional">
+
+			<collection ns="http://www.loc.gov/zing/srw/" field="records"
+				create-type="java.util.LinkedList">
+
+				<structure ns="http://www.loc.gov/zing/srw/" type="de.escidoc.core.resources.sb.srw.Record"
+					usage="optional" />
+
+			</collection>
+
+		</structure>
+
+	</mapping>
+	<!-- end: abstract binding of a single search-retrieve-response-type -->
+
+
+	<mapping name="record" class="de.escidoc.core.resources.sb.srw.Record"
+		ns="http://www.loc.gov/zing/srw/">
+		<namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" />
+
+		<value name="recordSchema" set-method="setRecordSchema"
+			ns="http://www.loc.gov/zing/srw/" get-method="getRecordSchema" usage="optional" />
+
+		<value name="recordPacking" set-method="setRecordPacking"
+			ns="http://www.loc.gov/zing/srw/" get-method="getRecordPacking"
+			usage="optional" />
+
+		<structure field="recordData" type="org.w3c.dom.Element"
+			marshaller="org.jibx.extras.DomElementMapper" unmarshaller="org.jibx.extras.DomElementMapper"
+			usage="optional" />
+
+		<value name="recordPosition" ns="http://www.loc.gov/zing/srw/"
+			set-method="setRecordPosition" get-method="getRecordPosition" usage="optional" />
+
+	</mapping>
+
+</binding>

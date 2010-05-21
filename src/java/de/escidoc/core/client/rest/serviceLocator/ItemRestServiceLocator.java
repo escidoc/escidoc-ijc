@@ -1,8 +1,12 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import de.escidoc.core.client.interfaces.ItemHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
@@ -38,7 +42,6 @@ import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyEle
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
-import de.escidoc.core.om.ItemHandler;
 
 /**
  * REST Service Connector.
@@ -437,6 +440,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
+    @Deprecated
     public String retrieveItems(final String filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
@@ -444,11 +448,28 @@ public class ItemRestServiceLocator extends RestServiceMethod
         return post(PATH_ITEM + "s/filter", filter);
     }
 
+    @Deprecated
     public String retrieveItems(final HashMap filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
         return get(PATH_ITEM + "s/", filter);
+    }
+
+    public String retrieveItems(final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_ITEM + "s" + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveItems(final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_ITEM + "s" + getEscidoc12Filter(filter));
     }
 
     public String assignVersionPid(final String itemId, final String taskParam)
@@ -507,6 +528,57 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingElementValueException {
 
         return (PATH_ITEM + "/" + itemId + "/content-relations/remove");
-
     }
+
+    /**
+     * Converts a SRW SearchRetrieveRequest to the data structure for filter
+     * requests for eSciDoc (version 1.2).
+     * 
+     * @param filter
+     *            SRW SearchRetrieveRequest
+     * @return data structure for filter requests for eSciDoc (version 1.2)
+     */
+    private String getEscidoc12Filter(final SearchRetrieveRequestType filter) {
+
+        String filter12 = "";
+
+        if (filter.getMaximumRecords() != null) {
+            filter12 +=
+                "&maximumRecords=" + String.valueOf(filter.getMaximumRecords());
+        }
+        if (filter.getStartRecord() != null) {
+            filter12 +=
+                "&startRecord=" + String.valueOf(filter.getStartRecord());
+        }
+        if (filter.getQuery() != null) {
+            filter12 += "&query=" + filter.getQuery();
+        }
+        if (filter.getVersion() != null) {
+            filter12 += "&version" + filter.getVersion();
+        }
+        filter12 += "&operation=searchRequest";
+
+        return filter12.replaceFirst("&", "?");
+    }
+
+    /**
+     * Converts a SRW ExplainRequest to the data structure for filter requests
+     * for eSciDoc (version 1.2).
+     * 
+     * @param filter
+     *            SRW ExplainRequest
+     * @return data structure for filter requests for eSciDoc (version 1.2)
+     */
+    private String getEscidoc12Filter(final ExplainRequestType filter) {
+
+        String filter12 = "";
+
+        if (filter.getVersion() != null) {
+            filter12 += "&version=" + filter.getVersion();
+        }
+        filter12 += "&operation=explain";
+
+        return filter12.replaceFirst("&", "?");
+    }
+
 }

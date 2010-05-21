@@ -28,6 +28,10 @@
  */
 package de.escidoc.core.client;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -45,6 +49,7 @@ import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.component.Component;
+import de.escidoc.core.resources.sb.explain.ExplainRecord;
 
 /**
  * This is the generic ItemClientHandler which binds the transport specific
@@ -261,6 +266,58 @@ public class ItemHandlerClient implements ItemHandlerClientInterface<Item> {
             xml = getRestItemHandlerClient().retrieveItems(taskParamString);
         }
         return Factory.getItemListMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Items (Filter for Items).
+     * 
+     * @param taskParam
+     *            Filter parameter
+     * @return ItemmList
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponseType retrieveItems(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapItemHandlerClient().retrieveItems(filter);
+        }
+        else {
+            xml = getRestItemHandlerClient().retrieveItems(filter);
+        }
+        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Items (Filter for Items).
+     * 
+     * @param taskParam
+     *            Filter parameter
+     * @return ItemmList
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainRecord retrieveItems(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapItemHandlerClient().retrieveItems(filter);
+        }
+        else {
+            xml = getRestItemHandlerClient().retrieveItems(filter);
+        }
+        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
     }
 
     /**

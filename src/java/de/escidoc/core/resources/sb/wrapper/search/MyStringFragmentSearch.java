@@ -5,7 +5,8 @@ import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 
 public class MyStringFragmentSearch {
-    StringOrXmlFragment stringOrXml;
+    
+    private StringOrXmlFragment stringOrXml;
 
     private static final Marshaller<SearchResultRecord> m =
         new Marshaller<SearchResultRecord>((new SearchResultRecord())
@@ -18,6 +19,7 @@ public class MyStringFragmentSearch {
     }
 
     public SearchResultRecord getResultRecord() throws Exception {
+        
         org.apache.axis.message.MessageElement[] messages =
             this.stringOrXml.get_any();
         String recordData = decodeCharacters(messages[0].getAsString());

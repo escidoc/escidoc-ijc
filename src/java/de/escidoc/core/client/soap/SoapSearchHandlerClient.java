@@ -85,6 +85,7 @@ public class SoapSearchHandlerClient extends ClientBase {
         final ExplainRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+
         ExplainResponseType result = null;
         try {
             result = getExplainClient(database).explainOperation(request);
@@ -110,6 +111,7 @@ public class SoapSearchHandlerClient extends ClientBase {
         final SearchRetrieveRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+
         SearchRetrieveResponseType result = null;
         try {
             result = getSearchClient(database).searchRetrieveOperation(request);
@@ -135,6 +137,7 @@ public class SoapSearchHandlerClient extends ClientBase {
         final ScanRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+
         ScanResponseType result = null;
         try {
             result = getSearchClient(database).scanOperation(request);
@@ -153,9 +156,10 @@ public class SoapSearchHandlerClient extends ClientBase {
      * @return
      * @throws ServiceException
      */
-    public ExplainPort getExplainClient(String database)
+    public ExplainPort getExplainClient(final String database)
         throws ServiceException, InternalClientException {
-        explainSoapClient = null;
+
+        this.explainSoapClient = null;
 
         // Vector mappings = new Vector();
         // addBeanMapping(ExplainResponseType.class, mappings);
@@ -184,12 +188,13 @@ public class SoapSearchHandlerClient extends ClientBase {
             catch (MalformedURLException e) {
                 throw new ServiceException(e);
             }
-            explainSoapClient = service.getExplainSOAP(url);
+            this.explainSoapClient = service.getExplainSOAP(url);
         }
         else {
-            explainSoapClient = service.getExplainSOAP();
+            this.explainSoapClient = service.getExplainSOAP();
         }
-        return explainSoapClient;
+
+        return this.explainSoapClient;
     }
 
     /**
@@ -202,7 +207,8 @@ public class SoapSearchHandlerClient extends ClientBase {
      */
     public SRWPort getSearchClient(final String database)
         throws ServiceException, InternalClientException {
-        searchSoapClient = null;
+
+        this.searchSoapClient = null;
 
         SRWSampleServiceLocator service = new SRWSampleServiceLocator();
         if (database != null) {
@@ -227,10 +233,10 @@ public class SoapSearchHandlerClient extends ClientBase {
             catch (MalformedURLException e) {
                 throw new ServiceException(e);
             }
-            searchSoapClient = service.getSRW(url);
+            this.searchSoapClient = service.getSRW(url);
         }
         else {
-            searchSoapClient = service.getSRW();
+            this.searchSoapClient = service.getSRW();
         }
 
         return searchSoapClient;
@@ -243,6 +249,7 @@ public class SoapSearchHandlerClient extends ClientBase {
 
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
+
         throw new InternalClientException("The method is not supported");
     }
 

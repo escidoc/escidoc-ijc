@@ -29,7 +29,7 @@ public class MyRecordSearchType {
         return new MyStringFragmentSearch(record.getRecordData());
     }
 
-    public void setStringFragment(MyStringFragmentSearch stringFragment) {
+    public void setStringFragment(final MyStringFragmentSearch stringFragment) {
         this.stringFragment = stringFragment;
     }
 

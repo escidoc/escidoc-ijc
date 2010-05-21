@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.client.rest;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 
 import org.apache.log4j.Logger;
@@ -39,9 +42,9 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ItemHandler;
 import de.escidoc.core.client.rest.serviceLocator.ItemRestServiceLocator;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.om.ItemHandler;
 
 /**
  * REST Handler for Item.
@@ -363,12 +366,55 @@ public class RestItemHandlerClient extends ClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
+    @Deprecated
     public String retrieveItems(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
             result = getClient().retrieveItems(taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveItems(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveItems(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveItems(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveItems(filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -516,4 +562,5 @@ public class RestItemHandlerClient extends ClientBase {
         }
         return this.restClient;
     }
+
 }

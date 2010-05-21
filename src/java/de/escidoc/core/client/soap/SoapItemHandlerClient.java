@@ -28,8 +28,12 @@
  */
 package de.escidoc.core.client.soap;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
@@ -317,14 +321,19 @@ public class SoapItemHandlerClient extends ClientBase {
     }
 
     /**
+     * Get Items by filter. This filter language is described as taskParam
+     * filter for eSciDoc core version 1.1. Version 1.2 of eSciDoc core supports
+     * this filters, but they are marked as deprecated.
      * 
      * @param taskParam
-     * @return
+     *            Filter (eSciDoc XML filter language)
+     * @return List of Items
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#retrieveItems(java.lang.String)
      */
+    @Deprecated
     public String retrieveItems(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -336,6 +345,34 @@ public class SoapItemHandlerClient extends ClientBase {
             ExceptionMapper.map(e);
         }
         return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveItems(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterItems(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveItems(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterItems(getEscidoc12Filter(filter));
     }
 
     /**
@@ -472,7 +509,7 @@ public class SoapItemHandlerClient extends ClientBase {
         try {
             if (soapClient == null) {
 
-                // build service URL from config file 
+                // build service URL from config file
                 ItemHandlerServiceLocator serviceLocator =
                     new ItemHandlerServiceLocator(getEngineConfig());
 
@@ -491,8 +528,7 @@ public class SoapItemHandlerClient extends ClientBase {
                 catch (MalformedURLException e) {
                     throw new ServiceException(e);
                 }
-                
-                
+
                 soapClient = serviceLocator.getItemHandlerService(url);
             }
         }
@@ -500,6 +536,83 @@ public class SoapItemHandlerClient extends ClientBase {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;
+    }
+
+    /**
+     * generic filter method request.
+     * 
+     * @param escidoc12Filter
+     *            data structure for eSciDoc 1.2 filter
+     * @return filter response
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String filterItems(final HashMap<String, String[]> escidoc12Filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveItems(escidoc12Filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+
+    }
+
+    /**
+     * Converts a SRW SearchRetrieveRequest to the data structure for filter
+     * requests for eSciDoc (version 1.2).
+     * 
+     * @param filter
+     *            SRW SearchRetrieveRequest
+     * @return data structure for filter requests for eSciDoc (version 1.2)
+     */
+    private HashMap<String, String[]> getEscidoc12Filter(
+        final SearchRetrieveRequestType filter) {
+
+        HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
+
+        if (filter.getMaximumRecords() != null) {
+            filter12.put("maximumRecords", new String[] { String.valueOf(filter
+                .getMaximumRecords()) });
+        }
+        if (filter.getStartRecord() != null) {
+            filter12.put("startRecord", new String[] { String.valueOf(filter
+                .getStartRecord()) });
+        }
+        if (filter.getQuery() != null) {
+            filter12.put("query", new String[] { filter.getQuery() });
+        }
+        if (filter.getVersion() != null) {
+            filter12.put("version", new String[] { filter.getVersion() });
+        }
+        filter12.put("operation", new String[] { "searchRequest" });
+
+        return filter12;
+    }
+
+    /**
+     * Converts a SRW ExplainRequest to the data structure for filter requests
+     * for eSciDoc (version 1.2).
+     * 
+     * @param filter
+     *            SRW ExplainRequest
+     * @return data structure for filter requests for eSciDoc (version 1.2)
+     */
+    private HashMap<String, String[]> getEscidoc12Filter(
+        final ExplainRequestType filter) {
+
+        HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
+
+        if (filter.getVersion() != null) {
+            filter12.put("version", new String[] { filter.getVersion() });
+        }
+        filter12.put("operation", new String[] { "explain" });
+
+        return filter12;
     }
 
 }
