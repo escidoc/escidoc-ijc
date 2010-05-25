@@ -63,7 +63,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
 /**
- * Test the CQL Container Filter.
+ * Test the CQL Role Filter.
  * 
  * @author SWA
  * 

@@ -37,10 +37,13 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.RoleHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
@@ -68,10 +71,14 @@ public class UserAccountHandlerClientTest {
 
         UserAccount ua = createUserAccount();
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
 
         // create
         UserAccount createdUa = uac.create(ua);
@@ -92,9 +99,14 @@ public class UserAccountHandlerClientTest {
 
         UserAccount ua = createUserAccount();
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
 
         UserAccount createdUa = uac.create(ua);
 
@@ -132,9 +144,13 @@ public class UserAccountHandlerClientTest {
         UserAccount ua = createUserAccount();
 
         // login
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
 
         UserAccount createdUa = uac.create(ua);
 
@@ -176,7 +192,7 @@ public class UserAccountHandlerClientTest {
      */
     @Test
     public void testRetrieveUserAccounts() throws Exception {
-        
+
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
@@ -185,9 +201,15 @@ public class UserAccountHandlerClientTest {
             "escidoc:user42", null));
         filterParam.setFilters(filters);
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
+
         UserAccounts userAccountList = uac.retrieveUserAccounts(filterParam);
 
         Factory.getUserAccountListMarshaller().marshalDocument(userAccountList);
@@ -204,10 +226,14 @@ public class UserAccountHandlerClientTest {
 
         UserAccount ua = createUserAccount();
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
 
         // create
         UserAccount createdUa = uac.create(ua);
@@ -232,10 +258,15 @@ public class UserAccountHandlerClientTest {
      */
     public void testRetrieveGrants() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
+
         UserAccount ua = createUserAccount();
 
         UserAccount createdUa = uac.create(ua);
@@ -256,9 +287,14 @@ public class UserAccountHandlerClientTest {
     @Test
     public void testUpdatePassword() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // login
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
 
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
@@ -276,8 +312,13 @@ public class UserAccountHandlerClientTest {
 
         // check login with a new password
         // it assumed that a user is allowed to retrieve its own account
+        Authentication auth2 =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         UserAccountHandlerClient uac2 = new UserAccountHandlerClient();
-        uac2.login(EscidocClientTestBase.DEFAULT_SERVICE_URL, login, password);
+        uac2.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac2.setHandle(auth2.getHandle());
 
         uac2.retrieve(objId);
     }
