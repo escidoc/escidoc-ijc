@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.client;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -47,6 +50,8 @@ import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
  * This is the generic ContainerSoapContainerHandlerClient which binds the
@@ -817,6 +822,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public ContainerList retrieveContainers(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -834,6 +840,59 @@ public class ContainerHandlerClient
                     taskParamString);
         }
         return Factory.getContainerListMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Containers (Filter for Containers).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponseType retrieveContainers(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapContainerHandlerClient().retrieveContainers(filter);
+        }
+        else {
+            xml = getRestContainerHandlerClient().retrieveContainers(filter);
+        }
+        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Containers (Filter for Containers).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainRecord retrieveContainers(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapContainerHandlerClient().retrieveContainers(filter);
+        }
+        else {
+            xml = getRestContainerHandlerClient().retrieveContainers(filter);
+        }
+        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -878,6 +937,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public MemberList retrieveMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -897,6 +957,72 @@ public class ContainerHandlerClient
         }
         return Factory.getMemberListMarshaller().unmarshalDocument(xml);
 
+    }
+
+    /**
+     * Retrieve Members (Filter for Members).
+     * 
+     * @param id
+     *            The Container where the filter should operate on
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponseType retrieveMembers(
+        final Container container, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContainerHandlerClient().retrieveMembers(
+                    container.getObjid(), filter);
+        }
+        else {
+            xml =
+                getRestContainerHandlerClient().retrieveMembers(
+                    container.getObjid(), filter);
+        }
+        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Members (Filter for Members).
+     * 
+     * @param container
+     *            The Container where the filter should operate on
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainRecord retrieveMembers(
+        final Container container, final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContainerHandlerClient().retrieveMembers(
+                    container.getObjid(), filter);
+        }
+        else {
+            xml =
+                getRestContainerHandlerClient().retrieveMembers(
+                    container.getObjid(), filter);
+        }
+        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
     }
 
     /**

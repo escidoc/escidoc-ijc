@@ -28,7 +28,8 @@
  */
 package de.escidoc.core.client;
 
-import java.io.IOException;
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import org.joda.time.DateTime;
 
@@ -44,6 +45,8 @@ import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
  * This is the generic ContainerSoapContainerHandlerClient which binds the
@@ -183,10 +186,20 @@ public class UserAccountHandlerClient
             getSoapUserAccountHandlerClient().retrieveCurrentGrants(userId));
     }
 
-    //
-    // Subresource - grant
-    //
-
+    /**
+     * Retrieve User Accounts (Filter for User Accounts).
+     * 
+     * @param taskParam
+     *            Filter parameter
+     * @return UserAccounts
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    @Deprecated
     public UserAccounts retrieveUserAccounts(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -195,6 +208,58 @@ public class UserAccountHandlerClient
                 Factory.getTaskParamMarshaller().marshalDocument(taskParam));
         return Factory.getUserAccountListMarshaller().unmarshalDocument(xml);
 
+    }
+
+    /**
+     * Retrieve UserAccounts (Filter for UserAccounts).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponseType retrieveUserAccounts(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapUserAccountHandlerClient().retrieveUserAccounts(filter);
+        }
+        else {
+            xml = getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
+        }
+        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve UserAccounts (Filter for UserAccounts).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainRecord retrieveUserAccounts(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapUserAccountHandlerClient().retrieveUserAccounts(filter);
+        }
+        else {
+            xml = getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
+        }
+        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
     }
 
     /**

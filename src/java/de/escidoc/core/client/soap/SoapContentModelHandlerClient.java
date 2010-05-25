@@ -215,5 +215,4 @@ public class SoapContentModelHandlerClient extends ClientBase {
         }
         return soapClient;
     }
-
 }

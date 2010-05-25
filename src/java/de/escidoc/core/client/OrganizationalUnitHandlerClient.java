@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.client;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -45,6 +48,8 @@ import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
+import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
  * This is the generic OrganizationalUnitClientHandler which binds the transport
@@ -410,6 +415,20 @@ public class OrganizationalUnitHandlerClient
             xml);
     }
 
+    /**
+     * Retrieve Organizational Units via filter from framework.
+     * 
+     * @param taskParam
+     *            Expression of Filter language.
+     * @return ContainerList
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    @Deprecated
     public OrganizationalUnitList retrieveOrganizationalUnits(
         final TaskParam taskParam) throws EscidocException,
         InternalClientException, TransportException {
@@ -430,6 +449,61 @@ public class OrganizationalUnitHandlerClient
         return Factory.getOrganizationalUnitListMarshaller().unmarshalDocument(
             xml);
     }
+
+
+    /**
+     * Retrieve Organizational Units (Filter for Organizational Units).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponseType retrieveOrganizationalUnits(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapOrganizationalUnitHandlerClient().retrieveOrganizationalUnits(filter);
+        }
+        else {
+            xml = getRestOrganizationalUnitHandlerClient().retrieveOrganizationalUnits(filter);
+        }
+        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Organizational Units (Filter for Organizational Units).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainRecord retrieveOrganizationalUnits(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapOrganizationalUnitHandlerClient().retrieveOrganizationalUnits(filter);
+        }
+        else {
+            xml = getRestOrganizationalUnitHandlerClient().retrieveOrganizationalUnits(filter);
+        }
+        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
+    }
+
 
     public PathList retrievePathList(final String id) throws EscidocException,
         InternalClientException, TransportException {

@@ -28,10 +28,14 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.escidoc.core.client.interfaces.ContextHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
@@ -62,7 +66,6 @@ import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyEle
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
-import de.escidoc.core.om.ContextHandler;
 
 /**
  * REST Service Connector.
@@ -104,6 +107,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
             + "/resources/members/filter", filter);
     }
 
+    @Deprecated
     public String retrieveMembers(final String contextId, final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -111,6 +115,26 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         return get(PATH_CONTEXT + "/" + contextId + "/resources/members",
             (Map<String, String[]>) filter);
+    }
+
+    public String retrieveMembers(
+        final String contextId, final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTEXT + "/" + contextId + "/resources/members"
+            + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveMembers(
+        final String contextId, final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTEXT + "/" + contextId + "/resources/members"
+            + getEscidoc12Filter(filter));
     }
 
     public String retrieveAdminDescriptor(
@@ -277,6 +301,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
         return post(PATH_CONTEXT + "s/filter", filter);
     }
 
+    @Deprecated
     public String retrieveContexts(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -284,4 +309,21 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         return get(PATH_CONTEXT + "s/filter", filter);
     }
+
+    public String retrieveContexts(final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTEXT + "s" + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveContexts(final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTEXT + "s" + getEscidoc12Filter(filter));
+    }
+
 }

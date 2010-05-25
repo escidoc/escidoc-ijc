@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.client;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -45,6 +48,8 @@ import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextList;
+import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
  * This is the generic ContextSoapContextHandlerClient which binds the transport
@@ -364,6 +369,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public ContextList retrieveContexts(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
@@ -381,6 +387,59 @@ public class ContextHandlerClient
     }
 
     /**
+     * Retrieve Contexts (Filter for Contexts).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponseType retrieveContexts(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapContextHandlerClient().retrieveContexts(filter);
+        }
+        else {
+            xml = getRestContextHandlerClient().retrieveContexts(filter);
+        }
+        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Contexts (Filter for Contexts).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainRecord retrieveContexts(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapContextHandlerClient().retrieveContexts(filter);
+        }
+        else {
+            xml = getRestContextHandlerClient().retrieveContexts(filter);
+        }
+        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
      * Retrieve Members from Context.
      * 
      * @param id
@@ -395,6 +454,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public MemberList retrieveMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;

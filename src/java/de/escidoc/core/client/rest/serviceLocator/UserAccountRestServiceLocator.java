@@ -1,9 +1,13 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.escidoc.core.client.interfaces.UserAccountHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
@@ -26,7 +30,6 @@ import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticL
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException;
 import de.escidoc.core.common.exceptions.remote.application.violated.UniqueConstraintViolationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
-import de.escidoc.core.um.UserAccountHandler;
 
 /**
  * REST Service Connector.
@@ -286,12 +289,30 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes/" + attName);
     }
 
+    @Deprecated
     public String retrieveUserAccounts(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, InvalidSearchQueryException,
         AuthenticationException, AuthorizationException {
 
-        return get("/aa/user-accounts/filter", (Map<String, String[]>) filter);
+        return get(PATH_USER_ACCOUNT + "s/filter",
+            (Map<String, String[]>) filter);
+    }
+
+    public String retrieveUserAccounts(final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_USER_ACCOUNT + "s" + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveUserAccounts(final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_USER_ACCOUNT + "s" + getEscidoc12Filter(filter));
     }
 
     public String updateAttribute(

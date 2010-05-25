@@ -28,8 +28,12 @@
  */
 package de.escidoc.core.client.soap;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
@@ -238,6 +242,7 @@ public class SoapContextHandlerClient extends ClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Deprecated
     public String retrieveContexts(final String filter)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -253,6 +258,34 @@ public class SoapContextHandlerClient extends ClientBase {
 
     /**
      * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContexts(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterContexts(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContexts(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterContexts(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
      * @param id
      * @param filter
      * @return
@@ -260,6 +293,7 @@ public class SoapContextHandlerClient extends ClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Deprecated
     public String retrieveMembers(final String id, final String filter)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -271,6 +305,36 @@ public class SoapContextHandlerClient extends ClientBase {
             ExceptionMapper.map(e);
         }
         return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMembers(
+        final String id, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterMembers(id, getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMembers(
+        final String id, final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterMembers(id, getEscidoc12Filter(filter));
     }
 
     /**
@@ -341,6 +405,58 @@ public class SoapContextHandlerClient extends ClientBase {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;
+    }
+
+    /**
+     * generic filter method request.
+     * 
+     * @param escidoc12Filter
+     *            data structure for eSciDoc 1.2 filter
+     * @return filter response
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String filterContexts(
+        final HashMap<String, String[]> escidoc12Filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContexts(escidoc12Filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+
+    }
+
+    /**
+     * generic filter method request.
+     * 
+     * @param contextId
+     *            the objid of the Context
+     * @param escidoc12Filter
+     *            data structure for eSciDoc 1.2 filter
+     * @return filter response
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String filterMembers(
+        final String contextId, final HashMap<String, String[]> escidoc12Filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveMembers(contextId, escidoc12Filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+
     }
 
 }

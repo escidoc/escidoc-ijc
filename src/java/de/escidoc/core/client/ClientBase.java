@@ -28,10 +28,13 @@
  */
 package de.escidoc.core.client;
 
-import java.io.IOException;
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.Remote;
+import java.util.HashMap;
 
 import org.apache.axis.EngineConfiguration;
 import org.apache.axis.configuration.FileProvider;
@@ -264,5 +267,60 @@ public abstract class ClientBase {
 
         return handle;
     }
+
+    
+    /**
+     * Converts a SRW SearchRetrieveRequest to the data structure for filter
+     * requests for eSciDoc (version 1.2).
+     * 
+     * @param filter
+     *            SRW SearchRetrieveRequest
+     * @return data structure for filter requests for eSciDoc (version 1.2)
+     */
+    protected HashMap<String, String[]> getEscidoc12Filter(
+        final SearchRetrieveRequestType filter) {
+
+        HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
+
+        if (filter.getMaximumRecords() != null) {
+            filter12.put("maximumRecords", new String[] { String.valueOf(filter
+                .getMaximumRecords()) });
+        }
+        if (filter.getStartRecord() != null) {
+            filter12.put("startRecord", new String[] { String.valueOf(filter
+                .getStartRecord()) });
+        }
+        if (filter.getQuery() != null) {
+            filter12.put("query", new String[] { filter.getQuery() });
+        }
+        if (filter.getVersion() != null) {
+            filter12.put("version", new String[] { filter.getVersion() });
+        }
+        filter12.put("operation", new String[] { "searchRequest" });
+
+        return filter12;
+    }
+
+    /**
+     * Converts a SRW ExplainRequest to the data structure for filter requests
+     * for eSciDoc (version 1.2).
+     * 
+     * @param filter
+     *            SRW ExplainRequest
+     * @return data structure for filter requests for eSciDoc (version 1.2)
+     */
+    protected HashMap<String, String[]> getEscidoc12Filter(
+        final ExplainRequestType filter) {
+
+        HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
+
+        if (filter.getVersion() != null) {
+            filter12.put("version", new String[] { filter.getVersion() });
+        }
+        filter12.put("operation", new String[] { "explain" });
+
+        return filter12;
+    }
+
 
 }

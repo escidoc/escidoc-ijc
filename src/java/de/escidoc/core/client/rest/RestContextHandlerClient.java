@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.client.rest;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 
 import org.apache.log4j.Logger;
@@ -40,7 +43,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.serviceLocator.ContextRestServiceLocator;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.om.ContextHandler;
+import de.escidoc.core.client.interfaces.ContextHandler;
 
 /**
  * REST Handler for Context.
@@ -205,6 +208,50 @@ public class RestContextHandlerClient extends ClientBase {
         return result;
     }
 
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMembers(
+        final String contextId, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveMembers(contextId, filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMembers(
+        final String contextId, final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveMembers(contextId, filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
     public String retrieveAdminDescriptor(final String id, final String admId)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -249,12 +296,55 @@ public class RestContextHandlerClient extends ClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#retrieveContexts(java.lang.String)
      */
+    @Deprecated
     public String retrieveContexts(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
             result = getClient().retrieveContexts(taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContexts(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContexts(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContexts(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContexts(filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

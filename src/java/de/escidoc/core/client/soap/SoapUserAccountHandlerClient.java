@@ -28,8 +28,12 @@
  */
 package de.escidoc.core.client.soap;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
@@ -210,10 +214,15 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         return result;
     }
 
-    //
-    // Subresource - grant
-    //
-
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @Deprecated
     public String retrieveUserAccounts(final String filter)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -225,6 +234,34 @@ public class SoapUserAccountHandlerClient extends ClientBase {
             ExceptionMapper.map(e);
         }
         return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveUserAccounts(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterUserAccounts(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveUserAccounts(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterUserAccounts(getEscidoc12Filter(filter));
     }
 
     /**
@@ -294,6 +331,31 @@ public class SoapUserAccountHandlerClient extends ClientBase {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;
+    }
+
+    /**
+     * generic filter method request.
+     * 
+     * @param escidoc12Filter
+     *            data structure for eSciDoc 1.2 filter
+     * @return filter response
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String filterUserAccounts(
+        final HashMap<String, String[]> escidoc12Filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveUserAccounts(escidoc12Filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+
     }
 
 }

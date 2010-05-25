@@ -29,6 +29,7 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,8 +38,10 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
+import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
@@ -66,9 +69,13 @@ public class ContextCreateTest {
     @Test
     public void testCreateContext01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Context context = new Context();
         try {
@@ -92,9 +99,13 @@ public class ContextCreateTest {
     @Test
     public void testCreateContext02() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -121,9 +132,13 @@ public class ContextCreateTest {
     @Test
     public void testCreateContext03() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -152,9 +167,13 @@ public class ContextCreateTest {
     @Test
     public void testCreateContext04() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -193,9 +212,13 @@ public class ContextCreateTest {
     @Test
     public void testCreateContext08() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContextHandlerClient cc = new ContextHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -233,6 +256,61 @@ public class ContextCreateTest {
             EscidocClientTestBase.assertExceptionType(ec.getName()
                 + " expected.", ec, e);
         }
+    }
+
+    /**
+     * Test successful creation of Context.
+     * 
+     * @throws Exception
+     *             Thrown if creation failed.
+     */
+    @Test
+    public void testCreateContext09() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ContextHandlerClient cc = new ContextHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+
+        Context context = new Context();
+        Properties properties = new Properties();
+        properties.setDescription("ContextDescription");
+        properties.setName("ContextName" + System.currentTimeMillis());
+        properties.setPublicStatus("opened");
+        properties.setPublicStatusComment("PublicStatusComment");
+
+        OrganizationalUnitRefs organizationalUnitRefs =
+            new OrganizationalUnitRefs();
+        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
+        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        properties.setOrganizationalUnitRefs(organizationalUnitRefs);
+        properties.setType("type");
+        context.setProperties(properties);
+
+        AdminDescriptors adminDescriptors = new AdminDescriptors();
+        AdminDescriptor adminDescriptor = new AdminDescriptor();
+        adminDescriptor.setName("AdminDescriptorDemoName");
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element element = doc.createElementNS(null, "admin-descriptor");
+        adminDescriptor.setContent(element);
+
+        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        context.setAdminDescriptors(adminDescriptors);
+
+        // create
+        Context createdContext = cc.create(context);
+
+        assertEquals("Name differs", context.getProperties().getName(),
+            createdContext.getProperties().getName());
+        assertEquals("Description differs", context
+            .getProperties().getDescription(), createdContext
+            .getProperties().getDescription());
+
     }
 
 }

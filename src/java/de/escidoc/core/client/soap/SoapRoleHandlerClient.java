@@ -28,8 +28,12 @@
  */
 package de.escidoc.core.client.soap;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
@@ -122,6 +126,7 @@ public class SoapRoleHandlerClient extends ClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#retrieve(java.lang.String)
      */
+    @Deprecated
     public String retrieveRoles(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -133,6 +138,34 @@ public class SoapRoleHandlerClient extends ClientBase {
             ExceptionMapper.map(e);
         }
         return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveRoles(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterRoles(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveRoles(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterRoles(getEscidoc12Filter(filter));
     }
 
     /**
@@ -224,6 +257,29 @@ public class SoapRoleHandlerClient extends ClientBase {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;
+    }
+
+    /**
+     * generic filter method request.
+     * 
+     * @param escidoc12Filter
+     *            data structure for eSciDoc 1.2 filter
+     * @return filter response
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String filterRoles(final HashMap<String, String[]> escidoc12Filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveRoles(escidoc12Filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
     }
 
 }

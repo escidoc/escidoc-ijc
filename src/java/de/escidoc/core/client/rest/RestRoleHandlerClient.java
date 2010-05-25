@@ -28,17 +28,20 @@
  */
 package de.escidoc.core.client.rest;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import de.escidoc.core.aa.RoleHandler;
 import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.RoleHandler;
 import de.escidoc.core.client.rest.serviceLocator.RoleRestServiceLocator;
 import de.escidoc.core.common.jibx.Factory;
 
@@ -180,12 +183,55 @@ public class RestRoleHandlerClient extends ClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
+    @Deprecated
     public String retrieveRoles(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
             result = getClient().retrieveRoles(taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveRoles(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveRoles(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveRoles(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveRoles(filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

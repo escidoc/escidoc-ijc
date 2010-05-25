@@ -1,5 +1,8 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,8 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
@@ -432,6 +433,57 @@ public class RestServiceMethod {
             }
         }
         return result.toString();
+    }
+
+    /**
+     * Converts a SRW SearchRetrieveRequest to the data structure for filter
+     * requests for eSciDoc (version 1.2).
+     * 
+     * @param filter
+     *            SRW SearchRetrieveRequest
+     * @return data structure for filter requests for eSciDoc (version 1.2)
+     */
+    protected String getEscidoc12Filter(final SearchRetrieveRequestType filter) {
+
+        String filter12 = "";
+
+        if (filter.getMaximumRecords() != null) {
+            filter12 +=
+                "&maximumRecords=" + String.valueOf(filter.getMaximumRecords());
+        }
+        if (filter.getStartRecord() != null) {
+            filter12 +=
+                "&startRecord=" + String.valueOf(filter.getStartRecord());
+        }
+        if (filter.getQuery() != null) {
+            filter12 += "&query=" + filter.getQuery();
+        }
+        if (filter.getVersion() != null) {
+            filter12 += "&version" + filter.getVersion();
+        }
+        filter12 += "&operation=searchRequest";
+
+        return filter12.replaceFirst("&", "?");
+    }
+
+    /**
+     * Converts a SRW ExplainRequest to the data structure for filter requests
+     * for eSciDoc (version 1.2).
+     * 
+     * @param filter
+     *            SRW ExplainRequest
+     * @return data structure for filter requests for eSciDoc (version 1.2)
+     */
+    protected String getEscidoc12Filter(final ExplainRequestType filter) {
+
+        String filter12 = "";
+
+        if (filter.getVersion() != null) {
+            filter12 += "&version=" + filter.getVersion();
+        }
+        filter12 += "&operation=explain";
+
+        return filter12.replaceFirst("&", "?");
     }
 
 }

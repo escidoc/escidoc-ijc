@@ -1,8 +1,12 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import de.escidoc.core.client.interfaces.OrganizationalUnitHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
@@ -36,7 +40,6 @@ import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyEle
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
-import de.escidoc.core.oum.OrganizationalUnitHandler;
 
 /**
  * REST Service Connector.
@@ -117,12 +120,29 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         return post("/oum/organizational-units/filter", filter);
     }
 
+    @Deprecated
     public String retrieveOrganizationalUnits(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get("/oum/organizational-units", filter);
+        return get(PATH_OU + "s", filter);
+    }
+
+    public String retrieveOrganizationalUnits(
+        final SearchRetrieveRequestType filter) throws RemoteException,
+        SystemException, MissingMethodParameterException,
+        AuthenticationException, AuthorizationException, InvalidXmlException {
+
+        return get(PATH_OU + "s" + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveOrganizationalUnits(final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_OU + "s" + getEscidoc12Filter(filter));
     }
 
     public void delete(final String ouId) throws RemoteException,
@@ -271,13 +291,12 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         return get(PATH_OU + "/" + ouId + "/resources/successors");
     };
 
-    public String createMdRecord(
-        final String ouId, final String mdRecordXml) throws RemoteException,
-        SystemException, LockingException, MissingAttributeValueException,
-        MissingMethodParameterException, InvalidStatusException,
-        AuthenticationException, XmlSchemaNotFoundException,
-        OrganizationalUnitNotFoundException, AuthorizationException,
-        InvalidXmlException {
+    public String createMdRecord(final String ouId, final String mdRecordXml)
+        throws RemoteException, SystemException, LockingException,
+        MissingAttributeValueException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException,
+        XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
+        AuthorizationException, InvalidXmlException {
 
         return put(PATH_OU + "/" + ouId + "/md-records/md-record", mdRecordXml);
     }

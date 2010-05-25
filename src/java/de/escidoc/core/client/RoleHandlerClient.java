@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.client;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.util.HashMap;
 
 import org.joda.time.DateTime;
@@ -43,11 +46,13 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
- * This is the generic RoleContainerHandlerClient which binds the
- * transport specific classes. The transport specification is done via
- * properties configuration of the eSciDoc client.
+ * This is the generic RoleContainerHandlerClient which binds the transport
+ * specific classes. The transport specification is done via properties
+ * configuration of the eSciDoc client.
  * 
  * @author SWA
  * 
@@ -62,8 +67,8 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
     private RestRoleHandlerClient restRoleHandlerClient = null;
 
     /**
-     * Create RoleHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
+     * Create RoleHandlerClient instance. The service protocol (REST/SOAP/..)
+     * selected from the configuration. Default is SOAP.
      * 
      * @throws ClientException
      * 
@@ -163,10 +168,20 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         return Factory.getRoleMarshaller().unmarshalDocument(xml);
     }
 
-    //
-    // Subresource - grant
-    //
-
+    /**
+     * Retrieve Roles (Filter for Roles).
+     * 
+     * @param taskParam
+     *            Filter parameter
+     * @return Roles
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    @Deprecated
     public Roles retrieveRoles(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -185,15 +200,57 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
 
     }
 
-    public Roles retrieveRoles(final HashMap filter)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    /**
+     * Retrieve Roles (Filter for Roles).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponseType retrieveRoles(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
-        // String xml =
-        // getSoapRoleHandlerClient().retrieveRoles(
-        // Factory.getTaskParamMarshaller().marshalDocument(taskParam));
-        // return Factory.getRoleListMarshaller().unmarshalDocument(xml);
-        return null;
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapRoleHandlerClient().retrieveRoles(filter);
+        }
+        else {
+            xml = getRestRoleHandlerClient().retrieveRoles(filter);
+        }
+        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Roles (Filter for Roles).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainRecord retrieveRoles(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapRoleHandlerClient().retrieveRoles(filter);
+        }
+        else {
+            xml = getRestRoleHandlerClient().retrieveRoles(filter);
+        }
+        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
     }
 
     /**

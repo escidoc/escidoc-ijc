@@ -40,6 +40,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundException;
@@ -77,10 +78,15 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieveUnknown() throws Exception {
         try {
 
-            ContextHandlerClient ic = new ContextHandlerClient();
-            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-            ic.retrieve(Constants.INVALID_RESOURCE_ID);
+            Authentication auth =
+                new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                    Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+            ContextHandlerClient cc = new ContextHandlerClient();
+            cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+            cc.setHandle(auth.getHandle());
+
+            cc.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
         }
         catch (ContextNotFoundException e) {
@@ -100,9 +106,13 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     @Test
     public void testRetrieve01() throws Exception {
 
-        ContextHandlerClient ic = new ContextHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ContextHandlerClient cc = new ContextHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -131,9 +141,9 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         adminDescriptors.addAdminDescriptor(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        Context createdContext = ic.create(context);
+        Context createdContext = cc.create(context);
         String objid = createdContext.getObjid();
-        Context retrievedContext = ic.retrieve(objid);
+        Context retrievedContext = cc.retrieve(objid);
 
         Factory.getContextMarshaller().marshalDocument(retrievedContext);
     }
@@ -147,9 +157,13 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     @Test
     public void testRetrieveUpdate() throws Exception {
 
-        ContextHandlerClient ic = new ContextHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ContextHandlerClient cc = new ContextHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -178,10 +192,15 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         adminDescriptors.addAdminDescriptor(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        Context createdContext = ic.create(context);
+        // create
+        Context createdContext = cc.create(context);
         String objid = createdContext.getObjid();
-        Context retrivedContext = ic.retrieve(objid);
-        ic.update(retrivedContext);
+        
+        // retrieve
+        Context retrivedContext = cc.retrieve(objid);
+        
+        // update
+        cc.update(retrivedContext);
         Factory.getContextMarshaller().marshalDocument(retrivedContext);
     }
 
@@ -195,12 +214,18 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieveContexts() throws Exception {
 
         // just getting a valid objid of a user
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
+        // call filter without Authentication (login)
         ContextHandlerClient cc = new ContextHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
@@ -227,10 +252,14 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
     public void testRetrieveMembers() throws Exception {
         ContextHandlerClient cc = new ContextHandlerClient();
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         // just getting a valid objid of a user
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
         TaskParam filterParam = new TaskParam();

@@ -28,8 +28,6 @@
  */
 package de.escidoc.core.client.interfaces;
 
-import java.util.HashMap;
-
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -37,9 +35,6 @@ import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
 
 /**
- * This class defines the signatures for the client handler wrapper classes
- * where the transport specific exceptions are mapped to internal client
- * internal exception.
  * 
  * @author SWA
  * 
@@ -49,7 +44,5 @@ public interface RoleHandlerClientInterface<T> extends CrudHandlerInterface<T> {
     Roles retrieveRoles(TaskParam taskParam) throws EscidocClientException,
         InternalClientException, TransportException;
 
-    Roles retrieveRoles(HashMap filter) throws EscidocClientException,
-        InternalClientException, TransportException;
 
 }

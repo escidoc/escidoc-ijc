@@ -271,9 +271,9 @@ public class ItemHandlerClient implements ItemHandlerClientInterface<Item> {
     /**
      * Retrieve Items (Filter for Items).
      * 
-     * @param taskParam
+     * @param filter
      *            Filter parameter
-     * @return ItemmList
+     * @return SearchRetrieveResponseType
      * @throws EscidocException
      *             Thrown if an exception from framework is received.
      * @throws InternalClientException
@@ -297,9 +297,9 @@ public class ItemHandlerClient implements ItemHandlerClientInterface<Item> {
     /**
      * Retrieve Items (Filter for Items).
      * 
-     * @param taskParam
+     * @param filter
      *            Filter parameter
-     * @return ItemmList
+     * @return ExplainRecord
      * @throws EscidocException
      *             Thrown if an exception from framework is received.
      * @throws InternalClientException

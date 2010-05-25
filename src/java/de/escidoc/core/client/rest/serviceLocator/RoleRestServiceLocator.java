@@ -1,9 +1,12 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-import de.escidoc.core.aa.RoleHandler;
+import de.escidoc.core.client.interfaces.RoleHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
@@ -70,12 +73,29 @@ public class RoleRestServiceLocator extends RestServiceMethod
         return post(PATH_ROLE + "s/filter", filter);
     }
 
+    @Deprecated
     public String retrieveRoles(final HashMap filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         InvalidSearchQueryException, AuthenticationException,
         AuthorizationException {
 
         return get(PATH_ROLE + "s/", filter);
+    }
+
+    public String retrieveRoles(final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_ROLE + "s" + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveRoles(final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_ROLE + "s" + getEscidoc12Filter(filter));
     }
 
 }

@@ -28,10 +28,14 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.escidoc.core.client.interfaces.ContainerHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextStatusException;
@@ -72,7 +76,6 @@ import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVer
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
 import de.escidoc.core.common.exceptions.remote.application.violated.WorkflowViolationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
-import de.escidoc.core.om.ContainerHandler;
 
 /**
  * REST service for Container.
@@ -168,6 +171,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
             filter);
     }
 
+    @Deprecated
     public String retrieveMembers(final String containerId, final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, ContainerNotFoundException,
@@ -175,6 +179,26 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         return get(PATH_CONTAINER + "/" + containerId + "/members/filter",
             filter);
+    }
+
+    public String retrieveMembers(
+        final String containerId, final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTAINER + "/" + containerId + "/resources/members"
+            + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveMembers(
+        final String containerId, final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTAINER + "/" + containerId + "/resources/members"
+            + getEscidoc12Filter(filter));
     }
 
     public String updateMetadataRecord(
@@ -292,12 +316,12 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         return post(PATH_CONTAINER + "/" + containerId + "/submit", taskParam);
     }
 
-    public String createMdRecord(
-        final String containerId, final String xmlData) throws RemoteException,
-        SystemException, LockingException, MissingAttributeValueException,
-        MissingMethodParameterException, InvalidStatusException,
-        AuthenticationException, XmlSchemaNotFoundException,
-        ContainerNotFoundException, AuthorizationException, InvalidXmlException {
+    public String createMdRecord(final String containerId, final String xmlData)
+        throws RemoteException, SystemException, LockingException,
+        MissingAttributeValueException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException,
+        XmlSchemaNotFoundException, ContainerNotFoundException,
+        AuthorizationException, InvalidXmlException {
 
         return put(
             PATH_CONTAINER + "/" + containerId + "/md-records/md-record",
@@ -382,6 +406,12 @@ public class ContainerRestServiceLocator extends RestServiceMethod
             taskParam);
     }
 
+    /**
+     * Filter for Container.
+     * 
+     * @param SRU
+     *            search request as URL encoded HTTP GET parameter
+     */
     public String retrieveContainers(final String filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -390,6 +420,23 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         return post(PATH_CONTAINER + "s/filter", filter);
     }
 
+    public String retrieveContainers(final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTAINER + "s" + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveContainers(final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get(PATH_CONTAINER + "s" + getEscidoc12Filter(filter));
+    }
+
+    @Deprecated
     public String retrieveContainers(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,

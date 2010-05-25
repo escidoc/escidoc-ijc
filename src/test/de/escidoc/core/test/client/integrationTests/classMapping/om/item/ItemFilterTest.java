@@ -45,6 +45,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.resources.ResourceRef;
@@ -114,9 +115,13 @@ public class ItemFilterTest {
             "non-existing-user", null));
         filterParam.setFilters(filters);
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient ic = new ItemHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setHandle(auth.getHandle());
 
         ItemList itemList = ic.retrieveItems(filterParam);
 
@@ -158,9 +163,13 @@ public class ItemFilterTest {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ItemHandlerClient ic = new ItemHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setHandle(auth.getHandle());
 
         Item createdItem = ic.create(item);
 
