@@ -28,16 +28,32 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.ingest;
 
-import org.junit.Test;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.client.rest.RestItemHandlerClient;
+import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.container.Container;
+import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
 /**
  * Test ingest REST interface.
@@ -56,12 +72,42 @@ public class IngestTest {
     @Test
     public void testIngestItem01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ItemHandlerClient ihc = new ItemHandlerClient();
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
+
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Content-model
+        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        item.getProperties().setContentModelSpecific(cms);
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        item.setMetadataRecords(mdRecords);
+
+        // create
+        Item createdItem = ihc.create(item);
+
+        String objId = createdItem.getObjid();
+
         // organize Item
-        ItemHandlerClient ic = new ItemHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
-        String itemXml = Factory.getItemMarshaller().marshalDocument(item);
+        RestItemHandlerClient ic = new RestItemHandlerClient();
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setHandle(auth.getHandle());
+        
+        String itemXml = ic.retrieve(objId);
 
         // ingest Item
         RestIngestHandlerClient cc = new RestIngestHandlerClient();
@@ -78,17 +124,63 @@ public class IngestTest {
     @Test
     public void testIngestContainer02() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ContainerHandlerClient cc = new ContainerHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+
+        Container container = new Container();
+
+        // properties
+        ContainerProperties properties = new ContainerProperties();
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Content-model-specific
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element contentModelSpecific = doc.createElementNS(null, "cms");
+
+        List<Element> cmsContent = new LinkedList<Element>();
+        cmsContent.add(contentModelSpecific);
+        ContentModelSpecific cms = new ContentModelSpecific();
+
+        cms.setContent(cmsContent);
+
+        properties.setContentModelSpecific(cms);
+        container.setProperties(properties);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName("escidoc");
+
+        Document docMdRecord = builder.newDocument();
+        Element element = docMdRecord.createElementNS(null, "myMdRecord");
+        mdRecord.setContent(element);
+
+        mdRecords.add(mdRecord);
+        container.setMetadataRecords(mdRecords);
+
+        Container createdContainer = cc.create(container);
+        String objId = createdContainer.getObjid();
+
+        
         // organize Container
-        ContainerHandlerClient ic = new ContainerHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        Container container = ic.retrieve(Constants.EXAMPLE_CONTAINER_ID);
-        String containerXml = Factory.getContainerMarshaller().marshalDocument(container);
+        RestContainerHandlerClient rchc = new RestContainerHandlerClient();
+        rchc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        rchc.setHandle(auth.getHandle());
+        
+        String containerXml = rchc.retrieve(objId);
 
         // ingest Item
-        RestIngestHandlerClient cc = new RestIngestHandlerClient();
-        cc.setHandle(ic.getHandle());
-        cc.ingest(containerXml);
+        RestIngestHandlerClient rihc = new RestIngestHandlerClient();
+        rihc.setHandle(auth.getHandle());
+        rihc.ingest(containerXml);
     }
 
 }

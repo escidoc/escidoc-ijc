@@ -47,6 +47,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
@@ -84,9 +85,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
         try {
@@ -113,9 +118,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer02() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
         container.setTitle("New title for test");
@@ -140,9 +149,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer03() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -168,9 +181,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer04() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -196,9 +213,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer05() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -227,9 +248,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer06() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -263,9 +288,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer07() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -304,9 +333,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer08() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
 
@@ -319,11 +352,11 @@ public class ContainerCreateTest {
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
         mdRecord.setName("escidoc");
-        
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        
+
         Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);
@@ -349,9 +382,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer09() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = new Container();
 
@@ -440,9 +477,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer10() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
@@ -522,9 +563,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainerWithOneMember() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = createContainerWithMinContent();
         Container memberContainer = createContainerWithMinContent();
@@ -568,9 +613,13 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainer20() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);
@@ -622,9 +671,13 @@ public class ContainerCreateTest {
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);

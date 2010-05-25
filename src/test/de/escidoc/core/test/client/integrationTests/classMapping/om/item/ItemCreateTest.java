@@ -67,6 +67,7 @@ import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
 /**
  * Test create Item.
@@ -403,12 +404,12 @@ public class ItemCreateTest {
             new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model
-        ContentModelSpecific cms = getContentModelSpecific();
+        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdrecord = getMdRecord("escidoc");
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
@@ -452,19 +453,19 @@ public class ItemCreateTest {
             new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model
-        ContentModelSpecific cms = getContentModelSpecific();
+        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdrecord1 = getMdRecord("escidoc");
+        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord1);
 
-        MetadataRecord mdrecord2 = getMdRecord("mdRecord2");
+        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
         mdRecords.add(mdrecord2);
 
-        MetadataRecord mdrecord3 = getMdRecord("mdRecord3");
+        MetadataRecord mdrecord3 = ResourceUtility.getMdRecord("mdRecord3");
         mdRecords.add(mdrecord3);
 
         item.setMetadataRecords(mdRecords);
@@ -579,12 +580,13 @@ public class ItemCreateTest {
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID));
-        properties.setContentModelSpecific(getContentModelSpecific());
+        properties.setContentModelSpecific(ResourceUtility
+            .getContentModelSpecific());
         item.setProperties(properties);
 
         // Md-Record
         MetadataRecords mdRecords = new MetadataRecords();
-        mdRecords.add(getMdRecord("escidoc"));
+        mdRecords.add(ResourceUtility.getMdRecord("escidoc"));
         item.setMetadataRecords(mdRecords);
 
         // Components
@@ -672,31 +674,6 @@ public class ItemCreateTest {
     }
 
     /**
-     * Get md record with provided name.
-     * 
-     * @param name
-     *            Name of md-record
-     * @return md-record
-     * @throws ParserConfigurationException
-     *             Thrown if instance of DocumentBuiler failed to create.
-     */
-    private MetadataRecord getMdRecord(final String name)
-        throws ParserConfigurationException {
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName(name);
-
-        Element element = doc.createElementNS(null, "myMdRecord");
-        mdRecord.setContent(element);
-
-        return mdRecord;
-    }
-
-    /**
      * Create an Item with one Component.
      * 
      * @return Just created Item.
@@ -721,12 +698,13 @@ public class ItemCreateTest {
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID));
-        properties.setContentModelSpecific(getContentModelSpecific());
+        properties.setContentModelSpecific(ResourceUtility
+            .getContentModelSpecific());
         item.setProperties(properties);
 
         // Md-Record
         MetadataRecords mdRecords = new MetadataRecords();
-        mdRecords.add(getMdRecord("escidoc"));
+        mdRecords.add(ResourceUtility.getMdRecord("escidoc"));
         item.setMetadataRecords(mdRecords);
 
         // Components
@@ -745,33 +723,6 @@ public class ItemCreateTest {
         component.setContent(content);
 
         return cc.create(item);
-    }
-
-    /**
-     * Prepare data for content model specific.
-     * 
-     * @return ContentModelSpecific with some content
-     * @throws ParserConfigurationException
-     */
-    private static ContentModelSpecific getContentModelSpecific()
-        throws ParserConfigurationException {
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff");
-        element1.setTextContent("some content - " + System.nanoTime());
-
-        List<Element> cmsContent = new LinkedList<Element>();
-        cmsContent.add(contentModelSpecific);
-        cmsContent.add(element1);
-
-        ContentModelSpecific cms = new ContentModelSpecific();
-        cms.setContent(cmsContent);
-
-        return cms;
     }
 
 }
