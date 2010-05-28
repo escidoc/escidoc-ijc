@@ -52,7 +52,7 @@ import de.escidoc.core.resources.sb.explain.ExplainRecord;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
- * This is the generic ContextSoapContextHandlerClient which binds the transport
+ * This is the generic ContextSoapHandlerClient which binds the transport
  * specific classes. The transport specification is done via properties
  * configuration of the eSciDoc client.
  * 
@@ -70,7 +70,7 @@ public class ContextHandlerClient
     private RestContextHandlerClient restContextHandlerClient = null;
 
     /**
-     * Create ContextsoapContextHandlerClient instance. The service protocol
+     * Create ContextSoapHandlerClient instance. The service protocol
      * (REST/SOAP/..) selected from the configuration. Default is SOAP.
      * 
      * @throws EscidocException
