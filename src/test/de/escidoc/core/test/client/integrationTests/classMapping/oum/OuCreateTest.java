@@ -44,10 +44,10 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
@@ -82,10 +82,14 @@ public class OuCreateTest {
     @Test
     public void testCreateOrganizationalUnit01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         try {
@@ -112,10 +116,14 @@ public class OuCreateTest {
     @Test
     public void testCreateOrganizationalUnit02() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         MetadataRecords mdRecords = new MetadataRecords();
@@ -154,10 +162,14 @@ public class OuCreateTest {
     @Test
     public void testCreateOrganizationalUnit03() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -199,10 +211,14 @@ public class OuCreateTest {
     @Test
     public void testCreateOrganizationalUnit04() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -270,10 +286,14 @@ public class OuCreateTest {
         organizationalUnit.setMetadataRecords(mdRecords);
 
         // create OU
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
 
@@ -335,10 +355,14 @@ public class OuCreateTest {
         organizationalUnit.setMetadataRecords(mdRecords);
 
         // create OU
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
 
@@ -379,10 +403,14 @@ public class OuCreateTest {
         organizationalUnit.setMetadataRecords(mdRecords);
 
         // create parent OU
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit parentOU = cc.create(organizationalUnit);
 
@@ -425,10 +453,14 @@ public class OuCreateTest {
         final String ou2Description =
             "The second OU of a test. " + System.currentTimeMillis();
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         // OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
@@ -499,10 +531,14 @@ public class OuCreateTest {
         final String ou4Description =
             "The forth OU of a test. " + System.currentTimeMillis();
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         // create OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
@@ -614,7 +650,6 @@ public class OuCreateTest {
         mdRecord.setContent(mdRecordContent);
 
         return mdRecord;
-
     }
 
     /**
@@ -626,10 +661,14 @@ public class OuCreateTest {
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();

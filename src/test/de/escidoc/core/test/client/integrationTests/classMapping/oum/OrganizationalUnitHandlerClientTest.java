@@ -30,21 +30,30 @@ package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 
-import org.junit.Test;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.Properties;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -66,12 +75,17 @@ public class OrganizationalUnitHandlerClientTest {
     public void testRetrieveUnknown() throws Exception {
         try {
 
-            OrganizationalUnitHandlerClient ic =
-                new OrganizationalUnitHandlerClient();
-            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            Authentication auth =
+                new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                    Constants.SYSTEM_ADMIN_USER,
+                    Constants.SYSTEM_ADMIN_PASSWORD);
 
-            ic.retrieve(Constants.INVALID_RESOURCE_ID);
+            OrganizationalUnitHandlerClient cc =
+                new OrganizationalUnitHandlerClient();
+            cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+            cc.setHandle(auth.getHandle());
+
+            cc.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
         }
         catch (OrganizationalUnitNotFoundException e) {
@@ -91,13 +105,17 @@ public class OrganizationalUnitHandlerClientTest {
     @Test
     public void testRetrieve01() throws Exception {
 
-        OrganizationalUnitHandlerClient ic =
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit organizationUnit =
-            ic.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+            cc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
 
         Factory.getOrganizationalUnitMarshaller().marshalDocument(
             organizationUnit);
@@ -112,14 +130,18 @@ public class OrganizationalUnitHandlerClientTest {
     @Test
     public void testRetrieveUpdate() throws Exception {
 
-        OrganizationalUnitHandlerClient ic =
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        OrganizationalUnitHandlerClient cc =
             new OrganizationalUnitHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         OrganizationalUnit organizationUnit =
-            ic.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
-        ic.update(organizationUnit);
+            cc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+        cc.update(organizationUnit);
         Factory.getOrganizationalUnitMarshaller().marshalDocument(
             organizationUnit);
     }
@@ -148,19 +170,49 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieveOrganizationalUnits() throws Exception {
-        
+
+        final String ouName =
+            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouDescription = "Description of Organizational Unit.";
+
+        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        Properties properties = new Properties();
+        properties.setName("Organizational_Unit_Test_Name");
+        organizationalUnit.setProperties(properties);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdRecord =
+            createMdRecordDC("escidoc", "organization-details", ouName,
+                ouDescription);
+
+        mdRecords.add(mdRecord);
+        organizationalUnit.setMetadataRecords(mdRecords);
+
+        // create parent OU
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        OrganizationalUnitHandlerClient cc =
+            new OrganizationalUnitHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+
+        OrganizationalUnit ou = cc.create(organizationalUnit);
+
         // just getting a valid objid of a user
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            me.getObjid(), null));
+            "http://escidoc.de/core/01/structural-relations/created-by", me
+                .getObjid(), null));
         filterParam.setFilters(filters);
         Factory.getTaskParamMarshaller().marshalDocument(filterParam);
 
@@ -194,5 +246,58 @@ public class OrganizationalUnitHandlerClientTest {
         filter.setValue(value);
         filter.setIds(ids);
         return filter;
+    }
+
+    /**
+     * Creates an Metadata Record with DC content.
+     * 
+     * @param mdRecordName
+     *            Name of the MdRecord
+     * @param rootElementName
+     *            Name of the root element of the MdRecord content
+     * @param title
+     *            The title which is to set in the DC metadata
+     * @param description
+     *            The description which is to set in the DC metadata
+     * @return The MetadataRecord with the given values
+     * @throws ParserConfigurationException
+     *             If instantiation of DocumentBuilder fail
+     */
+    private MetadataRecord createMdRecordDC(
+        final String mdRecordName, final String rootElementName,
+        final String title, final String description)
+        throws ParserConfigurationException {
+
+        // md-record
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName(mdRecordName);
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setCoalescing(true);
+        factory.setValidating(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        Document doc = builder.newDocument();
+        Element mdRecordContent = doc.createElementNS(null, rootElementName);
+        mdRecord.setContent(mdRecordContent);
+
+        // title
+        Element titleElmt =
+            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        titleElmt.setPrefix("dc");
+        titleElmt.setTextContent(title);
+        mdRecordContent.appendChild(titleElmt);
+
+        // dc:description
+        Element descriptionElmt =
+            doc.createElementNS("http://purl.org/dc/elements/1.1/",
+                "description");
+        descriptionElmt.setPrefix("dc");
+        descriptionElmt.setTextContent(description);
+        mdRecordContent.appendChild(descriptionElmt);
+        mdRecord.setContent(mdRecordContent);
+
+        return mdRecord;
     }
 }
