@@ -21,6 +21,7 @@ import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
+import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
@@ -68,6 +69,8 @@ public class Factory {
     private static Marshaller<Component> componentMarshaller = null;
 
     private static Marshaller<Container> containerMarshaller = null;
+
+    private static Marshaller<ContentRelation> contentRelationMarshaller = null;
 
     private static Marshaller<UserAccount> userAccountMarshaller = null;
 
@@ -228,6 +231,17 @@ public class Factory {
             containerMarshaller = new Marshaller<Container>(Container.class);
         }
         return containerMarshaller;
+    }
+
+    /**
+     * @return the contentRelationMarshaller
+     */
+    public static Marshaller<ContentRelation> getContentRelationMarshaller() {
+
+        if (contentRelationMarshaller == null) {
+            contentRelationMarshaller = new Marshaller<ContentRelation>(ContentRelation.class);
+        }
+        return contentRelationMarshaller;
     }
 
     /**

@@ -49,6 +49,7 @@ import de.escidoc.core.om.ContextHandler;
 import de.escidoc.core.om.ContextHandlerServiceLocator;
 
 /**
+ * Context SOAP handler.
  * 
  * @author SWA
  * 

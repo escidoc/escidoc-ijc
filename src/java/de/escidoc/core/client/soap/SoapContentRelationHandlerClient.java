@@ -28,8 +28,12 @@
  */
 package de.escidoc.core.client.soap;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
@@ -40,39 +44,40 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.cmm.ContentModelHandler;
-import de.escidoc.core.cmm.ContentModelHandlerServiceLocator;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.om.ContentRelationHandler;
+import de.escidoc.core.om.ContentRelationHandlerServiceLocator;
 
 /**
+ * Content Relation SOAP handler.
  * 
  * @author SWA
  * 
  */
-public class SoapContentModelHandlerClient extends ClientBase {
+public class SoapContentRelationHandlerClient extends ClientBase {
 
-    private ContentModelHandler soapClient = null;
+    private ContentRelationHandler soapClient = null;
 
-    public SoapContentModelHandlerClient() throws InternalClientException {
+    public SoapContentRelationHandlerClient() throws InternalClientException {
 
         super();
     }
 
     /**
      * 
-     * @param contentModel
+     * @param contentRelation
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#create(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#create(java.lang.String)
      */
-    public String create(final String contentModel) throws EscidocException,
+    public String create(final String contentRelation) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().create(contentModel);
+            result = getClient().create(contentRelation);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -86,7 +91,7 @@ public class SoapContentModelHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#delete(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#delete(java.lang.String)
      */
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -106,7 +111,7 @@ public class SoapContentModelHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#retrieve(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#retrieve(java.lang.String)
      */
     public String retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -124,20 +129,20 @@ public class SoapContentModelHandlerClient extends ClientBase {
     /**
      * 
      * @param id
-     * @param contentModel
+     * @param context
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#update(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String contentModel)
+    public String update(final String id, final String context)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().update(id, contentModel);
+            result = getClient().update(id, context);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -146,11 +151,40 @@ public class SoapContentModelHandlerClient extends ClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the contentModel.
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentRelations(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        return filterContentRelations(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentRelations(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterContentRelations(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * Get the last-modification timestamp of the context.
      * 
      * @param id
-     *            The id of the contentModel.
-     * @return The timestamp of the last modification of the contentModel.
+     *            The id of the context.
+     * @return The timestamp of the last modification of the context.
      * @param id
      * @return
      * @throws EscidocException
@@ -165,7 +199,7 @@ public class SoapContentModelHandlerClient extends ClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory.getContentModelMarshaller()
+                (Factory.getContentRelationMarshaller()
                     .unmarshalDocument(getClient().retrieve(id)))
                     .getLastModificationDate();
         }
@@ -181,15 +215,15 @@ public class SoapContentModelHandlerClient extends ClientBase {
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override
-    public ContentModelHandler getClient() throws InternalClientException {
+    public ContentRelationHandler getClient() throws InternalClientException {
 
         try {
             if (soapClient == null) {
-                ContentModelHandlerServiceLocator serviceLocator =
-                    new ContentModelHandlerServiceLocator(getEngineConfig());
+                ContentRelationHandlerServiceLocator serviceLocator =
+                    new ContentRelationHandlerServiceLocator(getEngineConfig());
 
                 String adress =
-                    serviceLocator.getContentModelHandlerServiceAddress();
+                    serviceLocator.getContentRelationHandlerServiceAddress();
                 URL url = null;
                 try {
                     url = new URL(adress);
@@ -207,12 +241,38 @@ public class SoapContentModelHandlerClient extends ClientBase {
                     throw new ServiceException(e);
                 }
 
-                soapClient = serviceLocator.getContentModelHandlerService(url);
+                soapClient =
+                    serviceLocator.getContentRelationHandlerService(url);
             }
         }
         catch (ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;
+    }
+
+    /**
+     * generic filter method request.
+     * 
+     * @param escidoc12Filter
+     *            data structure for eSciDoc 1.2 filter
+     * @return filter response
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String filterContentRelations(
+        final HashMap<String, String[]> escidoc12Filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentRelations(escidoc12Filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+
     }
 }

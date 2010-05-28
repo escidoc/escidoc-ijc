@@ -58,6 +58,10 @@
 		</antcall>
 		<antcall target="wsdl2java">
 			<param name="component" value="om" />
+			<param name="service" value="ContentRelationHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="om" />
 			<param name="service" value="ContextHandlerService" />
 		</antcall>
 		<antcall target="wsdl2java">

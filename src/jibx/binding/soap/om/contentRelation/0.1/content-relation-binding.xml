@@ -1,0 +1,180 @@
+<binding>
+	<!--  SOAP Binding -->
+	<!-- start: binding of a single content relation -->
+	<mapping name="content-relation"
+		ns="http://www.escidoc.de/schemas/content-relation/0.1" class="de.escidoc.core.resources.om.contentRelation.ContentRelation">
+		<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1"
+			prefix="escidocContentRelation" />
+		<structure map-as="abstract-content-relation" />
+	</mapping>
+	<!-- end: binding of a single content relation -->
+
+	<!-- start: abstract binding of a single content relation -->
+	<mapping ns="http://www.escidoc.de/schemas/content-relation/0.1"
+		class="de.escidoc.core.resources.om.contentRelation.ContentRelation"
+		abstract="true" type-name="abstract-content-relation">
+
+		<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1"
+			prefix="escidocContentRelation" />
+		<namespace uri="http://escidoc.de/core/01/properties/"
+			prefix="prop" />
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+		<!-- Root attributes -->
+		<value name="objid" style="attribute" set-method="setObjid"
+			get-method="getObjid" usage="optional" />
+
+		<value name="last-modification-date" style="attribute"
+			set-method="setLastModificationDateAsString" get-method="getLastModificationDateAsString"
+			usage="optional" />
+
+		<!-- Properties include -->
+		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
+			name="properties" field="properties" usage="optional">
+			<structure map-as="content-relation-properties" usage="optional" />
+		</structure>
+
+	</mapping>
+	<!-- end: abstract binding of a single content relation -->
+
+
+	<!--
+		***********************************************************************
+		Properties binding definition
+		***********************************************************************
+	-->
+	<mapping ns="http://escidoc.de/core/01/properties/"
+		class="de.escidoc.core.resources.om.contentRelation.ContentRelationProperties"
+		abstract="true" type-name="content-relation-properties">
+
+		<namespace uri="http://escidoc.de/core/01/properties/"
+			prefix="prop" />
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+		<namespace uri="http://escidoc.de/core/01/properties/version/"
+			prefix="version" />
+		<namespace uri="http://escidoc.de/core/01/properties/release/"
+			prefix="release" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="creation-date"
+			set-method="setCreationDateAsString" get-method="getCreationDateAsString"
+			usage="optional" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="created-by" field="createdBy" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+
+		<value ns="http://escidoc.de/core/01/properties/" name="public-status"
+			field="publicStatus" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="public-status-comment"
+			field="publicStatusComment" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="name"
+			field="name" usage="optional" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="content-model" field="contentModel" usage="optional">
+			<value style="attribute" name="objid" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+
+		<value ns="http://escidoc.de/core/01/properties/" name="lock-status"
+			field="lockStatus" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="pid"
+			set-method="setPid" get-method="getPid" usage="optional" />
+
+		<!--
+			*******************************************************************
+			Version
+			*******************************************************************
+		-->
+		<structure ns="http://escidoc.de/core/01/properties/" name="version"
+			field="version" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/version/" name="number"
+				get-method="getNumber" set-method="setNumber" usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/version/" name="date"
+				set-method="setDateAsString" get-method="getDateAsString" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/version/" name="status"
+				set-method="setStatus" get-method="getStatus" usage="optional" />
+
+			<structure ns="http://escidoc.de/core/01/structural-relations/"
+				name="modified-by" set-method="setModifiedBy" get-method="getModifiedBy"
+				usage="optional">
+
+				<value name="objid" style="attribute" set-method="setObjid"
+					get-method="getObjid" usage="optional" />
+			</structure>
+
+			<value ns="http://escidoc.de/core/01/properties/version/" name="comment"
+				set-method="setComment" get-method="getComment" usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/version/" name="pid"
+				set-method="setPid" get-method="getPid" usage="optional" />
+		</structure>
+
+		<!--
+			*******************************************************************
+			Latest-Version
+			*******************************************************************
+		-->
+		<structure ns="http://escidoc.de/core/01/properties/" name="latest-version"
+			field="latestVersion" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/version/" name="number"
+				get-method="getNumber" set-method="setNumber" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/version/" name="date"
+				set-method="setDateAsString" get-method="getDateAsString" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/release/" name="pid"
+				set-method="setPid" get-method="getPid" usage="optional" />
+		</structure>
+
+		<!--
+			*******************************************************************
+			Latest-Release
+			*******************************************************************
+		-->
+		<structure ns="http://escidoc.de/core/01/properties/" name="latest-release"
+			field="latestRelease" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/release/" name="number"
+				get-method="getNumber" set-method="setNumber" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/release/" name="date"
+				set-method="setDateAsString" get-method="getDateAsString" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/release/" name="pid"
+				set-method="setPid" get-method="getPid" usage="optional" />
+		</structure>
+
+		<!--
+			*******************************************************************
+			Content-Model specific
+			*******************************************************************
+		-->
+		<structure name="content-model-specific" field="contentModelSpecific"
+			ns="http://escidoc.de/core/01/properties/" type="de.escidoc.core.resources.common.properties.ContentModelSpecific"
+			usage="optional">
+			<structure field="content" type="java.util.List"
+				marshaller="org.jibx.extras.DomListMapper" unmarshaller="org.jibx.extras.DomListMapper"
+				usage="optional" />
+		</structure>
+	</mapping>
+
+</binding>
+

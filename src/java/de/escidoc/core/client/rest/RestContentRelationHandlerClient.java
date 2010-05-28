@@ -26,13 +26,14 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.client.soap;
+package de.escidoc.core.client.rest;
+
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 
-import javax.xml.rpc.ServiceException;
-
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
@@ -40,41 +41,46 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.cmm.ContentModelHandler;
-import de.escidoc.core.cmm.ContentModelHandlerServiceLocator;
+import de.escidoc.core.client.rest.serviceLocator.ContentRelationRestServiceLocator;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.client.interfaces.ContentRelationHandler;
 
 /**
+ * REST Handler for ContentRelation.
  * 
  * @author SWA
  * 
  */
-public class SoapContentModelHandlerClient extends ClientBase {
+public class RestContentRelationHandlerClient extends ClientBase {
 
-    private ContentModelHandler soapClient = null;
+    private final Logger logger =
+        Logger.getLogger(RestContentRelationHandlerClient.class.getName());
 
-    public SoapContentModelHandlerClient() throws InternalClientException {
+    private ContentRelationHandler restClient = null;
+
+    public RestContentRelationHandlerClient() throws InternalClientException {
 
         super();
     }
 
     /**
      * 
-     * @param contentModel
+     * @param contentRelation
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#create(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#create(java.lang.String)
      */
-    public String create(final String contentModel) throws EscidocException,
+    public String create(final String contentRelation) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().create(contentModel);
+            result = getClient().create(contentRelation);
         }
         catch (Exception e) {
+            logger.debug(e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -86,7 +92,7 @@ public class SoapContentModelHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#delete(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#delete(java.lang.String)
      */
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -106,7 +112,7 @@ public class SoapContentModelHandlerClient extends ClientBase {
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#retrieve(java.lang.String)
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#retrieve(java.lang.String)
      */
     public String retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -124,20 +130,20 @@ public class SoapContentModelHandlerClient extends ClientBase {
     /**
      * 
      * @param id
-     * @param contentModel
+     * @param contentRelation
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#update(java.lang.String,
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String contentModel)
+    public String update(final String id, final String contentRelation)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().update(id, contentModel);
+            result = getClient().update(id, contentRelation);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -146,11 +152,54 @@ public class SoapContentModelHandlerClient extends ClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the contentModel.
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentRelations(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentRelations(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentRelations(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentRelations(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Get the last-modification timestamp of the contentRelation.
      * 
      * @param id
-     *            The id of the contentModel.
-     * @return The timestamp of the last modification of the contentModel.
+     *            The id of the contentRelation.
+     * @return The timestamp of the last modification of the contentRelation.
      * @param id
      * @return
      * @throws EscidocException
@@ -165,7 +214,7 @@ public class SoapContentModelHandlerClient extends ClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory.getContentModelMarshaller()
+                (Factory.getContentRelationMarshaller()
                     .unmarshalDocument(getClient().retrieve(id)))
                     .getLastModificationDate();
         }
@@ -181,38 +230,21 @@ public class SoapContentModelHandlerClient extends ClientBase {
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override
-    public ContentModelHandler getClient() throws InternalClientException {
+    public ContentRelationHandler getClient() throws InternalClientException {
 
-        try {
-            if (soapClient == null) {
-                ContentModelHandlerServiceLocator serviceLocator =
-                    new ContentModelHandlerServiceLocator(getEngineConfig());
+        if (restClient == null) {
 
-                String adress =
-                    serviceLocator.getContentModelHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
+            ContentRelationRestServiceLocator serviceLocator =
+                new ContentRelationRestServiceLocator();
 
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
-
-                soapClient = serviceLocator.getContentModelHandlerService(url);
+            try {
+                serviceLocator.setServiceAddress(getServiceAddress());
             }
+            catch (MalformedURLException e) {
+                throw new InternalClientException(e);
+            }
+            restClient = serviceLocator;
         }
-        catch (ServiceException e) {
-            throw new InternalClientException(e.getMessage(), e);
-        }
-        return soapClient;
+        return this.restClient;
     }
 }

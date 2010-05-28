@@ -270,13 +270,13 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         del(PATH_CONTAINER + "/" + containerId);
     }
 
-    public String lock(final String containerId, final String userId)
+    public String lock(final String containerId, final String taskParam)
         throws RemoteException, OptimisticLockingException, SystemException,
         LockingException, MissingMethodParameterException,
         AuthenticationException, ContainerNotFoundException,
         AuthorizationException, InvalidContentException, InvalidXmlException {
 
-        return post(PATH_CONTAINER + "/" + containerId + "/lock", userId);
+        return post(PATH_CONTAINER + "/" + containerId + "/lock", taskParam);
     }
 
     public String unlock(final String containerId, final String taskParam)
