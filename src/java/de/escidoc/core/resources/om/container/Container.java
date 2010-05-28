@@ -71,7 +71,7 @@ public class Container extends GenericVersionableResource {
      * Set Resource properties.
      * 
      * @param properties
-     *            The new ContextProperties.
+     *            The new ContainerProperties.
      */
     public void setProperties(final ContainerProperties properties) {
         this.properties = properties;
