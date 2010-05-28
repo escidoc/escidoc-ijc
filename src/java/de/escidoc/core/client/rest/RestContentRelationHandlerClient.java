@@ -65,6 +65,31 @@ public class RestContentRelationHandlerClient extends ClientBase {
 
     /**
      * 
+     * @param id
+     * @param taskParam
+     * @return XML representation of the ContentRelation
+     * @throws EscidocException
+     *             Thrown in case of eSciDoc framework failures.
+     * @throws InternalClientException
+     *             Thrown in case of client internal failures.
+     * @throws TransportException
+     *             Thrown in case of failures on transport level.
+     */
+    public String assignObjectPid(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().assignObjectPid(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
      * @param contentRelation
      * @return
      * @throws EscidocException
@@ -144,6 +169,133 @@ public class RestContentRelationHandlerClient extends ClientBase {
         String result = null;
         try {
             result = getClient().update(id, contentRelation);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#lock(java.lang.String,
+     *      java.lang.String)
+     */
+    public String lock(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().lock(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#unlock(java.lang.String,
+     *      java.lang.String)
+     */
+    public String unlock(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().unlock(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Release an ContentRelation.
+     * 
+     * @param id
+     *            Objid of the ContentRelation.
+     * @param taskParam
+     *            Task parameter to release the ContentRelation.
+     * @return XML representation of the ContentRelation
+     * @throws EscidocException
+     *             Thrown in case of eSciDoc framework failures.
+     * @throws InternalClientException
+     *             Thrown in case of client internal failures.
+     * @throws TransportException
+     *             Thrown in case of failures on transport level.
+     */
+    public String release(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().release(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Revise an ContentRelation.
+     * 
+     * @param id
+     *            Objid of the ContentRelation.
+     * @param taskParam
+     *            Task parameter to revise the ContentRelation.
+     * @return XML representation of the ContentRelation
+     * @throws EscidocException
+     *             Thrown in case of eSciDoc framework failures.
+     * @throws InternalClientException
+     *             Thrown in case of client internal failures.
+     * @throws TransportException
+     *             Thrown in case of failures on transport level.
+     */
+    public String revise(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().revise(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @return XML representation of the ContentRelation
+     * @throws EscidocException
+     *             Thrown in case of eSciDoc framework failures.
+     * @throws InternalClientException
+     *             Thrown in case of client internal failures.
+     * @throws TransportException
+     *             Thrown in case of failures on transport level.
+     */
+    public String submit(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().submit(id, taskParam);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

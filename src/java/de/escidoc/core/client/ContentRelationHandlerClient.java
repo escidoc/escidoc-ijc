@@ -117,6 +117,38 @@ public class ContentRelationHandlerClient
     }
 
     /**
+     * Retrieve ContentRelation.
+     * 
+     * @param contentRelation
+     *            ContentRelation class with values which ContentRelation is to
+     *            retrieve (obji of ContentRelation is important factor).
+     * @return ContentRelation
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ContentRelation retrieve(final ContentRelation contentRelation)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String contentRelationString = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            contentRelationString =
+                getSoapContentRelationHandlerClient().retrieve(
+                    contentRelation.getObjid());
+        }
+        else {
+            contentRelationString =
+                getRestContentRelationHandlerClient().retrieve(
+                    contentRelation.getObjid());
+        }
+        return Factory.getContentRelationMarshaller().unmarshalDocument(
+            contentRelationString);
+    }
+
+    /**
      * Retrieve ContentRelation from Repository.
      * 
      * @param id
@@ -220,6 +252,28 @@ public class ContentRelationHandlerClient
     /**
      * Assign Persistent Identifier for ContentRelation (object).
      * 
+     * @param cr
+     *            ContentRelation
+     * @param taskParam
+     *            Task parameter to provide PID parameter.
+     * @return The updated ContentRelation.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result assignObjectPid(
+        final ContentRelation cr, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return assignObjectPid(cr.getObjid(), taskParam);
+    }
+
+    /**
+     * Assign Persistent Identifier for ContentRelation (object).
+     * 
      * @param id
      *            Objid of the ContentRelation
      * @param taskParam
@@ -235,12 +289,301 @@ public class ContentRelationHandlerClient
     public Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
-        // String xml =
-        // getSoapContentRelationHandlerClient().assignObjectPid(id,
-        // Factory.getTaskParamMarshaller().marshalDocument(taskParam));
-        // return Factory.getResultMarshaller().unmarshalDocument(xml);
-        throw new InternalClientException(
-            "ContentRelation does currently no PID assignment.");
+        String xml = null;
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContentRelationHandlerClient().assignObjectPid(id,
+                    taskParamString);
+        }
+        else {
+            xml =
+                getRestContentRelationHandlerClient().assignObjectPid(id,
+                    taskParamString);
+        }
+        return Factory.getResultMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Lock the ContentRelation.
+     * 
+     * @param cr
+     *            ContentRelation.
+     * @param taskParam
+     *            TaskParameter.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result lock(final ContentRelation cr, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return lock(cr.getObjid(), taskParam);
+    }
+
+    /**
+     * Lock the ContentRelation.
+     * 
+     * @param id
+     *            Objid of ContentRelation.
+     * @param taskParam
+     *            TaskParameter.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result lock(final String id, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContentRelationHandlerClient().lock(id, taskParamString);
+        }
+        else {
+            xml =
+                getRestContentRelationHandlerClient().lock(id, taskParamString);
+        }
+        return Factory.getResultMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Unlock the ContentRelation.
+     * 
+     * @param cr
+     *            ContentRelation.
+     * @param taskParam
+     *            TaskParameter.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result unlock(final ContentRelation cr, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return unlock(cr.getObjid(), taskParam);
+    }
+
+    /**
+     * Unlock the ContentRelation.
+     * 
+     * @param id
+     *            Objid of ContentRelation.
+     * @param taskParam
+     *            TaskParameter.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result unlock(final String id, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContentRelationHandlerClient().unlock(id,
+                    taskParamString);
+        }
+        else {
+            xml =
+                getRestContentRelationHandlerClient().unlock(id,
+                    taskParamString);
+        }
+        return Factory.getResultMarshaller().unmarshalDocument(xml);
+    }
+
+    /*
+     * Status methods
+     */
+
+    /**
+     * Set ContentRelation to status submit.
+     * 
+     * @param id
+     *            Objid of ContentRelation.
+     * @param taskParam
+     *            TaskParameter for submit.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result submit(final String id, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContentRelationHandlerClient().submit(id,
+                    taskParamString);
+        }
+        else {
+            xml =
+                getRestContentRelationHandlerClient().submit(id,
+                    taskParamString);
+        }
+
+        return Factory.getResultMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Set ContentRelation to status submit.
+     * 
+     * @param contentRelation
+     *            The ContentRelation.
+     * @param taskParam
+     *            TaskParameter for submit.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result submit(
+        final ContentRelation contentRelation, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return submit(contentRelation.getObjid(), taskParam);
+    }
+
+    /**
+     * Set ContentRelation to status released.
+     * 
+     * @param id
+     *            Objid of ContentRelation.
+     * @param taskParam
+     *            TaskParameter for release.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result release(final String id, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContentRelationHandlerClient().release(id,
+                    taskParamString);
+        }
+        else {
+            xml =
+                getRestContentRelationHandlerClient().release(id,
+                    taskParamString);
+        }
+        return Factory.getResultMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Set ContentRelation to status released.
+     * 
+     * @param contentRelation
+     *            The ContentRelation.
+     * @param taskParam
+     *            TaskParameter for release.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result release(
+        final ContentRelation contentRelation, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return release(contentRelation.getObjid(), taskParam);
+    }
+
+    /**
+     * Set ContentRelation to status revised.
+     * 
+     * @param id
+     *            Objid of ContentRelation.
+     * @param taskParam
+     *            TaskParameter for revised.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result revise(final String id, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        String taskParamString =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapContentRelationHandlerClient().revise(id,
+                    taskParamString);
+        }
+        else {
+            xml =
+                getRestContentRelationHandlerClient().revise(id,
+                    taskParamString);
+        }
+        return Factory.getResultMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Set ContentRelation to status revised.
+     * 
+     * @param contentRelation
+     *            The ContentRelation.
+     * @param taskParam
+     *            TaskParameter for revise.
+     * @return Result message of method.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Result revise(
+        final ContentRelation contentRelation, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return revise(contentRelation.getObjid(), taskParam);
     }
 
     /**

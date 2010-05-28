@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.resources.om.contentRelation;
 
+import java.net.URI;
+
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
 
@@ -43,6 +45,16 @@ public class ContentRelation extends GenericResource {
 
     private ContentRelationProperties properties =
         new ContentRelationProperties();
+
+    private URI type = null;
+
+    private String subject = null;
+
+    private String object = null;
+
+    private String subjectVersion = null;
+
+    private String objectVersion = null;
 
     /**
      * 
@@ -89,6 +101,46 @@ public class ContentRelation extends GenericResource {
 
         this.mdRecords = metadataRecords;
 
+    }
+
+    public void setType(URI type) {
+        this.type = type;
+    }
+
+    public URI getType() {
+        return type;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setObject(String object) {
+        this.object = object;
+    }
+
+    public String getObject() {
+        return object;
+    }
+
+    public void setSubjectVersion(String subjectVersion) {
+        this.subjectVersion = subjectVersion;
+    }
+
+    public String getSubjectVersion() {
+        return subjectVersion;
+    }
+
+    public void setObjectVersion(String objectVersion) {
+        this.objectVersion = objectVersion;
+    }
+
+    public String getObjectVersion() {
+        return objectVersion;
     }
 
 }

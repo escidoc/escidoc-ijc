@@ -31,11 +31,6 @@ package de.escidoc.core.resources.om.contentRelation;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.common.properties.ContentModelSpecific;
-import de.escidoc.core.resources.common.properties.Version;
-import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
-import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
-import de.escidoc.core.resources.interfaces.common.VersionInterface;
 
 /**
  * Properties of the eSciDoc ContentRelation.
@@ -51,11 +46,11 @@ public class ContentRelationProperties {
 
     private ResourceRef createdBy = null;
 
+    private ResourceRef modifiedBy = null;
+
     private String publicStatus = null;
 
     private String publicStatusComment = null;
-
-    private ResourceRef contentModel = null;
 
     private String lockStatus = null;
 
@@ -66,14 +61,6 @@ public class ContentRelationProperties {
     private String pid = null;
 
     private String name = null;
-
-    private Version version = null;
-
-    private Version latestVersion = null;
-
-    private Version latestRelease = null;
-
-    private ContentModelSpecific contentModelSpecific = null;
 
     /**
      * 
@@ -166,21 +153,6 @@ public class ContentRelationProperties {
     }
 
     /**
-     * @return the contentModel
-     */
-    public ResourceRef getContentModel() {
-        return this.contentModel;
-    }
-
-    /**
-     * @param contentModel
-     *            the contentModel to set
-     */
-    public void setContentModel(final ResourceRef contentModel) {
-        this.contentModel = contentModel;
-    }
-
-    /**
      * @return the lockDate
      */
     public DateTime getLockDate() {
@@ -216,51 +188,6 @@ public class ContentRelationProperties {
     }
 
     /**
-     * @return the version
-     */
-    public VersionInterface getVersion() {
-        return this.version;
-    }
-
-    /**
-     * @param version
-     *            the version to set
-     */
-    public void setVersion(final VersionInterface version) {
-        this.version = (Version) version;
-    }
-
-    /**
-     * @return the latestVersion
-     */
-    public LatestVersionInterface getLatestVersion() {
-        return this.latestVersion;
-    }
-
-    /**
-     * @param latestVersion
-     *            the latestVersion to set
-     */
-    public void setLatestVersion(final LatestVersionInterface latestVersion) {
-        this.latestVersion = (Version) latestVersion;
-    }
-
-    /**
-     * @return the latestRelease
-     */
-    public LatestReleaseInterface getLatestRelease() {
-        return this.latestRelease;
-    }
-
-    /**
-     * @param latestRelease
-     *            the latestRelease to set
-     */
-    public void setLatestRelease(final LatestReleaseInterface latestRelease) {
-        this.latestRelease = (Version) latestRelease;
-    }
-
-    /**
      * @return the lockStatus
      */
     public String getLockStatus() {
@@ -279,13 +206,6 @@ public class ContentRelationProperties {
      */
     public String getPid() {
         return this.pid;
-    }
-
-    /**
-     * @return the contentModelSpecific
-     */
-    public ContentModelSpecific getContentModelSpecific() {
-        return this.contentModelSpecific;
     }
 
     /**
@@ -310,15 +230,6 @@ public class ContentRelationProperties {
      */
     public void setPid(final String pid) {
         this.pid = pid;
-    }
-
-    /**
-     * @param contentModelSpecific
-     *            the contentModelSpecific to set
-     */
-    public void setContentModelSpecific(
-        final ContentModelSpecific contentModelSpecific) {
-        this.contentModelSpecific = contentModelSpecific;
     }
 
     /**
@@ -349,6 +260,22 @@ public class ContentRelationProperties {
      */
     public void setName(final String name) {
         this.name = name;
+    }
+
+    /**
+     * 
+     * @param modifiedBy
+     */
+    public void setModifiedBy(final ResourceRef modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public ResourceRef getModifiedBy() {
+        return modifiedBy;
     }
 
 }

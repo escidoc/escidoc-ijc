@@ -28,6 +28,12 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.resources.common.Result;
+import de.escidoc.core.resources.common.TaskParam;
+
 /**
  * This class defines the signatures for the client handler wrapper classes
  * where the transport specific exceptions are mapped to internal client
@@ -42,7 +48,109 @@ public interface ContentRelationHandlerClientInterface<ContentRelation>
     extends ResourceHandlerInterface<ContentRelation> {
 
     /*
-     * Sub resource methods
+     * lock methods
      */
 
+    Result lock(final String id, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Result lock(final ContentRelation contentRelation, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Result unlock(final String id, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Result unlock(
+        final ContentRelation contentRelation, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    /*
+     * Status methods (ResourceStatusHandlerInterface could not be used, because
+     * ContentRelation does not support withdraw)
+     */
+
+    /**
+     * Release the Resource.
+     * 
+     * @param id
+     *            Id of the resource.
+     * @param taskParam
+     *            TaskParam for Release.
+     * @return Result.
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Result release(final String id, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    /**
+     * 
+     * @param resource
+     * @param taskParam
+     * @return Result
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Result release(final ContentRelation resource, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @return Result
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Result revise(final String id, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    /**
+     * 
+     * @param resource
+     * @param taskParam
+     * @return Result
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Result revise(final ContentRelation resource, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @return Result
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Result submit(final String id, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    /**
+     * 
+     * @param resource
+     * @param taskParam
+     * @return Result
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Result submit(final ContentRelation resource, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
 }

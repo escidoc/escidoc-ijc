@@ -65,6 +65,30 @@ public class SoapContentRelationHandlerClient extends ClientBase {
 
     /**
      * 
+     * @param id
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#assignObjectPid(java.lang.String,
+     *      java.lang.String)
+     */
+    public String assignObjectPid(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().assignObjectPid(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
      * @param contentRelation
      * @return
      * @throws EscidocException
@@ -143,6 +167,120 @@ public class SoapContentRelationHandlerClient extends ClientBase {
         String result = null;
         try {
             result = getClient().update(id, context);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#lock(java.lang.String,
+     *      java.lang.String)
+     */
+    public String lock(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().lock(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#unlock(java.lang.String,
+     *      java.lang.String)
+     */
+    public String unlock(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().unlock(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#release(java.lang.String,
+     *      java.lang.String)
+     */
+    public String release(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().release(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#revise(java.lang.String,java.lang.String)
+     */
+    public String revise(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().revise(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#submit(java.lang.String,
+     *      java.lang.String)
+     */
+    public String submit(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().submit(id, taskParam);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
