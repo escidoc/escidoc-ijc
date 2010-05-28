@@ -1,12 +1,12 @@
 <chapter>
-	<title>eSciDocCore Infrastructure Client Library</title>
+	<title>eSciDoc Infrastructure Java Client Library</title>
 	<section>
-		<title>Communcation with eSciDocCore Infrastructure</title>
+		<title>Communication with eSciDocCore Infrastructure</title>
 		<para>
 			The client library uses the eSciDocCore Infrastructure SOAP
 			interface to invoke the methods of the resource handlers.
 			The SOAP client classes are generated from eSciDocCore
-			Infrastructure wsdl files.
+			Infrastructure WSDL files.
 		</para>
 		<para>
 			The host and port where eSciDocCore Infrastructure is
@@ -23,8 +23,8 @@
 			client, e.g. to access ItemHandlerService methods an
 			ItemHandlerClient will be created. The ItemHandlerClient
 			methods will have the same names but possibly an other
-			signature, in fact all occurences of the xml representation
-			of an item will be replaced by its java representation. The
+			signature, in fact all occurrences of the XML representation
+			of an Item will be replaced by its Java representation. The
 			method
 		</para>
 		<programlisting>
@@ -35,12 +35,12 @@
 			ItemInterface create(ItemInterface item) throws Exceptions
 		</programlisting>
 		<para>
-			and act as following: The method serializes the item to its
-			xml representation, fetches the SOAP client and calls the
-			method create with the xml represenation as parameter. If
-			the method execution is successful and an item xml is
-			returned the new item java object will be instantiated with
-			the item xml and returned to the calling method. If an error
+			and act as following: The method serializes the Item to its
+			XML representation, fetches the SOAP client and calls the
+			method create with the XML representation as parameter. If
+			the method execution is successful and an Item XML is
+			returned the new Item Java object will be instantiated with
+			the Item XML and returned to the calling method. If an error
 			occurs, i.e. the underlying SOAP client throws an exception,
 			the exception will be thrown to the caller.
 		</para>
@@ -48,23 +48,23 @@
 			and perform the following steps:
 			<itemizedlist mark="opencircle" spacing="compact">
 				<listitem>
-					serialize the item to its xml representation
+					serialize the Item to its XML representation
 				</listitem>
-				<listitem>get the SOAP client of the item</listitem>
+				<listitem>get the SOAP client of the Item</listitem>
 				<listitem>
-					call method create with the serialized xml
-					represenation as parameter
+					call method create with the serialized XML
+					representation as parameter
 				</listitem>
 				<listitem>
-					if method execution was successfull:
+					if method execution was successful:
 					<itemizedlist spacing="compact">
 						<listitem>
-							a new item java object will be instantiated
-							on the basis of the item xml (created by
+							a new Item Java object will be instantiated
+							on the basis of the Item XML (created by
 							ItemHandlerService)
 						</listitem>
 						<listitem>
-							the new item java object will be returned to
+							the new Item Java object will be returned to
 							the calling method
 						</listitem>
 					</itemizedlist>
@@ -90,19 +90,19 @@
 	<section>
 		<title>Data Binding</title>
 		<para>
-			For every resource (e.g. item) a java representation besides
+			For every resource (e.g. item) a Java representation besides
 			the existing REST and SOAP representation is available.
-			Every of these java objects has an marshaller/unmarshaller
+			Every of these Java objects has an marshaller/unmarshaller
 			based on the jibx framework (
 			<emphasis>http://jibx.sourceforge.net/index.html</emphasis>
-			) that is able to parse valid SOAP xml representation to
-			create the corresponding java representation, to update any
-			values and to serialize to the SOAP xml representation. The
-			details of marshalling/unmarschalling from xml to java
+			) that is able to parse valid SOAP XML representation to
+			create the corresponding Java representation, to update any
+			values and to serialize to the SOAP XML representation. The
+			details of marshalling/unmarshalling from XML to Java
 			object and vice-versa are not really interesting for an
 			application developed using the eSciDocCore infrastructure
 			client library. Therefore the client handlers cover these
-			details and only deal with java objects in their interfaces.
+			details and only deal with Java objects in their interfaces.
 		</para>
 		<para>
 			<xref linkend="API-REFERENCE" />

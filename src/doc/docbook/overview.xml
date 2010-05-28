@@ -1,10 +1,44 @@
 <chapter>
 	<title>Overview</title>
 	<para>
-		This document contains a short overview of the architecture and
-		usage of the client library in Chapter 2. Chapter 3
-		consists of an adaption of the JavaDoc of the eSciDocCore
-		Infrastructure Client source code to give an overview on the available
-		classes. Generated classes for webservice access are excluded. 
+		The eSciDoc Core Java Client Library (short: client-lib) shall
+		smooth the way for Java programmer to implement application on top of
+		the eSciDoc infrastructure.  
 	</para>
+
+	<para>Each version of the eSciDoc Infrastructure Java Client Library
+		supports a specific version of the eSciDoc infrastructure. The
+		supported version of the infrastructure is shown within the package
+		name.
+	</para>
+	<para> This version of the client lib supports only eSciDoc
+		infrastructures of the version 1.2 series. The compatibility with
+		update
+		versions of the 1.2 series should be given. 
+	</para>
+
+	<para>This client lib is not compatible with eSciDoc infrastructure
+		version 1.0 or 1.1.
+	</para>
+
+	<para>
+		The infrastructure delivers XML representation to support
+		programming language independent client applications.
+		Programming with
+		Java means usually to work with classes. This lib could hide all
+		required steps to map between XML representation and class mapping.
+		But if one does not need mapping he can still work in XML and
+		snippets
+		of XML and is still supported with method stubs to send requests to
+		the
+		infrastructure.  
+	</para>
+
+	<para>The client lib contains only little logic and does therefore give
+		only little support to compile required values. Parameter and data
+		structure checking is done by the infrastructure to avoid a
+		duplication of logic. Nevertheless, makes it a pojo easy to explore
+		settable values.     
+	</para>
+
 </chapter>

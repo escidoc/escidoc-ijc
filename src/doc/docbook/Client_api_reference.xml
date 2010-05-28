@@ -2,15 +2,14 @@
           "../../lib/doc/docbook/docbook-xml-4.5/docbookx.dtd"
 [
 <!ENTITY Introduction       SYSTEM "introduction.xml">
-<!ENTITY Overview       SYSTEM "overview.xml">
-<!ENTITY ApiReference   SYSTEM "api.xml">
+<!ENTITY Overview       	SYSTEM "overview.xml">
+<!ENTITY ApiReference   	SYSTEM "api.xml">
 ]>
 
 <book>
 	<bookinfo>
-		<title>Reference Manual for Client Library</title>
-		<subtitle>eSciDocCore Infrastructure</subtitle>
-		<subtitle>All Services</subtitle>
+		<title>eSciDoc Infrastructure Java Client Library</title>
+		<subtitle>For eSciDocCore Infrastructure Version 1.2</subtitle>
 		<mediaobject id="m1">
 			<imageobject>
 				<imagedata align="center"
@@ -28,6 +27,7 @@
 	</bookinfo>
 	&Overview;
 	&Introduction;
-	&ApiReference;
+<!-- 	&ApiReference;
+ -->
 	<index />
 </book>
