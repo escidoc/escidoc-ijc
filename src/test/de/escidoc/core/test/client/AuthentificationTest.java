@@ -16,7 +16,7 @@ public class AuthentificationTest {
     // this test currently fails, uncomment @Ignore to let JUnit run the test.
     @Ignore
     @Test(expected = AuthenticationException.class)
-    public void ShouldThrowAnExceptionAfterUnsuccesfulLogin()
+    public void ShouldThrowAnAuthenticationExceptionAfterUnsuccesfulLogin()
         throws EscidocClientException {
 
         new Authentication().login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -25,7 +25,7 @@ public class AuthentificationTest {
     }
 
     @Test
-    public void ShouldSetHanldeAfterSuccesfulLogin()
+    public void ShouldSetHandleAfterSuccesfulLogin()
         throws EscidocClientException {
         final Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
