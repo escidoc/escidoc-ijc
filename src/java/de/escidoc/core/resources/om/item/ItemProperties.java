@@ -52,6 +52,8 @@ public class ItemProperties {
 
     private ResourceRef createdBy = null;
 
+    private ResourceRef origin = null;
+
     private String publicStatus = null;
 
     private String publicStatusComment = null;
@@ -76,7 +78,7 @@ public class ItemProperties {
 
     private Version latestRelease = null;
 
-    private ContentModelSpecific contentModelSpecific = null; 
+    private ContentModelSpecific contentModelSpecific = null;
 
     // Component properties
     private final String validStatus = null;
@@ -127,8 +129,9 @@ public class ItemProperties {
      */
     public void setCreationDateAsString(final String creationTime) {
         if (creationTime == null) {
-            this.creationDate = null; 
-        } else {
+            this.creationDate = null;
+        }
+        else {
             this.creationDate = new DateTime(creationTime);
         }
     }
@@ -410,6 +413,25 @@ public class ItemProperties {
      */
     public String getFileName() {
         return fileName;
+    }
+
+    /**
+     * Set the reference for to origin Item. If reference is set the Item is a
+     * Surrogate Item.
+     * 
+     * @param origin
+     */
+    public void setOrigin(final ResourceRef origin) {
+        this.origin = origin;
+    }
+
+    /**
+     * Get the reference of the origin Item.
+     * 
+     * @return
+     */
+    public ResourceRef getOrigin() {
+        return origin;
     }
 
 }

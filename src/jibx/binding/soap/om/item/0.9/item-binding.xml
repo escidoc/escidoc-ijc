@@ -282,6 +282,12 @@
 				get-method="getObjid" usage="optional" />
 		</structure>
 
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="origin" field="origin" usage="optional">
+			<value style="attribute" name="objid" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+
 		<value ns="http://escidoc.de/core/01/properties/"
 			name="lock-status" field="lockStatus" usage="optional" />
 
