@@ -636,41 +636,56 @@ public class ItemCreateTest {
         ihc.setHandle(auth.getHandle());
 
         // submit --------------------------------------------------------------
-        TaskParam tp = new TaskParam();
-        tp.setLastModificationDate(item.getLastModificationDate());
-        tp.setComment("submitted as java client lib test");
+        TaskParam taskParam = new TaskParam();
+        taskParam.setLastModificationDate(item.getLastModificationDate());
+        taskParam.setComment("submitted as java client lib test");
 
-        Result result = ihc.submit(item, tp);
+        Result result = ihc.submit(item, taskParam);
 
         // check Item
         // compare timestamps
-        DateTime lmdResult = result.getLastModificationDate();
         Item retrievedItem = ihc.retrieve(item);
         DateTime lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem, lmdResult);
+        assertEquals("Timestamps differ", lmdRetrievedItem, result.getLastModificationDate());
 
         // assign object PID ---------------------------------------------------
-        TaskParam taskParam = new TaskParam();
+        taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
         taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
             + System.nanoTime());
-        taskParam.setComment("Object PID on eSciDoc Days 2009");
+        taskParam.setComment("Test Object PID");
 
         result = ihc.assignObjectPid(item, taskParam);
 
         // compare timestamps
-        lmdResult = result.getLastModificationDate();
         retrievedItem = ihc.retrieve(item);
         lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem, lmdResult);
+        assertEquals("Timestamps differ", lmdRetrievedItem, result.getLastModificationDate());
 
         // assign version PID --------------------------------------------------
+        taskParam = new TaskParam();
+        taskParam.setLastModificationDate(result.getLastModificationDate());
+        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
+            + System.nanoTime());
+        taskParam.setComment("Test Version PID");
+
+        result = ihc.assignVersionPid(item, taskParam);
+        
         // release -------------------------------------------------------------
+        taskParam = new TaskParam();
+        taskParam.setLastModificationDate(result.getLastModificationDate());
+        taskParam.setComment("Release as java client lib test");
+
+        result = ihc.release(item, taskParam);
         // update --------------------------------------------------------------
         // withdraw ------------------------------------------------------------
+        taskParam = new TaskParam();
+        taskParam.setLastModificationDate(result.getLastModificationDate());
+        taskParam.setComment("Withdraw as java client lib test");
 
+        result = ihc.withdraw(item, taskParam);
     }
 
     /**
