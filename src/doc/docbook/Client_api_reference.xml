@@ -27,7 +27,6 @@
 	</bookinfo>
 	&Overview;
 	&Introduction;
-<!-- 	&ApiReference;
- -->
+	&ApiReference;
 	<index />
 </book>
