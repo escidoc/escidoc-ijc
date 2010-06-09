@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.ContainerNotFoundException;
 import de.escidoc.core.common.jibx.Factory;
@@ -72,10 +73,15 @@ public class ContainerHandlerClientTest {
     @Test
     public void testRetrieve() throws Exception {
         try {
-            ContainerHandlerClient cc = new ContainerHandlerClient();
-            cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            Authentication auth =
+                new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                    Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
+            ContainerHandlerClient cc = new ContainerHandlerClient();
+            cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+            cc.setHandle(auth.getHandle());
+            
+            // create first a Container
             Container containerNew = new Container();
             ContainerProperties properties = new ContainerProperties();
             properties
@@ -97,6 +103,8 @@ public class ContainerHandlerClientTest {
             containerNew.setMetadataRecords(mdRecords);
             Container createdContainer = cc.create(containerNew);
             String objid = createdContainer.getObjid();
+            
+            // retrieve the created Container
             Container container = cc.retrieve(objid);
 
             Factory.getContainerMarshaller().marshalDocument(container);

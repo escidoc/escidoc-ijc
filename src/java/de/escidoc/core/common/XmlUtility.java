@@ -10,7 +10,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
 import org.apache.xerces.dom.AttrImpl;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
@@ -28,8 +27,6 @@ import org.xml.sax.SAXException;
  * 
  */
 public class XmlUtility {
-
-    private static final Logger LOGGER = Logger.getLogger(XmlUtility.class);
 
     /**
      * Get a DOM object of the XML string.
@@ -57,13 +54,13 @@ public class XmlUtility {
     }
 
     /**
-     * Serialize the given Dom Object to a String.
+     * Serialize the given DOM Object to a String.
      * 
      * @param xml
-     *            The Xml Node to serialize.
+     *            The XML Node to serialize.
      * @param omitXMLDeclaration
      *            Indicates if XML declaration will be omitted.
-     * @return The String representation of the Xml Node.
+     * @return The String representation of the XML Node.
      * @throws IOException
      * @throws IllegalAccessException
      * @throws InstantiationException

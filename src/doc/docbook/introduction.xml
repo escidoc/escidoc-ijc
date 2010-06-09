@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <chapter>
 	<title>eSciDoc Infrastructure Java Client Library</title>
 	<section>
@@ -5,83 +6,60 @@
 		<para>
 			The client library uses the eSciDocCore Infrastructure SOAP
 			interface to invoke the methods of the resource handlers.
-			The SOAP client classes are generated from eSciDocCore
-			Infrastructure WSDL files.
+			The SOAP
+			client classes are generated from eSciDocCore
+			Infrastructure WSDL
+			files.
 		</para>
 		<para>
 			The host and port where eSciDocCore Infrastructure is
-			deployed are configured via a user specific properties file.
-			The default host is localhost, the default port is 8080. The
-			default values are only taken in case no appropriate
+			deployed
+			are configured via a user specific properties file.
+			The default host
+			is localhost, the default port is 8080. The
+			default values are only
+			taken in case no appropriate
 			properties file is found.
 		</para>
 	</section>
 	<section>
 		<title>Client Handlers</title>
 		<para>
-			Each deployed web service will have its own corresponding
-			client, e.g. to access ItemHandlerService methods an
-			ItemHandlerClient will be created. The ItemHandlerClient
-			methods will have the same names but possibly an other
-			signature, in fact all occurrences of the XML representation
-			of an Item will be replaced by its Java representation. The
+			Each deployed web service has its own corresponding
+			client, e.g.
+			if one
+			work with the eSciDoc Infrastructure ItemHandlerService than
+			is the
+			<code>ItemHandlerClient</code>
+			the suitable handler on the client side. The
+			<code>ItemHandlerClient</code>
+			has methods with the same name like the ItemHandlerService it offers.
+			But the signatures differs, because of the class representation of
+			the data.
+			For example is the corresponding method for
+			<code>
+				String create(String itemXml) throws Exceptions</code>
+			the
+			<code>Item create(Item item) throws Exceptions
+			</code>
+			.
+		</para>
+		<para>
+			If a client lib method is called than is the object (e.g. Item)
+			serialized to it's XML representation. The XML representation is
+			given to the SOAP client, which calls the method corresponding
 			method
-		</para>
-		<programlisting>
-			String create(String itemXml) throws Exceptions
-		</programlisting>
-		<para>will be implemented as</para>
-		<programlisting>
-			ItemInterface create(ItemInterface item) throws Exceptions
-		</programlisting>
-		<para>
-			and act as following: The method serializes the Item to its
-			XML representation, fetches the SOAP client and calls the
-			method create with the XML representation as parameter. If
-			the method execution is successful and an Item XML is
-			returned the new Item Java object will be instantiated with
-			the Item XML and returned to the calling method. If an error
-			occurs, i.e. the underlying SOAP client throws an exception,
-			the exception will be thrown to the caller.
-		</para>
-		<para>
-			and perform the following steps:
-			<itemizedlist mark="opencircle" spacing="compact">
-				<listitem>
-					serialize the Item to its XML representation
-				</listitem>
-				<listitem>get the SOAP client of the Item</listitem>
-				<listitem>
-					call method create with the serialized XML
-					representation as parameter
-				</listitem>
-				<listitem>
-					if method execution was successful:
-					<itemizedlist spacing="compact">
-						<listitem>
-							a new Item Java object will be instantiated
-							on the basis of the Item XML (created by
-							ItemHandlerService)
-						</listitem>
-						<listitem>
-							the new Item Java object will be returned to
-							the calling method
-						</listitem>
-					</itemizedlist>
-
-				</listitem>
-				<listitem>
-					if an error occurs (i.e. the underlying SOAP client
-					throws an exception):
-					<itemizedlist spacing="compact">
-						<listitem>
-							the exception will be thrown to the calling
-							method
-						</listitem>
-					</itemizedlist>
-				</listitem>
-			</itemizedlist>
-		</para>
+			with the XML representation as parameter. If the method
+			execution is
+			successful and an Item XML is returned the new Item
+			Java object will
+			be instantiated.
+			If an error occurs, i.e. the
+			underlying SOAP client
+			throws an exception, the
+			exception will be
+			thrown to the caller.
+			</para>
 		<para>
 			<xref linkend="API-REFERENCE" />
 			contains a description for all available resource clients.
@@ -90,24 +68,83 @@
 	<section>
 		<title>Data Binding</title>
 		<para>
-			For every resource (e.g. item) a Java representation besides
-			the existing REST and SOAP representation is available.
-			Every of these Java objects has an marshaller/unmarshaller
-			based on the jibx framework (
+			For every resource (e.g. Item) a Java representation besides
+			the
+			existing REST and SOAP representation is available.
+			Every of these
+			Java objects has an marshaller/unmarshaller
+			based on the jibx
+			framework (
 			<emphasis>http://jibx.sourceforge.net/index.html</emphasis>
 			) that is able to parse valid SOAP XML representation to
-			create the corresponding Java representation, to update any
-			values and to serialize to the SOAP XML representation. The
-			details of marshalling/unmarshalling from XML to Java
-			object and vice-versa are not really interesting for an
-			application developed using the eSciDocCore infrastructure
-			client library. Therefore the client handlers cover these
-			details and only deal with Java objects in their interfaces.
+			create the
+			corresponding Java representation, to update any
+			values and to
+			serialize to the SOAP XML representation. The
+			details of
+			marshalling/unmarshalling from XML to Java
+			object and vice-versa are
+			not really interesting for an
+			application developed using the
+			eSciDocCore infrastructure
+			client library. Therefore the client
+			handlers cover these
+			details and only deal with Java objects in their
+			interfaces.
 		</para>
 		<para>
 			<xref linkend="API-REFERENCE" />
 			contains a description for all available data binding
 			classes.
 		</para>
+	</section>
+
+	<section>
+		<title>Code Example</title>
+		<section>
+			<title>Create an Item</title>
+			<programlisting>
+				// connection to the service
+				ItemHandlerClient ihc =
+				new ItemHandlerClient();
+				ihc.setServiceAddress(SERVICE_URL);
+				ihc.setHandle(HANDLE);
+
+				// prepare Item to create
+				Item item = new
+				Item();
+
+				item.getProperties().setContext(new ResourceRef(CONTEXT_ID));
+				item.getProperties().setContentModel(new
+				ResourceRef(CONTENT_MODEL_ID));
+
+				// Content-model
+				ContentModelSpecific
+				cms = ResourceUtility.getContentModelSpecific();
+				item.getProperties().setContentModelSpecific(cms);
+
+				// Metadata
+				Record(s)
+				MetadataRecords mdRecords = new MetadataRecords();
+				MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+				mdRecords.add(mdrecord);
+				item.setMetadataRecords(mdRecords);
+
+				// call
+				create on handler
+				Item createdItem = ihc.create(item);
+			</programlisting>
+		</section>
+		<section>
+			<title>Retrieve a Container</title>
+			<programlisting>
+				ContainerHandlerClient cc = new ContainerHandlerClient();
+				cc.setServiceAddress(SERVICE_URL);
+				cc.setHandle(HANDLE);
+
+				// retrieve a Container by objid (String)
+				Container container = cc.retrieve(objid);
+</programlisting>
+		</section>
 	</section>
 </chapter>
