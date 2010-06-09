@@ -5,7 +5,7 @@
 	<property file="etc/client.default.properties" />
 	<property file="etc/project.properties" />
 
-	<property name="jibx-home" value="${basedir}/lib/jibx-1.2.1/" />
+	<property name="jibx-home" value="${basedir}/lib/jibx-1.2.2/" />
 	<property name="binding.dir" value="${java.src.dir}/de/escidoc/core/om/data/binding/" />
 
 	<!-- set classpath for compiling and running application with JiBX -->
@@ -190,7 +190,7 @@
 						<property name="label-suffix" value="-buildHEAD" />
 					</else>
 				</if>
-				<property name="build.version" value="${version}${label-suffix}" />
+				<property name="build.version" value="${label-suffix}" />
 			</else>
 		</if>
 	</target>
