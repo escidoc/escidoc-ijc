@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.om.item;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -51,9 +52,13 @@ public class ItemTestRest {
     @Test
     public void testRetrieveItem01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         cc.retrieve(Constants.EXAMPLE_ITEM_ID);
     }
@@ -67,9 +72,13 @@ public class ItemTestRest {
     @Test
     public void testCreateItem01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         // retrieve a valid Item
         String item = cc.retrieve(Constants.EXAMPLE_ITEM_ID);

@@ -268,7 +268,133 @@ public class RestUserAccountHandlerClient extends ClientBase {
 
     /**
      * 
+     * @param objid
+     * @param preferenceXML
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String createPreference(
+        final String objid, final String preferenceXML)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().createPreference(objid, preferenceXML);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param objid
+     * @param key
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void deletePreference(final String objid, final String key)
+        throws EscidocException, InternalClientException, TransportException {
+
+        try {
+            getClient().deletePreference(objid, key);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+    }
+
+    /**
+     * Update User Account Preference.
+     * 
+     * @param objid
+     * @param preferenceXML
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String updatePreference(
+        final String objid, final String key, final String preferenceXML)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().updatePreference(objid, key, preferenceXML);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    public String updatePreferences(
+        final String objid, final String preferencesXML)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().updatePreferences(objid, preferencesXML);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    public String retrievePreference(final String objid, final String key)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrievePreference(objid, key);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve preferences of User Account.
+     * 
+     * @param objid
+     *            objid of user account
+     * @return XML representation of preferences of User Account.
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrievePreferences(final String objid)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrievePreferences(objid);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve account details of current user.
+     * 
      * @return The XML representation of the current used (logged in) user.
+     * 
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException

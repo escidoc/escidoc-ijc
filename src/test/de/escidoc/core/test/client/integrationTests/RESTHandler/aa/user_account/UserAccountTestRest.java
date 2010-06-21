@@ -34,6 +34,7 @@ import java.io.File;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.test.client.Constants;
@@ -56,9 +57,13 @@ public class UserAccountTestRest {
     @Test
     public void testCreateAndRetrieveSuccessfulUserAccount() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
-        uahc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uahc.setHandle(auth.getHandle());
 
         // load XML template of organizational unit
         File templ =
@@ -92,9 +97,13 @@ public class UserAccountTestRest {
     @Test
     public void testDeleteUserAccount() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
-        uahc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uahc.setHandle(auth.getHandle());
 
         // load XML template of organizational unit
         File templ =
