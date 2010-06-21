@@ -6,8 +6,7 @@
 		name="current-grants" class="de.escidoc.core.resources.aa.useraccount.Grants">
 		<namespace uri="http://www.escidoc.de/schemas/grants/0.4"
 			prefix="grants" />
-		<namespace uri="http://www.escidoc.de/schemas/grants/0.4"
-			prefix="grants" />
+
 		<collection field="grants"
 		create-type="java.util.LinkedList">
 			<structure name="grant"
