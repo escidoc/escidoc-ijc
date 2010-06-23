@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- start: binding of a single user account preferences -->
+	<mapping ns="http://www.escidoc.de/schemas/preferences/0.1"
+		name="preference" class="de.escidoc.core.resources.aa.useraccount.Preference">
+		<namespace uri="http://www.escidoc.de/schemas/preferences/0.1"
+			prefix="preferences" />
+
+		<structure map-as="abstract-preference" />
+
+	</mapping>
+	<!-- end: binding of a single user account preferences -->
+
+
+	<!-- start: binding of an user account preferences -->
+	<mapping ns="http://www.escidoc.de/schemas/preferences/0.1"
+		name="preferences" class="de.escidoc.core.resources.aa.useraccount.Preferences">
+		<namespace uri="http://www.escidoc.de/schemas/preferences/0.1"
+			prefix="preferences" />
+
+		<collection field="preferences"
+			factory="de.escidoc.core.resources.aa.useraccount.Preferences.preferencesFactory">
+			<structure name="preference"
+				ns="http://www.escidoc.de/schemas/preferences/0.1" type="de.escidoc.core.resources.aa.useraccount.Preference">
+				<structure map-as="abstract-preference" />
+			</structure>
+		</collection>
+	</mapping>
+	<!-- end: binding of an user account preferences -->
+
+
+
+	<!-- start: abstract binding of a single user account preference -->
+	<mapping ns="http://www.escidoc.de/schemas/preferences/0.1"
+		class="de.escidoc.core.resources.aa.useraccount.Preference" abstract="true"
+		type-name="abstract-preference">
+
+		<namespace uri="http://www.escidoc.de/schemas/preferences/0.1"
+			prefix="preferences" />
+
+		<value name="last-modification-date" style="attribute"
+			set-method="setLastModificationDateAsString" get-method="getLastModificationDateAsString"
+			usage="optional" />
+
+		<value name="name" style="attribute" set-method="setName"
+			get-method="getName" usage="optional" />
+		<value style="text" set-method="setValue" get-method="getValue"
+			usage="optional" />
+
+	</mapping>
+	<!-- end: binding of an user account preference -->
+
+</binding>

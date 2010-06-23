@@ -7,6 +7,8 @@ import de.escidoc.core.resources.aa.pdp.RequestsResults;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.aa.useraccount.Grants;
+import de.escidoc.core.resources.aa.useraccount.Preference;
+import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
@@ -84,6 +86,10 @@ public class Factory {
         null;
 
     private static Marshaller<Grants> grantsMarshaller = null;
+
+    private static Marshaller<Preference> preferenceMarshaller = null;
+
+    private static Marshaller<Preferences> preferencesMarshaller = null;
 
     private static Marshaller<UserAccounts> userAccountListMarshaller = null;
 
@@ -239,7 +245,8 @@ public class Factory {
     public static Marshaller<ContentRelation> getContentRelationMarshaller() {
 
         if (contentRelationMarshaller == null) {
-            contentRelationMarshaller = new Marshaller<ContentRelation>(ContentRelation.class);
+            contentRelationMarshaller =
+                new Marshaller<ContentRelation>(ContentRelation.class);
         }
         return contentRelationMarshaller;
     }
@@ -472,6 +479,23 @@ public class Factory {
 
         }
         return grantsMarshaller;
+    }
+
+    public static Marshaller<Preference> getPreferenceMarshaller() {
+        if (preferenceMarshaller == null) {
+            preferenceMarshaller = new Marshaller<Preference>(Preference.class);
+
+        }
+        return preferenceMarshaller;
+    }
+
+    public static Marshaller<Preferences> getPreferencesMarshaller() {
+        if (preferencesMarshaller == null) {
+            preferencesMarshaller =
+                new Marshaller<Preferences>(Preferences.class);
+
+        }
+        return preferencesMarshaller;
     }
 
     public static Marshaller<UserAccounts> getUserAccountListMarshaller() {

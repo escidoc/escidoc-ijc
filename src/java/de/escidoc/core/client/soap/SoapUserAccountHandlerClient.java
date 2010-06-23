@@ -151,6 +151,17 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         return result;
     }
 
+    /**
+     * Update password for User Account. Be aware that update password works
+     * only for the users managed within the eSciDoc infrastructure internal
+     * database. Update for Shibboleth provided user is impossible.
+     * 
+     * @param userId
+     * @param taskParam
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public void updatePassword(final String userId, final String taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -162,6 +173,15 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         }
     }
 
+    /**
+     * Activate User Account.
+     * 
+     * @param userId
+     * @param taskParam
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public void activate(final String userId, final String taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -173,6 +193,15 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         }
     }
 
+    /**
+     * Deactivate User Account
+     * 
+     * @param userId
+     * @param taskParam
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public void deactivate(final String userId, final String taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -184,6 +213,14 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         }
     }
 
+    /**
+     * Retrieve details of the current used user.
+     * 
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String retrieveCurrentUser() throws EscidocClientException,
         InternalClientException, TransportException {
 
@@ -212,6 +249,142 @@ public class SoapUserAccountHandlerClient extends ClientBase {
             ExceptionMapper.map(e);
         }
         return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param preferencesXml
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String createPreference(final String id, final String preferenceXml)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().createPreference(id, preferenceXml);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrievePreferences(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrievePreferences(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param key
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrievePreference(final String id, final String key)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrievePreference(id, key);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param key
+     * @param value
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String updatePreference(
+        final String id, final String key, final String value)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().updatePreference(id, key, value);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param preferencesXml
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String updatePreferences(final String id, final String preferencesXml)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().updatePreferences(id, preferencesXml);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @param key
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void deletePreference(final String id, final String key)
+        throws EscidocException, InternalClientException, TransportException {
+
+        try {
+            getClient().deletePreference(id, key);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
     }
 
     /**

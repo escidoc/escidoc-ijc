@@ -1,116 +1,108 @@
 <binding>
 
-			
-			
 	<!--  SOAP Binding -->
-	
+
 	<mapping name="role" class="de.escidoc.core.resources.aa.role.Role"
 		ns="http://www.escidoc.de/schemas/role/0.4">
-		<namespace uri="urn:oasis:names:tc:xacml:1.0:policy"
-			prefix="xacml-policy" />
-			<namespace uri="http://www.escidoc.de/schemas/role/0.4"
-			prefix="role"/>
-<!-- *****************************************
-			Root attributes 
-			****************************************** -->
+		<namespace uri="urn:oasis:names:tc:xacml:1.0:policy" prefix="xacml-policy" />
+		<namespace uri="http://www.escidoc.de/schemas/role/0.4"
+			prefix="role" />
+		<!--
+			***************************************** Root attributes
+			******************************************
+		-->
 		<value name="objid" style="attribute" set-method="setObjid"
 			get-method="getObjid" usage="optional" />
 
 		<value name="last-modification-date" style="attribute"
-			set-method="setLastModificationDateAsString"
-			get-method="getLastModificationDateAsString" usage="optional" />
+			set-method="setLastModificationDateAsString" get-method="getLastModificationDateAsString"
+			usage="optional" />
 
 
-		<!-- *****************************************
-			Properties 
-			****************************************** -->
-		<structure ns="http://www.escidoc.de/schemas/role/0.4"
-			name="properties" field="properties" usage="optional">
+		<!--
+			***************************************** Properties
+			******************************************
+		-->
+		<structure ns="http://www.escidoc.de/schemas/role/0.4" name="properties"
+			field="properties" usage="optional">
 			<structure map-as="abstract-role-properties" usage="optional" />
 		</structure>
-		
-		<!-- *****************************************
-			Scope
-			****************************************** -->
-		<structure ns="http://www.escidoc.de/schemas/role/0.4"
-			name="scope" field="scope" usage="optional">
+
+		<!--
+			***************************************** Scope
+			******************************************
+		-->
+		<structure ns="http://www.escidoc.de/schemas/role/0.4" name="scope"
+			field="scope" usage="optional">
 			<structure map-as="abstract-role-scope" usage="optional" />
 		</structure>
-		
-		<!-- *****************************************
-			Policy/PolicySet
-			****************************************** -->
-			
-		<structure 
-			field="policyOrPolicySet" type="org.w3c.dom.Element"
-			marshaller="org.jibx.extras.DomElementMapper"
-			unmarshaller="org.jibx.extras.DomElementMapper" usage="optional"/>
-			
-		
+
+		<!--
+			***************************************** Policy/PolicySet
+			******************************************
+		-->
+
+		<structure field="policyOrPolicySet" type="org.w3c.dom.Element"
+			marshaller="org.jibx.extras.DomElementMapper" unmarshaller="org.jibx.extras.DomElementMapper"
+			usage="optional" />
+
+
 	</mapping>
-	
+
 	<!-- start: binding of a single role -->
-	<!--  
-	<mapping name="role" ns="http://www.escidoc.de/schemas/role/0.4"
+	<!--
+		<mapping name="role" ns="http://www.escidoc.de/schemas/role/0.4"
 		class="de.escidoc.core.resources.aa.role.Role"
 		marshaller="de.escidoc.core.common.jibx.binding.RoleMarshaller"
 		unmarshaller="de.escidoc.core.common.jibx.binding.RoleMarshaller">
-		
-	</mapping>
+
+		</mapping>
 	-->
 	<!-- end: binding of a single role -->
 
 	<!-- start: binding of an role list -->
-	
-		<mapping ns="http://www.escidoc.de/schemas/rolelist/0.4"
-		name="role-list" class="de.escidoc.core.resources.aa.role.Roles">
+
+	<mapping ns="http://www.escidoc.de/schemas/rolelist/0.4" name="role-list"
+		class="de.escidoc.core.resources.aa.role.Roles">
 		<namespace uri="http://www.escidoc.de/schemas/rolelist/0.4"
-		prefix="role-list" />
+			prefix="role-list" />
 		<namespace uri="http://www.escidoc.de/schemas/role/0.4"
-		prefix="role" />
-		<collection field="roles"
-		create-type="java.util.LinkedList">
-		<structure 
-		ns="http://www.escidoc.de/schemas/role/0.4"
-		type="de.escidoc.core.resources.aa.role.Role">
-		</structure>
+			prefix="role" />
+		<collection field="roles" create-type="java.util.LinkedList">
+			<structure ns="http://www.escidoc.de/schemas/role/0.4"
+				type="de.escidoc.core.resources.aa.role.Role">
+			</structure>
 		</collection>
-		</mapping>
-	
+	</mapping>
+
 	<!-- end: binding of an user role list -->
 
-		<!-- *****************************************
-			Scope
-			****************************************** -->
-			<mapping class="de.escidoc.core.resources.aa.role.Scope"
-		 ns="http://www.escidoc.de/schemas/role/0.4"
-		 abstract="true" type-name="abstract-role-scope">
+	<!--
+		***************************************** Scope
+		******************************************
+	-->
+	<mapping class="de.escidoc.core.resources.aa.role.Scope" ns="http://www.escidoc.de/schemas/role/0.4"
+		abstract="true" type-name="abstract-role-scope">
 		<namespace uri="http://www.escidoc.de/schemas/role/0.4"
-			prefix="role"/>
-		
-			<collection ns="http://www.escidoc.de/schemas/role/0.4"
-				field="scopeDefinitions" create-type="java.util.LinkedList">
-				<structure ns="http://www.escidoc.de/schemas/role/0.4"
-					name="scope-def"
-					type="de.escidoc.core.resources.aa.role.ScopeDef">
-					<value name="resource-type"
-						set-method="setResourceType" get-method="getResourceType"
-						style="attribute" usage="optional" />
-					<value name="relation-attribute-id"
-						set-method="setRelationAttributeId"
-						get-method="getRelationAttributeId" style="attribute"
-						usage="optional" />
-				</structure>
-			</collection>
-			<value name="unlimited" 
-				set-method="setUnlimited" get-method="isUnlimited" style="attribute"
-				usage="optional" />
-		
+			prefix="role" />
+
+		<collection ns="http://www.escidoc.de/schemas/role/0.4"
+			field="scopeDefinitions" create-type="java.util.LinkedList">
+			<structure ns="http://www.escidoc.de/schemas/role/0.4"
+				name="scope-def" type="de.escidoc.core.resources.aa.role.ScopeDef">
+				<value name="resource-type" set-method="setResourceType"
+					get-method="getResourceType" style="attribute" usage="optional" />
+				<value name="relation-attribute-id" set-method="setRelationAttributeId"
+					get-method="getRelationAttributeId" style="attribute" usage="optional" />
+			</structure>
+		</collection>
+		<value name="unlimited" set-method="setUnlimited" get-method="isUnlimited"
+			style="attribute" usage="optional" />
+
 	</mapping>
-	 	
+
 	<!-- start: abstract binding of properties of a role -->
-	<mapping ns="http://escidoc.de/core/01/properties/"
-		class="de.escidoc.core.resources.aa.role.RoleProperties"
+	<mapping ns="http://escidoc.de/core/01/properties/" class="de.escidoc.core.resources.aa.role.RoleProperties"
 		abstract="true" type-name="abstract-role-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
@@ -118,11 +110,9 @@
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 
-
-
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="creation-date" set-method="setCreationDateAsString"
-			get-method="getCreationDateAsString" usage="optional" />
+		<value ns="http://escidoc.de/core/01/properties/" name="creation-date"
+			set-method="setCreationDateAsString" get-method="getCreationDateAsString"
+			usage="optional" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="created-by" field="createdBy" usage="optional">
@@ -141,8 +131,8 @@
 		<value ns="http://escidoc.de/core/01/properties/" name="name"
 			field="name" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="description" field="description" usage="optional" />
+		<value ns="http://escidoc.de/core/01/properties/" name="description"
+			field="description" usage="optional" />
 
 	</mapping>
 	<!-- end: abstract binding of properties of a role -->

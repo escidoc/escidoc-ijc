@@ -102,24 +102,6 @@ public class GenericResource extends ResourceRef {
         this.nsBinding.put(binding, ns);
     }
 
-    // /**
-    // * Return the Resource properties.
-    // *
-    // * @return properties
-    // */
-    // public Properties getProperties() {
-    // return this.properties;
-    // }
-    //
-    // /**
-    // * Set Resource properties.
-    // *
-    // * @param properties
-    // */
-    // public void setProperties(final Properties properties) {
-    // this.properties = properties;
-    // }
-    //
     /**
      * Get last modification date of the resource.
      * 

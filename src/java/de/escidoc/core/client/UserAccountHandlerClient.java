@@ -42,6 +42,8 @@ import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.client.soap.SoapUserAccountHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.useraccount.Grants;
+import de.escidoc.core.resources.aa.useraccount.Preference;
+import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
@@ -69,11 +71,15 @@ public class UserAccountHandlerClient
     private Authentication auth = null;
 
     /**
-     * Create ContainersoapContainerHandlerClient instance. The service protocol
+     * Create UserAccountHandlerClient instance. The service protocol
      * (REST/SOAP/..) selected from the configuration. Default is SOAP.
      * 
-     * @throws ClientException
-     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     public UserAccountHandlerClient() throws EscidocException,
         InternalClientException, TransportException {
@@ -85,18 +91,29 @@ public class UserAccountHandlerClient
     /**
      * See Interface for functional description.
      * 
-     * @param container
+     * @param userAccount
      * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#create(de.escidoc.core.resources.interfaces.container.ContainerInterface)
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     public UserAccount create(final UserAccount userAccount)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml =
-            getSoapUserAccountHandlerClient().create(
-                Factory.getUserAccountMarshaller().marshalDocument(
-                    (UserAccount) userAccount));
+        String xml = null;
+        String userAccountString =
+            Factory.getUserAccountMarshaller().marshalDocument(userAccount);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapUserAccountHandlerClient().create(userAccountString);
+        }
+        else {
+            xml = getRestUserAccountHandlerClient().create(userAccountString);
+
+        }
         return Factory.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
@@ -105,8 +122,12 @@ public class UserAccountHandlerClient
      * 
      * @param id
      * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#retrieve(java.lang.String)
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     public UserAccount retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -119,8 +140,12 @@ public class UserAccountHandlerClient
      * See Interface for functional description.
      * 
      * @param id
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#delete(java.lang.String)
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
@@ -133,8 +158,12 @@ public class UserAccountHandlerClient
      * 
      * @param container
      * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#update(de.escidoc.core.resources.interfaces.container.ContainerInterface)
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     public UserAccount update(final UserAccount userAccount)
         throws EscidocException, InternalClientException, TransportException {
@@ -147,6 +176,21 @@ public class UserAccountHandlerClient
         return Factory.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
+    /**
+     * Update password for User Account. Be aware that update password works
+     * only for the users managed within the eSciDoc infrastructure internal
+     * database. Update for Shibboleth provided user is impossible.
+     * 
+     * @param userId
+     * @param taskParam
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
     public void updatePassword(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -154,6 +198,16 @@ public class UserAccountHandlerClient
             Factory.getTaskParamMarshaller().marshalDocument(taskParam));
     }
 
+    /**
+     * Activate User Account.
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
     public void activate(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -161,6 +215,16 @@ public class UserAccountHandlerClient
             Factory.getTaskParamMarshaller().marshalDocument(taskParam));
     }
 
+    /**
+     * Deactivate User Account.
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
     public void deactivate(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -168,6 +232,16 @@ public class UserAccountHandlerClient
             Factory.getTaskParamMarshaller().marshalDocument(taskParam));
     }
 
+    /**
+     * Retrieve details of current used User Account.
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
     public UserAccount retrieveCurrentUser() throws EscidocClientException,
         InternalClientException, TransportException {
 
@@ -179,6 +253,203 @@ public class UserAccountHandlerClient
     // Subresource - current grants
     //
 
+    /**
+     * Create Preferences of User Account
+     * 
+     * @return The created Preference
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Preference createPreference(
+        final String userId, final Preference preference)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String preferenceXml =
+            Factory.getPreferenceMarshaller().marshalDocument(preference);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            preferenceXml =
+                getSoapUserAccountHandlerClient().createPreference(userId,
+                    preferenceXml);
+        }
+        else {
+            preferenceXml =
+                getRestUserAccountHandlerClient().createPreference(userId,
+                    preferenceXml);
+        }
+
+        return Factory.getPreferenceMarshaller().unmarshalDocument(
+            preferenceXml);
+    }
+
+    /**
+     * Retrieve Preferences of User Account
+     * 
+     * @param userId
+     *            The objid of the user
+     * @param name
+     *            The name of the Preference
+     * @return The Preference
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Preference retrievePreference(final String userId, final String name)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String preference;
+        if (getTransport() == TransportProtocol.SOAP) {
+            preference =
+                getSoapUserAccountHandlerClient().retrievePreference(userId,
+                    name);
+        }
+        else {
+            preference =
+                getRestUserAccountHandlerClient().retrievePreference(userId,
+                    name);
+        }
+
+        return Factory.getPreferenceMarshaller().unmarshalDocument(preference);
+    }
+
+    /**
+     * Retrieve Preferences of User Account
+     * 
+     * @return The Preference
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Preferences retrievePreferences(final String userId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String preferences;
+        if (getTransport() == TransportProtocol.SOAP) {
+            preferences =
+                getSoapUserAccountHandlerClient().retrievePreferences(userId);
+        }
+        else {
+            preferences =
+                getRestUserAccountHandlerClient().retrievePreferences(userId);
+        }
+
+        return Factory
+            .getPreferencesMarshaller().unmarshalDocument(preferences);
+    }
+
+    /**
+     * Update Preferences of User Account
+     * 
+     * @param userId
+     * @param preference
+     * @return The updated Preference
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Preference updatePreference(
+        final String userId, final Preference preference)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String preferenceXml =
+            Factory.getPreferenceMarshaller().marshalDocument(preference);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            preferenceXml =
+                getSoapUserAccountHandlerClient().updatePreference(userId,
+                    preference.getName(), preferenceXml);
+        }
+        else {
+            preferenceXml =
+                getRestUserAccountHandlerClient().updatePreference(userId,
+                    preference.getName(), preferenceXml);
+        }
+
+        return Factory.getPreferenceMarshaller().unmarshalDocument(
+            preferenceXml);
+    }
+
+    /**
+     * Delete Preferences of User Account
+     * 
+     * @param userId
+     *            The objid of the user
+     * @param preference
+     *            The preference (where at least the name has to be set)
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public void deletePreference(
+        final String userId, final Preference preference)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        deletePreference(userId, preference.getName());
+    }
+
+    /**
+     * Delete Preferences of User Account
+     * 
+     * @param userId
+     *            The objid of the user
+     * @param name
+     *            The name of the preference
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public void deletePreference(final String userId, final String name)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            getSoapUserAccountHandlerClient().deletePreference(userId, name);
+        }
+        else {
+            getRestUserAccountHandlerClient().createPreference(userId, name);
+        }
+    }
+
+    /**
+     * Retrieve Grants of current User Account
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
     public Grants retrieveCurrentGrants(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -223,15 +494,18 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponseType retrieveUserAccounts(final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public SearchRetrieveResponseType retrieveUserAccounts(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapUserAccountHandlerClient().retrieveUserAccounts(filter);
+            xml =
+                getSoapUserAccountHandlerClient().retrieveUserAccounts(filter);
         }
         else {
-            xml = getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
+            xml =
+                getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
         }
         return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
     }
@@ -254,10 +528,12 @@ public class UserAccountHandlerClient
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapUserAccountHandlerClient().retrieveUserAccounts(filter);
+            xml =
+                getSoapUserAccountHandlerClient().retrieveUserAccounts(filter);
         }
         else {
-            xml = getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
+            xml =
+                getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
         }
         return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
     }
@@ -270,7 +546,6 @@ public class UserAccountHandlerClient
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#getLastModificationDate(java.lang.String)
      */
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
@@ -341,11 +616,17 @@ public class UserAccountHandlerClient
      * See Interface for functional description.
      * 
      * @param handle
+     * @throws InternalClientException
      * @see de.escidoc.core.client.interfaces.BaseClientHandlerInterface#setHandle(java.lang.String)
      */
-    public void setHandle(final String handle) {
+    public void setHandle(final String handle) throws InternalClientException {
 
-        getSoapUserAccountHandlerClient().setHandle(handle);
+        if (getTransport() == TransportProtocol.SOAP) {
+            getSoapUserAccountHandlerClient().setHandle(handle);
+        }
+        else {
+            getRestUserAccountHandlerClient().setHandle(handle);
+        }
     }
 
     /**

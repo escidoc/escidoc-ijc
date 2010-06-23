@@ -31,8 +31,6 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.HashMap;
-
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <binding>
 
 	<!-- common -->
@@ -29,6 +30,7 @@
 	<include path="aa/0.3/requests-binding.xml" />
 	<include path="aa/0.3/requests-results-binding.xml" />
 	<include path="aa/0.4/unsecured-actions-binding.xml" />
+	<include path="aa/0.1/preference-binding.xml" />
 
 	<!-- SB -->
 	<include path="sb/0.8/search-result-record-binding.xml" />
