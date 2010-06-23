@@ -28,14 +28,20 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_account;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.GrantProperties;
+import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
+import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -81,13 +87,69 @@ public class GrantsTest {
         // create Grant
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
-        
+        gProp.setRole(new ResourceRef("escidoc:role-system-administrator"));
         grant.setGrantProperties(gProp);
-        
-        
+
         Grant createdGrant = uahc.createGrant(objId, grant);
-        
-        
+
+        assertEquals("Missing role in grant",
+            "escidoc:role-system-administrator", createdGrant
+                .getGrantProperties().getRole().getObjid());
+
+        Grants grants = uahc.retrieveCurrentGrants(objId);
+        assertTrue(grants.getGrants().size() > 0);
+
     }
 
+    /**
+     * Test to revoke a grant.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testDeleteGrant01() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uahc.setHandle(auth.getHandle());
+
+        // create User Account
+        UserAccount ua = new UserAccount();
+
+        // user properties
+        UserAccountProperties properties = new UserAccountProperties();
+        String login = "login" + System.currentTimeMillis();
+        properties.setName("Name " + login);
+        properties.setLoginName(login);
+
+        ua.setProperties(properties);
+        UserAccount createdUa = uahc.create(ua);
+
+        String objId = createdUa.getObjid();
+
+        // create Grant
+        Grant grant = new Grant();
+        GrantProperties gProp = new GrantProperties();
+        gProp.setRole(new ResourceRef("escidoc:role-system-administrator"));
+        grant.setGrantProperties(gProp);
+
+        Grant createdGrant = uahc.createGrant(objId, grant);
+
+        // delete just created Grant
+        TaskParam tp = new TaskParam();
+        tp.setLastModificationDate(createdGrant.getLastModificationDate());
+        tp.setComment("Just test revoke of a Grant");
+        uahc.revokeGrant(objId, createdGrant.getObjid(), tp);
+
+        Grant revokedGrant = uahc.retrieveGrant(objId, createdGrant.getObjid());
+        assertEquals("Revoked by differs", uahc
+            .retrieveCurrentUser().getObjid(), revokedGrant
+            .getGrantProperties().getRevokedBy().getObjid());
+    }
+    
 }

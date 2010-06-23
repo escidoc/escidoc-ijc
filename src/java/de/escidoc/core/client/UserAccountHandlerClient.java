@@ -253,6 +253,10 @@ public class UserAccountHandlerClient
     /**
      * Create Grant for User Account
      * 
+     * @param userId
+     *            The objid of the User Account
+     * @param grant
+     *            The new Grant
      * @return The created Grant
      * 
      * @throws EscidocException
@@ -262,27 +266,57 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public Grant createGrant(
-        final String userId, final Grant grant)
+    public Grant createGrant(final String userId, final Grant grant)
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String grantXml =
-            Factory.getGrantMarshaller().marshalDocument(grant);
+        String grantXml = Factory.getGrantMarshaller().marshalDocument(grant);
 
         if (getTransport() == TransportProtocol.SOAP) {
             grantXml =
-                getSoapUserAccountHandlerClient().createGrant(userId,
-                    grantXml);
+                getSoapUserAccountHandlerClient().createGrant(userId, grantXml);
         }
         else {
             grantXml =
-                getRestUserAccountHandlerClient().createGrant(userId,
-                    grantXml);
+                getRestUserAccountHandlerClient().createGrant(userId, grantXml);
         }
 
-        return Factory.getGrantMarshaller().unmarshalDocument(
-            grantXml);
+        return Factory.getGrantMarshaller().unmarshalDocument(grantXml);
+    }
+
+    /**
+     * Revoke Grant for User Account
+     * 
+     * @param userId
+     *            The objid of the User Account
+     * @param grantId
+     *            The objid of the Grant
+     * @param taskParam
+     *            The task parameter
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public void revokeGrant(
+        final String userId, final String grantId, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String taskParamXml =
+            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            getSoapUserAccountHandlerClient().revokeGrant(userId, grantId,
+                taskParamXml);
+        }
+        else {
+            getRestUserAccountHandlerClient().revokeGrant(userId, grantId,
+                taskParamXml);
+        }
     }
 
     /**
@@ -498,6 +532,42 @@ public class UserAccountHandlerClient
         }
 
         return Factory.getGrantsMarshaller().unmarshalDocument(grantsXml);
+    }
+
+    /**
+     * Retrieve a Grant of current User Account by id
+     * 
+     * @param userId
+     *            The objid of the User Account
+     * @param grantId
+     *            The objid of the Grant
+     * @return The Grant
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Grant retrieveGrant(final String userId, final String grantId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String grantXml = null;
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            grantXml =
+                getSoapUserAccountHandlerClient()
+                    .retrieveGrant(userId, grantId);
+        }
+        else {
+            grantXml =
+                getRestUserAccountHandlerClient()
+                    .retrieveGrant(userId, grantId);
+        }
+
+        return Factory.getGrantMarshaller().unmarshalDocument(grantXml);
     }
 
     /**

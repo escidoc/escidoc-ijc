@@ -270,6 +270,8 @@ public class UserAccountHandlerClientTest {
         UserAccount createdUa = uac.create(ua);
         String objId = createdUa.getObjid();
 
+        // FIXME there are no grant, that's why the test is bad  
+        
         Factory.getGrantsMarshaller().marshalDocument(
             uac.retrieveCurrentGrants(objId));
     }

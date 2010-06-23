@@ -247,9 +247,34 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     public String retrieveCurrentGrants(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException {
+
         String result = null;
         try {
             result = getClient().retrieveCurrentGrants(userId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve Grants of the user that are current valid.
+     * 
+     * @param userId
+     *            The objid of the user
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveGrant(final String userId, final String grantId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveGrant(userId, grantId);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -469,6 +494,29 @@ public class SoapUserAccountHandlerClient extends ClientBase {
             ExceptionMapper.map(e);
         }
         return result;
+    }
+
+    /**
+     * Revoke Grant.
+     * 
+     * @param id
+     *            The objid of the user account
+     * @param grantId
+     *            The objid of the to delete Grant
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void revokeGrant(final String id, final String grantId, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        try {
+            getClient().revokeGrant(id, grantId, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
     }
 
     /**

@@ -54,8 +54,8 @@ import de.escidoc.core.common.jibx.Factory;
  */
 public class RestUserAccountHandlerClient extends ClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(RestUserAccountHandlerClient.class.getName());
+    private final Logger logger = Logger
+        .getLogger(RestUserAccountHandlerClient.class.getName());
 
     private UserAccountHandler restClient = null;
 
@@ -349,6 +349,33 @@ public class RestUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Revoke Grant.
+     * 
+     * @param objid
+     *            The objid of the User Account
+     * @param grantId
+     *            The objid of the Grant
+     * @param taskParam
+     *            The task parameter
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void revokeGrant(
+        final String objid, final String grantId, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        try {
+            getClient().revokeGrant(objid, grantId, taskParam);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+    }
+
+    /**
      * 
      * @param objid
      * @param preferenceXML
@@ -496,7 +523,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
     }
 
     /**
-     * Retrieve Grants of the current used user.
+     * Retrieve Grants of the current used.
      * 
      * @param userId
      *            The objid of the user
@@ -509,9 +536,38 @@ public class RestUserAccountHandlerClient extends ClientBase {
     public String retrieveCurrentGrants(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException {
+
         String result = null;
         try {
             result = getClient().retrieveCurrentGrants(userId);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve Grant of the current used by id.
+     * 
+     * @param userId
+     *            The objid of the user
+     * @param grantId
+     *            The objid of the Grant
+     * @return The Grant
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveGrant(final String userId, final String grantId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveGrant(userId, grantId);
         }
         catch (Exception e) {
             logger.debug(e);
