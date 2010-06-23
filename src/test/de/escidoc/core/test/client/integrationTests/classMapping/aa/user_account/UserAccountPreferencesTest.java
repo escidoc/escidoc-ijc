@@ -81,7 +81,6 @@ public class UserAccountPreferencesTest {
         ua.setProperties(properties);
         UserAccount createdUa = uahc.create(ua);
 
-        // test marshalling
         String objId = createdUa.getObjid();
 
         // create Preference

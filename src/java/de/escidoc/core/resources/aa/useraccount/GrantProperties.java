@@ -28,8 +28,9 @@
  */
 package de.escidoc.core.resources.aa.useraccount;
 
+import org.joda.time.DateTime;
+
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.common.properties.Properties;
 
 /**
  * Properties of Grant.
@@ -37,7 +38,13 @@ import de.escidoc.core.resources.common.properties.Properties;
  * @author ?, SWA
  * 
  */
-public class GrantProperties extends Properties {
+public class GrantProperties {
+
+    private DateTime creationDate = null;
+
+    private ResourceRef createdBy;
+
+    private ResourceRef modifiedBy;
 
     private GrantedTo grantedTo;
 
@@ -54,6 +61,85 @@ public class GrantProperties extends Properties {
     private ResourceRef assignedOn;
 
     /**
+     * Properties for Grant.
+     */
+    public GrantProperties() {
+
+    }
+
+    /**
+     * Get creation date.
+     * 
+     * @return creation date
+     */
+    public DateTime getCreationDate() {
+        return this.creationDate;
+    }
+
+    /**
+     * @return the creationDate
+     */
+    public String getCreationDateAsString() {
+        if (this.creationDate != null) {
+            return this.creationDate.toString();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param creationDate
+     *            the creationDate to set
+     */
+    public void setCreationDate(final DateTime creationDate) {
+
+        this.creationDate = creationDate;
+    }
+
+    /**
+     * @param creationDate
+     *            the creationDate to set
+     */
+    public void setCreationDateAsString(final String creationDate) {
+        if (creationDate == null) {
+            this.creationDate = null;
+        }
+        else {
+            this.creationDate = new DateTime(creationDate);
+        }
+    }
+
+    /**
+     * @return the createdBy
+     */
+    public ResourceRef getCreatedBy() {
+        return this.createdBy;
+    }
+
+    /**
+     * @param createdBy
+     *            the createdBy to set
+     */
+    public void setCreatedBy(final ResourceRef createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    /**
+     * @return the modifedBy
+     */
+    public ResourceRef getModifiedBy() {
+        return this.modifiedBy;
+    }
+
+    /**
+     * @param modifiedBy
+     *            the createdBy to set
+     */
+    public void setModifiedBy(final ResourceRef modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    /**
      * @return granted-to
      */
     public GrantedTo getGrantedTo() {
@@ -67,7 +153,6 @@ public class GrantProperties extends Properties {
     public void setGrantedTo(final GrantedTo grantedTo) {
         this.grantedTo = grantedTo;
     }
-
 
     /**
      * Get revocation date.

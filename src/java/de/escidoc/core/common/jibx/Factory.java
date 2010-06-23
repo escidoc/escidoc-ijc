@@ -6,6 +6,7 @@ import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.RequestsResults;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
+import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.Preference;
 import de.escidoc.core.resources.aa.useraccount.Preferences;
@@ -84,6 +85,8 @@ public class Factory {
 
     private static Marshaller<UserAccountProperties> userAccountPropertiesMarshaller =
         null;
+
+    private static Marshaller<Grant> grantMarshaller = null;
 
     private static Marshaller<Grants> grantsMarshaller = null;
 
@@ -471,6 +474,14 @@ public class Factory {
 
         }
         return userAccountPropertiesMarshaller;
+    }
+
+    public static Marshaller<Grant> getGrantMarshaller() {
+        if (grantMarshaller == null) {
+            grantMarshaller = new Marshaller<Grant>(Grant.class);
+
+        }
+        return grantMarshaller;
     }
 
     public static Marshaller<Grants> getGrantsMarshaller() {

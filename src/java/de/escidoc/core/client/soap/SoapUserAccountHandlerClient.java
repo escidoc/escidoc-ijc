@@ -234,10 +234,16 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         return result;
     }
 
-    //
-    // Subresource - current grants
-    //
-
+    /**
+     * Retrieve Grants of the user that are current valid.
+     * 
+     * @param userId
+     *            The objid of the user
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String retrieveCurrentGrants(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -388,6 +394,7 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Filter for Grants.
      * 
      * @param filter
      * @return
@@ -399,6 +406,7 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     public String retrieveUserAccounts(final String filter)
         throws EscidocClientException, InternalClientException,
         TransportException {
+
         String result = null;
         try {
             result = getClient().retrieveUserAccounts(filter);
@@ -435,6 +443,83 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         return filterUserAccounts(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * Create Grant.
+     * 
+     * @param id
+     *            The objid of the user account
+     * @param grantXml
+     *            The XMl representation of the Grant
+     * @return The XMl representation of the created Grant
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String createGrant(final String id, final String grantXml)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().createGrant(id, grantXml);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @Deprecated
+    public String retrieveGrants(final String filter)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveGrants(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveGrants(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterGrants(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveGrants(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return filterGrants(getEscidoc12Filter(filter));
     }
 
     /**
@@ -507,7 +592,7 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
-     * generic filter method request.
+     * generic filter method request for user accounts.
      * 
      * @param escidoc12Filter
      *            data structure for eSciDoc 1.2 filter
@@ -523,6 +608,30 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         String result = null;
         try {
             result = getClient().retrieveUserAccounts(escidoc12Filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+
+    }
+
+    /**
+     * Generic filter method request for grants.
+     * 
+     * @param escidoc12Filter
+     *            data structure for eSciDoc 1.2 filter
+     * @return filter response
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String filterGrants(final HashMap<String, String[]> escidoc12Filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveGrants(escidoc12Filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

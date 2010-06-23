@@ -98,6 +98,11 @@ public class Properties implements PropertiesInterface {
 
     }
 
+    /**
+     * Get creation date.
+     * 
+     * @return creation date
+     */
     public DateTime getCreationDate() {
         return this.creationDate;
     }

@@ -125,14 +125,6 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/grants/grant/" + grantId);
     }
 
-    public String retrieveGrants(final String filter) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException,
-        InvalidContentException {
-
-        return post("/aa/grants/filter", filter);
-    }
-
     public String createGrant(final String objid, final String userAccountXml)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         RoleNotFoundException, MissingMethodParameterException,
@@ -162,6 +154,30 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
 
         post(PATH_USER_ACCOUNT + "/" + accountId
             + "/resources/grants/revoke-grants", taskParam);
+    }
+
+    public String retrieveGrants(final String filter) throws RemoteException,
+        SystemException, MissingMethodParameterException,
+        AuthenticationException, AuthorizationException, InvalidXmlException,
+        InvalidContentException {
+
+        return post("/aa/grants/filter", filter);
+    }
+
+    public String retrieveGrants(final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get("/aa/grants" + getEscidoc12Filter(filter));
+    }
+
+    public String retrieveGrants(final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        return get("/aa/grants" + getEscidoc12Filter(filter));
     }
 
     public String retrieveUserAccounts(final String filter)
@@ -271,6 +287,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes");
     }
 
+    @Deprecated
     public String retrieveGrants(final HashMap filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         InvalidSearchQueryException, AuthenticationException,

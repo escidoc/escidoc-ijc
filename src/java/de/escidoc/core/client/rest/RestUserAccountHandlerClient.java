@@ -37,6 +37,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -105,6 +106,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
+            logger.debug(e);
             ExceptionMapper.map(e);
         }
     }
@@ -126,6 +128,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
+            logger.debug(e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -150,6 +153,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
             result = getClient().update(id, context);
         }
         catch (Exception e) {
+            logger.debug(e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -173,6 +177,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
             getClient().updatePassword(id, taskParam);
         }
         catch (Exception e) {
+            logger.debug(e);
             ExceptionMapper.map(e);
         }
     }
@@ -195,6 +200,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
             result = getClient().retrieveUserAccounts(taskParam);
         }
         catch (Exception e) {
+            logger.debug(e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -216,6 +222,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
             result = getClient().retrieveUserAccounts(filter);
         }
         catch (Exception e) {
+            logger.debug(e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -237,6 +244,32 @@ public class RestUserAccountHandlerClient extends ClientBase {
             result = getClient().retrieveUserAccounts(filter);
         }
         catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Filter for Grants
+     * 
+     * @param taskParam
+     * @return XML representation of Grant list
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @Deprecated
+    public String retrieveGrants(final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveGrants(taskParam);
+        }
+        catch (Exception e) {
+            logger.debug(e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -244,8 +277,57 @@ public class RestUserAccountHandlerClient extends ClientBase {
 
     /**
      * 
-     * @param context
+     * @param filter
      * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveGrants(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveGrants(filter);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveGrants(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveGrants(filter);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Create Grant.
+     * 
+     * @param objid
+     *            The objid of the user
+     * @param resourceXml
+     *            XML represtation of Grant
+     * @return XML representation of the created Grant
+     * 
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -405,6 +487,31 @@ public class RestUserAccountHandlerClient extends ClientBase {
         String result = null;
         try {
             result = getClient().retrieveCurrentUser();
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve Grants of the current used user.
+     * 
+     * @param userId
+     *            The objid of the user
+     * @return The Grants of the current user
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveCurrentGrants(final String userId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        String result = null;
+        try {
+            result = getClient().retrieveCurrentGrants(userId);
         }
         catch (Exception e) {
             logger.debug(e);

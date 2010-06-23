@@ -1,13 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <binding>
-	
 
 <!-- start: binding of an user account list -->
 	<mapping ns="http://www.escidoc.de/schemas/grants/0.5"
 		name="current-grants" class="de.escidoc.core.resources.aa.useraccount.Grants">
 		<namespace uri="http://www.escidoc.de/schemas/grants/0.5"
 			prefix="grants" />
-		<namespace uri="http://www.escidoc.de/schemas/grants/0.5"
-			prefix="grants" />
+			
 		<collection field="grants"
 		create-type="java.util.LinkedList">
 			<structure name="grant"
@@ -50,7 +49,9 @@
 			<structure map-as="abstract-grant-properties" usage="optional" />
 		</structure>
 	</mapping>
-	<!-- start: abstract binding of properties of user account -->
+	
+	
+	<!-- start: abstract binding of properties of grant -->
 	<mapping ns="http://escidoc.de/core/01/properties/"
 		class="de.escidoc.core.resources.aa.useraccount.GrantProperties"
 		abstract="true" type-name="abstract-grant-properties">

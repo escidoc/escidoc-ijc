@@ -29,4 +29,15 @@ public interface UserAccountHandler
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException;
+
+    String retrieveGrants(final SearchRetrieveRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException;
+
+    String retrieveGrants(final ExplainRequestType filter)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException;
+
 }

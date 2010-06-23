@@ -41,6 +41,7 @@ import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.client.soap.SoapUserAccountHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.Preference;
 import de.escidoc.core.resources.aa.useraccount.Preferences;
@@ -249,9 +250,40 @@ public class UserAccountHandlerClient
         return Factory.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
-    //
-    // Subresource - current grants
-    //
+    /**
+     * Create Grant for User Account
+     * 
+     * @return The created Grant
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Grant createGrant(
+        final String userId, final Grant grant)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String grantXml =
+            Factory.getGrantMarshaller().marshalDocument(grant);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            grantXml =
+                getSoapUserAccountHandlerClient().createGrant(userId,
+                    grantXml);
+        }
+        else {
+            grantXml =
+                getRestUserAccountHandlerClient().createGrant(userId,
+                    grantXml);
+        }
+
+        return Factory.getGrantMarshaller().unmarshalDocument(
+            grantXml);
+    }
 
     /**
      * Create Preferences of User Account
@@ -453,8 +485,19 @@ public class UserAccountHandlerClient
     public Grants retrieveCurrentGrants(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        return Factory.getGrantsMarshaller().unmarshalDocument(
-            getSoapUserAccountHandlerClient().retrieveCurrentGrants(userId));
+
+        String grantsXml = null;
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            grantsXml =
+                getSoapUserAccountHandlerClient().retrieveCurrentGrants(userId);
+        }
+        else {
+            grantsXml =
+                getRestUserAccountHandlerClient().retrieveCurrentGrants(userId);
+        }
+
+        return Factory.getGrantsMarshaller().unmarshalDocument(grantsXml);
     }
 
     /**
@@ -534,6 +577,96 @@ public class UserAccountHandlerClient
         else {
             xml =
                 getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
+        }
+        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Grants (Filter for Grants).
+     * 
+     * @param taskParam
+     *            Filter parameter
+     * @return Grants
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    @Deprecated
+    public Grants retrieveGrants(final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapUserAccountHandlerClient()
+                    .retrieveGrants(
+                        Factory.getTaskParamMarshaller().marshalDocument(
+                            taskParam));
+        }
+        else {
+            xml =
+                getRestUserAccountHandlerClient()
+                    .retrieveGrants(
+                        Factory.getTaskParamMarshaller().marshalDocument(
+                            taskParam));
+        }
+        return Factory.getGrantsMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Grants (Filter for Grants).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponseType retrieveGrants(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapUserAccountHandlerClient().retrieveGrants(filter);
+        }
+        else {
+            xml = getRestUserAccountHandlerClient().retrieveGrants(filter);
+        }
+        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+    }
+
+    /**
+     * Retrieve Grants (Filter for Grants).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainRecord retrieveGrants(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapUserAccountHandlerClient().retrieveGrants(filter);
+        }
+        else {
+            xml = getRestUserAccountHandlerClient().retrieveGrants(filter);
         }
         return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
     }
