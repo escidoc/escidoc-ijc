@@ -32,7 +32,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,7 +48,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
