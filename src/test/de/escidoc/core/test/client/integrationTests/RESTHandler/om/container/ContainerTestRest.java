@@ -28,9 +28,13 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.container;
 
+import java.io.File;
+
 import org.junit.Test;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
+import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -50,10 +54,14 @@ public class ContainerTestRest {
     @Test
     public void testRetrieveContainer01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+
         cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
     }
 
@@ -66,15 +74,47 @@ public class ContainerTestRest {
     @Test
     public void testCreateContainer01() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
 
         // get a valid container
         String container = cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
 
         // create a new one (on basis of the retrieved)
         cc.create(container);
+    }
+
+    /**
+     * Test creating a Container from template file.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void testCreateContainer02() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        RestContainerHandlerClient cc = new RestContainerHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+
+        File templContainer =
+            new File("./templates/rest/container/0.8/container01.xml");
+        String containerXml =
+            EscidocClientTestBase.getXmlFileAsString(templContainer);
+
+        // create a new Item (on basis of the valid)
+        String createdContainerXml = cc.create(containerXml);
+
+        // FIXME asserts
     }
 
 }

@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.item;
 
+import java.io.File;
+
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -64,7 +66,7 @@ public class ItemTestRest {
     }
 
     /**
-     * Test creating an Item.
+     * Test creating an Item by retrieving the example set Item.
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
@@ -84,7 +86,35 @@ public class ItemTestRest {
         String item = cc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
         // create a new Item (on basis of the valid)
-        cc.create(item);
+        String createdItemXml = cc.create(item);
+
+        // FIXME asserts
+    }
+
+    /**
+     * Test creating an Item from template file.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void testCreateItem02() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        RestItemHandlerClient cc = new RestItemHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+
+        File templItem = new File("./templates/rest/item/0.9/item01.xml");
+        String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
+
+        // create a new Item (on basis of the valid)
+        String createdItemXml = cc.create(itemXml);
+
+        // FIXME asserts
     }
 
 }
