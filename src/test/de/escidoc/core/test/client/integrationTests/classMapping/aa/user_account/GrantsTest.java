@@ -30,20 +30,29 @@ package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_accoun
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.exceptions.application.notfound.GrantNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ResourceNotFoundException;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.GrantProperties;
 import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
 /**
  * Test User Account Grants with class mapping.
@@ -98,7 +107,135 @@ public class GrantsTest {
 
         Grants grants = uahc.retrieveCurrentGrants(objId);
         assertTrue(grants.getGrants().size() > 0);
+    }
 
+    /**
+     * Test to create and retrieve a grant with an assigned-on reference. An
+     * Item is created which is set as scope for the role.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testCreateGrant02() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // create Item
+        ItemHandlerClient ihc = new ItemHandlerClient();
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
+
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Content-model
+        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        item.getProperties().setContentModelSpecific(cms);
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        item.setMetadataRecords(mdRecords);
+
+        // create
+        Item createdItem = ihc.create(item);
+
+        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uahc.setHandle(auth.getHandle());
+
+        // create User Account
+        UserAccount ua = new UserAccount();
+
+        // user properties
+        UserAccountProperties properties = new UserAccountProperties();
+        String login = "login" + System.currentTimeMillis();
+        properties.setName("Name " + login);
+        properties.setLoginName(login);
+
+        ua.setProperties(properties);
+        UserAccount createdUa = uahc.create(ua);
+
+        String objId = createdUa.getObjid();
+
+        // create Grant
+        String roleId = "escidoc:role-audience";
+        Grant grant = new Grant();
+        GrantProperties gProp = new GrantProperties();
+        gProp.setRole(new ResourceRef(roleId));
+        gProp.setAssignedOn(new ResourceRef(createdItem.getObjid()));
+        grant.setGrantProperties(gProp);
+
+        Grant createdGrant = uahc.createGrant(objId, grant);
+
+        assertEquals("Missing Role in Grant", roleId, createdGrant
+            .getGrantProperties().getRole().getObjid());
+        assertEquals("Missing Assinged-On", createdItem.getObjid(),
+            createdGrant.getGrantProperties().getAssignedOn().getObjid());
+
+        Grants grants = uahc.retrieveCurrentGrants(objId);
+        assertTrue("No Grants", grants.getGrants().size() > 0);
+        assertEquals("Missing Grant", createdGrant.getObjid(), grants
+            .getGrants().iterator().next().getObjid());
+        assertEquals("Missing Assigned-On", createdItem.getObjid(), grants
+            .getGrants().iterator().next().getGrantProperties().getAssignedOn()
+            .getObjid());
+    }
+
+    /**
+     * Test to create and retrieve a grant with wrong assigned-on reference.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testCreateGrant03() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uahc.setHandle(auth.getHandle());
+
+        // create User Account
+        UserAccount ua = new UserAccount();
+
+        // user properties
+        UserAccountProperties properties = new UserAccountProperties();
+        String login = "login" + System.currentTimeMillis();
+        properties.setName("Name " + login);
+        properties.setLoginName(login);
+
+        ua.setProperties(properties);
+        UserAccount createdUa = uahc.create(ua);
+
+        String objId = createdUa.getObjid();
+
+        // create Grant
+        String roleId = "escidoc:role-audience";
+        Grant grant = new Grant();
+        GrantProperties gProp = new GrantProperties();
+        gProp.setRole(new ResourceRef(roleId));
+        gProp.setAssignedOn(new ResourceRef("escidoc:NON-exists"));
+        grant.setGrantProperties(gProp);
+
+        try {
+            uahc.createGrant(objId, grant);
+            fail("Expected Excpetion ");
+        }
+        catch (ResourceNotFoundException e) {
+            return;
+        }
     }
 
     /**
@@ -108,7 +245,7 @@ public class GrantsTest {
      *             Thrown if anythings failed.
      */
     @Test
-    public void testDeleteGrant01() throws Exception {
+    public void testRevokeGrant01() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -151,5 +288,59 @@ public class GrantsTest {
             .retrieveCurrentUser().getObjid(), revokedGrant
             .getGrantProperties().getRevokedBy().getObjid());
     }
-    
+
+    /**
+     * Test to revoke a non-existing Grant.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testRevokeGrant02() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uahc.setHandle(auth.getHandle());
+
+        // create User Account
+        UserAccount ua = new UserAccount();
+
+        // user properties
+        UserAccountProperties properties = new UserAccountProperties();
+        String login = "login" + System.currentTimeMillis();
+        properties.setName("Name " + login);
+        properties.setLoginName(login);
+
+        ua.setProperties(properties);
+        UserAccount createdUa = uahc.create(ua);
+
+        String objId = createdUa.getObjid();
+
+        // create Grant
+        Grant grant = new Grant();
+        GrantProperties gProp = new GrantProperties();
+        gProp.setRole(new ResourceRef("escidoc:role-system-administrator"));
+        grant.setGrantProperties(gProp);
+
+        Grant createdGrant = uahc.createGrant(objId, grant);
+
+        // delete just created Grant
+        TaskParam tp = new TaskParam();
+        tp.setLastModificationDate(createdGrant.getLastModificationDate());
+        tp.setComment("Just test revoke of a Grant");
+
+        try {
+            uahc.revokeGrant(objId, "escidoc:NON-exists", tp);
+            fail("Missing GrantNotFoundException.");
+        }
+        catch (GrantNotFoundException e) {
+            return;
+        }
+
+    }
+
 }
