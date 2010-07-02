@@ -52,6 +52,8 @@ public class Authentication {
 
     private String serviceAddress = null;
 
+    private String username = null;
+
     /**
      * Authentication.
      */
@@ -87,6 +89,24 @@ public class Authentication {
     }
 
     /**
+     * Get user name.
+     * 
+     * @return user name.
+     */
+    public String getUsername() {
+        return this.username;
+    }
+
+    /**
+     * Get the address of the service.
+     * 
+     * @return Service Address
+     */
+    public String getServiceAddress() {
+        return this.serviceAddress;
+    }
+
+    /**
      * Get eSciDoc Authentication Handle.
      * 
      * @param serviceUrl
@@ -108,6 +128,9 @@ public class Authentication {
         AuthenticationException {
 
         this.serviceAddress = unifyAddress(serviceUrl);
+        this.username = username;
+        int responseCode = 0;
+        String responseMessage = null;
 
         try {
             URL loginUrl = new URL(this.serviceAddress + "aa/login");
@@ -128,8 +151,8 @@ public class Authentication {
             authConn.setRequestMethod("POST");
             authConn.setDoOutput(true);
 
-            authConn.setRequestProperty("Cookie", restrictedConn
-                .getHeaderField("Set-Cookie"));
+            authConn.setRequestProperty("Cookie",
+                restrictedConn.getHeaderField("Set-Cookie"));
             String params =
                 "j_username=" + username + "&j_password=" + password;
 
@@ -153,6 +176,9 @@ public class Authentication {
                 }
             }
             redirectConn.connect();
+            responseCode = redirectConn.getResponseCode();
+            responseMessage = redirectConn.getResponseMessage();
+
             cookieList = redirectConn.getHeaderFields().get("Set-Cookie");
             this.handle = getEsciDocCookie(cookieList);
         }
@@ -161,8 +187,11 @@ public class Authentication {
         }
 
         if (handle == null) {
-            throw new AuthenticationException("Authorization failed.",
-                new Throwable("Empty handle."));
+            // throw new AuthenticationException(responseCode, httpStatusLine,
+            // httpStatusMsg, redirectLocation);
+            throw new AuthenticationException(responseCode,
+                "Authorization failed.", responseMessage, this.serviceAddress
+                    + "aa/login");
         }
         return handle;
     }
