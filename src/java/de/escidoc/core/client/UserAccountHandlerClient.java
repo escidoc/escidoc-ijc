@@ -285,7 +285,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Revoke Grant for User Account
+     * Revoke Grant for User Account.
      * 
      * @param userId
      *            The objid of the User Account
@@ -320,7 +320,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Create Preferences of User Account
+     * Create Preference of User Account.
      * 
      * @return The created Preference
      * 
@@ -355,7 +355,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Retrieve Preferences of User Account
+     * Retrieve Preference of User Account.
      * 
      * @param userId
      *            The objid of the user
@@ -390,7 +390,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Retrieve Preferences of User Account
+     * Retrieve Preferences of User Account.
      * 
      * @return The Preference
      * 
@@ -420,7 +420,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Update Preferences of User Account
+     * Update Preference of User Account.
      * 
      * @param userId
      * @param preference
@@ -457,7 +457,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Delete Preferences of User Account
+     * Delete Preference of User Account.
      * 
      * @param userId
      *            The objid of the user
@@ -480,7 +480,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Delete Preferences of User Account
+     * Delete Preference of User Account.
      * 
      * @param userId
      *            The objid of the user
@@ -507,7 +507,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Retrieve Grants of current User Account
+     * Retrieve Grants of current User Account.
      * 
      * @throws EscidocException
      *             Thrown if an exception from framework is received.
@@ -535,7 +535,7 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Retrieve a Grant of current User Account by id
+     * Retrieve a Grant of current User Account by id.
      * 
      * @param userId
      *            The objid of the User Account
