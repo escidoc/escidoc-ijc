@@ -70,7 +70,7 @@ public class Item extends GenericVersionableResource {
      * Set Resource properties.
      * 
      * @param properties
-     *            The new ContextProperties.
+     *            The new ItemProperties.
      */
     public void setProperties(final ItemProperties properties) {
         this.properties = properties;
