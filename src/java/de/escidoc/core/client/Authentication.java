@@ -129,8 +129,6 @@ public class Authentication {
 
         this.serviceAddress = unifyAddress(serviceUrl);
         this.username = username;
-        int responseCode = 0;
-        String responseMessage = null;
 
         try {
             URL loginUrl = new URL(this.serviceAddress + "aa/login");
@@ -176,23 +174,20 @@ public class Authentication {
                 }
             }
             redirectConn.connect();
-            responseCode = redirectConn.getResponseCode();
-            responseMessage = redirectConn.getResponseMessage();
-
             cookieList = redirectConn.getHeaderFields().get("Set-Cookie");
             this.handle = getEsciDocCookie(cookieList);
+            
+            if (handle == null) {
+                throw new AuthenticationException(redirectConn.getResponseCode(),
+                    "Authorization failed.", redirectConn.getResponseMessage(), this.serviceAddress
+                        + "aa/login");
+            }
+
         }
         catch (IOException e) {
             throw new TransportException(e);
         }
 
-        if (handle == null) {
-            // throw new AuthenticationException(responseCode, httpStatusLine,
-            // httpStatusMsg, redirectLocation);
-            throw new AuthenticationException(responseCode,
-                "Authorization failed.", responseMessage, this.serviceAddress
-                    + "aa/login");
-        }
         return handle;
     }
 
