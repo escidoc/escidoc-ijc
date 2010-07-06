@@ -31,16 +31,81 @@ package de.escidoc.core.resources.cmm;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
- * The eSciDoc ContentModel.
+ * The eSciDoc Content Model.
  * 
  * @author SWA
  * 
  */
 public class ContentModel extends GenericResource {
 
+    private ContentModelProperties properties = new ContentModelProperties();
+
+    private MetadataRecordDefinitions metadataRecordDefinitions = null;
+
+    private ResourceDefinitions resourceDefinitions = null;
+
     /**
      */
     public ContentModel() {
+    }
+
+    /**
+     * Return the ContentModel properties.
+     * 
+     * @return properties
+     */
+    public ContentModelProperties getProperties() {
+        return this.properties;
+    }
+
+    /**
+     * Set ContentModel properties.
+     * 
+     * @param properties
+     *            The new ContentModelProperties.
+     */
+    public void setProperties(final ContentModelProperties properties) {
+        this.properties = properties;
+    }
+
+    /**
+     * Set MetadataRecordDefinitions.
+     * 
+     * @param metadataRecordDefinitions
+     *            The MetadataRecordDefinitions.
+     */
+    public void setMetadataRecordDefinitions(
+        final MetadataRecordDefinitions metadataRecordDefinitions) {
+        this.metadataRecordDefinitions = metadataRecordDefinitions;
+    }
+
+    /**
+     * Get MetadataRecordDefinitions.
+     * 
+     * @return MetadataRecordDefinitions
+     */
+    public MetadataRecordDefinitions getMetadataRecordDefinitions() {
+        return metadataRecordDefinitions;
+    }
+
+    /**
+     * Set ResourceDefinitions.
+     * 
+     * @param resourceDefinitions
+     *            The resource definitions
+     */
+    public void setResourceDefinitions(
+        final ResourceDefinitions resourceDefinitions) {
+        this.resourceDefinitions = resourceDefinitions;
+    }
+
+    /**
+     * Get resource definitions.
+     * 
+     * @return ResourceDefinitions
+     */
+    public ResourceDefinitions getResourceDefinitions() {
+        return resourceDefinitions;
     }
 
 }

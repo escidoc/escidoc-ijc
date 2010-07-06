@@ -14,6 +14,9 @@
 	<!-- include path="common/0.4/properties-no-versioned-binding.xml" / -->
 	<!--  include path="common/0.4/abstract-relations-binding.xml" / -->
 
+	<!-- CMM -->
+	<include path="cmm/0.1/content-model-binding.xml" />
+
 	<!-- OUM -->
 	<include path="oum/0.8/organizational-unit-binding.xml" />
 

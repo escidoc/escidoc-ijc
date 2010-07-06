@@ -28,14 +28,21 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.item;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.XmlUtil;
 
 /**
  * Test create Item.
@@ -116,5 +123,57 @@ public class ItemTestRest {
 
         // FIXME asserts
     }
+
+    /**
+     * Test updating an Item.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void testUpdateItem01() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        RestItemHandlerClient cc = new RestItemHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+
+        File templItem = new File("./templates/rest/item/0.9/item01.xml");
+        String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
+
+        // create a new Item (on basis of the valid)
+        String createdItemXml = cc.create(itemXml);
+
+        DocumentBuilderFactory docBuilderFactory =
+            DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+
+        Document itemDoc =
+            docBuilder.parse(new ByteArrayInputStream(createdItemXml
+                .getBytes("UTF-8")));
+        itemDoc.getDocumentElement().normalize();
+
+        Node rootNode = itemDoc.getFirstChild().getNextSibling();
+        System.out.println(rootNode.getNodeName());
+        Node href =
+            rootNode.getAttributes().getNamedItemNS(
+                "http://www.w3.org/1999/xlink", "href");
+        System.out.println(href);
+        String objid = ""; // href.substring(href.lastIndexOf("/"));
+        Node dcTitle = itemDoc.getElementsByTagName("dc:title").item(0);
+
+        String newDescription = "New Item Description " + System.nanoTime();
+        dcTitle.setTextContent(newDescription);
+
+        // updateItemXml
+        String updateItemXml = XmlUtil.xmlToString(itemDoc);
+        String updatedItemXml = cc.update(objid, updateItemXml);
+
+        // FIXME asserts
+    }
+
 
 }

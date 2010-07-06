@@ -1,6 +1,10 @@
 ----------
  TODO
 ----------
+05.07.2010
+	- clean up metadatarecords an other collections by extend these classes from Collection
+01.07.2010
+	- Content Streams of Item
 12.10.2009
 	- Content Model class mapping (JiBX)
 29.04.2009

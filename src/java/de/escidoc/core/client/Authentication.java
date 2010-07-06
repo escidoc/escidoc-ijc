@@ -130,6 +130,12 @@ public class Authentication {
         this.serviceAddress = unifyAddress(serviceUrl);
         this.username = username;
 
+        /*
+         * SWA: This implementation is wrong or could be at least more efficient. If
+         * the user gets not authentication cookie than is no further request
+         * required. And a request with no authentication cookie should not be
+         * responsed by an HTTP status code 500.
+         */
         try {
             URL loginUrl = new URL(this.serviceAddress + "aa/login");
             URL authURL =
@@ -176,10 +182,11 @@ public class Authentication {
             redirectConn.connect();
             cookieList = redirectConn.getHeaderFields().get("Set-Cookie");
             this.handle = getEsciDocCookie(cookieList);
-            
+
             if (handle == null) {
-                throw new AuthenticationException(redirectConn.getResponseCode(),
-                    "Authorization failed.", redirectConn.getResponseMessage(), this.serviceAddress
+                throw new AuthenticationException(
+                    redirectConn.getResponseCode(), "Authorization failed.",
+                    redirectConn.getResponseMessage(), this.serviceAddress
                         + "aa/login");
             }
 

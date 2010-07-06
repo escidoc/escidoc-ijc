@@ -2,9 +2,9 @@
 
 	<!-- start: abstract binding of list of md-record elements -->
 	<mapping ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
-
 		class="de.escidoc.core.resources.common.MetadataRecords" abstract="true"
 		type-name="abstract-md-records">
+		
 		<namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
 			prefix="escidocMetadataRecords" />
 

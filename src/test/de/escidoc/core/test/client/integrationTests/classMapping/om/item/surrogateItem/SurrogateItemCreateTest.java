@@ -34,17 +34,24 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
+import de.escidoc.core.resources.om.context.Properties;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
+import de.escidoc.core.test.client.util.TestDataUtil;
 
 /**
  * Test create a Surrogate Item.
@@ -61,101 +68,126 @@ public class SurrogateItemCreateTest {
      *             Thrown if creation failed or non-volatile Item values differ.
      */
     @Test
-    public void testCreateSurrogateItem01() throws Exception {
+    public void createSurrogateItem01() throws Exception {
 
-        Authentication auth =
+        /*
+         * We need an environment to test surrogate Item. This environment
+         * consists of an UserAccount, Grant, an Organizational Unit with two
+         * Contexts, and one Item in one Context and the surrogate Item is to
+         * create in the other Context.
+         * 
+         * UserAccount, Grant, Organizational Unit, and Context has to be
+         * created with system-administrator role
+         * (escidoc:role-system-administrator)
+         * 
+         * Item can be created with role-depositor.
+         * 
+         * <pre> User -> Organizational Unit </pre>
+         */
+
+        Authentication sysadminAuth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ihc.setHandle(auth.getHandle());
+        // Create User Account
+        String password = String.valueOf(System.nanoTime());
+        UserAccount userAccount =
+            TestDataUtil.createUserWithDepositorRole(sysadminAuth, password);
 
-        Item item = new Item();
+        // Create Organizational Unit
+        OrganizationalUnit organizationalUnit =
+            TestDataUtil.createOrganizationalUnit(sysadminAuth);
 
-        item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
-        item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+        // create Context 1 -------------------------------------------------
+        Context context1 =
+            TestDataUtil.createContext(sysadminAuth, organizationalUnit);
 
-        // Content-model
-        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
-        item.getProperties().setContentModelSpecific(cms);
+        // create Context 2
+        Context context2 =
+            TestDataUtil.createContext(sysadminAuth, organizationalUnit);
 
-        // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
-        mdRecords.add(mdrecord);
-        item.setMetadataRecords(mdRecords);
 
-        // create
-        Item createdItem = ihc.create(item);
-        // submit --------------------------------------------------------------
-        TaskParam taskParam = new TaskParam();
-        taskParam
-            .setLastModificationDate(createdItem.getLastModificationDate());
-        taskParam.setComment("submitted as java client lib test");
+        // authenticate User Account
+        Authentication depositorAuth =
+            new Authentication(sysadminAuth.getServiceAddress(), userAccount
+                .getProperties().getLoginName(), password);
 
-        Result result = ihc.submit(createdItem, taskParam);
-
-        // assign object PID ---------------------------------------------------
-        taskParam = new TaskParam();
-        taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
-            + System.nanoTime());
-        taskParam.setComment("Test Object PID");
-
-        result = ihc.assignObjectPid(createdItem, taskParam);
-
-        // assign version PID --------------------------------------------------
-        taskParam = new TaskParam();
-        taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
-            + System.nanoTime());
-        taskParam.setComment("Test Version PID");
-
-        result = ihc.assignVersionPid(createdItem, taskParam);
-
-        // release -------------------------------------------------------------
-        taskParam = new TaskParam();
-        taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setComment("Release as java client lib test");
-
-        result = ihc.release(createdItem, taskParam);
-
-        // ====================================================================
-        // prepare a new Item as Surrogate Item
-        Item surrogateItem = new Item();
-
-        surrogateItem.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
-        surrogateItem.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
-
-        // Content-model
-        surrogateItem.getProperties().setContentModelSpecific(cms);
-
-        // Metadata Record(s)
-        mdRecords = new MetadataRecords();
-        mdrecord = ResourceUtility.getMdRecord("escidoc");
-        mdRecords.add(mdrecord);
-        surrogateItem.setMetadataRecords(mdRecords);
-
-        surrogateItem.getProperties().setOrigin(
-            new ResourceRef(createdItem.getObjid()));
-        surrogateItem = ihc.create(surrogateItem);
-
-        /*
-         * compare the Surrogate Item with the origin Item
-         */
-        String objId = createdItem.getObjid();
-
-        assertNotNull("Object id is null", objId);
-        assertEquals(createdItem.getProperties().getContext().getObjid(),
-            surrogateItem.getProperties().getContext().getObjid());
-        assertEquals(createdItem.getProperties().getContentModel().getObjid(),
-            surrogateItem.getProperties().getContentModel().getObjid());
-        assertEquals(createdItem.getObjid(), surrogateItem
-            .getProperties().getOrigin().getObjid());
+//        // create, submit and release Item (item1)
+//        Item originItem = TestDataUtil.createItem(depositorAuth, context1, contentModel);
+//
+//        
+//        ItemHandlerClient ihc = new ItemHandlerClient();
+//        ihc.setServiceAddress(depositorAuth.getServiceAddress());
+//        ihc.setHandle(depositorAuth.getHandle());
+//
+//        // create
+//        Item createdItem = ihc.create(item);
+//        // submit --------------------------------------------------------------
+//        TaskParam taskParam = new TaskParam();
+//        taskParam
+//            .setLastModificationDate(createdItem.getLastModificationDate());
+//        taskParam.setComment("submitted as java client lib test");
+//
+//        Result result = ihc.submit(createdItem, taskParam);
+//
+//        // assign object PID ---------------------------------------------------
+//        taskParam = new TaskParam();
+//        taskParam.setLastModificationDate(result.getLastModificationDate());
+//        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
+//            + System.nanoTime());
+//        taskParam.setComment("Test Object PID");
+//
+//        result = ihc.assignObjectPid(createdItem, taskParam);
+//
+//        // assign version PID --------------------------------------------------
+//        taskParam = new TaskParam();
+//        taskParam.setLastModificationDate(result.getLastModificationDate());
+//        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
+//            + System.nanoTime());
+//        taskParam.setComment("Test Version PID");
+//
+//        result = ihc.assignVersionPid(createdItem, taskParam);
+//
+//        // release -------------------------------------------------------------
+//        taskParam = new TaskParam();
+//        taskParam.setLastModificationDate(result.getLastModificationDate());
+//        taskParam.setComment("Release as java client lib test");
+//
+//        result = ihc.release(createdItem, taskParam);
+//
+//        // ====================================================================
+//        // prepare a new Item as Surrogate Item
+//        Item surrogateItem = new Item();
+//
+//        surrogateItem.getProperties().setContext(
+//            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+//        surrogateItem.getProperties().setContentModel(
+//            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+//
+//        // Content Model Specific
+//        surrogateItem.getProperties().setContentModelSpecific(cms);
+//
+//        // Metadata Record(s)
+//        mdRecords = new MetadataRecords();
+//        mdrecord = ResourceUtility.getMdRecord("escidoc");
+//        mdRecords.add(mdrecord);
+//        surrogateItem.setMetadataRecords(mdRecords);
+//
+//        surrogateItem.getProperties().setOrigin(
+//            new ResourceRef(createdItem.getObjid()));
+//        surrogateItem = ihc.create(surrogateItem);
+//
+//        /*
+//         * compare the Surrogate Item with the origin Item
+//         */
+//        String objId = createdItem.getObjid();
+//
+//        assertNotNull("Object id is null", objId);
+//        assertEquals(createdItem.getProperties().getContext().getObjid(),
+//            surrogateItem.getProperties().getContext().getObjid());
+//        assertEquals(createdItem.getProperties().getContentModel().getObjid(),
+//            surrogateItem.getProperties().getContentModel().getObjid());
+//        assertEquals(createdItem.getObjid(), surrogateItem
+//            .getProperties().getOrigin().getObjid());
     }
 }

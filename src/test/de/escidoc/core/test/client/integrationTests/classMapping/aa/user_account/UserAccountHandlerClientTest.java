@@ -87,6 +87,29 @@ public class UserAccountHandlerClientTest {
     }
 
     /**
+     * Test if lib handles a create of an user account well if the UserAccount
+     * is null.
+     * 
+     * @throws Exception
+     *             If creation of user account happens not as expected
+     */
+    @Test(expected = NullPointerException.class)
+    public void createUserAccountWithNull() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // login
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
+
+        // create
+        uac.create(null);
+    }
+
+    /**
      * Test to update an user account.
      * 
      * @throws Exception
@@ -270,8 +293,8 @@ public class UserAccountHandlerClientTest {
         UserAccount createdUa = uac.create(ua);
         String objId = createdUa.getObjid();
 
-        // FIXME there are no grant, that's why the test is bad  
-        
+        // FIXME there are no grant, that's why the test is bad
+
         Factory.getGrantsMarshaller().marshalDocument(
             uac.retrieveCurrentGrants(objId));
     }

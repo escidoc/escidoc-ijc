@@ -201,25 +201,6 @@
 						field="mdRecords" usage="optional">
 						<structure map-as="abstract-md-records" />
 					</structure>
-					
-					<!-- <structure
-						ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
-						name="md-records"
-						type="de.escidoc.core.resources.common.MetadataRecords"
-						field="mdRecords" usage="optional">
-						
-						<collection
-						ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
-						field="mdRecords"
-						factory="de.escidoc.core.resources.common.MetadataRecords.mdRecordsFactory">
-						<structure
-						ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
-						name="md-record"
-						class="de.escidoc.core.om.resources.common.MetadataRecord"
-						marshaller="de.escidoc.core.common.jibx.binding.MetadataRecord"
-						unmarshaller="de.escidoc.core.common.jibx.binding.MetadataRecord" />
-						</collection>
-						</structure> -->
 				</structure>
 			</collection>
 		</structure>
