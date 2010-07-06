@@ -84,7 +84,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected=InvalidXmlException.class)
     public void testCreateItem01() throws Exception {
 
         Authentication auth =
@@ -92,20 +92,11 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
-        try {
-            cc.create(item);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-
-        }
+        cc.create(item);
     }
 
     /**
@@ -117,7 +108,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected=InvalidXmlException.class)
     public void testCreateItem02() throws Exception {
 
         Authentication auth =
@@ -130,15 +121,7 @@ public class ItemCreateTest {
 
         Item item = new Item();
         item.setTitle("New title for test");
-        try {
-            cc.create(item);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(item);
     }
 
     /**
@@ -148,7 +131,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected=InvalidXmlException.class)
     public void testCreateItem03() throws Exception {
 
         Authentication auth =
@@ -162,15 +145,8 @@ public class ItemCreateTest {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         item.setProperties(properties);
-        try {
-            cc.create(item);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+
+        cc.create(item);
     }
 
     /**
@@ -180,7 +156,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected=InvalidXmlException.class)
     public void testCreateItem04() throws Exception {
 
         Authentication auth =
@@ -194,15 +170,7 @@ public class ItemCreateTest {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         item.setProperties(properties);
-        try {
-            cc.create(item);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(item);
     }
 
     /**
@@ -212,7 +180,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected=InvalidXmlException.class)
     public void testCreateItem05() throws Exception {
 
         Authentication auth =
@@ -227,15 +195,7 @@ public class ItemCreateTest {
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         item.setProperties(properties);
-        try {
-            cc.create(item);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(item);
     }
 
     /**
@@ -479,8 +439,8 @@ public class ItemCreateTest {
             .getProperties().getContext().getObjid());
         assertEquals(item.getProperties().getContentModel().getObjid(),
             createdItem.getProperties().getContentModel().getObjid());
-        assertEquals(item.getMetadataRecords().getMetadataRecords().size(),
-            createdItem.getMetadataRecords().getMetadataRecords().size());
+        assertEquals(item.getMetadataRecords().size(),
+            createdItem.getMetadataRecords().size());
     }
 
     /**
@@ -542,12 +502,14 @@ public class ItemCreateTest {
         componentProperties.setValidStatus("valid");
         componentProperties.setVisibility("insitutional");
         component.setProperties(componentProperties);
-        Components components = item.getComponents();
-        components.add(component);
         ComponentContent content = new ComponentContent();
         content.setStorage("internal-managed");
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);
+
+        Components components = new Components();
+        components.add(component);
+        item.setComponents(components);
 
         Marshaller<Item> m = new Marshaller<Item>(item.getClass());
         m.marshalDocument(item);
@@ -597,8 +559,9 @@ public class ItemCreateTest {
         componentProperties.setValidStatus("valid");
         componentProperties.setVisibility("institutional");
         component.setProperties(componentProperties);
-        Components components = item.getComponents();
+        Components components = new Components();
         components.add(component);
+        item.setComponents(components);
         ComponentContent content = new ComponentContent();
         content.setStorage("internal-managed");
         content.setBase64EncodedContent("skfjlfdf");
@@ -730,8 +693,9 @@ public class ItemCreateTest {
         componentProperties.setValidStatus("valid");
         componentProperties.setVisibility("institutional");
         component.setProperties(componentProperties);
-        Components components = item.getComponents();
+        Components components = new Components();
         components.add(component);
+        item.setComponents(components);
         ComponentContent content = new ComponentContent();
         content.setStorage("internal-managed");
         content.setBase64EncodedContent("skfjlfdf");

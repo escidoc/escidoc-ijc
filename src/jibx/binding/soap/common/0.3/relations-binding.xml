@@ -11,7 +11,7 @@
 			prefix="relations" />
 		
 		<collection ns="http://www.escidoc.de/schemas/relations/0.3"
-			ordered="false" field="relations" create-type="java.util.LinkedList"
+			ordered="false" create-type="de.escidoc.core.resources.common.Relations"
 			usage="optional">
 
 			

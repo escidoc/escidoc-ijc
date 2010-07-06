@@ -41,7 +41,7 @@ import de.escidoc.core.resources.om.GenericResource;
  */
 public class ContentRelation extends GenericResource {
 
-    private MetadataRecords mdRecords = new MetadataRecords();
+    private MetadataRecords mdRecords = null;
 
     private ContentRelationProperties properties =
         new ContentRelationProperties();
@@ -103,7 +103,7 @@ public class ContentRelation extends GenericResource {
 
     }
 
-    public void setType(URI type) {
+    public void setType(final URI type) {
         this.type = type;
     }
 
@@ -111,7 +111,7 @@ public class ContentRelation extends GenericResource {
         return type;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(final String subject) {
         this.subject = subject;
     }
 
@@ -119,7 +119,7 @@ public class ContentRelation extends GenericResource {
         return subject;
     }
 
-    public void setObject(String object) {
+    public void setObject(final String object) {
         this.object = object;
     }
 
@@ -127,7 +127,7 @@ public class ContentRelation extends GenericResource {
         return object;
     }
 
-    public void setSubjectVersion(String subjectVersion) {
+    public void setSubjectVersion(final String subjectVersion) {
         this.subjectVersion = subjectVersion;
     }
 
@@ -135,7 +135,7 @@ public class ContentRelation extends GenericResource {
         return subjectVersion;
     }
 
-    public void setObjectVersion(String objectVersion) {
+    public void setObjectVersion(final String objectVersion) {
         this.objectVersion = objectVersion;
     }
 

@@ -28,38 +28,17 @@
  */
 package de.escidoc.core.resources.common;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
-public class ContentStreams {
+public class ContentStreams extends LinkedList<ContentStream> {
 
-    private Collection<ContentStream> contentStreams =
-        new LinkedList<ContentStream>();
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5527353567135131796L;
 
     public ContentStreams() {
 
-    }
-
-    public static LinkedList<ContentStream> contentStreamsFactory() {
-        return new LinkedList<ContentStream>();
-    }
-
-    /**
-     * Get all streams of ContentStreams.
-     * 
-     * @return
-     */
-    public Collection<ContentStream> getContentStreams() {
-
-        return this.contentStreams;
-    }
-
-    /**
-     * @param contentStreams
-     *            the contentStreams to set
-     */
-    public void setContentStreams(Collection<ContentStream> contentStreams) {
-        this.contentStreams = contentStreams;
     }
 
 }

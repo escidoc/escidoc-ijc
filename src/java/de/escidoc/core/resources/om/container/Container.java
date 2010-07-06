@@ -44,7 +44,7 @@ import de.escidoc.core.resources.om.GenericVersionableResource;
  */
 public class Container extends GenericVersionableResource {
 
-    private MetadataRecords mdRecords = new MetadataRecords();
+    private MetadataRecords mdRecords = null;
 
     private ContainerProperties properties = new ContainerProperties();
 

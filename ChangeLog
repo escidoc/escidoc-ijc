@@ -1,3 +1,14 @@
+06.07.2010 - SWA
+* clean up metadatarecords an other collections by extend these classes from Collection
+  This has little impact to applications based on the lib. 
+* add Content Model class mapping (JiBX)
+
+28.06.2010 - SWA
+* add getServiceAddress to Authentication class (for convenience)
+* Extend test environment with utility to create pre-conditioned resources
+  from scratch. A test has no to count on pre-ingested resources anymore 
+  (without being a test with thousand lines).
+  
 22.6.2010 - SWA
 * add User Account Preferences
 

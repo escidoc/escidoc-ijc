@@ -409,8 +409,8 @@ public class ContentRelationCreateTest {
         // compare the new created ContentRelation with the ContentRelation from
         // the request
         assertEquals("Number of md records differ", contentRelation
-            .getMetadataRecords().getMetadataRecords().size(), createdCR
-            .getMetadataRecords().getMetadataRecords().size());
+            .getMetadataRecords().size(), createdCR
+            .getMetadataRecords().size());
     }
 
     /**

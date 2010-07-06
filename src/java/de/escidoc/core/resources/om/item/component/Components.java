@@ -28,43 +28,27 @@
  */
 package de.escidoc.core.resources.om.item.component;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
+ * Components of Item.
  * 
  * @author SWA
  * 
  */
-public class Components {
+public class Components extends LinkedList<Component> {
 
-    private Collection<Component> components = new LinkedList<Component>();
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4368909050450367931L;
 
     /**
      * Components.
      */
     public Components() {
 
-    }
-
-    /**
-     * Linked Component Factory.
-     * 
-     * @return LinkedList of Components
-     */
-    public static LinkedList<Component> componentsFactory() {
-        return new LinkedList<Component>();
-    }
-
-    /**
-     * Get all Component of Components.
-     * 
-     * @return Collection of Components.
-     */
-    public Collection<Component> getComponents() {
-
-        return this.components;
     }
 
     /**
@@ -76,7 +60,7 @@ public class Components {
      */
     public Component getComponent(final String componentId) {
 
-        Iterator<Component> componentIter = components.iterator();
+        Iterator<Component> componentIter = this.iterator();
         while (componentIter.hasNext()) {
             Component next = componentIter.next();
             if (componentId.equals(next.getObjid())) {
@@ -87,37 +71,20 @@ public class Components {
     }
 
     /**
-     * Add a Component.
-     * 
-     * @param component
-     *            A new Component
-     */
-    public void add(final Component component) {
-
-        Collection<Component> result = componentsFactory();
-        result.addAll(this.components);
-        result.add(component);
-        this.components = result;
-    }
-
-    /**
      * Delete a Component.
      * 
      * @param componentId
      *            The objid of the to delete Component.
      */
     public void del(final String componentId) {
-        if (components != null) {
-            Collection<Component> result = componentsFactory();
-            Iterator<Component> componentIter = components.iterator();
+
+            Iterator<Component> componentIter = this.iterator();
             while (componentIter.hasNext()) {
                 Component next = componentIter.next();
                 if (!componentId.equals(next.getObjid())) {
-                    result.add(next);
+                   remove(next);
                 }
             }
-            this.components = result;
-        }
     }
 
 }

@@ -157,11 +157,11 @@ public class ItemTestRest {
         itemDoc.getDocumentElement().normalize();
 
         Node rootNode = itemDoc.getFirstChild().getNextSibling();
-        System.out.println(rootNode.getNodeName());
+
         Node href =
             rootNode.getAttributes().getNamedItemNS(
                 "http://www.w3.org/1999/xlink", "href");
-        System.out.println(href);
+
         String objid = ""; // href.substring(href.lastIndexOf("/"));
         Node dcTitle = itemDoc.getElementsByTagName("dc:title").item(0);
 

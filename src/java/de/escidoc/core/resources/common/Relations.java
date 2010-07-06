@@ -28,80 +28,26 @@
  */
 package de.escidoc.core.resources.common;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.ResourceRef;
-
 /**
- * Relations. (Has to be rework)
+ * Relations.
  * 
- * @author
+ * @author SWA
  * 
  */
-public class Relations {
+public class Relations extends LinkedList<Relation> {
 
-    private final Collection<Relation> relations = new LinkedList<Relation>();
-
-    // private Map<ResourceRef, Relation> relations =
-    // new HashMap<ResourceRef, Relation>();
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5665063093642931041L;
 
     /**
      * 
      */
     public Relations() {
 
-    }
-
-    /**
-     * Get all Relation of Relations.
-     * 
-     * @return Get a HashMap with all relations.
-     */
-    public Collection<Relation> get() {
-
-        return this.relations;
-    }
-
-//    /**
-//     * Get the id of a Relation selected by id.
-//     * 
-//     * @param relationId
-//     *            The resourceRef for relation.
-//     * @return The Relation with the reference to the resource.
-//     */
-//    public Relation get(final ResourceRef relationId) {
-//        return null;
-//        // return relations.get(relationId);
-//    }
-
-    /**
-     * Add relation.
-     * 
-     * @param relation
-     */
-    public void add(final Relation relation) {
-
-        this.relations.add(relation);
-    }
-
-//    /**
-//     * Add relation by id.
-//     * 
-//     * @param objId
-//     */
-//    public void addId(final String objId) {
-//
-//        // this.relations.put(new ResourceRef(objId), null);
-//    }
-
-    /**
-     * Remove relation.
-     * 
-     * @param relation
-     */
-    public void del(final Relation relation) {
-        this.relations.remove(relation);
     }
 
 }

@@ -9,7 +9,7 @@
 			prefix="escidocMetadataRecords" />
 
 		<collection ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
-			field="mdRecords" create-type="java.util.LinkedList">
+			 create-type="de.escidoc.core.resources.common.MetadataRecords">
 
 			<structure ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
 				type="de.escidoc.core.resources.common.MetadataRecord" usage="optional" />

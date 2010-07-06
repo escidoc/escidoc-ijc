@@ -322,4 +322,84 @@ public class ContentModelCreateTest {
             .getProperties().getCreatedBy().getObjid());
 
     }
+
+    /**
+     * Test update of a Content Model.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void updateContentModel01() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        cc.setServiceAddress(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+
+        ContentModel cmm = new ContentModel();
+        cmm.getProperties().setName("Name-" + System.nanoTime());
+        cmm.getProperties().setDescription("Description-" + System.nanoTime());
+
+        ResourceDefinition rd1 = new ResourceDefinition();
+        rd1.setName("transX" + System.nanoTime());
+        rd1.setMetadataRecordName("escidoc");
+        rd1.setXslt(new URI(
+            "http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
+        ResourceDefinitions rds = new ResourceDefinitions();
+        rds.add(rd1);
+        cmm.setResourceDefinitions(rds);
+
+        ContentModel cmmCreated = cc.create(cmm);
+
+        // change value
+        cmmCreated
+            .getResourceDefinitions().get(0)
+            .setName(String.valueOf("UpdatedName" + System.nanoTime()));
+
+        // update
+        ContentModel cmmUpdated = cc.update(cmmCreated);
+
+        // asserts
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setServiceAddress(auth.getServiceAddress());
+        uac.setHandle(auth.getHandle());
+        UserAccount me = uac.retrieveCurrentUser();
+
+        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated
+            .getProperties().getName());
+
+        assertEquals("Wrong description", cmm.getProperties().getDescription(),
+            cmmCreated.getProperties().getDescription());
+
+        assertEquals("Wrong number of metadata record definition", null,
+            cmmCreated.getMetadataRecordDefinitions());
+
+        assertEquals("Wrong number of resource definition", 1, cmmCreated
+            .getResourceDefinitions().size());
+
+        assertEquals("Wrong name", cmm.getProperties().getName(), cmmUpdated
+            .getProperties().getName());
+
+        assertEquals("Wrong description", cmm.getProperties().getDescription(),
+            cmmUpdated.getProperties().getDescription());
+
+        assertEquals("Wrong number of metadata record definition", null,
+            cmmUpdated.getMetadataRecordDefinitions());
+
+        assertEquals("Wrong number of resource definition", 1, cmmUpdated
+            .getResourceDefinitions().size());
+
+        assertEquals("Name of resource definition not updated", cmmCreated
+            .getResourceDefinitions().get(0).getName(), cmmUpdated
+            .getResourceDefinitions().get(0).getName());
+
+        assertEquals("Wrong creator", me.getObjid(), cmmCreated
+            .getProperties().getCreatedBy().getObjid());
+
+    }
+
 }

@@ -37,6 +37,7 @@ import de.escidoc.core.resources.ResourceRef;
  * 
  */
 public class Relation extends ResourceRef {
+    
     private String predicate;
 
     /**

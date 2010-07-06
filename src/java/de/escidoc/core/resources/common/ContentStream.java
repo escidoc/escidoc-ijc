@@ -30,6 +30,12 @@ package de.escidoc.core.resources.common;
 
 import de.escidoc.core.resources.om.GenericResource;
 
+/**
+ * Content Stream.
+ * 
+ * @author MSC, SWA
+ * 
+ */
 public class ContentStream extends GenericResource {
 
     private String mimeType = null;

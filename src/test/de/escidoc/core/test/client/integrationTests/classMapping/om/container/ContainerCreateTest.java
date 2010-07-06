@@ -545,11 +545,11 @@ public class ContainerCreateTest {
         Relations compareRelations = createdContainer.getRelations();
 
         assertEquals("Number of Relations differ",
-            masterRelations.get().size(), compareRelations.get().size());
-        assertEquals("Missing Relations", 1, masterRelations.get().size());
+            masterRelations.size(), compareRelations.size());
+        assertEquals("Missing Relations", 1, masterRelations.size());
         Relations retrievedRelations = cc.retrieveRelations(objId);
         assertEquals("Number of Relations differ", retrievedRelations
-            .get().size(), compareRelations.get().size());
+            .size(), compareRelations.size());
     }
 
     /**

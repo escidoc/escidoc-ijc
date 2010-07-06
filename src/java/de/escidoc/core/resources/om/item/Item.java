@@ -43,13 +43,13 @@ public class Item extends GenericVersionableResource {
 
     private ItemProperties properties = new ItemProperties();
 
-    private Components components = new Components();
+    private Components components = null;
 
-    private MetadataRecords mdRecords = new MetadataRecords();
+    private MetadataRecords mdRecords = null;
 
-    private ContentStreams contentStreams = new ContentStreams();
+    private ContentStreams contentStreams = null;
 
-    private Relations relations = new Relations();
+    private Relations relations = null;
 
     /**
      * Item.

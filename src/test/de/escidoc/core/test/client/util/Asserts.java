@@ -72,10 +72,10 @@ public class Asserts {
         final MetadataRecords master, final MetadataRecords toCompare)
         throws Exception {
 
-        assertEquals("Number of MetadataRecord(s) differs", master
-            .getMetadataRecords().size(), toCompare.getMetadataRecords().size());
+        assertEquals("Number of MetadataRecord(s) differs", master.size(),
+            toCompare.size());
 
-        Iterator<MetadataRecord> it = master.getMetadataRecords().iterator();
+        Iterator<MetadataRecord> it = master.iterator();
 
         while (it.hasNext()) {
 
@@ -155,8 +155,8 @@ public class Asserts {
             XPathAPI.selectNodeList(expected, expectedXpath);
         final NodeList toBeAssertedNodes =
             XPathAPI.selectNodeList(toBeAsserted, toBeAssertedXpath);
-        assertEquals(msg + "Number of selected nodes differ. ", expectedNodes
-            .getLength(), toBeAssertedNodes.getLength());
+        assertEquals(msg + "Number of selected nodes differ. ",
+            expectedNodes.getLength(), toBeAssertedNodes.getLength());
         final int length = toBeAssertedNodes.getLength();
         for (int i = 0; i < length; i++) {
             assertXmlEquals(msg + "Asserting " + (i + 1) + ". node. ",
@@ -208,8 +208,8 @@ public class Asserts {
         // assert both nodes are nodes of the same node type
         // if thedocument container xslt directive than is the nodeName
         // "#document" is here compared
-        assertEquals(message + " Type of nodes are different", expected
-            .getNodeType(), toBeAsserted.getNodeType());
+        assertEquals(message + " Type of nodes are different",
+            expected.getNodeType(), toBeAsserted.getNodeType());
 
         if (expected.getNodeType() == Node.TEXT_NODE) {
             assertEquals(message + " Text nodes are different. ", expected
@@ -271,8 +271,9 @@ public class Asserts {
                 }
 
                 assertEquals(message + " Attribute value mismatch ["
-                    + expectedAttribute.getNodeName() + "] ", expectedAttribute
-                    .getTextContent(), toBeAssertedAttribute.getTextContent());
+                    + expectedAttribute.getNodeName() + "] ",
+                    expectedAttribute.getTextContent(),
+                    toBeAssertedAttribute.getTextContent());
             }
         }
 

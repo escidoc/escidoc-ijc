@@ -43,7 +43,7 @@ public class OrganizationalUnit extends GenericResource {
 
 	private Parents parents = new Parents();
 
-	private MetadataRecords mdRecords = new MetadataRecords();
+	private MetadataRecords mdRecords = null;
 
 	private Predecessors predecessors = new Predecessors();
 

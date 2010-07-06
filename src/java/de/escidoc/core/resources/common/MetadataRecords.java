@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.resources.common;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -38,26 +37,18 @@ import java.util.LinkedList;
  * @author SWA
  * 
  */
-public class MetadataRecords {
+public class MetadataRecords extends LinkedList<MetadataRecord> {
 
-    private final Collection<MetadataRecord> mdRecords =
-        new LinkedList<MetadataRecord>();
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -90749979126226984L;
 
     /**
      * Consturctor MetadataRecords.
      */
     public MetadataRecords() {
 
-    }
-
-    /**
-     * Get all MetadataRecord of MetadataRecords.
-     * 
-     * @return The Collection of MetadataRecords
-     */
-    public Collection<MetadataRecord> getMetadataRecords() {
-
-        return this.mdRecords;
     }
 
     /**
@@ -70,7 +61,7 @@ public class MetadataRecords {
     public MetadataRecord get(final String name) {
 
         MetadataRecord result = null;
-        Iterator<MetadataRecord> mdRecordIter = this.mdRecords.iterator();
+        Iterator<MetadataRecord> mdRecordIter = this.iterator();
         while (mdRecordIter.hasNext()) {
             MetadataRecord next = mdRecordIter.next();
             if (next.getName().equals(name)) {
@@ -82,27 +73,17 @@ public class MetadataRecords {
     }
 
     /**
-     * Add metadataRecord to list of metadataRecords.
-     * 
-     * @param metadataRecord
-     *            MetadataRecord object.
-     */
-    public void add(final MetadataRecord metadataRecord) {
-        this.mdRecords.add(metadataRecord);
-    }
-
-    /**
      * 
      * @param name
      *            The name of the metadataRecord.
      */
     public void del(final String name) {
 
-        Iterator<MetadataRecord> mdRecordIter = this.mdRecords.iterator();
+        Iterator<MetadataRecord> mdRecordIter = this.iterator();
         while (mdRecordIter.hasNext()) {
             MetadataRecord next = mdRecordIter.next();
             if (next.getName().equals(name)) {
-                this.mdRecords.remove(name);
+                this.remove(name);
                 break;
             }
         }
