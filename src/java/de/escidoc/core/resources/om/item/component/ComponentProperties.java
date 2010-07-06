@@ -67,6 +67,8 @@ public class ComponentProperties implements ComponentPropertiesInterface {
 
     private String description = null;
 
+    private String pid = null;
+
     /**
      * @return The creation date.
      */
@@ -220,12 +222,12 @@ public class ComponentProperties implements ComponentPropertiesInterface {
         return this.visibility;
     }
 
-    public void setVisibility(String visibility) {
+    public void setVisibility(final String visibility) {
         this.visibility = visibility;
 
     }
 
-    public void setChecksum(String checksum) {
+    public void setChecksum(final String checksum) {
         this.checksum = checksum;
     }
 
@@ -233,7 +235,7 @@ public class ComponentProperties implements ComponentPropertiesInterface {
         return checksum;
     }
 
-    public void setChecksumAlgorithm(String checksumAlgorithm) {
+    public void setChecksumAlgorithm(final String checksumAlgorithm) {
         this.checksumAlgorithm = checksumAlgorithm;
     }
 
@@ -241,12 +243,31 @@ public class ComponentProperties implements ComponentPropertiesInterface {
         return checksumAlgorithm;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Set PID of component (content PID).
+     * 
+     * @param pid
+     *            The PID for the content.
+     */
+    public void setPid(final String pid) {
+        this.pid = pid;
+    }
+
+    /**
+     * Get PID of component (content PID).
+     * 
+     * @return PID of the content
+     */
+    public String getPid() {
+        return pid;
     }
 
 }

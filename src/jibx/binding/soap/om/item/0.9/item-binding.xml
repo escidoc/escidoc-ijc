@@ -114,12 +114,9 @@
 			****************************************** -->
 		<structure ns="http://www.escidoc.de/schemas/components/0.9"
 			name="components"
-			type="de.escidoc.core.resources.om.item.component.Components"
 			field="components" usage="optional">
 
-			<collection
-				ns="http://www.escidoc.de/schemas/components/0.9" field="components"
-				factory="de.escidoc.core.resources.om.item.component.Components.componentsFactory">
+			<collection create-type="de.escidoc.core.resources.om.item.component.Components" usage="optional">
 				<structure
 					ns="http://www.escidoc.de/schemas/components/0.9" name="component"
 					type="de.escidoc.core.resources.om.item.component.Component">
@@ -148,14 +145,14 @@
 						<value
 							ns="http://escidoc.de/core/01/properties/" name="description"
 							field="description" usage="optional" />
-
 						<value
 							ns="http://escidoc.de/core/01/properties/" name="valid-status"
 							field="validStatus" usage="optional" />
-
 						<value
 							ns="http://escidoc.de/core/01/properties/" name="visibility"
 							field="visibility" usage="optional" />
+						<value ns="http://escidoc.de/core/01/properties/" name="pid"
+								set-method="setPid" get-method="getPid" usage="optional" />
 
 						<value
 							ns="http://escidoc.de/core/01/properties/"
