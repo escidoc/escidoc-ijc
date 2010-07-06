@@ -1,5 +1,6 @@
 package de.escidoc.core.resources.common;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -18,7 +19,7 @@ public class TaskParam {
 
     private String pid = null;
 
-    private String url = null;
+    private URL url = null;
 
     private String password = null;
 
@@ -49,7 +50,7 @@ public class TaskParam {
      *            Filters.
      */
     public TaskParam(final DateTime lastModificationDate, final String comment,
-        final String pid, final String url, final Collection<Filter> filters) {
+        final String pid, final URL url, final Collection<Filter> filters) {
 
         super();
         this.lastModificationDate = lastModificationDate;
@@ -75,33 +76,12 @@ public class TaskParam {
     }
 
     /**
-     * @return the lastModificationDate
-     */
-    public String getLastModificationDateAsString() {
-        if (this.lastModificationDate != null) {
-            return this.lastModificationDate.toString();
-        }
-
-        return null;
-    }
-
-    /**
      * @param lastModificationDate
      *            the lastModificationDate to set
      */
     public void setLastModificationDate(final DateTime lastModificationDate) {
 
         this.lastModificationDate = lastModificationDate;
-    }
-
-    /**
-     * @param lmd
-     *            the lastModificationDate to set
-     */
-    public void setLastModificationDateAsString(
-        final String lmd) {
-
-        this.lastModificationDate = new DateTime(lmd);
     }
 
     /**
@@ -122,7 +102,7 @@ public class TaskParam {
     /**
      * @return the url
      */
-    public String getUrl() {
+    public URL getUrl() {
         return url;
     }
 
@@ -130,7 +110,7 @@ public class TaskParam {
      * @param url
      *            the url to set
      */
-    public void setUrl(final String url) {
+    public void setUrl(final URL url) {
         this.url = url;
     }
 

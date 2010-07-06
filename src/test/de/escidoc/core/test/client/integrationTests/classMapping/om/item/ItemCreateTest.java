@@ -32,6 +32,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test(expected=InvalidXmlException.class)
+    @Test(expected = InvalidXmlException.class)
     public void testCreateItem01() throws Exception {
 
         Authentication auth =
@@ -108,7 +109,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test(expected=InvalidXmlException.class)
+    @Test(expected = InvalidXmlException.class)
     public void testCreateItem02() throws Exception {
 
         Authentication auth =
@@ -116,7 +117,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -131,7 +132,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test(expected=InvalidXmlException.class)
+    @Test(expected = InvalidXmlException.class)
     public void testCreateItem03() throws Exception {
 
         Authentication auth =
@@ -139,7 +140,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -156,7 +157,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test(expected=InvalidXmlException.class)
+    @Test(expected = InvalidXmlException.class)
     public void testCreateItem04() throws Exception {
 
         Authentication auth =
@@ -164,7 +165,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -180,7 +181,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test(expected=InvalidXmlException.class)
+    @Test(expected = InvalidXmlException.class)
     public void testCreateItem05() throws Exception {
 
         Authentication auth =
@@ -188,7 +189,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -215,7 +216,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -255,7 +256,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -296,7 +297,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -439,8 +440,8 @@ public class ItemCreateTest {
             .getProperties().getContext().getObjid());
         assertEquals(item.getProperties().getContentModel().getObjid(),
             createdItem.getProperties().getContentModel().getObjid());
-        assertEquals(item.getMetadataRecords().size(),
-            createdItem.getMetadataRecords().size());
+        assertEquals(item.getMetadataRecords().size(), createdItem
+            .getMetadataRecords().size());
     }
 
     /**
@@ -457,7 +458,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -532,7 +533,7 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -591,8 +592,8 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item =
-            createItem(EscidocClientTestBase.DEFAULT_SERVICE_URL, auth
-                .getHandle());
+            createItem(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                auth.getHandle());
 
         ItemHandlerClient ihc = new ItemHandlerClient();
         ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
@@ -610,13 +611,15 @@ public class ItemCreateTest {
         Item retrievedItem = ihc.retrieve(item);
         DateTime lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem, result.getLastModificationDate());
+        assertEquals("Timestamps differ", lmdRetrievedItem,
+            result.getLastModificationDate());
 
         // assign object PID ---------------------------------------------------
         taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
-            + System.nanoTime());
+        taskParam.setUrl(new URL(
+            "http://url.to.the.solution/path/for/this/resource/"
+                + System.nanoTime()));
         taskParam.setComment("Test Object PID");
 
         result = ihc.assignObjectPid(item, taskParam);
@@ -625,17 +628,19 @@ public class ItemCreateTest {
         retrievedItem = ihc.retrieve(item);
         lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem, result.getLastModificationDate());
+        assertEquals("Timestamps differ", lmdRetrievedItem,
+            result.getLastModificationDate());
 
         // assign version PID --------------------------------------------------
         taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
-            + System.nanoTime());
+        taskParam.setUrl(new URL(
+            "http://url.to.the.solution/path/for/this/resource/"
+                + System.nanoTime()));
         taskParam.setComment("Test Version PID");
 
         result = ihc.assignVersionPid(item, taskParam);
-        
+
         // release -------------------------------------------------------------
         taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());

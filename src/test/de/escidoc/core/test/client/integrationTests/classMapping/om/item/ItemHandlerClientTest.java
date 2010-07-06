@@ -32,6 +32,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -216,7 +217,7 @@ public class ItemHandlerClientTest {
         // assign object pid
         tp.setLastModificationDate(resultItem.getLastModificationDate());
         tp.setComment(null);
-        tp.setUrl("http://www.escidoc.de/test-pid");
+        tp.setUrl(new URL("http://www.escidoc.de/test-pid"));
         Result pidResult = ic.assignObjectPid(resultItem.getObjid(), tp);
         assertNotNull("AssignObjectPid returns null", pidResult);
         assertNotNull("PID is missing", pidResult.getPidParam());
@@ -227,7 +228,7 @@ public class ItemHandlerClientTest {
         // assign version pid
         tp.setLastModificationDate(resultItem.getLastModificationDate());
         tp.setComment(null);
-        tp.setUrl("http://www.escidoc.de/test-pid");
+        tp.setUrl(new URL("http://www.escidoc.de/test-pid"));
         pidResult = ic.assignVersionPid(resultItem.getObjid() + ":1", tp);
         resultItem = ic.retrieve(resultItem.getObjid());
 

@@ -33,6 +33,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.net.URI;
+import java.net.URL;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -345,10 +346,10 @@ public class ContentRelationCreateTest {
         assertNotNull("Object id is null", createdCR.getObjid());
         assertEquals("Relation type differ", contentRelation.getType(),
             createdCR.getType());
-        assertEquals("Subjects differ", contentRelation.getSubject(), createdCR
-            .getSubject());
-        assertEquals("Objects differ", contentRelation.getObject(), createdCR
-            .getObject());
+        assertEquals("Subjects differ", contentRelation.getSubject(),
+            createdCR.getSubject());
+        assertEquals("Objects differ", contentRelation.getObject(),
+            createdCR.getObject());
     }
 
     /**
@@ -401,16 +402,15 @@ public class ContentRelationCreateTest {
         assertNotNull("Object id is null", createdCR.getObjid());
         assertEquals("Relation type differ", contentRelation.getType(),
             createdCR.getType());
-        assertEquals("Subjects differ", contentRelation.getSubject(), createdCR
-            .getSubject());
-        assertEquals("Objects differ", contentRelation.getObject(), createdCR
-            .getObject());
+        assertEquals("Subjects differ", contentRelation.getSubject(),
+            createdCR.getSubject());
+        assertEquals("Objects differ", contentRelation.getObject(),
+            createdCR.getObject());
 
         // compare the new created ContentRelation with the ContentRelation from
         // the request
         assertEquals("Number of md records differ", contentRelation
-            .getMetadataRecords().size(), createdCR
-            .getMetadataRecords().size());
+            .getMetadataRecords().size(), createdCR.getMetadataRecords().size());
     }
 
     /**
@@ -475,8 +475,9 @@ public class ContentRelationCreateTest {
         // assign object PID ---------------------------------------------------
         TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
-            + System.nanoTime());
+        taskParam.setUrl(new URL(
+            "http://url.to.the.solution/path/for/this/resource/"
+                + System.nanoTime()));
         taskParam.setComment("Object for test");
 
         result = cc.assignObjectPid(contentRelation, taskParam);

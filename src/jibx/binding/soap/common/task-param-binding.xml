@@ -1,4 +1,9 @@
 <binding>
+
+	<format type="java.net.URL"
+               serializer="de.escidoc.core.common.jibx.CustomConverter.serializeURL"
+               deserializer="de.escidoc.core.common.jibx.CustomConverter.deserializeURL"/>
+
 	<!-- start: binding of a task param -->
 	<mapping name="param"
 		class="de.escidoc.core.resources.common.TaskParam">
@@ -6,9 +11,9 @@
 		<!-- *****************************************
 			Root attributes 
 			****************************************** -->
-		<value name="last-modification-date" style="attribute"
-			set-method="setLastModificationDateAsString"
-			get-method="getLastModificationDateAsString" usage="optional" />
+		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+			set-method="setLastModificationDate"
+			get-method="getLastModificationDate" usage="optional" />
 
 		<!-- *****************************************
 			Comment 
