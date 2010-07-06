@@ -26,11 +26,6 @@ public interface LatestVersionInterface {
     DateTime getDate();
 
     /**
-     * @return Get the creation date of this version.
-     */
-    String getDateAsString();
-
-    /**
      * Set the creation date of this version.
      * 
      * @param date
@@ -38,5 +33,4 @@ public interface LatestVersionInterface {
      */
     void setDate(final DateTime date);
 
-    void setDateAsString(final String date);
 }

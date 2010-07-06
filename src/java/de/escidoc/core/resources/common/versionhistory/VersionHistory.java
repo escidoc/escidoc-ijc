@@ -53,16 +53,6 @@ public class VersionHistory {
     /**
      * @return the lastModificationDate
      */
-    public String getLastModificationDateAsString() {
-        if (this.lastModificationDate != null) {
-            return lastModificationDate.toString();
-        }
-        return null;
-    }
-
-    /**
-     * @return the lastModificationDate
-     */
     public DateTime getLastModificationDate() {
         return lastModificationDate;
     }
@@ -73,20 +63,6 @@ public class VersionHistory {
      */
     public void setLastModificationDate(final DateTime lastModificationDate) {
         this.lastModificationDate = lastModificationDate;
-    }
-
-    /**
-     * @param lastModificationDate
-     *            the lastModificationDate to set
-     */
-    public void setLastModificationDateAsString(
-        final String lastModificationDate) {
-        if (lastModificationDate == null) {
-            this.lastModificationDate = null;
-        }
-        else {
-            this.lastModificationDate = new DateTime(lastModificationDate);
-        }
     }
 
     /**

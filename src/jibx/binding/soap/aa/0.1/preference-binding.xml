@@ -39,8 +39,8 @@
 		<namespace uri="http://www.escidoc.de/schemas/preferences/0.1"
 			prefix="preferences" />
 
-		<value name="last-modification-date" style="attribute"
-			set-method="setLastModificationDateAsString" get-method="getLastModificationDateAsString"
+		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+			set-method="setLastModificationDate" get-method="getLastModificationDate"
 			usage="optional" />
 
 		<value name="name" style="attribute" set-method="setName"

@@ -51,8 +51,6 @@ public interface PropertiesInterface {
      * @param creationDate
      *            The new creation date.
      */
-    void setCreationDateAsString(final String creationDate);
-
     void setCreationDate(final DateTime creationDate);
 
     /**

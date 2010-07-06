@@ -106,33 +106,11 @@ public class PropertiesVersioned extends Properties
     }
 
     /**
-     * @return the creationDate
-     */
-    public String getCreationDateAsString() {
-        if (this.creationDate != null) {
-            return this.creationDate.toString();
-        }
-        return null;
-    }
-
-    /**
      * @param creationDate
      *            the creationDate to set
      */
     public void setCreationDate(final DateTime creationDate) {
         this.creationDate = creationDate;
-    }
-
-    /**
-     * @param creationDate
-     *            the creationDate to set
-     */
-    public void setCreationDateAsString(final String creationDate) {
-        if (creationDate == null) {
-            this.creationDate = null;
-        } else {
-        this.creationDate = new DateTime(creationDate);
-        }
     }
 
     /**

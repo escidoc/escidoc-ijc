@@ -58,24 +58,8 @@ public class Version extends ResourceRef
         return this.date;
     }
 
-    public String getDateAsString() {
-        if (this.date != null) {
-            return this.date.toString();
-        }
-        return null;
-    }
-
     public void setDate(final DateTime date) {
         this.date = date;
-    }
-
-    public void setDateAsString(final String date) {
-        if (date == null) {
-            this.date = null;
-        }
-        else {
-            this.date = new DateTime(date);
-        }
     }
 
     public String getNumber() {

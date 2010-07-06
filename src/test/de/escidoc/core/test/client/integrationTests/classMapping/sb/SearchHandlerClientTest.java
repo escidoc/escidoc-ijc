@@ -39,6 +39,7 @@ import gov.loc.www.zing.srw.TermType;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.axis.types.PositiveInteger;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.escidoc.core.client.SearchHandlerClient;
@@ -115,7 +116,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
             ResourceRef content = resultrecord.getContent();
             if (content instanceof Item) {
                 Item item = (Item) content;
-                String lmd = item.getLastModificationDateAsString();
+                DateTime lmd = item.getLastModificationDate();
                 String versionNumber =
                     item.getProperties().getVersion().getNumber();
 

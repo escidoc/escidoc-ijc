@@ -46,42 +46,6 @@ public class Result {
     }
 
     /**
-     * See Interface for functional description.
-     * 
-     * @return last modification date as String
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.ResultInterface#getLastModificationDate()
-     */
-    public String getLastModificationDateAsString()
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-
-        if (this.lmd != null) {
-            return this.lmd.toString();
-        }
-        return null;
-    }
-
-    /**
-     * Set the Last modification date of the result.
-     * 
-     * @param timestamp
-     *            last modification date
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public void setLastModificationDateAsString(final String timestamp)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-
-        if (timestamp != null) {
-            this.lmd = new DateTime(timestamp);
-        }
-    }
-
-    /**
      * Set the Last modification date of the result.
      * 
      * @param timestamp

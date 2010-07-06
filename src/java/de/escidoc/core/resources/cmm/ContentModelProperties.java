@@ -86,34 +86,11 @@ public class ContentModelProperties {
     }
 
     /**
-     * @return the creationDate
-     */
-    public String getCreationDateAsString() {
-        if (this.creationDate != null) {
-            return this.creationDate.toString();
-        }
-        return null;
-    }
-
-    /**
      * @param creationDate
      *            the creationDate to set
      */
     public void setCreationDate(final DateTime creationDate) {
         this.creationDate = creationDate;
-    }
-
-    /**
-     * @param creationTime
-     *            the creationDate to set
-     */
-    public void setCreationDateAsString(final String creationTime) {
-        if (creationTime == null) {
-            this.creationDate = null;
-        }
-        else {
-            this.creationDate = new DateTime(creationTime);
-        }
     }
 
     /**
@@ -174,16 +151,6 @@ public class ContentModelProperties {
      */
     public void setLockDate(final DateTime lockDate) {
         this.lockDate = lockDate;
-    }
-
-    /**
-     * @return the lockDate
-     */
-    public String getLockDateAsString() {
-        if (this.lockDate != null) {
-            return this.lockDate.toString();
-        }
-        return null;
     }
 
     /**

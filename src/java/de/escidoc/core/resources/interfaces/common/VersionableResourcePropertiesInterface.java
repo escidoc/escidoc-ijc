@@ -48,8 +48,6 @@ public interface VersionableResourcePropertiesInterface
      */
     DateTime getCreationDate();
 
-    String getCreationDateAsString();
-
     /**
      * Set the creation date.
      * 
@@ -57,8 +55,6 @@ public interface VersionableResourcePropertiesInterface
      *            The new creation date.
      */
     void setCreationDate(final DateTime creationDate);
-
-    void setCreationDateAsString(final String creationDate);
 
     /**
      * @return The creator.

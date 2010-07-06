@@ -29,6 +29,10 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.common;
 
 import static org.junit.Assert.assertNotNull;
+
+import org.joda.time.DateTime;
+import org.junit.Test;
+
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
@@ -59,6 +63,7 @@ public class ServiceConnection {
      * @throws Exception
      *             Thrown if retrieve failed.
      */
+    @Test
     public void testItem01() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
@@ -66,7 +71,7 @@ public class ServiceConnection {
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item = cc.retrieve(ITEM_ID);
-        String lmd = item.getLastModificationDateAsString();
+        DateTime lmd = item.getLastModificationDate();
         assertNotNull("Item timestamp is null", lmd);
 
     }
@@ -78,6 +83,7 @@ public class ServiceConnection {
      * @throws Exception
      *             Thrown if retrieve failed.
      */
+    @Test
     public void testContainer01() throws Exception {
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
@@ -85,7 +91,7 @@ public class ServiceConnection {
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Container container = cc.retrieve(CONTAINER_ID);
-        String lmd = container.getLastModificationDateAsString();
+        DateTime lmd = container.getLastModificationDate();
         assertNotNull("Container timestamp is null", lmd);
 
     }
@@ -97,6 +103,7 @@ public class ServiceConnection {
      * @throws Exception
      *             Thrown if retrieve failed.
      */
+    @Test
     public void testContext01() throws Exception {
 
         ContextHandlerClient cc = new ContextHandlerClient();
@@ -104,7 +111,7 @@ public class ServiceConnection {
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Context context = cc.retrieve(CONTEXT_ID);
-        String lmd = context.getLastModificationDateAsString();
+        DateTime lmd = context.getLastModificationDate();
         assertNotNull("Context timestamp is null", lmd);
 
     }

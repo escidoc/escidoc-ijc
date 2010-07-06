@@ -66,16 +66,6 @@ public class Properties {
     }
 
     /**
-     * @return The creation date as String.
-     */
-    public String getCreationDateAsString() {
-        if (this.creationDate != null) {
-            return this.creationDate.toString();
-        }
-        return null;
-    }
-
-    /**
      * Set the creation date.
      * 
      * @param creationDate
@@ -83,16 +73,6 @@ public class Properties {
      */
     public void setCreationDate(final DateTime creationDate) {
         this.creationDate = creationDate;
-    }
-
-    /**
-     * Set the creation date.
-     * 
-     * @param dateString
-     *            The new creation date.
-     */
-    public void setCreationDateAsString(final String dateString) {
-        this.creationDate = new DateTime(dateString);
     }
 
     /**

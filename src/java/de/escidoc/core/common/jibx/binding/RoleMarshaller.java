@@ -70,7 +70,7 @@ import de.escidoc.core.resources.aa.role.Scope;
 ////                ctx.attribute(0, "objid", role.getObjid());
 ////            }
 ////            if (role.getLastModificationDate() != null) {
-////                ctx.attribute(0, "last-modification-date", role.getLastModificationDateAsString());
+////                ctx.attribute(0, "last-modification-date", role.getLastModificationDate());
 ////            }
 ////            
 ////            ctx.closeStartContent();
@@ -131,7 +131,7 @@ import de.escidoc.core.resources.aa.role.Scope;
 ////        }
 ////        // TODO iterate all attributes and save them in a HashMap
 ////        result.setObjid(ctx.attributeText(null,"objid", null));
-////        result.setLastModificationDateAsString(ctx.attributeText(null,
+////        result.setLastModificationDate(ctx.attributeText(null,
 ////            "last-modification-date", null));
 ////        
 ////

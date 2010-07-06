@@ -127,19 +127,6 @@ public class UserAccountProperties {
     }
 
     /**
-     * Get creation date as String
-     * 
-     * @return the creationDate
-     */
-    public String getCreationDateAsString() {
-        if (this.creationDate != null) {
-            return this.creationDate.toString();
-        }
-
-        return null;
-    }
-
-    /**
      * Set creation date of User Account.
      * 
      * @param creationDate
@@ -148,21 +135,6 @@ public class UserAccountProperties {
     public void setCreationDate(final DateTime creationDate) {
 
         this.creationDate = creationDate;
-    }
-
-    /**
-     * Set creation date of User Account.
-     * 
-     * @param creationDate
-     *            the creationDate to set
-     */
-    public void setCreationDateAsString(final String creationDate) {
-        if (creationDate == null) {
-            this.creationDate = null;
-        }
-        else {
-            this.creationDate = new DateTime(creationDate);
-        }
     }
 
 }

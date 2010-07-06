@@ -61,9 +61,9 @@
 		<value name="objid" style="attribute" set-method="setObjid"
 			get-method="getObjid" usage="optional" />
 
-		<value name="last-modification-date" style="attribute"
-			set-method="setLastModificationDateAsString"
-			get-method="getLastModificationDateAsString" usage="optional" />
+		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+			set-method="setLastModificationDate"
+			get-method="getLastModificationDate" usage="optional" />
 
 
 		<!-- *****************************************
@@ -132,9 +132,9 @@
 						type="de.escidoc.core.resources.om.item.component.ComponentProperties">
 
 						<value
-							ns="http://escidoc.de/core/01/properties/" name="creation-date"
-							usage="optional" set-method="setCreationDateAsString"
-							get-method="getCreationDateAsString" />
+							ns="http://escidoc.de/core/01/properties/" name="creation-date" type="org.joda.time.DateTime"
+							usage="optional" set-method="setCreationDate"
+							get-method="getCreationDate" />
 
 						<structure
 							ns="http://escidoc.de/core/01/structural-relations/"
@@ -248,9 +248,9 @@
 		<namespace uri="http://escidoc.de/core/01/properties/release/"
 			prefix="release" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="creation-date" set-method="setCreationDateAsString"
-			get-method="getCreationDateAsString" usage="optional" />
+		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
+			name="creation-date" set-method="setCreationDate"
+			get-method="getCreationDate" usage="optional" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="created-by" field="createdBy" usage="optional">
@@ -301,9 +301,9 @@
 				name="number" get-method="getNumber" set-method="setNumber"
 				usage="optional" />
 
-			<value ns="http://escidoc.de/core/01/properties/version/"
-				name="date" set-method="setDateAsString"
-				get-method="getDateAsString" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/version/" type="org.joda.time.DateTime"
+				name="date" set-method="setDate"
+				get-method="getDate" usage="optional" />
 			<value ns="http://escidoc.de/core/01/properties/version/"
 				name="status" set-method="setStatus" get-method="getStatus"
 				usage="optional" />
@@ -337,9 +337,9 @@
 			<value ns="http://escidoc.de/core/01/properties/version/"
 				name="number" get-method="getNumber" set-method="setNumber"
 				usage="optional" />
-			<value ns="http://escidoc.de/core/01/properties/version/"
-				name="date" set-method="setDateAsString"
-				get-method="getDateAsString" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/version/" type="org.joda.time.DateTime"
+				name="date" set-method="setDate"
+				get-method="getDate" usage="optional" />
 			<value ns="http://escidoc.de/core/01/properties/release/"
 				name="pid" set-method="setPid" get-method="getPid" usage="optional" />
 		</structure>
@@ -356,9 +356,9 @@
 			<value ns="http://escidoc.de/core/01/properties/release/"
 				name="number" get-method="getNumber" set-method="setNumber"
 				usage="optional" />
-			<value ns="http://escidoc.de/core/01/properties/release/"
-				name="date" set-method="setDateAsString"
-				get-method="getDateAsString" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/release/" type="org.joda.time.DateTime"
+				name="date" set-method="setDate"
+				get-method="getDate" usage="optional" />
 			<value ns="http://escidoc.de/core/01/properties/release/"
 				name="pid" set-method="setPid" get-method="getPid" usage="optional" />
 		</structure>

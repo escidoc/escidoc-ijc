@@ -42,8 +42,8 @@
 		<value name="objid" style="attribute" set-method="setObjid"
 			get-method="getObjid" usage="optional" />
 
-		<value name="last-modification-date" style="attribute"
-			set-method="setLastModificationDateAsString" get-method="getLastModificationDateAsString"
+		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+			set-method="setLastModificationDate" get-method="getLastModificationDate"
 			usage="optional" />
 
 
@@ -64,8 +64,8 @@
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="creation-date"
-			set-method="setCreationDateAsString" get-method="getCreationDateAsString"
+		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" type="org.joda.time.DateTime"
+			set-method="setCreationDate" get-method="getCreationDate"
 			usage="optional" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"

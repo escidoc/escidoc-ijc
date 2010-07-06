@@ -84,18 +84,6 @@ public class Preference {
     }
 
     /**
-     * Get last modification date of the resource.
-     * 
-     * @return last-modification-date
-     */
-    public String getLastModificationDateAsString() {
-        if (this.lastModificationDate != null) {
-            return this.lastModificationDate.toString();
-        }
-        return null;
-    }
-
-    /**
      * Set last-modification-date.
      * 
      * @param lmd
@@ -104,22 +92,6 @@ public class Preference {
     public void setLastModificationDate(final DateTime lmd) {
 
         this.lastModificationDate = lmd;
-    }
-
-    /**
-     * Set last-modification-date.
-     * 
-     * @param lmd
-     *            last-modification-date
-     */
-    public void setLastModificationDateAsString(final String lmd) {
-
-        if (lmd == null) {
-            this.lastModificationDate = null;
-        }
-        else {
-            this.lastModificationDate = new DateTime(lmd);
-        }
     }
 
 }
