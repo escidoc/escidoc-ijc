@@ -61,7 +61,7 @@ public class RestServiceMethod {
         throws MalformedURLException {
 
         URL url = new URL(address);
-        this.serviceAddress = url.toString();
+        this.serviceAddress = unifyAddress(url.toString());
     }
 
     /**
@@ -98,8 +98,8 @@ public class RestServiceMethod {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(), e
-                    .toString());
+                throw new SystemException(e.getReasonCode(), e.getMessage(),
+                    e.toString());
             }
             catch (IOException e) {
                 throw new SystemException(500, e.getMessage(), e.toString());
@@ -164,14 +164,15 @@ public class RestServiceMethod {
                         "application/octet-stream");
                 int statusCode = getRestClient().executeMethod(put);
                 if ((statusCode / 100) != 2) {
-                    throw new RemoteException("Upload failed");
+                    throw new RemoteException("Upload failed. "
+                        + put.getStatusText() + "; " + put.getResponseBody());
                 }
                 InputStream in = put.getResponseBodyAsStream();
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(), e
-                    .toString());
+                throw new SystemException(e.getReasonCode(), e.getMessage(),
+                    e.toString());
             }
             catch (IOException e) {
                 throw new SystemException(500, e.getMessage(), e.toString());
@@ -215,8 +216,8 @@ public class RestServiceMethod {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(), e
-                    .toString());
+                throw new SystemException(e.getReasonCode(), e.getMessage(),
+                    e.toString());
             }
             catch (IOException e) {
                 throw new SystemException(500, e.getMessage(), e.toString());
@@ -251,8 +252,8 @@ public class RestServiceMethod {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(), e
-                    .toString());
+                throw new SystemException(e.getReasonCode(), e.getMessage(),
+                    e.toString());
             }
             catch (IOException e) {
                 throw new SystemException(500, e.getMessage(), e.toString());
@@ -287,8 +288,8 @@ public class RestServiceMethod {
             return get(new URLCodec().encode(url));
         }
         catch (EncoderException e) {
-            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, e
-                .getMessage(), e.toString());
+            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR,
+                e.getMessage(), e.toString());
         }
     }
 
@@ -314,8 +315,8 @@ public class RestServiceMethod {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(), e
-                    .toString());
+                throw new SystemException(e.getReasonCode(), e.getMessage(),
+                    e.toString());
             }
             catch (IOException e) {
                 throw new SystemException(500, e.getMessage(), e.toString());
@@ -486,4 +487,20 @@ public class RestServiceMethod {
         return filter12.replaceFirst("&", "?");
     }
 
+    /**
+     * Unify URL (with trailing slash).
+     * 
+     * @param address
+     *            The address (URL)
+     * @return address with slash at the end.
+     */
+    private String unifyAddress(final String address) {
+
+        String tmpServUrl = address;
+        if (tmpServUrl.endsWith("/")) {
+            tmpServUrl = tmpServUrl.substring(0, tmpServUrl.length()-1);
+        }
+
+        return tmpServUrl;
+    }
 }
