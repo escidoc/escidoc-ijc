@@ -44,7 +44,6 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
-import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
@@ -370,16 +369,16 @@ public class OrganizationalUnitHandlerClient
         throw new InternalClientException("Method not yet supported.");
     }
 
-    public StructMap retrieveParents(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException {
-        throw new InternalClientException("Method not yet supported.");
-    }
-
-    public StructMap updateParents(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new InternalClientException("Method not yet supported.");
-    }
+    // public StructMap retrieveParents(final String id, final String xml)
+    // throws EscidocException, InternalClientException, TransportException {
+    // throw new InternalClientException("Method not yet supported.");
+    // }
+    //
+    // public StructMap updateParents(final String id, final String xml)
+    // throws EscidocException, InternalClientException, TransportException {
+    //
+    // throw new InternalClientException("Method not yet supported.");
+    // }
 
     public OrganizationalUnitList retrieveParentObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {

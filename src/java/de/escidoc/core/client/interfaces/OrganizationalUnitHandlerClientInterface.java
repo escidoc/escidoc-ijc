@@ -68,11 +68,11 @@ public interface OrganizationalUnitHandlerClientInterface<OrganizationalUnit>
     Result close(final String contextId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
-    StructMap retrieveParents(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException;
-
-    StructMap updateParents(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException;
+    // StructMap retrieveParents(final String id, final String xml)
+    // throws EscidocException, InternalClientException, TransportException;
+    //
+    // StructMap updateParents(final String id, final String xml)
+    // throws EscidocException, InternalClientException, TransportException;
 
     OrganizationalUnitList retrieveParentObjects(final String id)
         throws EscidocException, InternalClientException, TransportException;

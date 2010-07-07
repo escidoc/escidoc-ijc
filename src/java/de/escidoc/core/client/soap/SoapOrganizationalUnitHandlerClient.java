@@ -57,8 +57,8 @@ import de.escidoc.core.oum.OrganizationalUnitHandlerServiceLocator;
  */
 public class SoapOrganizationalUnitHandlerClient extends ClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(SoapOrganizationalUnitHandlerClient.class.getName());
+    private final Logger logger = Logger
+        .getLogger(SoapOrganizationalUnitHandlerClient.class.getName());
 
     private OrganizationalUnitHandler soapClient = null;
 
