@@ -71,7 +71,7 @@ public class ContextFilterVersion12Test {
      *             Thrown if anythings failed.
      */
     @Test
-    public void testRetrieveContainers01() throws Exception {
+    public void testRetrieveContexts01() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -91,7 +91,7 @@ public class ContextFilterVersion12Test {
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
         ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -105,7 +105,7 @@ public class ContextFilterVersion12Test {
         Element element = doc.createElementNS(null, "admin-descriptor");
         adminDescriptor.setContent(element);
 
-        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
         // create

@@ -32,6 +32,11 @@ public class OpenContextWithEmptyComment {
 
     private ContextHandlerClient cc;
 
+    /**
+     * (see issue INFR-937)
+     * @throws ParserConfigurationException
+     * @throws EscidocClientException
+     */
     @Test
     public void shouldSetPublicStatusCommentToEmpty()
         throws ParserConfigurationException, EscidocClientException {
@@ -59,7 +64,7 @@ public class OpenContextWithEmptyComment {
             new OrganizationalUnitRefs();
         final ResourceRef organizationalUnitRef =
             new ResourceRef("escidoc:ex3");
-        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -74,7 +79,7 @@ public class OpenContextWithEmptyComment {
         final Element element = doc.createElementNS(null, "admin-descriptor");
         adminDescriptor.setContent(element);
 
-        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
         // create

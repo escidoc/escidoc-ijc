@@ -124,7 +124,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
         ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -138,7 +138,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         Element element = doc.createElementNS(null, "admin-descriptor");
         adminDescriptor.setContent(element);
 
-        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
         Context createdContext = cc.create(context);
@@ -175,7 +175,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
         ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -189,7 +189,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         Element element = doc.createElementNS(null, "admin-descriptor");
         adminDescriptor.setContent(element);
 
-        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
         // create

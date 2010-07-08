@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
-	<!--  SOAP Binding -->
+	<!-- SOAP Binding -->
 	<!-- start: binding of a single context -->
-	<mapping name="context"
-		ns="http://www.escidoc.de/schemas/context/0.7"
+	<mapping name="context" ns="http://www.escidoc.de/schemas/context/0.7"
 		class="de.escidoc.core.resources.om.context.Context">
 		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
 			prefix="escidocContext" />
@@ -12,9 +11,8 @@
 	<!-- end: binding of a single context -->
 
 	<!-- start: abstract binding of a single context -->
-	<mapping ns="http://www.escidoc.de/schemas/context/0.7"
-		class="de.escidoc.core.resources.om.context.Context" abstract="true"
-		type-name="abstract-context">
+	<mapping ns="http://www.escidoc.de/schemas/context/0.7" class="de.escidoc.core.resources.om.context.Context"
+		abstract="true" type-name="abstract-context">
 
 		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
 			prefix="escidocContext" />
@@ -28,8 +26,8 @@
 		<value name="objid" style="attribute" set-method="setObjid"
 			get-method="getObjid" usage="optional" />
 
-		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
-			set-method="setLastModificationDate"
+		<value name="last-modification-date" style="attribute"
+			type="org.joda.time.DateTime" set-method="setLastModificationDate"
 			get-method="getLastModificationDate" usage="optional" />
 
 		<!-- Properties include -->
@@ -39,22 +37,23 @@
 		</structure>
 
 		<!-- AdminDescriptors include -->
-		<structure ns="http://www.escidoc.de/schemas/context/0.7"
-			name="admin-descriptors"
-			type="de.escidoc.core.resources.om.context.AdminDescriptors"
-			field="adminDescriptors" usage="optional">
-			<structure map-as="abstract-admin-descriptors"
-				usage="optional" />
+ 		<structure ns="http://www.escidoc.de/schemas/context/0.7"
+			name="admin-descriptors" field="adminDescriptors" usage="optional">
+
+			<collection create-type="de.escidoc.core.resources.om.context.AdminDescriptors" 
+				usage="optional">
+
+				<structure map-as="abstract-admin-descriptor" usage="optional" />
+			</collection>
 		</structure>
-	</mapping>
+ 	</mapping>
 	<!-- end: abstract binding of a single context -->
 
 
-	<!-- *****************************************
-		Properties binding definition
+	<!-- ***************************************** 
+	Properties binding definition 
 		****************************************** -->
-	<mapping ns="http://escidoc.de/core/01/properties/"
-		class="de.escidoc.core.resources.om.context.Properties"
+	<mapping ns="http://escidoc.de/core/01/properties/" class="de.escidoc.core.resources.om.context.Properties"
 		abstract="true" type-name="context-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
@@ -63,8 +62,8 @@
 			prefix="srel" />
 
 		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
-			name="creation-date" set-method="setCreationDate"
-			get-method="getCreationDate" usage="optional" />
+			name="creation-date" set-method="setCreationDate" get-method="getCreationDate"
+			usage="optional" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="created-by" field="createdBy" usage="optional">
@@ -74,98 +73,86 @@
 		</structure>
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
-			name="modified-by" set-method="setModifiedBy"
-			get-method="getModifiedBy" usage="optional">
+			name="modified-by" set-method="setModifiedBy" get-method="getModifiedBy"
+			usage="optional">
 
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />
 		</structure>
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status" set-method="setPublicStatus"
-			get-method="getPublicStatus" usage="optional" />
+		<value ns="http://escidoc.de/core/01/properties/" name="public-status"
+			set-method="setPublicStatus" get-method="getPublicStatus" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status-comment" set-method="setPublicStatusComment"
-			get-method="getPublicStatusComment" usage="optional" />
+		<value ns="http://escidoc.de/core/01/properties/" name="public-status-comment"
+			set-method="setPublicStatusComment" get-method="getPublicStatusComment"
+			usage="optional" />
 
 		<value ns="http://escidoc.de/core/01/properties/" name="name"
 			set-method="setName" get-method="getName" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="description" set-method="setDescription"
-			get-method="getDescription" usage="optional" />
+		<value ns="http://escidoc.de/core/01/properties/" name="description"
+			set-method="setDescription" get-method="getDescription" usage="optional" />
 
 		<value ns="http://escidoc.de/core/01/properties/" name="type"
 			set-method="setType" get-method="getType" usage="optional" />
 
-		<structure ns="http://escidoc.de/core/01/properties/"
-			name="organizational-units"
-			type="de.escidoc.core.resources.om.context.OrganizationalUnitRefs"
+
+		<structure ns="http://escidoc.de/core/01/properties/" name="organizational-units"
 			field="organizationalUnitRefs" usage="optional">
-			<structure map-as="abstract-organizational-units"
-				usage="optional" />
+			
+			<collection create-type="de.escidoc.core.resources.om.context.OrganizationalUnitRefs" 
+				usage="optional">
+
+				<structure map-as="abstract-organizational-unit-ref" usage="optional" />
+			</collection>
+
 		</structure>
 
 	</mapping>
 
-	<!-- *****************************************
-		Abstract Organizational-units 
+	<!-- ***************************************** 
+		Abstract Organizational Units 
 		****************************************** -->
 	<mapping ns="http://escidoc.de/core/01/properties/"
-		class="de.escidoc.core.resources.om.context.OrganizationalUnitRefs"
-		abstract="true" type-name="abstract-organizational-units">
+		class="de.escidoc.core.resources.ResourceRef"
+		abstract="true" type-name="abstract-organizational-unit-ref">
 
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 
-		<collection field="organizationalUnitRefs"
-			create-type="java.util.LinkedList" usage="optional">
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+				name="organizational-unit" type="de.escidoc.core.resources.ResourceRef"
+				usage="optional">
 
-			<structure
-				ns="http://escidoc.de/core/01/structural-relations/"
-				name="organizational-unit"
-				type="de.escidoc.core.resources.ResourceRef" usage="optional">
-
-				<value name="objid" style="attribute"
-					set-method="setObjid" get-method="getObjid" usage="optional" />
-				<value name="href" style="attribute"
-					set-method="setHref" get-method="getHref" usage="optional" />
-				<value name="title" style="attribute"
-					set-method="setTitle" get-method="getTitle" usage="optional" />
-			</structure>
-		</collection>
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+			<value name="href" style="attribute" set-method="setHref"
+				get-method="getHref" usage="optional" />
+			<value name="title" style="attribute" set-method="setTitle"
+				get-method="getTitle" usage="optional" />
+		</structure>
 	</mapping>
 
-	<!-- *****************************************
-		Abstract AdminDescriptors
+	<!-- ***************************************** 
+			Abstract Admin Descriptors 
 		****************************************** -->
 	<mapping ns="http://www.escidoc.de/schemas/context/0.7"
-		class="de.escidoc.core.resources.om.context.AdminDescriptors"
-		abstract="true" type-name="abstract-admin-descriptors">
+		class="de.escidoc.core.resources.om.context.AdminDescriptor" abstract="true"
+		type-name="abstract-admin-descriptor">
 
-		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
-			prefix="context" />
-
-		<collection ns="http://www.escidoc.de/schemas/context/0.7"
-			field="adminDescriptors" create-type="java.util.LinkedList"
-			usage="optional">
-			<structure ns="http://www.escidoc.de/schemas/context/0.7"
-				type="de.escidoc.core.resources.om.context.AdminDescriptor"
-				usage="optional" />
-		</collection>
-	</mapping>
-	<mapping name="admin-descriptor"
-		class="de.escidoc.core.resources.om.context.AdminDescriptor"
-		ns="http://www.escidoc.de/schemas/context/0.7">
 		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
 			prefix="escidocContext" />
-		<value name="name" set-method="setName" get-method="getName"
-			style="attribute" usage="optional" />
-		<structure
-					field="content" type="org.w3c.dom.Element"
-					marshaller="org.jibx.extras.DomElementMapper"
-					unmarshaller="org.jibx.extras.DomElementMapper" usage="optional" />
+			
+		<structure ns="http://www.escidoc.de/schemas/context/0.7"
+			name="admin-descriptor" type="de.escidoc.core.resources.om.context.AdminDescriptor"
+			usage="optional">
+
+			<value name="name" set-method="setName" get-method="getName"
+				style="attribute" usage="optional" />
+			<structure field="content" type="org.w3c.dom.Element"
+				marshaller="org.jibx.extras.DomElementMapper" unmarshaller="org.jibx.extras.DomElementMapper"
+				usage="optional" />
+		</structure>
 	</mapping>
 
 	<!-- start: binding of a context unit list -->
@@ -177,8 +164,7 @@
 			prefix="context" />
 		<collection field="contexts"
 			factory="de.escidoc.core.resources.om.context.ContextList.contextsFactory">
-			<structure name="context"
-				ns="http://www.escidoc.de/schemas/context/0.7"
+			<structure name="context" ns="http://www.escidoc.de/schemas/context/0.7"
 				type="de.escidoc.core.resources.om.context.Context">
 				<structure map-as="abstract-context" />
 			</structure>

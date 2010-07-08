@@ -129,18 +129,18 @@
 			prefix="escidocContentModel" />
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
-			<structure
-				ns="http://www.escidoc.de/schemas/contentmodel/0.1"
-				name="md-record-definition"
-				type="de.escidoc.core.resources.cmm.MetadataRecordDefinition" usage="optional">
+		<structure
+			ns="http://www.escidoc.de/schemas/contentmodel/0.1"
+			name="md-record-definition"
+			type="de.escidoc.core.resources.cmm.MetadataRecordDefinition" usage="optional">
 
-				<value name="name" style="attribute"
-					set-method="setName" get-method="getName" usage="optional" />
-				<structure name="schema" ns="http://www.escidoc.de/schemas/contentmodel/0.1" usage="optional" >
-					<value ns="http://www.w3.org/1999/xlink" name="href" set-method="setSchema" get-method="getSchema"
-						style="attribute" usage="optional"  />
-				</structure>
+			<value name="name" style="attribute"
+				set-method="setName" get-method="getName" usage="optional" />
+			<structure name="schema" ns="http://www.escidoc.de/schemas/contentmodel/0.1" usage="optional" >
+				<value ns="http://www.w3.org/1999/xlink" name="href" set-method="setSchema" get-method="getSchema"
+					style="attribute" usage="optional"  />
 			</structure>
+		</structure>
 	</mapping>
 
 	<!-- *****************************************

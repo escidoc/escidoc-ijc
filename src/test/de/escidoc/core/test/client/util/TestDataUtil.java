@@ -189,7 +189,7 @@ public class TestDataUtil {
             new OrganizationalUnitRefs();
         ResourceRef organizationalUnitRef =
             new ResourceRef(organizationalUnit.getObjid());
-        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);

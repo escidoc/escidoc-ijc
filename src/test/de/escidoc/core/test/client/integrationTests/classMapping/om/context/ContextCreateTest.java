@@ -77,7 +77,6 @@ public class ContextCreateTest {
         cc.setHandle(auth.getHandle());
 
         Context context = new Context();
-        context = cc.retrieve("escidoc:157546");
         try {
             cc.create(context);
             fail("Missing Exception");
@@ -188,7 +187,7 @@ public class ContextCreateTest {
 
         adminDescriptor.setContent(element);
 
-        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
         try {
@@ -230,7 +229,7 @@ public class ContextCreateTest {
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
         ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         context.setProperties(properties);
 
@@ -244,7 +243,7 @@ public class ContextCreateTest {
 
         adminDescriptor.setContent(element);
 
-        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
         try {
@@ -285,7 +284,7 @@ public class ContextCreateTest {
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
         ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-        organizationalUnitRefs.addOrganizationalUnitRef(organizationalUnitRef);
+        organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -299,7 +298,7 @@ public class ContextCreateTest {
         Element element = doc.createElementNS(null, "admin-descriptor");
         adminDescriptor.setContent(element);
 
-        adminDescriptors.addAdminDescriptor(adminDescriptor);
+        adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
         // create

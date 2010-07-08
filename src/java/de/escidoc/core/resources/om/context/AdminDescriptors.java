@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.resources.om.context;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -38,50 +37,17 @@ import java.util.LinkedList;
  * @author SWA
  * 
  */
-public class AdminDescriptors {
-
-    private Collection<AdminDescriptor> adminDescriptors =
-        new LinkedList<AdminDescriptor>();
+public class AdminDescriptors extends LinkedList<AdminDescriptor> {
 
     /**
      * 
-     * @return
      */
-    public static LinkedList<AdminDescriptor> adminDescriptorsFactory() {
-        return new LinkedList<AdminDescriptor>();
-    }
+    private static final long serialVersionUID = 8873813166227493199L;
 
     /**
      * 
      */
     public AdminDescriptors() {
-    }
-
-    /**
-     * @return the items
-     */
-    public Collection<AdminDescriptor> getAdminDescriptors() {
-        return adminDescriptors;
-    }
-
-    /**
-     * Set the Collection of AdminDescriptors.
-     * 
-     * @param adminDescriptors
-     *            the AdminDescriptors to set
-     */
-    public void setAdminDescriptors(
-        final Collection<AdminDescriptor> adminDescriptors) {
-        this.adminDescriptors = adminDescriptors;
-    }
-
-    /**
-     * Add AdminDescriptor to AdminDescriptors.
-     * 
-     * @param adminDescriptor
-     */
-    public void addAdminDescriptor(final AdminDescriptor adminDescriptor) {
-        this.adminDescriptors.add(adminDescriptor);
     }
 
     /**
@@ -94,7 +60,7 @@ public class AdminDescriptors {
     public AdminDescriptor get(final String name) {
 
         AdminDescriptor result = null;
-        Iterator<AdminDescriptor> adIter = this.adminDescriptors.iterator();
+        Iterator<AdminDescriptor> adIter = this.iterator();
         while (adIter.hasNext()) {
             AdminDescriptor next = adIter.next();
             if (next.getName().equals(name)) {
@@ -104,4 +70,22 @@ public class AdminDescriptors {
         }
         return result;
     }
+    
+    /**
+     * 
+     * @param name
+     *            The name of the AdminDescriptor.
+     */
+    public void del(final String name) {
+
+        Iterator<AdminDescriptor> admDescIter = this.iterator();
+        while (admDescIter.hasNext()) {
+            AdminDescriptor next = admDescIter.next();
+            if (next.getName().equals(name)) {
+                this.remove(name);
+                break;
+            }
+        }
+    }
+
 }

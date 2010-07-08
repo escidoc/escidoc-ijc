@@ -97,4 +97,24 @@ public class ContextMarshallerTest {
 
     }
 
+    /**
+     * Test unmarshalling of Context.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void unmarshalling02() throws Exception {
+
+        File templContext =
+            new File("./templates/mockups/soap/om/context/0.7/context02.xml");
+        String contextXml =
+            EscidocClientTestBase.getXmlFileAsString(templContext);
+
+        Context context =
+            Factory.getContextMarshaller().unmarshalDocument(contextXml);
+
+    }
+
+
 }
