@@ -36,14 +36,17 @@ import org.w3c.dom.Element;
 
 
 /**
+ * Content Model Specific
  * 
  * @author SWA
  * 
  */
+@Deprecated
 public class ContentModelSpecific {
 
     List<Element> content = new LinkedList<Element>();
-
+    
+    @Deprecated
     public ContentModelSpecific() {
     }
 
