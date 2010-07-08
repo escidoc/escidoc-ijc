@@ -28,9 +28,24 @@
  */
 package de.escidoc.core.resources.om.context;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * AdminDescriptor.
@@ -70,6 +85,28 @@ public class AdminDescriptor {
     }
 
     /**
+     * Get content as String.
+     * 
+     * @return content
+     * 
+     * @throws TransformerException
+     *             If an unrecoverable error occurs during the course of the
+     *             transformation.
+     */
+    public String getContentAsString() throws TransformerException {
+
+        TransformerFactory transFactory = TransformerFactory.newInstance();
+        Transformer transformer = transFactory.newTransformer();
+        StringWriter buffer = new StringWriter();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.transform(new DOMSource(this.content), new StreamResult(
+            buffer));
+
+        return buffer.toString();
+
+    }
+
+    /**
      * @param content
      *            the content to set
      */
@@ -77,4 +114,26 @@ public class AdminDescriptor {
         this.content = content;
     }
 
+    /**
+     * Set content of as String.
+     * 
+     * @param xml
+     *            The XML content
+     * @throws ParserConfigurationException
+     *             Thrown if setup of parser failed.
+     * @throws IOException
+     *             If an IO error at parser occurs
+     * @throws SAXException
+     *             If any parser error occurs
+     */
+    public void setContent(final String xml)
+        throws ParserConfigurationException, SAXException, IOException {
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        InputSource is = new InputSource(new StringReader(xml));
+        Document d = builder.parse(is);
+
+        this.content = d.getDocumentElement();
+    }
 }
