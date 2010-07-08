@@ -77,6 +77,7 @@ public class ContextCreateTest {
         cc.setHandle(auth.getHandle());
 
         Context context = new Context();
+        context = cc.retrieve("escidoc:157546");
         try {
             cc.create(context);
             fail("Missing Exception");

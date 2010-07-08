@@ -159,8 +159,17 @@
 				get-method="getObjid" usage="optional" />
 		</structure>
 
+		<!-- lock (status, date, owner) -->
 		<value ns="http://escidoc.de/core/01/properties/"
 			name="lock-status" field="lockStatus" usage="optional" />
+		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
+				name="lock-date" set-method="setLockDate"
+				get-method="getLockDate" usage="optional" />
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="lock-owner" field="lockOwner" usage="optional">
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
 
 		<value ns="http://escidoc.de/core/01/properties/" name="pid"
 			set-method="setPid" get-method="getPid" usage="optional" />

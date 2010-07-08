@@ -181,7 +181,7 @@ public class ItemMarshallerTest {
     }
 
     /**
-     * Test unmarshalling of complex Item eich is locked (see issue CLIB-37).
+     * Test unmarshalling of complex Item which is locked (see issue CLIB-41).
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
