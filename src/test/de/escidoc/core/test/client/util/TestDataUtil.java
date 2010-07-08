@@ -31,8 +31,6 @@ import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.test.client.Constants;
-import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
 /**
