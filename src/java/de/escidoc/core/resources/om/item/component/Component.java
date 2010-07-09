@@ -42,7 +42,7 @@ public class Component extends GenericResource {
 
     private ComponentProperties properties;
 
-    private Content content;
+    private ComponentContent content;
 
     private MetadataRecords mdRecords = null;
 
@@ -77,7 +77,7 @@ public class Component extends GenericResource {
      * @param content
      *            the content to set
      */
-    public void setContent(final Content content) {
+    public void setContent(final ComponentContent content) {
         this.content = content;
     }
 

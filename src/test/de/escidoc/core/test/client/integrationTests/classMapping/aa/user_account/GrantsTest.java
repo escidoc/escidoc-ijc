@@ -37,6 +37,7 @@ import org.junit.Test;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.notfound.GrantNotFoundException;
 import de.escidoc.core.client.exceptions.application.notfound.ResourceNotFoundException;
 import de.escidoc.core.resources.ResourceRef;
@@ -196,7 +197,7 @@ public class GrantsTest {
      * @throws Exception
      *             Thrown if anythings failed.
      */
-    @Test
+    @Test(expected = InvalidXmlException.class)
     public void testCreateGrant03() throws Exception {
 
         Authentication auth =
@@ -229,13 +230,7 @@ public class GrantsTest {
         gProp.setAssignedOn(new ResourceRef("escidoc:NON-exists"));
         grant.setGrantProperties(gProp);
 
-        try {
-            uahc.createGrant(objId, grant);
-            fail("Expected Excpetion ");
-        }
-        catch (ResourceNotFoundException e) {
-            return;
-        }
+        uahc.createGrant(objId, grant);
     }
 
     /**

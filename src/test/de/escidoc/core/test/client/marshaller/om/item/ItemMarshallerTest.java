@@ -32,12 +32,25 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
+import org.apache.xpath.XPathAPI;
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
+import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.om.item.Content;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.resources.om.item.component.Component;
+import de.escidoc.core.resources.om.item.component.ComponentContent;
+import de.escidoc.core.resources.om.item.component.ComponentProperties;
+import de.escidoc.core.resources.om.item.component.Components;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
 /**
  * Test marshalling/unmarshalling of Items with mockups.
@@ -316,6 +329,63 @@ public class ItemMarshallerTest {
         assertEquals("Wrong name of component md-record", "escidoc", item
             .getComponents().element().getMetadataRecords().element().getName());
         // TODO validate content
+    }
 
+    /**
+     * Test marshalling of an Item with component and content reference.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void marshallItemWithContent() throws Exception {
+
+        final String fileLocation = "http://localhost/some/file/abc.png";
+        final String fileName = "abc.png";
+        final String fileDescription = "Random content";
+
+        Item item = new Item();
+
+        item.getProperties().setContext(new ResourceRef("escidoc:123"));
+        item.getProperties().setContentModel(new ResourceRef("escidoc:345"));
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        item.setMetadataRecords(mdRecords);
+
+        Component component = new Component();
+        ComponentContent content = new ComponentContent();
+        content.setHref(fileLocation);
+        component.setContent(content);
+        component.setProperties(new ComponentProperties());
+        component.getProperties().setDescription(fileDescription);
+        component.getProperties().setFileName(fileName);
+        Components components = new Components();
+        components.add(component);
+        item.setComponents(components);
+
+        String itemXml = Factory.getItemMarshaller().marshalDocument(item);
+
+        Document itemDoc = XmlUtility.getDocument(itemXml);
+        assertEquals(
+            "Wrong file location",
+            fileLocation,
+            XPathAPI.selectSingleNode(itemDoc,
+                "/item/components/component[1]/content/@href").getTextContent());
+        assertEquals(
+            "Wrong content file-name",
+            fileName,
+            XPathAPI
+                .selectSingleNode(itemDoc,
+                    "/item/components/component[1]/properties/file-name")
+                .getTextContent());
+        assertEquals(
+            "Wrong content description",
+            fileDescription,
+            XPathAPI
+                .selectSingleNode(itemDoc,
+                    "/item/components/component[1]/properties/description")
+                .getTextContent());
     }
 }
