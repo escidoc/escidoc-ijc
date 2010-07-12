@@ -115,7 +115,7 @@ public class AdminDescriptor {
     }
 
     /**
-     * Set content of as String.
+     * Set content as String.
      * 
      * @param xml
      *            The XML content
