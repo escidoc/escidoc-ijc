@@ -25,7 +25,6 @@ import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
@@ -213,15 +212,31 @@ public class TestDataUtil {
         final ContentModel contentModel) throws EscidocClientException,
         ParserConfigurationException {
 
+        return createItem(auth, context.getObjid(), contentModel.getObjid());
+    }
+
+    /**
+     * Create an Item Context within the infrastructure.
+     * 
+     * @param auth
+     *            A valid Authentication to fulfill the task (depositor)
+     * @param context
+     *            The Context which is to reference
+     * @param contentModel
+     *            The Content Model which is to reference
+     * @return The Context
+     * @throws EscidocClientException
+     * @throws ParserConfigurationException
+     */
+    public static Item createItem(
+        final Authentication auth, final String contextId,
+        final String contentModelId) throws EscidocClientException,
+        ParserConfigurationException {
+
         Item item = new Item();
 
-        item.getProperties().setContext(new ResourceRef(context.getObjid()));
-        item.getProperties().setContentModel(
-            new ResourceRef(contentModel.getObjid()));
-
-        // Content Model Specific
-        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
-        item.getProperties().setContentModelSpecific(cms);
+        item.getProperties().setContext(new ResourceRef(contextId));
+        item.getProperties().setContentModel(new ResourceRef(contentModelId));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
