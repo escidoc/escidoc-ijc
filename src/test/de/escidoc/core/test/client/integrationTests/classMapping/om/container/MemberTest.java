@@ -35,8 +35,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,6 +44,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -55,7 +54,6 @@ import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
@@ -77,17 +75,21 @@ public class MemberTest {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void testAddMember01() throws Exception {
+    public void addMember01() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
 
         // create Container
         Container container = createContainer(cc);
 
         // create Item
-        Item item = createItem();
+        Item item = createItem(auth);
 
         // task oriented methods take values via task param
         TaskParam taskParam = new TaskParam();
@@ -113,22 +115,26 @@ public class MemberTest {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void testAddMember02() throws Exception {
+    public void addMember02() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
 
         // create Container
         Container container = createContainer(cc);
 
         // create Item
-        Item item1 = createItem();
-        Item item2 = createItem();
-        Item item3 = createItem();
-        Item item4 = createItem();
-        Item item5 = createItem();
-        Item item6 = createItem();
+        Item item1 = createItem(auth);
+        Item item2 = createItem(auth);
+        Item item3 = createItem(auth);
+        Item item4 = createItem(auth);
+        Item item5 = createItem(auth);
+        Item item6 = createItem(auth);
 
         // task oriented methods take values via task param
         TaskParam taskParam = new TaskParam();
@@ -180,22 +186,26 @@ public class MemberTest {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void testDeleteMember02() throws Exception {
+    public void deleteMember02() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
 
         // create Container
         Container container = createContainer(cc);
 
         // create Item
-        Item item1 = createItem();
-        Item item2 = createItem();
-        Item item3 = createItem();
-        Item item4 = createItem();
-        Item item5 = createItem();
-        Item item6 = createItem();
+        Item item1 = createItem(auth);
+        Item item2 = createItem(auth);
+        Item item3 = createItem(auth);
+        Item item4 = createItem(auth);
+        Item item5 = createItem(auth);
+        Item item6 = createItem(auth);
 
         // task oriented methods take values via task param
         TaskParam taskParam = new TaskParam();
@@ -297,10 +307,6 @@ public class MemberTest {
             Constants.EXAMPLE_CONTENT_MODEL_ID));
         container.setProperties(properties);
 
-        // Content-model-specific
-        ContentModelSpecific cms = getContentModelSpecific();
-        container.getProperties().setContentModelSpecific(cms);
-
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdrecord = getMdRecord("escidoc");
@@ -320,8 +326,9 @@ public class MemberTest {
      * @throws EscidocException
      * @throws TransportException
      */
-    private Item createItem() throws ParserConfigurationException,
-        InternalClientException, EscidocException, TransportException {
+    private Item createItem(final Authentication auth)
+        throws ParserConfigurationException, InternalClientException,
+        EscidocException, TransportException {
 
         Item item = new Item();
 
@@ -329,10 +336,6 @@ public class MemberTest {
             new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
             new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
-
-        // Content-model
-        ContentModelSpecific cms = getContentModelSpecific();
-        item.getProperties().setContentModelSpecific(cms);
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -342,40 +345,13 @@ public class MemberTest {
 
         // login
         ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc.setServiceAddress(auth.getServiceAddress());
+        ihc.setHandle(auth.getHandle());
 
         // create
         Item newItem = ihc.create(item);
 
         return newItem;
-    }
-
-    /**
-     * Get content model specific.
-     * 
-     * @return
-     * @throws ParserConfigurationException
-     */
-    private static ContentModelSpecific getContentModelSpecific()
-        throws ParserConfigurationException {
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff");
-        element1.setTextContent("some content - " + System.nanoTime());
-
-        List<Element> cmsContent = new LinkedList<Element>();
-        cmsContent.add(contentModelSpecific);
-        cmsContent.add(element1);
-
-        ContentModelSpecific cms = new ContentModelSpecific();
-        cms.setContent(cmsContent);
-
-        return cms;
     }
 
     /**
