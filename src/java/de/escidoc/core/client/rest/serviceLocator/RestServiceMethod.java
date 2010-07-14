@@ -82,14 +82,17 @@ public class RestServiceMethod {
         String result = null;
         PutMethod put = new PutMethod(this.serviceAddress + path);
         PWCallback.addEscidocUserHandleCookie(put);
-        RequestEntity entity;
-        try {
-            entity = new StringRequestEntity(content, "text/xml", "UTF-8");
+
+        if (content != null) {
+            RequestEntity entity;
+            try {
+                entity = new StringRequestEntity(content, "text/xml", "UTF-8");
+            }
+            catch (UnsupportedEncodingException e1) {
+                throw new SystemException(500, e1.getMessage(), "");
+            }
+            put.setRequestEntity(entity);
         }
-        catch (UnsupportedEncodingException e1) {
-            throw new SystemException(500, e1.getMessage(), "");
-        }
-        put.setRequestEntity(entity);
 
         try {
             try {
@@ -498,7 +501,7 @@ public class RestServiceMethod {
 
         String tmpServUrl = address;
         if (tmpServUrl.endsWith("/")) {
-            tmpServUrl = tmpServUrl.substring(0, tmpServUrl.length()-1);
+            tmpServUrl = tmpServUrl.substring(0, tmpServUrl.length() - 1);
         }
 
         return tmpServUrl;
