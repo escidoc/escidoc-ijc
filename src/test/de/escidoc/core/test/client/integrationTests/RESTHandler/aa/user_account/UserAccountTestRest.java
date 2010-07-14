@@ -35,6 +35,7 @@ import java.io.File;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
 import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.test.client.Constants;
@@ -133,6 +134,26 @@ public class UserAccountTestRest {
         catch (UserAccountNotFoundException e) {
             return;
         }
+    }
+
+    /**
+     * Test to create a user account with null as content.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test(expected = MissingMethodParameterException.class)
+    public void methodCallWithNull() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
+        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uahc.setHandle(auth.getHandle());
+
+        uahc.create(null);
     }
 
 }
