@@ -29,7 +29,6 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -65,7 +64,7 @@ public class ContextCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext01() throws Exception {
 
         Authentication auth =
@@ -77,15 +76,7 @@ public class ContextCreateTest {
         cc.setHandle(auth.getHandle());
 
         Context context = new Context();
-        try {
-            cc.create(context);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(context);
     }
 
     /**
@@ -95,7 +86,7 @@ public class ContextCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext02() throws Exception {
 
         Authentication auth =
@@ -110,15 +101,7 @@ public class ContextCreateTest {
         Properties properties = new Properties();
         context.setProperties(properties);
 
-        try {
-            cc.create(context);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(context);
     }
 
     /**
@@ -128,7 +111,7 @@ public class ContextCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext03() throws Exception {
 
         Authentication auth =
@@ -145,15 +128,7 @@ public class ContextCreateTest {
         AdminDescriptors adminDescriptors = new AdminDescriptors();
         context.setAdminDescriptors(adminDescriptors);
 
-        try {
-            cc.create(context);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(context);
     }
 
     /**
@@ -163,7 +138,7 @@ public class ContextCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext04() throws Exception {
 
         Authentication auth =
@@ -190,15 +165,7 @@ public class ContextCreateTest {
         adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        try {
-            cc.create(context);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(context);
     }
 
     /**
@@ -208,7 +175,7 @@ public class ContextCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext08() throws Exception {
 
         Authentication auth =
@@ -246,15 +213,7 @@ public class ContextCreateTest {
         adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        try {
-            cc.create(context);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(context);
     }
 
     /**
@@ -309,6 +268,8 @@ public class ContextCreateTest {
         assertEquals("Description differs", context
             .getProperties().getDescription(), createdContext
             .getProperties().getDescription());
+        assertEquals("Wrong number of admin-descriptors", 1, createdContext
+            .getAdminDescriptors().size());
 
     }
 
