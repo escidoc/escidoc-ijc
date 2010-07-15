@@ -10,8 +10,8 @@
 			prefix="srel" />
 
 		<collection ns="http://www.escidoc.de/schemas/structmap/0.4"
-			ordered="false" field="members"
-			factory="de.escidoc.core.resources.common.structmap.StructMap.membersFactory" usage="optional">
+			 create-type="de.escidoc.core.resources.common.structmap.StructMap">
+
 			<structure
 				ns="http://escidoc.de/core/01/structural-relations/"
 				name="container"

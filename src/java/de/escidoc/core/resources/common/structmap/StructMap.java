@@ -28,70 +28,34 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
-
-import de.escidoc.core.resources.ResourceRef;
 
 /**
  * StructMap (Structure Map of Container).
  * 
+ * The struct map is could only directly altered for create. Each direct update
+ * of struct map is discarded. To add member to an existing Container use the
+ * addMembers() and removeMembers() methods.
+ * 
  * @author
  * 
  */
-public class StructMap {
+public class StructMap extends LinkedList<MemberRef> {
 
-    private final Collection<ResourceRef> members =
-        new LinkedList<ResourceRef>();
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -657913209962433330L;
 
+    /**
+     * StructMap.
+     * 
+     * The struct map is could only directly altered for create. Each direct
+     * update of struct map is discarded. To add member to an existing Container
+     * use the addMembers() and removeMembers() methods.
+     */
     public StructMap() {
 
     }
 
-    /**
-     * 
-     * @return
-     */
-    public static LinkedList<ResourceRef> membersFactory() {
-        return new LinkedList<ResourceRef>();
-    }
-
-    /**
-     * Get all Members of StructMap.
-     * 
-     * @return
-     */
-    public Collection<ResourceRef> getMembers() {
-
-        return this.members;
-    }
-    
-    /**
-     * Add a new member to the struct map.
-     * 
-     * @return
-     */
-    public void addMember(ResourceRef member) {
-
-        this.members.add(member);
-    }
-    /**
-     * Remove the provided member from the struct map.
-     * 
-     * @param resourceRef
-     *            The resourceRef of the member which is to remove.
-     */
-    public void removeMember(final ResourceRef resourceRef) {
-        Iterator<ResourceRef> memberIter = this.members.iterator();
-
-        while (memberIter.hasNext()) {
-            ResourceRef next = memberIter.next();
-            String nextObjid = next.getObjid();
-            String memberObjid = resourceRef.getObjid();
-            if (memberObjid.equals(nextObjid)) {
-                memberIter.remove();
-            }
-        }
-    }
 }

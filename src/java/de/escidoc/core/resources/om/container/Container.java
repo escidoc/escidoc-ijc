@@ -28,9 +28,6 @@
  */
 package de.escidoc.core.resources.om.container;
 
-import java.util.Collection;
-
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.structmap.StructMap;
@@ -119,16 +116,6 @@ public class Container extends GenericVersionableResource {
 
         this.mdRecords = metadataRecords;
 
-    }
-
-    /**
-     * Get members of Container.
-     * 
-     * @return Members of Container.
-     */
-    public Collection<ResourceRef> getMembers() {
-
-        return this.structMap.getMembers();
     }
 
     /**

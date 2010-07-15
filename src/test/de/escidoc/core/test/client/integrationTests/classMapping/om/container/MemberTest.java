@@ -54,6 +54,7 @@ import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
@@ -102,9 +103,9 @@ public class MemberTest {
         Container updatedContainer = cc.retrieve(container.getObjid());
 
         assertEquals("Wrong member count", 1, updatedContainer
-            .getMembers().size());
+            .getStructMap().size());
 
-        Iterator<ResourceRef> it = updatedContainer.getMembers().iterator();
+        Iterator<MemberRef> it = updatedContainer.getStructMap().iterator();
         assertEquals("Wrong member ref", item.getObjid(), it.next().getObjid());
     }
 
@@ -152,7 +153,7 @@ public class MemberTest {
         Container updatedContainer = cc.retrieve(container.getObjid());
 
         assertEquals("Wrong member count", 6, updatedContainer
-            .getMembers().size());
+            .getStructMap().size());
 
         /*
          * compare objids of members
@@ -160,7 +161,7 @@ public class MemberTest {
 
         // prepare values
         Collection<String> ids = new ArrayList<String>();
-        Iterator<ResourceRef> it = updatedContainer.getMembers().iterator();
+        Iterator<MemberRef> it = updatedContainer.getStructMap().iterator();
         while (it.hasNext()) {
             ids.add(it.next().getObjid());
         }
@@ -223,7 +224,7 @@ public class MemberTest {
         Container updatedContainer = cc.retrieve(container.getObjid());
 
         assertEquals("Wrong member count", 6, updatedContainer
-            .getMembers().size());
+            .getStructMap().size());
 
         /*
          * compare objids of members
@@ -231,7 +232,7 @@ public class MemberTest {
 
         // prepare values
         Collection<String> ids = new ArrayList<String>();
-        Iterator<ResourceRef> it = updatedContainer.getMembers().iterator();
+        Iterator<MemberRef> it = updatedContainer.getStructMap().iterator();
         while (it.hasNext()) {
             ids.add(it.next().getObjid());
         }
@@ -260,7 +261,7 @@ public class MemberTest {
         Container updatedContainer2 = cc.retrieve(container.getObjid());
 
         assertEquals("Wrong member count", 4, updatedContainer2
-            .getMembers().size());
+            .getStructMap().size());
 
         /*
          * compare objids of members
@@ -268,7 +269,7 @@ public class MemberTest {
 
         // prepare values
         Collection<String> ids2 = new ArrayList<String>();
-        Iterator<ResourceRef> it2 = updatedContainer2.getMembers().iterator();
+        Iterator<MemberRef> it2 = updatedContainer2.getStructMap().iterator();
         while (it2.hasNext()) {
             ids2.add(it2.next().getObjid());
         }

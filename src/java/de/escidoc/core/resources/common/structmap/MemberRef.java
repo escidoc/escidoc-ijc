@@ -28,26 +28,28 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
+import de.escidoc.core.resources.ResourceRef;
+
 /**
- * Reference to an Item.
+ * Abstract references for Container member.
  * 
  * @author SWA
  * 
  */
-public class ItemRef extends MemberRef {
+public abstract class MemberRef extends ResourceRef {
 
     /**
-     * ItemRef.
+     * 
+     * @param ref
      */
-    public ItemRef() {
-        setResourceType(RESOURCE_TYPE.Item);
+    protected MemberRef() {
     }
 
     /**
-     * ItemRef.
+     * 
+     * @param ref
      */
-    public ItemRef(final String ref) {
+    protected MemberRef(final String ref) {
         super(ref);
-        setResourceType(RESOURCE_TYPE.Item);
     }
 }

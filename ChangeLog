@@ -1,3 +1,10 @@
+15.07.2010 - SWA
+* Change StructMap in a way that only references for Container and Item could
+  be set as member. The StructMap itself is now, consistent to other resources,
+  from derieved type LinkedList. This breaks the interface, because not 
+  ResourceRef but MemberRef is now to set.   
+* fix description handling in Container
+
 06.07.2010 - SWA
 * clean up metadatarecords an other collections by extend these classes from Collection
   This has little impact to applications based on the lib. 

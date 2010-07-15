@@ -29,16 +29,25 @@
 package de.escidoc.core.test.client.marshaller.om.container;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Iterator;
 
+import org.apache.xpath.XPathAPI;
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
+import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.structmap.ContainerRef;
+import de.escidoc.core.resources.common.structmap.MemberRef;
+import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
+import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -112,11 +121,6 @@ public class ContainerMarshallerTest {
             "2010-06-08T16:24:51.875Z"), container
             .getProperties().getLatestVersion().getDate());
 
-        // content-model-specific
-        // TODO validate content-model-specific content
-        // assertEquals("Wrong content-model-specific", "", item
-        // .getProperties().getContentModelSpecific().getContent());
-
         // md-records
         assertEquals("Wrong number of md-records", 1, container
             .getMetadataRecords().size());
@@ -127,11 +131,10 @@ public class ContainerMarshallerTest {
         // TODO validate md-record content
 
         assertEquals("Wrong number of member in struct-map", 6, container
-            .getStructMap().getMembers().size());
+            .getStructMap().size());
 
         // not sure if one can count on order of struct-map elements
-        Iterator<ResourceRef> it =
-            container.getStructMap().getMembers().iterator();
+        Iterator<MemberRef> it = container.getStructMap().iterator();
 
         assertEquals("Wrong struct-map member reference", "escidoc:157517", it
             .next().getObjid());
@@ -218,11 +221,6 @@ public class ContainerMarshallerTest {
             "2010-06-08T16:24:51.875Z"), container
             .getProperties().getLatestVersion().getDate());
 
-        // content-model-specific
-        // TODO validate content-model-specific content
-        // assertEquals("Wrong content-model-specific", "", item
-        // .getProperties().getContentModelSpecific().getContent());
-
         // md-records
         assertEquals("Wrong number of md-records", 1, container
             .getMetadataRecords().size());
@@ -233,11 +231,10 @@ public class ContainerMarshallerTest {
         // TODO validate md-record content
 
         assertEquals("Wrong number of member in struct-map", 6, container
-            .getStructMap().getMembers().size());
+            .getStructMap().size());
 
         // not sure if one can count on order of struct-map elements
-        Iterator<ResourceRef> it =
-            container.getStructMap().getMembers().iterator();
+        Iterator<MemberRef> it = container.getStructMap().iterator();
 
         assertEquals("Wrong struct-map member reference", "escidoc:157517", it
             .next().getObjid());
@@ -254,4 +251,60 @@ public class ContainerMarshallerTest {
 
     }
 
+    /**
+     * Test marshalling a a Container where user has added members directly.
+     * (issue CLIB-44).
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void marshallingIssueCLib44() throws Exception {
+
+        final String contextId = "escidoc:context";
+        final String contentModelId = "escidoc:contentmodel";
+        final String description = "description";
+        final String member1 = "escidoc:member1";
+
+        Container container = new Container();
+        ContainerProperties cp = new ContainerProperties();
+        cp.setContext(new ResourceRef(contextId));
+        cp.setContentModel(new ResourceRef(contentModelId));
+        cp.setDescription(description);
+        container.setProperties(cp);
+
+        StructMap structMap = new StructMap();
+        structMap.add(new ContainerRef(member1));
+        container.setStructMap(structMap);
+
+        String containerXml =
+            Factory.getContainerMarshaller().marshalDocument(container);
+
+        Document containerDoc = XmlUtility.getDocument(containerXml);
+        assertEquals(
+            "Wrong Context reference",
+            contextId,
+            XPathAPI.selectSingleNode(containerDoc,
+                "/container/properties/context/@objid").getTextContent());
+        assertEquals(
+            "Wrong content model reference",
+            contentModelId,
+            XPathAPI.selectSingleNode(containerDoc,
+                "/container/properties/content-model/@objid").getTextContent());
+        assertEquals(
+            "Wrong description",
+            description,
+            XPathAPI.selectSingleNode(containerDoc,
+                "/container/properties/description").getTextContent());
+
+        NodeList structMapNodes =
+            containerDoc.getElementsByTagName("struct-map:struct-map");
+        assertTrue("Wrong number of members", structMapNodes.getLength() == 1);
+        assertEquals(
+            "Wrong member in struct map",
+            member1,
+            XPathAPI.selectSingleNode(containerDoc,
+                "/container/struct-map/container/@objid").getTextContent());
+
+    }
 }

@@ -28,11 +28,10 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,6 +59,7 @@ import de.escidoc.core.resources.common.Relation;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.structmap.ContainerRef;
+import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
@@ -437,8 +437,8 @@ public class ContainerCreateTest {
             createdContainer.getProperties().getContentModel().getObjid());
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass());
+            new Marshaller<MetadataRecord>(container
+                .getMetadataRecords().get("escidoc").getClass());
         String xml1 =
             m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
@@ -513,8 +513,8 @@ public class ContainerCreateTest {
         // MetadataRecords
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass());
+            new Marshaller<MetadataRecord>(container
+                .getMetadataRecords().get("escidoc").getClass());
         String xml1 =
             m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
@@ -544,12 +544,12 @@ public class ContainerCreateTest {
         Relations masterRelations = container.getRelations();
         Relations compareRelations = createdContainer.getRelations();
 
-        assertEquals("Number of Relations differ",
-            masterRelations.size(), compareRelations.size());
+        assertEquals("Number of Relations differ", masterRelations.size(),
+            compareRelations.size());
         assertEquals("Missing Relations", 1, masterRelations.size());
         Relations retrievedRelations = cc.retrieveRelations(objId);
-        assertEquals("Number of Relations differ", retrievedRelations
-            .size(), compareRelations.size());
+        assertEquals("Number of Relations differ", retrievedRelations.size(),
+            compareRelations.size());
     }
 
     /**
@@ -577,9 +577,8 @@ public class ContainerCreateTest {
         Container createdMemberContainer = cc.create(memberContainer);
         String memberId = createdMemberContainer.getObjid();
         StructMap structMap = new StructMap();
-        ContainerRef member = new ContainerRef();
-        member.setObjid(memberId);
-        structMap.addMember(member);
+        ContainerRef member = new ContainerRef(memberId);
+        structMap.add(member);
         container.setStructMap(structMap);
         Container createdContainer = cc.create(container);
         Marshaller<Container> c1 =
@@ -587,13 +586,12 @@ public class ContainerCreateTest {
         c1.marshalDocument(createdContainer);
 
         StructMap createdStructMap = createdContainer.getStructMap();
-        Collection<ResourceRef> members = createdStructMap.getMembers();
-        assertEquals("Number of members is wrong", 1, members.size());
-        Iterator<ResourceRef> iterator = members.iterator();
+        assertEquals("Number of members is wrong", 1, createdStructMap.size());
+        Iterator<MemberRef> iterator = createdStructMap.iterator();
         while (iterator.hasNext()) {
             ResourceRef memberResource = iterator.next();
-            assertEquals("member is the wrong resource type", memberResource
-                .getClass(), member.getClass());
+            assertEquals("member is the wrong resource type",
+                memberResource.getClass(), member.getClass());
 
             assertEquals("member has a wrong id", memberResource.getObjid(),
                 memberId);
@@ -634,8 +632,8 @@ public class ContainerCreateTest {
             createdContainer.getProperties().getContentModel().getObjid());
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass());
+            new Marshaller<MetadataRecord>(container
+                .getMetadataRecords().get("escidoc").getClass());
         String xml1 =
             m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 

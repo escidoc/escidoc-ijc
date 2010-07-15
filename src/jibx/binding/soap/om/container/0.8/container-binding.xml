@@ -146,6 +146,9 @@
 		<value ns="http://escidoc.de/core/01/properties/" name="name"
 			field="name" usage="optional" />
 
+		<value ns="http://escidoc.de/core/01/properties/" name="description"
+			field="description" usage="optional" />
+
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="context" field="context" usage="optional">
 
