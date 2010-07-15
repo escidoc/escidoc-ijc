@@ -3,8 +3,6 @@ package de.escidoc.core.resources.aa.useraccount;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.om.item.Item;
-
 /**
  * User Account Preferences.
  * 
