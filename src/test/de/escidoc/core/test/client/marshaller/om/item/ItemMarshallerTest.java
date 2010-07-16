@@ -29,6 +29,7 @@
 package de.escidoc.core.test.client.marshaller.om.item;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -330,12 +331,137 @@ public class ItemMarshallerTest {
     }
 
     /**
+     * Test unmarshalling of complex Item with one component and inline content.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void unmarshallItemWithComponentInlineContent() throws Exception {
+
+        File templItem =
+            new File(
+                "./templates/mockups/soap/om/item/0.9/item_one_component_inline_content.xml");
+        String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
+
+        Item item = Factory.getItemMarshaller().unmarshalDocument(itemXml);
+
+        assertTrue("Wrong objid", item.getObjid() == null);
+        assertTrue("Wrong last modification date",
+            item.getLastModificationDate() == null);
+        assertTrue("Wrong creation date", item
+            .getProperties().getCreationDate() == null);
+
+        assertTrue("Wrong created-by",
+            item.getProperties().getCreatedBy() == null);
+        assertTrue("Wrong public-status", item
+            .getProperties().getPublicStatus() == null);
+        assertTrue("Wrong public-status comment", item
+            .getProperties().getPublicStatusComment() == null);
+
+        assertEquals("Wrong Context", "escidoc:context", item
+            .getProperties().getContext().getObjid());
+        assertEquals("Wrong Content Model", "escidoc:contentModel", item
+            .getProperties().getContentModel().getObjid());
+
+        assertTrue("Wrong lock-status",
+            item.getProperties().getLockStatus() == null);
+        assertTrue("Wrong lock-date",
+            item.getProperties().getLockDate() == null);
+        assertTrue("Wrong lock-owner",
+            item.getProperties().getLockOwner() == null);
+
+        assertTrue("Wrong [object] pid", item.getProperties().getPid() == null);
+
+        // version
+        assertTrue("Wrong version number",
+            item.getProperties().getVersion() == null);
+
+        // latest-version
+        assertTrue("Wrong latest-version number", item
+            .getProperties().getLatestVersion() == null);
+
+        // latest-release
+        assertTrue("Wrong latest-release number", item
+            .getProperties().getLatestRelease() == null);
+
+        // md-records
+        assertEquals("Wrong number of md-records", 1, item
+            .getMetadataRecords().size());
+        assertEquals("Wrong name of md-record", "escidoc", item
+            .getMetadataRecords().element().getName());
+        assertEquals("Wrong schema of md-record",
+            "http://www.escidoc-project.de/metadata/schema/0.1", item
+                .getMetadataRecords().element().getSchema());
+        // TODO validate md-record content
+
+        // components
+        assertEquals("Wrong number of components", 1, item
+            .getComponents().size());
+        assertTrue("Wrong objid of component", item
+            .getComponents().element().getObjid() == null);
+
+        assertTrue(
+            "Wrong component property creation-date",
+            item.getComponents().element().getProperties().getCreationDate() == null);
+        assertTrue("Wrong component property created-by", item
+            .getComponents().element().getProperties().getCreatedBy() == null);
+
+        // FIXME check content exactly
+        assertTrue("Wrong component property description", item
+            .getComponents().element().getProperties().getDescription()
+            .length() > 1);
+        assertEquals("Wrong component property valid-status", "valid", item
+            .getComponents().element().getProperties().getValidStatus());
+        assertEquals("Wrong component property visibility", "public", item
+            .getComponents().element().getProperties().getVisibility());
+        assertTrue("Wrong component property pid", item
+            .getComponents().element().getProperties().getPid() == null);
+
+        assertEquals("Wrong component property content-category", "pre-print",
+            item.getComponents().element().getProperties().getContentCategory());
+        assertEquals("Wrong component property file-name", "inlinecontent.txt",
+            item.getComponents().element().getProperties().getFileName());
+
+        // FIXME fix trim of mime-type
+        assertEquals("Wrong component property mime-type",
+            "application/octet-stream", item
+                .getComponents().element().getProperties().getMimeType().trim());
+
+        assertTrue("Wrong component property checksum", item
+            .getComponents().element().getProperties().getChecksum() == null);
+        assertTrue("Wrong component property checksum-algorithm",
+            item.getComponents().element().getProperties()
+                .getChecksumAlgorithm() == null);
+
+        assertTrue("Wrong component content title", item
+            .getComponents().element().getContent().getTitle() == null);
+        assertTrue("Wrong component content href", item
+            .getComponents().element().getContent().getHref() == null);
+        assertEquals("Wrong component content storage", "internal-managed",
+            item.getComponents().element().getContent().getStorage());
+
+        // FIXME compare content without trim
+        assertEquals(
+            "Wrong inline content",
+            "Inline Content -- Inline Content -- Inline Content -- Inline Content -- Inline Content -- Inline Content",
+            item.getComponents().element().getContent()
+                .getBase64EncodedContent().trim());
+
+        assertEquals("Wrong number of component md-record", 2, item
+            .getComponents().element().getMetadataRecords().size());
+        assertEquals("Wrong name of component md-record", "escidoc", item
+            .getComponents().element().getMetadataRecords().element().getName());
+        // TODO validate content
+    }
+
+    /**
      * Test marshalling of an Item with component and content reference.
      * 
      * @throws Exception
      */
     @Test
-    public void marshallItemWithContent() throws Exception {
+    public void marshallItemWithContent01() throws Exception {
 
         final String fileLocation = "http://localhost/some/file/abc.png";
         final String fileName = "abc.png";
@@ -385,5 +511,40 @@ public class ItemMarshallerTest {
                 .selectSingleNode(itemDoc,
                     "/item/components/component[1]/properties/description")
                 .getTextContent());
+    }
+
+    /**
+     * Test marshalling of an Item with component and content reference.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void marshallItemWithContent02() throws Exception {
+
+        Item item = new Item();
+
+        item.getProperties().setContext(new ResourceRef("escidoc:context"));
+        item.getProperties().setContentModel(
+            new ResourceRef("escidoc:content-model"));
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        item.setMetadataRecords(mdRecords);
+
+        Component component = new Component();
+        ComponentContent content = new ComponentContent();
+        content.setHref("http://www.escidoc.org/content/image.jpg");
+        component.setContent(content);
+        component.setProperties(new ComponentProperties());
+        component.getProperties().setDescription("Random content");
+        component.getProperties().setFileName("image.jpg");
+        Components components = new Components();
+        components.add(component);
+        item.setComponents(components);
+
+        String itemXml = Factory.getItemMarshaller().marshalDocument(item);
+
     }
 }
