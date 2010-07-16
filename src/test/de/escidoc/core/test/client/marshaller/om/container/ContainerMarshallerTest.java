@@ -32,7 +32,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.xpath.XPathAPI;
 import org.joda.time.DateTime;
@@ -249,6 +251,99 @@ public class ContainerMarshallerTest {
         assertEquals("Wrong struct-map member reference", "escidoc:157518", it
             .next().getObjid());
 
+    }
+
+    /**
+     * Test unmarshalling a Container with one container in struct-map.
+     * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test
+    public void unmarshalling03() throws Exception {
+
+        File templContainer =
+            new File(
+                "./templates/mockups/soap/om/container/0.8/container_with_container_member.xml");
+        String containerXml =
+            EscidocClientTestBase.getXmlFileAsString(templContainer);
+
+        Container container =
+            Factory.getContainerMarshaller().unmarshalDocument(containerXml);
+
+        assertEquals("Wrong objid", "escidoc:188602", container.getObjid());
+        assertEquals("Wrong last modification date", new DateTime(
+            "2010-07-08T14:22:25.199Z"), container.getLastModificationDate());
+        assertEquals("Wrong creation date", new DateTime(
+            "2010-07-08T14:22:25.199Z"), container
+            .getProperties().getCreationDate());
+
+        assertEquals("Wrong created-by", "escidoc:exuser1", container
+            .getProperties().getCreatedBy().getObjid());
+        assertEquals("Wrong public-status", "pending", container
+            .getProperties().getPublicStatus());
+        assertEquals("Wrong public-status comment",
+            "Object escidoc:188602 created.", container
+                .getProperties().getPublicStatusComment());
+        assertEquals("Wrong name", "Container escidoc:188602", container
+            .getProperties().getName());
+
+        assertEquals("Wrong Context", "escidoc:ex1", container
+            .getProperties().getContext().getObjid());
+        assertEquals("Wrong Content Model", "escidoc:ex4", container
+            .getProperties().getContentModel().getObjid());
+
+        assertEquals("Wrong lock-status", "unlocked", container
+            .getProperties().getLockStatus());
+        assertTrue("Wrong lock-date",
+            container.getProperties().getLockDate() == null);
+        assertTrue("Wrong lock-owner",
+            container.getProperties().getLockOwner() == null);
+        assertTrue("Wrong [object] pid",
+            container.getProperties().getPid() == null);
+
+        // version
+        assertEquals("Wrong version number", "1", container
+            .getProperties().getVersion().getNumber());
+        assertEquals("Wrong version date", new DateTime(
+            "2010-07-08T14:22:25.199Z"), container
+            .getProperties().getVersion().getDate());
+        assertEquals("Wrong version status", "pending", container
+            .getProperties().getVersion().getStatus());
+        assertEquals("Wrong modified-by", "escidoc:exuser1", container
+            .getProperties().getVersion().getModifiedBy().getObjid());
+        assertEquals("Wrong version comment", "Object escidoc:188602 created.",
+            container.getProperties().getVersion().getComment());
+
+        // latest-version
+        assertEquals("Wrong latest-version number", "1", container
+            .getProperties().getLatestVersion().getNumber());
+        assertEquals("Wrong latest-version date", new DateTime(
+            "2010-07-08T14:22:25.199Z"), container
+            .getProperties().getLatestVersion().getDate());
+
+        // md-records
+        assertEquals("Wrong number of md-records", 3, container
+            .getMetadataRecords().size());
+        // TODO validate md-record content
+
+        assertEquals("Wrong number of member in struct-map", 3, container
+            .getStructMap().size());
+
+        // not sure if one can count on order of struct-map elements
+        Iterator<MemberRef> it = container.getStructMap().iterator();
+        Set<String> memberIds = new HashSet<String>();
+        while (it.hasNext()) {
+            MemberRef m = it.next();
+            memberIds.add(m.getObjid());
+        }
+
+        assertTrue("Wrong struct-map member reference",
+            memberIds.contains("escidoc:198576"));
+        assertTrue("Wrong struct-map member reference",
+            memberIds.contains("escidoc:188601"));
+        assertTrue("Wrong struct-map member reference",
+            memberIds.contains("escidoc:198577"));
     }
 
     /**

@@ -16,13 +16,16 @@
 	<!-- start: binding of an user account preferences -->
 	<mapping ns="http://www.escidoc.de/schemas/preferences/0.1"
 		name="preferences" class="de.escidoc.core.resources.aa.useraccount.Preferences">
+
 		<namespace uri="http://www.escidoc.de/schemas/preferences/0.1"
 			prefix="preferences" />
 
-		<collection field="preferences"
-			factory="de.escidoc.core.resources.aa.useraccount.Preferences.preferencesFactory">
-			<structure name="preference"
-				ns="http://www.escidoc.de/schemas/preferences/0.1" type="de.escidoc.core.resources.aa.useraccount.Preference">
+		<collection ns="http://www.escidoc.de/schemas/preferences/0.1" 
+			create-type="de.escidoc.core.resources.aa.useraccount.Preferences">
+			
+			<structure ns="http://www.escidoc.de/schemas/preferences/0.1" 
+				name="preference"
+				type="de.escidoc.core.resources.aa.useraccount.Preference">
 				<structure map-as="abstract-preference" />
 			</structure>
 		</collection>

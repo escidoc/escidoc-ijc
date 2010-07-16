@@ -1,6 +1,5 @@
 package de.escidoc.core.resources.aa.useraccount;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
 /**
@@ -9,55 +8,16 @@ import java.util.LinkedList;
  * @author SWA
  * 
  */
-public class Preferences {
-
-    private Collection<Preference> preferences = new LinkedList<Preference>();
+public class Preferences extends LinkedList<Preference> {
 
     /**
-     * ItemList Factory.
      * 
-     * @return ItemList
      */
-    public static LinkedList<Preference> preferencesFactory() {
-        return new LinkedList<Preference>();
-    }
+    private static final long serialVersionUID = -648566962791228436L;
 
     /**
-     * 
+     * User Account Preferences.
      */
     public Preferences() {
-    }
-
-
-    /**
-     * 
-     * @param key
-     * @param value
-     */
-    public void addPreference(final Preference preference) {
-
-        // TODO check uniqueness
-        this.preferences.add(preference);
-    }
-
-    /**
-     * 
-     * @param key
-     * @return
-     */
-    public Collection<Preference> getPreferences() {
-        return this.preferences;
-    }
-
-    public void deletePreference(final String key) {
-        this.preferences.remove(key);
-    }
-
-    /**
-     * 
-     * @param preferences
-     */
-    public void setPreferences(final Collection<Preference> preferences) {
-        this.preferences = preferences;
     }
 }

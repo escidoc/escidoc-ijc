@@ -45,11 +45,11 @@ public class ResourceRef {
     }
 
     /**
-     * Types of Escidoc resources.
+     * Types of eSciDoc resources.
      * 
      */
     public static enum RESOURCE_TYPE {
-        Context, Item, Container, Component, Toc, OrganizationalUnit
+        Context, Item, Container, Component, Toc, OrganizationalUnit, UserAccount, UserAccountAttribute
     }
 
     private String objid;

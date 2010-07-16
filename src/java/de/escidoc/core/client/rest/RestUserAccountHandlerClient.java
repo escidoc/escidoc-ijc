@@ -376,10 +376,14 @@ public class RestUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Create a preference.
      * 
-     * @param objid
-     * @param preferenceXML
-     * @return
+     * @param id
+     *            Objid of user account
+     * @param preferenceXml
+     *            XML representation of preference
+     * @return XML representation of created preference
+     * 
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -400,9 +404,13 @@ public class RestUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Delete a preference.
      * 
-     * @param objid
+     * @param id
+     *            Objid of user account
      * @param key
+     *            key of preference
+     * @return XML representation of updated preference
      * 
      * @throws EscidocException
      * @throws InternalClientException
@@ -421,11 +429,16 @@ public class RestUserAccountHandlerClient extends ClientBase {
     }
 
     /**
-     * Update User Account Preference.
+     * Update a preference.
      * 
-     * @param objid
-     * @param preferenceXML
-     * @return
+     * @param id
+     *            Objid of user account
+     * @param key
+     *            key of preference
+     * @param value
+     *            value of preference
+     * @return XML representation of updated preference
+     * 
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -491,6 +504,184 @@ public class RestUserAccountHandlerClient extends ClientBase {
         String result = null;
         try {
             result = getClient().retrievePreferences(objid);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Create an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeXml
+     *            XML representation of attribute
+     * @return XML representation of created attribute
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String createAttribute(final String objid, final String preferenceXML)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().createAttribute(objid, preferenceXML);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Delete an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeId
+     *            Objid of attribute
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void deleteAttribute(final String objid, final String attributeId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        try {
+            getClient().deleteAttribute(objid, attributeId);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+    }
+
+    /**
+     * Update an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeId
+     *            objid of attribute
+     * @param value
+     *            value of attribute
+     * @return XML representation of updated attribute
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String updateAttribute(
+        final String objid, final String attributeId, final String preferenceXML)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result =
+                getClient().updateAttribute(objid, attributeId, preferenceXML);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    // public String updateAttributes(
+    // final String objid, final String preferencesXML)
+    // throws EscidocException, InternalClientException, TransportException {
+    //
+    // String result = null;
+    // try {
+    // result = getClient().updateAttributes(objid, preferencesXML);
+    // }
+    // catch (Exception e) {
+    // logger.debug(e);
+    // ExceptionMapper.map(e);
+    // }
+    // return result;
+    // }
+
+    /**
+     * Retrieve an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeId
+     *            Objid of attribute
+     * @return XML representation of attribute
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveAttribute(final String objid, final String attributeId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveAttribute(objid, attributeId);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve attributes.
+     * 
+     * @param id
+     *            Objid of user account
+     * @return XML representation of attributes
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveAttributes(final String objid)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveAttributes(objid);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeName
+     *            Name of attribute
+     * @return XML representation with list of attributes with given name for
+     *         the selected user account.
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveNamedAttributes(
+        final String objid, final String attributeName)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveNamedAttributes(objid, attributeName);
         }
         catch (Exception e) {
             logger.debug(e);

@@ -39,6 +39,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.PolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.Factory;
@@ -66,10 +67,15 @@ public class PdpHandlerClientTest {
     @Test
     public void testeEvaluateRequests() throws Exception {
 
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
         PolicyDecisionPointHandlerClient pdpc =
             new PolicyDecisionPointHandlerClient();
-        pdpc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        pdpc.setServiceAddress(auth.getServiceAddress());
+        pdpc.setHandle(auth.getHandle());
+
 
         Requests requests = createRequests();
         RequestsResults results = pdpc.evaluate(requests);

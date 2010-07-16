@@ -283,11 +283,14 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Create a preference.
      * 
      * @param id
-     * @param preferencesXml
+     *            Objid of user account
+     * @param preferenceXml
+     *            XML representation of preference
+     * @return XML representation of created preference
      * 
-     * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -306,9 +309,12 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Retrieve preferences.
      * 
      * @param id
-     * @return
+     *            Objid of user account
+     * @return XML representation of preferences
+     * 
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -327,11 +333,14 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Retrieve an preference.
      * 
      * @param id
+     *            Objid of user account
      * @param key
+     *            preference key
+     * @return XML representation of preference
      * 
-     * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -350,12 +359,16 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Update a preference.
      * 
      * @param id
+     *            Objid of user account
      * @param key
+     *            key of
      * @param value
+     *            new value of preference
+     * @return XML representation of updated preference
      * 
-     * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -375,11 +388,14 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Update preferences.
      * 
      * @param id
-     * @param preferencesXml
+     *            Objid of user account
+     * @param preferenceXml
+     *            XML representation of preferences
+     * @return XML representation of updated preferences
      * 
-     * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -398,11 +414,14 @@ public class SoapUserAccountHandlerClient extends ClientBase {
     }
 
     /**
+     * Delete a preference.
      * 
      * @param id
+     *            Objid of user account
      * @param key
+     *            key of preference
+     * @return XML representation of updated preference
      * 
-     * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
@@ -416,6 +435,186 @@ public class SoapUserAccountHandlerClient extends ClientBase {
         catch (Exception e) {
             ExceptionMapper.map(e);
         }
+    }
+
+    /**
+     * Create an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeXml
+     *            XML representation of attribute
+     * @return XML representation of created attribute
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String createAttribute(final String id, final String attributeXml)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().createAttribute(id, attributeXml);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve attributes.
+     * 
+     * @param id
+     *            Objid of user account
+     * @return XML representation of attributes
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveAttributes(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveAttributes(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Retrieve an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeId
+     *            Objid of attribute
+     * @return XML representation of attribute
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveAttribute(final String id, final String attributeId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveAttribute(id, attributeId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * Update an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeId
+     *            Objid of attribute
+     * @param value
+     *            value of attribute
+     * @return XML representation of updated attribute
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String updateAttribute(
+        final String id, final String attributeId, final String value)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().updateAttribute(id, attributeId, value);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    // /**
+    // *
+    // * @param id
+    // * @param attributesXml
+    // *
+    // * @return
+    // * @throws EscidocException
+    // * @throws InternalClientException
+    // * @throws TransportException
+    // */
+    // public String updateAttributes(final String id, final String
+    // attributesXml)
+    // throws EscidocException, InternalClientException, TransportException {
+    //
+    // String result = null;
+    // try {
+    // result = getClient().updateAttributes(id,preferencesXml);
+    // }
+    // catch (Exception e) {
+    // ExceptionMapper.map(e);
+    // }
+    // return result;
+    // }
+
+    /**
+     * Delete an attribute.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param attributeId
+     *            Objid of attribute
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void deleteAttribute(final String id, final String attributeId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        try {
+            getClient().deleteAttribute(id, attributeId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+    }
+
+    /**
+     * Retrieve attributes by name.
+     * 
+     * @param id
+     *            Objid of user account
+     * @param name
+     *            name of attribute
+     * @return XML representation with list of attributes with given name for
+     *         the selected user account.
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveNamedAttributes(
+        final String id, final String attributeName) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveNamedAttributes(id, attributeName);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
     }
 
     /**
@@ -508,7 +707,8 @@ public class SoapUserAccountHandlerClient extends ClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void revokeGrant(final String id, final String grantId, final String taskParam)
+    public void revokeGrant(
+        final String id, final String grantId, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         try {

@@ -31,15 +31,19 @@ package de.escidoc.core.resources.om;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.om.GenericResource;
-import de.escidoc.core.resources.om.GenericVersionableResource;
-
 /**
+ * Member List.
  * 
  * @author SWA
  * 
  */
-public class MemberList extends GenericResource {
+public class MemberList {
+
+    private int limit = -1;
+
+    private int offset = -1;
+
+    private int numberOfRecords = -1;
 
     private Collection<GenericVersionableResource> members =
         new LinkedList<GenericVersionableResource>();
@@ -67,6 +71,64 @@ public class MemberList extends GenericResource {
      */
     public void setMembers(final Collection<GenericVersionableResource> members) {
         this.members = members;
+    }
+
+    /**
+     * Set limit.
+     * 
+     * @param limit
+     *            Number of max results per page
+     */
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    /**
+     * Get limit.
+     * 
+     * @return Number of results
+     */
+    public int getLimit() {
+        return limit;
+    }
+
+    /**
+     * Set offset.
+     * 
+     * @param offset
+     *            Offset
+     */
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    /**
+     * Get offset.
+     * 
+     * @return number off offset
+     * 
+     */
+    public int getOffset() {
+        return offset;
+    }
+
+    /**
+     * Set number of result records
+     * 
+     * @param numberOfRecords
+     *            number of result records
+     */
+    public void setNumberOfRecords(int numberOfRecords) {
+        this.numberOfRecords = numberOfRecords;
+    }
+
+    /**
+     * Get number of result records
+     * 
+     * @return number of result records
+     */
+    public int getNumberOfRecords() {
+        return numberOfRecords;
     }
 
 }

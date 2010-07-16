@@ -36,30 +36,30 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.UserAccountHandlerClient;
-import de.escidoc.core.client.exceptions.application.notfound.PreferenceNotFoundException;
-import de.escidoc.core.resources.aa.useraccount.Preference;
-import de.escidoc.core.resources.aa.useraccount.Preferences;
+import de.escidoc.core.client.exceptions.application.notfound.UserAttributeNotFoundException;
+import de.escidoc.core.resources.aa.useraccount.Attribute;
+import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
- * Test User Account Preferences with class mapping.
+ * Test User Account Attributes with class mapping.
  * 
  * @author SWA
  * 
  */
-public class UserAccountPreferencesTest {
+public class UserAccountAttributesTest {
 
     /**
-     * Test to create and retrieve user account preferences.
+     * Test to create and retrieve user account attributes.
      * 
      * @throws Exception
      *             Thrown if anythings failed.
      */
     @Test
-    public void testPreferences01() throws Exception {
+    public void createAttributes01() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -83,32 +83,97 @@ public class UserAccountPreferencesTest {
 
         String objId = createdUa.getObjid();
 
-        // create Preference
-        Preference uaPref = new Preference("PreferenceName", "PreferenceValue");
+        // create Attribute
+        Attribute uaAttrib = new Attribute("AttributeName", "AttributeValue");
 
-        Preference createPref = uahc.createPreference(objId, uaPref);
-        assertEquals("Preference name differs", uaPref.getName(),
-            createPref.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            createPref.getValue());
+        Attribute createAttrib = uahc.createAttribute(objId, uaAttrib);
+        assertEquals("Attribute name differs", uaAttrib.getName(),
+            createAttrib.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(),
+            createAttrib.getValue());
 
         // retrieve
-        Preferences preferences = uahc.retrievePreferences(objId);
-        assertTrue("Wrong number of preferences", preferences.size() == 1);
-        Preference p = preferences.iterator().next();
-        assertEquals("Preference name differs", uaPref.getName(), p.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            p.getValue());
+        Attribute attribute =
+            uahc.retrieveAttribute(objId, createAttrib.getObjid());
+        assertEquals("Attribute name differs", uaAttrib.getName(),
+            attribute.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(),
+            attribute.getValue());
+        assertEquals("Objid differs", createAttrib.getObjid(),
+            attribute.getObjid());
     }
 
     /**
-     * Test to update an user account preferences.
+     * Test to update an user account attributes.
      * 
      * @throws Exception
      *             If behavior is not as expected.
      */
     @Test
-    public void testUpdatePreference01() throws Exception {
+    public void updateAttribute01() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uahc.setHandle(auth.getHandle());
+
+        // create User Account
+        UserAccount ua = new UserAccount();
+
+        // user properties
+        UserAccountProperties properties = new UserAccountProperties();
+        String login = "login" + System.currentTimeMillis();
+        properties.setName("Name " + login);
+        properties.setLoginName(login);
+
+        ua.setProperties(properties);
+        UserAccount createdUa = uahc.create(ua);
+
+        String objId = createdUa.getObjid();
+
+        // create Attribute
+        Attribute uaAttrib = new Attribute("AttributeName", "AttributeValue");
+
+        Attribute createAttrib = uahc.createAttribute(objId, uaAttrib);
+        assertEquals("Attribute name differs", uaAttrib.getName(),
+            createAttrib.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(),
+            createAttrib.getValue());
+
+        // update Attribute
+        uaAttrib = new Attribute("AttributeName", "AttributeValue2");
+        uaAttrib.setObjid(createAttrib.getObjid());
+        uaAttrib
+            .setLastModificationDate(createAttrib.getLastModificationDate());
+
+        createAttrib = uahc.updateAttribute(objId, uaAttrib);
+        assertEquals("Attribute name differs", uaAttrib.getObjid(),
+            createAttrib.getObjid());
+        assertEquals("Attribute name differs", uaAttrib.getName(),
+            createAttrib.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(),
+            createAttrib.getValue());
+
+        // retrieve
+        Attributes attributes = uahc.retrieveAttributes(objId);
+        assertTrue("Wrong number of attributes", attributes.size() == 1);
+        Attribute p = attributes.iterator().next();
+        assertEquals("Attribute name differs", uaAttrib.getName(), p.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(),
+            p.getValue());
+    }
+
+    /**
+     * Test to delete an user account attribute.
+     * 
+     * @throws Exception
+     *             If behavior is not as expected.
+     */
+    @Test
+    public void testDeleteAttribute01() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -133,88 +198,29 @@ public class UserAccountPreferencesTest {
         // test marshalling
         String objId = createdUa.getObjid();
 
-        // create Preference
-        Preference uaPref = new Preference("PreferenceName", "PreferenceValue");
+        // create Attribute
+        Attribute uaAttrib = new Attribute("AttributeName", "AttributeValue");
 
-        Preference createPref = uahc.createPreference(objId, uaPref);
-        assertEquals("Preference name differs", uaPref.getName(),
-            createPref.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            createPref.getValue());
+        Attribute createAttrib = uahc.createAttribute(objId, uaAttrib);
+        assertEquals("Attribute name differs", uaAttrib.getName(),
+            createAttrib.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(),
+            createAttrib.getValue());
 
-        // update Preference
-        uaPref = new Preference("PreferenceName", "PreferenceValue2");
-        // do not forget the last-modification-date
-        uaPref.setLastModificationDate(createPref.getLastModificationDate());
-        createPref = uahc.updatePreference(objId, uaPref);
-        assertEquals("Preference name differs", uaPref.getName(),
-            createPref.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            createPref.getValue());
+        // delete Attribute
+        uaAttrib = new Attribute("AttributeName", "AttributeValue2");
+        uaAttrib.setObjid(createAttrib.getObjid());
+        uaAttrib
+            .setLastModificationDate(createAttrib.getLastModificationDate());
 
-        // retrieve
-        Preferences preferences = uahc.retrievePreferences(objId);
-        assertTrue("Wrong number of preferences", preferences.size() == 1);
-        Preference p = preferences.iterator().next();
-        assertEquals("Preference name differs", uaPref.getName(), p.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            p.getValue());
-    }
-
-    /**
-     * Test to delete an user account preferences.
-     * 
-     * @throws Exception
-     *             If behavior is not as expected.
-     */
-    @Test
-    public void testDeletePreference01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-
-        // create User Account
-        UserAccount ua = new UserAccount();
-
-        // user properties
-        UserAccountProperties properties = new UserAccountProperties();
-        String login = "login" + System.currentTimeMillis();
-        properties.setName("Name " + login);
-        properties.setLoginName(login);
-
-        ua.setProperties(properties);
-        UserAccount createdUa = uahc.create(ua);
-
-        // test marshalling
-        String objId = createdUa.getObjid();
-
-        // create Preference
-        Preference uaPref = new Preference("PreferenceName", "PreferenceValue");
-
-        Preference createPref = uahc.createPreference(objId, uaPref);
-        assertEquals("Preference name differs", uaPref.getName(),
-            createPref.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            createPref.getValue());
-
-        // delete Preference
-        uaPref = new Preference("PreferenceName", "PreferenceValue2");
-        // do not forget the last-modification-date
-        uaPref.setLastModificationDate(createPref.getLastModificationDate());
-
-        uahc.deletePreference(objId, uaPref);
+        uahc.deleteAttribute(objId, uaAttrib);
 
         // retrieve
         try {
-            uahc.retrievePreference(objId, uaPref.getName());
+            uahc.retrieveAttribute(objId, uaAttrib.getObjid());
             fail("Prefence not deleted.");
         }
-        catch (PreferenceNotFoundException e) {
+        catch (UserAttributeNotFoundException e) {
             return;
         }
     }

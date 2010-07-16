@@ -33,7 +33,7 @@ import java.util.LinkedList;
 /**
  * StructMap (Structure Map of Container).
  * 
- * The struct map is could only directly altered for create. Each direct update
+ * The struct map could only directly altered for create. Each direct update
  * of struct map is discarded. To add member to an existing Container use the
  * addMembers() and removeMembers() methods.
  * 
@@ -50,7 +50,7 @@ public class StructMap extends LinkedList<MemberRef> {
     /**
      * StructMap.
      * 
-     * The struct map is could only directly altered for create. Each direct
+     * The struct map could only directly altered for create. Each direct
      * update of struct map is discarded. To add member to an existing Container
      * use the addMembers() and removeMembers() methods.
      */

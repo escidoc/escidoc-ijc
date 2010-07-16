@@ -10,7 +10,7 @@
 			prefix="srel" />
 
 		<collection ns="http://www.escidoc.de/schemas/structmap/0.4"
-			 create-type="de.escidoc.core.resources.common.structmap.StructMap">
+			 create-type="de.escidoc.core.resources.common.structmap.StructMap" ordered="false">
 
 			<structure
 				ns="http://escidoc.de/core/01/structural-relations/"

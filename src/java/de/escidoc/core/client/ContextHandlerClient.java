@@ -28,6 +28,11 @@
  */
 package de.escidoc.core.client;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -470,6 +475,7 @@ public class ContextHandlerClient
                 getRestContextHandlerClient().retrieveMembers(id,
                     taskParamString);
         }
+        
         return Factory.getMemberListMarshaller().unmarshalDocument(xml);
     }
 

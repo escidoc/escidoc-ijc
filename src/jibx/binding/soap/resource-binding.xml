@@ -34,6 +34,7 @@
 	<include path="aa/0.3/requests-results-binding.xml" />
 	<include path="aa/0.4/unsecured-actions-binding.xml" />
 	<include path="aa/0.1/preference-binding.xml" />
+	<include path="aa/0.1/attribute-binding.xml" />
 
 	<!-- SB -->
 	<include path="sb/0.8/search-result-record-binding.xml" />

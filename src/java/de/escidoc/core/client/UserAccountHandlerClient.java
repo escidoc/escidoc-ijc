@@ -45,6 +45,8 @@ import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.Preference;
 import de.escidoc.core.resources.aa.useraccount.Preferences;
+import de.escidoc.core.resources.aa.useraccount.Attribute;
+import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
@@ -503,6 +505,192 @@ public class UserAccountHandlerClient
         }
         else {
             getRestUserAccountHandlerClient().createPreference(userId, name);
+        }
+    }
+
+    /**
+     * Create Attribute of User Account.
+     * 
+     * @return The created Attribute
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Attribute createAttribute(
+        final String userId, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String attributeXml =
+            Factory.getAttributeMarshaller().marshalDocument(attribute);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            attributeXml =
+                getSoapUserAccountHandlerClient().createAttribute(userId,
+                    attributeXml);
+        }
+        else {
+            attributeXml =
+                getRestUserAccountHandlerClient().createAttribute(userId,
+                    attributeXml);
+        }
+
+        return Factory.getAttributeMarshaller().unmarshalDocument(attributeXml);
+    }
+
+    /**
+     * Retrieve attribute of User Account.
+     * 
+     * @param userId
+     *            The objid of the user
+     * @param attributeId
+     *            The objid of the attribute
+     * @return The attribute
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Attribute retrieveAttribute(
+        final String userId, final String attributeId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String attribute;
+        if (getTransport() == TransportProtocol.SOAP) {
+            attribute =
+                getSoapUserAccountHandlerClient().retrieveAttribute(userId,
+                    attributeId);
+        }
+        else {
+            attribute =
+                getRestUserAccountHandlerClient().retrieveAttribute(userId,
+                    attributeId);
+        }
+
+        return Factory.getAttributeMarshaller().unmarshalDocument(attribute);
+    }
+
+    /**
+     * Retrieve Attributes of User Account.
+     * 
+     * @return The Attribute
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Attributes retrieveAttributes(final String userId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String attributes;
+        if (getTransport() == TransportProtocol.SOAP) {
+            attributes =
+                getSoapUserAccountHandlerClient().retrieveAttributes(userId);
+        }
+        else {
+            attributes =
+                getRestUserAccountHandlerClient().retrieveAttributes(userId);
+        }
+
+        return Factory.getAttributesMarshaller().unmarshalDocument(attributes);
+    }
+
+    /**
+     * Update Attribute of User Account.
+     * 
+     * @param userId
+     * @param attribute
+     * @return The updated Attribute
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public Attribute updateAttribute(
+        final String userId, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        String attributeXml =
+            Factory.getAttributeMarshaller().marshalDocument(attribute);
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            attributeXml =
+                getSoapUserAccountHandlerClient().updateAttribute(userId,
+                    attribute.getObjid(), attributeXml);
+        }
+        else {
+            attributeXml =
+                getRestUserAccountHandlerClient().updateAttribute(userId,
+                    attribute.getObjid(), attributeXml);
+        }
+
+        return Factory.getAttributeMarshaller().unmarshalDocument(attributeXml);
+    }
+
+    /**
+     * Delete Attribute of User Account.
+     * 
+     * @param userId
+     *            The objid of the user
+     * @param attribute
+     *            The attribute (where at least the name has to be set)
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public void deleteAttribute(final String userId, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        deleteAttribute(userId, attribute.getObjid());
+    }
+
+    /**
+     * Delete Attribute of User Account.
+     * 
+     * @param userId
+     *            The objid of the user
+     * @param attributeId
+     *            The objid of the attribute
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public void deleteAttribute(final String userId, final String attributeId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            getSoapUserAccountHandlerClient().deleteAttribute(userId,
+                attributeId);
+        }
+        else {
+            getRestUserAccountHandlerClient().createAttribute(userId,
+                attributeId);
         }
     }
 
