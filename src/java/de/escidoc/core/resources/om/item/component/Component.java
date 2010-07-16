@@ -30,7 +30,6 @@ package de.escidoc.core.resources.om.item.component;
 
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
-import de.escidoc.core.resources.om.item.Content;
 
 /**
  * Component.
@@ -67,7 +66,7 @@ public class Component extends GenericResource {
      * 
      * @return the content
      */
-    public Content getContent() {
+    public ComponentContent getContent() {
         return content;
     }
 
