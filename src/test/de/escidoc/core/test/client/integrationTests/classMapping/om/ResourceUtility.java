@@ -1,5 +1,9 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.om;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,6 +75,27 @@ public class ResourceUtility {
         cms.setContent(cmsContent);
 
         return cms;
+    }
+
+    /**
+     * Create temp file with random content.
+     * 
+     * @return
+     * @throws IOException
+     */
+    public static File createFileWithRandomContent() throws IOException {
+
+        File temp =
+            File.createTempFile("escidoc-binary-content-example", ".tmp");
+        temp.deleteOnExit();
+
+        // Write to temp file
+        BufferedWriter out = new BufferedWriter(new FileWriter(temp));
+
+        out.write("A random String " + System.nanoTime());
+        out.close();
+
+        return temp;
     }
 
 }
