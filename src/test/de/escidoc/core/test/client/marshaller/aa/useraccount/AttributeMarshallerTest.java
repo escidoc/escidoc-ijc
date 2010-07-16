@@ -32,15 +32,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.Iterator;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
-import de.escidoc.core.resources.common.structmap.MemberRef;
-import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
