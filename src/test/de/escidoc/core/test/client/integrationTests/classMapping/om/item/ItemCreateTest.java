@@ -32,6 +32,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +48,7 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.StagingHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -654,6 +656,63 @@ public class ItemCreateTest {
         taskParam.setComment("Withdraw as java client lib test");
 
         result = ihc.withdraw(item, taskParam);
+    }
+
+    /**
+     * Check create of Item with one component with content.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void createItemWithComponentAndContent() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // create file with random content
+        File file = ResourceUtility.createFileWithRandomContent();
+
+        StagingHandlerClient sthc = new StagingHandlerClient();
+        sthc.setServiceAddress(auth.getServiceAddress());
+        sthc.setHandle(auth.getHandle());
+
+        URL contentRef = sthc.upload(file);
+
+        ItemHandlerClient ihc = new ItemHandlerClient();
+        ihc.setServiceAddress(auth.getServiceAddress());
+        ihc.setHandle(auth.getHandle());
+
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        item.setMetadataRecords(mdRecords);
+
+        Component component = new Component();
+        ComponentContent content = new ComponentContent();
+        content.setHref(contentRef.toString());
+        content.setStorage("internal-managed");
+        component.setContent(content);
+        component.setProperties(new ComponentProperties());
+        component.getProperties().setDescription("Random content");
+        component.getProperties().setFileName(contentRef.getFile());
+        component.getProperties().setVisibility("public");
+        component.getProperties().setContentCategory("pre-print");
+        Components components = new Components();
+        components.add(component);
+        item.setComponents(components);
+
+        // create
+        Item newItem = ihc.create(item);
+
     }
 
     /**
