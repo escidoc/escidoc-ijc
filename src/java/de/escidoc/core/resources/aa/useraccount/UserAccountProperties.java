@@ -99,6 +99,10 @@ public class UserAccountProperties {
         return this.active;
     }
 
+    public void setActive(boolean isActive) {
+        this.active = isActive;
+    }
+
     /**
      * Get ResourceRef of creator.
      * 
