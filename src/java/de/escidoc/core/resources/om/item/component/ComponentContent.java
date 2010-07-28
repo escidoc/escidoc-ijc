@@ -28,7 +28,7 @@
  */
 package de.escidoc.core.resources.om.item.component;
 
-import java.io.IOException;
+import org.apache.commons.codec.binary.Base64;
 
 import de.escidoc.core.resources.om.item.Content;
 
@@ -59,26 +59,26 @@ public class ComponentContent extends Content {
     }
 
     /**
+     * Encode binary content.
      * 
      * @param inlineContent
-     * @return
+     * @return base64 encoded content
      */
     public String encodeBinaryContent(final byte[] inlineContent) {
-        
-        sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
-        return encoder.encode(inlineContent);
+
+        Base64 base64 = new Base64();
+        return base64.encode(inlineContent).toString();
     }
 
     /**
+     * Decode binary content.
      * 
      * @param base64EncodedContent
-     * @return
-     * @throws IOException
+     * @return base64 decoded content
      */
-    public byte[] decodeBinaryContent(final String base64EncodedContent)
-        throws IOException {
-        
-        sun.misc.BASE64Decoder decoder = new sun.misc.BASE64Decoder();
-        return decoder.decodeBuffer(base64EncodedContent);
+    public byte[] decodeBinaryContent(final String base64EncodedContent) {
+
+        Base64 base64 = new Base64();
+        return base64.decode(base64EncodedContent.getBytes());
     }
 }
