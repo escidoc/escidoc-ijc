@@ -179,10 +179,7 @@ public class UserAccountHandlerClientTest {
         TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(createdUa.getLastModificationDate());
 
-        // FIXME there is something redundant! The objid has to be set in the
-        // task param and in the method call?
         String objId = createdUa.getObjid();
-        taskParam.setPid(objId);
         uac.deactivate(objId, taskParam);
 
         // check user account
@@ -277,7 +274,7 @@ public class UserAccountHandlerClientTest {
      * @throws Exception
      *             If retrieve or marshalling fail
      */
-    public void testRetrieveGrants() throws Exception {
+    public void retrieveGrants() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -308,7 +305,7 @@ public class UserAccountHandlerClientTest {
      *             If update of password failed
      */
     @Test
-    public void testUpdatePassword() throws Exception {
+    public void updatePassword() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -337,13 +334,15 @@ public class UserAccountHandlerClientTest {
         // it assumed that a user is allowed to retrieve its own account
         Authentication auth2 =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+                login, password);
 
         UserAccountHandlerClient uac2 = new UserAccountHandlerClient();
-        uac2.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac2.setServiceAddress(auth.getServiceAddress());
         uac2.setHandle(auth2.getHandle());
 
         uac2.retrieve(objId);
+        auth.logout();
+
     }
 
     /**
