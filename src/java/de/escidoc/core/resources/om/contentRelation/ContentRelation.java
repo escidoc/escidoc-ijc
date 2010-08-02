@@ -46,15 +46,15 @@ public class ContentRelation extends GenericResource {
     private ContentRelationProperties properties =
         new ContentRelationProperties();
 
-    private URI type = null;
+    private URI type;
 
-    private String subject = null;
+    private String subject;
 
-    private String object = null;
+    private String object;
 
-    private String subjectVersion = null;
+    private String subjectVersion;
 
-    private String objectVersion = null;
+    private String objectVersion;
 
     /**
      * 

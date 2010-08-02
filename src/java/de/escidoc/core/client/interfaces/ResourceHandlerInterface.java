@@ -38,6 +38,8 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
 
 /**
+ * Generic Interface for eSciDoc resources.
+ * 
  * @author SWA
  * @param <T>
  */
@@ -47,23 +49,54 @@ interface ResourceHandlerInterface<T> extends CrudHandlerInterface<T> {
      * Object Pid Assignment.
      * 
      * @param id
+     *            objid of resource
      * @param taskParam
-     * @return
+     *            Task param
+     * @return Result (contains important resource parameter)
+     * 
      * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
      * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
      * @throws TransportException
+     *             Thrown in case of transport errors.
      */
     Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
-    /*
-     * sub-resources (comming later)
+    /**
+     * Retrieve sub-resource properties of a eSciDoc resource.
+     * 
+     * @param id
+     *            objid of resource
+     * @return Properties of resource
+     * 
+     * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
+     * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
+     * @throws TransportException
+     *             Thrown in case of transport errors.
      */
     Properties retrieveProperties(final String id)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
+    /**
+     * Get last modification date of resource.
+     * 
+     * @param id
+     *            objid of resource
+     * @return last modification date
+     * 
+     * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
+     * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
+     * @throws TransportException
+     *             Thrown in case of transport errors.
+     */
     DateTime getLastModificationDate(final String id)
         throws EscidocClientException, InternalClientException,
         TransportException;

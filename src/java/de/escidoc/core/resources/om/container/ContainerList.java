@@ -30,6 +30,7 @@ package de.escidoc.core.resources.om.container;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.resources.om.GenericResource;
 
@@ -37,7 +38,7 @@ public class ContainerList extends GenericResource {
 
     private Collection<Container> containers = new LinkedList<Container>();
 
-    public static LinkedList<Container> containersFactory() {
+    public static List<Container> containersFactory() {
         return new LinkedList<Container>();
     }
 

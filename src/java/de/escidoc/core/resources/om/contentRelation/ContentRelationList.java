@@ -30,6 +30,7 @@ package de.escidoc.core.resources.om.contentRelation;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.resources.om.GenericResource;
 
@@ -49,7 +50,7 @@ public class ContentRelationList extends GenericResource {
      * 
      * @return ContentRelationList
      */
-    public static LinkedList<ContentRelation> contentRelationsFactory() {
+    public static List<ContentRelation> contentRelationsFactory() {
         return new LinkedList<ContentRelation>();
     }
 

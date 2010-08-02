@@ -30,6 +30,7 @@ package de.escidoc.core.resources.om.context;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.resources.om.GenericResource;
 
@@ -47,7 +48,7 @@ public class ContextList extends GenericResource {
      * 
      * @return ContextList
      */
-    public static LinkedList<Context> contextsFactory() {
+    public static List<Context> contextsFactory() {
         return new LinkedList<Context>();
     }
 

@@ -30,6 +30,7 @@ package de.escidoc.core.resources.oum;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * OrganizationalUnits of eSciDoc.
@@ -53,7 +54,7 @@ public class OrganizationalUnitList {
      * 
      * @return OrganizationalUnitList
      */
-    public static LinkedList<OrganizationalUnit> organizationalUnitsFactory() {
+    public static List<OrganizationalUnit> organizationalUnitsFactory() {
         return new LinkedList<OrganizationalUnit>();
     }
 

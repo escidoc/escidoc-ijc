@@ -47,22 +47,82 @@ import de.escidoc.core.resources.common.TaskParam;
 public interface ContentRelationHandlerClientInterface<ContentRelation>
     extends ResourceHandlerInterface<ContentRelation> {
 
-    /*
-     * lock methods
+    /**
+     * Lock resource.
+     * 
+     * @param id
+     *            objid of resource
+     * @param taskParam
+     *            task param to lock
+     * @return Result (contains important resource parameter)
+     * 
+     * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
+     * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
+     * @throws TransportException
+     *             Thrown in case of transport errors.
      */
-
     Result lock(final String id, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
+    /**
+     * Lock resource.
+     * 
+     * @param contentRelation
+     *            resource
+     * @param taskParam
+     *            task param to lock
+     * @return Result (contains important resource parameter)
+     * 
+     * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
+     * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
+     * @throws TransportException
+     *             Thrown in case of transport errors.
+     */
     Result lock(final ContentRelation contentRelation, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
+    /**
+     * Unlock resource.
+     * 
+     * @param id
+     *            objid of resource
+     * @param taskParam
+     *            task param to unlock
+     * @return Result (contains important resource parameter)
+     * 
+     * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
+     * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
+     * @throws TransportException
+     *             Thrown in case of transport errors.
+     */
     Result unlock(final String id, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
+    /**
+     * Lock resource.
+     * 
+     * @param contentRelation
+     *            resource
+     * @param taskParam
+     *            task param to lock
+     * @return Result (contains important resource parameter)
+     * 
+     * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
+     * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
+     * @throws TransportException
+     *             Thrown in case of transport errors.
+     */
     Result unlock(
         final ContentRelation contentRelation, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
@@ -77,78 +137,118 @@ public interface ContentRelationHandlerClientInterface<ContentRelation>
      * Release the Resource.
      * 
      * @param id
-     *            Id of the resource.
+     *            objid of the resource.
      * @param taskParam
      *            TaskParam for Release.
-     * @return Result.
+     * @return Result (contains important resource parameter)
+     * 
      * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
      * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
      * @throws TransportException
+     *             Thrown in case of transport errors.
      */
     Result release(final String id, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
+     * Release the Resource.
      * 
-     * @param resource
+     * @param contentRelation
+     *            resource
      * @param taskParam
-     * @return Result
+     *            TaskParam for Release.
+     * @return Result (contains important resource parameter)
+     * 
      * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
      * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
      * @throws TransportException
+     *             Thrown in case of transport errors.
      */
     Result release(final ContentRelation resource, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
+     * Revise the Resource.
      * 
      * @param id
+     *            objid of the resource.
      * @param taskParam
-     * @return Result
+     *            TaskParam for Release.
+     * @return Result (contains important resource parameter)
+     * 
      * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
      * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
      * @throws TransportException
+     *             Thrown in case of transport errors.
      */
     Result revise(final String id, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
+     * Revise the Resource.
      * 
-     * @param resource
+     * @param contentRelation
+     *            resource.
      * @param taskParam
-     * @return Result
+     *            TaskParam for Release.
+     * @return Result (contains important resource parameter)
+     * 
      * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
      * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
      * @throws TransportException
+     *             Thrown in case of transport errors.
      */
-    Result revise(final ContentRelation resource, final TaskParam taskParam)
+    Result revise(
+        final ContentRelation contentRelation, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
+     * Submit the Resource.
      * 
      * @param id
+     *            objid of resource.
      * @param taskParam
-     * @return Result
+     *            TaskParam for Release.
+     * @return Result (contains important resource parameter)
+     * 
      * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
      * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
      * @throws TransportException
+     *             Thrown in case of transport errors.
      */
     Result submit(final String id, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
+     * Submit the Resource.
      * 
-     * @param resource
+     * @param contentRelation
+     *            resource.
      * @param taskParam
-     * @return Result
+     *            TaskParam for Release.
+     * @return Result (contains important resource parameter)
+     * 
      * @throws EscidocClientException
+     *             Thrown in case of errors from framework.
      * @throws InternalClientException
+     *             Thrown in case of client library internal errors.
      * @throws TransportException
+     *             Thrown in case of transport errors.
      */
     Result submit(final ContentRelation resource, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,

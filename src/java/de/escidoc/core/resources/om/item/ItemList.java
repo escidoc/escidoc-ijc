@@ -30,6 +30,7 @@ package de.escidoc.core.resources.om.item;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * List of Items.
@@ -47,7 +48,7 @@ public class ItemList {
      * 
      * @return ItemList
      */
-    public static LinkedList<Item> itemsFactory() {
+    public static List<Item> itemsFactory() {
         return new LinkedList<Item>();
     }
 
