@@ -41,7 +41,7 @@ import de.escidoc.core.resources.om.GenericResource;
  */
 public class ContentRelation extends GenericResource {
 
-    private MetadataRecords mdRecords = null;
+    private MetadataRecords mdRecords;
 
     private ContentRelationProperties properties =
         new ContentRelationProperties();
