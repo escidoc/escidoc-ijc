@@ -40,27 +40,27 @@ import de.escidoc.core.resources.ResourceRef;
  */
 public class ContentRelationProperties {
 
-    private DateTime creationDate = null;
+    private DateTime creationDate;
 
-    private String description = null;
+    private String description;
 
-    private ResourceRef createdBy = null;
+    private ResourceRef createdBy;
 
-    private ResourceRef modifiedBy = null;
+    private ResourceRef modifiedBy;
 
-    private String publicStatus = null;
+    private String publicStatus;
 
-    private String publicStatusComment = null;
+    private String publicStatusComment;
 
-    private String lockStatus = null;
+    private String lockStatus;
 
-    private DateTime lockDate = null;
+    private DateTime lockDate;
 
-    private ResourceRef lockOwner = null;
+    private ResourceRef lockOwner;
 
-    private String pid = null;
+    private String pid;
 
-    private String name = null;
+    private String name;
 
     /**
      * 
