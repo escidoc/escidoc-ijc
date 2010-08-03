@@ -103,42 +103,101 @@ public class ContentRelation extends GenericResource {
 
     }
 
+    /**
+     * Set type of relation.
+     * 
+     * @param type
+     *            type of relation
+     */
     public void setType(final URI type) {
         this.type = type;
     }
 
+    /**
+     * Get type of relation
+     * 
+     * @return type of relation
+     */
     public URI getType() {
         return type;
     }
 
+    /**
+     * Set subject of relation.
+     * 
+     * @param subject
+     *            subject of relation
+     */
     public void setSubject(final String subject) {
         this.subject = subject;
     }
 
+    /**
+     * Get subject of relation.
+     * 
+     * @return subject of relation
+     */
     public String getSubject() {
         return subject;
     }
 
+    /**
+     * Set object of relation.
+     * 
+     * @param object
+     *            object of relation
+     */
     public void setObject(final String object) {
         this.object = object;
     }
 
+    /**
+     * Get object of relation
+     * 
+     * @return object of relation
+     */
     public String getObject() {
         return object;
     }
 
+    /**
+     * Set version number of subject
+     * 
+     * @param subjectVersion
+     *            version number of subject (leave it empty if the whole
+     *            resource is to reference)
+     */
     public void setSubjectVersion(final String subjectVersion) {
         this.subjectVersion = subjectVersion;
     }
 
+    /**
+     * Get version number of subject
+     * 
+     * @return version number of subject (is <code>null</code> if the whole
+     *         object is to reference)
+     */
     public String getSubjectVersion() {
         return subjectVersion;
     }
 
+    /**
+     * Set version number of object
+     * 
+     * @param objectVersion
+     *            version number of object (leave it empty if the whole object
+     *            is to reference)
+     */
     public void setObjectVersion(final String objectVersion) {
         this.objectVersion = objectVersion;
     }
 
+    /**
+     * Get version number of object
+     * 
+     * @return version number of object (is <code>null</code> if the whole
+     *         resource is to reference)
+     */
     public String getObjectVersion() {
         return objectVersion;
     }
