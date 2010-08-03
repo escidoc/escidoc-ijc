@@ -156,67 +156,154 @@ public class ComponentProperties implements ComponentPropertiesInterface {
         this.name = name;
     }
 
+    /**
+     * Get content-category.
+     * 
+     * @return content-category
+     */
     public String getContentCategory() {
         return this.contentCategory;
     }
 
+    /**
+     * Set content-category.
+     * 
+     * @param contentCategory
+     *            content-category
+     */
     public void setContentCategory(final String contentCategory) {
         this.contentCategory = contentCategory;
     }
 
+    /**
+     * Get file name.
+     * 
+     * @return file name
+     */
     public String getFileName() {
         return this.fileName;
     }
 
+    /**
+     * Set file name.
+     * 
+     * @param fileName
+     *            file name
+     */
     public void setFileName(final String fileName) {
         this.fileName = fileName;
     }
 
+    /**
+     * Get MIME type.
+     * 
+     * @return MIME type
+     */
     public String getMimeType() {
         return this.mimeType;
     }
 
+    /**
+     * Set MIME type.
+     * 
+     * @param mimeType
+     *            MIME type
+     */
     public void setMimeType(final String mimeType) {
         this.mimeType = mimeType;
     }
 
+    /**
+     * Set valid status.
+     * 
+     * @param validStatus
+     */
     public void setValidStatus(final String validStatus) {
         this.validStatus = validStatus;
     }
 
+    /**
+     * Get valid status.
+     * 
+     * @return valid status
+     */
     public String getValidStatus() {
         return this.validStatus;
     }
 
+    /**
+     * Get visibility.
+     * 
+     * @return visibility
+     */
     public String getVisibility() {
         return this.visibility;
     }
 
+    /**
+     * Set visibility.
+     * 
+     * @param visibility
+     *            visibility
+     */
     public void setVisibility(final String visibility) {
         this.visibility = visibility;
 
     }
 
+    /**
+     * Set checksum.
+     * 
+     * @param checksum
+     *            checksum
+     */
     public void setChecksum(final String checksum) {
         this.checksum = checksum;
     }
 
+    /**
+     * Get checksum.
+     * 
+     * @return checksum
+     */
     public String getChecksum() {
         return checksum;
     }
 
+    /**
+     * Set checksum algorithm.
+     * 
+     * @param checksumAlgorithm
+     *            checksum algorithm (MD5, SHA-1, ..)
+     */
     public void setChecksumAlgorithm(final String checksumAlgorithm) {
         this.checksumAlgorithm = checksumAlgorithm;
     }
 
+    /**
+     * Get checksum algorithm.
+     * 
+     * @return checksum algorithm
+     */
     public String getChecksumAlgorithm() {
         return checksumAlgorithm;
     }
 
+    /**
+     * Set description.
+     * 
+     * @param description
+     *            description
+     */
     public void setDescription(final String description) {
         this.description = description;
     }
 
+    /**
+     * Get description.
+     * 
+     * @return description
+     */
     public String getDescription() {
         return description;
     }
