@@ -41,33 +41,33 @@ import de.escidoc.core.resources.interfaces.item.ComponentPropertiesInterface;
  */
 public class ComponentProperties implements ComponentPropertiesInterface {
 
-    private DateTime creationDate = null;
+    private DateTime creationDate;
 
-    private DateTime lastModificationDate = null;
+    private DateTime lastModificationDate;
 
-    private ResourceRef createdBy = null;
+    private ResourceRef createdBy;
 
-    private ResourceRef modifiedBy = null;
+    private ResourceRef modifiedBy;
 
-    private String name = null;
+    private String name;
 
-    private String contentCategory = null;
+    private String contentCategory;
 
-    private String fileName = null;
+    private String fileName;
 
-    private String mimeType = null;
+    private String mimeType;
 
-    private String checksum = null;
+    private String checksum;
 
-    private String checksumAlgorithm = null;
+    private String checksumAlgorithm;
 
-    private String visibility = null;
+    private String visibility;
 
-    private String validStatus = null;
+    private String validStatus;
 
-    private String description = null;
+    private String description;
 
-    private String pid = null;
+    private String pid;
 
     /**
      * @return The creation date.
