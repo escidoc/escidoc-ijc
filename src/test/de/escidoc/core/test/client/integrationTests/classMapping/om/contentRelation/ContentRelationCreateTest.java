@@ -30,7 +30,6 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.contentRela
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.net.URI;
 import java.net.URL;
@@ -66,7 +65,7 @@ public class ContentRelationCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation01() throws Exception {
 
         Authentication auth =
@@ -78,16 +77,7 @@ public class ContentRelationCreateTest {
         cc.setHandle(auth.getHandle());
 
         ContentRelation contentRelation = new ContentRelation();
-        try {
-            cc.create(contentRelation);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-
-        }
+        cc.create(contentRelation);
     }
 
     /**
@@ -99,7 +89,7 @@ public class ContentRelationCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation02() throws Exception {
 
         Authentication auth =
@@ -112,15 +102,7 @@ public class ContentRelationCreateTest {
 
         ContentRelation contentRelation = new ContentRelation();
         contentRelation.setTitle("New title for test");
-        try {
-            cc.create(contentRelation);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(contentRelation);
     }
 
     /**
@@ -130,7 +112,7 @@ public class ContentRelationCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation03() throws Exception {
 
         Authentication auth =
@@ -144,15 +126,7 @@ public class ContentRelationCreateTest {
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
-        try {
-            cc.create(contentRelation);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(contentRelation);
     }
 
     /**
@@ -162,7 +136,7 @@ public class ContentRelationCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation04() throws Exception {
 
         Authentication auth =
@@ -176,15 +150,7 @@ public class ContentRelationCreateTest {
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
-        try {
-            cc.create(contentRelation);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(contentRelation);
     }
 
     /**
@@ -194,7 +160,7 @@ public class ContentRelationCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation05() throws Exception {
 
         Authentication auth =
@@ -208,15 +174,7 @@ public class ContentRelationCreateTest {
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
-        try {
-            cc.create(contentRelation);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(contentRelation);
     }
 
     /**
@@ -229,7 +187,7 @@ public class ContentRelationCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation06() throws Exception {
 
         Authentication auth =
@@ -248,15 +206,7 @@ public class ContentRelationCreateTest {
         mdRecords.add(mdRecord);
         contentRelation.setMetadataRecords(mdRecords);
 
-        try {
-            cc.create(contentRelation);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(contentRelation);
     }
 
     /**
@@ -268,7 +218,7 @@ public class ContentRelationCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation07() throws Exception {
 
         Authentication auth =
@@ -288,15 +238,7 @@ public class ContentRelationCreateTest {
         mdRecords.add(mdRecord);
         contentRelation.setMetadataRecords(mdRecords);
 
-        try {
-            cc.create(contentRelation);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(contentRelation);
     }
 
     /**
