@@ -66,8 +66,7 @@ public class ComponentContent extends Content {
      */
     public String encodeBinaryContent(final byte[] inlineContent) {
 
-        Base64 base64 = new Base64();
-        return base64.encode(inlineContent).toString();
+        return new Base64().encode(inlineContent).toString();
     }
 
     /**
@@ -78,7 +77,6 @@ public class ComponentContent extends Content {
      */
     public byte[] decodeBinaryContent(final String base64EncodedContent) {
 
-        Base64 base64 = new Base64();
-        return base64.decode(base64EncodedContent.getBytes());
+        return new Base64().decode(base64EncodedContent.getBytes());
     }
 }
