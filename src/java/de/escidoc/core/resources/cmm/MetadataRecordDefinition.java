@@ -38,9 +38,9 @@ import java.net.URI;
  */
 public class MetadataRecordDefinition {
 
-    private String name = null;
+    private String name;
 
-    private URI schema = null;
+    private URI schema;
 
     public MetadataRecordDefinition() {
 
