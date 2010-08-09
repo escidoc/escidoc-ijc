@@ -44,31 +44,31 @@ import de.escidoc.core.resources.interfaces.common.VersionInterface;
  */
 public class ContentModelProperties {
 
-    private String name = null;
+    private String name;
 
-    private String description = null;
+    private String description;
 
-    private DateTime creationDate = null;
+    private DateTime creationDate;
 
-    private ResourceRef createdBy = null;
+    private ResourceRef createdBy;
 
-    private String publicStatus = null;
+    private String publicStatus;
 
-    private String publicStatusComment = null;
+    private String publicStatusComment;
 
-    private String lockStatus = null;
+    private String lockStatus;
 
-    private DateTime lockDate = null;
+    private DateTime lockDate;
 
-    private ResourceRef lockOwner = null;
+    private ResourceRef lockOwner;
 
-    private String pid = null;
+    private String pid;
 
-    private Version version = null;
+    private Version version;
 
-    private Version latestVersion = null;
+    private Version latestVersion;
 
-    private Version latestRelease = null;
+    private Version latestRelease;
 
 
     /**
