@@ -7,7 +7,7 @@
 	<classpathentry kind="src" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/junit4.4/junit-4.4.jar" sourcepath="/home/SWA/.m2/repository/junit/junit/4.4/junit-4.4-sources.jar"/>
+	<classpathentry kind="lib" path="lib/junit/junit-4.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/httpunit-1.7/httpunit.jar"/>
 	<classpathentry kind="lib" path="lib/axis1.4/activation.jar"/>
 	<classpathentry kind="lib" path="lib/axis1.4/axis.jar"/>

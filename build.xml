@@ -130,8 +130,8 @@
 			<fileset dir="${lib.dir}">
 				<exclude name="doc" />
 				<exclude name="doc/**/*" />
-				<exclude name="junit4.4" />
-				<exclude name="junit4.4/**/*" />
+				<exclude name="junit4" />
+				<exclude name="junit4/**/*" />
 				<exclude name="httpjunit-1.7" />
 				<exclude name="httpjunit-1.7/**/*" />
 				<exclude name="ant-contrib-1.0b1.jar" />
