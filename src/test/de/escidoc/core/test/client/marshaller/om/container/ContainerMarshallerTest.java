@@ -160,7 +160,7 @@ public class ContainerMarshallerTest {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void unmarshalling02() throws Exception {
+    public void unmarshallingLocked() throws Exception {
 
         File templContainer =
             new File(
@@ -260,7 +260,7 @@ public class ContainerMarshallerTest {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void unmarshalling03() throws Exception {
+    public void unmarshallingWithContainerInStructMap() throws Exception {
 
         File templContainer =
             new File(
@@ -354,7 +354,7 @@ public class ContainerMarshallerTest {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void marshallingIssueCLib44() throws Exception {
+    public void marshallingWithDirectAddedStrucutMapMembers() throws Exception {
 
         final String contextId = "escidoc:context";
         final String contentModelId = "escidoc:contentmodel";
