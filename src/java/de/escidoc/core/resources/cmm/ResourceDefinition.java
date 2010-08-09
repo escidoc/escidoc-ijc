@@ -40,7 +40,7 @@ public class ResourceDefinition {
 
     private String name;
 
-    private URI xslt = null;
+    private URI xslt;
 
     private String mdRecordName;
     
