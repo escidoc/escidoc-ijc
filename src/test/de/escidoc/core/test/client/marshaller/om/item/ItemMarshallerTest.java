@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.marshaller.om.item;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
 
@@ -346,44 +347,39 @@ public class ItemMarshallerTest {
 
         Item item = Factory.getItemMarshaller().unmarshalDocument(itemXml);
 
-        assertTrue("Wrong objid", item.getObjid() == null);
-        assertTrue("Wrong last modification date",
-            item.getLastModificationDate() == null);
-        assertTrue("Wrong creation date", item
-            .getProperties().getCreationDate() == null);
+        assertNull("Wrong objid", item.getObjid());
+        assertNull("Wrong last modification date",
+            item.getLastModificationDate());
+        assertNull("Wrong creation date", item
+            .getProperties().getCreationDate());
 
-        assertTrue("Wrong created-by",
-            item.getProperties().getCreatedBy() == null);
-        assertTrue("Wrong public-status", item
-            .getProperties().getPublicStatus() == null);
-        assertTrue("Wrong public-status comment", item
-            .getProperties().getPublicStatusComment() == null);
+        assertNull("Wrong created-by", item.getProperties().getCreatedBy());
+        assertNull("Wrong public-status", item
+            .getProperties().getPublicStatus());
+        assertNull("Wrong public-status comment", item
+            .getProperties().getPublicStatusComment());
 
         assertEquals("Wrong Context", "escidoc:context", item
             .getProperties().getContext().getObjid());
         assertEquals("Wrong Content Model", "escidoc:contentModel", item
             .getProperties().getContentModel().getObjid());
 
-        assertTrue("Wrong lock-status",
-            item.getProperties().getLockStatus() == null);
-        assertTrue("Wrong lock-date",
-            item.getProperties().getLockDate() == null);
-        assertTrue("Wrong lock-owner",
-            item.getProperties().getLockOwner() == null);
+        assertNull("Wrong lock-status", item.getProperties().getLockStatus());
+        assertNull("Wrong lock-date", item.getProperties().getLockDate());
+        assertNull("Wrong lock-owner", item.getProperties().getLockOwner());
 
-        assertTrue("Wrong [object] pid", item.getProperties().getPid() == null);
+        assertNull("Wrong [object] pid", item.getProperties().getPid());
 
         // version
-        assertTrue("Wrong version number",
-            item.getProperties().getVersion() == null);
+        assertNull("Wrong version number", item.getProperties().getVersion());
 
         // latest-version
-        assertTrue("Wrong latest-version number", item
-            .getProperties().getLatestVersion() == null);
+        assertNull("Wrong latest-version number", item
+            .getProperties().getLatestVersion());
 
         // latest-release
-        assertTrue("Wrong latest-release number", item
-            .getProperties().getLatestRelease() == null);
+        assertNull("Wrong latest-release number", item
+            .getProperties().getLatestRelease());
 
         // md-records
         assertEquals("Wrong number of md-records", 1, item
@@ -398,14 +394,13 @@ public class ItemMarshallerTest {
         // components
         assertEquals("Wrong number of components", 1, item
             .getComponents().size());
-        assertTrue("Wrong objid of component", item
-            .getComponents().element().getObjid() == null);
+        assertNull("Wrong objid of component", item
+            .getComponents().element().getObjid());
 
-        assertTrue(
-            "Wrong component property creation-date",
-            item.getComponents().element().getProperties().getCreationDate() == null);
-        assertTrue("Wrong component property created-by", item
-            .getComponents().element().getProperties().getCreatedBy() == null);
+        assertNull("Wrong component property creation-date", item
+            .getComponents().element().getProperties().getCreationDate());
+        assertNull("Wrong component property created-by", item
+            .getComponents().element().getProperties().getCreatedBy());
 
         // FIXME check content exactly
         assertTrue("Wrong component property description", item
@@ -415,8 +410,8 @@ public class ItemMarshallerTest {
             .getComponents().element().getProperties().getValidStatus());
         assertEquals("Wrong component property visibility", "public", item
             .getComponents().element().getProperties().getVisibility());
-        assertTrue("Wrong component property pid", item
-            .getComponents().element().getProperties().getPid() == null);
+        assertNull("Wrong component property pid", item
+            .getComponents().element().getProperties().getPid());
 
         assertEquals("Wrong component property content-category", "pre-print",
             item.getComponents().element().getProperties().getContentCategory());
@@ -428,16 +423,15 @@ public class ItemMarshallerTest {
             "application/octet-stream", item
                 .getComponents().element().getProperties().getMimeType().trim());
 
-        assertTrue("Wrong component property checksum", item
-            .getComponents().element().getProperties().getChecksum() == null);
-        assertTrue("Wrong component property checksum-algorithm",
-            item.getComponents().element().getProperties()
-                .getChecksumAlgorithm() == null);
+        assertNull("Wrong component property checksum", item
+            .getComponents().element().getProperties().getChecksum());
+        assertNull("Wrong component property checksum-algorithm", item
+            .getComponents().element().getProperties().getChecksumAlgorithm());
 
-        assertTrue("Wrong component content title", item
-            .getComponents().element().getContent().getTitle() == null);
-        assertTrue("Wrong component content href", item
-            .getComponents().element().getContent().getHref() == null);
+        assertNull("Wrong component content title", item
+            .getComponents().element().getContent().getTitle());
+        assertNull("Wrong component content href", item
+            .getComponents().element().getContent().getHref());
         assertEquals("Wrong component content storage", "internal-managed",
             item.getComponents().element().getContent().getStorage());
 
