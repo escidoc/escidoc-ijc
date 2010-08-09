@@ -105,9 +105,9 @@ public class TestContentXmlParser {
         Context contextRev =
             Factory.getContextMarshaller().unmarshalDocument(contextXml);
 
-        assertEquals("Content failue", contentElementName, contextRev
+        assertEquals("Content failure", contentElementName, contextRev
             .getAdminDescriptors().get(0).getContent().getNodeName());
-        assertTrue("Content failue", contextRev
+        assertTrue("Content failure", contextRev
             .getAdminDescriptors().get(0).getContent().getChildNodes()
             .getLength() == 0);
     }
