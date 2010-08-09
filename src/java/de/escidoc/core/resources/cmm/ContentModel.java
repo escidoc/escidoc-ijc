@@ -40,9 +40,9 @@ public class ContentModel extends GenericResource {
 
     private ContentModelProperties properties = new ContentModelProperties();
 
-    private MetadataRecordDefinitions metadataRecordDefinitions = null;
+    private MetadataRecordDefinitions metadataRecordDefinitions;
 
-    private ResourceDefinitions resourceDefinitions = null;
+    private ResourceDefinitions resourceDefinitions;
 
     /**
      */
