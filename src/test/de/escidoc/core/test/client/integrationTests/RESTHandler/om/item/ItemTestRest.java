@@ -161,8 +161,8 @@ public class ItemTestRest {
         Node href =
             rootNode.getAttributes().getNamedItemNS(
                 "http://www.w3.org/1999/xlink", "href");
-
-        String objid = ""; // href.substring(href.lastIndexOf("/"));
+        String hrefPath = href.getTextContent();
+        String objid = hrefPath.substring(hrefPath.lastIndexOf("/"));
         Node dcTitle = itemDoc.getElementsByTagName("dc:title").item(0);
 
         String newDescription = "New Item Description " + System.nanoTime();
@@ -173,6 +173,7 @@ public class ItemTestRest {
         String updatedItemXml = cc.update(objid, updateItemXml);
 
         // FIXME asserts
+        
     }
 
 

@@ -34,7 +34,6 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
-import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
