@@ -28,18 +28,18 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.item;
 
-import java.io.ByteArrayInputStream;
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import org.apache.xpath.XPathAPI;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
+import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.XmlUtil;
@@ -95,7 +95,37 @@ public class ItemTestRest {
         // create a new Item (on basis of the valid)
         String createdItemXml = cc.create(item);
 
-        // FIXME asserts
+        // asserts
+        Document itemTemplateDoc = XmlUtility.getDocument(item);
+        Document itemCreatedDoc = XmlUtility.getDocument(createdItemXml);
+
+        // /item/@title == dc:title
+        assertEquals("xlink:title not updated in root element", XPathAPI
+            .selectSingleNode(itemTemplateDoc,
+                "/item/md-records/md-record[@name='escidoc']/dc-md/title")
+            .getTextContent(), XPathAPI.selectSingleNode(itemCreatedDoc,
+            "/item/@title").getTextContent());
+
+        // dc:title == dc:title
+        assertEquals("xlink:title not updated in root element", XPathAPI
+            .selectSingleNode(itemTemplateDoc,
+                "/item/md-records/md-record[@name='escidoc']/dc-md/title")
+            .getTextContent(), XPathAPI
+            .selectSingleNode(itemCreatedDoc,
+                "/item/md-records/md-record[@name='escidoc']/dc-md/title")
+            .getTextContent());
+
+        // description
+        assertEquals(
+            "xlink:title not updated in root element",
+            XPathAPI
+                .selectSingleNode(itemTemplateDoc,
+                    "/item/md-records/md-record[@name='escidoc']/dc-md/description")
+                .getTextContent(),
+            XPathAPI
+                .selectSingleNode(itemCreatedDoc,
+                    "/item/md-records/md-record[@name='escidoc']/dc-md/description")
+                .getTextContent());
     }
 
     /**
@@ -121,7 +151,38 @@ public class ItemTestRest {
         // create a new Item (on basis of the valid)
         String createdItemXml = cc.create(itemXml);
 
-        // FIXME asserts
+        // asserts
+        Document itemTemplateDoc = XmlUtility.getDocument(itemXml);
+        Document itemCreatedDoc = XmlUtility.getDocument(createdItemXml);
+
+        // /item/@title == dc:title
+        assertEquals("xlink:title not updated in root element", XPathAPI
+            .selectSingleNode(itemTemplateDoc,
+                "/item/md-records/md-record[@name='escidoc']/metadata/title")
+            .getTextContent(), XPathAPI.selectSingleNode(itemCreatedDoc,
+            "/item/@title").getTextContent());
+
+        // dc:title == dc:title
+        assertEquals("xlink:title not updated in root element", XPathAPI
+            .selectSingleNode(itemTemplateDoc,
+                "/item/md-records/md-record[@name='escidoc']/metadata/title")
+            .getTextContent(), XPathAPI
+            .selectSingleNode(itemCreatedDoc,
+                "/item/md-records/md-record[@name='escidoc']/metadata/title")
+            .getTextContent());
+
+        // description
+        assertEquals(
+            "xlink:title not updated in root element",
+            XPathAPI
+                .selectSingleNode(itemTemplateDoc,
+                    "/item/md-records/md-record[@name='escidoc']/metadata/description")
+                .getTextContent(),
+            XPathAPI
+                .selectSingleNode(itemCreatedDoc,
+                    "/item/md-records/md-record[@name='escidoc']/metadata/description")
+                .getTextContent());
+
     }
 
     /**
@@ -147,34 +208,33 @@ public class ItemTestRest {
         // create a new Item (on basis of the valid)
         String createdItemXml = cc.create(itemXml);
 
-        DocumentBuilderFactory docBuilderFactory =
-            DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document itemDoc = XmlUtility.getDocument(createdItemXml);
 
-        Document itemDoc =
-            docBuilder.parse(new ByteArrayInputStream(createdItemXml
-                .getBytes("UTF-8")));
-        itemDoc.getDocumentElement().normalize();
+        String hrefPath =
+            XPathAPI.selectSingleNode(itemDoc, "/item/@href").getTextContent();
+        String objid = hrefPath.substring(hrefPath.lastIndexOf("/") + 1);
 
-        Node rootNode = itemDoc.getFirstChild().getNextSibling();
-
-        Node href =
-            rootNode.getAttributes().getNamedItemNS(
-                "http://www.w3.org/1999/xlink", "href");
-        String hrefPath = href.getTextContent();
-        String objid = hrefPath.substring(hrefPath.lastIndexOf("/"));
+        // assumtion, there is only one ds:title element
         Node dcTitle = itemDoc.getElementsByTagName("dc:title").item(0);
-
-        String newDescription = "New Item Description " + System.nanoTime();
-        dcTitle.setTextContent(newDescription);
+        String titleNew = "New Item Description " + System.nanoTime();
+        dcTitle.setTextContent(titleNew);
 
         // updateItemXml
         String updateItemXml = XmlUtil.xmlToString(itemDoc);
         String updatedItemXml = cc.update(objid, updateItemXml);
 
-        // FIXME asserts
-        
-    }
+        // asserts
+        Document itemUpdatedDoc = XmlUtility.getDocument(updatedItemXml);
 
+        assertEquals("xlink:title not updated in root element", titleNew,
+            XPathAPI
+                .selectSingleNode(itemUpdatedDoc, "/item/@title")
+                .getTextContent());
+
+        assertEquals("dc:title not updated in md-record", titleNew,
+            itemUpdatedDoc
+                .getElementsByTagName("dc:title").item(0).getTextContent());
+
+    }
 
 }
