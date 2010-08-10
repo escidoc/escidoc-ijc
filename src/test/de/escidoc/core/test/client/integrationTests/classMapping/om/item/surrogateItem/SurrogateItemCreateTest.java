@@ -28,24 +28,24 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item.surrogateItem;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import java.net.URL;
 
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
+import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.context.Context;
-import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.resources.om.context.Properties;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.test.client.Constants;
@@ -89,105 +89,139 @@ public class SurrogateItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        // Create User Account
-        String password = String.valueOf(System.nanoTime());
-        UserAccount userAccount =
-            TestDataUtil.createUserWithDepositorRole(sysadminAuth, password);
-
-        // Create Organizational Unit
+        // -------------------------------------------------
+        // Create Organizational Unit (and set status to open)
         OrganizationalUnit organizationalUnit =
-            TestDataUtil.createOrganizationalUnit(sysadminAuth);
+            TestDataUtil.createOrganizationalUnit(sysadminAuth, true);
 
-        // create Context 1 -------------------------------------------------
+        // -------------------------------------------------
+        // create Context 1
         Context context1 =
-            TestDataUtil.createContext(sysadminAuth, organizationalUnit);
+            TestDataUtil.createContext(sysadminAuth, organizationalUnit, true);
 
         // create Context 2
         Context context2 =
-            TestDataUtil.createContext(sysadminAuth, organizationalUnit);
+            TestDataUtil.createContext(sysadminAuth, organizationalUnit, true);
 
+        // -------------------------------------------------
+        // create Content Model
+        ContentModel contentModel =
+            TestDataUtil.createContentModel(sysadminAuth);
+
+        // -------------------------------------------------
+        // Create User Account
+        String password = String.valueOf(System.nanoTime());
+
+        UserAccount userAccount =
+            TestDataUtil.createUserWithDepositorRole(sysadminAuth, password,
+                context1);
+
+        UserAccount userAccount2 =
+            TestDataUtil.createUserWithDepositorRole(sysadminAuth, password,
+                context2);
+
+        // -------------------------------------------------
+        // create origin Item
 
         // authenticate User Account
         Authentication depositorAuth =
             new Authentication(sysadminAuth.getServiceAddress(), userAccount
                 .getProperties().getLoginName(), password);
 
-//        // create, submit and release Item (item1)
-//        Item originItem = TestDataUtil.createItem(depositorAuth, context1, contentModel);
-//
-//        
-//        ItemHandlerClient ihc = new ItemHandlerClient();
-//        ihc.setServiceAddress(depositorAuth.getServiceAddress());
-//        ihc.setHandle(depositorAuth.getHandle());
-//
-//        // create
-//        Item createdItem = ihc.create(item);
-//        // submit --------------------------------------------------------------
-//        TaskParam taskParam = new TaskParam();
-//        taskParam
-//            .setLastModificationDate(createdItem.getLastModificationDate());
-//        taskParam.setComment("submitted as java client lib test");
-//
-//        Result result = ihc.submit(createdItem, taskParam);
-//
-//        // assign object PID ---------------------------------------------------
-//        taskParam = new TaskParam();
-//        taskParam.setLastModificationDate(result.getLastModificationDate());
-//        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
-//            + System.nanoTime());
-//        taskParam.setComment("Test Object PID");
-//
-//        result = ihc.assignObjectPid(createdItem, taskParam);
-//
-//        // assign version PID --------------------------------------------------
-//        taskParam = new TaskParam();
-//        taskParam.setLastModificationDate(result.getLastModificationDate());
-//        taskParam.setUrl("http://url.to.the.solution/path/for/this/resource/"
-//            + System.nanoTime());
-//        taskParam.setComment("Test Version PID");
-//
-//        result = ihc.assignVersionPid(createdItem, taskParam);
-//
-//        // release -------------------------------------------------------------
-//        taskParam = new TaskParam();
-//        taskParam.setLastModificationDate(result.getLastModificationDate());
-//        taskParam.setComment("Release as java client lib test");
-//
-//        result = ihc.release(createdItem, taskParam);
-//
-//        // ====================================================================
-//        // prepare a new Item as Surrogate Item
-//        Item surrogateItem = new Item();
-//
-//        surrogateItem.getProperties().setContext(
-//            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
-//        surrogateItem.getProperties().setContentModel(
-//            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
-//
-//        // Content Model Specific
-//        surrogateItem.getProperties().setContentModelSpecific(cms);
-//
-//        // Metadata Record(s)
-//        mdRecords = new MetadataRecords();
-//        mdrecord = ResourceUtility.getMdRecord("escidoc");
-//        mdRecords.add(mdrecord);
-//        surrogateItem.setMetadataRecords(mdRecords);
-//
-//        surrogateItem.getProperties().setOrigin(
-//            new ResourceRef(createdItem.getObjid()));
-//        surrogateItem = ihc.create(surrogateItem);
-//
-//        /*
-//         * compare the Surrogate Item with the origin Item
-//         */
-//        String objId = createdItem.getObjid();
-//
-//        assertNotNull("Object id is null", objId);
-//        assertEquals(createdItem.getProperties().getContext().getObjid(),
-//            surrogateItem.getProperties().getContext().getObjid());
-//        assertEquals(createdItem.getProperties().getContentModel().getObjid(),
-//            surrogateItem.getProperties().getContentModel().getObjid());
-//        assertEquals(createdItem.getObjid(), surrogateItem
-//            .getProperties().getOrigin().getObjid());
+        // create
+        ItemHandlerClient ihc = new ItemHandlerClient();
+        ihc.setServiceAddress(depositorAuth.getServiceAddress());
+        ihc.setHandle(depositorAuth.getHandle());
+
+        Item originItem = new Item();
+
+        originItem.getProperties().setContext(
+            new ResourceRef(context1.getObjid()));
+        originItem.getProperties().setContentModel(
+            new ResourceRef(contentModel.getObjid()));
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("test2");
+        mdRecords.add(mdrecord2);
+        MetadataRecord mdrecord3 = ResourceUtility.getMdRecord("test3");
+        mdRecords.add(mdrecord3);
+        originItem.setMetadataRecords(mdRecords);
+
+        originItem = ihc.create(originItem);
+
+        // submit --------------------------------------------------------------
+        TaskParam taskParam = new TaskParam();
+        taskParam.setLastModificationDate(originItem.getLastModificationDate());
+        taskParam.setComment("submitted as java client lib test");
+
+        Result result = ihc.submit(originItem, taskParam);
+
+        // assign object PID ---------------------------------------------------
+        taskParam = new TaskParam();
+        taskParam.setLastModificationDate(result.getLastModificationDate());
+        taskParam.setUrl(new URL(
+            "http://url.to.the.solution/path/for/this/resource/"
+                + System.nanoTime()));
+        taskParam.setComment("Test Object PID");
+
+        result = ihc.assignObjectPid(originItem, taskParam);
+
+        // assign version PID --------------------------------------------------
+        taskParam = new TaskParam();
+        taskParam.setLastModificationDate(result.getLastModificationDate());
+        taskParam.setUrl(new URL(
+            "http://url.to.the.solution/path/for/this/resource/"
+                + System.nanoTime()));
+        taskParam.setComment("Test Version PID");
+
+        result = ihc.assignVersionPid(originItem, taskParam);
+
+        // release -------------------------------------------------------------
+        taskParam = new TaskParam();
+        taskParam.setLastModificationDate(result.getLastModificationDate());
+        taskParam.setComment("Release as java client lib test");
+
+        result = ihc.release(originItem, taskParam);
+
+        // ====================================================================
+        // prepare a new Item as Surrogate Item
+        // authenticate User Account
+        Authentication depositorAuth2 =
+            new Authentication(sysadminAuth.getServiceAddress(), userAccount2
+                .getProperties().getLoginName(), password);
+
+        ItemHandlerClient ihc2 = new ItemHandlerClient();
+        ihc2.setServiceAddress(depositorAuth2.getServiceAddress());
+        ihc2.setHandle(depositorAuth2.getHandle());
+
+        Item surrogateItem = new Item();
+
+        surrogateItem.getProperties().setContext(
+            new ResourceRef(context2.getObjid()));
+        surrogateItem.getProperties().setContentModel(
+            new ResourceRef(contentModel.getObjid()));
+
+        // Metadata Record(s)
+        mdRecords = new MetadataRecords();
+        mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        surrogateItem.setMetadataRecords(mdRecords);
+
+        surrogateItem.getProperties().setOrigin(
+            new ResourceRef(originItem.getObjid()));
+        surrogateItem = ihc2.create(surrogateItem);
+
+        /*
+         * compare the Surrogate Item with the origin Item
+         */
+        assertThat("Context refererence does not differ", originItem
+            .getProperties().getContext().getObjid(), not(surrogateItem
+            .getProperties().getContext().getObjid()));
+        assertEquals("Number of metadata records differ", originItem
+            .getMetadataRecords().size(), surrogateItem
+            .getMetadataRecords().size());
     }
 }

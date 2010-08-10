@@ -1,5 +1,8 @@
 package de.escidoc.core.test.client.util;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -8,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.ContentModelHandlerClient;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
@@ -22,6 +26,9 @@ import de.escidoc.core.resources.aa.useraccount.GrantProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.cmm.ContentModel;
+import de.escidoc.core.resources.cmm.ContentModelProperties;
+import de.escidoc.core.resources.cmm.ResourceDefinition;
+import de.escidoc.core.resources.cmm.ResourceDefinitions;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
@@ -48,6 +55,9 @@ public class TestDataUtil {
      * 
      * @param auth
      *            A valid Authentication to create an Organizational Unit
+     * @param setToOpen
+     *            Set true if status of Organizational Unit is to set to open,
+     *            false otherwise.
      * @return Created Organizational Unit
      * 
      * @throws InternalClientException
@@ -56,8 +66,9 @@ public class TestDataUtil {
      * @throws TransportException
      */
     public static OrganizationalUnit createOrganizationalUnit(
-        Authentication auth) throws InternalClientException,
-        ParserConfigurationException, EscidocException, TransportException {
+        Authentication auth, final boolean setToOpen)
+        throws InternalClientException, ParserConfigurationException,
+        EscidocException, TransportException {
 
         final String ouName = "name" + System.currentTimeMillis();
         final String ouDescription = "Just a generic organizational unit.";
@@ -106,7 +117,20 @@ public class TestDataUtil {
         ouhc.setServiceAddress(auth.getServiceAddress());
         ouhc.setHandle(auth.getHandle());
 
-        return ouhc.create(organizationalUnit);
+        organizationalUnit = ouhc.create(organizationalUnit);
+
+        if (setToOpen) {
+            TaskParam tp = new TaskParam();
+            tp.setComment("Open OU just after create");
+            tp.setLastModificationDate(organizationalUnit
+                .getLastModificationDate());
+
+            ouhc.open(organizationalUnit.getObjid(), tp);
+            // get latest status of OU
+            organizationalUnit = ouhc.retrieve(organizationalUnit.getObjid());
+        }
+
+        return organizationalUnit;
     }
 
     /**
@@ -118,8 +142,8 @@ public class TestDataUtil {
      * @throws EscidocClientException
      */
     public static UserAccount createUserWithDepositorRole(
-        final Authentication auth, final String password)
-        throws EscidocClientException {
+        final Authentication auth, final String password,
+        final ResourceRef assignOn) throws EscidocClientException {
 
         UserAccount ua = new UserAccount();
 
@@ -150,6 +174,7 @@ public class TestDataUtil {
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
         gProp.setRole(new ResourceRef("escidoc:role-depositor"));
+        gProp.setAssignedOn(assignOn);
         grant.setGrantProperties(gProp);
         uac.createGrant(userAccount.getObjid(), grant);
 
@@ -164,12 +189,15 @@ public class TestDataUtil {
      *            A valid Authentication to fulfill the task (sysadmin)
      * @param organizationalUnit
      *            The Organizational Unit which is to reference
+     * @param setToOpen
+     *            Set true if status of Context is to set to open, false
+     *            otherwise.
      * @return The Context
      * @throws EscidocClientException
      */
     public static Context createContext(
-        final Authentication auth, final OrganizationalUnit organizationalUnit)
-        throws EscidocClientException {
+        final Authentication auth, final OrganizationalUnit organizationalUnit,
+        final boolean setToOpen) throws EscidocClientException {
 
         ContextHandlerClient cc = new ContextHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
@@ -191,7 +219,20 @@ public class TestDataUtil {
         properties.setType("type");
         context.setProperties(properties);
 
-        return cc.create(context);
+        context = cc.create(context);
+
+        if (setToOpen) {
+            TaskParam tp = new TaskParam();
+            tp.setComment("Open OU just after create");
+            tp.setLastModificationDate(context.getLastModificationDate());
+
+            cc.open(context.getObjid(), tp);
+            // get latest status of OU
+            context = cc.retrieve(context.getObjid());
+        }
+
+        return context;
+
     }
 
     /**
@@ -252,6 +293,45 @@ public class TestDataUtil {
     }
 
     /**
+     * Create a ContentModel within the infrastructure.
+     * 
+     * @param auth
+     *            A valid Authentication to fulfill the task (sysadmin)
+     * @return The ContentModel
+     * 
+     * @throws EscidocClientException
+     * @throws URISyntaxException
+     *             Thrown if value for XSLT of resource definition is not a
+     *             valid URI
+     */
+    public static ContentModel createContentModel(final Authentication auth)
+        throws EscidocClientException, URISyntaxException {
+
+        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        cc.setServiceAddress(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+
+        ContentModel contentModel = new ContentModel();
+        ContentModelProperties properties = new ContentModelProperties();
+        properties.setDescription("ContentModel Description");
+        properties.setName("ContentModelName" + System.currentTimeMillis());
+
+        contentModel.setProperties(properties);
+
+        // resource definition
+        ResourceDefinition rd1 = new ResourceDefinition();
+        rd1.setName("transX" + System.nanoTime());
+        rd1.setMetadataRecordName("escidoc");
+        rd1.setXslt(new URI(
+            "http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
+        ResourceDefinitions rds = new ResourceDefinitions();
+        rds.add(rd1);
+        contentModel.setResourceDefinitions(rds);
+
+        return cc.create(contentModel);
+    }
+
+    /**
      * Create all resources to create an Item.
      * 
      * Pre-condition: User and Role exists
@@ -262,7 +342,11 @@ public class TestDataUtil {
     public static void solveItemPrecondition(final Authentication auth) {
 
         // create OU
+        // open OU
         // create Context
+        // open Context
+        // create Content Model
+        // create useraccount (with depositor role and scope of context)
 
     }
 }
