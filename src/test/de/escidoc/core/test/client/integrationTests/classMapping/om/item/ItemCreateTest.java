@@ -30,7 +30,6 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.net.URL;
@@ -210,7 +209,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateItem06() throws Exception {
 
         Authentication auth =
@@ -230,15 +229,7 @@ public class ItemCreateTest {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
-        try {
-            cc.create(item);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(item);
     }
 
     /**
@@ -250,7 +241,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateItem07() throws Exception {
 
         Authentication auth =
@@ -271,15 +262,7 @@ public class ItemCreateTest {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
-        try {
-            cc.create(item);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(item);
     }
 
     /**
@@ -291,7 +274,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = InvalidXmlException.class)
     public void testCreateItem08() throws Exception {
 
         Authentication auth =
@@ -331,15 +314,7 @@ public class ItemCreateTest {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
-        try {
-            cc.create(item);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = InvalidXmlException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(item);
     }
 
     /**
@@ -594,8 +569,8 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item =
-            createItem(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                auth.getHandle());
+            createItem(EscidocClientTestBase.DEFAULT_SERVICE_URL, auth
+                .getHandle());
 
         ItemHandlerClient ihc = new ItemHandlerClient();
         ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
@@ -613,8 +588,8 @@ public class ItemCreateTest {
         Item retrievedItem = ihc.retrieve(item);
         DateTime lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem,
-            result.getLastModificationDate());
+        assertEquals("Timestamps differ", lmdRetrievedItem, result
+            .getLastModificationDate());
 
         // assign object PID ---------------------------------------------------
         taskParam = new TaskParam();
@@ -630,8 +605,8 @@ public class ItemCreateTest {
         retrievedItem = ihc.retrieve(item);
         lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem,
-            result.getLastModificationDate());
+        assertEquals("Timestamps differ", lmdRetrievedItem, result
+            .getLastModificationDate());
 
         // assign version PID --------------------------------------------------
         taskParam = new TaskParam();
