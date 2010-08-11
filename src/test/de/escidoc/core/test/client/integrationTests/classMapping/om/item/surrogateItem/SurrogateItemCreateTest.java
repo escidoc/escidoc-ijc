@@ -51,7 +51,7 @@ import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
-import de.escidoc.core.test.client.util.TestDataUtil;
+import de.escidoc.core.test.client.util.SetupDataUtil;
 
 /**
  * Test create a Surrogate Item.
@@ -92,32 +92,32 @@ public class SurrogateItemCreateTest {
         // -------------------------------------------------
         // Create Organizational Unit (and set status to open)
         OrganizationalUnit organizationalUnit =
-            TestDataUtil.createOrganizationalUnit(sysadminAuth, true);
+            SetupDataUtil.createOrganizationalUnit(sysadminAuth, true);
 
         // -------------------------------------------------
         // create Context 1
         Context context1 =
-            TestDataUtil.createContext(sysadminAuth, organizationalUnit, true);
+            SetupDataUtil.createContext(sysadminAuth, organizationalUnit, true);
 
         // create Context 2
         Context context2 =
-            TestDataUtil.createContext(sysadminAuth, organizationalUnit, true);
+            SetupDataUtil.createContext(sysadminAuth, organizationalUnit, true);
 
         // -------------------------------------------------
         // create Content Model
         ContentModel contentModel =
-            TestDataUtil.createContentModel(sysadminAuth);
+            SetupDataUtil.createContentModel(sysadminAuth);
 
         // -------------------------------------------------
         // Create User Account
         String password = String.valueOf(System.nanoTime());
 
         UserAccount userAccount =
-            TestDataUtil.createUserWithDepositorRole(sysadminAuth, password,
+            SetupDataUtil.createUserWithDepositorRole(sysadminAuth, password,
                 context1);
 
         UserAccount userAccount2 =
-            TestDataUtil.createUserWithDepositorRole(sysadminAuth, password,
+            SetupDataUtil.createUserWithDepositorRole(sysadminAuth, password,
                 context2);
 
         // -------------------------------------------------
