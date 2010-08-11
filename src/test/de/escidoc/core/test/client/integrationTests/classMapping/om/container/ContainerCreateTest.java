@@ -30,7 +30,6 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -82,7 +81,7 @@ public class ContainerCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer01() throws Exception {
 
         Authentication auth =
@@ -94,16 +93,7 @@ public class ContainerCreateTest {
         cc.setHandle(auth.getHandle());
 
         Container container = new Container();
-        try {
-            cc.create(container);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-
-        }
+        cc.create(container);
     }
 
     /**
@@ -115,7 +105,7 @@ public class ContainerCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer02() throws Exception {
 
         Authentication auth =
@@ -128,15 +118,7 @@ public class ContainerCreateTest {
 
         Container container = new Container();
         container.setTitle("New title for test");
-        try {
-            cc.create(container);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(container);
     }
 
     /**
@@ -146,7 +128,7 @@ public class ContainerCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer03() throws Exception {
 
         Authentication auth =
@@ -160,15 +142,7 @@ public class ContainerCreateTest {
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
         container.setProperties(properties);
-        try {
-            cc.create(container);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(container);
     }
 
     /**
@@ -178,7 +152,7 @@ public class ContainerCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer04() throws Exception {
 
         Authentication auth =
@@ -192,15 +166,7 @@ public class ContainerCreateTest {
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
         container.setProperties(properties);
-        try {
-            cc.create(container);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(container);
     }
 
     /**
@@ -210,7 +176,7 @@ public class ContainerCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer05() throws Exception {
 
         Authentication auth =
@@ -225,15 +191,7 @@ public class ContainerCreateTest {
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
-        try {
-            cc.create(container);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(container);
     }
 
     /**
@@ -245,7 +203,7 @@ public class ContainerCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer06() throws Exception {
 
         Authentication auth =
@@ -265,15 +223,7 @@ public class ContainerCreateTest {
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
-        try {
-            cc.create(container);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(container);
     }
 
     /**
@@ -285,7 +235,7 @@ public class ContainerCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer07() throws Exception {
 
         Authentication auth =
@@ -306,15 +256,7 @@ public class ContainerCreateTest {
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
-        try {
-            cc.create(container);
-            fail("Missing Exception");
-        }
-        catch (Exception e) {
-            Class<?> ec = XmlSchemaValidationException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-        }
+        cc.create(container);
     }
 
     /**
@@ -330,7 +272,7 @@ public class ContainerCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test
+    @Test(expected = InvalidXmlException.class)
     public void testCreateContainer08() throws Exception {
 
         Authentication auth =
@@ -364,13 +306,7 @@ public class ContainerCreateTest {
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
-        try {
-            cc.create(container);
-            fail("Missing Exception");
-        }
-        catch (InvalidXmlException e) {
-            return;
-        }
+        cc.create(container);
     }
 
     /**
@@ -437,8 +373,8 @@ public class ContainerCreateTest {
             createdContainer.getProperties().getContentModel().getObjid());
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container
-                .getMetadataRecords().get("escidoc").getClass());
+            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
+                "escidoc").getClass());
         String xml1 =
             m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
@@ -513,8 +449,8 @@ public class ContainerCreateTest {
         // MetadataRecords
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container
-                .getMetadataRecords().get("escidoc").getClass());
+            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
+                "escidoc").getClass());
         String xml1 =
             m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
@@ -590,8 +526,8 @@ public class ContainerCreateTest {
         Iterator<MemberRef> iterator = createdStructMap.iterator();
         while (iterator.hasNext()) {
             ResourceRef memberResource = iterator.next();
-            assertEquals("member is the wrong resource type",
-                memberResource.getClass(), member.getClass());
+            assertEquals("member is the wrong resource type", memberResource
+                .getClass(), member.getClass());
 
             assertEquals("member has a wrong id", memberResource.getObjid(),
                 memberId);
@@ -632,8 +568,8 @@ public class ContainerCreateTest {
             createdContainer.getProperties().getContentModel().getObjid());
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container
-                .getMetadataRecords().get("escidoc").getClass());
+            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
+                "escidoc").getClass());
         String xml1 =
             m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
