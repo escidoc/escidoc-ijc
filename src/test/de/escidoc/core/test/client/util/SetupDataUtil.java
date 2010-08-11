@@ -76,7 +76,7 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
-public class TestDataUtil {
+public class SetupDataUtil {
 
     /**
      * Create an Organizational Unit within the infrastructure.
