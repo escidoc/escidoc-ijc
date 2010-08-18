@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Jibx" basedir="../.." default="bind-jibx">
+
+	<property file="${basedir}/etc/${user.name}.properties" />
+	<property file="${basedir}/etc/project.properties" />
+
+
+	<!-- bind JiBX -->
+	<target name="bind-jibx">
+		<echo message="Running JiBX binding compiler" />
+		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+			<classpath>
+				<pathelement location="${lib.jibx.dir}/jibx-bind.jar" />
+				<pathelement location="${lib.jibx.dir}/jibx-extras.jar" />
+				<pathelement location="${basedir}/lib/joda-time/joda-time-1.6.1.jar" />
+				<pathelement location="${basedir}/lib/dom4j/dom4j-1.6.1.jar" />
+			</classpath>
+		</taskdef>
+		<bind binding="${basedir}/${jibx.soap.resource.binding.file}" verbose="true" load="true">
+			<classpathset dir="${java.build.dir}" />
+		</bind>
+	</target>
+
+	<!-- test binding with jibx-extras roundtripping tool -->
+	<target name="roundtripItem">
+		<echo message="Roundtripping the document using binding..." />
+		<java classname="org.jibx.extras.TestRoundtrip" fork="true" failonerror="true">
+			<classpath refid="classpath" />
+			<arg value="de.escidoc.core.om.resources.Item" />
+			<arg value="${basedir}/templates/soap/0.7/item.xml" />
+		</java>
+		<echo message="Roundtrip test successful" />
+	</target>
+
+</project>
