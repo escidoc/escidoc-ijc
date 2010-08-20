@@ -28,7 +28,9 @@
  */
 package de.escidoc.core.resources;
 
-import sun.misc.Regexp;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Object reference.
@@ -51,7 +53,20 @@ public class ResourceRef {
      * 
      */
     public static enum RESOURCE_TYPE {
-        Context, Item, Container, Component, Toc, OrganizationalUnit, UserAccount, UserAccountAttribute
+        Context, Item, Container, Component, Toc, OrganizationalUnit, UserAccount, UserAccountAttribute, ContentModel
+    }
+    
+    public static final Map<RESOURCE_TYPE, String> URL_TYPE = new HashMap<RESOURCE_TYPE, String>();
+    {
+    	URL_TYPE.put(RESOURCE_TYPE.Context, "/ir/context");
+    	URL_TYPE.put(RESOURCE_TYPE.Item, "/ir/item");
+    	URL_TYPE.put(RESOURCE_TYPE.Container, "/ir/container");
+    	URL_TYPE.put(RESOURCE_TYPE.Component, "/components/component"); /* /ir/item/<iID>/components/component/<cID>/ */
+    	URL_TYPE.put(RESOURCE_TYPE.Toc, "/tocs");
+    	URL_TYPE.put(RESOURCE_TYPE.OrganizationalUnit, "/oum/organizational-unit");
+    	URL_TYPE.put(RESOURCE_TYPE.UserAccount, "/aa/user-account");
+    	URL_TYPE.put(RESOURCE_TYPE.UserAccountAttribute, "/resources/attributes/attribute"); /* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
+    	URL_TYPE.put(RESOURCE_TYPE.ContentModel, "/cmm/content-model");
     }
 
     private String objid;
@@ -59,6 +74,8 @@ public class ResourceRef {
     private String href;
 
     private String title;
+    
+    private TYPE xLinkType;
 
     private RESOURCE_TYPE resourceType = null;
 
@@ -77,6 +94,29 @@ public class ResourceRef {
     public ResourceRef(final String objid) {
 
         this.objid = objid;
+    }
+    
+    /**
+     * 
+     * @param objid
+     * @param type
+     */
+    public ResourceRef(final String objid, final RESOURCE_TYPE type) {
+    	this.setHref(URL_TYPE.get(type) + "/" + objid);
+    	this.setTitle(type+"Title");
+    	this.resourceType = type;
+    }
+    
+    /**
+     * 
+     * @param objid
+     * @param type
+     * @param title
+     */
+    public ResourceRef(final String objid, final RESOURCE_TYPE type, String title) {
+    	this.setHref(URL_TYPE.get(type) + "/" + objid);
+    	this.title = title;
+    	this.resourceType = type;
     }
 
     /**
@@ -167,10 +207,10 @@ public class ResourceRef {
     public void setHref(final String href) {
         this.href = href;
         if(href != null && href.length()>0) {
-        	
+        	this.objid = href.substring(href.lastIndexOf('/')+1);
         }
     }
-
+    
     /**
      * Get the title of the resource. (May depend on transport protocol.)
      * 
@@ -192,12 +232,16 @@ public class ResourceRef {
     }
 
     /**
-     * Get Xlink type.
+     * Get Xlink type. (Default TYPE.simple)
      * 
-     * @return xlink:type
+     * @return xlink:type if and only if this.href has been set. 
+     * (REST protocol uses xlink:href. SOAP needs this.objid only.)
      */
     public TYPE getXlinkType() {
-        return TYPE.simple;
+    	if(this.xLinkType == null) {
+    		return (this.href != null) ? TYPE.simple : null;
+    	}
+        return this.xLinkType;
     }
 
     /**
@@ -207,7 +251,7 @@ public class ResourceRef {
      *            Type of xlink.
      */
     public void setXlinkType(final TYPE type) {
-
+    	this.xLinkType = type;
     }
 
     /**
@@ -231,31 +275,34 @@ public class ResourceRef {
         return this.resourceType;
     }
 
-    /**
-     * Test the equality of this XLink with another object.
-     * <p>
-     * <b>WARNING:</b> This method does not guarantee that subclasses inheriting
-     * this method are equal.
-     * </p>
-     * 
-     * @param obj
-     *            the object to be tested for equality
-     * @return <code>true</code> if and only if the other object is an XLink of
-     *         the same class and with the same attribute settings as this XLink
-     */
-    @Override
-    public boolean equals(final Object obj) {
-        return false;
-    }
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((objid == null) ? 0 : objid.hashCode());
+		return result;
+	}
 
-    /**
-     * Compute a hash for this XLink.
-     * 
-     * @return a hash for this XLink
-     */
-    @Override
-    public int hashCode() {
-        return 0;
-    }
-
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ResourceRef other = (ResourceRef) obj;
+		if (objid == null) {
+			if (other.objid != null)
+				return false;
+		} else if (!objid.equals(other.objid))
+			return false;
+		return true;
+	}
 }
