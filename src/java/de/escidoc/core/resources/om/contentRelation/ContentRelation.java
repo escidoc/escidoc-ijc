@@ -30,6 +30,7 @@ package de.escidoc.core.resources.om.contentRelation;
 
 import java.net.URI;
 
+import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
 
@@ -48,13 +49,13 @@ public class ContentRelation extends GenericResource {
 
     private URI type;
 
-    private String subject;
-
-    private String object;
-
     private String subjectVersion;
 
     private String objectVersion;
+    
+    private ResourceRef subject;
+    
+    private ResourceRef object;
 
     /**
      * 
@@ -123,44 +124,6 @@ public class ContentRelation extends GenericResource {
     }
 
     /**
-     * Set subject of relation.
-     * 
-     * @param subject
-     *            subject of relation
-     */
-    public void setSubject(final String subject) {
-        this.subject = subject;
-    }
-
-    /**
-     * Get subject of relation.
-     * 
-     * @return subject of relation
-     */
-    public String getSubject() {
-        return subject;
-    }
-
-    /**
-     * Set object of relation.
-     * 
-     * @param object
-     *            object of relation
-     */
-    public void setObject(final String object) {
-        this.object = object;
-    }
-
-    /**
-     * Get object of relation
-     * 
-     * @return object of relation
-     */
-    public String getObject() {
-        return object;
-    }
-
-    /**
      * Set version number of subject
      * 
      * @param subjectVersion
@@ -201,5 +164,33 @@ public class ContentRelation extends GenericResource {
     public String getObjectVersion() {
         return objectVersion;
     }
+
+	/**
+	 * @return the subjectResourceRef
+	 */
+	public ResourceRef getSubject() {
+		return subject;
+	}
+
+	/**
+	 * @param subjectResourceRef the subjectResourceRef to set
+	 */
+	public void setSubject(ResourceRef subjectResourceRef) {
+		this.subject = subjectResourceRef;
+	}
+
+	/**
+	 * @return the objectResourceRef
+	 */
+	public ResourceRef getObject() {
+		return object;
+	}
+
+	/**
+	 * @param objectResourceRef the objectResourceRef to set
+	 */
+	public void setObject(ResourceRef objectResourceRef) {
+		this.object = objectResourceRef;
+	}
 
 }
