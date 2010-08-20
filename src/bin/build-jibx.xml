@@ -16,7 +16,10 @@
 				<pathelement location="${basedir}/lib/dom4j/dom4j-1.6.1.jar" />
 			</classpath>
 		</taskdef>
-		<bind binding="${basedir}/${jibx.soap.resource.binding.file}" verbose="true" load="true">
+		<bind verbose="true" load="true">
+			<bindingfileset dir="${jibx.binding.base.dir}">
+				<include name="*.xml"/>
+			</bindingfileset>
 			<classpathset dir="${java.build.dir}" />
 		</bind>
 	</target>
