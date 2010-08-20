@@ -47,9 +47,54 @@ public class ContainerRef extends MemberRef {
     /**
      * ContainerRef.
      */
-    public ContainerRef(final String ref) {
+    public ContainerRef(final String refId) {
 
-        super(ref);
+        super(refId);
         setResourceType(RESOURCE_TYPE.Container);
     }
+
+	/**
+	 * @param refId
+	 * @param type
+	 * @param title
+	 */
+	public ContainerRef(String refId, RESOURCE_TYPE type, String title) {
+		super(refId, type, title);
+	}
+
+	/**
+	 * @param refId
+	 * @param type
+	 */
+	public ContainerRef(String refId, RESOURCE_TYPE type) {
+		super(refId, type);
+	}
+
+	/**
+	 * @param refId
+	 * @param href
+	 * @param title
+	 * @param resourceType
+	 */
+	public ContainerRef(String refId, String href, String title,
+			RESOURCE_TYPE resourceType) {
+		super(refId, href, title, resourceType);
+	}
+
+	/**
+	 * @param refId
+	 * @param href
+	 * @param title
+	 */
+	public ContainerRef(String refId, String href, String title) {
+		super(refId, href, title);
+	}
+
+	/**
+	 * @param href
+	 * @param title
+	 */
+	public ContainerRef(String href, String title) {
+		super(href, title);
+	}
 }
