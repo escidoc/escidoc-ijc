@@ -28,8 +28,6 @@
  */
 package de.escidoc.core.client;
 
-import java.io.IOException;
-
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -89,12 +87,12 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
         final String contextId, final UnsecuredActions actions)
         throws EscidocClientException {
 
-        String xml =
-            getSoapActionHandlerClient().createUnsecuredActions(
+        String xml = getSoapActionHandlerClient().createUnsecuredActions(
                 contextId,
-                Factory.getUnsecuredActionsMarshaller().marshalDocument(
+                Factory.getMarshallerFactory().getUnsecuredActionsMarshaller().marshalDocument(
                     (UnsecuredActions) actions));
-        return Factory.getUnsecuredActionsMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getUnsecuredActionsMarshaller().unmarshalDocument(xml);
 
     }
 
@@ -112,7 +110,8 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
         throws EscidocClientException {
         String xml =
             getSoapActionHandlerClient().retrieveUnsecuredActions(contextId);
-        return Factory.getUnsecuredActionsMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getUnsecuredActionsMarshaller().unmarshalDocument(xml);
     }
 
     /**

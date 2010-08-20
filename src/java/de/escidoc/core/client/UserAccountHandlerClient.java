@@ -41,12 +41,12 @@ import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.client.soap.SoapUserAccountHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.aa.useraccount.Attribute;
+import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.Preference;
 import de.escidoc.core.resources.aa.useraccount.Preferences;
-import de.escidoc.core.resources.aa.useraccount.Attribute;
-import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
@@ -61,11 +61,8 @@ import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
  * @author SWA
  * 
  */
-public class UserAccountHandlerClient
+public class UserAccountHandlerClient extends AbstractHandlerClient
     implements UserAccountHandlerClientInterface<UserAccount> {
-
-    // Set SOAP as default transport protocol (for now :-()
-    private TransportProtocol transport = TransportProtocol.SOAP;
 
     private SoapUserAccountHandlerClient soapUserAccountHandlerClient = null;
 
@@ -108,7 +105,7 @@ public class UserAccountHandlerClient
 
         String xml = null;
         String userAccountString =
-            Factory.getUserAccountMarshaller().marshalDocument(userAccount);
+            Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().marshalDocument(userAccount);
 
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapUserAccountHandlerClient().create(userAccountString);
@@ -117,7 +114,7 @@ public class UserAccountHandlerClient
             xml = getRestUserAccountHandlerClient().create(userAccountString);
 
         }
-        return Factory.getUserAccountMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -135,8 +132,7 @@ public class UserAccountHandlerClient
     public UserAccount retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        return Factory.getUserAccountMarshaller().unmarshalDocument(
-            getSoapUserAccountHandlerClient().retrieve(id));
+        return Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().unmarshalDocument(getSoapUserAccountHandlerClient().retrieve(id));
     }
 
     /**
@@ -174,9 +170,8 @@ public class UserAccountHandlerClient
         String xml =
             getSoapUserAccountHandlerClient().update(
                 ((UserAccount) userAccount).getObjid(),
-                Factory.getUserAccountMarshaller().marshalDocument(
-                    (UserAccount) userAccount));
-        return Factory.getUserAccountMarshaller().unmarshalDocument(xml);
+                Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().marshalDocument((UserAccount) userAccount));
+        return Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -198,7 +193,7 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
         getSoapUserAccountHandlerClient().updatePassword(userId,
-            Factory.getTaskParamMarshaller().marshalDocument(taskParam));
+            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
     }
 
     /**
@@ -215,7 +210,7 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
         getSoapUserAccountHandlerClient().activate(userId,
-            Factory.getTaskParamMarshaller().marshalDocument(taskParam));
+            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
     }
 
     /**
@@ -232,7 +227,7 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
         getSoapUserAccountHandlerClient().deactivate(userId,
-            Factory.getTaskParamMarshaller().marshalDocument(taskParam));
+            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
     }
 
     /**
@@ -248,8 +243,15 @@ public class UserAccountHandlerClient
     public UserAccount retrieveCurrentUser() throws EscidocClientException,
         InternalClientException, TransportException {
 
-        String xml = getSoapUserAccountHandlerClient().retrieveCurrentUser();
-        return Factory.getUserAccountMarshaller().unmarshalDocument(xml);
+        String xml = null;
+        if(getTransport() == TransportProtocol.SOAP) {
+        	xml = getSoapUserAccountHandlerClient().retrieveCurrentUser(); 
+        }
+        else {
+        	xml = getRestUserAccountHandlerClient().retrieveCurrentUser();
+        }
+        return Factory.getMarshallerFactory(getTransport())
+        	.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -272,7 +274,7 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String grantXml = Factory.getGrantMarshaller().marshalDocument(grant);
+        String grantXml = Factory.getMarshallerFactory(getTransport()).getGrantMarshaller().marshalDocument(grant);
 
         if (getTransport() == TransportProtocol.SOAP) {
             grantXml =
@@ -283,7 +285,7 @@ public class UserAccountHandlerClient
                 getRestUserAccountHandlerClient().createGrant(userId, grantXml);
         }
 
-        return Factory.getGrantMarshaller().unmarshalDocument(grantXml);
+        return Factory.getMarshallerFactory(getTransport()).getGrantMarshaller().unmarshalDocument(grantXml);
     }
 
     /**
@@ -309,7 +311,7 @@ public class UserAccountHandlerClient
         TransportException {
 
         String taskParamXml =
-            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
 
         if (getTransport() == TransportProtocol.SOAP) {
             getSoapUserAccountHandlerClient().revokeGrant(userId, grantId,
@@ -339,7 +341,7 @@ public class UserAccountHandlerClient
         TransportException {
 
         String preferenceXml =
-            Factory.getPreferenceMarshaller().marshalDocument(preference);
+            Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().marshalDocument(preference);
 
         if (getTransport() == TransportProtocol.SOAP) {
             preferenceXml =
@@ -352,8 +354,7 @@ public class UserAccountHandlerClient
                     preferenceXml);
         }
 
-        return Factory.getPreferenceMarshaller().unmarshalDocument(
-            preferenceXml);
+        return Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().unmarshalDocument(preferenceXml);
     }
 
     /**
@@ -388,7 +389,7 @@ public class UserAccountHandlerClient
                     name);
         }
 
-        return Factory.getPreferenceMarshaller().unmarshalDocument(preference);
+        return Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().unmarshalDocument(preference);
     }
 
     /**
@@ -417,8 +418,8 @@ public class UserAccountHandlerClient
                 getRestUserAccountHandlerClient().retrievePreferences(userId);
         }
 
-        return Factory
-            .getPreferencesMarshaller().unmarshalDocument(preferences);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getPreferencesMarshaller().unmarshalDocument(preferences);
     }
 
     /**
@@ -441,7 +442,7 @@ public class UserAccountHandlerClient
         TransportException {
 
         String preferenceXml =
-            Factory.getPreferenceMarshaller().marshalDocument(preference);
+            Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().marshalDocument(preference);
 
         if (getTransport() == TransportProtocol.SOAP) {
             preferenceXml =
@@ -454,8 +455,7 @@ public class UserAccountHandlerClient
                     preference.getName(), preferenceXml);
         }
 
-        return Factory.getPreferenceMarshaller().unmarshalDocument(
-            preferenceXml);
+        return Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().unmarshalDocument(preferenceXml);
     }
 
     /**
@@ -526,7 +526,7 @@ public class UserAccountHandlerClient
         TransportException {
 
         String attributeXml =
-            Factory.getAttributeMarshaller().marshalDocument(attribute);
+            Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().marshalDocument(attribute);
 
         if (getTransport() == TransportProtocol.SOAP) {
             attributeXml =
@@ -539,7 +539,7 @@ public class UserAccountHandlerClient
                     attributeXml);
         }
 
-        return Factory.getAttributeMarshaller().unmarshalDocument(attributeXml);
+        return Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().unmarshalDocument(attributeXml);
     }
 
     /**
@@ -575,7 +575,7 @@ public class UserAccountHandlerClient
                     attributeId);
         }
 
-        return Factory.getAttributeMarshaller().unmarshalDocument(attribute);
+        return Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().unmarshalDocument(attribute);
     }
 
     /**
@@ -604,7 +604,7 @@ public class UserAccountHandlerClient
                 getRestUserAccountHandlerClient().retrieveAttributes(userId);
         }
 
-        return Factory.getAttributesMarshaller().unmarshalDocument(attributes);
+        return Factory.getMarshallerFactory(getTransport()).getAttributesMarshaller().unmarshalDocument(attributes);
     }
 
     /**
@@ -627,7 +627,7 @@ public class UserAccountHandlerClient
         TransportException {
 
         String attributeXml =
-            Factory.getAttributeMarshaller().marshalDocument(attribute);
+            Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().marshalDocument(attribute);
 
         if (getTransport() == TransportProtocol.SOAP) {
             attributeXml =
@@ -640,7 +640,7 @@ public class UserAccountHandlerClient
                     attribute.getObjid(), attributeXml);
         }
 
-        return Factory.getAttributeMarshaller().unmarshalDocument(attributeXml);
+        return Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().unmarshalDocument(attributeXml);
     }
 
     /**
@@ -719,7 +719,7 @@ public class UserAccountHandlerClient
                 getRestUserAccountHandlerClient().retrieveCurrentGrants(userId);
         }
 
-        return Factory.getGrantsMarshaller().unmarshalDocument(grantsXml);
+        return Factory.getMarshallerFactory(getTransport()).getGrantsMarshaller().unmarshalDocument(grantsXml);
     }
 
     /**
@@ -755,7 +755,7 @@ public class UserAccountHandlerClient
                     .retrieveGrant(userId, grantId);
         }
 
-        return Factory.getGrantMarshaller().unmarshalDocument(grantXml);
+        return Factory.getMarshallerFactory(getTransport()).getGrantMarshaller().unmarshalDocument(grantXml);
     }
 
     /**
@@ -777,8 +777,8 @@ public class UserAccountHandlerClient
         TransportException {
         String xml =
             getSoapUserAccountHandlerClient().retrieveUserAccounts(
-                Factory.getTaskParamMarshaller().marshalDocument(taskParam));
-        return Factory.getUserAccountListMarshaller().unmarshalDocument(xml);
+                Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
+        return Factory.getMarshallerFactory(getTransport()).getUserAccountListMarshaller().unmarshalDocument(xml);
 
     }
 
@@ -808,7 +808,7 @@ public class UserAccountHandlerClient
             xml =
                 getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
         }
-        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getFilterResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -836,7 +836,7 @@ public class UserAccountHandlerClient
             xml =
                 getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
         }
-        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getExplainRecordMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -863,17 +863,15 @@ public class UserAccountHandlerClient
             xml =
                 getSoapUserAccountHandlerClient()
                     .retrieveGrants(
-                        Factory.getTaskParamMarshaller().marshalDocument(
-                            taskParam));
+                        Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
         }
         else {
             xml =
                 getRestUserAccountHandlerClient()
                     .retrieveGrants(
-                        Factory.getTaskParamMarshaller().marshalDocument(
-                            taskParam));
+                        Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
         }
-        return Factory.getGrantsMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getGrantsMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -900,7 +898,7 @@ public class UserAccountHandlerClient
         else {
             xml = getRestUserAccountHandlerClient().retrieveGrants(filter);
         }
-        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getFilterResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -926,7 +924,7 @@ public class UserAccountHandlerClient
         else {
             xml = getRestUserAccountHandlerClient().retrieveGrants(filter);
         }
-        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getExplainRecordMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -1078,24 +1076,4 @@ public class UserAccountHandlerClient
         }
         return this.restUserAccountHandlerClient;
     }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @param tp
-     *            The transport protocol.
-     */
-    public void setTransport(final TransportProtocol tp) {
-        this.transport = tp;
-    }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @return The used transport protocol.
-     */
-    public TransportProtocol getTransport() {
-        return this.transport;
-    }
-
 }

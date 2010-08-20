@@ -89,8 +89,8 @@ public class ContentModelHandlerClient
     public ContentModel create(final ContentModel contentModel)
         throws EscidocException, InternalClientException, TransportException {
 
-        String contentModelXml =
-            Factory.getContentModelMarshaller().marshalDocument(contentModel);
+        String contentModelXml = Factory.getMarshallerFactory(getTransport())
+        	.getContentModelMarshaller().marshalDocument(contentModel);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapContentModelHandlerClient().create(contentModelXml);
@@ -98,7 +98,8 @@ public class ContentModelHandlerClient
         else {
             xml = getRestContentModelHandlerClient().create(contentModelXml);
         }
-        return Factory.getContentModelMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getContentModelMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -124,7 +125,8 @@ public class ContentModelHandlerClient
         else {
             xml = getRestContentModelHandlerClient().retrieve(id);
         }
-        return Factory.getContentModelMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getContentModelMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -166,8 +168,8 @@ public class ContentModelHandlerClient
     public ContentModel update(final ContentModel contentModel)
         throws EscidocException, InternalClientException, TransportException {
 
-        String contentModelXml =
-            Factory.getContentModelMarshaller().marshalDocument(contentModel);
+        String contentModelXml = Factory.getMarshallerFactory(getTransport())
+        	.getContentModelMarshaller().marshalDocument(contentModel);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
@@ -179,7 +181,8 @@ public class ContentModelHandlerClient
                 getRestContentModelHandlerClient().update(
                     contentModel.getObjid(), contentModelXml);
         }
-        return Factory.getContentModelMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getContentModelMarshaller().unmarshalDocument(xml);
     }
 
     /**

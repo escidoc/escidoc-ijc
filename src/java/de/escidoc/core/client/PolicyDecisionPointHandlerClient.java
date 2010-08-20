@@ -28,8 +28,6 @@
  */
 package de.escidoc.core.client;
 
-import java.io.IOException;
-
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -86,9 +84,10 @@ public class PolicyDecisionPointHandlerClient
 
         String xml =
             getSoapPolicyDecisionPointHandlerClient().evaluate(
-                Factory.getRequestsMarshaller().marshalDocument(
-                    (Requests) requests));
-        return Factory.getRequestsResultsMarshaller().unmarshalDocument(xml);
+                Factory.getMarshallerFactory(TransportProtocol.SOAP)
+                	.getRequestsMarshaller().marshalDocument((Requests) requests));
+        return Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getRequestsResultsMarshaller().unmarshalDocument(xml);
     }
 
     /**

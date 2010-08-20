@@ -55,10 +55,8 @@ import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
  * @author SWA
  * 
  */
-public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
-
-    // Set SOAP as default transport protocol (for now :-()
-    private TransportProtocol transport = TransportProtocol.SOAP;
+public class RoleHandlerClient extends AbstractHandlerClient 
+		implements RoleHandlerClientInterface<Role> {
 
     private SoapRoleHandlerClient soapRoleHandlerClient = null;
 
@@ -90,7 +88,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         InternalClientException, TransportException {
 
         String xml = null;
-        String roleString = Factory.getRoleMarshaller().marshalDocument(role);
+        String roleString = Factory.getMarshallerFactory(getTransport()).getRoleMarshaller().marshalDocument(role);
 
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapRoleHandlerClient().create(roleString);
@@ -99,7 +97,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
             xml = getRestRoleHandlerClient().create(roleString);
         }
 
-        return Factory.getRoleMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getRoleMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -120,7 +118,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         else {
             roleString = getRestRoleHandlerClient().retrieve(id);
         }
-        return Factory.getRoleMarshaller().unmarshalDocument(roleString);
+        return Factory.getMarshallerFactory(getTransport()).getRoleMarshaller().unmarshalDocument(roleString);
     }
 
     /**
@@ -153,7 +151,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         InternalClientException, TransportException {
 
         String xml = null;
-        String roleString = Factory.getRoleMarshaller().marshalDocument(role);
+        String roleString = Factory.getMarshallerFactory(getTransport()).getRoleMarshaller().marshalDocument(role);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
                 getSoapRoleHandlerClient().update(role.getObjid(), roleString);
@@ -163,7 +161,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
                 getRestRoleHandlerClient().update(role.getObjid(), roleString);
         }
 
-        return Factory.getRoleMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getRoleMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -185,7 +183,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         TransportException {
 
         String taskParamString =
-            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
+            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
         String xml = null;
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -194,7 +192,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         else {
             xml = getRestRoleHandlerClient().retrieveRoles(taskParamString);
         }
-        return Factory.getRoleListMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getRoleListMarshaller().unmarshalDocument(xml);
 
     }
 
@@ -222,7 +220,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         else {
             xml = getRestRoleHandlerClient().retrieveRoles(filter);
         }
-        return Factory.getFilterResponseMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getFilterResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -248,7 +246,7 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
         else {
             xml = getRestRoleHandlerClient().retrieveRoles(filter);
         }
-        return Factory.getExplainRecordMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getExplainRecordMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -391,24 +389,4 @@ public class RoleHandlerClient implements RoleHandlerClientInterface<Role> {
             getRestRoleHandlerClient().setServiceAddress(address);
         }
     }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @param tp
-     *            The transport protocol.
-     */
-    public void setTransport(final TransportProtocol tp) {
-        this.transport = tp;
-    }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @return The used transport protocol.
-     */
-    public TransportProtocol getTransport() {
-        return this.transport;
-    }
-
 }

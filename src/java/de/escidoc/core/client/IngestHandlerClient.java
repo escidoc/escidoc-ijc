@@ -41,9 +41,8 @@ import de.escidoc.core.client.soap.SoapIngestHandlerClient;
  * @author KST
  * 
  */
-public class IngestHandlerClient implements IngestHandlerInterface {
-
-    private TransportProtocol tp = TransportProtocol.SOAP;
+public class IngestHandlerClient extends AbstractHandlerClient 
+	implements IngestHandlerInterface {
 
     private RestIngestHandlerClient restIngestHandlerClient = null;
 
@@ -216,26 +215,5 @@ public class IngestHandlerClient implements IngestHandlerInterface {
         else {
             getRestIngestHandlerClient().setServiceAddress(address);
         }
-
     }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @return The used transport protocol.
-     */
-    public TransportProtocol getTransport() {
-        return this.tp;
-    }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @param transportProtocol
-     *            The transport protocol.
-     */
-    public void setTransport(final TransportProtocol transportProtocol) {
-        this.tp = transportProtocol;
-    }
-
 }
