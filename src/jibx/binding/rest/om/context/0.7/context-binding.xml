@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
-	<!-- SOAP Binding -->
+	<!-- REST Binding -->
 	<!-- start: binding of a single context -->
 	<mapping name="context" ns="http://www.escidoc.de/schemas/context/0.7"
 		class="de.escidoc.core.resources.om.context.Context">
@@ -23,8 +23,14 @@
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
 		<!-- Root attributes -->
-		<value name="objid" style="attribute" set-method="setObjid"
-			get-method="getObjid" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setHref" get-method="getHref" usage="optional" />
+			
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setTitle" get-method="getTitle" usage="optional" />
+			
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
 
 		<value name="last-modification-date" style="attribute"
 			type="org.joda.time.DateTime" set-method="setLastModificationDate"
@@ -34,6 +40,11 @@
 		<structure ns="http://www.escidoc.de/schemas/context/0.7"
 			name="properties" field="properties" usage="optional">
 			<structure map-as="context-properties" usage="optional" />
+		</structure>
+		
+		<!-- Resources include (REST only) -->
+ 		<structure ns="http://www.escidoc.de/schemas/context/0.7"
+			name="resources" usage="optional">
 		</structure>
 
 		<!-- AdminDescriptors include -->
@@ -60,6 +71,7 @@
 			prefix="prop" />
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
 		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
 			name="creation-date" set-method="setCreationDate" get-method="getCreationDate"
@@ -67,17 +79,29 @@
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="created-by" field="createdBy" usage="optional">
-
-			<value name="objid" style="attribute" set-method="setObjid"
-				get-method="getObjid" usage="optional" />
+			
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setHref" get-method="getHref" usage="optional" />
+			
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setTitle" get-method="getTitle" usage="optional" />
+				
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
 		</structure>
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="modified-by" set-method="setModifiedBy" get-method="getModifiedBy"
 			usage="optional">
 
-			<value name="objid" style="attribute" set-method="setObjid"
-				get-method="getObjid" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setHref" get-method="getHref" usage="optional" />
+			
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setTitle" get-method="getTitle" usage="optional" />
+				
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
 		</structure>
 
 		<value ns="http://escidoc.de/core/01/properties/" name="public-status"
@@ -119,13 +143,20 @@
 
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 				name="organizational-unit" type="de.escidoc.core.resources.ResourceRef"
 				usage="optional">
-
-			<value name="objid" style="attribute" set-method="setObjid"
-				get-method="getObjid" usage="optional" />
+				
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+				set-method="setHref" get-method="getHref" usage="optional" />
+			
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setTitle" get-method="getTitle" usage="optional" />
+				
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
 		</structure>
 	</mapping>
 

@@ -1,0 +1,124 @@
+<binding>
+    <!-- start: binding of a version history -->
+	<mapping ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+		name="version-history"
+		class="de.escidoc.core.resources.common.versionhistory.VersionHistory">
+		<namespace
+			uri="http://www.escidoc.de/schemas/versionhistory/0.3"
+			prefix="escidocVersions" />
+		<namespace uri="http://www.loc.gov/standards/premis/v1"
+			prefix="premis" />
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+		
+		<!-- *****************************************
+			Root attributes 
+			****************************************** -->
+		<value name="last-modification-date" style="attribute"
+			set-method="setLastModificationDate"
+			get-method="getLastModificationDate" />
+
+		<!-- *****************************************
+			Versions
+			****************************************** -->
+		<collection
+			ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+			field="versions"
+			factory="de.escidoc.core.resources.common.versionhistory.VersionHistory.versionsFactory">
+			<structure
+				ns="http://www.escidoc.de/schemas/versionhistory/0.3" name="version"
+				type="de.escidoc.core.resources.common.versionhistory.Version">
+
+				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+					set-method="setHref" get-method="getHref" usage="optional" />
+					
+				<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+					set-method="setTitle" get-method="getTitle" usage="optional" />
+					
+				<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+					set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+					
+				<value name="timestamp" style="attribute"
+					set-method="setTimestamp" get-method="getTimestamp" />
+				<value
+					ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+					name="version-number" set-method="setVersionNumber"
+					get-method="getVersionNumber" />
+				<value
+					ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+					name="timestamp" set-method="setTimestamp"
+					get-method="getTimestamp" />
+				<value
+					ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+					name="version-status" set-method="setVersionStatus"
+					get-method="getVersionStatus" />
+				<value
+					ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+					name="comment" set-method="setComment" get-method="getComment" />
+
+				<!-- *****************************************
+					Events
+					****************************************** -->
+				<collection
+					ns="http://www.escidoc.de/schemas/versionhistory/0.3" name="events"
+					field="events"
+					factory="de.escidoc.core.resources.common.versionhistory.Version.eventsFactory">					
+					<structure
+						ns="http://www.loc.gov/standards/premis/v1" name="event"
+						type="de.escidoc.core.resources.common.versionhistory.Event">
+						<value name="xmlID" style="attribute"
+							set-method="setXmlID" get-method="getXmlID" />
+						<structure
+							ns="http://www.loc.gov/standards/premis/v1"
+							name="eventIdentifier" set-method="setEventIdentifier"
+							get-method="getEventIdentifier">
+							<value ns="http://www.loc.gov/standards/premis/v1" name="eventIdentifierType"
+								set-method="setEventIdentifierType"
+								get-method="getEventIdentifierType" />
+							<value ns="http://www.loc.gov/standards/premis/v1" name="eventIdentifierValue"
+								set-method="setEventIdentifierValue"
+								get-method="getEventIdentifierValue" />
+						</structure>
+						<value ns="http://www.loc.gov/standards/premis/v1" name="eventType"
+							set-method="setEventType" get-method="getEventType" />
+						<value ns="http://www.loc.gov/standards/premis/v1" name="eventDateTime"
+							set-method="setEventDateTime" get-method="getEventDateTime" />
+						<value ns="http://www.loc.gov/standards/premis/v1" name="eventDetail"
+							set-method="setEventDetail" get-method="getEventDetail" />
+						<structure
+							ns="http://www.loc.gov/standards/premis/v1"
+							name="linkingAgentIdentifier"
+							set-method="setLinkingAgentIdentifier"
+							get-method="getLinkingAgentIdentifier">
+							<value ns="http://www.w3.org/1999/xlink"
+								name="href" style="attribute" set-method="setHref"
+								get-method="getHref" />
+							<value ns="http://www.w3.org/1999/xlink"
+								name="title" style="attribute" set-method="setTitle"
+								get-method="getTitle" />
+							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierType"
+								set-method="setLinkingAgentIdentifierType"
+								get-method="getLinkingAgentIdentifierType" />
+							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierValue"
+								set-method="setLinkingAgentIdentifierValue"
+								get-method="getLinkingAgentIdentifierValue" />
+						</structure>
+
+						<structure
+							ns="http://www.loc.gov/standards/premis/v1"
+							name="linkingObjectIdentifier"
+							set-method="setLinkingObjectIdentifier"
+							get-method="getLinkingObjectIdentifier">
+							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingObjectIdentifierType"
+								set-method="setLinkingObjectIdentifierType"
+								get-method="getLinkingObjectIdentifierType" />
+							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingObjectIdentifierValue"
+								set-method="setLinkingObjectIdentifierValue"
+								get-method="getLinkingObjectIdentifierValue" />
+						</structure>
+					</structure>
+				</collection>
+			</structure>
+		</collection>
+	</mapping>
+	<!-- end: binding of a version history -->
+</binding>
