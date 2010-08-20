@@ -10,7 +10,9 @@ import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 /**
  * 
@@ -18,16 +20,27 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  * 
  * @param <E>
  */
+@SuppressWarnings("rawtypes")
 public class Marshaller<E> {
 
     private Class resourceClass = null;
-
+    
+    private TransportProtocol transport = null;
+    
     /**
      * 
      * @param resourceClass
+     * @throws InternalClientException 
      */
-    public Marshaller(final Class resourceClass) {
+    public Marshaller(final Class resourceClass) throws InternalClientException {
         this.resourceClass = resourceClass;
+        setTransport(null);
+    }
+    
+    public Marshaller(final Class resourceClass, TransportProtocol transport) 
+    		throws InternalClientException {
+    	this.resourceClass = resourceClass;
+    	setTransport(transport);
     }
 
     /**
@@ -38,12 +51,14 @@ public class Marshaller<E> {
      * @return The corresponding java class.
      * @throws InternalClientException
      */
-    public E unmarshalDocument(final String xmlDocument)
+    @SuppressWarnings("unchecked")
+	public E unmarshalDocument(final String xmlDocument)
         throws InternalClientException {
 
         E result = null;
         try {
-            IBindingFactory bfact = BindingDirectory.getFactory(resourceClass);
+            IBindingFactory bfact = 
+            	BindingDirectory.getFactory(this.transport.name(), resourceClass);
 
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             ByteArrayInputStream in =
@@ -79,8 +94,8 @@ public class Marshaller<E> {
         String result = null;
 
         try {
-            IBindingFactory bfact =
-                BindingDirectory.getFactory(resource.getClass());
+            IBindingFactory bfact = 
+            	BindingDirectory.getFactory(this.transport.name(), resource.getClass());
             IMarshallingContext mctx = bfact.createMarshallingContext();
             mctx.setIndent(2);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -103,4 +118,20 @@ public class Marshaller<E> {
 
         return result;
     }
+
+	public TransportProtocol getTransport() {
+		return transport;
+	}
+
+	public void setTransport(final TransportProtocol transport)
+			throws InternalClientException {
+		if(transport == null) {
+			this.transport = TransportProtocol.valueOf(
+					ConfigurationProvider.getInstance().getProperty(
+							ConfigurationProvider.SERVICE_PROTOCOL));
+		}
+		else {
+			this.transport = transport;
+		}
+	}
 }
