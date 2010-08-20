@@ -37,6 +37,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -45,6 +46,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.UserAccountHandler;
 import de.escidoc.core.client.rest.serviceLocator.UserAccountRestServiceLocator;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 
 /**
  * REST Handler for User Account.
@@ -786,10 +788,9 @@ public class RestUserAccountHandlerClient extends ClientBase {
 
         DateTime result = null;
         try {
-            result =
-                (Factory.getUserAccountMarshaller()
-                    .unmarshalDocument(getClient().retrieve(id)))
-                    .getLastModificationDate();
+            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
+            		.getUserAccountMarshaller().unmarshalDocument(getClient().retrieve(id)))
+                    	.getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -798,7 +799,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
     }
 
     /**
-     * @return Returns the soapClient.
+     * @return Returns the restClient.
      * @throws InternalClientException
      * @see de.escidoc.core.client.ClientBase#getClient()
      */

@@ -1,6 +1,7 @@
 package de.escidoc.core.resources.sb.wrapper.search;
 
 import gov.loc.www.zing.srw.RecordType;
+import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.resources.sb.wrapper.search.MyStringFragmentSearch;
 
 public class MyRecordSearchType {
@@ -25,7 +26,7 @@ public class MyRecordSearchType {
         return record.getRecordPacking();
     }
 
-    public MyStringFragmentSearch getStringFragment() {
+    public MyStringFragmentSearch getStringFragment() throws InternalClientException {
         return new MyStringFragmentSearch(record.getRecordData());
     }
 

@@ -389,7 +389,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
-        return get(PATH_ITEM + "/" + itemId + "/version-history");
+        return get(PATH_ITEM + "/" + itemId + "/resources/version-history");
     }
 
     public String retrieveRelations(final String itemId)

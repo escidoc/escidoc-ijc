@@ -1,6 +1,7 @@
 package de.escidoc.core.resources.sb.wrapper.search;
 
 import gov.loc.www.zing.srw.StringOrXmlFragment;
+import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 
@@ -8,13 +9,14 @@ public class MyStringFragmentSearch {
     
     private StringOrXmlFragment stringOrXml;
 
-    private static final Marshaller<SearchResultRecord> m =
-        new Marshaller<SearchResultRecord>((new SearchResultRecord())
-            .getClass());
+    private static Marshaller<SearchResultRecord> m;
 
     private SearchResultRecord resultRecord;
 
-    public MyStringFragmentSearch(StringOrXmlFragment stringOrXml) {
+    public MyStringFragmentSearch(StringOrXmlFragment stringOrXml)
+    	throws InternalClientException {
+    	m = new Marshaller<SearchResultRecord>((new SearchResultRecord())
+                .getClass());
         this.stringOrXml = stringOrXml;
     }
 

@@ -1,6 +1,7 @@
 package de.escidoc.core.resources.sb.wrapper.explain;
 
 import gov.loc.www.zing.srw.StringOrXmlFragment;
+import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.sb.explain.ExplainRecord;
 
@@ -8,12 +9,14 @@ public class MyStringFragmentExplain {
 
     StringOrXmlFragment stringOrXml;
 
-    private static final Marshaller<ExplainRecord> m =
-        new Marshaller<ExplainRecord>((new ExplainRecord()).getClass());
+    private static Marshaller<ExplainRecord> m;
 
     private ExplainRecord resultRecord;
 
-    public MyStringFragmentExplain(StringOrXmlFragment stringOrXml) {
+    public MyStringFragmentExplain(StringOrXmlFragment stringOrXml)
+    	throws InternalClientException {
+    	
+    	m = new Marshaller<ExplainRecord>((new ExplainRecord()).getClass());
         this.stringOrXml = stringOrXml;
     }
 

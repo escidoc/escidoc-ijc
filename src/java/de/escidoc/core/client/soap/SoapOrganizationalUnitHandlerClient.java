@@ -41,6 +41,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -397,10 +398,9 @@ public class SoapOrganizationalUnitHandlerClient extends ClientBase {
 
         DateTime result = null;
         try {
-            result =
-                (Factory.getOrganizationalUnitMarshaller()
-                    .unmarshalDocument(getClient().retrieve(id)))
-                    .getLastModificationDate();
+            result = (Factory.getMarshallerFactory(TransportProtocol.SOAP)
+            		.getOrganizationalUnitMarshaller().unmarshalDocument(getClient().retrieve(id)))
+                    	.getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

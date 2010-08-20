@@ -708,7 +708,7 @@ public class RestContainerHandlerClient extends ClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory.getItemMarshaller().unmarshalDocument(getClient()
+                (Factory.getMarshallerFactory().getItemMarshaller().unmarshalDocument(getClient()
                     .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
@@ -718,7 +718,7 @@ public class RestContainerHandlerClient extends ClientBase {
     }
 
     /**
-     * @return Returns the soapClient.
+     * @return Returns the restClient.
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
      * @see de.escidoc.core.client.ClientBase#getClient()

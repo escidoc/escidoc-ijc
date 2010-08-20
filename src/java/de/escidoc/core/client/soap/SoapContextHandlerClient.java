@@ -40,6 +40,7 @@ import javax.xml.rpc.ServiceException;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -357,9 +358,9 @@ public class SoapContextHandlerClient extends ClientBase {
 
         DateTime result = null;
         try {
-            result =
-                (Factory.getContextMarshaller().unmarshalDocument(getClient()
-                    .retrieve(id))).getLastModificationDate();
+            result = (Factory.getMarshallerFactory(TransportProtocol.SOAP)
+            		.getContextMarshaller().unmarshalDocument(getClient().retrieve(id)))
+            			.getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

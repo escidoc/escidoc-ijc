@@ -33,6 +33,7 @@ import java.net.MalformedURLException;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -162,9 +163,9 @@ public class RestContentModelHandlerClient extends ClientBase {
 
         DateTime result = null;
         try {
-            result =
-                (Factory.getContextMarshaller().unmarshalDocument(getClient()
-                    .retrieve(id))).getLastModificationDate();
+            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
+            		.getContextMarshaller().unmarshalDocument(getClient().retrieve(id)))
+            			.getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -173,7 +174,7 @@ public class RestContentModelHandlerClient extends ClientBase {
     }
 
     /**
-     * @return Returns the soapClient.
+     * @return Returns the restClient.
      * @throws InternalClientException
      * @see de.escidoc.core.client.ClientBase#getClient()
      */

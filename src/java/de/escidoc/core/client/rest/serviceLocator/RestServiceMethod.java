@@ -38,6 +38,8 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 /**
  * HTTP Methods for REST.
  * 
+ * FIXME: Use of class de.escidoc.core.client.soap.security.PWCallback???
+ * 
  * @author SWA
  * 
  */

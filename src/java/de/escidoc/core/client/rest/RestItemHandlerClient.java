@@ -37,6 +37,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -459,7 +460,7 @@ public class RestItemHandlerClient extends ClientBase {
             result = getClient().retrieveVersionHistory(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+        	ExceptionMapper.map(e);
         }
         return result;
     }
@@ -529,9 +530,9 @@ public class RestItemHandlerClient extends ClientBase {
 
         DateTime result = null;
         try {
-            result =
-                (Factory.getItemMarshaller().unmarshalDocument(getClient()
-                    .retrieve(id))).getLastModificationDate();
+            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
+            		.getItemMarshaller().unmarshalDocument(getClient().retrieve(id)))
+            			.getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -540,7 +541,7 @@ public class RestItemHandlerClient extends ClientBase {
     }
 
     /**
-     * @return Returns the soapClient.
+     * @return Returns the restClient.
      * @throws InternalClientException
      * @see de.escidoc.core.client.ClientBase#getClient()
      */

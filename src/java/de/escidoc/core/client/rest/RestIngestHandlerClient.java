@@ -112,9 +112,9 @@ public class RestIngestHandlerClient extends ClientBase
     }
 
     /**
-     * Get SOAP client for ingest.
+     * Get REST client for ingest.
      * 
-     * @return Returns the soapClient.
+     * @return Returns the restClient.
      * @throws InternalClientException
      *             Thrown if getting instance of ingest client failed.
      */

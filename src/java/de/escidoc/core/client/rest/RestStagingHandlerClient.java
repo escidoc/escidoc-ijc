@@ -158,7 +158,7 @@ public class RestStagingHandlerClient extends ClientBase {
     }
 
     /**
-     * @return Returns the soapClient.
+     * @return Returns the restClient.
      * @throws InternalClientException
      * @see de.escidoc.core.client.ClientBase#getClient()
      */

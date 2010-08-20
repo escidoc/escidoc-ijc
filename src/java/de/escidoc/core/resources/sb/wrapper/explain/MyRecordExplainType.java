@@ -1,5 +1,6 @@
 package de.escidoc.core.resources.sb.wrapper.explain;
 
+import de.escidoc.core.client.exceptions.InternalClientException;
 import gov.loc.www.zing.srw.RecordType;
 
 public class MyRecordExplainType {
@@ -24,7 +25,7 @@ public class MyRecordExplainType {
         return record.getRecordPacking();
     }
 
-    public MyStringFragmentExplain getStringFragment() {
+    public MyStringFragmentExplain getStringFragment() throws InternalClientException {
         return new MyStringFragmentExplain(record.getRecordData());
     }
 

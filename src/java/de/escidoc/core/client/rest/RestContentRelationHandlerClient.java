@@ -37,13 +37,14 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ContentRelationHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContentRelationRestServiceLocator;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.client.interfaces.ContentRelationHandler;
 
 /**
  * REST Handler for ContentRelation.
@@ -365,10 +366,9 @@ public class RestContentRelationHandlerClient extends ClientBase {
 
         DateTime result = null;
         try {
-            result =
-                (Factory.getContentRelationMarshaller()
-                    .unmarshalDocument(getClient().retrieve(id)))
-                    .getLastModificationDate();
+            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
+            		.getContentRelationMarshaller().unmarshalDocument(getClient().retrieve(id)))
+                    	.getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -377,7 +377,7 @@ public class RestContentRelationHandlerClient extends ClientBase {
     }
 
     /**
-     * @return Returns the soapClient.
+     * @return Returns the restClient.
      * @throws InternalClientException
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
