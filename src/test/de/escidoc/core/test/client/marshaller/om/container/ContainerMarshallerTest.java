@@ -42,6 +42,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
@@ -75,8 +76,8 @@ public class ContainerMarshallerTest {
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
-        Container container =
-            Factory.getContainerMarshaller().unmarshalDocument(containerXml);
+        Container container = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getContainerMarshaller().unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:157513", container.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -169,7 +170,8 @@ public class ContainerMarshallerTest {
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
         Container container =
-            Factory.getContainerMarshaller().unmarshalDocument(containerXml);
+            Factory.getMarshallerFactory(TransportProtocol.SOAP)
+            	.getContainerMarshaller().unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:157513", container.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -268,8 +270,8 @@ public class ContainerMarshallerTest {
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
-        Container container =
-            Factory.getContainerMarshaller().unmarshalDocument(containerXml);
+        Container container = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getContainerMarshaller().unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:188602", container.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -372,8 +374,8 @@ public class ContainerMarshallerTest {
         structMap.add(new ContainerRef(member1));
         container.setStructMap(structMap);
 
-        String containerXml =
-            Factory.getContainerMarshaller().marshalDocument(container);
+        String containerXml = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+            .getContainerMarshaller().marshalDocument(container);
 
         Document containerDoc = XmlUtility.getDocument(containerXml);
         assertEquals(

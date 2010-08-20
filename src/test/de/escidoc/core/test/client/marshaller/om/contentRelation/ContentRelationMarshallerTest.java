@@ -36,6 +36,7 @@ import java.io.File;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -62,8 +63,8 @@ public class ContentRelationMarshallerTest {
                 "./templates/mockups/soap/om/content-relation/0.1/content-relation01.xml");
         String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
 
-        ContentRelation cr =
-            Factory.getContentRelationMarshaller().unmarshalDocument(crXml);
+        ContentRelation cr = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getContentRelationMarshaller().unmarshalDocument(crXml);
 
         assertEquals("Wrong objid", "escidoc:157531", cr.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -131,7 +132,8 @@ public class ContentRelationMarshallerTest {
         String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
 
         ContentRelation cr =
-            Factory.getContentRelationMarshaller().unmarshalDocument(crXml);
+            Factory.getMarshallerFactory(TransportProtocol.SOAP)
+            	.getContentRelationMarshaller().unmarshalDocument(crXml);
 
         assertEquals("Wrong objid", "escidoc:157531", cr.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -206,8 +208,8 @@ public class ContentRelationMarshallerTest {
                 "./templates/mockups/soap/om/content-relation/0.1/content-relation-before-create.xml");
         String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
 
-        ContentRelation cr =
-            Factory.getContentRelationMarshaller().unmarshalDocument(crXml);
+        ContentRelation cr = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+            .getContentRelationMarshaller().unmarshalDocument(crXml);
 
         assertNull("Wrong objid", cr.getObjid());
         assertNull("Wrong last modification date", cr.getLastModificationDate());

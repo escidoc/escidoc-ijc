@@ -70,6 +70,8 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class RoleHandlerClientTest {
 
+	
+	
     /**
      * Test to create and retrieve user account.
      * 
@@ -92,7 +94,8 @@ public class RoleHandlerClientTest {
 
         String objId = createdRole.getObjid();
 
-        Factory.getRoleMarshaller().marshalDocument(rc.retrieve(objId));
+        Factory.getMarshallerFactory(rc.getTransport()).getRoleMarshaller()
+        	.marshalDocument(rc.retrieve(objId));
 
     }
 
@@ -173,7 +176,8 @@ public class RoleHandlerClientTest {
         filterParam.setFilters(filters);
 
         // serialize data
-        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getTaskParamMarshaller().marshalDocument(filterParam);
     }
 
     /**
@@ -203,7 +207,8 @@ public class RoleHandlerClientTest {
         Roles roleList = rc.retrieveRoles(filterParam);
 
         // test deserialize Role XML
-        Factory.getRoleListMarshaller().marshalDocument(roleList);
+        Factory.getMarshallerFactory(rc.getTransport()).getRoleListMarshaller()
+        	.marshalDocument(roleList);
     }
 
     /**
@@ -262,11 +267,13 @@ public class RoleHandlerClientTest {
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m = new Marshaller<Role>(role.getClass());
+        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), EscidocClientTestBase.getTransport());
+        
         String xml = m.marshalDocument(role);
 
         Role urole = m.unmarshalDocument(xml);
-        Factory.getRoleMarshaller().marshalDocument(urole);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getRoleMarshaller().marshalDocument(urole);
 
         return role;
     }

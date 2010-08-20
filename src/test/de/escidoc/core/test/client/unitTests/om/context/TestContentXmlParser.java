@@ -19,6 +19,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.XmlUtil;
 
 /**
@@ -29,7 +30,7 @@ import de.escidoc.core.test.client.util.XmlUtil;
  */
 public class TestContentXmlParser {
 
-    /**
+	/**
      * Test setting content of admin descriptor as String.
      * 
      * @throws Exception
@@ -65,7 +66,8 @@ public class TestContentXmlParser {
         context.setAdminDescriptors(adminDescriptors);
 
         String contextXml =
-            Factory.getContextMarshaller().marshalDocument(context);
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        		.getContextMarshaller().marshalDocument(context);
 
         Document contextDoc = XmlUtil.getDocument(contextXml);
 
@@ -103,7 +105,8 @@ public class TestContentXmlParser {
 
         // unmarshall
         Context contextRev =
-            Factory.getContextMarshaller().unmarshalDocument(contextXml);
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        		.getContextMarshaller().unmarshalDocument(contextXml);
 
         assertEquals("Content failure", contentElementName, contextRev
             .getAdminDescriptors().get(0).getContent().getNodeName());
@@ -152,7 +155,8 @@ public class TestContentXmlParser {
         context.setAdminDescriptors(adminDescriptors);
 
         String contextXml =
-            Factory.getContextMarshaller().marshalDocument(context);
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        		.getContextMarshaller().marshalDocument(context);
 
         Document contextDoc = XmlUtil.getDocument(contextXml);
 
@@ -190,7 +194,8 @@ public class TestContentXmlParser {
 
         // unmarshall
         Context contextRev =
-            Factory.getContextMarshaller().unmarshalDocument(contextXml);
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        		.getContextMarshaller().unmarshalDocument(contextXml);
 
         assertEquals("Content failue", contentElementName, contextRev
             .getAdminDescriptors().get(0).getContent().getNodeName());

@@ -107,7 +107,8 @@ public class ContainerHandlerClientTest {
             // retrieve the created Container
             Container container = cc.retrieve(objid);
 
-            Factory.getContainerMarshaller().marshalDocument(container);
+            Factory.getMarshallerFactory(cc.getTransport()).getContainerMarshaller()
+            	.marshalDocument(container);
         }
         catch (Exception e) {
             fail("Unexpected exception caught: " + e.getMessage());
@@ -147,6 +148,7 @@ public class ContainerHandlerClientTest {
     @Test
     public void testRetrieveContainers() throws Exception {
         
+    	ContainerHandlerClient cc = new ContainerHandlerClient();
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
@@ -155,9 +157,9 @@ public class ContainerHandlerClientTest {
             "escidoc:user42", null));
         filterParam.setFilters(filters);
 
-        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
+        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        	.marshalDocument(filterParam);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
         ContainerList containerList = cc.retrieveContainers(filterParam);
         Marshaller<ContainerList> m =
             new Marshaller<ContainerList>(containerList.getClass());
@@ -199,7 +201,8 @@ public class ContainerHandlerClientTest {
         Container createdContainer = cc.create(containerNew);
         String objid = createdContainer.getObjid();
         Container container = cc.retrieve(objid);
-        Factory.getContainerMarshaller().marshalDocument(container);
+        Factory.getMarshallerFactory(cc.getTransport()).getContainerMarshaller()
+        	.marshalDocument(container);
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
@@ -208,7 +211,8 @@ public class ContainerHandlerClientTest {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
+        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        	.marshalDocument(filterParam);
 
         MemberList memberList = cc.retrieveMembers(objid, filterParam);
         Marshaller<MemberList> m =

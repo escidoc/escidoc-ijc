@@ -41,6 +41,7 @@ import org.xml.sax.SAXException;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.PolicyDecisionPointHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
@@ -80,7 +81,8 @@ public class PdpHandlerClientTest {
         Requests requests = createRequests();
         RequestsResults results = pdpc.evaluate(requests);
 
-        Factory.getRequestsResultsMarshaller().marshalDocument(results);
+        Factory.getMarshallerFactory(TransportProtocol.SOAP).getRequestsResultsMarshaller()
+        	.marshalDocument(results);
     }
 
     /**
@@ -135,11 +137,13 @@ public class PdpHandlerClientTest {
         Element root6 = doc6.getDocumentElement();
         requests.addRequest(root6);
 
-        Marshaller<Requests> m = new Marshaller<Requests>(requests.getClass());
+        Marshaller<Requests> m = new Marshaller<Requests>(requests.getClass(),
+        		TransportProtocol.SOAP);
         String xml = m.marshalDocument(requests);
 
         Requests urequests = m.unmarshalDocument(xml);
-        Factory.getRequestsMarshaller().marshalDocument(urequests);
+        Factory.getMarshallerFactory(TransportProtocol.SOAP).getRequestsMarshaller()
+        	.marshalDocument(urequests);
 
         return requests;
     }

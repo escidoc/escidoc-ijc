@@ -47,6 +47,7 @@ import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * A collection of eSciDoc resource asserts.
@@ -57,7 +58,7 @@ import de.escidoc.core.resources.common.MetadataRecords;
  */
 public class Asserts {
 
-    /**
+	/**
      * Compares all MetadataRecords with the master. If number, attributes or
      * content of the MetadataRecords differ.
      * 
@@ -97,7 +98,8 @@ public class Asserts {
                 toCompareSchema);
 
             Marshaller<MetadataRecord> m1 =
-                new Marshaller<MetadataRecord>(mdMaster.getClass());
+                new Marshaller<MetadataRecord>(mdMaster.getClass(), 
+                		EscidocClientTestBase.getTransport());
             String xml1 = m1.marshalDocument(mdMaster);
 
             Document mdRecordMaster = XmlUtility.getDocument(xml1);
@@ -106,7 +108,8 @@ public class Asserts {
             Node mdRecordMasterContent = mdRecordMasterNode.getFirstChild();
 
             Marshaller<MetadataRecord> m2 =
-                new Marshaller<MetadataRecord>(mdToComp.getClass());
+                new Marshaller<MetadataRecord>(mdToComp.getClass(),
+                		EscidocClientTestBase.getTransport());
             String xml2 = m2.marshalDocument(mdToComp);
 
             Document mdRecordToCompare = XmlUtility.getDocument(xml2);

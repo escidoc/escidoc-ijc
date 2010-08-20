@@ -90,7 +90,8 @@ public class ItemHandlerClientTest {
         ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
-        Factory.getItemMarshaller().marshalDocument(item);
+        Factory.getMarshallerFactory(ic.getTransport()).getItemMarshaller()
+        	.marshalDocument(item);
     }
 
     /**

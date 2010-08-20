@@ -145,7 +145,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         String objid = createdContext.getObjid();
         Context retrievedContext = cc.retrieve(objid);
 
-        Factory.getContextMarshaller().marshalDocument(retrievedContext);
+        Factory.getMarshallerFactory(cc.getTransport()).getContextMarshaller()
+        	.marshalDocument(retrievedContext);
     }
 
     /**
@@ -201,7 +202,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         
         // update
         cc.update(retrivedContext);
-        Factory.getContextMarshaller().marshalDocument(retrivedContext);
+        Factory.getMarshallerFactory(cc.getTransport()).getContextMarshaller()
+        	.marshalDocument(retrivedContext);
     }
 
     /**
@@ -234,7 +236,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by", me
                 .getObjid(), null));
         filterParam.setFilters(filters);
-        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
+        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        	.marshalDocument(filterParam);
 
         ContextList contextList = cc.retrieveContexts(filterParam);
 
@@ -270,7 +273,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
                 .getObjid(), null));
         filterParam.setFilters(filters);
 
-        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
+        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        	.marshalDocument(filterParam);
 
         MemberList memberList = cc.retrieveMembers("escidoc:ex1", filterParam);
         Marshaller<MemberList> m =

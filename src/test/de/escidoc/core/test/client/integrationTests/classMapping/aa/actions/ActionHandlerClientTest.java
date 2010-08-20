@@ -31,6 +31,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.aa.actions;
 import org.junit.Test;
 
 import de.escidoc.core.client.ActionHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.test.client.Constants;
@@ -72,9 +73,9 @@ public class ActionHandlerClientTest {
 
         UnsecuredActions ua =
             ac.createUnsecuredActions("escidoc:persistent3", actions);
-
-        Factory.getUnsecuredActionsMarshaller().marshalDocument(
-            ac.retrieveUnsecuredActions("escidoc:persistent3"));
+        // TODO: ActionHandlerClient does not support other protocols than SOAP.
+        Factory.getMarshallerFactory(TransportProtocol.SOAP).getUnsecuredActionsMarshaller()
+        	.marshalDocument(ac.retrieveUnsecuredActions("escidoc:persistent3"));
 
     }
 

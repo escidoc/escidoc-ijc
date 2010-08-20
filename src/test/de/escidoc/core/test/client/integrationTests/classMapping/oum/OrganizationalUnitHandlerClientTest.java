@@ -117,8 +117,8 @@ public class OrganizationalUnitHandlerClientTest {
         OrganizationalUnit organizationUnit =
             cc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
 
-        Factory.getOrganizationalUnitMarshaller().marshalDocument(
-            organizationUnit);
+        Factory.getMarshallerFactory(cc.getTransport()).getOrganizationalUnitMarshaller()
+        	.marshalDocument(organizationUnit);
     }
 
     /**
@@ -142,8 +142,8 @@ public class OrganizationalUnitHandlerClientTest {
         OrganizationalUnit organizationUnit =
             cc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
         cc.update(organizationUnit);
-        Factory.getOrganizationalUnitMarshaller().marshalDocument(
-            organizationUnit);
+        Factory.getMarshallerFactory(cc.getTransport()).getOrganizationalUnitMarshaller()
+        	.marshalDocument(organizationUnit);
     }
 
     /**
@@ -214,7 +214,8 @@ public class OrganizationalUnitHandlerClientTest {
             "http://escidoc.de/core/01/structural-relations/created-by", me
                 .getObjid(), null));
         filterParam.setFilters(filters);
-        Factory.getTaskParamMarshaller().marshalDocument(filterParam);
+        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        	.marshalDocument(filterParam);
 
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();

@@ -83,7 +83,8 @@ public class UserAccountHandlerClientTest {
 
         // test marshalling
         String objId = createdUa.getObjid();
-        Factory.getUserAccountMarshaller().marshalDocument(uac.retrieve(objId));
+        Factory.getMarshallerFactory(uac.getTransport()).getUserAccountMarshaller()
+        	.marshalDocument(uac.retrieve(objId));
     }
 
     /**
@@ -148,7 +149,8 @@ public class UserAccountHandlerClientTest {
         assertEquals(newLoginName, updatedProperties.getLoginName());
 
         // test marshalling
-        Factory.getUserAccountMarshaller().marshalDocument(updatedUserAccont);
+        Factory.getMarshallerFactory(uac.getTransport()).getUserAccountMarshaller()
+        	.marshalDocument(updatedUserAccont);
     }
 
     /**
@@ -230,7 +232,8 @@ public class UserAccountHandlerClientTest {
 
         UserAccounts userAccountList = uac.retrieveUserAccounts(filterParam);
 
-        Factory.getUserAccountListMarshaller().marshalDocument(userAccountList);
+        Factory.getMarshallerFactory(uac.getTransport()).getUserAccountListMarshaller()
+        	.marshalDocument(userAccountList);
     }
 
     /**
@@ -292,8 +295,8 @@ public class UserAccountHandlerClientTest {
 
         // FIXME there are no grant, that's why the test is bad
 
-        Factory.getGrantsMarshaller().marshalDocument(
-            uac.retrieveCurrentGrants(objId));
+        Factory.getMarshallerFactory(uac.getTransport()).getGrantsMarshaller()
+        	.marshalDocument(uac.retrieveCurrentGrants(objId));
     }
 
     /**

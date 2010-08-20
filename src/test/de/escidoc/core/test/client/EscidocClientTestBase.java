@@ -40,6 +40,12 @@ import java.io.StringWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.BeforeClass;
+
+import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.common.configuration.ConfigurationProvider;
+
 /**
  * Utility methods for Tests.
  * 
@@ -66,6 +72,8 @@ public class EscidocClientTestBase {
 
     private static final Pattern PATTERN_LMD_ATTRIBUTE =
         Pattern.compile("last-modification-date=\"([^\"]*)\"");
+    
+    private static TransportProtocol transport;
 
     /**
      * Asserts that the exception is of expected type<br>
@@ -193,4 +201,17 @@ public class EscidocClientTestBase {
         msg.append(getStackTrace(e));
     }
 
+    /**
+     * 
+     * @return
+     * @throws InternalClientException
+     */
+    public static final TransportProtocol getTransport() throws InternalClientException {
+    	if(transport==null) {
+    		transport = TransportProtocol.valueOf(
+    				ConfigurationProvider.getInstance().getProperty(
+    						ConfigurationProvider.SERVICE_PROTOCOL));
+    	}
+    	return transport;
+    }
 }

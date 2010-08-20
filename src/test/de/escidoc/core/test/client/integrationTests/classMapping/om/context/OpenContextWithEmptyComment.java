@@ -17,6 +17,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
@@ -63,7 +64,7 @@ public class OpenContextWithEmptyComment {
         final OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
         final ResourceRef organizationalUnitRef =
-            new ResourceRef("escidoc:ex3");
+            new ResourceRef("escidoc:ex3", RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");

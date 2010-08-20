@@ -43,6 +43,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.escidoc.core.client.SearchHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.om.item.Item;
@@ -121,9 +122,8 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
                     item.getProperties().getVersion().getNumber();
 
                 Marshaller<SearchResultRecord> m =
-                    new Marshaller<SearchResultRecord>(resultrecord.getClass());
+                    new Marshaller<SearchResultRecord>(resultrecord.getClass(), TransportProtocol.SOAP);
                 m.marshalDocument(resultrecord);
-
             }
 
         }
@@ -175,7 +175,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         String host = si.getHost();
 
         Marshaller<ExplainRecord> m =
-            new Marshaller<ExplainRecord>(resultrecord.getClass());
+            new Marshaller<ExplainRecord>(resultrecord.getClass(), TransportProtocol.SOAP);
         m.marshalDocument(resultrecord);
 
     }

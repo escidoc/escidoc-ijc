@@ -190,12 +190,13 @@ public class ContextCreateTest {
         Properties properties = new Properties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName");
-        properties.setPublicStatus("open");
+        properties.setPublicStatus("opened");
         properties.setPublicStatusComment("PublicStatusComment");
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
+        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3", 
+        		ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         context.setProperties(properties);
@@ -242,7 +243,8 @@ public class ContextCreateTest {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
+        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3", 
+        		ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");

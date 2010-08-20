@@ -56,6 +56,7 @@ import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
@@ -337,9 +338,9 @@ public class ItemCreateTest {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -386,9 +387,9 @@ public class ItemCreateTest {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -440,9 +441,9 @@ public class ItemCreateTest {
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -489,7 +490,7 @@ public class ItemCreateTest {
         components.add(component);
         item.setComponents(components);
 
-        Marshaller<Item> m = new Marshaller<Item>(item.getClass());
+        Marshaller<Item> m = new Marshaller<Item>(item.getClass(), cc.getTransport());
         m.marshalDocument(item);
 
         Item createdItem = cc.create(item);
@@ -517,9 +518,9 @@ public class ItemCreateTest {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
         properties.setContentModelSpecific(ResourceUtility
             .getContentModelSpecific());
         item.setProperties(properties);
@@ -546,7 +547,7 @@ public class ItemCreateTest {
         component.setContent(content);
 
         // only for debug
-        Marshaller<Item> m = new Marshaller<Item>(item.getClass());
+        Marshaller<Item> m = new Marshaller<Item>(item.getClass(), cc.getTransport());
         m.marshalDocument(item);
 
         Item createdItem = cc.create(item);
@@ -661,9 +662,9 @@ public class ItemCreateTest {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -712,9 +713,9 @@ public class ItemCreateTest {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
         properties.setContentModelSpecific(ResourceUtility
             .getContentModelSpecific());
         item.setProperties(properties);

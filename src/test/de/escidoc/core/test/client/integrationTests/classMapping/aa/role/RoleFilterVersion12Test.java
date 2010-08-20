@@ -71,7 +71,7 @@ import de.escidoc.core.test.client.util.Template;
 public class RoleFilterVersion12Test {
 
     public static final String FILTER_PARAMETER_QUERY = "query";
-
+    
     /**
      * Test retrieving Roles through filter request (filter for version 1.2).
      * 
@@ -170,11 +170,14 @@ public class RoleFilterVersion12Test {
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m = new Marshaller<Role>(role.getClass());
+        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), 
+        		EscidocClientTestBase.getTransport());
+        
         String xml = m.marshalDocument(role);
 
         Role urole = m.unmarshalDocument(xml);
-        Factory.getRoleMarshaller().marshalDocument(urole);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getRoleMarshaller().marshalDocument(urole);
 
         return role;
     }

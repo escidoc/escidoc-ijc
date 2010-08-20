@@ -35,6 +35,7 @@ import java.io.File;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -61,8 +62,8 @@ public class ContextMarshallerTest {
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(templContext);
 
-        Context context =
-            Factory.getContextMarshaller().unmarshalDocument(contextXml);
+        Context context = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getContextMarshaller().unmarshalDocument(contextXml);
 
         assertEquals("Wrong objid", "escidoc:157546", context.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -111,10 +112,7 @@ public class ContextMarshallerTest {
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(templContext);
 
-        Context context =
-            Factory.getContextMarshaller().unmarshalDocument(contextXml);
-
+        Context context = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getContextMarshaller().unmarshalDocument(contextXml);
     }
-
-
 }

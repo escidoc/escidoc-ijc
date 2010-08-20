@@ -189,7 +189,8 @@ public class ContainerCreateTest {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, 
+        		ResourceRef.RESOURCE_TYPE.Context));
         container.setProperties(properties);
         cc.create(container);
     }
@@ -216,7 +217,7 @@ public class ContainerCreateTest {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -248,7 +249,7 @@ public class ContainerCreateTest {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -287,7 +288,7 @@ public class ContainerCreateTest {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
         container.setProperties(properties);
 
         // md-record
@@ -330,9 +331,9 @@ public class ContainerCreateTest {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            Constants.EXAMPLE_CONTENT_MODEL_ID, ResourceRef.RESOURCE_TYPE.ContentModel));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -359,7 +360,7 @@ public class ContainerCreateTest {
 
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
-
+     
         Container createdContainer = cc.create(container);
 
         // compare the new created Container with the Container from the
@@ -374,9 +375,9 @@ public class ContainerCreateTest {
 
         Marshaller<MetadataRecord> m1 =
             new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass());
-        String xml1 =
-            m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
+                "escidoc").getClass(), cc.getTransport());
+        
+        String xml1 = m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
@@ -423,8 +424,8 @@ public class ContainerCreateTest {
 
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
-        Relation relation =
-            new Relation(new ResourceRef(Constants.EXAMPLE_ITEM_ID));
+        Relation relation = new Relation(
+        		new ResourceRef(Constants.EXAMPLE_ITEM_ID, ResourceRef.RESOURCE_TYPE.Item));
         relation
             .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
         relations.add(relation);
@@ -434,7 +435,8 @@ public class ContainerCreateTest {
 
         // test marshalling created Container.
         Marshaller<Container> c1 =
-            new Marshaller<Container>(createdContainer.getClass());
+            new Marshaller<Container>(createdContainer.getClass(), cc.getTransport());
+        
         String xmlc1 = c1.marshalDocument(createdContainer);
 
         // compare the new created Container with the Container from the
@@ -450,9 +452,9 @@ public class ContainerCreateTest {
 
         Marshaller<MetadataRecord> m1 =
             new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass());
-        String xml1 =
-            m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
+                "escidoc").getClass(), cc.getTransport());
+        
+        String xml1 = m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
@@ -464,7 +466,9 @@ public class ContainerCreateTest {
             createdContainer.getMetadataRecords().get("escidoc");
 
         Marshaller<MetadataRecord> m2 =
-            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass());
+            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass(),
+            		cc.getTransport());
+        
         String xml2 = m2.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
@@ -513,12 +517,12 @@ public class ContainerCreateTest {
         Container createdMemberContainer = cc.create(memberContainer);
         String memberId = createdMemberContainer.getObjid();
         StructMap structMap = new StructMap();
-        ContainerRef member = new ContainerRef(memberId);
+        ContainerRef member = new ContainerRef(memberId, ResourceRef.RESOURCE_TYPE.Container);
         structMap.add(member);
         container.setStructMap(structMap);
         Container createdContainer = cc.create(container);
         Marshaller<Container> c1 =
-            new Marshaller<Container>(createdContainer.getClass());
+            new Marshaller<Container>(createdContainer.getClass(), cc.getTransport());
         c1.marshalDocument(createdContainer);
 
         StructMap createdStructMap = createdContainer.getStructMap();
@@ -569,7 +573,7 @@ public class ContainerCreateTest {
 
         Marshaller<MetadataRecord> m1 =
             new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass());
+                "escidoc").getClass(), cc.getTransport());
         String xml1 =
             m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
@@ -583,7 +587,8 @@ public class ContainerCreateTest {
             createdContainer.getMetadataRecords().get("escidoc");
 
         Marshaller<MetadataRecord> m2 =
-            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass());
+            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass(),
+            		cc.getTransport());
         String xml2 = m2.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
@@ -697,9 +702,9 @@ public class ContainerCreateTest {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
+        properties.setContentModel(
+        		new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, ResourceRef.RESOURCE_TYPE.ContentModel));
 
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();

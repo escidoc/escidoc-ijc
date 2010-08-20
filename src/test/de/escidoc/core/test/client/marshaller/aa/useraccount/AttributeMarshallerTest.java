@@ -36,7 +36,9 @@ import java.io.File;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -63,8 +65,8 @@ public class AttributeMarshallerTest {
         String attributeXml =
             EscidocClientTestBase.getXmlFileAsString(templAttribute);
 
-        Attribute attribute =
-            Factory.getAttributeMarshaller().unmarshalDocument(attributeXml);
+        Attribute attribute = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getAttributeMarshaller().unmarshalDocument(attributeXml);
 
         assertEquals("Wrong objid", "escidoc:209775", attribute.getObjid());
         assertEquals("Wrong last modification date", new DateTime(

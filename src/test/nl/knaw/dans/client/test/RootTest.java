@@ -12,10 +12,11 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class RootTest {
 
-    /**
+	/**
      * 
      * @throws InternalClientException
      * @throws ParserConfigurationException
@@ -32,7 +33,8 @@ public class RootTest {
         element.setTextContent("Why 1 < 2, and not 2 &lt; 1");
         root.getMdRecord().setAnyElement(element);
 
-        Marshaller<Root> m = new Marshaller<Root>(root.getClass());
+        Marshaller<Root> m = new Marshaller<Root>(root.getClass(),
+        		EscidocClientTestBase.getTransport());
         String xml = m.marshalDocument(root);
         System.out.println(xml);
 

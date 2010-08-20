@@ -29,8 +29,8 @@
 package de.escidoc.core.test.client.marshaller.om.item;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -39,6 +39,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.ResourceRef;
@@ -73,7 +74,8 @@ public class ItemMarshallerTest {
             new File("./templates/mockups/soap/om/item/0.9/item_released01.xml");
         String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
 
-        Item item = Factory.getItemMarshaller().unmarshalDocument(itemXml);
+        Item item = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getItemMarshaller().unmarshalDocument(itemXml);
 
         assertEquals("Wrong objid", "escidoc:40011", item.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -206,7 +208,8 @@ public class ItemMarshallerTest {
             new File("./templates/mockups/soap/om/item/0.9/item_locked01.xml");
         String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
 
-        Item item = Factory.getItemMarshaller().unmarshalDocument(itemXml);
+        Item item = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getItemMarshaller().unmarshalDocument(itemXml);
 
         assertEquals("Wrong objid", "escidoc:40011", item.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -345,7 +348,8 @@ public class ItemMarshallerTest {
                 "./templates/mockups/soap/om/item/0.9/item_one_component_inline_content.xml");
         String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
 
-        Item item = Factory.getItemMarshaller().unmarshalDocument(itemXml);
+        Item item = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getItemMarshaller().unmarshalDocument(itemXml);
 
         assertNull("Wrong objid", item.getObjid());
         assertNull("Wrong last modification date",
@@ -483,7 +487,8 @@ public class ItemMarshallerTest {
         components.add(component);
         item.setComponents(components);
 
-        String itemXml = Factory.getItemMarshaller().marshalDocument(item);
+        String itemXml = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getItemMarshaller().marshalDocument(item);
 
         Document itemDoc = XmlUtility.getDocument(itemXml);
         assertEquals(
@@ -538,7 +543,8 @@ public class ItemMarshallerTest {
         components.add(component);
         item.setComponents(components);
 
-        String itemXml = Factory.getItemMarshaller().marshalDocument(item);
+        String itemXml = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getItemMarshaller().marshalDocument(item);
 
     }
 }

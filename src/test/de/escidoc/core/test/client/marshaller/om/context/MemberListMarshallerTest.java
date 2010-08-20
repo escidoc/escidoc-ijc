@@ -34,6 +34,7 @@ import java.io.File;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -60,8 +61,8 @@ public class MemberListMarshallerTest {
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(memberListFile);
 
-        MemberList memberList =
-            Factory.getMemberListMarshaller().unmarshalDocument(contextXml);
+        MemberList memberList = Factory.getMarshallerFactory(TransportProtocol.SOAP)
+        	.getMemberListMarshaller().unmarshalDocument(contextXml);
 
         assertEquals("Wrong offset", 0, memberList.getOffset());
         assertEquals("Wrong limit", 1000, memberList.getLimit());

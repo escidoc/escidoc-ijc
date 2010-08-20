@@ -38,6 +38,7 @@ import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test un-/marshalling the resources.
@@ -47,7 +48,7 @@ import de.escidoc.core.resources.om.item.Item;
  */
 public class TestMarshalling {
 
-    /**
+	/**
      * Test un-/marshalling Item.
      * 
      * @throws Exception
@@ -57,8 +58,11 @@ public class TestMarshalling {
     public void testMarshallingItem01() throws Exception {
 
         Item item = new Item();
-        String xml = Factory.getItemMarshaller().marshalDocument(item);
-        Factory.getItemMarshaller().unmarshalDocument(xml);
+        
+        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getItemMarshaller().marshalDocument(item);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getItemMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -71,9 +75,10 @@ public class TestMarshalling {
     public void testMarshallingContainer01() throws Exception {
 
         Container container = new Container();
-        String xml =
-            Factory.getContainerMarshaller().marshalDocument(container);
-        Factory.getContainerMarshaller().unmarshalDocument(xml);
+        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+	    	.getContainerMarshaller().marshalDocument(container);
+	    Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+	    	.getContainerMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -89,8 +94,10 @@ public class TestMarshalling {
         StructMap structMap = new StructMap();
         container.setStructMap(structMap);
         String xml =
-            Factory.getContainerMarshaller().marshalDocument(container);
-        Factory.getContainerMarshaller().unmarshalDocument(xml);
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        		.getContainerMarshaller().marshalDocument(container);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getContainerMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -103,8 +110,10 @@ public class TestMarshalling {
     public void testMarshallingContext01() throws Exception {
 
         Context context = new Context();
-        String xml = Factory.getContextMarshaller().marshalDocument(context);
-        Factory.getContextMarshaller().unmarshalDocument(xml);
+        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getContextMarshaller().marshalDocument(context);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getContextMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -117,8 +126,10 @@ public class TestMarshalling {
     public void testMarshallingResult01() throws Exception {
 
         Result result = new Result();
-        String xml = Factory.getResultMarshaller().marshalDocument(result);
-        Factory.getResultMarshaller().unmarshalDocument(xml);
+        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getResultMarshaller().marshalDocument(result);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getResultMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -132,8 +143,10 @@ public class TestMarshalling {
 
         TaskParam taskParam = new TaskParam();
         String xml =
-            Factory.getTaskParamMarshaller().marshalDocument(taskParam);
-        Factory.getTaskParamMarshaller().unmarshalDocument(xml);
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        		.getTaskParamMarshaller().marshalDocument(taskParam);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getTaskParamMarshaller().unmarshalDocument(xml);
     }
 
     // mapping of subresources currently not supported
@@ -196,8 +209,10 @@ public class TestMarshalling {
 
         UserAccount userAccount = new UserAccount();
         String xml =
-            Factory.getUserAccountMarshaller().marshalDocument(userAccount);
-        Factory.getUserAccountMarshaller().unmarshalDocument(xml);
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        		.getUserAccountMarshaller().marshalDocument(userAccount);
+        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
     // mapping of subresources currently not supported

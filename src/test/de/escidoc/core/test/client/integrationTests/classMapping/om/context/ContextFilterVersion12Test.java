@@ -30,6 +30,11 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -90,7 +95,7 @@ public class ContextFilterVersion12Test {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
+        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3", ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
@@ -129,6 +134,5 @@ public class ContextFilterVersion12Test {
             contextList.getNumberOfRecords() >= 1);
         assertEquals("Wrong record position", 1, contextList
             .getRecords().iterator().next().getRecordPosition());
-    }
-
+    }    
 }
