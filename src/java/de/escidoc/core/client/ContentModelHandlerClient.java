@@ -47,11 +47,8 @@ import de.escidoc.core.resources.cmm.ContentModel;
  * @author SWA
  * 
  */
-public class ContentModelHandlerClient
+public class ContentModelHandlerClient extends AbstractHandlerClient
     implements ContentModelHandlerClientInterface<ContentModel> {
-
-    // Set SOAP as default transport protocol (for now :-()
-    private TransportProtocol transport = TransportProtocol.SOAP;
 
     private SoapContentModelHandlerClient soapContentModelHandlerClient = null;
 
@@ -335,24 +332,4 @@ public class ContentModelHandlerClient
         }
         return this.restContentModelHandlerClient;
     }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @param tp
-     *            The transport protocol.
-     */
-    public void setTransport(final TransportProtocol tp) {
-        this.transport = tp;
-    }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @return The used transport protocol.
-     */
-    public TransportProtocol getTransport() {
-        return this.transport;
-    }
-
 }
