@@ -6,7 +6,7 @@
 	<!--
 		Filter and Search should be identical, but there aren't at least on
 		SOAP interface. Whereas the Search delivers via SOAP a class structure
-		(like one can actually expect via SOAP) delivers Filter the XML
+		(like one can actually expect via SOAP) and Filter delivers the XML
 		representation as response. Furthermore differ the method parameter.
 		Both using not plain Strings. Filter requires a HashMap as data
 		structure and Search makes usage of SRW classes.
