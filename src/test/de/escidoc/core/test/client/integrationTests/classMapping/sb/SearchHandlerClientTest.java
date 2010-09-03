@@ -29,13 +29,13 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.sb;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
-import gov.loc.www.zing.srw.ExplainResponseType;
 import gov.loc.www.zing.srw.RecordType;
 import gov.loc.www.zing.srw.ScanRequestType;
-import gov.loc.www.zing.srw.ScanResponseType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveResponseType;
-import gov.loc.www.zing.srw.TermType;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.axis.types.PositiveInteger;
@@ -47,12 +47,15 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.explain.ServerInfo;
+import de.escidoc.core.resources.sb.scan.ScanResponse;
+import de.escidoc.core.resources.sb.scan.Term;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
-import de.escidoc.core.resources.sb.wrapper.explain.ExplainResponse;
-import de.escidoc.core.resources.sb.wrapper.explain.MyRecordExplainType;
-import de.escidoc.core.resources.sb.wrapper.explain.MyStringFragmentExplain;
+import de.escidoc.core.resources.sb.search.SearchRetrieveRecord;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.wrapper.search.MyRecordSearchType;
 import de.escidoc.core.resources.sb.wrapper.search.MyStringFragmentSearch;
 import de.escidoc.core.resources.sb.wrapper.search.SearchResponse;
@@ -104,29 +107,37 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setVersion("1.1");
         request.setQuery("escidoc.metadata=escidoc*");
-        SearchResponse response = rc.search2(request, null);
-        NonNegativeInteger zahl = response.getNumberOfRecords();
+        SearchRetrieveResponse response = rc.search2(request, null);
+        int zahl = response.getNumberOfRecords();
 
-        MyRecordSearchType[] records = response.getRecords();
-        for (int i = 0; i < records.length; i++) {
-            MyRecordSearchType record = records[i];
-            MyStringFragmentSearch stringFragment = record.getStringFragment();
-            SearchResultRecord resultrecord = stringFragment.getResultRecord();
-
-            String base = resultrecord.getBase();
-            ResourceRef content = resultrecord.getContent();
-            if (content instanceof Item) {
-                Item item = (Item) content;
-                DateTime lmd = item.getLastModificationDate();
-                String versionNumber =
-                    item.getProperties().getVersion().getNumber();
-
-                Marshaller<SearchResultRecord> m =
-                    new Marshaller<SearchResultRecord>(resultrecord.getClass(), TransportProtocol.SOAP);
-                m.marshalDocument(resultrecord);
-            }
-
-        }
+//        Collection<SearchRetrieveRecord> records = response.getRecords();
+//        for (Iterator<SearchRetrieveRecord> it = records.iterator(); it.hasNext();) {
+//			SearchRetrieveRecord searchRetrieveRecord = it.next();
+//			SearchResultRecord record = searchRetrieveRecord.getRecordData();
+//			
+//			// TODO
+//		}
+        
+        
+//        for (int i = 0; i < records.length; i++) {
+//            MyRecordSearchType record = records[i];
+//            MyStringFragmentSearch stringFragment = record.getStringFragment();
+//            SearchResultRecord resultrecord = stringFragment.getResultRecord();
+//
+//            String base = resultrecord.getBase();
+//            ResourceRef content = resultrecord.getContent();
+//            if (content instanceof Item) {
+//                Item item = (Item) content;
+//                DateTime lmd = item.getLastModificationDate();
+//                String versionNumber =
+//                    item.getProperties().getVersion().getNumber();
+//
+//                Marshaller<SearchResultRecord> m =
+//                    new Marshaller<SearchResultRecord>(resultrecord.getClass(), TransportProtocol.SOAP);
+//                m.marshalDocument(resultrecord);
+//            }
+//
+//        }
 
     }
 
@@ -144,12 +155,8 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         ExplainRequestType request = new ExplainRequestType();
         request.setVersion("1.1");
 
-        ExplainResponseType response = rc.explain(request, null);
-        RecordType record = response.getRecord();
-
-        String recordData =
-            decodeCharacters(record.getRecordData().get_any()[0].getAsString());
-
+        ExplainResponse response = rc.explain2(request, null);
+        Record record = response.getRecord();
     }
 
     /**
@@ -165,19 +172,17 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
         ExplainRequestType request = new ExplainRequestType();
         request.setVersion("1.1");
+        request.setRecordPacking("string");
 
         ExplainResponse response = rc.explain2(request, null);
-        MyRecordExplainType record = response.getRecord();
-        MyStringFragmentExplain stringFragment = record.getStringFragment();
-        ExplainRecord resultrecord = stringFragment.getResultRecord();
+        ExplainData resultData = response.getRecord().getRecordData();
 
-        ServerInfo si = resultrecord.getServerInfo();
+        ServerInfo si = resultData.getServerInfo();
         String host = si.getHost();
 
-        Marshaller<ExplainRecord> m =
-            new Marshaller<ExplainRecord>(resultrecord.getClass(), TransportProtocol.SOAP);
-        m.marshalDocument(resultrecord);
-
+        Marshaller<ExplainData> m =
+            new Marshaller<ExplainData>(resultData.getClass(), TransportProtocol.SOAP);
+        String test = m.marshalDocument(resultData);
     }
 
     /**
@@ -197,12 +202,11 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
         request.setScanClause("escidoc.metadata=escidoc");
         request.setResponsePosition(new PositiveInteger("1"));
 
-        ScanResponseType response = rc.scan(request, null);
-        TermType[] terms = response.getTerms();
-        for (int i = 0; i < terms.length; i++) {
-            terms[i].getValue();
-
-        }
+        ScanResponse response = rc.scan(request, null);
+        Collection<Term> terms = response.getTerms();
+        for (Iterator<Term> it = terms.iterator(); it.hasNext();) {
+			it.next().getValue();
+		}
         response.getVersion();
     }
 

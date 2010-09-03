@@ -341,6 +341,8 @@ public class ItemCreateTest {
             new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
             new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        item.setTitle("TEST");
+        item.getProperties().setDescription("FOOOOOOooohhhhhhhh");
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();

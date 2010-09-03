@@ -210,7 +210,7 @@ public class EscidocClientTestBase {
     	if(transport==null) {
     		transport = TransportProtocol.valueOf(
     				ConfigurationProvider.getInstance().getProperty(
-    						ConfigurationProvider.SERVICE_PROTOCOL));
+    						ConfigurationProvider.PROP_SERVICE_PROTOCOL));
     	}
     	return transport;
     }
