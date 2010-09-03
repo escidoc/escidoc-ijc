@@ -47,7 +47,7 @@ import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
@@ -486,7 +486,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveOrganizationalUnits(final ExplainRequestType filter)
+    public ExplainData retrieveOrganizationalUnits(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;

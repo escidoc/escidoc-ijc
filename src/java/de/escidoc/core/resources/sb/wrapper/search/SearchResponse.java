@@ -2,12 +2,16 @@ package de.escidoc.core.resources.sb.wrapper.search;
 
 import gov.loc.www.zing.srw.RecordType;
 import gov.loc.www.zing.srw.SearchRetrieveResponseType;
+import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.resources.sb.search.SearchResultRecord;
 
 public class SearchResponse {
     
     private SearchRetrieveResponseType response = null;
 
     private MyRecordSearchType[] records = null;
+    
+    private SearchResultRecord[] resultRecords = null;
 
     /**
      * 
@@ -29,6 +33,32 @@ public class SearchResponse {
         return this.records;
     }
 
+    public SearchResultRecord[] getSearchResultRecords() throws Exception {
+    	RecordType[] records = response.getRecords();
+    	if(records != null) {
+    		this.resultRecords = new SearchResultRecord[records.length];
+    		Marshaller<SearchResultRecord> m = new Marshaller<SearchResultRecord>(SearchResultRecord.class);
+    		
+    		for(int i=0; i<records.length; i++) {
+    			String data = decodeCharacters(records[i].getRecordData()
+    					.get_any()[0].getAsString());
+    			this.resultRecords[i] = m.unmarshalDocument(data);
+    		}
+    	}
+    	return this.resultRecords;
+    }
+    
+    private String decodeCharacters(String text) {
+
+        String tmp = text;
+        tmp = tmp.replaceAll("&lt;", "<");
+        tmp = tmp.replaceAll("&gt;", ">");
+        tmp = tmp.replaceAll("&quot;", "\"");
+        tmp = tmp.replaceAll("&apos;", "'");
+        // tmp = text.replaceAll("&amp;", "&");
+        return tmp;
+    }
+    
     /**
      * 
      * @return

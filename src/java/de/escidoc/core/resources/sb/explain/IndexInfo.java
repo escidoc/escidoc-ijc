@@ -3,6 +3,19 @@ package de.escidoc.core.resources.sb.explain;
 import java.util.Collection;
 import java.util.LinkedList;
 
+/**
+ * Read-only class.
+ * 
+ * This class is a representation of the configInfo of the response
+ * of an explain request.
+ * 
+ * This class may be initialized either by a SOAP response instance
+ * or by JiBX if and only if the REST protocol is being used for
+ * the explain request.
+ * 
+ * @author ?, MVO
+ *
+ */
 public class IndexInfo {
     Collection<MySet> sets = new LinkedList<MySet>();
 
@@ -14,24 +27,11 @@ public class IndexInfo {
         return sets;
     }
 
-    public void setSets(final Collection<MySet> sets) {
-        this.sets = sets;
-    }
-
     public Collection<Index> getIndexes() {
         return indexes;
-    }
-
-    public void setIndexes(final Collection<Index> indexes) {
-        this.indexes = indexes;
     }
 
     public Collection<String> getSortKeyWords() {
         return sortKeyWords;
     }
-
-    public void setSortKeyWords(final Collection<String> sortKeyWords) {
-        this.sortKeyWords = sortKeyWords;
-    }
-
 }

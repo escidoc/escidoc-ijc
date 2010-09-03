@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.rmi.RemoteException;
 import java.util.Map;
 
@@ -451,7 +452,7 @@ public class RestServiceMethod {
      */
     protected String getEscidoc12Filter(final SearchRetrieveRequestType filter) {
 
-        String filter12 = "";
+        String filter12 = "?operation=searchRequest";
 
         if (filter.getMaximumRecords() != null) {
             filter12 +=
@@ -462,14 +463,22 @@ public class RestServiceMethod {
                 "&startRecord=" + String.valueOf(filter.getStartRecord());
         }
         if (filter.getQuery() != null) {
-            filter12 += "&query=" + filter.getQuery();
+        	filter12 += "&query=";
+            try {
+				filter12 += URLEncoder.encode(filter.getQuery(), "UTF-8");
+				
+			} catch (UnsupportedEncodingException e) {
+				// This should never happen.
+			}
         }
         if (filter.getVersion() != null) {
-            filter12 += "&version" + filter.getVersion();
+            filter12 += "&version=" + filter.getVersion();
         }
-        filter12 += "&operation=searchRequest";
-
-        return filter12.replaceFirst("&", "?");
+        if (filter.getRecordPacking() != null) {
+            filter12 += "&recordPacking=" + filter.getRecordPacking();
+        }
+        
+        return filter12;
     }
 
     /**
@@ -482,14 +491,13 @@ public class RestServiceMethod {
      */
     protected String getEscidoc12Filter(final ExplainRequestType filter) {
 
-        String filter12 = "";
+        String filter12 = "?operation=explain";
 
         if (filter.getVersion() != null) {
             filter12 += "&version=" + filter.getVersion();
         }
-        filter12 += "&operation=explain";
-
-        return filter12.replaceFirst("&", "?");
+        
+        return filter12;
     }
 
     /**

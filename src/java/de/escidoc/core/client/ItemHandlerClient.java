@@ -48,8 +48,8 @@ import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.component.Component;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * This is the generic ItemClientHandler which binds the transport specific
@@ -287,7 +287,7 @@ public class ItemHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponseType retrieveItems(final SearchRetrieveRequestType filter)
+    public SearchRetrieveResponse retrieveItems(final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
@@ -298,7 +298,7 @@ public class ItemHandlerClient extends AbstractHandlerClient
             xml = getRestItemHandlerClient().retrieveItems(filter);
         }
         return Factory.getMarshallerFactory(getTransport())
-        	.getFilterResponseMarshaller().unmarshalDocument(xml);
+        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -314,7 +314,7 @@ public class ItemHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveItems(final ExplainRequestType filter)
+    public ExplainResponse retrieveItems(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
@@ -324,8 +324,10 @@ public class ItemHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestItemHandlerClient().retrieveItems(filter);
         }
+        
         return Factory.getMarshallerFactory(getTransport())
-        	.getExplainRecordMarshaller().unmarshalDocument(xml);
+        	.getExplainResponseMarshaller()
+        		.unmarshalDocument(xml);
     }
 
     /**

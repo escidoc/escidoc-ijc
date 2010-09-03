@@ -15,7 +15,7 @@ public abstract class AbstractHandlerClient {
 		try {
 			this.transport = TransportProtocol.valueOf(
 					ConfigurationProvider.getInstance().getProperty(
-							ConfigurationProvider.SERVICE_PROTOCOL));
+							ConfigurationProvider.PROP_SERVICE_PROTOCOL));
 		}
 		catch (InternalClientException e) {
 			e.printStackTrace();

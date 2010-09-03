@@ -44,7 +44,7 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
@@ -236,7 +236,7 @@ public class RoleHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveRoles(final ExplainRequestType filter)
+    public ExplainData retrieveRoles(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;

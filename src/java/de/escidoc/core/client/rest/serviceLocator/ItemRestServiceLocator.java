@@ -3,6 +3,8 @@ package de.escidoc.core.client.rest.serviceLocator;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
@@ -461,7 +463,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_ITEM + "s" + getEscidoc12Filter(filter));
+		return get(PATH_ITEM + "s" + getEscidoc12Filter(filter));
     }
 
     public String retrieveItems(final ExplainRequestType filter)

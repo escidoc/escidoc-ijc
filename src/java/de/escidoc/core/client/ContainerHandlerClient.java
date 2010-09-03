@@ -50,7 +50,7 @@ import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
@@ -896,7 +896,7 @@ public class ContainerHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveContainers(final ExplainRequestType filter)
+    public ExplainData retrieveContainers(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
@@ -1021,7 +1021,7 @@ public class ContainerHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveMembers(
+    public ExplainData retrieveMembers(
         final Container container, final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 

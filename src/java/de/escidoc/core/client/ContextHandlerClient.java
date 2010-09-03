@@ -48,7 +48,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextList;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
@@ -431,7 +431,7 @@ public class ContextHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveContexts(final ExplainRequestType filter)
+    public ExplainData retrieveContexts(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;

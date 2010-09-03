@@ -27,6 +27,8 @@ public class Marshaller<E> {
     
     private TransportProtocol transport = null;
     
+    private String additionalPrefix = null;
+    
     /**
      * 
      * @param resourceClass
@@ -56,9 +58,14 @@ public class Marshaller<E> {
         throws InternalClientException {
 
         E result = null;
+        String prefix = this.transport.name();
+        
+        if(this.additionalPrefix != null)
+        	prefix += this.additionalPrefix;
+        
         try {
             IBindingFactory bfact = 
-            	BindingDirectory.getFactory(this.transport.name(), resourceClass);
+            	BindingDirectory.getFactory(prefix, resourceClass);
 
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             ByteArrayInputStream in =
@@ -92,10 +99,14 @@ public class Marshaller<E> {
         throws InternalClientException {
 
         String result = null;
+        String prefix = this.transport.name();
+        
+        if(this.additionalPrefix != null)
+        	prefix += this.additionalPrefix;
 
         try {
             IBindingFactory bfact = 
-            	BindingDirectory.getFactory(this.transport.name(), resource.getClass());
+            	BindingDirectory.getFactory(prefix, resource.getClass());
             IMarshallingContext mctx = bfact.createMarshallingContext();
             mctx.setIndent(2);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -128,10 +139,24 @@ public class Marshaller<E> {
 		if(transport == null) {
 			this.transport = TransportProtocol.valueOf(
 					ConfigurationProvider.getInstance().getProperty(
-							ConfigurationProvider.SERVICE_PROTOCOL));
+							ConfigurationProvider.PROP_SERVICE_PROTOCOL));
 		}
 		else {
 			this.transport = transport;
 		}
+	}
+
+	/**
+	 * @return the additionalPrefix
+	 */
+	public String getAdditionalPrefix() {
+		return additionalPrefix;
+	}
+
+	/**
+	 * @param additionalPrefix the additionalPrefix to set
+	 */
+	public void setAdditionalPrefix(String additionalPrefix) {
+		this.additionalPrefix = additionalPrefix;
 	}
 }

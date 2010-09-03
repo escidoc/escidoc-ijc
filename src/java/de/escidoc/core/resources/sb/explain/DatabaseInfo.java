@@ -1,45 +1,48 @@
 package de.escidoc.core.resources.sb.explain;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
+/**
+ * Read-only class.
+ * 
+ * This class is a representation of the configInfo of the response
+ * of an explain request.
+ * 
+ * This class may be initialized either by a SOAP response instance
+ * or by JiBX if and only if the REST protocol is being used for
+ * the explain request.
+ * 
+ * @author ?, MVO
+ *
+ */
 public class DatabaseInfo {
 
-    private String title;
+    private Collection<DatabaseInfoText> titles = new LinkedList<DatabaseInfoText>();
 
-    private String description;
+    private Collection<DatabaseInfoText> descriptions = new LinkedList<DatabaseInfoText>();;
 
     private String contact;
 
     private Implementation implementation;
 
-    public String getTitle() {
-        return title;
+    protected DatabaseInfo() {}
+    
+    
+    
+    public Collection<DatabaseInfoText> getTitles() {
+        return titles;
     }
 
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(final String description) {
-        this.description = description;
+    public Collection<DatabaseInfoText> getDescriptions() {
+        return descriptions;
     }
 
     public String getContact() {
         return contact;
     }
 
-    public void setContact(final String contact) {
-        this.contact = contact;
-    }
-
     public Implementation getImplementation() {
         return implementation;
     }
-
-    public void setImplementation(final Implementation implementation) {
-        this.implementation = implementation;
-    }
-
 }

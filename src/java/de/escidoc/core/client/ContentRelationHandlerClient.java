@@ -44,7 +44,7 @@ import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
@@ -627,7 +627,7 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveContentRelations(
+    public ExplainData retrieveContentRelations(
         final ExplainRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 

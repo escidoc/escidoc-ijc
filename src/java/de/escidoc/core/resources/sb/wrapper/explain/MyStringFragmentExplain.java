@@ -3,24 +3,24 @@ package de.escidoc.core.resources.sb.wrapper.explain;
 import gov.loc.www.zing.srw.StringOrXmlFragment;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.Marshaller;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.explain.ExplainData;
 
 public class MyStringFragmentExplain {
 
     StringOrXmlFragment stringOrXml;
 
-    private static Marshaller<ExplainRecord> m;
+    private static Marshaller<ExplainData> m;
 
-    private ExplainRecord resultRecord;
+    private ExplainData resultRecord;
 
     public MyStringFragmentExplain(StringOrXmlFragment stringOrXml)
     	throws InternalClientException {
     	
-    	m = new Marshaller<ExplainRecord>((new ExplainRecord()).getClass());
+    	m = new Marshaller<ExplainData>(ExplainData.class);
         this.stringOrXml = stringOrXml;
     }
 
-    public ExplainRecord getResultRecord() throws Exception {
+    public ExplainData getResultRecord() throws Exception {
         org.apache.axis.message.MessageElement[] messages =
             this.stringOrXml.get_any();
         String recordData = decodeCharacters(messages[0].getAsString());
@@ -30,7 +30,7 @@ public class MyStringFragmentExplain {
         return this.resultRecord;
     }
 
-    public void setResultRecord(ExplainRecord resultRecord) {
+    public void setResultRecord(ExplainData resultRecord) {
         this.resultRecord = resultRecord;
     }
 

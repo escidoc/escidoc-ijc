@@ -1,5 +1,6 @@
 package de.escidoc.core.common.jibx;
 
+import de.escidoc.core.client.SearchRetrieveType;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
@@ -39,8 +40,11 @@ import de.escidoc.core.resources.om.toc.Toc;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
@@ -65,13 +69,6 @@ public class MarshallerFactory {
     private static Marshaller<Item> itemMarshaller = null;
 
     private static Marshaller<PathList> pathListMarshaller = null;
-
-    private static Marshaller<SearchResultRecord> searchResultMarshaller = null;
-
-    private static Marshaller<SearchRetrieveResponseType> filterResponseMarshaller =
-        null;
-
-    private static Marshaller<ExplainRecord> explainRecordMarshaller = null;
 
     private static Marshaller<Component> componentMarshaller = null;
 
@@ -141,8 +138,27 @@ public class MarshallerFactory {
     private static Marshaller<MetadataRecords> metadataRecordsMarshaller = null;
 
     private static Marshaller<Relations> relationsMarshaller = null;
-
     
+    /*
+     * ========================================================================
+     * SRW/SRU
+     * ========================================================================
+     */
+    
+    private static Marshaller<SearchResultRecord> searchResultMarshaller = null;
+
+    private static Marshaller<SearchRetrieveResponseType> filterResponseMarshaller =
+        null;
+
+    private static Marshaller<ExplainData> explainRecordMarshaller = null;
+    
+    private static Marshaller<ExplainResponse> explainResponseMarshaller = null;
+    
+    private static Marshaller<ScanResponse> scanResponseMarshaller = null;
+    
+    private static Marshaller<SearchRetrieveResponse> searchRetrieveResponseMarshaller = null;
+    
+        
     private final TransportProtocol transport;
     
     protected MarshallerFactory(TransportProtocol transport) {
@@ -202,12 +218,31 @@ public class MarshallerFactory {
     /**
      * @return the explainRecordMarshaller
      */
-    public Marshaller<ExplainRecord> getExplainRecordMarshaller() 
+    public Marshaller<ExplainData> getExplainRecordMarshaller(SearchRetrieveType type) 
 		throws InternalClientException {
 
         if (explainRecordMarshaller == null) {
             explainRecordMarshaller =
-                new Marshaller<ExplainRecord>(ExplainRecord.class);
+                new Marshaller<ExplainData>(ExplainData.class);
+        }
+        explainRecordMarshaller.setTransport(transport);
+        explainRecordMarshaller.setAdditionalPrefix(type.name());
+        
+        return explainRecordMarshaller;
+    }
+    
+    /**
+     * 
+     * FIXME: REMOVE!!!
+     * @return the explainRecordMarshaller
+     */
+    @Deprecated
+    public Marshaller<ExplainData> getExplainRecordMarshaller() 
+		throws InternalClientException {
+
+        if (explainRecordMarshaller == null) {
+            explainRecordMarshaller =
+                new Marshaller<ExplainData>(ExplainData.class);
         }
         explainRecordMarshaller.setTransport(transport);
         
@@ -677,5 +712,43 @@ public class MarshallerFactory {
         
         return roleListMarshaller;
     }
+
+	/**
+	 * @return the explainResponseMarshaller
+	 * @throws InternalClientException 
+	 */
+	public Marshaller<ExplainResponse> getExplainResponseMarshaller() 
+		throws InternalClientException {
+		if (explainResponseMarshaller == null) {
+			explainResponseMarshaller = new Marshaller<ExplainResponse>(ExplainResponse.class);
+        }
+		explainResponseMarshaller.setTransport(transport);
+        
+        return explainResponseMarshaller;
+	}
+	
+	public Marshaller<ScanResponse> getScanResponseMarshaller() 
+		throws InternalClientException {
+		if (scanResponseMarshaller == null) {
+			scanResponseMarshaller = new Marshaller<ScanResponse>(ScanResponse.class);
+	    }
+		scanResponseMarshaller.setTransport(transport);
+		
+		// TODO: Currently scan is only supported by SRW.
+		scanResponseMarshaller.setAdditionalPrefix(SearchRetrieveType.SRW.name());
+	    
+	    return scanResponseMarshaller;
+	}
+
+	public Marshaller<SearchRetrieveResponse> getSearchRetrieveResponseMarshaller()
+		throws InternalClientException {
+			if (searchRetrieveResponseMarshaller == null) {
+				searchRetrieveResponseMarshaller = 
+					new Marshaller<SearchRetrieveResponse>(
+							SearchRetrieveResponse.class);
+		    }
+			searchRetrieveResponseMarshaller.setTransport(transport);
+		    return searchRetrieveResponseMarshaller;
+	}
 
 }

@@ -50,7 +50,7 @@ import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.sb.explain.ExplainRecord;
+import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
@@ -824,7 +824,7 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveUserAccounts(final ExplainRequestType filter)
+    public ExplainData retrieveUserAccounts(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
@@ -914,7 +914,7 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainRecord retrieveGrants(final ExplainRequestType filter)
+    public ExplainData retrieveGrants(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;

@@ -24,7 +24,7 @@ public class Factory {
 		
 		if(defaultTransport==null) {
 			TransportProtocol.valueOf(ConfigurationProvider.getInstance().getProperty(
-					ConfigurationProvider.SERVICE_PROTOCOL));
+					ConfigurationProvider.PROP_SERVICE_PROTOCOL));
 		}
 		if(marshallerFactoryMap.get(defaultTransport) == null) {
 			MarshallerFactory resultFactory = new MarshallerFactory(defaultTransport);

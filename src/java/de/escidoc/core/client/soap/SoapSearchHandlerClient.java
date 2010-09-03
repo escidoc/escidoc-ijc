@@ -88,7 +88,8 @@ public class SoapSearchHandlerClient extends ClientBase {
 
         ExplainResponseType result = null;
         try {
-            result = getExplainClient(database).explainOperation(request);
+        	result = getExplainClient(database).explainOperation(request);
+            
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

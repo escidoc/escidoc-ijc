@@ -100,6 +100,7 @@ public class ExceptionMapper extends Exception {
         RemoteException result = null;
         String exceptionClassName = null;
         String exceptionMessage = null;
+        String exceptionCause = null;
 
         int pos = statusText.indexOf("</class>");
         String subString = statusText.substring(0, pos + 10);
@@ -107,7 +108,8 @@ public class ExceptionMapper extends Exception {
 
             exceptionClassName = obtainClassName(subString);
             exceptionMessage = obtainExceptionMessage(subString);
-            exceptionMessage = obtainExceptionCause(statusText);
+            // FIXME: exceptionCause was exceptionMessage (???)
+            exceptionCause = obtainExceptionCause(statusText);
 
             Class<?>[] parameterTypes =
                 new Class[] { int.class, String.class, String.class };
@@ -196,7 +198,9 @@ public class ExceptionMapper extends Exception {
         int begin = text.indexOf(beginTag);
         int end = text.lastIndexOf(endTag);
 
-        return text.substring(begin + beginTag.length(), end);
+        return (begin >= 0 && end >= 0) 
+        	? text.substring(begin + beginTag.length(), end)
+        	: text;
     }
 
 }
