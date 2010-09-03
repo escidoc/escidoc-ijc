@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
-	<!--  SOAP Binding -->
+	<!--  REST Binding -->
 
 	<!-- start: binding of a single item -->
 	<mapping name="item" ns="http://www.escidoc.de/schemas/item/0.9"

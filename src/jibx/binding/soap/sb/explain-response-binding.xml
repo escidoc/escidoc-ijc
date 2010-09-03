@@ -1,0 +1,30 @@
+<binding>
+	<!-- SOAP -->
+
+	<!-- Type mapping for Response class -->
+	<mapping name="explainResponse" class="de.escidoc.core.resources.sb.explain.ExplainResponse"
+		ns="http://www.loc.gov/zing/srw/">
+		
+		<namespace uri="http://www.loc.gov/zing/srw/" default="elements"/>
+		
+		<!-- map abstract structure -->
+		<value name="version" field="version" usage="optional"/>
+		
+		<!-- map type structure -->
+		<structure name="record" field="record"
+			type="de.escidoc.core.resources.sb.explain.ExplainRecord"
+			usage="optional">
+			<value name="recordSchema" field="recordSchema" usage="optional"/>
+			<value name="recordPacking" field="recordPacking" usage="optional"/>
+			
+			<structure name="recordData" usage="optional">
+				<value field="recordDataText" usage="optional" style="text"/>
+				<structure field="recordDataDOM" usage="optional"
+					marshaller="org.jibx.extras.DomElementMapper" 
+					unmarshaller="org.jibx.extras.DomElementMapper"
+					type="org.w3c.dom.Element"/>
+			</structure>
+			
+		</structure>
+	</mapping>
+</binding>

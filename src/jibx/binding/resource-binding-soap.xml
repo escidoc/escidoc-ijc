@@ -37,9 +37,11 @@
 	<include path="soap/aa/0.1/attribute-binding.xml" />
 
 	<!-- SB -->
-	<include path="soap/sb/0.8/search-result-record-binding.xml" />
-	<include path="soap/sb/0.7/explain-record-binding.xml" />
-	<include path="soap/sb/search-retrieve-response-type-binding.xml" />
+<!--	<include path="soap/sb/0.7/explain-record-binding.xml" />-->
+<!--	<include path="soap/sb/search-retrieve-response-type-binding.xml" />-->
+	<include path="soap/sb/explain-response-binding.xml"/>
+	<include path="soap/sb/search-retrieve-response-binding.xml"/>
+	<include path="soap/sb/0.8/search-result-record-binding.xml"/>
 
 	<!-- Test -->
 	<include path="soap/test/root-binding.xml" />

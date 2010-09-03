@@ -15,10 +15,10 @@
 	<!--  include path="rest/common/0.4/abstract-relations-binding.xml" / -->
 
 	<!-- CMM -->
-	<!--  include path="rest/cmm/0.1/content-model-binding.xml" /-->
+	<include path="rest/cmm/0.1/content-model-binding.xml" />
 
 	<!-- OUM -->
-	<!--  include path="rest/oum/0.8/organizational-unit-binding.xml" /-->
+	<include path="rest/oum/0.8/organizational-unit-binding.xml" />
 
 	<!-- OM -->
 	<include path="rest/om/container/0.8/container-binding.xml" />
@@ -28,19 +28,20 @@
 
 	<!-- AA -->
 	<include path="rest/aa/0.7/user-account-binding.xml" />
-<!--	<include path="rest/aa/0.5/grant-binding.xml" />-->
-<!--	<include path="rest/aa/0.4/role-binding.xml" />-->
-<!--	<include path="rest/aa/0.3/requests-binding.xml" />-->
-<!--	<include path="rest/aa/0.3/requests-results-binding.xml" />-->
-<!--	<include path="rest/aa/0.4/unsecured-actions-binding.xml" />-->
-<!--	<include path="rest/aa/0.1/preference-binding.xml" />-->
-<!--	<include path="rest/aa/0.1/attribute-binding.xml" />-->
-<!---->
-	 SB 
-<!--	<include path="rest/sb/0.8/search-result-record-binding.xml" />-->
-<!--	<include path="rest/sb/0.7/explain-record-binding.xml" />-->
-<!--	<include path="rest/sb/search-retrieve-response-type-binding.xml" />-->
-<!---->
+	<include path="rest/aa/0.5/grant-binding.xml" />
+	<include path="rest/aa/0.4/role-binding.xml" />
+	<include path="rest/aa/0.3/requests-binding.xml" />
+	<include path="rest/aa/0.3/requests-results-binding.xml" />
+	<include path="rest/aa/0.4/unsecured-actions-binding.xml" />
+	<include path="rest/aa/0.1/preference-binding.xml" />
+	<include path="rest/aa/0.1/attribute-binding.xml" />
+
+	 <!-- SB -->
+	 <include path="rest/sb/explain-response-binding.xml"/> 
+	 <include path="rest/sb/explain-data-binding.xml"/>
+	 <include path="rest/sb/search-retrieve-response-binding.xml"/>
+	 <include path="rest/sb/0.8/search-result-record-binding.xml"/>
+
 	 Test 
 <!--	<include path="rest/test/root-binding.xml" />-->
 

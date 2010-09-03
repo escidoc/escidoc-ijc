@@ -1,0 +1,54 @@
+<binding>
+	<!-- REST -->
+	<!--
+		This is a binding for the SRW/U reference implementation and there
+		classes.
+	-->
+	
+	<!-- start: binding of a search-retrieve-response-type -->
+	<mapping name="searchRetrieveResponse" ns="http://www.loc.gov/zing/srw/"
+		class="de.escidoc.core.resources.sb.search.SearchRetrieveResponse">
+		<namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" />
+		<structure map-as="abstract-search-retrieve-response" />
+	</mapping>
+
+
+	<!--
+		start: abstract binding of a single search-retrieve-response-type
+	-->
+	<mapping ns="http://www.loc.gov/zing/srw/"
+		class="de.escidoc.core.resources.sb.search.SearchRetrieveResponse"
+		abstract="true" type-name="abstract-search-retrieve-response">
+
+		<namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" default="all"/>
+
+		<value name="version" field="version" usage="optional" />
+		<value name="numberOfRecords" field="numberOfRecords" usage="optional" />
+
+		<structure name="records" usage="optional">
+
+			<collection field="records" create-type="java.util.LinkedList">
+
+				<structure name="record" usage="optional" 
+					type="de.escidoc.core.resources.sb.Record"
+					marshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"
+					unmarshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"/>
+<!--					<value name="recordSchema" field="recordSchema" usage="optional"/>-->
+<!--					<value name="recordPacking" field="recordPacking" usage="optional"/>-->
+<!--					-->
+<!--					<structure name="recordData" usage="optional">-->
+<!--						<value field="recordDataText" usage="optional" style="text"/>-->
+<!--						<structure field="recordDataDOM" usage="optional"-->
+<!--							marshaller="org.jibx.extras.DomElementMapper" -->
+<!--							unmarshaller="org.jibx.extras.DomElementMapper"-->
+<!--							type="org.w3c.dom.Element"/>-->
+<!--					</structure>-->
+<!--					-->
+<!--					<value name="recordPosition" field="recordPosition" usage="optional" />-->
+<!--				</structure>-->
+			</collection>
+		</structure>
+		
+		<structure name="echoedSearchRetrieveRequest" usage="optional"/>		
+	</mapping>
+</binding>
