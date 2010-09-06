@@ -33,6 +33,8 @@ import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.ItemRecord;
+import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
 import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 import de.escidoc.core.resources.sb.wrapper.search.SearchResponse;
 
@@ -86,6 +88,7 @@ public class MyTest extends TestCase {
 		Record<ExplainData> record = response.getRecord();
 		ExplainData data = record.getRecordData();
 
+		out.append("\n=========================\n");
 		out.append("testSRWExplain: ");
 		out.append("Protocol: "+protocol.name()+
 				", RecordPacking: "+packing+"\n");
@@ -113,6 +116,7 @@ public class MyTest extends TestCase {
 		Record<ExplainData> record = response.getRecord();
 		ExplainData data = record.getRecordData();
 
+		out.append("\n=========================\n");
 		out.append("testFilterExplain: ");
 		out.append("Protocol: "+protocol.name()+
 				", RecordPacking: "+packing+"\n");
@@ -136,20 +140,32 @@ public class MyTest extends TestCase {
 		SearchRetrieveResponse response = c.search(URLEncoder.encode(
 				query, "UTF-8"), null);
 		
+		out.append("\n=========================\n");
 		out.append("testSRWSearch: query="+query);
 		out.append(" [Protocol: "+protocol.name()+
 				", RecordPacking: "+packing+"]\n");
-		//data.toString(out);
 		out.append("Results: "+response.getNumberOfRecords()+"\n");
 		
-		/*
-		Collection<SearchRetrieveRecord> records = response.getRecords();
-        for (Iterator<SearchRetrieveRecord> it = records.iterator(); it.hasNext();) {
-			SearchRetrieveRecord searchRetrieveRecord = it.next();
-			SearchResultRecord record = searchRetrieveRecord.getRecordData();
+		for (Iterator<Record> it = response.getRecords().iterator(); it.hasNext();) {
+			Record record = it.next();
 			
+			assertTrue(record instanceof SearchResultRecordRecord);
+			
+			if (record instanceof SearchResultRecordRecord) {
+				SearchResultRecordRecord result = 
+					(SearchResultRecordRecord) record;
+				SearchResultRecord data = result.getRecordData();
+				
+				assertNotNull(data);
+				assertNotNull(data.getContent());
+				out.append(data.getContent().getResourceType().name()+": "+
+						data.getContent().getObjid()+
+						" [score: "+data.getScore()+"]\n");
+				assertNotNull("Test for REST requests fails, because "+
+						"eSciDocCore returns SRW results in SOAP format!", 
+						data.getContent().getObjid());
+			}
 		}
-		*/
 	}
 	
 	/**
@@ -161,25 +177,27 @@ public class MyTest extends TestCase {
 
 		ItemHandlerClient c = new ItemHandlerClient();
 		c.setTransport(protocol);
-		String query = "\"/properties/content-model/id\"=escidoc:ex4";
+		String query = "\"/properties/content-model/id\"=escidoc:6001";
+//		String query = "\"/id\"=escidoc:1004";
 
 		SearchRetrieveRequestType request = new SearchRetrieveRequestType();
 		request.setVersion("1.1");
-//		request.setQuery("\"/id\"=escidoc:1004");
 		request.setQuery(query);
 		request.setRecordPacking(packing.name());
 
 		SearchRetrieveResponse response = c.retrieveItems(request);
-		for (Iterator it = response.getRecords().iterator(); it.hasNext();) {
-			Record<Item> record = (Record<Item>) it.next();
-			System.out.println(record.getRecordDataText());
-		}
 		
+		out.append("\n=========================\n");
 		out.append("testFilterSearch: query="+query);
 		out.append(" [Protocol: "+protocol.name()+
 				", RecordPacking: "+packing+"]\n");
-		//data.toString(out);
 		out.append("Results: "+response.getNumberOfRecords()+"\n");
+		
+		for (Iterator it = response.getRecords().iterator(); it.hasNext();) {
+			ItemRecord record = (ItemRecord) it.next();
+			Item item = record.getRecordData();
+			out.append("Item: "+item.getObjid()+"["+item.getHref()+"]\n");
+		}
 	}
 	
 	/**
