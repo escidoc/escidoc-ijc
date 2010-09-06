@@ -15,6 +15,7 @@ import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.sb.search.Highlight;
+import de.escidoc.core.resources.sb.search.SearchResultRecord;
 
 /**
  * SearchResultRecord Marshaller.
@@ -67,7 +68,7 @@ public class SearchResultRecordMarshaller extends MarshallingBase
     public void marshal(final Object obj, final IMarshallingContext ictx)
         throws JiBXException {
 
-        if (!(obj instanceof de.escidoc.core.resources.sb.search.SearchResultRecord)) {
+        if (!(obj instanceof SearchResultRecord)) {
             throw new JiBXException("Invalid object type for marshaller");
         }
         else if (!(ictx instanceof MarshallingContext)) {
@@ -76,8 +77,7 @@ public class SearchResultRecordMarshaller extends MarshallingBase
         else {
             // TODO iterate all attributes and save them in a HashMap
             MarshallingContext ctx = (MarshallingContext) ictx;
-            de.escidoc.core.resources.sb.search.SearchResultRecord record =
-                (de.escidoc.core.resources.sb.search.SearchResultRecord) obj;
+            SearchResultRecord record = (SearchResultRecord) obj;
             int[] urisIndex = new int[1];
             urisIndex[0] = getIndex();
             String[] prefixIndex = new String[1];
@@ -139,16 +139,14 @@ public class SearchResultRecordMarshaller extends MarshallingBase
     public Object unmarshal(Object arg0, IUnmarshallingContext ictx)
         throws JiBXException {
 
-        de.escidoc.core.resources.sb.search.SearchResultRecord result =
-            (de.escidoc.core.resources.sb.search.SearchResultRecord) arg0;
+        SearchResultRecord result = (SearchResultRecord) arg0;
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
         if (!ctx.isAt(getUri(), getName())) {
             ctx.throwStartTagNameError(getUri(), getName());
         }
 
         if (arg0 == null) {
-            result =
-                new de.escidoc.core.resources.sb.search.SearchResultRecord();
+            result = new SearchResultRecord();
         }
         // TODO iterate all attributes and save them in a HashMap
         result.setBase(ctx.attributeText(
