@@ -287,7 +287,8 @@ public class ItemHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponse retrieveItems(final SearchRetrieveRequestType filter)
+    public SearchRetrieveResponse retrieveItems(
+    		final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
