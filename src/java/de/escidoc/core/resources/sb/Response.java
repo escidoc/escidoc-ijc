@@ -3,6 +3,9 @@
  */
 package de.escidoc.core.resources.sb;
 
+import org.jibx.runtime.IUnmarshallingContext;
+import org.jibx.runtime.impl.UnmarshallingContext;
+
 import de.escidoc.core.client.TransportProtocol;
 
 /**
@@ -22,14 +25,12 @@ public abstract class Response {
 
 	protected String version;
 	
-	protected final TransportProtocol protocol;
+	protected TransportProtocol protocol;
 	
 	/**
 	 * Constructor for REST response. This constructor will be used by JiBX only.
 	 */
-	protected Response() {
-		this.protocol = TransportProtocol.REST;
-	}
+	protected Response() {}
 	
 	/**
 	 * Constructor for SOAP response.
@@ -38,7 +39,6 @@ public abstract class Response {
 	 */
 	protected Response(String version) {
 		this.version = version;
-		this.protocol = TransportProtocol.SOAP;
 	}
 	
 	public String getVersion() {
@@ -50,5 +50,14 @@ public abstract class Response {
 	 */
 	public TransportProtocol getProtocol() {
 		return protocol;
+	}
+	
+	/**
+	 * This method will be called by the binding definition as post-set method.
+	 * @param ictx
+	 */
+	protected void setProtocol(IUnmarshallingContext ictx) {
+		UnmarshallingContext ctx = (UnmarshallingContext)ictx;
+		protocol = TransportProtocol.valueOf(ctx.getFactory().getBindingName());
 	}
 }

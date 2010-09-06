@@ -41,9 +41,6 @@ public abstract class Record<T> {
 
 	protected static final Logger LOGGER = Logger.getLogger(Record.class);
 	
-//	private static final Pattern pattern = Pattern.compile(
-//			"<(([a-zA-Z0-9]+)[:]){0,1}explain[^>]+(xmlns(:\\2){0,1}=\"(.+?)\")[^>]*>");
-	
 	public static enum RecordPacking {string, xml}; 
 	
     protected String recordSchema;
@@ -56,7 +53,10 @@ public abstract class Record<T> {
     
     protected String recordDataText;
     
-    private final TransportProtocol protocol;
+    protected TransportProtocol protocol;
+    
+    protected static final String xmlHeader = 
+    	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     /**
      * Constructor for JiBX.
@@ -85,7 +85,7 @@ public abstract class Record<T> {
 		this.recordDataDOM = recordDataDOM;
 		this.recordDataText = recordDataText;
 		// TODO
-		this.protocol = TransportProtocol.REST;
+		this.protocol = protocol;
 	}
 
 
@@ -183,29 +183,27 @@ public abstract class Record<T> {
     public int getRecordPosition() {
         return recordPosition;
     }
-
+    
     /**
      * 
      * @return
      */
     public T getRecordData() {
     	// XML structure exists
-		if(hasRecordDataDOM() &&
-				RecordPacking.xml.name().equals(getRecordPacking())) {
+		if(hasRecordDataDOM()) {
 			
 			T t = decodeFragmentXML();
 			return (t == null) ? getDefaultInstance() : t;
 		}
-		else if(hasRecordDataText(true) &&
-				RecordPacking.string.name().equals(getRecordPacking())) {
+		else if(hasRecordDataText(true)) {
 			
 			T t = decodeFragmentString();
 			return (t == null) ? getDefaultInstance() : t;
 		}
 		return getDefaultInstance();
     }
-    
-    protected abstract T decodeFragmentXML();
+
+	protected abstract T decodeFragmentXML();
     
     protected abstract T decodeFragmentString();
     
@@ -240,7 +238,6 @@ public abstract class Record<T> {
     	StringWriter sw = new StringWriter();
     	Transformer t = TransformerFactory.newInstance().newTransformer();
     	t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-    	// remove ns prefix if exists
     	t.transform(new DOMSource(getRecordDataDOM()), new StreamResult(sw));
     	return sw.toString();
     }
