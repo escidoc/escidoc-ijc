@@ -97,7 +97,7 @@ public class RecordDataMarshaller extends MarshallingBase
      */
     public void marshal(final Object obj, final IMarshallingContext ictx)
         throws JiBXException {
-    	throw new JiBXException("Unmarshalling not supported.");
+    	throw new JiBXException("Marshalling not supported.");
 //        if (!(obj instanceof de.escidoc.core.resources.sb.search.SearchResultRecord)) {
 //            throw new JiBXException("Invalid object type for marshaller");
 //        }
