@@ -18,17 +18,16 @@
 	-->
 	<mapping ns="http://www.loc.gov/zing/srw/"
 		class="de.escidoc.core.resources.sb.search.SearchRetrieveResponse"
-		abstract="true" type-name="abstract-search-retrieve-response">
+		abstract="true" type-name="abstract-search-retrieve-response"
+		pre-set="setProtocol">
 
 		<namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" default="all"/>
 
 		<value name="version" field="version" usage="optional" />
 		<value name="numberOfRecords" field="numberOfRecords" usage="optional" />
-
+		
 		<structure name="records" usage="optional">
-
 			<collection field="records" create-type="java.util.LinkedList">
-
 				<structure name="record" usage="optional" 
 					type="de.escidoc.core.resources.sb.Record"
 					marshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"

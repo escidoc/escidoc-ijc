@@ -18,7 +18,8 @@
 	-->
 	<mapping ns="http://www.loc.gov/zing/srw/"
 		class="de.escidoc.core.resources.sb.search.SearchRetrieveResponse"
-		abstract="true" type-name="abstract-search-retrieve-response">
+		abstract="true" type-name="abstract-search-retrieve-response"
+		pre-set="setProtocol">
 
 		<namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" default="all"/>
 
@@ -26,24 +27,24 @@
 		<value name="numberOfRecords" field="numberOfRecords" usage="optional" />
 
 		<structure name="records" usage="optional">
-
 			<collection field="records" create-type="java.util.LinkedList">
-
 				<structure name="record" usage="optional" 
-					type="de.escidoc.core.resources.sb.search.SearchRetrieveRecord">
-					<value name="recordSchema" field="recordSchema" usage="optional"/>
-					<value name="recordPacking" field="recordPacking" usage="optional"/>
-					
-					<structure name="recordData" usage="optional">
-						<value field="recordDataText" usage="optional" style="text"/>
-						<structure field="recordDataDOM" usage="optional"
-							marshaller="org.jibx.extras.DomElementMapper" 
-							unmarshaller="org.jibx.extras.DomElementMapper"
-							type="org.w3c.dom.Element"/>
-					</structure>
-					
-					<value name="recordPosition" field="recordPosition" usage="optional" />
-				</structure>
+					type="de.escidoc.core.resources.sb.Record"
+					marshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"
+					unmarshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"/>
+<!--					<value name="recordSchema" field="recordSchema" usage="optional"/>-->
+<!--					<value name="recordPacking" field="recordPacking" usage="optional"/>-->
+<!--					-->
+<!--					<structure name="recordData" usage="optional">-->
+<!--						<value field="recordDataText" usage="optional" style="text"/>-->
+<!--						<structure field="recordDataDOM" usage="optional"-->
+<!--							marshaller="org.jibx.extras.DomElementMapper" -->
+<!--							unmarshaller="org.jibx.extras.DomElementMapper"-->
+<!--							type="org.w3c.dom.Element"/>-->
+<!--					</structure>-->
+<!--					-->
+<!--					<value name="recordPosition" field="recordPosition" usage="optional" />-->
+<!--				</structure>-->
 			</collection>
 		</structure>
 		
