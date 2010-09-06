@@ -51,6 +51,7 @@ public class Toc extends GenericVersionableResource {
      * 
      */
     public Toc() {
+    	setResourceType(RESOURCE_TYPE.Toc);
     }
 
     /**

@@ -53,6 +53,7 @@ public class Container extends GenericVersionableResource {
      * 
      */
     public Container() {
+    	setResourceType(RESOURCE_TYPE.Container);
     }
 
     /**

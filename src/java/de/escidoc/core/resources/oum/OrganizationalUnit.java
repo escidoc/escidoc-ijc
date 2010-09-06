@@ -51,6 +51,7 @@ public class OrganizationalUnit extends GenericResource {
      * 
      */
 	public OrganizationalUnit() {
+		setResourceType(RESOURCE_TYPE.OrganizationalUnit);
 	}
 
 	/**

@@ -49,6 +49,7 @@ public class Component extends GenericResource {
      * Component.
      */
     public Component() {
+    	setResourceType(RESOURCE_TYPE.Component);
     }
 
     /**

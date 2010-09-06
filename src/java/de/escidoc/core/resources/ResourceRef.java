@@ -53,7 +53,8 @@ public class ResourceRef {
      * 
      */
     public static enum RESOURCE_TYPE {
-        Context, Item, Container, Component, Toc, OrganizationalUnit, UserAccount, UserAccountAttribute, ContentModel
+        Context, Item, Container, Component, Toc, OrganizationalUnit, 
+        UserAccount, UserAccountAttribute, ContentModel
     }
     
     public static final Map<RESOURCE_TYPE, String> URL_TYPE = new HashMap<RESOURCE_TYPE, String>();

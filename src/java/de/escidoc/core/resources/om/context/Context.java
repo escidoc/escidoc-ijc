@@ -45,6 +45,7 @@ public class Context extends GenericResource {
     /**
      */
     public Context() {
+    	setResourceType(RESOURCE_TYPE.Context);
     }
 
     /**

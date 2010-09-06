@@ -38,6 +38,10 @@ import de.escidoc.core.resources.om.GenericResource;
  */
 public class UserAccount extends GenericResource {
 
+	public UserAccount() {
+		setResourceType(RESOURCE_TYPE.UserAccount);
+	}
+	
     private UserAccountProperties properties;
 
     /**

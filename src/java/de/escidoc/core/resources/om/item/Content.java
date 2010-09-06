@@ -48,7 +48,7 @@ public class Content extends ResourceRef {
      * Content.
      */
     public Content() {
-        super();
+    	
     }
 
     /**

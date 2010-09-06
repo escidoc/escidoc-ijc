@@ -24,7 +24,7 @@ public class Attribute extends ResourceRef {
      * User Account Attribute.
      */
     public Attribute() {
-
+    	setResourceType(RESOURCE_TYPE.UserAccountAttribute);
     }
 
     /**

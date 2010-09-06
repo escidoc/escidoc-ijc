@@ -47,6 +47,7 @@ public class ContentModel extends GenericResource {
     /**
      */
     public ContentModel() {
+    	setResourceType(RESOURCE_TYPE.ContentModel);
     }
 
     /**

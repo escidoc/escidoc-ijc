@@ -55,6 +55,7 @@ public class Item extends GenericVersionableResource {
      * Item.
      */
     public Item() {
+    	setResourceType(RESOURCE_TYPE.Item);
     }
 
     /**
