@@ -9,8 +9,9 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 public class Factory {
 	
-	private static final Map<TransportProtocol, MarshallerFactory> marshallerFactoryMap =
-		new HashMap<TransportProtocol, MarshallerFactory>();
+	private static final Map<TransportProtocol, MarshallerFactory> 
+		marshallerFactoryMap = 
+			new HashMap<TransportProtocol, MarshallerFactory>();
 	
 	private static final TransportProtocol defaultTransport = null;
 	
@@ -23,11 +24,12 @@ public class Factory {
 		throws InternalClientException {
 		
 		if(defaultTransport==null) {
-			TransportProtocol.valueOf(ConfigurationProvider.getInstance().getProperty(
-					ConfigurationProvider.PROP_SERVICE_PROTOCOL));
+			TransportProtocol.valueOf(ConfigurationProvider.getInstance()
+					.getProperty(ConfigurationProvider.PROP_SERVICE_PROTOCOL));
 		}
 		if(marshallerFactoryMap.get(defaultTransport) == null) {
-			MarshallerFactory resultFactory = new MarshallerFactory(defaultTransport);
+			MarshallerFactory resultFactory = new MarshallerFactory(
+					defaultTransport);
 			marshallerFactoryMap.put(defaultTransport, resultFactory);
 			return resultFactory;
 		}
@@ -40,7 +42,8 @@ public class Factory {
 	 * @return
 	 * @throws InternalClientException
 	 */
-	public static final MarshallerFactory getMarshallerFactory(TransportProtocol transport)
+	public static final MarshallerFactory getMarshallerFactory(
+			TransportProtocol transport)
 		throws InternalClientException {
 	
 		if(marshallerFactoryMap.get(transport) == null) {

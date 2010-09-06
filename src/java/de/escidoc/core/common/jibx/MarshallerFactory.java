@@ -1,6 +1,5 @@
 package de.escidoc.core.common.jibx;
 
-import de.escidoc.core.client.SearchRetrieveType;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
@@ -213,22 +212,6 @@ public class MarshallerFactory {
         searchResultMarshaller.setTransport(transport);
         
         return searchResultMarshaller;
-    }
-
-    /**
-     * @return the explainRecordMarshaller
-     */
-    public Marshaller<ExplainData> getExplainRecordMarshaller(SearchRetrieveType type) 
-		throws InternalClientException {
-
-        if (explainRecordMarshaller == null) {
-            explainRecordMarshaller =
-                new Marshaller<ExplainData>(ExplainData.class);
-        }
-        explainRecordMarshaller.setTransport(transport);
-        explainRecordMarshaller.setAdditionalPrefix(type.name());
-        
-        return explainRecordMarshaller;
     }
     
     /**
@@ -733,9 +716,6 @@ public class MarshallerFactory {
 			scanResponseMarshaller = new Marshaller<ScanResponse>(ScanResponse.class);
 	    }
 		scanResponseMarshaller.setTransport(transport);
-		
-		// TODO: Currently scan is only supported by SRW.
-		scanResponseMarshaller.setAdditionalPrefix(SearchRetrieveType.SRW.name());
 	    
 	    return scanResponseMarshaller;
 	}
@@ -748,6 +728,7 @@ public class MarshallerFactory {
 							SearchRetrieveResponse.class);
 		    }
 			searchRetrieveResponseMarshaller.setTransport(transport);
+			
 		    return searchRetrieveResponseMarshaller;
 	}
 

@@ -27,8 +27,6 @@ public class Marshaller<E> {
     
     private TransportProtocol transport = null;
     
-    private String additionalPrefix = null;
-    
     /**
      * 
      * @param resourceClass
@@ -60,13 +58,9 @@ public class Marshaller<E> {
         E result = null;
         String prefix = this.transport.name();
         
-        if(this.additionalPrefix != null)
-        	prefix += this.additionalPrefix;
-        
         try {
             IBindingFactory bfact = 
             	BindingDirectory.getFactory(prefix, resourceClass);
-
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             ByteArrayInputStream in =
                 new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
@@ -100,9 +94,6 @@ public class Marshaller<E> {
 
         String result = null;
         String prefix = this.transport.name();
-        
-        if(this.additionalPrefix != null)
-        	prefix += this.additionalPrefix;
 
         try {
             IBindingFactory bfact = 
@@ -144,19 +135,5 @@ public class Marshaller<E> {
 		else {
 			this.transport = transport;
 		}
-	}
-
-	/**
-	 * @return the additionalPrefix
-	 */
-	public String getAdditionalPrefix() {
-		return additionalPrefix;
-	}
-
-	/**
-	 * @param additionalPrefix the additionalPrefix to set
-	 */
-	public void setAdditionalPrefix(String additionalPrefix) {
-		this.additionalPrefix = additionalPrefix;
 	}
 }
