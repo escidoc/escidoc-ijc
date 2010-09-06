@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.Response;
+import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
 
 /**
  * @author MVO
@@ -21,7 +22,8 @@ public class SearchRetrieveResponse extends Response {
 
 	private int numberOfRecords = -1;
 
-    private final Collection<Record> records = 
+    @SuppressWarnings("rawtypes")
+	private final Collection<Record> records = 
     	new LinkedList<Record>();
     
     /**
@@ -44,7 +46,7 @@ public class SearchRetrieveResponse extends Response {
 		RecordType[] records = zingResponseType.getRecords();
 		if(records != null) {
 			for(int i=0; i < records.length; i++) {
-				this.records.add(new SearchRetrieveRecord(records[i]));
+				this.records.add(new SearchResultRecordRecord(records[i]));
 			}
 		}
 	}
@@ -62,7 +64,8 @@ public class SearchRetrieveResponse extends Response {
      * 
      * @return records
      */
-    public Collection<Record> getRecords() {
+    @SuppressWarnings("rawtypes")
+	public Collection<Record> getRecords() {
         return records;
     }
     
