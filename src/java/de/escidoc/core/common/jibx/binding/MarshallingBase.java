@@ -106,24 +106,40 @@ public class MarshallingBase {
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
 
         String prefix = ctx.getPrefix();
-        if (prefix != null && !"".equals(prefix)) {
-            result = result.append(prefix).append(":");
-            result = result.append(new StringBuffer(ctx.getElementName()));
-            result =
-                result.append(" xmlns:").append(prefix).append("=\"").append(
-                    ctx.getNamespaceUri(prefix)).append("\"");
+        if (prefix != null && prefix.length() != 0) {
+            result.append(prefix).append(":");
+            result.append(new StringBuffer(ctx.getElementName()));
         }
         else {
-            result = result.append(new StringBuffer(ctx.getElementName()));
+            result.append(new StringBuffer(ctx.getElementName()));
         }
+        
+        // namespaces
+        StringBuffer namespaces = new StringBuffer();
+        for (int i = 0; i < ctx.getNamespaceCount(); ++i) {
+        	namespaces.append(" xmlns");
+        	String currentNSPrefix = ctx.getNamespacePrefix(i);
+        	if(currentNSPrefix != null && currentNSPrefix.length() != 0) {
+        		namespaces.append(":").append(currentNSPrefix);
+        	}
+        	namespaces.append("=\"")
+        		.append(ctx.getNamespaceUri(i)).append("\"");
+        }
+        result.append(namespaces);
+        
+        // attributes
         StringBuffer attributes = new StringBuffer();
         for (int i = 0; i < ctx.getAttributeCount(); ++i) {
-            attributes =
-                attributes.append(" ").append(ctx.getAttributeName(i)).append(
-                    "=\"").append(ctx.getAttributeValue(i)).append("\"");
+        	String attrPrefix = ctx.getAttributePrefix(i);
+        	attributes.append(" ");
+        	if(attrPrefix != null && attrPrefix.length() != 0) {
+        		attributes.append(attrPrefix).append(":");
+        	}
+            attributes.append(ctx.getAttributeName(i)).append("=\"")
+            	.append(ctx.getAttributeValue(i)).append("\"");
         }
-        result = result.append(attributes);
-
+        result.append(attributes);
+        
         return result.append(">");
     }
 
