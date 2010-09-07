@@ -91,11 +91,16 @@ public class ResourceRef {
     	URL_TYPE.put(RESOURCE_TYPE.Context, "/ir/context");
     	URL_TYPE.put(RESOURCE_TYPE.Item, "/ir/item");
     	URL_TYPE.put(RESOURCE_TYPE.Container, "/ir/container");
-    	URL_TYPE.put(RESOURCE_TYPE.Component, "/components/component"); /* /ir/item/<iID>/components/component/<cID>/ */
+    	/* /ir/item/<iID>/components/component/<cID>/ */
+    	URL_TYPE.put(RESOURCE_TYPE.Component, "/components/component");
+    	// TODO: ???
     	URL_TYPE.put(RESOURCE_TYPE.Toc, "/tocs");
-    	URL_TYPE.put(RESOURCE_TYPE.OrganizationalUnit, "/oum/organizational-unit");
+    	URL_TYPE.put(RESOURCE_TYPE.OrganizationalUnit, 
+    			"/oum/organizational-unit");
     	URL_TYPE.put(RESOURCE_TYPE.UserAccount, "/aa/user-account");
-    	URL_TYPE.put(RESOURCE_TYPE.UserAccountAttribute, "/resources/attributes/attribute"); /* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
+    	/* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
+    	URL_TYPE.put(RESOURCE_TYPE.UserAccountAttribute, 
+    			"/resources/attributes/attribute");
     	URL_TYPE.put(RESOURCE_TYPE.ContentModel, "/cmm/content-model");
     }
 
@@ -306,9 +311,12 @@ public class ResourceRef {
     }
 
     /**
+     * Returns the resource type of the specified xLinkHref. The xLinkHref is
+     * not being validated.
      * 
      * @param xLinkHref
-     * @return
+     * @return the resource type of the specified xLinkHref or null if and only
+     * if the specified xLinkHref cannot be mapped to a root resource type.
      */
     public static final RESOURCE_TYPE getRootResourceTypeForHref(String xLinkHref) {
     	if(xLinkHref == null) return null;
