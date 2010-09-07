@@ -31,6 +31,7 @@ package de.escidoc.core.resources.om.item;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.XLINK_TYPE;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.properties.Version;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
@@ -90,6 +91,12 @@ public class ItemProperties {
     private final String fileName = null;
 
     private final String mimeType = null;
+    
+    private String xLinkHref;
+
+    private String xLinkTitle;
+    
+    private XLINK_TYPE xLinkType;
 
     /**
      * 
@@ -392,5 +399,47 @@ public class ItemProperties {
     public ResourceRef getOrigin() {
         return origin;
     }
+
+	/**
+	 * @return the xLinkHref
+	 */
+	public String getXLinkHref() {
+		return xLinkHref;
+	}
+
+	/**
+	 * @param xLinkHref the xLinkHref to set
+	 */
+	public void setXLinkHref(String xLinkHref) {
+		this.xLinkHref = xLinkHref;
+	}
+
+	/**
+	 * @return the xLinkTitle
+	 */
+	public String getXLinkTitle() {
+		return xLinkTitle;
+	}
+
+	/**
+	 * @param xLinkTitle the xLinkTitle to set
+	 */
+	public void setXLinkTitle(String xLinkTitle) {
+		this.xLinkTitle = xLinkTitle;
+	}
+
+	/**
+	 * @return the xLinkType
+	 */
+	public XLINK_TYPE getXLinkType() {
+		return xLinkType;
+	}
+
+	/**
+	 * @param xLinkType the xLinkType to set
+	 */
+	public void setXLinkType(XLINK_TYPE xLinkType) {
+		this.xLinkType = xLinkType;
+	}
 
 }
