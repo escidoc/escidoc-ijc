@@ -28,7 +28,7 @@ import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
  * @author MVO
  *
  */
-public class RecordDataMarshaller extends MarshallingBase
+public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
     implements IMarshaller, IUnmarshaller, IAliasable {
 
 	/**
@@ -68,7 +68,7 @@ public class RecordDataMarshaller extends MarshallingBase
      * @param index
      * @param name
      */
-    public RecordDataMarshaller(final String uri, final int index,
+    public SearchRetrieveResponseRecordMarshaller(final String uri, final int index,
         final String name) {
 
         super(uri, index, name);
