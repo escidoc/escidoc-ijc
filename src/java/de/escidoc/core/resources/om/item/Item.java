@@ -28,10 +28,17 @@
  */
 package de.escidoc.core.resources.om.item;
 
+import java.util.Iterator;
+
+import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.ContentStreams;
+import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
+import de.escidoc.core.resources.common.properties.Version;
 import de.escidoc.core.resources.om.GenericVersionableResource;
+import de.escidoc.core.resources.om.item.component.Component;
+import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
 
 /**
@@ -156,5 +163,125 @@ public class Item extends GenericVersionableResource {
     public void setContentStreams(final ContentStreams contentStreams) {
         this.contentStreams = contentStreams;
     }
+    
+    /**
+     * XLinkHref validation for JiBX. This method will be called by the JiBX
+     * binding for the REST transport protocol as post-set.
+     */
+    public void ensureValidXLinkHrefDefinitions() {
+    	if(getXLinkHref() == null) {
+    		setXLinkHref(URL_TYPE.get(RESOURCE_TYPE.Item) + "/" + getObjid());
+    		setXLinkType(XLINK_TYPE.simple);
+    	}
+    	
+    	if(properties != null) {
+    		if(properties.getXLinkHref() == null) {
+    			properties.setXLinkHref(getXLinkHref() + "/properties");
+    			properties.setXLinkType(XLINK_TYPE.simple);
+    		}
+    		genXLinkHref(properties.getCreatedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    		genXLinkHref(properties.getContext(), 
+    				RESOURCE_TYPE.Context, null);
+    		genXLinkHref(properties.getContentModel(), 
+    				RESOURCE_TYPE.ContentModel, null);
+    		genVersionHref((Version)properties.getVersion());
+    		genVersionHref((Version)properties.getLatestVersion());
+    		genVersionHref((Version)properties.getLatestRelease());
+    	}
+    	if(components != null) {
+    		if(components.getXLinkHref() == null) {
+    			components.setXLinkHref(getXLinkHref() + "/components");
+    			components.setXLinkType(XLINK_TYPE.simple);
+    		}
+    		
+    		for (Iterator<Component> it = components.iterator(); it.hasNext();) {
+    			Component component = it.next();
+    			String cPrefix = genXLinkHref(component, 
+    					RESOURCE_TYPE.Component, getXLinkHref());
+    			
+    			ComponentProperties properties = component.getProperties();
+    			if(properties != null && properties.getXLinkHref() == null) {
+    				properties.setXLinkHref(cPrefix + "/properties");
+    				properties.setXLinkType(XLINK_TYPE.simple);
+    				
+    				genXLinkHref(properties.getCreatedBy(), 
+    						RESOURCE_TYPE.UserAccount, null);
+    			}
+    			
+    			if(component.getContent() != null && 
+    					component.getContent().getXLinkHref() == null) {
+    				component.getContent().setXLinkHref(cPrefix + "/content");
+    				component.getContent().setXLinkType(XLINK_TYPE.simple);
+    			}
+			}
+    	}
+    	if(mdRecords != null) {
+    		if(mdRecords.getXLinkHref() == null) {
+    			mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+    			mdRecords.setXLinkType(XLINK_TYPE.simple);
+    		}
+    		
+    		for (Iterator<MetadataRecord> it = mdRecords.iterator(); it.hasNext();) {
+				MetadataRecord record = it.next();
+				if(record.getXLinkHref() == null) {
+					record.setXLinkHref(getXLinkHref() + 
+							"/md-records/md-record/" + record.getName());
+					record.setXLinkType(XLINK_TYPE.simple);
+				}
+			}
+    	}
+    	if(contentStreams != null) {
+    		// TODO
+    	}
+    	if(relations != null && relations.getXLinkHref() == null) {
+    		relations.setXLinkHref(getXLinkHref() + "/relations");
+    	}
+    }
 
+    /**
+     * 
+     * @param version
+     */
+    private void genVersionHref(Version version) {
+    	if(version != null && version.getXLinkHref() == null) {
+			version.setXLinkHref(URL_TYPE.get(RESOURCE_TYPE.Item)+ "/" 
+					+ getObjid() + ":" + version.getNumber());
+			genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount, 
+					null);
+		}
+    }
+    
+    /**
+     * 
+     * @param resource
+     * @param type
+     * @param prefix
+     * @return
+     */
+    private String genXLinkHref(final ResourceRef resource, 
+    		final RESOURCE_TYPE type, final String prefix) {
+    	
+    	if(resource != null && resource.getXLinkHref() == null) {
+    		
+    		if(type != null) {
+    			resource.setResourceType(type);
+    		
+	    		String URL = URL_TYPE.get(type);
+	    		if(URL!=null) {
+	    			String href = URL + "/" + resource.getObjid();
+	    			if(prefix != null)
+	    				href = prefix + href;
+		    		resource.setXLinkHref(href);
+		    		resource.setXLinkType(XLINK_TYPE.simple);
+		    		return href;
+	    		}
+    		} else if(prefix != null) {
+    			resource.setXLinkHref(prefix);
+	    		resource.setXLinkType(XLINK_TYPE.simple);
+	    		return prefix;
+    		}
+    	}
+    	return "";
+    }
 }

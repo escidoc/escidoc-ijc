@@ -59,8 +59,8 @@ public class Content extends ResourceRef {
     public Content(final ResourceRef id) {
         super();
         setObjid(id.getObjid());
-        setHref(id.getHref());
-        setTitle(id.getTitle());
+        setXLinkHref(id.getXLinkHref());
+        setXLinkTitle(id.getXLinkTitle());
     }
 
     /**

@@ -1,62 +1,66 @@
 package de.escidoc.core.resources.common.versionhistory;
 
+/**
+ * TODO: Not extending from ResourceRef?
+ * 
+ * @author ?
+ *
+ */
 public class LinkingAgentIdentifier {
-    private String href = null;
+	
+    private String xLinkHref = null;
 
-    private String title = null;
+    private String xLinkTitle = null;
 
-    private String type = "simple";
+    private String xLinkType = "simple";
 
     private String linkingAgentIdentifierType = null;
 
     private String linkingAgentIdentifierValue = null;
 
     /**
-     * @return the href
-     */
-    public String getHref() {
-        return href;
-    }
+	 * @return the xLinkHref
+	 */
+	public String getXLinkHref() {
+		return xLinkHref;
+	}
 
-    /**
-     * @param href
-     *            the href to set
-     */
-    public void setHref(String href) {
-        this.href = href;
-    }
+	/**
+	 * @param xLinkHref the xLinkHref to set
+	 */
+	public void setXLinkHref(String xLinkHref) {
+		this.xLinkHref = xLinkHref;
+	}
 
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
+	/**
+	 * @return the xLinkTitle
+	 */
+	public String getXLinkTitle() {
+		return xLinkTitle;
+	}
 
-    /**
-     * @param title
-     *            the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	/**
+	 * @param xLinkTitle the xLinkTitle to set
+	 */
+	public void setXLinkTitle(String xLinkTitle) {
+		this.xLinkTitle = xLinkTitle;
+	}
 
-    /**
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
+	/**
+	 * @return the xLinkType
+	 */
+	public String getXLinkType() {
+		return xLinkType;
+	}
 
-    /**
-     * @param type
-     *            the type to set
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
+	/**
+	 * @param xLinkType the xLinkType to set
+	 */
+	public void setXLinkType(String xLinkType) {
+		this.xLinkType = xLinkType;
+	}
 
-    /**
+	/**
      * @return the linkingAgentIdentifierType
      */
     public String getLinkingAgentIdentifierType() {

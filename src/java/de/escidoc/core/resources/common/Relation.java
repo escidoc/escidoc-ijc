@@ -53,8 +53,8 @@ public class Relation extends ResourceRef {
      */
     public Relation(final ResourceRef id) {
         setObjid(id.getObjid());
-        setHref(id.getHref());
-        setTitle(id.getTitle());
+        setXLinkHref(id.getXLinkHref());
+        setXLinkTitle(id.getXLinkTitle());
 
     }
 

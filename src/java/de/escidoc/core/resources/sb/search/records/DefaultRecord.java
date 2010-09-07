@@ -49,7 +49,7 @@ public class DefaultRecord extends Record<String> {
 
 	/**
 	 * Returns the value of this.recordDataText by default because
-	 * {@link RecordDataMarshaller} maps the content of recordData as String by
+	 * {@link SearchRetrieveResponseRecordMarshaller} maps the content of recordData as String by
 	 * default. This means, that getRecordData() always returns the value of
 	 * this.recordDataText.
 	 * 

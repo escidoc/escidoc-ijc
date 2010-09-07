@@ -72,18 +72,18 @@ public class ContentStream extends MarshallingBase
             ctx.attribute(0, MIME_TYPE_ATTRIBUTE_NAME, contentStream
                 .getMimeType());
 
-            if (contentStream.getXlinkType() != null) {
+            if (contentStream.getXLinkType() != null) {
                 ctx.attribute(1, XLINK_TYPE_ATTRIBUTE_NAME, contentStream
-                    .getXlinkType().toString());
+                    .getXLinkType().toString());
             }
-            if (contentStream.getTitle() != null) {
+            if (contentStream.getXLinkTitle() != null) {
                 ctx.attribute(0, XLINK_TITLE_ATTRIBUTE_NAME, contentStream
-                    .getTitle());
+                    .getXLinkTitle());
             }
 
-            if (contentStream.getHref() != null) {
+            if (contentStream.getXLinkHref() != null) {
                 ctx.attribute(0, XLINK_HREF_ATTRIBUTE_NAME, contentStream
-                    .getHref());
+                    .getXLinkHref());
             }
             ctx.closeStartContent();
             ctx.content(contentStream.getContent());

@@ -1,6 +1,7 @@
 package de.escidoc.core.resources.interfaces.common;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 
 public interface VersionInterface extends LatestReleaseInterface {
     /**
