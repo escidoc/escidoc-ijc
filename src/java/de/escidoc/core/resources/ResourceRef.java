@@ -44,7 +44,7 @@ public class ResourceRef {
      * XLink Types.
      * 
      */
-    public static enum TYPE {
+    public static enum XLINK_TYPE {
         simple, extended, locator, arc, resource, title
     }
 
@@ -53,11 +53,40 @@ public class ResourceRef {
      * 
      */
     public static enum RESOURCE_TYPE {
-        Context, Item, Container, Component, Toc, OrganizationalUnit, 
-        UserAccount, UserAccountAttribute, ContentModel
+    	// root resources
+        Context(true), 
+        Item(true), 
+        Container(true), 
+        OrganizationalUnit(true),
+        UserAccount(true), 
+        ContentModel(true),
+        // sub resources
+        Component(false), 
+        Toc(false), // ???
+        UserAccountAttribute(false);
+        
+        private final boolean isRootResource;
+        
+        RESOURCE_TYPE(boolean isRootResource) {
+        	this.isRootResource = isRootResource;
+        }
+        
+        public boolean isRootResource() {
+        	return isRootResource;
+        }
     }
     
-    public static final Map<RESOURCE_TYPE, String> URL_TYPE = new HashMap<RESOURCE_TYPE, String>();
+    /**
+     * Types of eSciDoc stand-alone resources.
+     * 
+     */
+    public static enum STANDALONE_RESOURCE_TYPE {
+    	Context, Item, Container, OrganizationalUnit, 
+        UserAccount, ContentModel
+    }
+    
+    public static final Map<RESOURCE_TYPE, String> URL_TYPE = 
+    	new HashMap<RESOURCE_TYPE, String>();
     {
     	URL_TYPE.put(RESOURCE_TYPE.Context, "/ir/context");
     	URL_TYPE.put(RESOURCE_TYPE.Item, "/ir/item");
@@ -72,11 +101,11 @@ public class ResourceRef {
 
     private String objid;
 
-    private String href;
+    private String xLinkHref;
 
-    private String title;
+    private String xLinkTitle;
     
-    private TYPE xLinkType;
+    private XLINK_TYPE xLinkType;
 
     private RESOURCE_TYPE resourceType = null;
 
@@ -93,8 +122,7 @@ public class ResourceRef {
      *            The objid of the resource.
      */
     public ResourceRef(final String objid) {
-
-        this.objid = objid;
+    	setObjid(objid);
     }
     
     /**
@@ -103,9 +131,9 @@ public class ResourceRef {
      * @param type
      */
     public ResourceRef(final String objid, final RESOURCE_TYPE type) {
-    	this.setHref(URL_TYPE.get(type) + "/" + objid);
-    	this.setTitle(type+"Title");
-    	this.resourceType = type;
+    	setResourceType(type);
+    	setObjid(objid);
+    	setXLinkTitle(type+"Title");
     }
     
     /**
@@ -114,10 +142,11 @@ public class ResourceRef {
      * @param type
      * @param title
      */
-    public ResourceRef(final String objid, final RESOURCE_TYPE type, String title) {
-    	this.setHref(URL_TYPE.get(type) + "/" + objid);
-    	this.title = title;
-    	this.resourceType = type;
+    public ResourceRef(final String objid, final RESOURCE_TYPE type, 
+    		String title) {
+    	setResourceType(type);
+    	setObjid(objid);
+    	setXLinkTitle(title);
     }
 
     /**
@@ -128,9 +157,8 @@ public class ResourceRef {
      *            The title of the resource (for XML Xlink title attribute)
      */
     public ResourceRef(final String href, final String title) {
-
-        this.href = href;
-        this.title = title;
+    	setXLinkHref(href);
+    	setXLinkTitle(title);
     }
 
     /**
@@ -143,10 +171,9 @@ public class ResourceRef {
      *            The title of the resource (for XML Xlink title attribute)
      */
     public ResourceRef(final String objid, final String href, final String title) {
-
-        this.objid = objid;
-        this.href = href;
-        this.title = title;
+    	this.objid = objid;
+        setXLinkHref(href);
+        setXLinkTitle(title);
     }
 
     /**
@@ -162,11 +189,10 @@ public class ResourceRef {
      */
     public ResourceRef(final String objid, final String href,
         final String title, final RESOURCE_TYPE resourceType) {
-
         this.objid = objid;
-        this.href = href;
-        this.title = title;
-        this.resourceType = resourceType;
+        setXLinkHref(href);
+        setXLinkTitle(title);
+        setResourceType(resourceType);
     }
 
     /**
@@ -175,19 +201,21 @@ public class ResourceRef {
      * @return object id
      */
     public String getObjid() {
-
         return this.objid;
     }
 
     /**
      * Set object id.
      * 
+     * Workaround needed because SRW returns search results as SOAP formatted
+     * XML. Therefore we need to generate the Href in case we are using the 
+     * REST protocol.
+     * 
      * @param objid
      *            The object Id.
      */
     public void setObjid(final String objid) {
-
-        this.objid = objid;
+    	this.objid = objid;
     }
 
     /**
@@ -195,8 +223,8 @@ public class ResourceRef {
      * 
      * @return href of resource.
      */
-    public String getHref() {
-        return this.href;
+    public String getXLinkHref() {
+        return this.xLinkHref;
     }
 
     /**
@@ -205,10 +233,11 @@ public class ResourceRef {
      * @param href
      *            The href of the resource
      */
-    public void setHref(final String href) {
-        this.href = href;
+    public void setXLinkHref(final String href) {
         if(href != null && href.length()>0) {
+        	this.xLinkHref = href;
         	this.objid = href.substring(href.lastIndexOf('/')+1);
+        	this.xLinkType = XLINK_TYPE.simple;
         }
     }
     
@@ -217,8 +246,8 @@ public class ResourceRef {
      * 
      * @return Resource title.
      */
-    public String getTitle() {
-        return this.title;
+    public String getXLinkTitle() {
+        return this.xLinkTitle;
     }
 
     /**
@@ -228,20 +257,20 @@ public class ResourceRef {
      * @param title
      *            The title of the resource.
      */
-    public void setTitle(final String title) {
-        this.title = title;
+    public void setXLinkTitle(final String title) {
+        this.xLinkTitle = title;
     }
 
     /**
-     * Get Xlink type. (Default TYPE.simple)
+     * Get XLink type. (Default XLINK_TYPE.simple)
      * 
      * @return xlink:type if and only if this.href has been set. 
      * (REST protocol uses xlink:href. SOAP needs this.objid only.)
      */
-    public TYPE getXlinkType() {
-    	if(this.xLinkType == null) {
-    		return (this.href != null) ? TYPE.simple : null;
-    	}
+    public XLINK_TYPE getXLinkType() {
+//    	if(this.xLinkType == null) {
+//    		return (this.xLinkHref != null) ? XLINK_TYPE.simple : null;
+//    	}
         return this.xLinkType;
     }
 
@@ -251,7 +280,7 @@ public class ResourceRef {
      * @param type
      *            Type of xlink.
      */
-    public void setXlinkType(final TYPE type) {
+    public void setXLinkType(final XLINK_TYPE type) {
     	this.xLinkType = type;
     }
 
@@ -276,6 +305,23 @@ public class ResourceRef {
         return this.resourceType;
     }
 
+    /**
+     * 
+     * @param xLinkHref
+     * @return
+     */
+    public static final RESOURCE_TYPE getRootResourceTypeForHref(String xLinkHref) {
+    	if(xLinkHref == null) return null;
+    	
+    	for (Map.Entry<RESOURCE_TYPE, String> entry : URL_TYPE.entrySet()) {
+			if(entry.getKey().isRootResource() && 
+					xLinkHref.startsWith(entry.getValue())) {
+				return entry.getKey(); 
+			}
+		}
+    	return null;
+    }
+    
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
