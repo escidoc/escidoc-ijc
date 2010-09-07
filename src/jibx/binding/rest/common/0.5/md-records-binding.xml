@@ -7,6 +7,16 @@
 		
 		<namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
 			prefix="escidocMetadataRecords" />
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+		
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+			
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+			
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 		<collection ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
 			 create-type="de.escidoc.core.resources.common.MetadataRecords">
@@ -23,6 +33,15 @@
 
 		<namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
 			prefix="escidocMetadataRecords" />
+			
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+		
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 		<value name="name" set-method="setName" get-method="getName"
 			style="attribute" usage="optional" />
@@ -31,7 +50,8 @@
 		<value name="schema" set-method="setSchema" get-method="getSchema"
 			style="attribute" usage="optional" />
 		<structure field="content" type="org.w3c.dom.Element"
-			marshaller="org.jibx.extras.DomElementMapper" unmarshaller="org.jibx.extras.DomElementMapper"
+			marshaller="org.jibx.extras.DomElementMapper" 
+			unmarshaller="org.jibx.extras.DomElementMapper"
 			usage="optional" />
 	</mapping>
 

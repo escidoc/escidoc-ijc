@@ -63,13 +63,13 @@
 			Root attributes 
 			****************************************** -->
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-			set-method="setHref" get-method="getHref" usage="optional" />
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 			
 		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-			set-method="setTitle" get-method="getTitle" usage="optional" />
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 			
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-			set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
 			set-method="setLastModificationDate"
@@ -219,13 +219,13 @@
 			name="created-by" field="createdBy" usage="optional">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
 		<value ns="http://escidoc.de/core/01/properties/"
@@ -248,13 +248,13 @@
 			name="version" field="version" usage="optional">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 			<value ns="http://escidoc.de/core/01/properties/version/"
 				name="number" get-method="getNumber" set-method="setNumber"
@@ -273,13 +273,13 @@
 				get-method="getModifiedBy" usage="optional">
 
 				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-					set-method="setHref" get-method="getHref" usage="optional" />
+					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 					
 				<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-					set-method="setTitle" get-method="getTitle" usage="optional" />
+					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 					
 				<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-					set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+					set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 			</structure>
 
 			<value ns="http://escidoc.de/core/01/properties/version/"
@@ -297,13 +297,13 @@
 			name="latest-version" field="latestVersion" usage="optional">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 			<value ns="http://escidoc.de/core/01/properties/version/"
 				name="number" get-method="getNumber" set-method="setNumber"
@@ -322,13 +322,13 @@
 			name="latest-release" field="latestRelease" usage="optional">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 			<value ns="http://escidoc.de/core/01/properties/release/"
 				name="number" get-method="getNumber" set-method="setNumber"

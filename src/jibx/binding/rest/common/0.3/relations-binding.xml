@@ -21,13 +21,13 @@
 					type="de.escidoc.core.resources.common.Relation">
 					
 					<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-						set-method="setHref" get-method="getHref" usage="optional" />
+						set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 						
 					<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-						set-method="setTitle" get-method="getTitle" usage="optional" />
+						set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 						
 					<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-						set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+						set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 					
 					<value name="predicate" style="attribute"
 					set-method="setPredicate" get-method="getPredicate" usage="optional" />

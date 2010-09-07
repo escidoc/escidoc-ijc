@@ -43,13 +43,13 @@
 
 		<!-- ***************************************** Root attributes ****************************************** -->
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-			set-method="setHref" get-method="getHref" usage="optional" />
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 			
 		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-			set-method="setTitle" get-method="getTitle" usage="optional" />
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 			
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-			set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
 			set-method="setLastModificationDate" get-method="getLastModificationDate"
@@ -82,13 +82,13 @@
 				style="attribute" />
 			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
 		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" type="org.joda.time.DateTime"
@@ -99,13 +99,13 @@
 			name="created-by" field="createdBy" usage="optional">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
 
@@ -116,13 +116,13 @@
 			name="revoked-by" field="revokedBy" usage="optional">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 		<value ns="http://escidoc.de/core/01/properties/" name="grant-remark"
 			field="grantRemark" usage="optional" />
@@ -134,26 +134,26 @@
 			name="role" field="role">
 			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="assigned-on" field="assignedOn" usage="optional">
 			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-				set-method="setHref" get-method="getHref" usage="optional" />
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-				set-method="setTitle" get-method="getTitle" usage="optional" />
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-				set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
 	</mapping>

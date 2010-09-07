@@ -29,13 +29,13 @@
 				type="de.escidoc.core.resources.common.versionhistory.Version">
 
 				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-					set-method="setHref" get-method="getHref" usage="optional" />
+					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 					
 				<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-					set-method="setTitle" get-method="getTitle" usage="optional" />
+					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
 					
 				<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-					set-method="setXlinkType" get-method="getXlinkType" usage="optional" />
+					set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 					
 				<value name="timestamp" style="attribute"
 					set-method="setTimestamp" get-method="getTimestamp" />
@@ -90,11 +90,11 @@
 							set-method="setLinkingAgentIdentifier"
 							get-method="getLinkingAgentIdentifier">
 							<value ns="http://www.w3.org/1999/xlink"
-								name="href" style="attribute" set-method="setHref"
-								get-method="getHref" />
+								name="href" style="attribute" set-method="setXLinkHref"
+								get-method="getXLinkHref" />
 							<value ns="http://www.w3.org/1999/xlink"
-								name="title" style="attribute" set-method="setTitle"
-								get-method="getTitle" />
+								name="title" style="attribute" set-method="setXLinkTitle"
+								get-method="getXLinkTitle" />
 							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierType"
 								set-method="setLinkingAgentIdentifierType"
 								get-method="getLinkingAgentIdentifierType" />
