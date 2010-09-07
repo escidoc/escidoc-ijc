@@ -87,4 +87,35 @@ public class Context extends GenericResource {
         this.adminDescriptors = adminDescriptors;
     }
 
+    /**
+     * XLinkHref validation for JiBX. This method will be called by the JiBX
+     * binding for the REST transport protocol as post-set.
+     */
+    public void ensureValidXLinkHrefDefinitions() {
+    	genOwnXLinkHref();
+    	
+    	if(properties != null) {
+    		if(properties.getXLinkHref() == null) {
+    			properties.setXLinkHref(getXLinkHref() + "/properties");
+    		}
+    		genXLinkHref(properties.getCreatedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    		genXLinkHref(properties.getModifiedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    	}
+    	if(adminDescriptors != null) {
+    		if(adminDescriptors.getXLinkHref() == null) {
+    			adminDescriptors.setXLinkHref(getXLinkHref() + 
+    					"/admin-descriptors");
+    		}
+    		
+    		for (AdminDescriptor descriptor : adminDescriptors) {
+    			if(descriptor.getXLinkHref() == null) {
+    				descriptor.setXLinkHref(getXLinkHref() + 
+    						"/admin-descriptors/admin-descriptor/" +
+    						descriptor.getName());
+    			}
+			}
+    	}
+    }
 }

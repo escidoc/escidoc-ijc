@@ -31,6 +31,7 @@ package de.escidoc.core.resources.cmm;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.properties.Version;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
@@ -42,7 +43,7 @@ import de.escidoc.core.resources.interfaces.common.VersionInterface;
  * @author SWA
  * 
  */
-public class ContentModelProperties {
+public class ContentModelProperties extends XLinkResource {
 
     private String name;
 

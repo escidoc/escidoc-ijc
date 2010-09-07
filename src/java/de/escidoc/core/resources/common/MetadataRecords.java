@@ -29,9 +29,8 @@
 package de.escidoc.core.resources.common;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
-import de.escidoc.core.resources.ResourceRef.XLINK_TYPE;
+import de.escidoc.core.resources.XLinkResourceList;
 
 /**
  * MetadataRecords.
@@ -39,69 +38,18 @@ import de.escidoc.core.resources.ResourceRef.XLINK_TYPE;
  * @author SWA
  * 
  */
-public class MetadataRecords extends LinkedList<MetadataRecord> {
+public class MetadataRecords extends XLinkResourceList<MetadataRecord> {
 
-	private String xLinkHref;
-
-    private String xLinkTitle;
-    
-    private XLINK_TYPE xLinkType;
-	
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -90749979126226984L;
+	private static final long serialVersionUID = -90749979126226984L;
 
     /**
-     * Consturctor MetadataRecords.
+     * Constructor MetadataRecords.
      */
     public MetadataRecords() {
 
     }
 
     /**
-	 * @return the xLinkHref
-	 */
-	public String getXLinkHref() {
-		return xLinkHref;
-	}
-
-	/**
-	 * @param xLinkHref the xLinkHref to set
-	 */
-	public void setXLinkHref(String xLinkHref) {
-		this.xLinkHref = xLinkHref;
-	}
-
-	/**
-	 * @return the xLinkTitle
-	 */
-	public String getXLinkTitle() {
-		return xLinkTitle;
-	}
-
-	/**
-	 * @param xLinkTitle the xLinkTitle to set
-	 */
-	public void setXLinkTitle(String xLinkTitle) {
-		this.xLinkTitle = xLinkTitle;
-	}
-
-	/**
-	 * @return the xLinkType
-	 */
-	public XLINK_TYPE getXLinkType() {
-		return xLinkType;
-	}
-
-	/**
-	 * @param xLinkType the xLinkType to set
-	 */
-	public void setXLinkType(XLINK_TYPE xLinkType) {
-		this.xLinkType = xLinkType;
-	}
-
-	/**
      * Get a MetadataRecord.
      * 
      * @param name

@@ -30,13 +30,16 @@ package de.escidoc.core.resources.cmm;
 
 import java.net.URI;
 
+import de.escidoc.core.common.jibx.CustomConverter;
+import de.escidoc.core.resources.XLinkResource;
+
 /**
  * Content Model resource definition
  * 
  * @author SWA
  * 
  */
-public class ResourceDefinition {
+public class ResourceDefinition extends XLinkResource {
 
     private String name;
 
@@ -106,4 +109,13 @@ public class ResourceDefinition {
         return mdRecordName;
     }
 
+	@Override
+	public String getXLinkHref() {
+		return CustomConverter.serializeURI(getXslt());
+	}
+
+	@Override
+	public void setXLinkHref(String href) {
+		setXslt(CustomConverter.deserializeURI(href));
+	}
 }

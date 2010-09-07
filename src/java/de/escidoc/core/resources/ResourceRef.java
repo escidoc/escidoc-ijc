@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.resources;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -38,15 +37,7 @@ import java.util.Map;
  * @author SWA
  * 
  */
-public class ResourceRef {
-
-    /**
-     * XLink Types.
-     * 
-     */
-    public static enum XLINK_TYPE {
-        simple, extended, locator, arc, resource, title
-    }
+public class ResourceRef extends XLinkResource {
 
     /**
      * Types of eSciDoc resources.
@@ -62,6 +53,7 @@ public class ResourceRef {
         ContentModel(true),
         Grant(true),
         Role(true),
+        ContentRelation(true),
         // sub resources
         Component(false), 
         Toc(false), // ???
@@ -78,34 +70,7 @@ public class ResourceRef {
         }
     }
     
-    public static final Map<RESOURCE_TYPE, String> URL_TYPE = 
-    	new HashMap<RESOURCE_TYPE, String>();
-    {
-    	URL_TYPE.put(RESOURCE_TYPE.Context, "/ir/context");
-    	URL_TYPE.put(RESOURCE_TYPE.Item, "/ir/item");
-    	URL_TYPE.put(RESOURCE_TYPE.Container, "/ir/container");
-    	/* /ir/item/<iID>/components/component/<cID>/ */
-    	URL_TYPE.put(RESOURCE_TYPE.Component, "/components/component");
-    	// TODO: ???
-    	URL_TYPE.put(RESOURCE_TYPE.Toc, "/tocs");
-    	URL_TYPE.put(RESOURCE_TYPE.OrganizationalUnit, 
-    			"/oum/organizational-unit");
-    	URL_TYPE.put(RESOURCE_TYPE.UserAccount, "/aa/user-account");
-    	/* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
-    	URL_TYPE.put(RESOURCE_TYPE.UserAccountAttribute, 
-    			"/resources/attributes/attribute");
-    	URL_TYPE.put(RESOURCE_TYPE.ContentModel, "/cmm/content-model");
-    	URL_TYPE.put(RESOURCE_TYPE.Grant, "/aa/grant");
-    	URL_TYPE.put(RESOURCE_TYPE.Role, "/aa/role");
-    }
-
     private String objid;
-
-    private String xLinkHref;
-
-    private String xLinkTitle;
-    
-    private XLINK_TYPE xLinkType;
 
     private RESOURCE_TYPE resourceType = null;
 
@@ -218,72 +183,14 @@ public class ResourceRef {
     	this.objid = objid;
     }
 
-    /**
-     * Get the href of the resource. (May depend on transport protocol.)
-     * 
-     * @return href of resource.
-     */
-    public String getXLinkHref() {
-        return this.xLinkHref;
-    }
-
-    /**
-     * Set the href of the resource. (May depend on transport protocol.)
-     * 
-     * @param href
-     *            The href of the resource
-     */
+    @Override
     public void setXLinkHref(final String href) {
-        if(href != null && href.length()>0) {
-        	this.xLinkHref = href;
+        super.setXLinkHref(href);
+        if(href != null) {
         	this.objid = href.substring(href.lastIndexOf('/')+1);
-        	this.xLinkType = XLINK_TYPE.simple;
         }
     }
     
-    /**
-     * Get the title of the resource. (May depend on transport protocol.)
-     * 
-     * @return Resource title.
-     */
-    public String getXLinkTitle() {
-        return this.xLinkTitle;
-    }
-
-    /**
-     * Set the resource title. (May depend on transport protocol or is
-     * discarded.)
-     * 
-     * @param title
-     *            The title of the resource.
-     */
-    public void setXLinkTitle(final String title) {
-        this.xLinkTitle = title;
-    }
-
-    /**
-     * Get XLink type. (Default XLINK_TYPE.simple)
-     * 
-     * @return xlink:type if and only if this.href has been set. 
-     * (REST protocol uses xlink:href. SOAP needs this.objid only.)
-     */
-    public XLINK_TYPE getXLinkType() {
-//    	if(this.xLinkType == null) {
-//    		return (this.xLinkHref != null) ? XLINK_TYPE.simple : null;
-//    	}
-        return this.xLinkType;
-    }
-
-    /**
-     * Set Xlink:type.
-     * 
-     * @param type
-     *            Type of xlink.
-     */
-    public void setXLinkType(final XLINK_TYPE type) {
-    	this.xLinkType = type;
-    }
-
     /**
      * Set the type of the resource for the reference.
      * 
@@ -323,6 +230,53 @@ public class ResourceRef {
 			}
 		}
     	return null;
+    }
+    
+    /**
+     * Method used by ResourceRef implementations to ensure a fully valid
+     * xLinkHref definition for all sub resources they may own. 
+     * The validation methods calling this method may be called by JiBX as
+     * post-set methods.
+     * 
+     * @param resource
+     * @param type
+     * @param prefix
+     * @return the generated HREF
+     */
+    protected static final String genXLinkHref(final ResourceRef resource, 
+    		final RESOURCE_TYPE type, final String prefix) {
+    	
+    	if(resource != null && resource.getXLinkHref() == null) {
+    		
+    		if(type != null) {
+    			resource.setResourceType(type);
+    		
+	    		String URL = URL_TYPE.get(type);
+	    		if(URL!=null) {
+	    			String href = URL + "/" + resource.getObjid();
+	    			if(prefix != null)
+	    				href = prefix + href;
+		    		resource.setXLinkHref(href);
+		    		return href;
+	    		}
+    		} else if(prefix != null) {
+    			resource.setXLinkHref(prefix);
+	    		return prefix;
+    		}
+    	}
+    	return "";
+    }
+    
+    /**
+     * Method used by ResourceRef implementations to ensure a fully valid
+     * xLinkHref definition for all sub resources they may own. 
+     * The validation methods calling this method may be called by JiBX as
+     * post-set methods.
+     */
+    protected void genOwnXLinkHref() {
+    	if(getXLinkHref() == null && getResourceType() != null) {
+    		setXLinkHref(URL_TYPE.get(getResourceType()) + "/" + getObjid());
+    	}
     }
     
 	/* (non-Javadoc)

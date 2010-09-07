@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.oum;
 
+import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
 
@@ -142,5 +143,57 @@ public class OrganizationalUnit extends GenericResource {
 
 		this.predecessors = predecessors;
 	}
-
+	
+	/**
+     * XLinkHref validation for JiBX. This method will be called by the JiBX
+     * binding for the REST transport protocol as post-set.
+     */
+    public void ensureValidXLinkHrefDefinitions() {
+    	genOwnXLinkHref();
+    	
+    	if(properties != null) {
+    		if(properties.getXLinkHref() == null) {
+    			properties.setXLinkHref(getXLinkHref() + "/properties");
+    		}
+    		genXLinkHref(properties.getCreatedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    		genXLinkHref(properties.getModifiedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    	}
+    	if(parents != null) {
+    		if(parents.getXLinkHref() == null) {
+    			parents.setXLinkHref(getXLinkHref() + "/parents");
+    		}
+    		
+    		for (Parent parent : parents.getParentRef()) {
+    			genXLinkHref(parent, RESOURCE_TYPE.OrganizationalUnit, null);
+			}
+    	}
+    	if(mdRecords != null) {
+    		if(mdRecords.getXLinkHref() == null) {
+    			mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+    		}
+    		
+    		for (MetadataRecord record : mdRecords) {
+				if(record.getXLinkHref() == null) {
+					record.setXLinkHref(getXLinkHref() + 
+							"/md-records/md-record/" + record.getName());
+				}
+			}
+    	}
+    	
+    	// TODO: Is this correct?
+    	if(predecessors != null && predecessors.getXLinkHref() == null) {
+    		predecessors.setXLinkHref(getXLinkHref() + "/predecessors");
+    		predecessors.setXLinkType(XLINK_TYPE.simple);
+    		
+    		for(Predecessor predecessor : predecessors.getPredecessorRef()) {
+    			if(predecessor.getXLinkHref() == null) {
+    				predecessor.setXLinkHref(getXLinkHref() + 
+    						"/predecessors/predecessor/" + 
+    						predecessor.getObjid());
+    			}
+    		}
+    	}
+    }
 }

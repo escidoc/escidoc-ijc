@@ -32,18 +32,20 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import de.escidoc.core.resources.XLinkResource;
+
 /**
  * Organizational Unit Predecessors.
  * 
  * @author SWA
  * 
  */
-public class Predecessors {
+public class Predecessors extends XLinkResource {
 
-    private Collection<Predecessor> predecessorRefs =
+	private Collection<Predecessor> predecessorRefs =
         new LinkedList<Predecessor>();
-
-    /**
+	
+   /**
      * Get the whole Predecessors collection.
      * 
      * @return Collection of Predecessors for the OrganizationalUnit.

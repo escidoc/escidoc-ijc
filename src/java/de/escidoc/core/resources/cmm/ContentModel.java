@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.cmm;
 
+import de.escidoc.core.resources.common.properties.Version;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -109,4 +110,59 @@ public class ContentModel extends GenericResource {
         return resourceDefinitions;
     }
 
+    /**
+     * XLinkHref validation for JiBX. This method will be called by the JiBX
+     * binding for the REST transport protocol as post-set.
+     */
+    public void ensureValidXLinkHrefDefinitions() {
+    	genOwnXLinkHref();
+    	
+    	if(properties != null) {
+    		if(properties.getXLinkHref() == null) {
+    			properties.setXLinkHref(getXLinkHref() + "/properties");
+    		}
+    		genXLinkHref(properties.getCreatedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    		genXLinkHref(properties.getLockOwner(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    		genVersionHref((Version)properties.getVersion());
+    		genVersionHref((Version)properties.getLatestVersion());
+    		genVersionHref((Version)properties.getLatestRelease());
+    	}
+    	if(metadataRecordDefinitions != null) {
+    		for (MetadataRecordDefinition def : metadataRecordDefinitions) {
+				if(def.getXLinkHref() == null && def.getName() != null) {
+					def.setXLinkHref(getXLinkHref() + 
+							"/md-record-definitions/md-record-definition/" +
+							def.getName() + "/schema/content");
+				}
+			}
+    	}
+    	if(resourceDefinitions != null) {
+    		for (ResourceDefinition def : resourceDefinitions) {
+				if(def.getXLinkHref() == null && def.getName() != null) {
+					def.setXLinkHref(getXLinkHref() + 
+							"/md-record-definitions/md-record-definition/" +
+							def.getName() + "/xslt/content");
+				}
+			}
+    	}
+    }
+    
+    /**
+     * Method used by ResourceRef implementations to ensure a fully valid
+     * xLinkHref definition for all sub resources they may own. 
+     * The validation methods calling this method may be called by JiBX as
+     * post-set methods.
+     * 
+     * @param version
+     */
+    protected void genVersionHref(Version version) {
+    	if(version != null && version.getXLinkHref() == null) {
+			version.setXLinkHref(URL_TYPE.get(RESOURCE_TYPE.Item)+ "/" 
+					+ getObjid() + ":" + version.getNumber());
+			genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount, 
+					null);
+		}
+    }
 }

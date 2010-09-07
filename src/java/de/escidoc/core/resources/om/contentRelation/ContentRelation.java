@@ -31,6 +31,7 @@ package de.escidoc.core.resources.om.contentRelation;
 import java.net.URI;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
 
@@ -61,6 +62,7 @@ public class ContentRelation extends GenericResource {
      * 
      */
     public ContentRelation() {
+    	setResourceType(RESOURCE_TYPE.ContentRelation);
     }
 
     /**
@@ -193,4 +195,37 @@ public class ContentRelation extends GenericResource {
 		this.object = objectResourceRef;
 	}
 
+	/**
+     * XLinkHref validation for JiBX. This method will be called by the JiBX
+     * binding for the REST transport protocol as post-set.
+     */
+    public void ensureValidXLinkHrefDefinitions() {
+    	genOwnXLinkHref();
+    	
+    	if(properties != null) {
+    		if(properties.getXLinkHref() == null) {
+    			properties.setXLinkHref(getXLinkHref() + "/properties");
+    		}
+    		genXLinkHref(properties.getCreatedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    		genXLinkHref(properties.getModifiedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    	}
+    	if(mdRecords != null) {
+    		if(mdRecords.getXLinkHref() == null) {
+    			mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+    		}
+    		
+    		for (MetadataRecord record : mdRecords) {
+				if(record.getXLinkHref() == null) {
+					record.setXLinkHref(getXLinkHref() + 
+							"/md-records/md-record/" + record.getName());
+				}
+			}
+    	}
+    	/**
+    	 * HREF for subject and object cannot be generated because we do not
+    	 * know the type of the referenced resource. 
+    	 */
+    }
 }

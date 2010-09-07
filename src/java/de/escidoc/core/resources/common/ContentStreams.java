@@ -28,9 +28,9 @@
  */
 package de.escidoc.core.resources.common;
 
-import java.util.LinkedList;
+import de.escidoc.core.resources.XLinkResourceList;
 
-public class ContentStreams extends LinkedList<ContentStream> {
+public class ContentStreams extends XLinkResourceList<ContentStream> {
 
     /**
      * 

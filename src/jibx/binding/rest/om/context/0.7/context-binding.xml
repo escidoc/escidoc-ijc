@@ -11,8 +11,10 @@
 	<!-- end: binding of a single context -->
 
 	<!-- start: abstract binding of a single context -->
-	<mapping ns="http://www.escidoc.de/schemas/context/0.7" class="de.escidoc.core.resources.om.context.Context"
-		abstract="true" type-name="abstract-context">
+	<mapping ns="http://www.escidoc.de/schemas/context/0.7" 
+		class="de.escidoc.core.resources.om.context.Context"
+		abstract="true" type-name="abstract-context"
+		post-set="ensureValidXLinkHrefDefinitions">
 
 		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
 			prefix="escidocContext" />
@@ -29,10 +31,8 @@
 		
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-			
 		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-			
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
@@ -55,6 +55,13 @@
  		<structure ns="http://www.escidoc.de/schemas/context/0.7"
 			name="admin-descriptors" field="adminDescriptors" usage="optional">
 
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+
 			<collection create-type="de.escidoc.core.resources.om.context.AdminDescriptors" 
 				usage="optional">
 
@@ -76,6 +83,13 @@
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+		
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
 			name="creation-date" set-method="setCreationDate" get-method="getCreationDate"
@@ -90,10 +104,8 @@
 			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-			
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
@@ -108,10 +120,8 @@
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-			
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
@@ -147,7 +157,7 @@
 	</mapping>
 
 	<!-- ***************************************** 
-		Abstract Organizational Units 
+		Abstract Organizational Unit References
 		****************************************** -->
 	<mapping ns="http://escidoc.de/core/01/properties/"
 		class="de.escidoc.core.resources.ResourceRef"
@@ -167,10 +177,8 @@
 				
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-			
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
@@ -185,13 +193,22 @@
 
 		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
 			prefix="escidocContext" />
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 			
 		<structure ns="http://www.escidoc.de/schemas/context/0.7"
 			name="admin-descriptor" type="de.escidoc.core.resources.om.context.AdminDescriptor"
 			usage="optional">
+			
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 			<value name="name" set-method="setName" get-method="getName"
 				style="attribute" usage="optional" />
+				
 			<structure field="content" type="org.w3c.dom.Element"
 				marshaller="org.jibx.extras.DomElementMapper" unmarshaller="org.jibx.extras.DomElementMapper"
 				usage="optional" />

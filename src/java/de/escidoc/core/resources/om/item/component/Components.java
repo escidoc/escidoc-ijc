@@ -29,9 +29,8 @@
 package de.escidoc.core.resources.om.item.component;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
-import de.escidoc.core.resources.ResourceRef.XLINK_TYPE;
+import de.escidoc.core.resources.XLinkResourceList;
 
 /**
  * Components of Item.
@@ -39,15 +38,9 @@ import de.escidoc.core.resources.ResourceRef.XLINK_TYPE;
  * @author SWA
  * 
  */
-public class Components extends LinkedList<Component> {
+public class Components extends XLinkResourceList<Component> {
 
-	private String xLinkHref;
-
-    private String xLinkTitle;
-    
-    private XLINK_TYPE xLinkType;
-	
-    /**
+	/**
      * 
      */
     private static final long serialVersionUID = 4368909050450367931L;
@@ -59,49 +52,7 @@ public class Components extends LinkedList<Component> {
 
     }
 
-    /**
-	 * @return the xLinkHref
-	 */
-	public String getXLinkHref() {
-		return xLinkHref;
-	}
-
-	/**
-	 * @param xLinkHref the xLinkHref to set
-	 */
-	public void setXLinkHref(String xLinkHref) {
-		this.xLinkHref = xLinkHref;
-	}
-
-	/**
-	 * @return the xLinkTitle
-	 */
-	public String getXLinkTitle() {
-		return xLinkTitle;
-	}
-
-	/**
-	 * @param xLinkTitle the xLinkTitle to set
-	 */
-	public void setXLinkTitle(String xLinkTitle) {
-		this.xLinkTitle = xLinkTitle;
-	}
-
-	/**
-	 * @return the xLinkType
-	 */
-	public XLINK_TYPE getXLinkType() {
-		return xLinkType;
-	}
-
-	/**
-	 * @param xLinkType the xLinkType to set
-	 */
-	public void setXLinkType(XLINK_TYPE xLinkType) {
-		this.xLinkType = xLinkType;
-	}
-
-	/**
+   	/**
      * Get the id of a Component selected by objid of Component.
      * 
      * @param componentId

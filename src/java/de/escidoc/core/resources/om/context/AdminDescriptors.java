@@ -29,7 +29,8 @@
 package de.escidoc.core.resources.om.context;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+
+import de.escidoc.core.resources.XLinkResourceList;
 
 /**
  * Admin Descriptors.
@@ -37,9 +38,9 @@ import java.util.LinkedList;
  * @author SWA
  * 
  */
-public class AdminDescriptors extends LinkedList<AdminDescriptor> {
+public class AdminDescriptors extends XLinkResourceList<AdminDescriptor> {
 
-    /**
+	/**
      * 
      */
     private static final long serialVersionUID = 8873813166227493199L;

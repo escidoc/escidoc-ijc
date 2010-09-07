@@ -31,6 +31,7 @@ package de.escidoc.core.resources.om.container;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.properties.Version;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
@@ -43,7 +44,7 @@ import de.escidoc.core.resources.interfaces.common.VersionInterface;
  * @author SWA
  * 
  */
-public class ContainerProperties {
+public class ContainerProperties extends XLinkResource {
 
     private DateTime creationDate = null;
 

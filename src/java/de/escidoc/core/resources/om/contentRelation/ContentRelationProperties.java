@@ -31,6 +31,7 @@ package de.escidoc.core.resources.om.contentRelation;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.XLinkResource;
 
 /**
  * Properties of the eSciDoc ContentRelation.
@@ -38,7 +39,7 @@ import de.escidoc.core.resources.ResourceRef;
  * @author SWA
  * 
  */
-public class ContentRelationProperties {
+public class ContentRelationProperties extends XLinkResource {
 
     private DateTime creationDate;
 

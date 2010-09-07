@@ -31,6 +31,7 @@ package de.escidoc.core.resources.oum;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.XLinkResource;
 
 /**
  * Properties for eSciDoc OrganizationalUnit (non-versioned resource).
@@ -38,7 +39,7 @@ import de.escidoc.core.resources.ResourceRef;
  * @author SWA
  * 
  */
-public class Properties {
+public class Properties extends XLinkResource {
 
     private DateTime creationDate = null;
 
@@ -242,5 +243,4 @@ public class Properties {
     public void setHasChildrenAsString(final String value) {
         this.hasChildren = Boolean.valueOf(value);
     }
-
 }

@@ -47,13 +47,15 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import de.escidoc.core.resources.XLinkResource;
+
 /**
  * AdminDescriptor.
  * 
  * @author SWA
  * 
  */
-public class AdminDescriptor {
+public class AdminDescriptor extends XLinkResource {
 
     private String name = null;
 

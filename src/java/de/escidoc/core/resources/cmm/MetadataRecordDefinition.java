@@ -30,13 +30,16 @@ package de.escidoc.core.resources.cmm;
 
 import java.net.URI;
 
+import de.escidoc.core.common.jibx.CustomConverter;
+import de.escidoc.core.resources.XLinkResource;
+
 /**
  * Metadata Record definition of Content Model.
  * 
  * @author SWA
  * 
  */
-public class MetadataRecordDefinition {
+public class MetadataRecordDefinition extends XLinkResource {
 
     private String name;
 
@@ -84,4 +87,13 @@ public class MetadataRecordDefinition {
         return schema;
     }
 
+    @Override
+	public String getXLinkHref() {
+		return CustomConverter.serializeURI(getSchema());
+	}
+
+	@Override
+	public void setXLinkHref(String href) {
+		setSchema(CustomConverter.deserializeURI(href));
+	}
 }

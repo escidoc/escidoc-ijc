@@ -42,7 +42,9 @@
 	<!-- start: abstract binding of a single content-model -->
 	<mapping ns="http://www.escidoc.de/schemas/contentmodel/0.1"
 		class="de.escidoc.core.resources.cmm.ContentModel" abstract="true"
-		type-name="abstract-content-model">
+		type-name="abstract-content-model"
+		post-set="ensureValidXLinkHrefDefinitions">
+		
 		<namespace uri="http://www.escidoc.de/schemas/contentmodel/0.1"
 			prefix="escidocContentModel" />
 		<namespace uri="http://escidoc.de/core/01/properties/"
@@ -62,12 +64,12 @@
 		<!-- *****************************************
 			Root attributes 
 			****************************************** -->
+		ID
+			
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-			
 		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-			
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
@@ -140,16 +142,21 @@
 			prefix="escidocContentModel" />
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
-		<structure
-			ns="http://www.escidoc.de/schemas/contentmodel/0.1"
+		<structure ns="http://www.escidoc.de/schemas/contentmodel/0.1"
 			name="md-record-definition"
-			type="de.escidoc.core.resources.cmm.MetadataRecordDefinition" usage="optional">
+			type="de.escidoc.core.resources.cmm.MetadataRecordDefinition" 
+			usage="optional">
 
 			<value name="name" style="attribute"
 				set-method="setName" get-method="getName" usage="optional" />
+				
 			<structure name="schema" ns="http://www.escidoc.de/schemas/contentmodel/0.1" usage="optional" >
-				<value ns="http://www.w3.org/1999/xlink" name="href" set-method="setSchema" get-method="getSchema"
-					style="attribute" usage="optional"  />
+				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+					set-method="setSchema" get-method="getSchema" usage="optional"  />
+				<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+				<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+					set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 			</structure>
 		</structure>
 	</mapping>
@@ -174,8 +181,13 @@
 					set-method="setName" get-method="getName" usage="optional" />
 					
 				<structure name="xslt" ns="http://www.escidoc.de/schemas/contentmodel/0.1" usage="optional" >
-					<value ns="http://www.w3.org/1999/xlink" name="href" set-method="setXslt" get-method="getXslt"
-						style="attribute" usage="optional"  />
+					<value ns="http://www.w3.org/1999/xlink" name="href" 
+						set-method="setXslt" get-method="getXslt" style="attribute" 
+						usage="optional" />
+					<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+						set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+					<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+						set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 				</structure>
 
 				<value name="md-record-name" ns="http://www.escidoc.de/schemas/contentmodel/0.1"

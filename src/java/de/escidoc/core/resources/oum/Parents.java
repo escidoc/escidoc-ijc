@@ -32,15 +32,17 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import de.escidoc.core.resources.XLinkResource;
+
 /**
  * Organizational Unit Parents.
  * 
  * @author SWA
  * 
  */
-public class Parents {
+public class Parents extends XLinkResource {
 
-    private Collection<Parent> parentRefs =
+	private Collection<Parent> parentRefs =
         new LinkedList<Parent>();
 
 

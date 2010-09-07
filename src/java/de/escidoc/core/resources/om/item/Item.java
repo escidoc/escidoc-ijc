@@ -28,9 +28,6 @@
  */
 package de.escidoc.core.resources.om.item;
 
-import java.util.Iterator;
-
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -169,15 +166,11 @@ public class Item extends GenericVersionableResource {
      * binding for the REST transport protocol as post-set.
      */
     public void ensureValidXLinkHrefDefinitions() {
-    	if(getXLinkHref() == null) {
-    		setXLinkHref(URL_TYPE.get(RESOURCE_TYPE.Item) + "/" + getObjid());
-    		setXLinkType(XLINK_TYPE.simple);
-    	}
+    	genOwnXLinkHref();
     	
     	if(properties != null) {
     		if(properties.getXLinkHref() == null) {
     			properties.setXLinkHref(getXLinkHref() + "/properties");
-    			properties.setXLinkType(XLINK_TYPE.simple);
     		}
     		genXLinkHref(properties.getCreatedBy(), 
     				RESOURCE_TYPE.UserAccount, null);
@@ -192,42 +185,37 @@ public class Item extends GenericVersionableResource {
     	if(components != null) {
     		if(components.getXLinkHref() == null) {
     			components.setXLinkHref(getXLinkHref() + "/components");
-    			components.setXLinkType(XLINK_TYPE.simple);
     		}
     		
-    		for (Iterator<Component> it = components.iterator(); it.hasNext();) {
-    			Component component = it.next();
+    		for (Component component : components) {
     			String cPrefix = genXLinkHref(component, 
     					RESOURCE_TYPE.Component, getXLinkHref());
     			
     			ComponentProperties properties = component.getProperties();
     			if(properties != null && properties.getXLinkHref() == null) {
     				properties.setXLinkHref(cPrefix + "/properties");
-    				properties.setXLinkType(XLINK_TYPE.simple);
     				
     				genXLinkHref(properties.getCreatedBy(), 
+    						RESOURCE_TYPE.UserAccount, null);
+    				genXLinkHref(properties.getModifiedBy(), 
     						RESOURCE_TYPE.UserAccount, null);
     			}
     			
     			if(component.getContent() != null && 
     					component.getContent().getXLinkHref() == null) {
     				component.getContent().setXLinkHref(cPrefix + "/content");
-    				component.getContent().setXLinkType(XLINK_TYPE.simple);
     			}
 			}
     	}
     	if(mdRecords != null) {
     		if(mdRecords.getXLinkHref() == null) {
     			mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
-    			mdRecords.setXLinkType(XLINK_TYPE.simple);
     		}
     		
-    		for (Iterator<MetadataRecord> it = mdRecords.iterator(); it.hasNext();) {
-				MetadataRecord record = it.next();
-				if(record.getXLinkHref() == null) {
+    		for (MetadataRecord record : mdRecords) {
+				if(record.getXLinkHref() == null && record.getName() != null) {
 					record.setXLinkHref(getXLinkHref() + 
 							"/md-records/md-record/" + record.getName());
-					record.setXLinkType(XLINK_TYPE.simple);
 				}
 			}
     	}
@@ -236,52 +224,27 @@ public class Item extends GenericVersionableResource {
     	}
     	if(relations != null && relations.getXLinkHref() == null) {
     		relations.setXLinkHref(getXLinkHref() + "/relations");
+    		/**
+    		 * If relations are not set by the binding, it is impossible to
+    		 * calculate their HREF since we only know the ID but not the type.
+    		 */
     	}
     }
-
+    
     /**
+     * Method used by ResourceRef implementations to ensure a fully valid
+     * xLinkHref definition for all sub resources they may own. 
+     * The validation methods calling this method may be called by JiBX as
+     * post-set methods.
      * 
      * @param version
      */
-    private void genVersionHref(Version version) {
+    protected void genVersionHref(Version version) {
     	if(version != null && version.getXLinkHref() == null) {
 			version.setXLinkHref(URL_TYPE.get(RESOURCE_TYPE.Item)+ "/" 
 					+ getObjid() + ":" + version.getNumber());
 			genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount, 
 					null);
 		}
-    }
-    
-    /**
-     * 
-     * @param resource
-     * @param type
-     * @param prefix
-     * @return
-     */
-    private String genXLinkHref(final ResourceRef resource, 
-    		final RESOURCE_TYPE type, final String prefix) {
-    	
-    	if(resource != null && resource.getXLinkHref() == null) {
-    		
-    		if(type != null) {
-    			resource.setResourceType(type);
-    		
-	    		String URL = URL_TYPE.get(type);
-	    		if(URL!=null) {
-	    			String href = URL + "/" + resource.getObjid();
-	    			if(prefix != null)
-	    				href = prefix + href;
-		    		resource.setXLinkHref(href);
-		    		resource.setXLinkType(XLINK_TYPE.simple);
-		    		return href;
-	    		}
-    		} else if(prefix != null) {
-    			resource.setXLinkHref(prefix);
-	    		resource.setXLinkType(XLINK_TYPE.simple);
-	    		return prefix;
-    		}
-    	}
-    	return "";
     }
 }
