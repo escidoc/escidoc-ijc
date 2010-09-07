@@ -46,6 +46,10 @@ public class Role extends GenericResource {
 
     private Element policyOrPolicySet;
 
+    public Role() {
+    	setResourceType(RESOURCE_TYPE.Role);
+    }
+    
     /**
      * Get Policy or PolicySet (as DOM Element).
      * 

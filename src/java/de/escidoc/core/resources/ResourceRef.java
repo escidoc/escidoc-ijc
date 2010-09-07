@@ -60,6 +60,8 @@ public class ResourceRef {
         OrganizationalUnit(true),
         UserAccount(true), 
         ContentModel(true),
+        Grant(true),
+        Role(true),
         // sub resources
         Component(false), 
         Toc(false), // ???
@@ -74,15 +76,6 @@ public class ResourceRef {
         public boolean isRootResource() {
         	return isRootResource;
         }
-    }
-    
-    /**
-     * Types of eSciDoc stand-alone resources.
-     * 
-     */
-    public static enum STANDALONE_RESOURCE_TYPE {
-    	Context, Item, Container, OrganizationalUnit, 
-        UserAccount, ContentModel
     }
     
     public static final Map<RESOURCE_TYPE, String> URL_TYPE = 
@@ -102,6 +95,8 @@ public class ResourceRef {
     	URL_TYPE.put(RESOURCE_TYPE.UserAccountAttribute, 
     			"/resources/attributes/attribute");
     	URL_TYPE.put(RESOURCE_TYPE.ContentModel, "/cmm/content-model");
+    	URL_TYPE.put(RESOURCE_TYPE.Grant, "/aa/grant");
+    	URL_TYPE.put(RESOURCE_TYPE.Role, "/aa/role");
     }
 
     private String objid;

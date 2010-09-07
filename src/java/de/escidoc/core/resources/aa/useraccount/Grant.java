@@ -11,6 +11,10 @@ import de.escidoc.core.resources.om.GenericResource;
 public class Grant extends GenericResource {
 
     private GrantProperties grantProperties;
+    
+    public Grant() {
+    	setResourceType(RESOURCE_TYPE.Grant);
+    }
 
     /**
      * Get Grant Properties.
