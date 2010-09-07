@@ -180,11 +180,11 @@ public class ItemMarshallerTest {
             .getComponents().element().getProperties().getChecksumAlgorithm());
 
         assertEquals("Wrong component content title", "test-2010.pdf", item
-            .getComponents().element().getContent().getTitle());
+            .getComponents().element().getContent().getXLinkTitle());
         assertEquals(
             "Wrong component content href",
             "/ir/item/escidoc:40011/components/component/escidoc:40010/content",
-            item.getComponents().element().getContent().getHref());
+            item.getComponents().element().getContent().getXLinkHref());
         assertEquals("Wrong component content storage", "internal-managed",
             item.getComponents().element().getContent().getStorage());
 
@@ -319,11 +319,11 @@ public class ItemMarshallerTest {
             .getComponents().element().getProperties().getChecksumAlgorithm());
 
         assertEquals("Wrong component content title", "test-2010.pdf", item
-            .getComponents().element().getContent().getTitle());
+            .getComponents().element().getContent().getXLinkTitle());
         assertEquals(
             "Wrong component content href",
             "/ir/item/escidoc:40011/components/component/escidoc:40010/content",
-            item.getComponents().element().getContent().getHref());
+            item.getComponents().element().getContent().getXLinkHref());
         assertEquals("Wrong component content storage", "internal-managed",
             item.getComponents().element().getContent().getStorage());
 
@@ -433,9 +433,9 @@ public class ItemMarshallerTest {
             .getComponents().element().getProperties().getChecksumAlgorithm());
 
         assertNull("Wrong component content title", item
-            .getComponents().element().getContent().getTitle());
+            .getComponents().element().getContent().getXLinkTitle());
         assertNull("Wrong component content href", item
-            .getComponents().element().getContent().getHref());
+            .getComponents().element().getContent().getXLinkHref());
         assertEquals("Wrong component content storage", "internal-managed",
             item.getComponents().element().getContent().getStorage());
 
@@ -478,7 +478,7 @@ public class ItemMarshallerTest {
 
         Component component = new Component();
         ComponentContent content = new ComponentContent();
-        content.setHref(fileLocation);
+        content.setXLinkHref(fileLocation);
         component.setContent(content);
         component.setProperties(new ComponentProperties());
         component.getProperties().setDescription(fileDescription);
@@ -534,7 +534,7 @@ public class ItemMarshallerTest {
 
         Component component = new Component();
         ComponentContent content = new ComponentContent();
-        content.setHref("http://www.escidoc.org/content/image.jpg");
+        content.setXLinkHref("http://www.escidoc.org/content/image.jpg");
         component.setContent(content);
         component.setProperties(new ComponentProperties());
         component.getProperties().setDescription("Random content");

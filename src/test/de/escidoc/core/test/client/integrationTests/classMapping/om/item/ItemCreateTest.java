@@ -123,7 +123,7 @@ public class ItemCreateTest {
         cc.setHandle(auth.getHandle());
 
         Item item = new Item();
-        item.setTitle("New title for test");
+        item.setXLinkTitle("New title for test");
         cc.create(item);
     }
 
@@ -341,7 +341,7 @@ public class ItemCreateTest {
             new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
             new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
-        item.setTitle("TEST");
+        item.setXLinkTitle("TEST");
         item.getProperties().setDescription("FOOOOOOooohhhhhhhh");
 
         // Content-model
@@ -676,7 +676,7 @@ public class ItemCreateTest {
 
         Component component = new Component();
         ComponentContent content = new ComponentContent();
-        content.setHref(contentRef.toString());
+        content.setXLinkHref(contentRef.toString());
         content.setStorage("internal-managed");
         component.setContent(content);
         component.setProperties(new ComponentProperties());

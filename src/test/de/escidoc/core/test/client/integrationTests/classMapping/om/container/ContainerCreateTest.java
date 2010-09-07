@@ -117,7 +117,7 @@ public class ContainerCreateTest {
         cc.setHandle(auth.getHandle());
 
         Container container = new Container();
-        container.setTitle("New title for test");
+        container.setXLinkTitle("New title for test");
         cc.create(container);
     }
 

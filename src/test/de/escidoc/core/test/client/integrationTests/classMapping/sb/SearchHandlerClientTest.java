@@ -28,201 +28,242 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.sb;
 
+import static org.junit.Assert.*;
 import gov.loc.www.zing.srw.ExplainRequestType;
-import gov.loc.www.zing.srw.RecordType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-import gov.loc.www.zing.srw.SearchRetrieveResponseType;
 
+import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
-import org.apache.axis.types.NonNegativeInteger;
-import org.apache.axis.types.PositiveInteger;
-import org.joda.time.DateTime;
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
+import org.jibx.extras.BindingSelector;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.SearchHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Marshaller;
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.Record.RecordPacking;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
-import de.escidoc.core.resources.sb.explain.ServerInfo;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
-import de.escidoc.core.resources.sb.scan.Term;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.wrapper.search.MyRecordSearchType;
-import de.escidoc.core.resources.sb.wrapper.search.MyStringFragmentSearch;
+import de.escidoc.core.resources.sb.search.records.ItemRecord;
+import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
+import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 import de.escidoc.core.resources.sb.wrapper.search.SearchResponse;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
-/**
- * Test of search handler.
- * 
- * 
- */
+@SuppressWarnings({ "rawtypes", "unused" })
+@RunWith(Parameterized.class)
 public class SearchHandlerClientTest extends EscidocClientTestBase {
 
-    /**
-     * Test to search repository.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testSearch() throws Exception {
+	private TransportProtocol protocol;
+	private RecordPacking packing;
+	
+	private static final StringBuilder out = new StringBuilder(); 
 
-        SearchHandlerClient rc = new SearchHandlerClient();
+	public SearchHandlerClientTest(TransportProtocol protocol, 
+			RecordPacking packing) {
+		this.protocol = protocol;
+		this.packing = packing;
+	}
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request.setVersion("1.1");
-        request.setQuery("escidoc.metadata=escidoc*");
-        SearchRetrieveResponseType response = rc.search(request, null);
-        NonNegativeInteger zahl = response.getNumberOfRecords();
+	@Parameters
+	public static Collection data() {
+		return Arrays.asList(new Object[][] {
+				{ TransportProtocol.REST, RecordPacking.xml },
+				{ TransportProtocol.REST, RecordPacking.string },
+				{ TransportProtocol.SOAP, RecordPacking.xml },
+				{ TransportProtocol.SOAP, RecordPacking.string } });
+	}
 
-        RecordType[] records = response.getRecords();
-        for (int i = 0; i < records.length; i++) {
-            RecordType record = records[i];
-            decodeCharacters(record.getRecordData().get_any()[0].getAsString());
-        }
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+	}
+	
+	@AfterClass
+	public static void afterClass() throws Exception {
+		System.out.println(out.toString());
+	}
 
-    }
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testSRWExplain() throws Exception {
 
-    /**
-     * Test to search2 repository.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testSearch2() throws Exception {
+		SearchHandlerClient c = new SearchHandlerClient();
+		c.setTransport(protocol);
 
-        SearchHandlerClient rc = new SearchHandlerClient();
+		ExplainRequestType request = new ExplainRequestType();
+		request.setRecordPacking(packing.name());
+		request.setVersion("1.1");
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request.setVersion("1.1");
-        request.setQuery("escidoc.metadata=escidoc*");
-        SearchRetrieveResponse response = rc.search2(request, null);
-        int zahl = response.getNumberOfRecords();
+		ExplainResponse response = c.explain2(request, null);
+		Record<ExplainData> record = response.getRecord();
+		ExplainData data = record.getRecordData();
 
-//        Collection<SearchRetrieveRecord> records = response.getRecords();
-//        for (Iterator<SearchRetrieveRecord> it = records.iterator(); it.hasNext();) {
-//			SearchRetrieveRecord searchRetrieveRecord = it.next();
-//			SearchResultRecord record = searchRetrieveRecord.getRecordData();
-//			
-//			// TODO
-//		}
-        
-        
-//        for (int i = 0; i < records.length; i++) {
-//            MyRecordSearchType record = records[i];
-//            MyStringFragmentSearch stringFragment = record.getStringFragment();
-//            SearchResultRecord resultrecord = stringFragment.getResultRecord();
-//
-//            String base = resultrecord.getBase();
-//            ResourceRef content = resultrecord.getContent();
-//            if (content instanceof Item) {
-//                Item item = (Item) content;
-//                DateTime lmd = item.getLastModificationDate();
-//                String versionNumber =
-//                    item.getProperties().getVersion().getNumber();
-//
-//                Marshaller<SearchResultRecord> m =
-//                    new Marshaller<SearchResultRecord>(resultrecord.getClass(), TransportProtocol.SOAP);
-//                m.marshalDocument(resultrecord);
-//            }
-//
-//        }
+		out.append("\n=========================\n");
+		out.append("testSRWExplain: ");
+		out.append("Protocol: "+protocol.name()+
+				", RecordPacking: "+packing+"\n");
+		data.toString(out);
+		out.append("\n");
+		
+		Assert.assertNotNull(data);
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testFilterExplain() throws Exception {
 
-    }
+		ItemHandlerClient c = new ItemHandlerClient();
+		c.setTransport(protocol);
 
-    /**
-     * Test explain method.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testExplain() throws Exception {
+		ExplainRequestType request = new ExplainRequestType();
+		request.setVersion("1.1");
+		request.setRecordPacking(packing.name());
 
-        SearchHandlerClient rc = new SearchHandlerClient();
+		ExplainResponse response = c.retrieveItems(request);
+		Record<ExplainData> record = response.getRecord();
+		ExplainData data = record.getRecordData();
 
-        ExplainRequestType request = new ExplainRequestType();
-        request.setVersion("1.1");
+		out.append("\n=========================\n");
+		out.append("testFilterExplain: ");
+		out.append("Protocol: "+protocol.name()+
+				", RecordPacking: "+packing+"\n");
+		data.toString(out);
+		out.append("\n");
+		
+		Assert.assertNotNull(data);
+	}
 
-        ExplainResponse response = rc.explain2(request, null);
-        Record record = response.getRecord();
-    }
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testSRWSearch() throws Exception {
 
-    /**
-     * Test explain method.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testExplain2() throws Exception {
+		SearchHandlerClient c = new SearchHandlerClient();
+		c.setTransport(protocol);
+		String query = "escidoc.metadata=escidoc*";
 
-        SearchHandlerClient rc = new SearchHandlerClient();
-
-        ExplainRequestType request = new ExplainRequestType();
-        request.setVersion("1.1");
-        request.setRecordPacking("string");
-
-        ExplainResponse response = rc.explain2(request, null);
-        ExplainData resultData = response.getRecord().getRecordData();
-
-        ServerInfo si = resultData.getServerInfo();
-        String host = si.getHost();
-
-        Marshaller<ExplainData> m =
-            new Marshaller<ExplainData>(resultData.getClass(), TransportProtocol.SOAP);
-        String test = m.marshalDocument(resultData);
-    }
-
-    /**
-     * Test scan method.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testScan() throws Exception {
-
-        SearchHandlerClient rc = new SearchHandlerClient();
-
-        ScanRequestType request = new ScanRequestType();
-        request.setVersion("1.1");
-
-        request.setScanClause("escidoc.metadata=escidoc");
-        request.setResponsePosition(new PositiveInteger("1"));
-
-        ScanResponse response = rc.scan(request, null);
-        Collection<Term> terms = response.getTerms();
-        for (Iterator<Term> it = terms.iterator(); it.hasNext();) {
-			it.next().getValue();
+		SearchRetrieveResponse response = c.search(URLEncoder.encode(
+				query, "UTF-8"), null);
+		
+		out.append("\n=========================\n");
+		out.append("testSRWSearch: query="+query);
+		out.append(" [Protocol: "+protocol.name()+
+				", RecordPacking: "+packing+"]\n");
+		out.append("Results: "+response.getNumberOfRecords()+"\n");
+		
+		for (Iterator<Record> it = response.getRecords().iterator(); it.hasNext();) {
+			Record record = it.next();
+			
+			assertTrue(record instanceof SearchResultRecordRecord);
+			
+			if (record instanceof SearchResultRecordRecord) {
+				SearchResultRecordRecord result = 
+					(SearchResultRecordRecord) record;
+				
+				SearchResultRecord data = result.getRecordData();
+				
+				assertNotNull(data);
+				assertNotNull(data.getContent());
+				
+				out.append(data.getContent().getResourceType().name()+": ID["+
+						data.getContent().getObjid()+ "], Href[" +
+						data.getContent().getXLinkHref() + "], Score[" +
+						data.getScore()+"]\n");
+				assertNotNull(data.getContent().getObjid());
+			}
 		}
-        response.getVersion();
-    }
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testFilterSearch() throws Exception {
 
-    /**
-     * Replaces special Characters..
-     * 
-     * @return String Replaced String
-     * @param text
-     *            String text to replace
-     */
-    private String decodeCharacters(String text) {
-        text = text.replaceAll("&lt;", "<");
-        text = text.replaceAll("&gt;", ">");
-        text = text.replaceAll("&quot;", "\"");
-        text = text.replaceAll("&apos;", "'");
-        // text = text.replaceAll("&amp;", "&");
-        return text;
-    }
+		ItemHandlerClient c = new ItemHandlerClient();
+		c.setTransport(protocol);
+		String query = "\"/properties/content-model/id\"=escidoc:ex4";
+//			String query = "\"/id\"=escidoc:1004";
+
+		SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+		request.setVersion("1.1");
+		request.setQuery(query);
+		request.setRecordPacking(packing.name());
+
+		SearchRetrieveResponse response = c.retrieveItems(request);
+		
+		out.append("\n=========================\n");
+		out.append("testFilterSearch: query="+query);
+		out.append(" [Protocol: "+protocol.name()+
+				", RecordPacking: "+packing+"]\n");
+		out.append("Results: "+response.getNumberOfRecords()+"\n");
+		
+		for (Iterator it = response.getRecords().iterator(); it.hasNext();) {
+			ItemRecord record = (ItemRecord) it.next();
+			Item item = record.getRecordData();
+			out.append("Item: ID["+item.getObjid()+"], Href["+item.getXLinkHref()+"]\n");
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	// @Test
+	public void testSearchScanREST() throws Exception {
+
+		SearchHandlerClient c = new SearchHandlerClient();
+		c.setTransport(TransportProtocol.REST);
+
+		ScanRequestType request = new ScanRequestType();
+		request.setVersion("1.1");
+		request.setScanClause("escidoc.metadata=escidoc");
+
+		ScanResponse response = c.scan(request, null);
+	}
+
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	// @Test
+	public void testSearchScanSOAP() throws Exception {
+
+		SearchHandlerClient c = new SearchHandlerClient();
+		c.setTransport(TransportProtocol.SOAP);
+
+		ScanRequestType request = new ScanRequestType();
+		request.setVersion("1.1");
+		request.setScanClause("escidoc.metadata=escidoc");
+
+		ScanResponse response = c.scan(request, null);
+	}
 }

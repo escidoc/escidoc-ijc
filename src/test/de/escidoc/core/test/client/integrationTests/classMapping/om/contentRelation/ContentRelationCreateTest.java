@@ -103,7 +103,7 @@ public class ContentRelationCreateTest {
         cc.setHandle(auth.getHandle());
 
         ContentRelation contentRelation = new ContentRelation();
-        contentRelation.setTitle("New title for test");
+        contentRelation.setXLinkTitle("New title for test");
         cc.create(contentRelation);
     }
 
