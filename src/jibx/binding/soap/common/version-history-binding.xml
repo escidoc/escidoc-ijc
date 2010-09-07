@@ -31,9 +31,9 @@
 				<value name="objid" style="attribute"
 					set-method="setObjid" get-method="getObjid" />
 				<value ns="http://www.w3.org/1999/xlink" name="href"
-					style="attribute" set-method="setHref" get-method="getHref" />
+					style="attribute" set-method="setXLinkHref" get-method="getXLinkHref" />
 				<value ns="http://www.w3.org/1999/xlink" name="title"
-					style="attribute" set-method="setTitle" get-method="getTitle" />
+					style="attribute" set-method="setXLinkTitle" get-method="getXLinkTitle" />
 				<value name="timestamp" style="attribute"
 					set-method="setTimestamp" get-method="getTimestamp" />
 				<value
@@ -87,11 +87,11 @@
 							set-method="setLinkingAgentIdentifier"
 							get-method="getLinkingAgentIdentifier">
 							<value ns="http://www.w3.org/1999/xlink"
-								name="href" style="attribute" set-method="setHref"
-								get-method="getHref" />
+								name="href" style="attribute" set-method="setXLinkHref"
+								get-method="getXLinkHref" />
 							<value ns="http://www.w3.org/1999/xlink"
-								name="title" style="attribute" set-method="setTitle"
-								get-method="getTitle" />
+								name="title" style="attribute" set-method="setXLinkTitle"
+								get-method="getXLinkTitle" />
 							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierType"
 								set-method="setLinkingAgentIdentifierType"
 								get-method="getLinkingAgentIdentifierType" />

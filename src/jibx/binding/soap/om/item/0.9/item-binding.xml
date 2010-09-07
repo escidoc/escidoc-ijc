@@ -176,11 +176,11 @@
 						type="de.escidoc.core.resources.om.item.component.ComponentContent" field="content"
 						usage="optional">
 						<value ns="http://www.w3.org/1999/xlink"
-							name="href" style="attribute" set-method="setHref"
-							get-method="getHref" usage="optional" />
+							name="href" style="attribute" set-method="setXLinkHref"
+							get-method="getXLinkHref" usage="optional" />
 						<value ns="http://www.w3.org/1999/xlink"
-							name="title" style="attribute" set-method="setTitle"
-							get-method="getTitle" usage="optional" />
+							name="title" style="attribute" set-method="setXLinkTitle"
+							get-method="getXLinkTitle" usage="optional" />
 						<value name="storage" style="attribute"
 							set-method="setStorage" get-method="getStorage" usage="optional" />
 						 <value field="base64EncodedContent" style="text"
