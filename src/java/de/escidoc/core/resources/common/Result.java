@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -124,30 +125,13 @@ public class Result {
         InternalClientException, TransportException {
 
         String pidParam = null;
+        
         try {
-            pidParam = XmlUtility.toString(this.pidParam, true);
-        }
-        catch (ClassCastException e) {
-            LOGGER.debug(e);
+			pidParam = XmlUtility.xmlToString(this.pidParam, true);
+		} catch (TransformerException e) {
+			LOGGER.debug(e);
             throw new InternalClientException(e);
-        }
-        catch (IOException e) {
-            LOGGER.debug(e);
-            throw new InternalClientException(e);
-        }
-        catch (ClassNotFoundException e) {
-            LOGGER.debug(e);
-            throw new InternalClientException(e);
-        }
-        catch (InstantiationException e) {
-            LOGGER.debug(e);
-            throw new InternalClientException(e);
-        }
-        catch (IllegalAccessException e) {
-            LOGGER.debug(e);
-            throw new InternalClientException(e);
-        }
-
+		}
         return pidParam;
     }
 
