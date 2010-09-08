@@ -10,6 +10,7 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.resources.sb.Record;
 
 /**
@@ -47,7 +48,7 @@ abstract class AbstractRecord<T> extends Record<T> {
 				recordType.getRecordData().get_any() != null &&
 				recordType.getRecordData().get_any()[0] != null) {
 			try {
-				this.recordDataText = decodeCharacters(
+				this.recordDataText = XmlUtility.unescapeForbiddenXmlCharacters(
 						recordType.getRecordData().get_any()[0].getAsString());
 			} catch (Exception e) {
 				LOGGER.debug("Unable to get RecordData from Axis type.", e);

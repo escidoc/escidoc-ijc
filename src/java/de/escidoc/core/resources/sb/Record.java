@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.common.XmlUtility;
 
 /**
  * Read-only class.
@@ -110,9 +111,8 @@ public abstract class Record<T> {
     				axisRecord.getRecordData().get_any()[0].getAsDOM();
     			
     		} else if(RecordPacking.string.name().equals(getRecordPacking())) {
-    			this.recordDataText = 
-    				decodeCharacters(axisRecord.getRecordData()
-    						.get_any()[0].getAsString());
+    			this.recordDataText = XmlUtility.unescapeForbiddenXmlCharacters(
+    					axisRecord.getRecordData().get_any()[0].getAsString());
     		}
     		
     	} catch (Exception e) {
@@ -249,6 +249,7 @@ public abstract class Record<T> {
      * @param text
      *            String text to replace
      */
+    @Deprecated
     protected String decodeCharacters(final String text) {
 
         String tmp = text;
