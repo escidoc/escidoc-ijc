@@ -452,7 +452,7 @@ public class RestServiceMethod {
      */
     protected String getEscidoc12Filter(final SearchRetrieveRequestType filter) {
 
-        String filter12 = "?operation=searchRequest";
+        String filter12 = "?operation=searchRetrieve";
 
         if (filter.getMaximumRecords() != null) {
             filter12 +=
