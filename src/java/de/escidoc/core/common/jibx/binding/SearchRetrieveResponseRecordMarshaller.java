@@ -68,15 +68,12 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
      * @param index
      * @param name
      */
-    public SearchRetrieveResponseRecordMarshaller(final String uri, final int index,
-        final String name) {
-
+    public SearchRetrieveResponseRecordMarshaller(final String uri, 
+    		final int index, final String name) {
         super(uri, index, name);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.jibx.runtime.IMarshaller#isExtension(java.lang.String)
      */
     public boolean isExtension(final String arg0) {
@@ -138,10 +135,8 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seeorg.jibx.runtime.IUnmarshaller#isPresent(org.jibx.runtime.
+    /**
+     * @see org.jibx.runtime.IUnmarshaller#isPresent(org.jibx.runtime.
      * IUnmarshallingContext)
      */
     public boolean isPresent(IUnmarshallingContext ictx) throws JiBXException {
@@ -284,28 +279,8 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
     			dataText, transport);
     }
    
-//    private void unmarshalRecordData(Record result, UnmarshallingContext ctx) throws JiBXException {
-//    	
-//    	if (ctx.isAt("http://www.escidoc.de/schemas/item/0.9", "item")) {
-//            Item item = (Item) ctx.unmarshalElement();
-//            result.setRecordData(item);
-//        }
-//        else if (ctx.isAt("http://www.escidoc.de/schemas/container/0.8",
-//            "container")) {
-//            Container container = (Container) ctx.unmarshalElement();
-//            result.setRecordData(container);
-//        }
-//        else if (ctx.isAt(
-//            "http://www.escidoc.de/schemas/organizationalunit/0.8",
-//            "organizational-unit")) {
-//            OrganizationalUnit ou =
-//                (OrganizationalUnit) ctx.unmarshalElement();
-//            result.setRecordData(ou);
-//        }
-//        else if (ctx.isAt("http://www.escidoc.de/schemas/context/0.7",
-//            "context")) {
-//            Context context = (Context) ctx.unmarshalElement();
-//            result.setRecordData(context);
-//        }
-//    }
+//    "http://www.escidoc.de/schemas/item/0.9"
+//    "http://www.escidoc.de/schemas/container/0.8"
+//    "http://www.escidoc.de/schemas/organizationalunit/0.8"
+//    "http://www.escidoc.de/schemas/context/0.7"
 }
