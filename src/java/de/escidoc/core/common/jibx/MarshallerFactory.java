@@ -183,7 +183,9 @@ public class MarshallerFactory {
      * 
      * @return the filterResponseMarshaller
      * @throws InternalClientException 
+     * @Deprecated Use {@link #getSearchRetrieveResponseMarshaller()} instead.
      */
+    @Deprecated
     public Marshaller<SearchRetrieveResponseType> getFilterResponseMarshaller() 
     	throws InternalClientException {
 
@@ -216,8 +218,9 @@ public class MarshallerFactory {
     
     /**
      * 
-     * FIXME: REMOVE!!!
      * @return the explainRecordMarshaller
+     * 
+     * @Deprecated Use {@link #getExplainResponseMarshaller()} instead.
      */
     @Deprecated
     public Marshaller<ExplainData> getExplainRecordMarshaller() 
@@ -703,7 +706,8 @@ public class MarshallerFactory {
 	public Marshaller<ExplainResponse> getExplainResponseMarshaller() 
 		throws InternalClientException {
 		if (explainResponseMarshaller == null) {
-			explainResponseMarshaller = new Marshaller<ExplainResponse>(ExplainResponse.class);
+			explainResponseMarshaller = 
+				new Marshaller<ExplainResponse>(ExplainResponse.class);
         }
 		explainResponseMarshaller.setTransport(transport);
         
@@ -713,7 +717,8 @@ public class MarshallerFactory {
 	public Marshaller<ScanResponse> getScanResponseMarshaller() 
 		throws InternalClientException {
 		if (scanResponseMarshaller == null) {
-			scanResponseMarshaller = new Marshaller<ScanResponse>(ScanResponse.class);
+			scanResponseMarshaller = 
+				new Marshaller<ScanResponse>(ScanResponse.class);
 	    }
 		scanResponseMarshaller.setTransport(transport);
 	    
