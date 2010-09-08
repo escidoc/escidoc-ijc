@@ -53,10 +53,19 @@ public class SearchRetrieveResponse extends Response {
     
     /**
      * 
-     * @return
+     * @return The number of records matching the query.
      */
-    public int getNumberOfRecords() {
+    public int getNumberOfMatchingRecords() {
         return this.numberOfRecords;
+    }
+    
+    /**
+     * 
+     * @return The number of records matching the query <b>and</b> limited by
+     * maximumRecords or other parameters.
+     */
+    public int getNumberOfResultingRecords() {
+        return this.records.size();
     }
 
     /**
