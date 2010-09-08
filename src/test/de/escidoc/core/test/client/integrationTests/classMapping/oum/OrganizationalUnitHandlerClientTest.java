@@ -45,6 +45,7 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
+import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
@@ -80,7 +81,7 @@ public class OrganizationalUnitHandlerClientTest {
                     Constants.SYSTEM_ADMIN_USER,
                     Constants.SYSTEM_ADMIN_PASSWORD);
 
-            OrganizationalUnitHandlerClient cc =
+            OrganizationalUnitHandlerClientInterface cc =
                 new OrganizationalUnitHandlerClient();
             cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
             cc.setHandle(auth.getHandle());
@@ -109,7 +110,7 @@ public class OrganizationalUnitHandlerClientTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        OrganizationalUnitHandlerClient cc =
+        OrganizationalUnitHandlerClientInterface cc =
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
@@ -134,7 +135,7 @@ public class OrganizationalUnitHandlerClientTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        OrganizationalUnitHandlerClient cc =
+        OrganizationalUnitHandlerClientInterface cc =
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
@@ -194,7 +195,7 @@ public class OrganizationalUnitHandlerClientTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        OrganizationalUnitHandlerClient cc =
+        OrganizationalUnitHandlerClientInterface cc =
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
@@ -217,7 +218,7 @@ public class OrganizationalUnitHandlerClientTest {
         Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
         	.marshalDocument(filterParam);
 
-        OrganizationalUnitHandlerClient ic =
+        OrganizationalUnitHandlerClientInterface ic =
             new OrganizationalUnitHandlerClient();
 
         OrganizationalUnitList ouList =

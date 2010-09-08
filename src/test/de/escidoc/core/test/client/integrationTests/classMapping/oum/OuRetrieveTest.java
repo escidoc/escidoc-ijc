@@ -33,6 +33,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
+import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.test.client.Constants;
@@ -55,7 +56,7 @@ public class OuRetrieveTest {
     @Test
     public void testRetrieveExampleOu01() throws Exception {
 
-        OrganizationalUnitHandlerClient cc =
+    	OrganizationalUnitHandlerClientInterface cc =
             new OrganizationalUnitHandlerClient();
         cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);

@@ -57,7 +57,7 @@ import de.escidoc.core.resources.aa.role.RoleProperties;
 import de.escidoc.core.resources.aa.role.Scope;
 import de.escidoc.core.resources.aa.role.ScopeDef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -101,16 +101,22 @@ public class RoleFilterVersion12Test {
         UserAccount me = uac.retrieveCurrentUser();
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=" + me.getObjid());
+        srwFilter.setQuery(
+        		"\"http://escidoc.de/core/01/structural-relations/created-by\"=" 
+        		+ me.getObjid());
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
-        SearchRetrieveResponseType roleList = rc.retrieveRoles(srwFilter);
+        SearchRetrieveResponse response = rc.retrieveRoles(srwFilter);
 
-        assertEquals("Wrong version number", "1.1", roleList.getVersion());
-        assertTrue("Wrong number of records",
-            roleList.getNumberOfRecords() >= 1);
-        assertEquals("Wrong record position", 1, roleList
-            .getRecords().iterator().next().getRecordPosition());
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("Wrong number of matching records",
+        		response.getNumberOfMatchingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response.getRecords()
+        		.iterator().next().getRecordPosition());
+        
+        Collection<Role> roles = rc.retrieveRolesAsList(srwFilter);
+        assertTrue("Different number of resulting records", 
+        		response.getNumberOfResultingRecords() == roles.size());
     }
 
     

@@ -111,7 +111,8 @@ public class ContextFilterVersion12Test {
         context.setAdminDescriptors(adminDescriptors);
 
         // create
-        Context createdContext = cc.create(context);
+        @SuppressWarnings("unused")
+		Context createdContext = cc.create(context);
         
         // now check if at least this Context is in the list
 

@@ -31,6 +31,8 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -44,12 +46,14 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundException;
+import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
@@ -213,7 +217,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      *             Thrown if anythings failed.
      */
     @Test
-    public void testRetrieveContexts() throws Exception {
+    public void testRetrieveContextsOld() throws Exception {
 
         // just getting a valid objid of a user
         Authentication auth =
@@ -252,8 +256,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      *             Thrown if anythings failed.
      */
     @Test
-    public void testRetrieveMembers() throws Exception {
-        ContextHandlerClient cc = new ContextHandlerClient();
+    public void testRetrieveMembersOld() throws Exception {
+    	ContextHandlerClientInterface cc = new ContextHandlerClient();
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -283,6 +287,47 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
 
         assertTrue("result list is empty, try another filter", memberList
             .getMembers().size() != 0);
+    }
+    
+    /**
+     * Test retrieving Members through new filter request.
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testRetrieveMembersNew() throws Exception {
+    	ContextHandlerClientInterface cc = new ContextHandlerClient();
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // just getting a valid objid of a user
+        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
+        UserAccount me = uac.retrieveCurrentUser();
+
+        TaskParam filterParam = new TaskParam();
+        Collection<Filter> filters = TaskParam.filtersFactory();
+
+        filters.add(getFilter(
+            "http://escidoc.de/core/01/structural-relations/created-by", me
+                .getObjid(), null));
+        filterParam.setFilters(filters);
+
+        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        	.marshalDocument(filterParam);
+        
+        SearchRetrieveRequestType filter = new SearchRetrieveRequestType();
+        filter.setQuery("\"/properties/created-by/id\"="+me.getObjid());
+
+        Collection<GenericVersionableResource> memberList = 
+        	cc.retrieveMembersAsList("escidoc:ex1", filter);
+        
+        assertTrue("result list is empty, try another filter", 
+        		memberList.size() != 0);
     }
 
     /**

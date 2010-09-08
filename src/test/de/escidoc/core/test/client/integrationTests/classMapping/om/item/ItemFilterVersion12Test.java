@@ -28,14 +28,12 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,9 +52,9 @@ import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.ItemProperties;
-import de.escidoc.core.resources.sb.search.SearchResultRecord;
+import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -125,29 +123,26 @@ public class ItemFilterVersion12Test {
         srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
-//        SearchRetrieveResponseType itemList = ic.retrieveItems(srwFilter);
-//
-//        assertEquals("Wrong version number", "1.1", itemList.getVersion());
-//        assertTrue("Wrong number of records",
-//            itemList.getNumberOfRecords() >= 1);
-//        assertEquals("Wrong record position", 1, itemList
-//            .getRecords().iterator().next().getRecordPosition());
+        SearchRetrieveResponse response = ic.retrieveItems(srwFilter);
 
-        // assertTrue("Wrong number of elements in list", itemList.
-        // .getItems().size() > 0);
-        //
-        // List<String> idList = new Vector<String>();
-        //
-        // Iterator<Item> it = itemList.getItems().iterator();
-        // while (it.hasNext()) {
-        // Item n = it.next();
-        // idList.add(n.getObjid());
-        // }
-        //
-        // assertTrue("Created Item missing in list",
-        // idList.contains(createdItem
-        // .getObjid()));
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("Wrong number of matching records",
+        		response.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records",
+        		response.getNumberOfResultingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response
+            .getRecords().iterator().next().getRecordPosition());
 
+         Collection<Item> test = 
+        	 new ArrayList<Item>(response.getNumberOfResultingRecords());
+         for (@SuppressWarnings("rawtypes") Record record : response.getRecords()) {
+        	 Object data = record.getRecordData();
+        	 if(data != null && data instanceof Item)
+        		 test.add((Item)data);
+         }
+        
+         assertTrue("Created Item missing in list", 
+        		 test.contains(createdItem.getObjid()));
     }
 
 }

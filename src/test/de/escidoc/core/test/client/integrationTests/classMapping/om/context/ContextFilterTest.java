@@ -36,6 +36,7 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
+import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.context.ContextList;
@@ -67,7 +68,7 @@ public class ContextFilterTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient ic = new ContextHandlerClient();
+        ContextHandlerClientInterface ic = new ContextHandlerClient();
         ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ic.setHandle(auth.getHandle());
 

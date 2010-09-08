@@ -40,6 +40,7 @@ import org.junit.Test;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentRelationHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
+import de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -74,7 +75,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -98,7 +99,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -121,7 +122,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -145,7 +146,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -169,7 +170,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -196,7 +197,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -227,7 +228,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -259,7 +260,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -309,7 +310,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -371,7 +372,7 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClient cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 

@@ -16,6 +16,7 @@ import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.TaskParam;
@@ -31,7 +32,7 @@ public class OpenContextWithEmptyComment {
 
     private static final String EMPTY_PUBLIC_STATUS_COMMENT = "";
 
-    private ContextHandlerClient cc;
+    private ContextHandlerClientInterface cc;
 
     /**
      * (see issue INFR-937)
@@ -53,7 +54,8 @@ public class OpenContextWithEmptyComment {
     }
 
     private Context createNewContext() throws ParserConfigurationException,
-        EscidocException, InternalClientException, TransportException {
+        EscidocClientException {
+    	
         final Context context = new Context();
         final Properties properties = new Properties();
         properties.setDescription("ContextDescription");
@@ -105,8 +107,8 @@ public class OpenContextWithEmptyComment {
         cc.open(context.getObjid(), taskParam);
     }
 
-    private Context retrieveContext(Context context) throws EscidocException,
-        InternalClientException, TransportException {
+    private Context retrieveContext(Context context) 
+    	throws EscidocClientException {
         return cc.retrieve(context.getObjid());
     }
 }

@@ -41,6 +41,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
+import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
@@ -66,7 +67,7 @@ public class OuDeleteTest {
     public void testDeleteOu01() throws Exception {
 
         // create OU
-        OrganizationalUnitHandlerClient cc =
+    	OrganizationalUnitHandlerClientInterface cc =
             new OrganizationalUnitHandlerClient();
         cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);

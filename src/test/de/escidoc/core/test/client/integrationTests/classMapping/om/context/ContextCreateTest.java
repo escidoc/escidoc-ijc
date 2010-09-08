@@ -40,6 +40,7 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
+import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
@@ -71,7 +72,7 @@ public class ContextCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -93,7 +94,7 @@ public class ContextCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -118,7 +119,7 @@ public class ContextCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -145,7 +146,7 @@ public class ContextCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -182,7 +183,7 @@ public class ContextCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -230,7 +231,7 @@ public class ContextCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 

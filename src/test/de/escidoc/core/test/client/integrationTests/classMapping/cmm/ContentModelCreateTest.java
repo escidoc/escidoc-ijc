@@ -39,6 +39,7 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentModelHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
+import de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.cmm.MetadataRecordDefinition;
@@ -69,7 +70,7 @@ public class ContentModelCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -90,7 +91,7 @@ public class ContentModelCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -111,7 +112,7 @@ public class ContentModelCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -120,7 +121,7 @@ public class ContentModelCreateTest {
         cmm.getProperties().setDescription("Description-" + System.nanoTime());
 
         ContentModel cmmCreated = cc.create(cmm);
-
+        
         // asserts
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(auth.getServiceAddress());
@@ -153,7 +154,7 @@ public class ContentModelCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -218,7 +219,7 @@ public class ContentModelCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -336,7 +337,7 @@ public class ContentModelCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 

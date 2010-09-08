@@ -246,7 +246,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 	}
 	
 	/**
-	 * 
+	 * TODO
 	 * @throws Exception
 	 */
 	// @Test
@@ -254,23 +254,6 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
 		SearchHandlerClient c = new SearchHandlerClient();
 		c.setTransport(TransportProtocol.REST);
-
-		ScanRequestType request = new ScanRequestType();
-		request.setVersion("1.1");
-		request.setScanClause("escidoc.metadata=escidoc");
-
-		ScanResponse response = c.scan(request, null);
-	}
-
-	/**
-	 * 
-	 * @throws Exception
-	 */
-	// @Test
-	public void testSearchScanSOAP() throws Exception {
-
-		SearchHandlerClient c = new SearchHandlerClient();
-		c.setTransport(TransportProtocol.SOAP);
 
 		ScanRequestType request = new ScanRequestType();
 		request.setVersion("1.1");
