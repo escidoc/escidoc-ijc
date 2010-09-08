@@ -196,6 +196,7 @@ public class RestContextHandlerClient extends ClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Deprecated
     public String retrieveMembers(final String id, final String filter)
         throws EscidocException, InternalClientException, TransportException {
 

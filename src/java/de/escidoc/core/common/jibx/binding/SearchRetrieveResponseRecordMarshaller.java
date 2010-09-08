@@ -18,10 +18,12 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
 import de.escidoc.core.resources.sb.search.records.ContainerRecord;
+import de.escidoc.core.resources.sb.search.records.ContentRelationRecord;
 import de.escidoc.core.resources.sb.search.records.ContextRecord;
 import de.escidoc.core.resources.sb.search.records.DefaultRecord;
 import de.escidoc.core.resources.sb.search.records.ItemRecord;
 import de.escidoc.core.resources.sb.search.records.OrganizationalUnitRecord;
+import de.escidoc.core.resources.sb.search.records.RoleRecord;
 import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
 
 /**
@@ -46,19 +48,35 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
 	 */
 	private static enum RecordDataTag {
 		
-		SearchResultRecord("search-result-record"),
-		Item("item"),
-		Container("container"),
-		OrganizationalUnit("organizational-unit"),
-		Context("context");
+		SearchResultRecord("search-result-record"), 
+		Item("item", "http://www.escidoc.de/schemas/item/0.9"), 
+		Container("container", "http://www.escidoc.de/schemas/container/0.8"),
+		OrganizationalUnit("organizational-unit", 
+				"http://www.escidoc.de/schemas/organizationalunit/0.8"), 
+		Context("context", "http://www.escidoc.de/schemas/context/0.7"), 
+		ContentRelation("content-relation"), 
+		Role("role");
 		
 		private final String tagName;
+		private final String namespace;
 		
 		RecordDataTag(String tagName) {
+			this(tagName, null);
+		}
+		RecordDataTag(String tagName, String namespace) {
 			this.tagName = tagName;
+			this.namespace = namespace;
 		}
 		boolean equals(final String other) {
 			return tagName.equals(other);
+		}
+		boolean equals(final String tagName, final String namespace) {
+			if(this.tagName == null) return false;
+			if(this.namespace == null)
+				return this.tagName.equals(tagName);
+			else
+				return this.tagName.equals(tagName) 
+					&& this.namespace.equals(namespace);
 		}
 	}
 	
@@ -270,6 +288,12 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
 		else if(RecordDataTag.Context.equals(tagName))
 			return new ContextRecord(recordSchema, packing, 
 					recordPosition, dataDOM, dataText, transport);
+		else if(RecordDataTag.ContentRelation.equals(tagName))
+			return new ContentRelationRecord(recordSchema, packing, 
+					recordPosition, dataDOM, dataText, transport);
+		else if(RecordDataTag.Role.equals(tagName))
+			return new RoleRecord(recordSchema, packing, 
+					recordPosition, dataDOM, dataText, transport);
 		
     	/**
     	 * If we are unable to guess the type of the content return a default 
@@ -278,9 +302,4 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
     	return new DefaultRecord(recordSchema, packing, recordPosition, dataDOM, 
     			dataText, transport);
     }
-   
-//    "http://www.escidoc.de/schemas/item/0.9"
-//    "http://www.escidoc.de/schemas/container/0.8"
-//    "http://www.escidoc.de/schemas/organizationalunit/0.8"
-//    "http://www.escidoc.de/schemas/context/0.7"
 }

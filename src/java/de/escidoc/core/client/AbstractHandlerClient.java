@@ -1,11 +1,17 @@
 package de.escidoc.core.client;
 
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import org.apache.log4j.Logger;
+
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 public abstract class AbstractHandlerClient {
 
+	private static final Logger LOGGER = 
+		Logger.getLogger(AbstractHandlerClient.class);
+	
 	//
 	private TransportProtocol transport = TransportProtocol.SOAP;
 	
@@ -19,7 +25,8 @@ public abstract class AbstractHandlerClient {
 							ConfigurationProvider.PROP_SERVICE_PROTOCOL));
 		}
 		catch (InternalClientException e) {
-			e.printStackTrace();
+			LOGGER.debug("Unable to get the default transport protocol from " +
+					"configuration. Using SOAP protocol instead.", e);
 		}
 	}
 	

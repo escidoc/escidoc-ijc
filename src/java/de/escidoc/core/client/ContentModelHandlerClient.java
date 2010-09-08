@@ -48,7 +48,7 @@ import de.escidoc.core.resources.cmm.ContentModel;
  * 
  */
 public class ContentModelHandlerClient extends AbstractHandlerClient
-    implements ContentModelHandlerClientInterface<ContentModel> {
+    implements ContentModelHandlerClientInterface {
 
     private SoapContentModelHandlerClient soapContentModelHandlerClient = null;
 
@@ -198,7 +198,10 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        return getSoapContentModelHandlerClient().getLastModificationDate(id);
+    	if(getTransport() == TransportProtocol.SOAP)
+    		return getSoapContentModelHandlerClient().getLastModificationDate(id);
+    	else
+    		return getRestContentModelHandlerClient().getLastModificationDate(id);
     }
 
     /**

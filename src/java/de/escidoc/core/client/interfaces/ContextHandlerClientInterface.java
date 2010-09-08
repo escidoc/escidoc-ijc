@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.Collection;
@@ -37,10 +38,13 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.resources.om.context.ContextList;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
@@ -148,14 +152,14 @@ public interface ContextHandlerClientInterface
             InternalClientException, TransportException;
     
     /**
-     * This is a convenience method to retrieve the resulting items as a list.
-     * Since it could happen, that binding of an item fails, this list
-     * will not contain all items, which could not be bounded.
+     * This is a convenience method to retrieve the resulting objects as a list.
+     * Since it could happen, that binding of an object fails, this list
+     * will not contain all objects, which could not be bounded.
      * In case you wish to have complete control over the results, you may use
-     * the method retrieveContexts(final SearchRetrieveRequestType filter),
+     * the method {@link #retrieveContexts(SearchRetrieveRequestType)},
      * since you can still work with the resulting DOM.
      * 
-     * Usually binding of an item will only fail, if the server returns
+     * Usually binding of an object fails, if the server returns
      * unexpected record data.
      * 
      * @param filter
@@ -167,4 +171,75 @@ public interface ContextHandlerClientInterface
     Collection<Context> retrieveContextsAsList(
             final SearchRetrieveRequestType filter) throws EscidocException,
             InternalClientException, TransportException;
+    
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ExplainResponse retrieveContexts(final ExplainRequestType filter) 
+    	throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * 
+     * @param id
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    SearchRetrieveResponse retrieveMembers(final String id, 
+    		final SearchRetrieveRequestType filter)
+	    throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * 
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @Deprecated
+    ContextList retrieveContexts(final TaskParam taskParam)
+    	throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * This is a convenience method to retrieve the resulting objects as a list.
+     * Since it could happen, that binding of an object fails, this list
+     * will not contain all objects, which could not be bounded.
+     * In case you wish to have complete control over the results, you may use
+     * the method {@link #retrieveMembers(SearchRetrieveRequestType)},
+     * since you can still work with the resulting DOM.
+     * 
+     * Usually binding of an object fails, if the server returns
+     * unexpected record data.
+     * 
+     * @param id
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Collection<GenericVersionableResource> retrieveMembersAsList(
+    		final String id, final SearchRetrieveRequestType filter)
+	    throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * 
+     * @param id
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ExplainResponse retrieveMembers(final String id, 
+    		final ExplainRequestType filter)
+	    throws EscidocException, InternalClientException, TransportException;
 }

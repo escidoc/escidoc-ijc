@@ -164,7 +164,8 @@ public class RestContentModelHandlerClient extends ClientBase {
         DateTime result = null;
         try {
             result = (Factory.getMarshallerFactory(TransportProtocol.REST)
-            		.getContextMarshaller().unmarshalDocument(getClient().retrieve(id)))
+            		.getContextMarshaller().unmarshalDocument(
+            				getClient().retrieve(id)))
             			.getLastModificationDate();
         }
         catch (Exception e) {

@@ -46,13 +46,16 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
+import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.MemberList;
+import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextList;
+import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
-import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.search.records.ContextRecord;
 
@@ -458,7 +461,7 @@ public class ContextHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainData retrieveContexts(final ExplainRequestType filter)
+    public ExplainResponse retrieveContexts(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
@@ -469,7 +472,7 @@ public class ContextHandlerClient extends AbstractHandlerClient
             xml = getRestContextHandlerClient().retrieveContexts(filter);
         }
         return Factory.getMarshallerFactory(getTransport())
-        	.getExplainRecordMarshaller().unmarshalDocument(xml);
+        	.getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -507,6 +510,91 @@ public class ContextHandlerClient extends AbstractHandlerClient
         return Factory.getMarshallerFactory(getTransport())
         	.getMemberListMarshaller().unmarshalDocument(xml);
     }
+    
+    /**
+     * 
+     * @param id
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public SearchRetrieveResponse retrieveMembers(final String id, 
+    		final SearchRetrieveRequestType filter)
+	    throws EscidocException, InternalClientException, TransportException {
+    	
+    	evalFilter(filter);
+	    String xml = null;
+	    
+	    if (getTransport() == TransportProtocol.SOAP) {
+	        xml = getSoapContextHandlerClient().retrieveMembers(id, filter);
+	    }
+	    else {
+	        xml = getRestContextHandlerClient().retrieveMembers(id, filter);
+	    }
+	    
+	    return Factory.getMarshallerFactory(getTransport())
+	    	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+	}
+    
+    /**
+     * 
+     * @param id
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @SuppressWarnings("rawtypes")
+	public Collection<GenericVersionableResource> retrieveMembersAsList(
+    		final String id, final SearchRetrieveRequestType filter)
+	    throws EscidocException, InternalClientException, TransportException {
+    	
+    	SearchRetrieveResponse response = retrieveMembers(id, filter);
+    	Collection<GenericVersionableResource> results =
+    		new LinkedList<GenericVersionableResource>();
+    	
+    	for (Record record : response.getRecords()) {
+    		Object result = record.getRecordData();
+    		if(result != null) {
+    			if(result instanceof Item) {
+    				results.add((Item)result);
+    			} else if(result instanceof Container) {
+    				results.add((Container)result);
+    			}
+    			// TODO: Toc ???
+    		}				
+		}
+    	return results;
+	}
+    
+    /**
+     * 
+     * @param id
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public ExplainResponse retrieveMembers(final String id, 
+    		final ExplainRequestType filter)
+	    throws EscidocException, InternalClientException, TransportException {
+    	
+	    String xml = null;
+	    
+	    if (getTransport() == TransportProtocol.SOAP) {
+	        xml = getSoapContextHandlerClient().retrieveMembers(id, filter);
+	    }
+	    else {
+	        xml = getRestContextHandlerClient().retrieveMembers(id, filter);
+	    }
+	    
+	    return Factory.getMarshallerFactory(getTransport())
+	    	.getExplainResponseMarshaller().unmarshalDocument(xml);
+	}
 
     /**
      * See Interface for functional description.

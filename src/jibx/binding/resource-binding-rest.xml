@@ -9,7 +9,7 @@
 	<include path="rest/common/0.5/md-records-binding.xml" />
 	<include path="rest/common/0.4/abstract-struct-map-binding.xml" />
 	<include path="rest/common/0.3/relations-binding.xml" />
-	<!--  include path="rest/common/0.9/member-list-binding.xml" /-->
+	<include path="rest/common/0.9/member-list-binding.xml" />
 	<!--  include path="rest/common/0.6/toc-binding.xml" / -->
 	<!--  include path="rest/common/0.4/properties-no-versioned-binding.xml" / -->
 	<!--  include path="rest/common/0.4/abstract-relations-binding.xml" / -->

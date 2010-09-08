@@ -31,6 +31,7 @@ package de.escidoc.core.client.interfaces;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
 
@@ -39,7 +40,7 @@ import de.escidoc.core.resources.common.TaskParam;
  * @author SWA
  * 
  */
-public interface RoleHandlerClientInterface<T> extends CrudHandlerInterface<T> {
+public interface RoleHandlerClientInterface extends CrudHandlerInterface<Role> {
 
     Roles retrieveRoles(TaskParam taskParam) throws EscidocClientException,
         InternalClientException, TransportException;

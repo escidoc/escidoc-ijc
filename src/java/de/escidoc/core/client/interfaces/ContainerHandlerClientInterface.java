@@ -128,14 +128,14 @@ public interface ContainerHandlerClientInterface
 		throws EscidocException, InternalClientException, TransportException;
 	
     /**
-     * This is a convenience method to retrieve the resulting items as a list.
-     * Since it could happen, that binding of an item fails, this list
-     * will not contain all items, which could not be bounded.
+     * This is a convenience method to retrieve the resulting objects as a list.
+     * Since it could happen, that binding of an object fails, this list
+     * will not contain all objects, which could not be bounded.
      * In case you wish to have complete control over the results, you may use
-     * the method retrieveContainers(final SearchRetrieveRequestType filter),
+     * the method {@link #retrieveContainers(SearchRetrieveRequestType)},
      * since you can still work with the resulting DOM.
      * 
-     * Usually binding of an item will only fail, if the server returns
+     * Usually binding of an object fails, if the server returns
      * unexpected record data.
      * 
      * @param filter

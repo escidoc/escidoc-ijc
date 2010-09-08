@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.client;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -44,8 +47,9 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.sb.explain.ExplainData;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * This is the generic RoleContainerHandlerClient which binds the transport
@@ -56,7 +60,7 @@ import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
  * 
  */
 public class RoleHandlerClient extends AbstractHandlerClient 
-		implements RoleHandlerClientInterface<Role> {
+		implements RoleHandlerClientInterface {
 
     private SoapRoleHandlerClient soapRoleHandlerClient = null;
 
@@ -88,7 +92,8 @@ public class RoleHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         String xml = null;
-        String roleString = Factory.getMarshallerFactory(getTransport()).getRoleMarshaller().marshalDocument(role);
+        String roleString = Factory.getMarshallerFactory(getTransport())
+        	.getRoleMarshaller().marshalDocument(role);
 
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapRoleHandlerClient().create(roleString);
@@ -151,7 +156,8 @@ public class RoleHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         String xml = null;
-        String roleString = Factory.getMarshallerFactory(getTransport()).getRoleMarshaller().marshalDocument(role);
+        String roleString = Factory.getMarshallerFactory(getTransport())
+        	.getRoleMarshaller().marshalDocument(role);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
                 getSoapRoleHandlerClient().update(role.getObjid(), roleString);
@@ -161,7 +167,8 @@ public class RoleHandlerClient extends AbstractHandlerClient
                 getRestRoleHandlerClient().update(role.getObjid(), roleString);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getRoleMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport()).getRoleMarshaller()
+        	.unmarshalDocument(xml);
     }
 
     /**
@@ -182,8 +189,8 @@ public class RoleHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String taskParamString =
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamString = Factory.getMarshallerFactory(getTransport())
+        	.getTaskParamMarshaller().marshalDocument(taskParam);
         String xml = null;
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -192,8 +199,8 @@ public class RoleHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestRoleHandlerClient().retrieveRoles(taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport()).getRoleListMarshaller().unmarshalDocument(xml);
-
+        return Factory.getMarshallerFactory(getTransport())
+        	.getRoleListMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -209,10 +216,12 @@ public class RoleHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponseType retrieveRoles(
+    public SearchRetrieveResponse retrieveRoles(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
+    	evalFilter(filter);
+    	
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapRoleHandlerClient().retrieveRoles(filter);
@@ -220,7 +229,25 @@ public class RoleHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestRoleHandlerClient().retrieveRoles(filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getFilterResponseMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+    }
+    
+    @SuppressWarnings("rawtypes")
+	public Collection<Role> retrieveRolesAsList(
+            final SearchRetrieveRequestType filter) throws EscidocException,
+            InternalClientException, TransportException {
+    	
+    	SearchRetrieveResponse response = retrieveRoles(filter);
+    	Collection<Role> results = new LinkedList<Role>();
+    	
+    	for (Record record : response.getRecords()) {
+			Object result = record.getRecordData();
+			if(result instanceof Role) {
+				results.add((Role)result);
+			}
+		}
+    	return results;
     }
 
     /**
@@ -236,7 +263,7 @@ public class RoleHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainData retrieveRoles(final ExplainRequestType filter)
+    public ExplainResponse retrieveRoles(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
@@ -246,7 +273,8 @@ public class RoleHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestRoleHandlerClient().retrieveRoles(filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getExplainRecordMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**

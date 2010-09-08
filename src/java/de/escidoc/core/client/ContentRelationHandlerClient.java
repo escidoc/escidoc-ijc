@@ -31,6 +31,9 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -44,8 +47,10 @@ import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
-import de.escidoc.core.resources.sb.explain.ExplainData;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.ContentRelationRecord;
 
 /**
  * This is the generic ContentRelationSoapHandlerClient which binds the
@@ -56,7 +61,7 @@ import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
  * 
  */
 public class ContentRelationHandlerClient extends AbstractHandlerClient
-    implements ContentRelationHandlerClientInterface<ContentRelation> {
+    implements ContentRelationHandlerClientInterface {
 
     private SoapContentRelationHandlerClient soapContentRelationHandlerClient =
         null;
@@ -98,6 +103,7 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
 
         String contentRelationXml = Factory.getMarshallerFactory(getTransport())
         	.getContentRelationMarshaller().marshalDocument(contentRelation);
+        
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
@@ -113,36 +119,11 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         	.getContentRelationMarshaller().unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve ContentRelation.
-     * 
-     * @param contentRelation
-     *            ContentRelation class with values which ContentRelation is to
-     *            retrieve (obji of ContentRelation is important factor).
-     * @return ContentRelation
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
+    @Override
     public ContentRelation retrieve(final ContentRelation contentRelation)
         throws EscidocException, InternalClientException, TransportException {
 
-        String contentRelationString = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            contentRelationString =
-                getSoapContentRelationHandlerClient().retrieve(
-                    contentRelation.getObjid());
-        }
-        else {
-            contentRelationString =
-                getRestContentRelationHandlerClient().retrieve(
-                    contentRelation.getObjid());
-        }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContentRelationMarshaller().unmarshalDocument(contentRelationString);
+        return retrieve(contentRelation.getObjid());
     }
 
     /**
@@ -168,7 +149,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestContentRelationHandlerClient().retrieve(id);
         }
-        return Factory.getMarshallerFactory(getTransport()).getContentRelationMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getContentRelationMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -287,8 +269,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
-        String taskParamString =
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamString = Factory.getMarshallerFactory(getTransport())
+        	.getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
                 getSoapContentRelationHandlerClient().assignObjectPid(id,
@@ -299,7 +281,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
                 getRestContentRelationHandlerClient().assignObjectPid(id,
                     taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport()).getResultMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getResultMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -433,8 +416,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
-        String taskParamString =
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamString = Factory.getMarshallerFactory(getTransport())
+            .getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
                 getSoapContentRelationHandlerClient().submit(id,
@@ -446,7 +429,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
                     taskParamString);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getResultMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getResultMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -464,8 +448,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public Result submit(
-        final ContentRelation contentRelation, final TaskParam taskParam)
+    public Result submit(final ContentRelation contentRelation, 
+    		final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         return submit(contentRelation.getObjid(), taskParam);
@@ -490,8 +474,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
-        String taskParamString =
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamString = Factory.getMarshallerFactory(getTransport())
+        	.getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
                 getSoapContentRelationHandlerClient().release(id,
@@ -502,7 +486,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
                 getRestContentRelationHandlerClient().release(id,
                     taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport()).getResultMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getResultMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -596,10 +581,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponseType retrieveContentRelations(
+    public SearchRetrieveResponse retrieveContentRelations(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
+    	evalFilter(filter);
+    	
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
@@ -611,7 +598,28 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
                 getRestContentRelationHandlerClient().retrieveContentRelations(
                     filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getFilterResponseMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @Override
+	public Collection<ContentRelation> retrieveContentRelationsAsList(
+            final SearchRetrieveRequestType filter) throws EscidocException,
+            InternalClientException, TransportException {
+    	SearchRetrieveResponse response = retrieveContentRelations(filter);
+    	Collection<ContentRelation> results = new LinkedList<ContentRelation>();
+    	
+    	for(Record record : response.getRecords()) {
+    		if(record instanceof ContentRelationRecord) {
+    			ContentRelationRecord cRecord = (ContentRelationRecord)record;
+    			ContentRelation result = cRecord.getRecordData();
+    			if(result != null) {
+    				results.add(result);
+    			}
+    		}
+    	}
+    	return results;
     }
 
     /**
@@ -627,7 +635,7 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainData retrieveContentRelations(
+    public ExplainResponse retrieveContentRelations(
         final ExplainRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -642,7 +650,8 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
                 getRestContentRelationHandlerClient().retrieveContentRelations(
                     filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getExplainRecordMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**

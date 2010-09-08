@@ -337,36 +337,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         }
     }
 
-    /**
-     * @return the SoapOrganizationalUnitClientHandler
-     * @throws InternalClientException
-     * @throws InternalClientException
-     */
-    public SoapOrganizationalUnitHandlerClient getSoapOrganizationalUnitHandlerClient()
-        throws InternalClientException {
-
-        if (this.soapOrganizationalUnitHandlerClient == null) {
-            this.soapOrganizationalUnitHandlerClient =
-                new SoapOrganizationalUnitHandlerClient();
-        }
-        return this.soapOrganizationalUnitHandlerClient;
-    }
-
-    /**
-     * @return the RestOrganizationalUnitClientHandler
-     * @throws InternalClientException
-     * @throws InternalClientException
-     */
-    public RestOrganizationalUnitHandlerClient getRestOrganizationalUnitHandlerClient()
-        throws InternalClientException {
-
-        if (this.restOrganizationalUnitHandlerClient == null) {
-            this.restOrganizationalUnitHandlerClient =
-                new RestOrganizationalUnitHandlerClient();
-        }
-        return this.restOrganizationalUnitHandlerClient;
-    }
-
+    @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -397,9 +368,12 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
                 getRestOrganizationalUnitHandlerClient().retrieveParentObjects(
                     id);
         }
-        return Factory.getMarshallerFactory(getTransport()).getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
     }
 
+    
+    @Override
     public OrganizationalUnitList retrieveChildObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
@@ -413,7 +387,8 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
                 getRestOrganizationalUnitHandlerClient().retrieveChildObjects(
                     id);
         }
-        return Factory.getMarshallerFactory(getTransport()).getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -537,7 +512,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         	.getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
-
+    @Override
     public PathList retrievePathList(final String id) throws EscidocException,
         InternalClientException, TransportException {
         throw new InternalClientException("Method not yet supported.");
@@ -554,5 +529,35 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
     public void setServiceAddress(final String address)
         throws InternalClientException {
         getSoapOrganizationalUnitHandlerClient().setServiceAddress(address);
+    }
+    
+    /**
+     * @return the SoapOrganizationalUnitClientHandler
+     * @throws InternalClientException
+     * @throws InternalClientException
+     */
+    public SoapOrganizationalUnitHandlerClient getSoapOrganizationalUnitHandlerClient()
+        throws InternalClientException {
+
+        if (this.soapOrganizationalUnitHandlerClient == null) {
+            this.soapOrganizationalUnitHandlerClient =
+                new SoapOrganizationalUnitHandlerClient();
+        }
+        return this.soapOrganizationalUnitHandlerClient;
+    }
+
+    /**
+     * @return the RestOrganizationalUnitClientHandler
+     * @throws InternalClientException
+     * @throws InternalClientException
+     */
+    public RestOrganizationalUnitHandlerClient getRestOrganizationalUnitHandlerClient()
+        throws InternalClientException {
+
+        if (this.restOrganizationalUnitHandlerClient == null) {
+            this.restOrganizationalUnitHandlerClient =
+                new RestOrganizationalUnitHandlerClient();
+        }
+        return this.restOrganizationalUnitHandlerClient;
     }
 }

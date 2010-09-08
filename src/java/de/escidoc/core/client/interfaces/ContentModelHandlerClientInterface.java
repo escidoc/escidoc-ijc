@@ -28,6 +28,13 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import org.joda.time.DateTime;
+
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.resources.cmm.ContentModel;
+
 /**
  * This class defines the signatures for the client handler wrapper classes
  * where the transport specific exceptions are mapped to internal client
@@ -38,7 +45,22 @@ package de.escidoc.core.client.interfaces;
  * @author SWA
  * 
  */
-public interface ContentModelHandlerClientInterface<ContentModel>
+public interface ContentModelHandlerClientInterface
     extends CrudHandlerInterface<ContentModel> {
 
+	/**
+     * Returns the last modification date for the specified {@link ContentModel}.
+     * 
+     * @param id
+     *            Id of ContentModel.
+     * @return LastModificationDate of this ContentModel.
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+	DateTime getLastModificationDate(final String id)
+		throws EscidocException, InternalClientException, TransportException;
 }
