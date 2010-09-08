@@ -1,24 +1,25 @@
 package de.escidoc.core.common;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.apache.xerces.dom.AttrImpl;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSOutput;
-import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
 /**
@@ -28,6 +29,64 @@ import org.xml.sax.SAXException;
  */
 public class XmlUtility {
 
+	public static final String AMPERSAND = "&";
+
+    public static final String ESC_AMPERSAND = "&amp;";
+
+    public static final String LESS_THAN = "<";
+
+    public static final String ESC_LESS_THAN = "&lt;";
+
+    public static final String GREATER_THAN = ">";
+
+    public static final String ESC_GREATER_THAN = "&gt;";
+
+    public static final String APOS = "'";
+
+    public static final String ESC_APOS = "&apos;";
+
+    public static final String QUOT = "\"";
+
+    public static final String ESC_QUOT = "&quot;";
+	
+	private static final Pattern PATTERN_ESCAPE_NEEDED =
+        Pattern.compile(AMPERSAND + "|" + LESS_THAN + "|" + GREATER_THAN + "|"
+            + QUOT + "|" + APOS);
+
+    private static final Pattern PATTERN_UNESCAPE_NEEDED =
+        Pattern.compile(ESC_AMPERSAND + "|" + ESC_LESS_THAN + "|"
+            + ESC_GREATER_THAN + "|" + ESC_QUOT + "|" + ESC_APOS);
+
+    private static final Pattern PATTERN_AMPERSAND =
+        Pattern.compile("(" + AMPERSAND + ")");
+
+    private static final Pattern PATTERN_LESS_THAN =
+        Pattern.compile("(" + LESS_THAN + ")");
+
+    private static final Pattern PATTERN_GREATER_THAN =
+        Pattern.compile("(" + GREATER_THAN + ")");
+
+    private static final Pattern PATTERN_QUOT =
+        Pattern.compile("(" + QUOT + ")");
+
+    private static final Pattern PATTERN_APOS =
+        Pattern.compile("(" + APOS + ")");
+
+    private static final Pattern PATTERN_ESC_AMPERSAND =
+        Pattern.compile("(" + ESC_AMPERSAND + ")");
+
+    private static final Pattern PATTERN_ESC_LESS_THAN =
+        Pattern.compile("(" + ESC_LESS_THAN + ")");
+
+    private static final Pattern PATTERN_ESC_GREATER_THAN =
+        Pattern.compile("(" + ESC_GREATER_THAN + ")");
+
+    private static final Pattern PATTERN_ESC_QUOT =
+        Pattern.compile("(" + ESC_QUOT + ")");
+
+    private static final Pattern PATTERN_ESC_APOS =
+        Pattern.compile("(" + ESC_APOS + ")");
+	
     /**
      * Get a DOM object of the XML string.
      * 
@@ -54,63 +113,83 @@ public class XmlUtility {
     }
 
     /**
-     * Serialize the given DOM Object to a String.
+     * Convert a XML Document to String.
      * 
-     * @param xml
-     *            The XML Node to serialize.
-     * @param omitXMLDeclaration
-     *            Indicates if XML declaration will be omitted.
-     * @return The String representation of the XML Node.
-     * @throws IOException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws ClassNotFoundException
-     * @throws ClassCastException
+     * @param node
+     *            The Node
+     * @return String
+     * 
+     * @throws TransformerException
      */
-    public static String toString(
-        final Node xml, final boolean omitXMLDeclaration) throws IOException,
-        ClassCastException, ClassNotFoundException, InstantiationException,
-        IllegalAccessException {
+    public static String xmlToString(final Node node, 
+    		final boolean omitXMLDeclaration)
+        throws TransformerException {
 
-        String result = new String();
-        if (xml instanceof AttrImpl) {
-            result = xml.getTextContent();
-        }
-        else if (xml instanceof Document) {
-            StringWriter stringOut = new StringWriter();
-            // format
-            OutputFormat format = new OutputFormat((Document) xml);
-            format.setIndenting(true);
-            format.setPreserveSpace(true);
-            format.setOmitXMLDeclaration(omitXMLDeclaration);
-            format.setEncoding(Constants.DEFAULT_CHARSET);
-            // serialize
-            XMLSerializer serial = new XMLSerializer(stringOut, format);
-            serial.asDOMSerializer();
+        Source source = new DOMSource(node);
+        StringWriter stringWriter = new StringWriter();
+        Result result = new StreamResult(stringWriter);
+        
+        TransformerFactory factory = TransformerFactory.newInstance();
+        Transformer transformer = factory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, 
+        		omitXMLDeclaration ? "yes" : "no");
+        transformer.transform(source, result);
+        
+        return stringWriter.getBuffer().toString();
+    }
 
-            serial.serialize((Document) xml);
-            result = stringOut.toString();
-        }
-        else {
-            DOMImplementationRegistry registry =
-                DOMImplementationRegistry.newInstance();
-            DOMImplementationLS impl =
-                (DOMImplementationLS) registry.getDOMImplementation("LS");
-            LSOutput lsOutput = impl.createLSOutput();
-            lsOutput.setEncoding(Constants.DEFAULT_CHARSET);
+    /**
+     * Replace forbidden characters in XML content with their escape sequence.<br/>
+     * This method escapes &, <, and > in attributes and text content. In
+     * attributes, it additionally escapes " and '.
+     * 
+     * @param xmlText
+     *            The XML text.
+     * @return The resulting text with escaped characters.
+     */
+    public static final String escapeForbiddenXmlCharacters(final String xmlText) {
 
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            lsOutput.setByteStream(os);
-            LSSerializer writer = impl.createLSSerializer();
-            writer.write(xml, lsOutput);
-            result =
-                ((ByteArrayOutputStream) lsOutput.getByteStream())
-                    .toString(Constants.DEFAULT_CHARSET);
-            if ((omitXMLDeclaration) && (result.indexOf("?>") != -1)) {
-                result = result.substring(result.indexOf("?>") + 2);
+        String result = xmlText;
+        if (result != null) {
+            if (PATTERN_ESCAPE_NEEDED.matcher(result).find()) {
+                result =
+                    PATTERN_AMPERSAND.matcher(result).replaceAll(ESC_AMPERSAND);
+                result =
+                    PATTERN_LESS_THAN.matcher(result).replaceAll(ESC_LESS_THAN);
+                result =
+                    PATTERN_GREATER_THAN.matcher(result).replaceAll(
+                        ESC_GREATER_THAN);
+                result = PATTERN_QUOT.matcher(result).replaceAll(ESC_QUOT);
+                result = PATTERN_APOS.matcher(result).replaceAll(ESC_APOS);
             }
+        }
+
+        return result;
+    }
+    
+    /**
+     * Replace all escape sequences for forbidden characters with their readable.
+     * 
+     * @param xmlText
+     *            The XML text with escape sequences.
+     * @param isAttribute
+     *            Indicates if this is an attribute.
+     * @return The resulting text with unescaped characters.
+     */
+    public static String unescapeForbiddenXmlCharacters(final String xmlText) {
+
+        String result = xmlText;
+        if (result != null && PATTERN_UNESCAPE_NEEDED.matcher(result).find()) {
+            result =
+                PATTERN_ESC_LESS_THAN.matcher(result).replaceAll(LESS_THAN);
+            result =
+                PATTERN_ESC_GREATER_THAN.matcher(result).replaceAll(
+                    GREATER_THAN);
+            result = PATTERN_ESC_QUOT.matcher(result).replaceAll(QUOT);
+            result = PATTERN_ESC_APOS.matcher(result).replaceAll(APOS);
+            result =
+                PATTERN_ESC_AMPERSAND.matcher(result).replaceAll(AMPERSAND);
         }
         return result;
     }
-
 }
