@@ -55,7 +55,8 @@
 			name="type" field="type" usage="optional" />
 
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
-			name="subject" field="subject" usage="optional">
+			name="subject" field="subject" usage="optional"
+			type="de.escidoc.core.resources.ResourceRef">
 			
 			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
 			<value name="objid" style="attribute" 
@@ -70,7 +71,8 @@
 		</structure>
 
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
-			name="object" field="object" usage="optional">
+			name="object" field="object" usage="optional"
+			type="de.escidoc.core.resources.ResourceRef">
 			
 			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
 			<value name="objid" style="attribute" 

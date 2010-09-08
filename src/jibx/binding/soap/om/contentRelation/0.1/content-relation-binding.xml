@@ -43,13 +43,17 @@
 			name="type" field="type" usage="optional" />
 
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
-			name="subject" usage="optional">
-			<value style="attribute" name="objid" field="subject" usage="optional" />
+				name="subject" field="subject" usage="optional"
+				type="de.escidoc.core.resources.ResourceRef">
+				<value style="attribute" name="objid" usage="optional" 
+					get-method="getObjid" set-method="setObjid"/>
 		</structure>
 
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
-			name="object" usage="optional">
-			<value style="attribute" name="objid" field="object" usage="optional" />
+				name="object" field="object" usage="optional"
+				type="de.escidoc.core.resources.ResourceRef">
+				<value style="attribute" name="objid" usage="optional" 
+					get-method="getObjid" set-method="setObjid"/>
 		</structure>
 		<!--
 			*******************************************************************
