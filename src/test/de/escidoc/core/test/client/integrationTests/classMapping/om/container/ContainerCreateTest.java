@@ -49,6 +49,7 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
+import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
@@ -88,7 +89,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -112,7 +113,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -159,7 +160,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -183,7 +184,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -211,7 +212,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -243,7 +244,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -280,7 +281,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -323,7 +324,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -418,7 +419,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -507,7 +508,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -555,7 +556,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -614,7 +615,7 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 

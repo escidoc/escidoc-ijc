@@ -32,6 +32,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,6 +47,7 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -53,7 +55,7 @@ import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -81,7 +83,7 @@ public class ContainerFilterVersion12Test {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -133,13 +135,20 @@ public class ContainerFilterVersion12Test {
         srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
-        SearchRetrieveResponseType containerList = cc.retrieveContainers(srwFilter);
+//        cc.setTransport(TransportProtocol.REST);
+        SearchRetrieveResponse containerList = cc.retrieveContainers(srwFilter);
 
         assertEquals("Wrong version number", "1.1", containerList.getVersion());
-        assertTrue("Wrong number of records",
-            containerList.getNumberOfRecords() >= 1);
+        assertTrue("Wrong number of matching records",
+            containerList.getNumberOfMatchingRecords() >= 1);
         assertEquals("Wrong record position", 1, containerList
             .getRecords().iterator().next().getRecordPosition());
+        
+        // now check the convenience method
+        Collection<Container> list = cc.retrieveContainersAsList(srwFilter);
+        
+        assertTrue("Wrong number of records",
+           list.size() == containerList.getRecords().size());
     }
 
 }

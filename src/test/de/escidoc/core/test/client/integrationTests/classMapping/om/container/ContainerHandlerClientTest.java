@@ -42,6 +42,7 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.ContainerNotFoundException;
+import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
@@ -77,7 +78,7 @@ public class ContainerHandlerClientTest {
                 new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                     Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-            ContainerHandlerClient cc = new ContainerHandlerClient();
+            ContainerHandlerClientInterface cc = new ContainerHandlerClient();
             cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
             cc.setHandle(auth.getHandle());
             
@@ -107,8 +108,8 @@ public class ContainerHandlerClientTest {
             // retrieve the created Container
             Container container = cc.retrieve(objid);
 
-            Factory.getMarshallerFactory(cc.getTransport()).getContainerMarshaller()
-            	.marshalDocument(container);
+            Factory.getMarshallerFactory(cc.getTransport())
+            	.getContainerMarshaller().marshalDocument(container);
         }
         catch (Exception e) {
             fail("Unexpected exception caught: " + e.getMessage());
@@ -125,7 +126,7 @@ public class ContainerHandlerClientTest {
     public void testRetrieveUnknown() throws Exception {
         try {
 
-            ContainerHandlerClient cc = new ContainerHandlerClient();
+            ContainerHandlerClientInterface cc = new ContainerHandlerClient();
             cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
             cc.retrieve("escidoc:-1");
@@ -148,7 +149,7 @@ public class ContainerHandlerClientTest {
     @Test
     public void testRetrieveContainers() throws Exception {
         
-    	ContainerHandlerClient cc = new ContainerHandlerClient();
+    	ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
@@ -177,7 +178,7 @@ public class ContainerHandlerClientTest {
     @Test
     public void testRetrieveMembers() throws Exception {
         
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+    	ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 

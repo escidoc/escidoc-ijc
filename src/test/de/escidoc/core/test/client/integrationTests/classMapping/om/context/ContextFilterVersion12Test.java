@@ -30,11 +30,6 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -48,6 +43,7 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
@@ -55,7 +51,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -82,7 +78,7 @@ public class ContextFilterVersion12Test {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -95,7 +91,8 @@ public class ContextFilterVersion12Test {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3", ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
+        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3", 
+        		ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
@@ -127,11 +124,13 @@ public class ContextFilterVersion12Test {
         srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
-        SearchRetrieveResponseType contextList = cc.retrieveContexts(srwFilter);
+        SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
 
         assertEquals("Wrong version number", "1.1", contextList.getVersion());
-        assertTrue("Wrong number of records",
-            contextList.getNumberOfRecords() >= 1);
+        assertTrue("Wrong number of matching records", 
+        		contextList.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records", 
+        		contextList.getNumberOfResultingRecords() >= 1);
         assertEquals("Wrong record position", 1, contextList
             .getRecords().iterator().next().getRecordPosition());
     }    

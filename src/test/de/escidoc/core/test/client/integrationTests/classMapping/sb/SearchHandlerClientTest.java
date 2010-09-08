@@ -53,6 +53,7 @@ import org.junit.runners.Parameterized.Parameters;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.SearchHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
@@ -176,7 +177,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 		out.append("testSRWSearch: query="+query);
 		out.append(" [Protocol: "+protocol.name()+
 				", RecordPacking: "+packing+"]\n");
-		out.append("Results: "+response.getNumberOfRecords()+"\n");
+		out.append("Results: "+response.getNumberOfResultingRecords()+"\n");
 		
 		for (Iterator<Record> it = response.getRecords().iterator(); it.hasNext();) {
 			Record record = it.next();
@@ -208,29 +209,40 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 	@Test
 	public void testFilterSearch() throws Exception {
 
-		ItemHandlerClient c = new ItemHandlerClient();
+		ItemHandlerClientInterface c = new ItemHandlerClient();
 		c.setTransport(protocol);
 		String query = "\"/properties/content-model/id\"=escidoc:ex4";
 //			String query = "\"/id\"=escidoc:1004";
 
 		SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-		request.setVersion("1.1");
 		request.setQuery(query);
 		request.setRecordPacking(packing.name());
 
 		SearchRetrieveResponse response = c.retrieveItems(request);
 		
 		out.append("\n=========================\n");
-		out.append("testFilterSearch: query="+query);
+		out.append("testFilterSearch [1]: query="+query);
 		out.append(" [Protocol: "+protocol.name()+
 				", RecordPacking: "+packing+"]\n");
-		out.append("Results: "+response.getNumberOfRecords()+"\n");
+		out.append("Results: "+response.getNumberOfResultingRecords()+"\n");
 		
 		for (Iterator it = response.getRecords().iterator(); it.hasNext();) {
 			ItemRecord record = (ItemRecord) it.next();
 			Item item = record.getRecordData();
 			out.append("Item: ID["+item.getObjid()+"], Href["+item.getXLinkHref()+"]\n");
 		}
+		
+		Collection<Item> items = c.retrieveItemsAsList(request);
+		
+		out.append("\ntestFilterSearch [2]:\n");
+		out.append("Results: "+items.size()+"\n");
+		
+		for (Item item : items) {
+			out.append("Item: ID["+item.getObjid()+"], Href["+item.getXLinkHref()+"]\n");
+		}
+		
+		assertEquals("Binding of all items within records failed.", 
+				response.getNumberOfResultingRecords(), items.size());
 	}
 	
 	/**
