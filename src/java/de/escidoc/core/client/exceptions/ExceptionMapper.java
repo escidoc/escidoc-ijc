@@ -108,7 +108,6 @@ public class ExceptionMapper extends Exception {
 
             exceptionClassName = obtainClassName(subString);
             exceptionMessage = obtainExceptionMessage(subString);
-            // FIXME: exceptionCause was exceptionMessage (???)
             exceptionCause = obtainExceptionCause(statusText);
 
             Class<?>[] parameterTypes =
@@ -119,7 +118,7 @@ public class ExceptionMapper extends Exception {
                 exClass.getDeclaredConstructor(parameterTypes);
             result =
                 (RemoteException) constructor.newInstance(statusCode,
-                    exceptionMessage, statusText);
+                    exceptionMessage, exceptionCause);
 
         }
         catch (Exception e) {
