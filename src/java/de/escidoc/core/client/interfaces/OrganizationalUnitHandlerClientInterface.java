@@ -28,14 +28,20 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import java.util.Collection;
+
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.structmap.StructMap;
+import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * Interface for Organizational Unit Handler.
@@ -43,7 +49,7 @@ import de.escidoc.core.resources.oum.PathList;
  * @author SWA
  * 
  */
-public interface OrganizationalUnitHandlerClientInterface<OrganizationalUnit>
+public interface OrganizationalUnitHandlerClientInterface
     extends ResourceHandlerInterface<OrganizationalUnit> {
 
     /**
@@ -74,15 +80,79 @@ public interface OrganizationalUnitHandlerClientInterface<OrganizationalUnit>
     // StructMap updateParents(final String id, final String xml)
     // throws EscidocException, InternalClientException, TransportException;
 
+    /**
+     * 
+     */
     OrganizationalUnitList retrieveParentObjects(final String id)
         throws EscidocException, InternalClientException, TransportException;
 
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     OrganizationalUnitList retrieveChildObjects(final String id)
         throws EscidocException, InternalClientException, TransportException;
 
+    @Deprecated
     OrganizationalUnitList retrieveOrganizationalUnits(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ExplainResponse retrieveOrganizationalUnits(final ExplainRequestType filter)
+    	throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    SearchRetrieveResponse retrieveOrganizationalUnits(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
+    
+    /**
+     * This is a convenience method to retrieve the resulting items as a list.
+     * Since it could happen, that binding of an item fails, this list
+     * will not contain all items, which could not be bounded.
+     * In case you wish to have complete control over the results, you may use
+     * the method retrieveOrganizationalUnits(final SearchRetrieveRequestType filter),
+     * since you can still work with the resulting DOM.
+     * 
+     * Usually binding of an item will only fail, if the server returns
+     * unexpected record data.
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Collection<OrganizationalUnit> retrieveOrganizationalUnitsAsList(
+            final SearchRetrieveRequestType filter) throws EscidocException,
+            InternalClientException, TransportException;
 
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     PathList retrievePathList(final String id) throws EscidocException,
         InternalClientException, TransportException;
 

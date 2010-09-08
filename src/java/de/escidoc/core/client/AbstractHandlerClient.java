@@ -1,5 +1,6 @@
 package de.escidoc.core.client;
 
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 
@@ -36,5 +37,25 @@ public abstract class AbstractHandlerClient {
 	 */
 	public final void setTransport(TransportProtocol transport) {
 		this.transport = transport;
+	}
+	
+	/**
+	 * This method validates the specified filter and sets default values to
+	 * the filter if and only if the tested values are null or empty.
+	 * 
+	 * Currently checked values:
+	 * <ul>
+	 * <li>version (default: "1.1")</li>
+	 * <li>recordPacking (default: "string")</li>
+	 * </ul>
+	 * 
+	 * @param filter
+	 */
+	protected void evalFilter(final SearchRetrieveRequestType filter) {
+		if(filter.getVersion() == null || filter.getVersion().isEmpty())
+			filter.setVersion("1.1");
+		if(filter.getRecordPacking() == null || 
+				filter.getRecordPacking().isEmpty())
+			filter.setRecordPacking("string");
 	}
 }

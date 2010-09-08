@@ -31,6 +31,9 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -47,8 +50,10 @@ import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
-import de.escidoc.core.resources.sb.explain.ExplainData;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.OrganizationalUnitRecord;
 
 /**
  * This is the generic OrganizationalUnitClientHandler which binds the transport
@@ -59,7 +64,7 @@ import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
  * 
  */
 public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
-    implements OrganizationalUnitHandlerClientInterface<OrganizationalUnit> {
+    implements OrganizationalUnitHandlerClientInterface {
 
     private SoapOrganizationalUnitHandlerClient soapOrganizationalUnitHandlerClient =
         null;
@@ -430,7 +435,8 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         String taskParamString =
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
+            Factory.getMarshallerFactory(getTransport())
+            	.getTaskParamMarshaller().marshalDocument(taskParam);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
@@ -442,7 +448,8 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
                 getRestOrganizationalUnitHandlerClient()
                     .retrieveOrganizationalUnits(taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport()).getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
     }
 
 
@@ -459,18 +466,46 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponseType retrieveOrganizationalUnits(
+    public SearchRetrieveResponse retrieveOrganizationalUnits(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
+    	evalFilter(filter);
+    	
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapOrganizationalUnitHandlerClient().retrieveOrganizationalUnits(filter);
+            xml = getSoapOrganizationalUnitHandlerClient()
+            	.retrieveOrganizationalUnits(filter);
         }
         else {
-            xml = getRestOrganizationalUnitHandlerClient().retrieveOrganizationalUnits(filter);
+            xml = getRestOrganizationalUnitHandlerClient()
+            	.retrieveOrganizationalUnits(filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getFilterResponseMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Collection<OrganizationalUnit> retrieveOrganizationalUnitsAsList(
+    		final SearchRetrieveRequestType filter)
+    	throws EscidocException, InternalClientException, TransportException {
+    	
+    	SearchRetrieveResponse response = retrieveOrganizationalUnits(filter);
+    	Collection<OrganizationalUnit> results = 
+    		new LinkedList<OrganizationalUnit>();
+    	
+    	for(Record record : response.getRecords()) {
+    		if(record instanceof OrganizationalUnitRecord) {
+    			OrganizationalUnitRecord oRecord = 
+    				(OrganizationalUnitRecord)record;
+    			OrganizationalUnit result = oRecord.getRecordData();
+    			if(result != null) {
+    				results.add(result);
+    			}
+    		}
+    	}
+    	return results;
     }
 
     /**
@@ -486,17 +521,20 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainData retrieveOrganizationalUnits(final ExplainRequestType filter)
+    public ExplainResponse retrieveOrganizationalUnits(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapOrganizationalUnitHandlerClient().retrieveOrganizationalUnits(filter);
+            xml = getSoapOrganizationalUnitHandlerClient()
+            	.retrieveOrganizationalUnits(filter);
         }
         else {
-            xml = getRestOrganizationalUnitHandlerClient().retrieveOrganizationalUnits(filter);
+            xml = getRestOrganizationalUnitHandlerClient()
+            	.retrieveOrganizationalUnits(filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getExplainRecordMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
 

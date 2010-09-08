@@ -28,14 +28,21 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Collection;
+
 import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.component.Component;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * This class defines the signatures for the client handler wrapper classes
@@ -45,7 +52,7 @@ import de.escidoc.core.resources.om.item.component.Component;
  * @author SWA
  * @param <Item>
  */
-public interface ItemHandlerClientInterface<Item>
+public interface ItemHandlerClientInterface
     extends VersionableResourceHandlerInterface<Item> {
 
     /*
@@ -68,9 +75,41 @@ public interface ItemHandlerClientInterface<Item>
         throws EscidocClientException, InternalClientException,
         TransportException;
 
+    @Deprecated
     ItemList retrieveItems(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
+    
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    SearchRetrieveResponse retrieveItems(final SearchRetrieveRequestType filter)
+		throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * This is a convenience method to retrieve the resulting items as a list.
+     * Since it could happen, that binding of an item fails, this list
+     * will not contain all items, which could not be bounded.
+     * In case you wish to have complete control over the results, you may use
+     * the method retrieveItems(final SearchRetrieveRequestType filter),
+     * since you can still work with the resulting DOM.
+     * 
+     * Usually binding of an item will only fail, if the server returns
+     * unexpected record data.
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Collection<Item> retrieveItemsAsList(final SearchRetrieveRequestType filter)
+    	throws EscidocException, InternalClientException, TransportException;
 
     /*
      * Assign PID methods

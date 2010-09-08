@@ -101,6 +101,14 @@ public interface CrudHandlerInterface<T> {
      *            The Enum containing the TransportProtocol to be used).
      */
     void setTransport(final TransportProtocol tp);
+    
+    /**
+     * Get the Transport Protocol.
+     * 
+     * @return
+     * 			The Enum containing the TransportProtocol to be used).
+     */
+    TransportProtocol getTransport();
 
     /**
      * Create the resource in the repository.

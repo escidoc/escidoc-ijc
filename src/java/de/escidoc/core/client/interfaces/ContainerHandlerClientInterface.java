@@ -28,6 +28,11 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Collection;
+
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -37,8 +42,11 @@ import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.MemberList;
+import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * This class defines the signatures for the client handler wrapper classes
@@ -48,7 +56,7 @@ import de.escidoc.core.resources.om.item.Item;
  * @author SWA
  * 
  */
-public interface ContainerHandlerClientInterface<Container>
+public interface ContainerHandlerClientInterface
     extends VersionableResourceHandlerInterface<Container> {
 
     /*
@@ -71,7 +79,7 @@ public interface ContainerHandlerClientInterface<Container>
         TransportException;
 
     /*
-     * sub-resources (comming later)
+     * sub-resources (coming later)
      */
 
     // ContainerList retrieveContainers(final TaskParam taskParam)
@@ -102,13 +110,114 @@ public interface ContainerHandlerClientInterface<Container>
     Result removeMembers(final String id, TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
+    @Deprecated
     ContainerList retrieveContainers(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
-
+    
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    SearchRetrieveResponse retrieveContainers(
+    		final SearchRetrieveRequestType filter)
+		throws EscidocException, InternalClientException, TransportException;
+	
+    /**
+     * This is a convenience method to retrieve the resulting items as a list.
+     * Since it could happen, that binding of an item fails, this list
+     * will not contain all items, which could not be bounded.
+     * In case you wish to have complete control over the results, you may use
+     * the method retrieveContainers(final SearchRetrieveRequestType filter),
+     * since you can still work with the resulting DOM.
+     * 
+     * Usually binding of an item will only fail, if the server returns
+     * unexpected record data.
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+	Collection<Container> retrieveContainersAsList(
+			final SearchRetrieveRequestType filter)
+		throws EscidocException, InternalClientException, TransportException;
+	
+	/**
+	 * 
+	 * @param filter
+	 * @return
+	 * @throws EscidocException
+	 * @throws InternalClientException
+	 * @throws TransportException
+	 */
+	ExplainResponse retrieveContainers(final ExplainRequestType filter)
+    	throws EscidocException, InternalClientException, TransportException;
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws EscidocClientException
+	 * @throws InternalClientException
+	 * @throws TransportException
+	 */
     Relations retrieveRelations(final String id) throws EscidocClientException,
         InternalClientException, TransportException;
 
+    /**
+     * Retrieve Members (Filter for Members).
+     * 
+     * @param id
+     *            The Container where the filter should operate on
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public SearchRetrieveResponse retrieveMembers(final Container container, 
+    		final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * Retrieve Members (Filter for Members).
+     * 
+     * @param container
+     *            The Container where the filter should operate on
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ExplainResponse retrieveMembers(final Container container, 
+    		final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+    
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @Deprecated
     MemberList retrieveMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 }

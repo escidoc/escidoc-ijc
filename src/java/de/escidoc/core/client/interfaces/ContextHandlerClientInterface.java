@@ -28,6 +28,10 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Collection;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -36,6 +40,8 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
+import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * This class defines the signatures for the client handler wrapper classes
@@ -47,7 +53,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
  * @author SWA
  * 
  */
-public interface ContextHandlerClientInterface<Context>
+public interface ContextHandlerClientInterface
     extends ResourceHandlerInterface<Context> {
 
     /**
@@ -124,4 +130,41 @@ public interface ContextHandlerClientInterface<Context>
     MemberList retrieveMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
+    /**
+     * Retrieve Contexts (Filter for Contexts).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    SearchRetrieveResponse retrieveContexts(
+            final SearchRetrieveRequestType filter) throws EscidocException,
+            InternalClientException, TransportException;
+    
+    /**
+     * This is a convenience method to retrieve the resulting items as a list.
+     * Since it could happen, that binding of an item fails, this list
+     * will not contain all items, which could not be bounded.
+     * In case you wish to have complete control over the results, you may use
+     * the method retrieveContexts(final SearchRetrieveRequestType filter),
+     * since you can still work with the resulting DOM.
+     * 
+     * Usually binding of an item will only fail, if the server returns
+     * unexpected record data.
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Collection<Context> retrieveContextsAsList(
+            final SearchRetrieveRequestType filter) throws EscidocException,
+            InternalClientException, TransportException;
 }

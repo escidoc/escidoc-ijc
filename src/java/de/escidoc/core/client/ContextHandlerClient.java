@@ -31,6 +31,9 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -48,8 +51,10 @@ import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextList;
+import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainData;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.ContextRecord;
 
 /**
  * This is the generic ContextSoapHandlerClient which binds the transport
@@ -60,7 +65,7 @@ import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
  * 
  */
 public class ContextHandlerClient extends AbstractHandlerClient
-    implements ContextHandlerClientInterface<Context> {
+    implements ContextHandlerClientInterface {
 
     private SoapContextHandlerClient soapContextHandlerClient = null;
 
@@ -403,10 +408,12 @@ public class ContextHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponseType retrieveContexts(
+    public SearchRetrieveResponse retrieveContexts(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
+    	evalFilter(filter);
+    	
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapContextHandlerClient().retrieveContexts(filter);
@@ -415,7 +422,27 @@ public class ContextHandlerClient extends AbstractHandlerClient
             xml = getRestContextHandlerClient().retrieveContexts(filter);
         }
         return Factory.getMarshallerFactory(getTransport())
-        	.getFilterResponseMarshaller().unmarshalDocument(xml);
+        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+    }
+    
+    @SuppressWarnings("rawtypes")
+	@Override
+    public Collection<Context> retrieveContextsAsList(
+            final SearchRetrieveRequestType filter) throws EscidocException,
+            InternalClientException, TransportException {
+    	SearchRetrieveResponse response = retrieveContexts(filter);
+    	Collection<Context> results = new LinkedList<Context>();
+    	
+    	for(Record record : response.getRecords()) {
+    		if(record instanceof ContextRecord) {
+    			ContextRecord cRecord = (ContextRecord)record;
+    			Context result = cRecord.getRecordData();
+    			if(result != null) {
+    				results.add(result);
+    			}
+    		}
+    	}
+    	return results;
     }
 
     /**

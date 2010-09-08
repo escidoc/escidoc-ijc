@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.client;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -48,8 +51,10 @@ import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.component.Component;
+import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.ItemRecord;
 
 /**
  * This is the generic ItemClientHandler which binds the transport specific
@@ -60,7 +65,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public class ItemHandlerClient extends AbstractHandlerClient
-	implements ItemHandlerClientInterface<Item> {
+	implements ItemHandlerClientInterface {
 
     private SoapItemHandlerClient soapItemHandlerClient = null;
 
@@ -258,6 +263,7 @@ public class ItemHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public ItemList retrieveItems(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -291,7 +297,9 @@ public class ItemHandlerClient extends AbstractHandlerClient
     		final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml = null;
+    	evalFilter(filter);
+    	
+    	String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapItemHandlerClient().retrieveItems(filter);
         }
@@ -300,6 +308,27 @@ public class ItemHandlerClient extends AbstractHandlerClient
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Collection<Item> retrieveItemsAsList(
+    		final SearchRetrieveRequestType filter)
+    	throws EscidocException, InternalClientException, TransportException {
+    	
+    	SearchRetrieveResponse response = retrieveItems(filter);
+    	Collection<Item> items = new LinkedList<Item>();
+    	
+    	for(Record record : response.getRecords()) {
+    		if(record instanceof ItemRecord) {
+    			ItemRecord itemRecord = (ItemRecord)record;
+    			Item item = itemRecord.getRecordData();
+    			if(item != null) {
+    				items.add(item);
+    			}
+    		}
+    	}
+    	return items;
     }
 
     /**
