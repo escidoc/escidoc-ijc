@@ -37,6 +37,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.StagingHandlerInterface;
 import de.escidoc.core.client.rest.RestStagingHandlerClient;
+import de.escidoc.core.client.soap.SoapClientBase;
 
 /**
  * Handler for Staging Service.
@@ -44,25 +45,9 @@ import de.escidoc.core.client.rest.RestStagingHandlerClient;
  * @author SWA
  * 
  */
-public class StagingHandlerClient implements StagingHandlerInterface {
-
-    private TransportProtocol tp = TransportProtocol.REST;
-
-    private RestStagingHandlerClient restStagingHandlerClient;
-
-    /**
-     * Create StagingHandlerClient instance. The service protocol (REST/SOAP/..)
-     * selected from the configuration. Default is SOAP.
-     * 
-     * @throws ClientException
-     * 
-     */
-    public StagingHandlerClient() throws EscidocException,
-        InternalClientException, TransportException {
-
-        // read service protocol from config or set as default SOAP
-        this.restStagingHandlerClient = new RestStagingHandlerClient();
-    }
+public class StagingHandlerClient extends AbstractHandlerClient
+	<SoapClientBase, RestStagingHandlerClient> 
+	implements StagingHandlerInterface {
 
     /**
      * Upload a resource to the Staging Service.
@@ -79,13 +64,7 @@ public class StagingHandlerClient implements StagingHandlerInterface {
      */
     public URL upload(final File f) throws EscidocException,
         InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            throw new InternalClientException(
-                "Staging Service does not support SOAP");
-        }
-
-        return getRestStagingHandlerClient().upload(f);
+        return getRestHandlerClient().upload(f);
     }
 
     /**
@@ -103,30 +82,7 @@ public class StagingHandlerClient implements StagingHandlerInterface {
      */
     public URL upload(final InputStream ins) throws EscidocException,
         InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            throw new InternalClientException(
-                "Staging Service does not support SOAP");
-        }
-
-        return getRestStagingHandlerClient().upload(ins);
-    }
-
-    /**
-     * Get the REST handler.
-     * 
-     * @return RestStagingHandlerClient
-     * @throws InternalClientException
-     *             Thrown if creating instance of RestStagingHandlerClient
-     *             failed.
-     */
-    public RestStagingHandlerClient getRestStagingHandlerClient()
-        throws InternalClientException {
-
-        if (this.restStagingHandlerClient == null) {
-            this.restStagingHandlerClient = new RestStagingHandlerClient();
-        }
-        return this.restStagingHandlerClient;
+        return getRestHandlerClient().upload(ins);
     }
 
     /*
@@ -142,14 +98,8 @@ public class StagingHandlerClient implements StagingHandlerInterface {
         final String password) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            throw new InternalClientException(
-                "Staging Service does not support SOAP");
-        }
-        else {
-            return getRestStagingHandlerClient().login(serviceAddress,
-                username, password);
-        }
+        return getRestHandlerClient().login(serviceAddress,
+            username, password);
     }
 
     /*
@@ -165,77 +115,28 @@ public class StagingHandlerClient implements StagingHandlerInterface {
     }
 
     /**
-     * Get Login-Handle.
-     * 
-     * @return Login-Handle
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
+     * SOAP not supported.
      */
-    public String getHandle() throws InternalClientException {
+	@Override
+	protected SoapClientBase getSoapHandlerClientInstance()
+			throws InternalClientException {
+		return null;
+	}
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            throw new InternalClientException(
-                "Staging Service does not support SOAP");
-        }
-        else {
-            return getRestStagingHandlerClient().getHandle();
-        }
-    }
+	@Override
+	protected RestStagingHandlerClient getRestHandlerClientInstance()
+			throws InternalClientException {
+		return new RestStagingHandlerClient();
+	}
+	
+	@Override
+	public void setTransport(TransportProtocol transport) {
+		// ignore specified TransportProtocol
+		super.setTransport(TransportProtocol.REST);
+	}
 
-    /**
-     * See Interface for functional description.
-     * 
-     * @param handle
-     * @see de.escidoc.core.client.interfaces.BaseClientHandlerInterface#setHandle(java.lang.String)
-     */
-    public void setHandle(final String handle) throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            throw new InternalClientException(
-                "Staging Service does not support SOAP");
-        }
-        else {
-            getRestStagingHandlerClient().setHandle(handle);
-        }
-    }
-
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            throw new InternalClientException(
-                "Staging Service does not support SOAP");
-        }
-        else {
-            getRestStagingHandlerClient().setServiceAddress(address);
-        }
-    }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @return The used transport protocol.
-     */
-    public TransportProtocol getTransport() {
-        return this.tp;
-    }
-
-    /**
-     * Set the Transport Protocol (REST/SOAP).
-     * 
-     * @param transportProtocol
-     *            The transport protocol.
-     */
-    public void setTransport(final TransportProtocol transportProtocol) {
-        this.tp = transportProtocol;
-    }
-
+	@Override
+	public TransportProtocol getTransport() {
+		return TransportProtocol.REST;
+	}
 }

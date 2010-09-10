@@ -28,8 +28,6 @@
  */
 package de.escidoc.core.client;
 
-import java.io.IOException;
-
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;

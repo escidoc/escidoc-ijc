@@ -36,7 +36,6 @@ import java.net.MalformedURLException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -46,7 +45,6 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.UserAccountHandler;
 import de.escidoc.core.client.rest.serviceLocator.UserAccountRestServiceLocator;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.common.jibx.MarshallerFactory;
 
 /**
  * REST Handler for User Account.
@@ -54,7 +52,7 @@ import de.escidoc.core.common.jibx.MarshallerFactory;
  * @author SWA
  * 
  */
-public class RestUserAccountHandlerClient extends ClientBase {
+public class RestUserAccountHandlerClient extends RestClientBase {
 
     private final Logger logger = Logger
         .getLogger(RestUserAccountHandlerClient.class.getName());
@@ -70,6 +68,26 @@ public class RestUserAccountHandlerClient extends ClientBase {
         super();
     }
 
+    /**
+     * Activate User Account.
+     * 
+     * @param userId
+     * @param taskParam
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void activate(final String userId, final String taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        try {
+            getClient().activate(userId, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+    }
+    
     /**
      * 
      * @param resourceXml
@@ -112,6 +130,26 @@ public class RestUserAccountHandlerClient extends ClientBase {
             ExceptionMapper.map(e);
         }
     }
+    
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void deactivate(final String id, final String taskParam)
+    	throws EscidocException, InternalClientException, TransportException {
+	
+	    try {
+	        getClient().deactivate(id, taskParam);
+	    }
+	    catch (Exception e) {
+	        logger.debug(e);
+	        ExceptionMapper.map(e);
+	    }
+	}
 
     /**
      * 
@@ -139,7 +177,7 @@ public class RestUserAccountHandlerClient extends ClientBase {
     /**
      * 
      * @param id
-     * @param context
+     * @param userAccountXml
      * @return
      * @throws EscidocException
      * @throws InternalClientException
@@ -147,12 +185,12 @@ public class RestUserAccountHandlerClient extends ClientBase {
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String context)
+    public String update(final String id, final String userAccountXml)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().update(id, context);
+            result = getClient().update(id, userAccountXml);
         }
         catch (Exception e) {
             logger.debug(e);

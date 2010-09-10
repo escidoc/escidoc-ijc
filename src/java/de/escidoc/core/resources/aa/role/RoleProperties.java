@@ -28,8 +28,10 @@
  */
 package de.escidoc.core.resources.aa.role;
 
+import org.joda.time.DateTime;
+
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.common.properties.Properties;
+import de.escidoc.core.resources.XLinkResource;
 
 /**
  * Properties of a Role.
@@ -37,9 +39,17 @@ import de.escidoc.core.resources.common.properties.Properties;
  * @author SWA
  * 
  */
-public class RoleProperties extends Properties {
+public class RoleProperties extends XLinkResource {
 
+	private ResourceRef createdBy;
+	
     private ResourceRef modifiedBy;
+    
+    protected DateTime creationDate = null;
+
+    protected String name;
+    
+    protected String description;
 
     /**
      * Get modified by.
@@ -59,5 +69,61 @@ public class RoleProperties extends Properties {
     public void setModifiedBy(final ResourceRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+	/**
+	 * @return the createdBy
+	 */
+	public ResourceRef getCreatedBy() {
+		return createdBy;
+	}
+
+	/**
+	 * @param createdBy the createdBy to set
+	 */
+	public void setCreatedBy(ResourceRef createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	/**
+	 * @return the creationDate
+	 */
+	public DateTime getCreationDate() {
+		return creationDate;
+	}
+
+	/**
+	 * @param creationDate the creationDate to set
+	 */
+	public void setCreationDate(DateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

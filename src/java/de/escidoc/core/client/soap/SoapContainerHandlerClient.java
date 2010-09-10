@@ -39,7 +39,6 @@ import javax.xml.rpc.ServiceException;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -55,7 +54,7 @@ import de.escidoc.core.om.ContainerHandlerServiceLocator;
  * @author SWA
  * 
  */
-public class SoapContainerHandlerClient extends ClientBase {
+public class SoapContainerHandlerClient extends SoapClientBase {
 
     public SoapContainerHandlerClient() throws InternalClientException {
 

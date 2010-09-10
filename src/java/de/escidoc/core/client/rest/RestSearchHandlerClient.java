@@ -13,7 +13,6 @@ import java.rmi.Remote;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -26,7 +25,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  * @author MVO
  *
  */
-public class RestSearchHandlerClient extends ClientBase {
+public class RestSearchHandlerClient extends RestClientBase {
 
 	private final Logger logger =
         Logger.getLogger(RestSearchHandlerClient.class.getName());

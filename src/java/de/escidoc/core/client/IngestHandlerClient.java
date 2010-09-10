@@ -41,16 +41,12 @@ import de.escidoc.core.client.soap.SoapIngestHandlerClient;
  * @author KST
  * 
  */
-public class IngestHandlerClient extends AbstractHandlerClient 
+public class IngestHandlerClient extends AbstractHandlerClient
+	<SoapIngestHandlerClient, RestIngestHandlerClient>
 	implements IngestHandlerInterface {
 
-    private RestIngestHandlerClient restIngestHandlerClient = null;
-
-    private SoapIngestHandlerClient soapIngestHandlerClient = null;
-
-    /**
-     * Create ContainersoapContainerHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
+	/**
+     * Returns the XML presentation of a resource.
      * 
      * @param resourceXml
      *            XML representation of a resource.
@@ -66,69 +62,12 @@ public class IngestHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapIngestHandlerClient().ingest(resourceXml);
+            return getSoapHandlerClient().ingest(resourceXml);
         }
         else {
-            return getRestIngestHandlerClient().ingest(resourceXml);
+            return getRestHandlerClient().ingest(resourceXml);
         }
     }
-
-    /**
-     * Gets the ingest handler client for the soap representation.
-     * 
-     * @return an instance of SoapIngestHandlerClient
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    private SoapIngestHandlerClient getSoapIngestHandlerClient()
-        throws InternalClientException {
-        synchronized (this) {
-            if (soapIngestHandlerClient == null) {
-                soapIngestHandlerClient = new SoapIngestHandlerClient();
-                // soapIngestHandlerClient.setHandle(getHandle());
-                // soapIngestHandlerClient.setServiceAddress(this.serviceAddress);
-            }
-            return soapIngestHandlerClient;
-        }
-    }
-
-    /**
-     * Get ingest client handler for REST.
-     * 
-     * @return RestIngestHandlerClient
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    private RestIngestHandlerClient getRestIngestHandlerClient()
-        throws InternalClientException {
-        synchronized (this) {
-            if (restIngestHandlerClient == null) {
-                restIngestHandlerClient = new RestIngestHandlerClient();
-                // restIngestHandlerClient.setHandle(getHandle());
-                // restIngestHandlerClient.setServiceAddress(getServiceAddress());
-            }
-            return restIngestHandlerClient;
-        }
-    }
-
-    // /**
-    // * Returns the service address.
-    // *
-    // * @return the String containing the service address
-    // */
-    // private String getServiceAddress() {
-    // return this.serviceAddress;
-    //
-    // }
-
-    // /**
-    // * Returns the Authentication handle.
-    // *
-    // * @return the handle
-    // */
-    // private String getHandle() {
-    // return this.handle;
-    // }
 
     /**
      * Login.
@@ -154,11 +93,11 @@ public class IngestHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapIngestHandlerClient().login(serviceAddress, username,
+            return getSoapHandlerClient().login(serviceAddress, username,
                 password);
         }
         else {
-            return getRestIngestHandlerClient().login(serviceAddress, username,
+            return getRestHandlerClient().login(serviceAddress, username,
                 password);
         }
     }
@@ -180,40 +119,15 @@ public class IngestHandlerClient extends AbstractHandlerClient
         setHandle("");
     }
 
-    /**
-     * Set Login-Handle.
-     * 
-     * @param handle
-     *            Login-Handle
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public void setHandle(final String handle) throws InternalClientException {
+	@Override
+	protected SoapIngestHandlerClient getSoapHandlerClientInstance()
+			throws InternalClientException {
+		return new SoapIngestHandlerClient();
+	}
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapIngestHandlerClient().setHandle(handle);
-        }
-        else {
-            getRestIngestHandlerClient().setHandle(handle);
-        }
-    }
-
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapIngestHandlerClient().setServiceAddress(address);
-        }
-        else {
-            getRestIngestHandlerClient().setServiceAddress(address);
-        }
-    }
+	@Override
+	protected RestIngestHandlerClient getRestHandlerClientInstance()
+			throws InternalClientException {
+		return new RestIngestHandlerClient();
+	}
 }

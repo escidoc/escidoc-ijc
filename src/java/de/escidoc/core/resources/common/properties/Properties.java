@@ -31,6 +31,7 @@ package de.escidoc.core.resources.common.properties;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
 import de.escidoc.core.resources.interfaces.common.PropertiesInterface;
@@ -43,7 +44,7 @@ import de.escidoc.core.resources.interfaces.common.VersionInterface;
  * @author SWA
  * 
  */
-public class Properties implements PropertiesInterface {
+public class Properties extends XLinkResource implements PropertiesInterface {
 
     protected DateTime creationDate = null;
 

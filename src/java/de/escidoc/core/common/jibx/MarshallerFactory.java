@@ -39,12 +39,10 @@ import de.escidoc.core.resources.om.toc.Toc;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.PathList;
-import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
 
 /**
  * Marshaller Factory.
@@ -146,11 +144,6 @@ public class MarshallerFactory {
     
     private static Marshaller<SearchResultRecord> searchResultMarshaller = null;
 
-    private static Marshaller<SearchRetrieveResponseType> filterResponseMarshaller =
-        null;
-
-    private static Marshaller<ExplainData> explainRecordMarshaller = null;
-    
     private static Marshaller<ExplainResponse> explainResponseMarshaller = null;
     
     private static Marshaller<ScanResponse> scanResponseMarshaller = null;
@@ -181,27 +174,6 @@ public class MarshallerFactory {
     /**
      * FIXME Filter and Search should be the same.
      * 
-     * @return the filterResponseMarshaller
-     * @throws InternalClientException 
-     * @Deprecated Use {@link #getSearchRetrieveResponseMarshaller()} instead.
-     */
-    @Deprecated
-    public Marshaller<SearchRetrieveResponseType> getFilterResponseMarshaller() 
-    	throws InternalClientException {
-
-        if (filterResponseMarshaller == null) {
-            filterResponseMarshaller =
-                new Marshaller<SearchRetrieveResponseType>(
-                    SearchRetrieveResponseType.class);
-        }
-        filterResponseMarshaller.setTransport(transport);
-        
-        return filterResponseMarshaller;
-    }
-
-    /**
-     * FIXME Filter and Search should be the same.
-     * 
      * @return the searchResultMarshaller
      */
     public Marshaller<SearchResultRecord> getSearchResultMarshaller() 
@@ -216,25 +188,6 @@ public class MarshallerFactory {
         return searchResultMarshaller;
     }
     
-    /**
-     * 
-     * @return the explainRecordMarshaller
-     * 
-     * @Deprecated Use {@link #getExplainResponseMarshaller()} instead.
-     */
-    @Deprecated
-    public Marshaller<ExplainData> getExplainRecordMarshaller() 
-		throws InternalClientException {
-
-        if (explainRecordMarshaller == null) {
-            explainRecordMarshaller =
-                new Marshaller<ExplainData>(ExplainData.class);
-        }
-        explainRecordMarshaller.setTransport(transport);
-        
-        return explainRecordMarshaller;
-    }
-
     /**
      * @return the componentMarshaller
      */

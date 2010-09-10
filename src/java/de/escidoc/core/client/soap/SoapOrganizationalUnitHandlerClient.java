@@ -40,7 +40,6 @@ import javax.xml.rpc.ServiceException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -56,7 +55,7 @@ import de.escidoc.core.oum.OrganizationalUnitHandlerServiceLocator;
  * @author SWA
  * 
  */
-public class SoapOrganizationalUnitHandlerClient extends ClientBase {
+public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
     private final Logger logger = Logger
         .getLogger(SoapOrganizationalUnitHandlerClient.class.getName());

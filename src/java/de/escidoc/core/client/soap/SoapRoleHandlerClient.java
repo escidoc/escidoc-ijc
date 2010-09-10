@@ -41,7 +41,6 @@ import org.joda.time.DateTime;
 
 import de.escidoc.core.aa.RoleHandler;
 import de.escidoc.core.aa.RoleHandlerServiceLocator;
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -55,7 +54,7 @@ import de.escidoc.core.common.jibx.Factory;
  * @author SWA
  * 
  */
-public class SoapRoleHandlerClient extends ClientBase {
+public class SoapRoleHandlerClient extends SoapClientBase {
 
     private RoleHandler soapClient = null;
 

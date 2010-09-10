@@ -37,7 +37,6 @@ import org.joda.time.DateTime;
 
 import de.escidoc.core.aa.PolicyDecisionPoint;
 import de.escidoc.core.aa.PolicyDecisionPointServiceLocator;
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -50,7 +49,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  * @author SWA
  * 
  */
-public class SoapPolicyDecisionPointHandlerClient extends ClientBase {
+public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
 
     private PolicyDecisionPoint soapClient = null;
 

@@ -33,7 +33,6 @@ import java.net.MalformedURLException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -49,7 +48,7 @@ import de.escidoc.core.om.IngestHandler;
  * @author SWA
  * 
  */
-public class RestIngestHandlerClient extends ClientBase
+public class RestIngestHandlerClient extends RestClientBase
     implements IngestHandlerInterface {
 
     private final Logger logger =

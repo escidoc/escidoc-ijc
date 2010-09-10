@@ -64,24 +64,8 @@ import de.escidoc.core.resources.sb.search.records.OrganizationalUnitRecord;
  * 
  */
 public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
+	<SoapOrganizationalUnitHandlerClient, RestOrganizationalUnitHandlerClient>
     implements OrganizationalUnitHandlerClientInterface {
-
-    private SoapOrganizationalUnitHandlerClient soapOrganizationalUnitHandlerClient =
-        null;
-
-    private RestOrganizationalUnitHandlerClient restOrganizationalUnitHandlerClient =
-        null;
-
-    /**
-     * Create OrganizationalUnitClientHandler instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
-     * 
-     * @throws InternalClientException
-     * 
-     */
-    public OrganizationalUnitHandlerClient() throws InternalClientException {
-
-    }
 
     /**
      * See Interface for functional description.
@@ -99,11 +83,11 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapOrganizationalUnitHandlerClient().create(orgUnitString);
+                getSoapHandlerClient().create(orgUnitString);
         }
         else {
             xml =
-                getRestOrganizationalUnitHandlerClient().create(orgUnitString);
+                getRestHandlerClient().create(orgUnitString);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getOrganizationalUnitMarshaller().unmarshalDocument(xml);
@@ -122,10 +106,10 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapOrganizationalUnitHandlerClient().retrieve(id);
+            xml = getSoapHandlerClient().retrieve(id);
         }
         else {
-            xml = getRestOrganizationalUnitHandlerClient().retrieve(id);
+            xml = getRestHandlerClient().retrieve(id);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getOrganizationalUnitMarshaller().unmarshalDocument(xml);
@@ -148,13 +132,11 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         String orgUnitString = Factory.getMarshallerFactory(getTransport())
         	.getOrganizationalUnitMarshaller().marshalDocument(organizationalUnit);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapOrganizationalUnitHandlerClient().update(
-                    organizationalUnit.getObjid(), orgUnitString);
+            xml = getSoapHandlerClient().update(
+            		organizationalUnit.getObjid(), orgUnitString);
         }
         else {
-            xml =
-                getRestOrganizationalUnitHandlerClient().update(
+            xml = getRestHandlerClient().update(
                     organizationalUnit.getObjid(), orgUnitString);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -177,16 +159,15 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
-        String taskParamString = Factory.getMarshallerFactory(getTransport())
-        	.getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapOrganizationalUnitHandlerClient().open(id,
+                getSoapHandlerClient().open(id,
                     taskParamString);
         }
         else {
             xml =
-                getRestOrganizationalUnitHandlerClient().open(id,
+                getRestHandlerClient().open(id,
                     taskParamString);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -209,19 +190,17 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
-        String taskParamString =
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapOrganizationalUnitHandlerClient().close(id,
-                    taskParamString);
+                getSoapHandlerClient().close(id, taskParamString);
         }
         else {
             xml =
-                getRestOrganizationalUnitHandlerClient().close(id,
-                    taskParamString);
+                getRestHandlerClient().close(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport()).getResultMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getResultMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -244,10 +223,10 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            getSoapOrganizationalUnitHandlerClient().delete(id);
+            getSoapHandlerClient().delete(id);
         }
         else {
-            getRestOrganizationalUnitHandlerClient().delete(id);
+            getRestHandlerClient().delete(id);
         }
     }
 
@@ -264,8 +243,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        return getSoapOrganizationalUnitHandlerClient()
-            .getLastModificationDate(id);
+        return getSoapHandlerClient().getLastModificationDate(id);
     }
 
     /*
@@ -282,11 +260,11 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapOrganizationalUnitHandlerClient().login(
+            return getSoapHandlerClient().login(
                 serviceAddress, username, password);
         }
         else {
-            return getRestOrganizationalUnitHandlerClient().login(
+            return getRestHandlerClient().login(
                 serviceAddress, username, password);
         }
     }
@@ -301,40 +279,6 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         TransportException {
 
         setHandle("");
-    }
-
-    /**
-     * Get Login-Handle.
-     * 
-     * @return Login-Handle
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public String getHandle() throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapOrganizationalUnitHandlerClient().getHandle();
-        }
-        else {
-            return getRestOrganizationalUnitHandlerClient().getHandle();
-        }
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param handle
-     * @throws InternalClientException
-     * @see de.escidoc.core.client.interfaces.BaseClientHandlerInterface#setHandle(java.lang.String)
-     */
-    public void setHandle(final String handle) throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapOrganizationalUnitHandlerClient().setHandle(handle);
-        }
-        else {
-            getRestOrganizationalUnitHandlerClient().setHandle(handle);
-        }
     }
 
     @Override
@@ -359,14 +303,10 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapOrganizationalUnitHandlerClient().retrieveParentObjects(
-                    id);
+            xml = getSoapHandlerClient().retrieveParentObjects(id);
         }
         else {
-            xml =
-                getRestOrganizationalUnitHandlerClient().retrieveParentObjects(
-                    id);
+            xml = getRestHandlerClient().retrieveParentObjects(id);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
@@ -378,14 +318,10 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapOrganizationalUnitHandlerClient().retrieveChildObjects(
-                    id);
+            xml = getSoapHandlerClient().retrieveChildObjects(id);
         }
         else {
-            xml =
-                getRestOrganizationalUnitHandlerClient().retrieveChildObjects(
-                    id);
+            xml = getRestHandlerClient().retrieveChildObjects(id);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
@@ -409,19 +345,15 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         final TaskParam taskParam) throws EscidocException,
         InternalClientException, TransportException {
 
-        String taskParamString =
-            Factory.getMarshallerFactory(getTransport())
-            	.getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamString = marshalTaskParam(taskParam);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapOrganizationalUnitHandlerClient()
-                    .retrieveOrganizationalUnits(taskParamString);
+            xml = getSoapHandlerClient()
+            	.retrieveOrganizationalUnits(taskParamString);
         }
         else {
-            xml =
-                getRestOrganizationalUnitHandlerClient()
-                    .retrieveOrganizationalUnits(taskParamString);
+            xml = getRestHandlerClient()
+            	.retrieveOrganizationalUnits(taskParamString);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
@@ -449,12 +381,10 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
     	
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapOrganizationalUnitHandlerClient()
-            	.retrieveOrganizationalUnits(filter);
+            xml = getSoapHandlerClient().retrieveOrganizationalUnits(filter);
         }
         else {
-            xml = getRestOrganizationalUnitHandlerClient()
-            	.retrieveOrganizationalUnits(filter);
+            xml = getRestHandlerClient().retrieveOrganizationalUnits(filter);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
@@ -501,12 +431,10 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapOrganizationalUnitHandlerClient()
-            	.retrieveOrganizationalUnits(filter);
+            xml = getSoapHandlerClient().retrieveOrganizationalUnits(filter);
         }
         else {
-            xml = getRestOrganizationalUnitHandlerClient()
-            	.retrieveOrganizationalUnits(filter);
+            xml = getRestHandlerClient().retrieveOrganizationalUnits(filter);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getExplainResponseMarshaller().unmarshalDocument(xml);
@@ -518,46 +446,17 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient
         throw new InternalClientException("Method not yet supported.");
     }
 
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-        getSoapOrganizationalUnitHandlerClient().setServiceAddress(address);
-    }
+	@Override
+	protected SoapOrganizationalUnitHandlerClient getSoapHandlerClientInstance()
+			throws InternalClientException {
+		return new SoapOrganizationalUnitHandlerClient();
+	}
+
+	@Override
+	protected RestOrganizationalUnitHandlerClient getRestHandlerClientInstance()
+			throws InternalClientException {
+		return new RestOrganizationalUnitHandlerClient();
+	}
     
-    /**
-     * @return the SoapOrganizationalUnitClientHandler
-     * @throws InternalClientException
-     * @throws InternalClientException
-     */
-    public SoapOrganizationalUnitHandlerClient getSoapOrganizationalUnitHandlerClient()
-        throws InternalClientException {
-
-        if (this.soapOrganizationalUnitHandlerClient == null) {
-            this.soapOrganizationalUnitHandlerClient =
-                new SoapOrganizationalUnitHandlerClient();
-        }
-        return this.soapOrganizationalUnitHandlerClient;
-    }
-
-    /**
-     * @return the RestOrganizationalUnitClientHandler
-     * @throws InternalClientException
-     * @throws InternalClientException
-     */
-    public RestOrganizationalUnitHandlerClient getRestOrganizationalUnitHandlerClient()
-        throws InternalClientException {
-
-        if (this.restOrganizationalUnitHandlerClient == null) {
-            this.restOrganizationalUnitHandlerClient =
-                new RestOrganizationalUnitHandlerClient();
-        }
-        return this.restOrganizationalUnitHandlerClient;
-    }
+    
 }

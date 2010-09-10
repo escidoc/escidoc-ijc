@@ -41,6 +41,7 @@ import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.notfound.GrantNotFoundException;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.GrantProperties;
 import de.escidoc.core.resources.aa.useraccount.Grants;
@@ -77,7 +78,7 @@ public class GrantsTest {
 				Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
 		UserAccountHandlerClient uahc = new UserAccountHandlerClient();
-		uahc.setTransport(TransportProtocol.REST);
+		
 		uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
 		uahc.setHandle(auth.getHandle());
 
@@ -100,13 +101,11 @@ public class GrantsTest {
 		GrantProperties gProp = new GrantProperties();
 		ResourceRef ref = new ResourceRef("escidoc:role-system-administrator", 
 				"/aa/role/escidoc:role-system-administrator", "TEST");
-		//ref.setXLinkType(XLINK_TYPE.simple); not needed anymore
 		gProp.setRole(ref);
 		
 		grant.setGrantProperties(gProp);
 
 		Grant createdGrant = uahc.createGrant(objId, grant);
-		uahc.setTransport(TransportProtocol.REST);
 
 		assertEquals("Missing role in grant", 
 				"escidoc:role-system-administrator", createdGrant
@@ -114,9 +113,11 @@ public class GrantsTest {
 
 		Grants grants = uahc.retrieveCurrentGrants(objId);
 		assertTrue(grants.getGrants().size() > 0);
-		for (Grant g : grants.getGrants()) {
-			String xLinkTitle = g.getXLinkTitle();
-			assertTrue(xLinkTitle != null && !xLinkTitle.isEmpty());
+		if(uahc.getTransport() == TransportProtocol.REST) {
+			for (Grant g : grants.getGrants()) {
+				String xLinkTitle = g.getXLinkTitle();
+				assertTrue(xLinkTitle != null && !xLinkTitle.isEmpty());
+			}
 		}
 	}
 
@@ -142,9 +143,11 @@ public class GrantsTest {
 		Item item = new Item();
 
 		item.getProperties().setContext(
-				new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+				new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+						RESOURCE_TYPE.Context));
 		item.getProperties().setContentModel(
-				new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+				new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
+						RESOURCE_TYPE.ContentModel));
 
 		// Content-model
 		ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -236,8 +239,9 @@ public class GrantsTest {
 		String roleId = "escidoc:role-audience";
 		Grant grant = new Grant();
 		GrantProperties gProp = new GrantProperties();
-		gProp.setRole(new ResourceRef(roleId));
-		gProp.setAssignedOn(new ResourceRef("escidoc:NON-exists"));
+		gProp.setRole(new ResourceRef(roleId, RESOURCE_TYPE.Role));
+		gProp.setAssignedOn(new ResourceRef("escidoc:NON-exists", 
+				RESOURCE_TYPE.UserAccount));
 		grant.setGrantProperties(gProp);
 
 		uahc.createGrant(objId, grant);

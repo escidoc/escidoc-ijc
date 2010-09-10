@@ -44,8 +44,8 @@ import de.escidoc.core.resources.common.TaskParam;
  * @author SWA
  * 
  */
-public interface UserAccountHandlerClientInterface<T>
-    extends CrudHandlerInterface<T> {
+public interface UserAccountHandlerClientInterface
+    extends CrudHandlerInterface<UserAccount> {
 
     void updatePassword(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,

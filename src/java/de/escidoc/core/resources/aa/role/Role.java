@@ -106,4 +106,22 @@ public class Role extends GenericResource {
     public void setProperties(final RoleProperties properties) {
         this.properties = properties;
     }
+    
+    /**
+     * XLinkHref validation for JiBX. This method will be called by the JiBX
+     * binding for the REST transport protocol as post-set.
+     */
+    public void ensureValidXLinkHrefDefinitions() {
+    	genOwnXLinkHref();
+    	
+    	if(properties != null) {
+    		if(properties.getXLinkHref() == null) {
+    			properties.setXLinkHref(getXLinkHref() + "/properties");
+    		}
+    		genXLinkHref(properties.getCreatedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    		genXLinkHref(properties.getModifiedBy(), 
+    				RESOURCE_TYPE.UserAccount, null);
+    	}
+    }
 }

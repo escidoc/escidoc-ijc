@@ -25,6 +25,7 @@ import de.escidoc.core.resources.sb.search.records.ItemRecord;
 import de.escidoc.core.resources.sb.search.records.OrganizationalUnitRecord;
 import de.escidoc.core.resources.sb.search.records.RoleRecord;
 import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
+import de.escidoc.core.resources.sb.search.records.UserAccountRecord;
 
 /**
  * @author MVO
@@ -55,7 +56,8 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
 				"http://www.escidoc.de/schemas/organizationalunit/0.8"), 
 		Context("context", "http://www.escidoc.de/schemas/context/0.7"), 
 		ContentRelation("content-relation"), 
-		Role("role");
+		Role("role"),
+		UserAccount("user-account");
 		
 		private final String tagName;
 		private final String namespace;
@@ -293,6 +295,9 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
 					recordPosition, dataDOM, dataText, transport);
 		else if(RecordDataTag.Role.equals(tagName))
 			return new RoleRecord(recordSchema, packing, 
+					recordPosition, dataDOM, dataText, transport);
+		else if(RecordDataTag.UserAccount.equals(tagName))
+			return new UserAccountRecord(recordSchema, packing, 
 					recordPosition, dataDOM, dataText, transport);
 		
     	/**

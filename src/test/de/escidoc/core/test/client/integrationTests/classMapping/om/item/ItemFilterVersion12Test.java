@@ -38,7 +38,6 @@ import java.util.Collection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.axis.types.NonNegativeInteger;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -66,8 +65,6 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ItemFilterVersion12Test {
 
-    public static final String FILTER_PARAMETER_QUERY = "query";
-
     /**
      * Test retrieving Items through filter request (filter for version 1.2).
      * 
@@ -82,7 +79,8 @@ public class ItemFilterVersion12Test {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, 
+        		RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
         // properties.setContentModelSpecific(getContentModelSpecific());
@@ -121,7 +119,6 @@ public class ItemFilterVersion12Test {
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
         srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
-        srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse response = ic.retrieveItems(srwFilter);
 
@@ -133,16 +130,16 @@ public class ItemFilterVersion12Test {
         assertEquals("Wrong record position", 1, response
             .getRecords().iterator().next().getRecordPosition());
 
-         Collection<Item> test = 
-        	 new ArrayList<Item>(response.getNumberOfResultingRecords());
+         Collection<String> itemIds = 
+        	 new ArrayList<String>(response.getNumberOfResultingRecords());
          for (@SuppressWarnings("rawtypes") Record record : response.getRecords()) {
         	 Object data = record.getRecordData();
         	 if(data != null && data instanceof Item)
-        		 test.add((Item)data);
+        		 itemIds.add(((Item)data).getObjid());
          }
         
          assertTrue("Created Item missing in list", 
-        		 test.contains(createdItem.getObjid()));
+        		 itemIds.contains(createdItem.getObjid()));
     }
 
 }

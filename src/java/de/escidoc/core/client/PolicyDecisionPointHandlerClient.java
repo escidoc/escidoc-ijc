@@ -35,6 +35,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface;
+import de.escidoc.core.client.rest.RestPolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.soap.SoapPolicyDecisionPointHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.pdp.Requests;
@@ -48,28 +49,11 @@ import de.escidoc.core.resources.aa.pdp.RequestsResults;
  * @author SWA
  * 
  */
-public class PolicyDecisionPointHandlerClient
+public class PolicyDecisionPointHandlerClient extends AbstractHandlerClient
+	<SoapPolicyDecisionPointHandlerClient, RestPolicyDecisionPointHandlerClient>
     implements PolicyDecisionPointHandlerClientInterface {
 
-    private SoapPolicyDecisionPointHandlerClient soapPolicyDecisionPointHandlerClient =
-        null;
-
     private Authentication auth = null;
-
-    /**
-     * Create PolicyDecisionPointHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
-     * 
-     * @throws ClientException
-     * 
-     */
-    public PolicyDecisionPointHandlerClient() throws EscidocException,
-        InternalClientException, TransportException {
-
-        // read service protocol from config or set as default SOAP
-        this.soapPolicyDecisionPointHandlerClient =
-            new SoapPolicyDecisionPointHandlerClient();
-    }
 
     /**
      * See Interface for functional description.
@@ -82,11 +66,17 @@ public class PolicyDecisionPointHandlerClient
     public RequestsResults evaluate(Requests requests) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml =
-            getSoapPolicyDecisionPointHandlerClient().evaluate(
-                Factory.getMarshallerFactory(TransportProtocol.SOAP)
-                	.getRequestsMarshaller().marshalDocument((Requests) requests));
-        return Factory.getMarshallerFactory(TransportProtocol.SOAP)
+    	String xml = null;
+    	if(getTransport() == TransportProtocol.SOAP) {
+    		xml = getSoapHandlerClient().evaluate(
+                Factory.getMarshallerFactory(getTransport())
+                	.getRequestsMarshaller().marshalDocument(requests));
+    	} else {
+    		xml = getRestHandlerClient().evaluate(
+                    Factory.getMarshallerFactory(getTransport())
+                    	.getRequestsMarshaller().marshalDocument(requests));
+    	}
+    	return Factory.getMarshallerFactory(getTransport())
         	.getRequestsResultsMarshaller().unmarshalDocument(xml);
     }
 
@@ -103,8 +93,11 @@ public class PolicyDecisionPointHandlerClient
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        return getSoapPolicyDecisionPointHandlerClient()
-            .getLastModificationDate(id);
+    	if(getTransport() == TransportProtocol.SOAP) {
+	        return getSoapHandlerClient().getLastModificationDate(id);
+    	} else {
+    		return getRestHandlerClient().getLastModificationDate(id);
+    	}
     }
 
     /*
@@ -149,35 +142,15 @@ public class PolicyDecisionPointHandlerClient
         setHandle("");
     }
 
-    /**
-     * See Interface for functional description.
-     * 
-     * @param handle
-     * @see de.escidoc.core.client.interfaces.BaseClientHandlerInterface#setHandle(java.lang.String)
-     */
-    public void setHandle(final String handle) {
+	@Override
+	protected SoapPolicyDecisionPointHandlerClient getSoapHandlerClientInstance()
+			throws InternalClientException {
+		return new SoapPolicyDecisionPointHandlerClient();
+	}
 
-        getSoapPolicyDecisionPointHandlerClient().setHandle(handle);
-    }
-
-    /**
-     * @return the soapContainerHandlerClient
-     */
-    public SoapPolicyDecisionPointHandlerClient getSoapPolicyDecisionPointHandlerClient() {
-        return soapPolicyDecisionPointHandlerClient;
-    }
-
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-        getSoapPolicyDecisionPointHandlerClient().setServiceAddress(address);
-    }
-
+	@Override
+	protected RestPolicyDecisionPointHandlerClient getRestHandlerClientInstance()
+			throws InternalClientException {
+		return new RestPolicyDecisionPointHandlerClient();
+	}
 }

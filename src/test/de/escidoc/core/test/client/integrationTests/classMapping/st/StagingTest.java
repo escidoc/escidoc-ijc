@@ -41,6 +41,7 @@ import java.net.URL;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.StagingHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -63,8 +64,10 @@ public class StagingTest extends EscidocClientTestBase {
     public void uploadFileTest() throws Exception {
 
         StagingHandlerClient sthc = new StagingHandlerClient();
-        sthc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        Authentication auth = new Authentication(
+        		EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        sthc.setHandle(auth.getHandle());
 
         File f = new File("./templates/soap/item/0.6/item.xml");
         URL url = sthc.upload(f);

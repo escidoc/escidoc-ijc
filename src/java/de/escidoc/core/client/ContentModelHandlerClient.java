@@ -48,29 +48,10 @@ import de.escidoc.core.resources.cmm.ContentModel;
  * 
  */
 public class ContentModelHandlerClient extends AbstractHandlerClient
+	<SoapContentModelHandlerClient, RestContentModelHandlerClient>
     implements ContentModelHandlerClientInterface {
 
-    private SoapContentModelHandlerClient soapContentModelHandlerClient = null;
-
-    private RestContentModelHandlerClient restContentModelHandlerClient = null;
-
-    /**
-     * Create ContentModelSoapHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    public ContentModelHandlerClient() throws EscidocException,
-        InternalClientException, TransportException {
-
-    }
-
-    /**
+	/**
      * Create ContentModel in Repository.
      * 
      * @param contentModel
@@ -90,10 +71,10 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
         	.getContentModelMarshaller().marshalDocument(contentModel);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapContentModelHandlerClient().create(contentModelXml);
+            xml = getSoapHandlerClient().create(contentModelXml);
         }
         else {
-            xml = getRestContentModelHandlerClient().create(contentModelXml);
+            xml = getRestHandlerClient().create(contentModelXml);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getContentModelMarshaller().unmarshalDocument(xml);
@@ -117,10 +98,10 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapContentModelHandlerClient().retrieve(id);
+            xml = getSoapHandlerClient().retrieve(id);
         }
         else {
-            xml = getRestContentModelHandlerClient().retrieve(id);
+            xml = getRestHandlerClient().retrieve(id);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getContentModelMarshaller().unmarshalDocument(xml);
@@ -142,10 +123,10 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            getSoapContentModelHandlerClient().delete(id);
+            getSoapHandlerClient().delete(id);
         }
         else {
-            getRestContentModelHandlerClient().delete(id);
+            getRestHandlerClient().delete(id);
         }
     }
 
@@ -169,13 +150,11 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
         	.getContentModelMarshaller().marshalDocument(contentModel);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapContentModelHandlerClient().update(
-                    contentModel.getObjid(), contentModelXml);
+            xml = getSoapHandlerClient().update(
+            		contentModel.getObjid(), contentModelXml);
         }
         else {
-            xml =
-                getRestContentModelHandlerClient().update(
+            xml = getRestHandlerClient().update(
                     contentModel.getObjid(), contentModelXml);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -199,9 +178,11 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
     	if(getTransport() == TransportProtocol.SOAP)
-    		return getSoapContentModelHandlerClient().getLastModificationDate(id);
+    		return getSoapHandlerClient()
+    			.getLastModificationDate(id);
     	else
-    		return getRestContentModelHandlerClient().getLastModificationDate(id);
+    		return getRestHandlerClient()
+    			.getLastModificationDate(id);
     }
 
     /**
@@ -228,11 +209,11 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapContentModelHandlerClient().login(serviceAddress,
+            return getSoapHandlerClient().login(serviceAddress,
                 username, password);
         }
         else {
-            return getRestContentModelHandlerClient().login(serviceAddress,
+            return getRestHandlerClient().login(serviceAddress,
                 username, password);
         }
     }
@@ -250,89 +231,21 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
     @Deprecated
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
-
+    	
         setHandle("");
     }
 
-    /**
-     * Get Login-Handle.
-     * 
-     * @return Login-Handle
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public String getHandle() throws InternalClientException {
+	@Override
+	protected SoapContentModelHandlerClient getSoapHandlerClientInstance()
+		throws InternalClientException {
+		return new SoapContentModelHandlerClient();
+	}
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapContentModelHandlerClient().getHandle();
-        }
-        else {
-            return getRestContentModelHandlerClient().getHandle();
-        }
-    }
-
-    /**
-     * Set Login-Handle.
-     * 
-     * @param handle
-     *            Login-Handle
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public void setHandle(final String handle) throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapContentModelHandlerClient().setHandle(handle);
-        }
-        else {
-            getRestContentModelHandlerClient().setHandle(handle);
-        }
-    }
-
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-        getSoapContentModelHandlerClient().setServiceAddress(address);
-    }
-
-    /**
-     * Get the SOAP handler.
-     * 
-     * @return SoapContentModelHandlerClient
-     * @throws InternalClientException
-     *             Thrown if creating instance of SoapContentModelHandlerClient
-     *             failed.
-     */
-    public SoapContentModelHandlerClient getSoapContentModelHandlerClient()
-        throws InternalClientException {
-        if (this.soapContentModelHandlerClient == null) {
-            this.soapContentModelHandlerClient =
-                new SoapContentModelHandlerClient();
-        }
-        return this.soapContentModelHandlerClient;
-    }
-
-    /**
-     * Get the REST handler.
-     * 
-     * @return RestContentModelHandlerClient
-     * @throws InternalClientException
-     *             Thrown if creating instance of RestContentModelHandlerClient
-     *             failed.
-     */
-    public RestContentModelHandlerClient getRestContentModelHandlerClient()
-        throws InternalClientException {
-        if (this.restContentModelHandlerClient == null) {
-            this.restContentModelHandlerClient =
-                new RestContentModelHandlerClient();
-        }
-        return this.restContentModelHandlerClient;
-    }
+	@Override
+	protected RestContentModelHandlerClient getRestHandlerClientInstance()
+		throws InternalClientException {
+		return new RestContentModelHandlerClient();
+	}
+    
+   
 }

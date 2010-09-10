@@ -31,6 +31,9 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -50,8 +53,10 @@ import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.sb.explain.ExplainData;
-import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
+import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.UserAccountRecord;
 
 /**
  * This is the generic ContainerSoapContainerHandlerClient which binds the
@@ -62,31 +67,10 @@ import de.escidoc.core.resources.sb.srw.SearchRetrieveResponseType;
  * 
  */
 public class UserAccountHandlerClient extends AbstractHandlerClient
-    implements UserAccountHandlerClientInterface<UserAccount> {
-
-    private SoapUserAccountHandlerClient soapUserAccountHandlerClient = null;
-
-    private RestUserAccountHandlerClient restUserAccountHandlerClient = null;
+	<SoapUserAccountHandlerClient, RestUserAccountHandlerClient>
+    implements UserAccountHandlerClientInterface {
 
     private Authentication auth = null;
-
-    /**
-     * Create UserAccountHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    public UserAccountHandlerClient() throws EscidocException,
-        InternalClientException, TransportException {
-
-        // read service protocol from config or set as default SOAP
-        this.soapUserAccountHandlerClient = new SoapUserAccountHandlerClient();
-    }
 
     /**
      * See Interface for functional description.
@@ -104,17 +88,18 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
-        String userAccountString =
-            Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().marshalDocument(userAccount);
+        String userAccountString = Factory.getMarshallerFactory(getTransport())
+            .getUserAccountMarshaller().marshalDocument(userAccount);
 
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapUserAccountHandlerClient().create(userAccountString);
+            xml = getSoapHandlerClient().create(userAccountString);
         }
         else {
-            xml = getRestUserAccountHandlerClient().create(userAccountString);
+            xml = getRestHandlerClient().create(userAccountString);
 
         }
-        return Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -132,7 +117,14 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
     public UserAccount retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        return Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().unmarshalDocument(getSoapUserAccountHandlerClient().retrieve(id));
+    	String xml = null;
+    	if(getTransport() == TransportProtocol.SOAP) {
+    		xml = getSoapHandlerClient().retrieve(id);
+    	} else {
+    		xml = getRestHandlerClient().retrieve(id);
+    	}
+    	return Factory.getMarshallerFactory(getTransport())
+    		.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -149,7 +141,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        getSoapUserAccountHandlerClient().delete(id);
+    	if(getTransport() == TransportProtocol.SOAP) {
+    		getSoapHandlerClient().delete(id);
+    	} else {
+    		getRestHandlerClient().delete(id);
+    	}
     }
 
     /**
@@ -167,11 +163,19 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
     public UserAccount update(final UserAccount userAccount)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml =
-            getSoapUserAccountHandlerClient().update(
-                ((UserAccount) userAccount).getObjid(),
-                Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().marshalDocument((UserAccount) userAccount));
-        return Factory.getMarshallerFactory(getTransport()).getUserAccountMarshaller().unmarshalDocument(xml);
+    	String requestXML = Factory.getMarshallerFactory(getTransport())
+    		.getUserAccountMarshaller().marshalDocument(userAccount);
+    	String xml = null;
+    	
+    	if(getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapHandlerClient().update(
+            		userAccount.getObjid(), requestXML);
+    	} else {
+    		xml = getRestHandlerClient().update(
+    				userAccount.getObjid(), requestXML);
+    	}
+        return Factory.getMarshallerFactory(getTransport())
+        	.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -192,8 +196,14 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
     public void updatePassword(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        getSoapUserAccountHandlerClient().updatePassword(userId,
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
+    	
+    	String param = marshalTaskParam(taskParam);
+    	
+    	if(getTransport() == TransportProtocol.SOAP) {
+    		getSoapHandlerClient().updatePassword(userId, param);
+    	} else {
+    		getRestHandlerClient().updatePassword(userId, param);
+    	}
     }
 
     /**
@@ -209,8 +219,14 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
     public void activate(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        getSoapUserAccountHandlerClient().activate(userId,
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
+    	
+    	String param = marshalTaskParam(taskParam);
+		
+		if(getTransport() == TransportProtocol.SOAP) {
+			getSoapHandlerClient().activate(userId, param);
+		} else {
+			getRestHandlerClient().activate(userId, param);
+		}
     }
 
     /**
@@ -226,8 +242,14 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
     public void deactivate(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        getSoapUserAccountHandlerClient().deactivate(userId,
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
+    	
+    	String param = marshalTaskParam(taskParam);
+    	
+    	if(getTransport() == TransportProtocol.SOAP) {
+    		getSoapHandlerClient().deactivate(userId, param);
+    	} else {
+    		getRestHandlerClient().deactivate(userId, param);
+    	}
     }
 
     /**
@@ -245,10 +267,10 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
 
         String xml = null;
         if(getTransport() == TransportProtocol.SOAP) {
-        	xml = getSoapUserAccountHandlerClient().retrieveCurrentUser(); 
+        	xml = getSoapHandlerClient().retrieveCurrentUser(); 
         }
         else {
-        	xml = getRestUserAccountHandlerClient().retrieveCurrentUser();
+        	xml = getRestHandlerClient().retrieveCurrentUser();
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getUserAccountMarshaller().unmarshalDocument(xml);
@@ -274,18 +296,20 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String grantXml = Factory.getMarshallerFactory(getTransport()).getGrantMarshaller().marshalDocument(grant);
+        String grantXml = Factory.getMarshallerFactory(getTransport())
+        	.getGrantMarshaller().marshalDocument(grant);
 
         if (getTransport() == TransportProtocol.SOAP) {
             grantXml =
-                getSoapUserAccountHandlerClient().createGrant(userId, grantXml);
+                getSoapHandlerClient().createGrant(userId, grantXml);
         }
         else {
             grantXml =
-                getRestUserAccountHandlerClient().createGrant(userId, grantXml);
+                getRestHandlerClient().createGrant(userId, grantXml);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getGrantMarshaller().unmarshalDocument(grantXml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getGrantMarshaller().unmarshalDocument(grantXml);
     }
 
     /**
@@ -310,16 +334,13 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String taskParamXml =
-            Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamXml = marshalTaskParam(taskParam);
 
         if (getTransport() == TransportProtocol.SOAP) {
-            getSoapUserAccountHandlerClient().revokeGrant(userId, grantId,
-                taskParamXml);
+            getSoapHandlerClient().revokeGrant(userId, grantId, taskParamXml);
         }
         else {
-            getRestUserAccountHandlerClient().revokeGrant(userId, grantId,
-                taskParamXml);
+            getRestHandlerClient().revokeGrant(userId, grantId, taskParamXml);
         }
     }
 
@@ -340,21 +361,22 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String preferenceXml =
-            Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().marshalDocument(preference);
+        String preferenceXml = Factory.getMarshallerFactory(getTransport())
+        	.getPreferenceMarshaller().marshalDocument(preference);
 
         if (getTransport() == TransportProtocol.SOAP) {
             preferenceXml =
-                getSoapUserAccountHandlerClient().createPreference(userId,
+                getSoapHandlerClient().createPreference(userId,
                     preferenceXml);
         }
         else {
             preferenceXml =
-                getRestUserAccountHandlerClient().createPreference(userId,
+                getRestHandlerClient().createPreference(userId,
                     preferenceXml);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().unmarshalDocument(preferenceXml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getPreferenceMarshaller().unmarshalDocument(preferenceXml);
     }
 
     /**
@@ -379,17 +401,16 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
 
         String preference;
         if (getTransport() == TransportProtocol.SOAP) {
-            preference =
-                getSoapUserAccountHandlerClient().retrievePreference(userId,
+            preference = getSoapHandlerClient().retrievePreference(userId,
                     name);
         }
         else {
-            preference =
-                getRestUserAccountHandlerClient().retrievePreference(userId,
+            preference = getRestHandlerClient().retrievePreference(userId,
                     name);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().unmarshalDocument(preference);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getPreferenceMarshaller().unmarshalDocument(preference);
     }
 
     /**
@@ -410,12 +431,10 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
 
         String preferences;
         if (getTransport() == TransportProtocol.SOAP) {
-            preferences =
-                getSoapUserAccountHandlerClient().retrievePreferences(userId);
+            preferences = getSoapHandlerClient().retrievePreferences(userId);
         }
         else {
-            preferences =
-                getRestUserAccountHandlerClient().retrievePreferences(userId);
+            preferences = getRestHandlerClient().retrievePreferences(userId);
         }
 
         return Factory.getMarshallerFactory(getTransport())
@@ -441,21 +460,20 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String preferenceXml =
-            Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().marshalDocument(preference);
+        String preferenceXml = Factory.getMarshallerFactory(getTransport())
+        	.getPreferenceMarshaller().marshalDocument(preference);
 
         if (getTransport() == TransportProtocol.SOAP) {
-            preferenceXml =
-                getSoapUserAccountHandlerClient().updatePreference(userId,
+            preferenceXml = getSoapHandlerClient().updatePreference(userId,
                     preference.getName(), preferenceXml);
         }
         else {
-            preferenceXml =
-                getRestUserAccountHandlerClient().updatePreference(userId,
+            preferenceXml = getRestHandlerClient().updatePreference(userId,
                     preference.getName(), preferenceXml);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getPreferenceMarshaller().unmarshalDocument(preferenceXml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getPreferenceMarshaller().unmarshalDocument(preferenceXml);
     }
 
     /**
@@ -501,10 +519,10 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            getSoapUserAccountHandlerClient().deletePreference(userId, name);
+            getSoapHandlerClient().deletePreference(userId, name);
         }
         else {
-            getRestUserAccountHandlerClient().createPreference(userId, name);
+            getRestHandlerClient().createPreference(userId, name);
         }
     }
 
@@ -525,21 +543,20 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String attributeXml =
-            Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().marshalDocument(attribute);
+        String attributeXml = Factory.getMarshallerFactory(getTransport())
+        	.getAttributeMarshaller().marshalDocument(attribute);
 
         if (getTransport() == TransportProtocol.SOAP) {
-            attributeXml =
-                getSoapUserAccountHandlerClient().createAttribute(userId,
+            attributeXml = getSoapHandlerClient().createAttribute(userId,
                     attributeXml);
         }
         else {
-            attributeXml =
-                getRestUserAccountHandlerClient().createAttribute(userId,
+            attributeXml = getRestHandlerClient().createAttribute(userId,
                     attributeXml);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().unmarshalDocument(attributeXml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getAttributeMarshaller().unmarshalDocument(attributeXml);
     }
 
     /**
@@ -565,17 +582,16 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
 
         String attribute;
         if (getTransport() == TransportProtocol.SOAP) {
-            attribute =
-                getSoapUserAccountHandlerClient().retrieveAttribute(userId,
+            attribute = getSoapHandlerClient().retrieveAttribute(userId,
                     attributeId);
         }
         else {
-            attribute =
-                getRestUserAccountHandlerClient().retrieveAttribute(userId,
+            attribute = getRestHandlerClient().retrieveAttribute(userId,
                     attributeId);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().unmarshalDocument(attribute);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getAttributeMarshaller().unmarshalDocument(attribute);
     }
 
     /**
@@ -596,15 +612,14 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
 
         String attributes;
         if (getTransport() == TransportProtocol.SOAP) {
-            attributes =
-                getSoapUserAccountHandlerClient().retrieveAttributes(userId);
+            attributes = getSoapHandlerClient().retrieveAttributes(userId);
         }
         else {
-            attributes =
-                getRestUserAccountHandlerClient().retrieveAttributes(userId);
+            attributes = getRestHandlerClient().retrieveAttributes(userId);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getAttributesMarshaller().unmarshalDocument(attributes);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getAttributesMarshaller().unmarshalDocument(attributes);
     }
 
     /**
@@ -626,21 +641,20 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String attributeXml =
-            Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().marshalDocument(attribute);
+        String attributeXml = Factory.getMarshallerFactory(getTransport())
+        	.getAttributeMarshaller().marshalDocument(attribute);
 
         if (getTransport() == TransportProtocol.SOAP) {
-            attributeXml =
-                getSoapUserAccountHandlerClient().updateAttribute(userId,
+            attributeXml = getSoapHandlerClient().updateAttribute(userId,
                     attribute.getObjid(), attributeXml);
         }
         else {
-            attributeXml =
-                getRestUserAccountHandlerClient().updateAttribute(userId,
+            attributeXml = getRestHandlerClient().updateAttribute(userId,
                     attribute.getObjid(), attributeXml);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getAttributeMarshaller().unmarshalDocument(attributeXml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getAttributeMarshaller().unmarshalDocument(attributeXml);
     }
 
     /**
@@ -685,12 +699,10 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            getSoapUserAccountHandlerClient().deleteAttribute(userId,
-                attributeId);
+            getSoapHandlerClient().deleteAttribute(userId, attributeId);
         }
         else {
-            getRestUserAccountHandlerClient().createAttribute(userId,
-                attributeId);
+            getRestHandlerClient().createAttribute(userId, attributeId);
         }
     }
 
@@ -711,15 +723,14 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         String grantsXml = null;
 
         if (getTransport() == TransportProtocol.SOAP) {
-            grantsXml =
-                getSoapUserAccountHandlerClient().retrieveCurrentGrants(userId);
+            grantsXml = getSoapHandlerClient().retrieveCurrentGrants(userId);
         }
         else {
-            grantsXml =
-                getRestUserAccountHandlerClient().retrieveCurrentGrants(userId);
+            grantsXml = getRestHandlerClient().retrieveCurrentGrants(userId);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getGrantsMarshaller().unmarshalDocument(grantsXml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getGrantsMarshaller().unmarshalDocument(grantsXml);
     }
 
     /**
@@ -745,17 +756,14 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         String grantXml = null;
 
         if (getTransport() == TransportProtocol.SOAP) {
-            grantXml =
-                getSoapUserAccountHandlerClient()
-                    .retrieveGrant(userId, grantId);
+            grantXml = getSoapHandlerClient().retrieveGrant(userId, grantId);
         }
         else {
-            grantXml =
-                getRestUserAccountHandlerClient()
-                    .retrieveGrant(userId, grantId);
+            grantXml = getRestHandlerClient().retrieveGrant(userId, grantId);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getGrantMarshaller().unmarshalDocument(grantXml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getGrantMarshaller().unmarshalDocument(grantXml);
     }
 
     /**
@@ -775,10 +783,17 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
     public UserAccounts retrieveUserAccounts(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        String xml =
-            getSoapUserAccountHandlerClient().retrieveUserAccounts(
-                Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
-        return Factory.getMarshallerFactory(getTransport()).getUserAccountListMarshaller().unmarshalDocument(xml);
+    	
+    	String xml = null;
+    	if(getTransport() == TransportProtocol.SOAP) {
+	        xml = getSoapHandlerClient().retrieveUserAccounts(
+	        		marshalTaskParam(taskParam));
+    	} else {
+    		xml = getRestHandlerClient().retrieveUserAccounts(
+	        		marshalTaskParam(taskParam));
+    	}
+        return Factory.getMarshallerFactory(getTransport())
+        	.getUserAccountListMarshaller().unmarshalDocument(xml);
 
     }
 
@@ -795,21 +810,50 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponseType retrieveUserAccounts(
+    public SearchRetrieveResponse retrieveUserAccounts(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapUserAccountHandlerClient().retrieveUserAccounts(filter);
+                getSoapHandlerClient().retrieveUserAccounts(filter);
         }
         else {
             xml =
-                getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
+                getRestHandlerClient().retrieveUserAccounts(filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getFilterResponseMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
+    
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @SuppressWarnings("rawtypes")
+	public Collection<UserAccount> retrieveUserAccountsAsList(
+            final SearchRetrieveRequestType filter) throws EscidocException,
+            InternalClientException, TransportException {
+
+           SearchRetrieveResponse res = retrieveUserAccounts(filter);
+           Collection<UserAccount> results = new LinkedList<UserAccount>();
+           
+           for (Record record : res.getRecords()) {
+        	   if(record instanceof UserAccountRecord) {
+        		   UserAccountRecord uRecord = (UserAccountRecord)record;
+        		   UserAccount result = uRecord.getRecordData();
+        		   if(result!=null)
+        			   results.add(result);
+        	   }
+           }
+           
+           return results;
+        }
 
     /**
      * Retrieve UserAccounts (Filter for UserAccounts).
@@ -824,19 +868,18 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainData retrieveUserAccounts(final ExplainRequestType filter)
+    public ExplainResponse retrieveUserAccounts(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapUserAccountHandlerClient().retrieveUserAccounts(filter);
+            xml = getSoapHandlerClient().retrieveUserAccounts(filter);
         }
         else {
-            xml =
-                getRestUserAccountHandlerClient().retrieveUserAccounts(filter);
+            xml = getRestHandlerClient().retrieveUserAccounts(filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getExplainRecordMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -858,20 +901,18 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String xml = null;
+    	String xml = null;
+        
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapUserAccountHandlerClient()
-                    .retrieveGrants(
-                        Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
+            xml = getSoapHandlerClient().retrieveGrants(
+            		marshalTaskParam(taskParam));
         }
         else {
-            xml =
-                getRestUserAccountHandlerClient()
-                    .retrieveGrants(
-                        Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam));
+            xml = getRestHandlerClient().retrieveGrants(
+            		marshalTaskParam(taskParam));
         }
-        return Factory.getMarshallerFactory(getTransport()).getGrantsMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getGrantsMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -887,18 +928,19 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponseType retrieveGrants(
+    public SearchRetrieveResponse retrieveGrants(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapUserAccountHandlerClient().retrieveGrants(filter);
+            xml = getSoapHandlerClient().retrieveGrants(filter);
         }
         else {
-            xml = getRestUserAccountHandlerClient().retrieveGrants(filter);
+            xml = getRestHandlerClient().retrieveGrants(filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getFilterResponseMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -914,17 +956,18 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainData retrieveGrants(final ExplainRequestType filter)
+    public ExplainResponse retrieveGrants(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapUserAccountHandlerClient().retrieveGrants(filter);
+            xml = getSoapHandlerClient().retrieveGrants(filter);
         }
         else {
-            xml = getRestUserAccountHandlerClient().retrieveGrants(filter);
+            xml = getRestHandlerClient().retrieveGrants(filter);
         }
-        return Factory.getMarshallerFactory(getTransport()).getExplainRecordMarshaller().unmarshalDocument(xml);
+        return Factory.getMarshallerFactory(getTransport())
+        	.getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -939,7 +982,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        return getSoapUserAccountHandlerClient().getLastModificationDate(id);
+    	if(getTransport() == TransportProtocol.SOAP) {
+    		return getSoapHandlerClient().getLastModificationDate(id);
+    	} else {
+    		return getRestHandlerClient().getLastModificationDate(id);
+    	}
     }
 
     /*
@@ -984,96 +1031,17 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
         setHandle("");
     }
 
-    /**
-     * Get Login-Handle.
-     * 
-     * @return Login-Handle
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public String getHandle() throws InternalClientException {
+	@Override
+	protected SoapUserAccountHandlerClient getSoapHandlerClientInstance()
+			throws InternalClientException {
+		return new SoapUserAccountHandlerClient();
+	}
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapUserAccountHandlerClient().getHandle();
-        }
-        else {
-            return getRestUserAccountHandlerClient().getHandle();
-        }
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param handle
-     * @throws InternalClientException
-     * @see de.escidoc.core.client.interfaces.BaseClientHandlerInterface#setHandle(java.lang.String)
-     */
-    public void setHandle(final String handle) throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapUserAccountHandlerClient().setHandle(handle);
-        }
-        else {
-            getRestUserAccountHandlerClient().setHandle(handle);
-        }
-    }
-
-    /**
-     * @return the soapContainerHandlerClient
-     */
-    public SoapUserAccountHandlerClient getSoapUserAccountHandlerClient() {
-        return soapUserAccountHandlerClient;
-    }
-
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapUserAccountHandlerClient().setServiceAddress(address);
-        }
-        else {
-            getRestUserAccountHandlerClient().setServiceAddress(address);
-        }
-    }
-
-    /**
-     * Get the SOAP handler.
-     * 
-     * @return SoapUserAccountHandlerClient
-     * @throws InternalClientException
-     *             Thrown if creating instance of SoapItemHandlerClient failed.
-     */
-    public SoapUserAccountHandlerClient getSoapItemHandlerClient()
-        throws InternalClientException {
-        if (this.soapUserAccountHandlerClient == null) {
-            this.soapUserAccountHandlerClient =
-                new SoapUserAccountHandlerClient();
-        }
-        return this.soapUserAccountHandlerClient;
-    }
-
-    /**
-     * Get the REST handler.
-     * 
-     * @return RestUserAccountHandlerClient
-     * @throws InternalClientException
-     *             Thrown if creating instance of RestAccountHandlerClient
-     *             failed.
-     */
-    public RestUserAccountHandlerClient getRestUserAccountHandlerClient()
-        throws InternalClientException {
-        if (this.restUserAccountHandlerClient == null) {
-            this.restUserAccountHandlerClient =
-                new RestUserAccountHandlerClient();
-        }
-        return this.restUserAccountHandlerClient;
-    }
+	@Override
+	protected RestUserAccountHandlerClient getRestHandlerClientInstance()
+			throws InternalClientException {
+		return new RestUserAccountHandlerClient();
+	}
+    
+    
 }

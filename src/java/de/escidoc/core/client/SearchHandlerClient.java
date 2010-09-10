@@ -40,7 +40,6 @@ import org.apache.axis.types.URI;
 import org.apache.axis.types.URI.MalformedURIException;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
-import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.SearchHandlerClientInterface;
@@ -59,32 +58,13 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  * @author SWA
  * 
- * FIXME: The SOAP implementation gets a default database service location by 
- * WSDL generated classes. (database: escidoc_all)
- * In order to accommodate with the SOAP implementation, REST implementation
- * uses the ConfigurationProvider to get access to a default database service
- * location.
  */
 public class SearchHandlerClient extends AbstractHandlerClient
+	<SoapSearchHandlerClient, RestSearchHandlerClient>
 	implements SearchHandlerClientInterface {
 
-    private SoapSearchHandlerClient soapSearchHandlerClient = null;
-    
-    private RestSearchHandlerClient restSearchHandlerClient = null;
-
     /**
-     * Create SearchHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
-     * 
-     * @throws ClientException
-     * 
-     */
-    public SearchHandlerClient() throws EscidocException,
-        InternalClientException, TransportException {
-    }
-
-    /**
-     * Does not support REST protocol yet!
+     * Does not support REST protocol!
      */
     @Override
     @Deprecated
@@ -94,12 +74,12 @@ public class SearchHandlerClient extends AbstractHandlerClient
         TransportException {
     	
     	if(getTransport() == TransportProtocol.SOAP) {
-    		return getSoapSearchHandlerClient().explain(request, database);
+    		return getSoapHandlerClient().explain(request, database);
     	}
     	return null;
     	// FIXME
 //    	else {
-//    		return getRestSearchHandlerClient().explain(request, database);
+//    		return getRestHandlerClient().explain(request, database);
 //    	}
     }
        
@@ -111,12 +91,12 @@ public class SearchHandlerClient extends AbstractHandlerClient
     	
     	if(getTransport() == TransportProtocol.SOAP) {
     		return ExplainResponse.createExplainResponse(
-    				getSoapSearchHandlerClient().explain(request, database));
+    				getSoapHandlerClient().explain(request, database));
     	}
     	else {
     		return Factory.getMarshallerFactory(TransportProtocol.REST)
     			.getExplainResponseMarshaller()
-    				.unmarshalDocument(getRestSearchHandlerClient()
+    				.unmarshalDocument(getRestHandlerClient()
     						.explain(request, database));
     	}
     }
@@ -170,7 +150,7 @@ public class SearchHandlerClient extends AbstractHandlerClient
 	}
 
     /**
-     * Does not support REST protocol yet!
+     * Does not support REST protocol!
      */
     @Deprecated
     @Override
@@ -179,10 +159,9 @@ public class SearchHandlerClient extends AbstractHandlerClient
     	throws EscidocClientException, InternalClientException,
     	TransportException {
     	
-    	if(request.getQuery() == null)
-    		request.setQuery("");
+    	evalFilter(request);
     	
-        return getSoapSearchHandlerClient().search(request, database);
+        return getSoapHandlerClient().search(request, database);
     }
 
     @Override
@@ -203,10 +182,10 @@ public class SearchHandlerClient extends AbstractHandlerClient
     			db = db.substring(db.lastIndexOf('/'));
     		}
     		return SearchRetrieveResponse.createSearchRetrieveResponse(
-    				getSoapSearchHandlerClient().search(request, db));
+    				getSoapHandlerClient().search(request, db));
     	}
     	else {
-    		String xml = getRestSearchHandlerClient().search(request, database);
+    		String xml = getRestHandlerClient().search(request, database);
     		return Factory.getMarshallerFactory(getTransport()).
     			getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     	}
@@ -223,50 +202,23 @@ public class SearchHandlerClient extends AbstractHandlerClient
     	
     	if(getTransport() == TransportProtocol.SOAP) {
     		return ScanResponse.createScanResponse(
-    				getSoapSearchHandlerClient().scan(request, database));
+    				getSoapHandlerClient().scan(request, database));
     	} else {
     		return Factory.getMarshallerFactory(TransportProtocol.REST)
     			.getScanResponseMarshaller().unmarshalDocument(
-    					getRestSearchHandlerClient().scan(request, database));
+    					getRestHandlerClient().scan(request, database));
     	}
     }
 
-    /**
-     * @return the soapContainerHandlerClient
-     * @throws InternalClientException 
-     */
-    public SoapSearchHandlerClient getSoapSearchHandlerClient()
-    	throws InternalClientException {
-    	
-    	if(soapSearchHandlerClient==null) {
-    		soapSearchHandlerClient = new SoapSearchHandlerClient();
-    	}
-        return soapSearchHandlerClient;
-    }
-
-    /**
-	 * @return the restSearchHandlerClient
-     * @throws InternalClientException 
-	 */
-	public RestSearchHandlerClient getRestSearchHandlerClient() 
-		throws InternalClientException {
-		
-		if(restSearchHandlerClient==null) {
-			restSearchHandlerClient = new RestSearchHandlerClient();
-    	}
-        return restSearchHandlerClient;
+	@Override
+	protected SoapSearchHandlerClient getSoapHandlerClientInstance()
+			throws InternalClientException {
+		return new SoapSearchHandlerClient();
 	}
 
-	/**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-        getSoapSearchHandlerClient().setServiceAddress(address);
-    }
+	@Override
+	protected RestSearchHandlerClient getRestHandlerClientInstance()
+			throws InternalClientException {
+		return new RestSearchHandlerClient();
+	}
 }

@@ -92,8 +92,8 @@ public class ContentRelationMarshallerTest {
             "http://www.escidoc.de/ontologies/ontologies/content-relations#hasPart",
             cr.getType().toString());
 
-        assertEquals("Wrong subject", "escidoc:ex1", cr.getSubject());
-        assertEquals("Wrong object", "escidoc:ex5:1", cr.getObject());
+        assertEquals("Wrong subject", "escidoc:ex1", cr.getSubject().getObjid());
+        assertEquals("Wrong object", "escidoc:ex5:1", cr.getObject().getObjid());
 
         // md-records
         assertEquals("Wrong number of md-records", 3, cr
@@ -169,8 +169,8 @@ public class ContentRelationMarshallerTest {
             "http://www.escidoc.de/ontologies/ontologies/content-relations#hasPart",
             cr.getType().toString());
 
-        assertEquals("Wrong subject", "escidoc:ex1", cr.getSubject());
-        assertEquals("Wrong object", "escidoc:ex5:1", cr.getObject());
+        assertEquals("Wrong subject", "escidoc:ex1", cr.getSubject().getObjid());
+        assertEquals("Wrong object", "escidoc:ex5:1", cr.getObject().getObjid());
 
         // md-records
         assertEquals("Wrong number of md-records", 3, cr
@@ -230,8 +230,8 @@ public class ContentRelationMarshallerTest {
             "http://www.escidoc.de/ontologies/ontologies/content-relations#hasPart",
             cr.getType().toString());
 
-        assertEquals("Wrong subject", "escidoc:ex1", cr.getSubject());
-        assertEquals("Wrong object", "escidoc:ex5:1", cr.getObject());
+        assertEquals("Wrong subject", "escidoc:ex1", cr.getSubject().getObjid());
+        assertEquals("Wrong object", "escidoc:ex5:1", cr.getObject().getObjid());
 
         // md-records
         assertEquals("Wrong number of md-records", 1, cr

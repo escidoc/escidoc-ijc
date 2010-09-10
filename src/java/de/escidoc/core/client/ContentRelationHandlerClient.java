@@ -61,29 +61,8 @@ import de.escidoc.core.resources.sb.search.records.ContentRelationRecord;
  * 
  */
 public class ContentRelationHandlerClient extends AbstractHandlerClient
+	<SoapContentRelationHandlerClient, RestContentRelationHandlerClient>
     implements ContentRelationHandlerClientInterface {
-
-    private SoapContentRelationHandlerClient soapContentRelationHandlerClient =
-        null;
-
-    private RestContentRelationHandlerClient restContentRelationHandlerClient =
-        null;
-
-    /**
-     * Create ContentRelationSoapHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    public ContentRelationHandlerClient() throws EscidocException,
-        InternalClientException, TransportException {
-
-    }
 
     /**
      * Create ContentRelation in Repository.
@@ -107,12 +86,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient()
+                getSoapHandlerClient()
                     .create(contentRelationXml);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient()
+                getRestHandlerClient()
                     .create(contentRelationXml);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -144,10 +123,10 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapContentRelationHandlerClient().retrieve(id);
+            xml = getSoapHandlerClient().retrieve(id);
         }
         else {
-            xml = getRestContentRelationHandlerClient().retrieve(id);
+            xml = getRestHandlerClient().retrieve(id);
         }
         return Factory.getMarshallerFactory(getTransport())
         	.getContentRelationMarshaller().unmarshalDocument(xml);
@@ -188,10 +167,10 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            getSoapContentRelationHandlerClient().delete(id);
+            getSoapHandlerClient().delete(id);
         }
         else {
-            getRestContentRelationHandlerClient().delete(id);
+            getRestHandlerClient().delete(id);
         }
     }
 
@@ -216,12 +195,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().update(
+                getSoapHandlerClient().update(
                     contentRelation.getObjid(), contentRelationXml);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().update(
+                getRestHandlerClient().update(
                     contentRelation.getObjid(), contentRelationXml);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -273,12 +252,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         	.getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().assignObjectPid(id,
+                getSoapHandlerClient().assignObjectPid(id,
                     taskParamString);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().assignObjectPid(id,
+                getRestHandlerClient().assignObjectPid(id,
                     taskParamString);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -329,11 +308,11 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
             Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().lock(id, taskParamString);
+                getSoapHandlerClient().lock(id, taskParamString);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().lock(id, taskParamString);
+                getRestHandlerClient().lock(id, taskParamString);
         }
         return Factory.getMarshallerFactory(getTransport()).getResultMarshaller().unmarshalDocument(xml);
     }
@@ -382,12 +361,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
             Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().unlock(id,
+                getSoapHandlerClient().unlock(id,
                     taskParamString);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().unlock(id,
+                getRestHandlerClient().unlock(id,
                     taskParamString);
         }
         return Factory.getMarshallerFactory(getTransport()).getResultMarshaller().unmarshalDocument(xml);
@@ -420,12 +399,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
             .getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().submit(id,
+                getSoapHandlerClient().submit(id,
                     taskParamString);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().submit(id,
+                getRestHandlerClient().submit(id,
                     taskParamString);
         }
 
@@ -478,12 +457,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         	.getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().release(id,
+                getSoapHandlerClient().release(id,
                     taskParamString);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().release(id,
+                getRestHandlerClient().release(id,
                     taskParamString);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -535,12 +514,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
             Factory.getMarshallerFactory(getTransport()).getTaskParamMarshaller().marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().revise(id,
+                getSoapHandlerClient().revise(id,
                     taskParamString);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().revise(id,
+                getRestHandlerClient().revise(id,
                     taskParamString);
         }
         return Factory.getMarshallerFactory(getTransport()).getResultMarshaller().unmarshalDocument(xml);
@@ -590,12 +569,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().retrieveContentRelations(
+                getSoapHandlerClient().retrieveContentRelations(
                     filter);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().retrieveContentRelations(
+                getRestHandlerClient().retrieveContentRelations(
                     filter);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -642,12 +621,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapContentRelationHandlerClient().retrieveContentRelations(
+                getSoapHandlerClient().retrieveContentRelations(
                     filter);
         }
         else {
             xml =
-                getRestContentRelationHandlerClient().retrieveContentRelations(
+                getRestHandlerClient().retrieveContentRelations(
                     filter);
         }
         return Factory.getMarshallerFactory(getTransport())
@@ -670,7 +649,7 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        return getSoapContentRelationHandlerClient()
+        return getSoapHandlerClient()
             .getLastModificationDate(id);
     }
 
@@ -698,11 +677,11 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapContentRelationHandlerClient().login(serviceAddress,
+            return getSoapHandlerClient().login(serviceAddress,
                 username, password);
         }
         else {
-            return getRestContentRelationHandlerClient().login(serviceAddress,
+            return getRestHandlerClient().login(serviceAddress,
                 username, password);
         }
     }
@@ -724,85 +703,15 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient
         setHandle("");
     }
 
-    /**
-     * Get Login-Handle.
-     * 
-     * @return Login-Handle
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public String getHandle() throws InternalClientException {
+	@Override
+	protected SoapContentRelationHandlerClient getSoapHandlerClientInstance()
+			throws InternalClientException {
+		return new SoapContentRelationHandlerClient();
+	}
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapContentRelationHandlerClient().getHandle();
-        }
-        else {
-            return getRestContentRelationHandlerClient().getHandle();
-        }
-    }
-
-    /**
-     * Set Login-Handle.
-     * 
-     * @param handle
-     *            Login-Handle
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public void setHandle(final String handle) throws InternalClientException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapContentRelationHandlerClient().setHandle(handle);
-        }
-        else {
-            getRestContentRelationHandlerClient().setHandle(handle);
-        }
-    }
-
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-        getSoapContentRelationHandlerClient().setServiceAddress(address);
-    }
-
-    /**
-     * Get the SOAP handler.
-     * 
-     * @return SoapContentRelationHandlerClient
-     * @throws InternalClientException
-     *             Thrown if creating instance of
-     *             SoapContentRelationHandlerClient failed.
-     */
-    public SoapContentRelationHandlerClient getSoapContentRelationHandlerClient()
-        throws InternalClientException {
-        if (this.soapContentRelationHandlerClient == null) {
-            this.soapContentRelationHandlerClient =
-                new SoapContentRelationHandlerClient();
-        }
-        return this.soapContentRelationHandlerClient;
-    }
-
-    /**
-     * Get the REST handler.
-     * 
-     * @return RestContentRelationHandlerClient
-     * @throws InternalClientException
-     *             Thrown if creating instance of
-     *             RestContentRelationHandlerClient failed.
-     */
-    public RestContentRelationHandlerClient getRestContentRelationHandlerClient()
-        throws InternalClientException {
-        if (this.restContentRelationHandlerClient == null) {
-            this.restContentRelationHandlerClient =
-                new RestContentRelationHandlerClient();
-        }
-        return this.restContentRelationHandlerClient;
-    }
+	@Override
+	protected RestContentRelationHandlerClient getRestHandlerClientInstance()
+			throws InternalClientException {
+		return new RestContentRelationHandlerClient();
+	}
 }

@@ -35,7 +35,6 @@ import javax.xml.rpc.ServiceException;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -50,7 +49,7 @@ import de.escidoc.core.common.jibx.Factory;
  * @author SWA
  * 
  */
-public class SoapContentModelHandlerClient extends ClientBase {
+public class SoapContentModelHandlerClient extends SoapClientBase {
 
     private ContentModelHandler soapClient = null;
 

@@ -3,7 +3,9 @@
 	<!--  REST Binding -->
 
 	<mapping name="role" class="de.escidoc.core.resources.aa.role.Role"
-		ns="http://www.escidoc.de/schemas/role/0.4">
+		ns="http://www.escidoc.de/schemas/role/0.4"
+		post-set="ensureValidXLinkHrefDefinitions">
+		
 		<namespace uri="urn:oasis:names:tc:xacml:1.0:policy" prefix="xacml-policy" />
 		<namespace uri="http://www.escidoc.de/schemas/role/0.4"
 			prefix="role" />
@@ -12,12 +14,14 @@
 			***************************************** Root attributes
 			******************************************
 		-->
+		<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
+		<value name="objid" style="attribute" 
+			set-method="setObjid" get-method="getObjid" usage="optional" />
+			
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-			
 		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-			
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
@@ -88,7 +92,8 @@
 		***************************************** Scope
 		******************************************
 	-->
-	<mapping class="de.escidoc.core.resources.aa.role.Scope" ns="http://www.escidoc.de/schemas/role/0.4"
+	<mapping class="de.escidoc.core.resources.aa.role.Scope" 
+		ns="http://www.escidoc.de/schemas/role/0.4"
 		abstract="true" type-name="abstract-role-scope">
 		<namespace uri="http://www.escidoc.de/schemas/role/0.4"
 			prefix="role" />
@@ -109,7 +114,8 @@
 	</mapping>
 
 	<!-- start: abstract binding of properties of a role -->
-	<mapping ns="http://escidoc.de/core/01/properties/" class="de.escidoc.core.resources.aa.role.RoleProperties"
+	<mapping ns="http://escidoc.de/core/01/properties/" 
+		class="de.escidoc.core.resources.aa.role.RoleProperties"
 		abstract="true" type-name="abstract-role-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
@@ -118,6 +124,13 @@
 			prefix="srel" />
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+
 		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" type="org.joda.time.DateTime"
 			set-method="setCreationDate" get-method="getCreationDate"
 			usage="optional" />
@@ -125,12 +138,14 @@
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="created-by" field="createdBy" usage="optional">
 
+			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
+			<value name="objid" style="attribute" 
+				set-method="setObjid" get-method="getObjid" usage="optional" />	
+					
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
@@ -138,12 +153,14 @@
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="modified-by" field="modifiedBy" usage="optional">
 
+			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
+			<value name="objid" style="attribute" 
+				set-method="setObjid" get-method="getObjid" usage="optional" />
+				
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>

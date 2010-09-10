@@ -39,7 +39,6 @@ import javax.xml.rpc.ServiceException;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -55,7 +54,7 @@ import de.escidoc.core.om.ContextHandlerServiceLocator;
  * @author SWA
  * 
  */
-public class SoapContextHandlerClient extends ClientBase {
+public class SoapContextHandlerClient extends SoapClientBase {
 
     private ContextHandler soapClient = null;
 

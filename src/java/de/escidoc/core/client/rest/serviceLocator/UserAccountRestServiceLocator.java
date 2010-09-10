@@ -185,7 +185,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException, InvalidContentException {
 
-        return post(PATH_USER_ACCOUNT + "/filter", filter);
+        return post(PATH_USER_ACCOUNT + "s/filter", filter);
     }
 
     public String retrievePreferences(final String accountId)

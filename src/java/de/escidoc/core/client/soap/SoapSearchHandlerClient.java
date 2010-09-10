@@ -46,7 +46,6 @@ import javax.xml.rpc.ServiceException;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -59,7 +58,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  * @author SWA
  * 
  */
-public class SoapSearchHandlerClient extends ClientBase {
+public class SoapSearchHandlerClient extends SoapClientBase {
 
     private SRWPort searchSoapClient = null;
 

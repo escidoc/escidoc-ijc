@@ -45,7 +45,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -59,7 +58,7 @@ import de.escidoc.core.client.rest.serviceLocator.StagingRestServiceLocator;
  * @author SWA
  * 
  */
-public class RestStagingHandlerClient extends ClientBase {
+public class RestStagingHandlerClient extends RestClientBase {
 
     private final Logger logger =
         Logger.getLogger(RestStagingHandlerClient.class.getName());

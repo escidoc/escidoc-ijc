@@ -32,7 +32,6 @@ import java.net.MalformedURLException;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -48,7 +47,7 @@ import de.escidoc.core.common.jibx.Factory;
  * @author SWA
  * 
  */
-public class RestContentModelHandlerClient extends ClientBase {
+public class RestContentModelHandlerClient extends RestClientBase {
 
     private ContentModelHandler restClient = null;
 
