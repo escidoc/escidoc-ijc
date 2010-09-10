@@ -69,6 +69,7 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
 
         String contentModelXml = Factory.getMarshallerFactory(getTransport())
         	.getContentModelMarshaller().marshalDocument(contentModel);
+        contentModelXml = contentModelXml.substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>".length());
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().create(contentModelXml);

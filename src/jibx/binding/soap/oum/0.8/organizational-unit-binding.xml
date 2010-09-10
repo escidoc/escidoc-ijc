@@ -14,7 +14,8 @@
 	<!-- start: abstract binding of a single organizational-unit -->
 	<mapping ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
 		class="de.escidoc.core.resources.oum.OrganizationalUnit"
-		abstract="true" type-name="abstract-organizational-unit">
+		abstract="true" type-name="abstract-organizational-unit"
+		post-set="ensureValidXLinkHrefDefinitions">
 
 		<namespace
 			uri="http://www.escidoc.de/schemas/organizationalunit/0.8"

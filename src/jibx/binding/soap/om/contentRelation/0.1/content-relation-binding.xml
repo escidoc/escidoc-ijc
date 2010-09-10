@@ -12,7 +12,8 @@
 	<!-- start: abstract binding of a single content relation -->
 	<mapping ns="http://www.escidoc.de/schemas/content-relation/0.1"
 		class="de.escidoc.core.resources.om.contentRelation.ContentRelation"
-		abstract="true" type-name="abstract-content-relation">
+		abstract="true" type-name="abstract-content-relation"
+		post-set="ensureValidXLinkHrefDefinitions">
 
 		<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1"
 			prefix="escidocContentRelation" />

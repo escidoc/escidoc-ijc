@@ -32,9 +32,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.PreferenceNotFoundException;
 import de.escidoc.core.resources.aa.useraccount.Preference;
@@ -50,7 +57,21 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class UserAccountPreferencesTest {
+
+    private TransportProtocol transport;
+
+    public UserAccountPreferencesTest(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 
     /**
      * Test to create and retrieve user account preferences.
@@ -68,6 +89,7 @@ public class UserAccountPreferencesTest {
         UserAccountHandlerClient uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
+        uahc.setTransport(transport);
 
         // create User Account
         UserAccount ua = new UserAccount();
@@ -117,6 +139,7 @@ public class UserAccountPreferencesTest {
         UserAccountHandlerClient uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
+        uahc.setTransport(transport);
 
         // create User Account
         UserAccount ua = new UserAccount();
@@ -177,6 +200,7 @@ public class UserAccountPreferencesTest {
         UserAccountHandlerClient uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
+        uahc.setTransport(transport);
 
         // create User Account
         UserAccount ua = new UserAccount();

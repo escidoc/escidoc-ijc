@@ -26,6 +26,9 @@
 		<value name="version" field="version" usage="optional" />
 		<value name="numberOfRecords" field="numberOfRecords" usage="optional" />
 
+		<structure name="resultSetId" usage="optional"/>
+		<structure name="resultSetIdleTime" usage="optional"/>
+		
 		<structure name="records" usage="optional">
 			<collection field="records" create-type="java.util.LinkedList">
 				<structure name="record" usage="optional" 
@@ -35,6 +38,9 @@
 			</collection>
 		</structure>
 		
-		<structure name="echoedSearchRetrieveRequest" usage="optional"/>		
+		<structure name="nextRecordPosition" usage="optional"/>
+		<structure name="echoedSearchRetrieveRequest" usage="optional"/>
+		<structure name="diagnostics" usage="optional"/>
+		<structure name="extraResponseData" usage="optional"/>		
 	</mapping>
 </binding>

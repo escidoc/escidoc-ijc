@@ -266,6 +266,7 @@ public class ContentModelCreateTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
+        
         UserAccount me = uac.retrieveCurrentUser();
 
         assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated

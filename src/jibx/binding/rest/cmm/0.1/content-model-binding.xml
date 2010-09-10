@@ -42,8 +42,7 @@
 	<!-- start: abstract binding of a single content-model -->
 	<mapping ns="http://www.escidoc.de/schemas/contentmodel/0.1"
 		class="de.escidoc.core.resources.cmm.ContentModel" abstract="true"
-		type-name="abstract-content-model"
-		post-set="ensureValidXLinkHrefDefinitions">
+		type-name="abstract-content-model">
 		
 		<namespace uri="http://www.escidoc.de/schemas/contentmodel/0.1"
 			prefix="escidocContentModel" />
@@ -64,8 +63,6 @@
 		<!-- *****************************************
 			Root attributes 
 			****************************************** -->
-		ID
-			
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
@@ -232,10 +229,8 @@
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
@@ -261,10 +256,8 @@
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
@@ -286,10 +279,8 @@
 
 				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-					
 				<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-					
 				<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 					set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 			</structure>
@@ -310,10 +301,8 @@
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
@@ -335,10 +324,8 @@
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 

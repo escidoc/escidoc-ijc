@@ -29,12 +29,17 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.aa.pdp;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -57,8 +62,22 @@ import de.escidoc.core.test.client.util.Template;
  * @author
  * 
  */
+@RunWith(Parameterized.class)
 public class PdpHandlerClientTest {
 
+	private TransportProtocol transport;
+	
+	public PdpHandlerClientTest(TransportProtocol transport) {
+		this.transport = transport;
+	}
+
+	@SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
+	
     /**
      * Test to create and retrieve user account.
      * 
@@ -76,12 +95,12 @@ public class PdpHandlerClientTest {
             new PolicyDecisionPointHandlerClient();
         pdpc.setServiceAddress(auth.getServiceAddress());
         pdpc.setHandle(auth.getHandle());
-
+        pdpc.setTransport(transport);
 
         Requests requests = createRequests();
         RequestsResults results = pdpc.evaluate(requests);
 
-        Factory.getMarshallerFactory(TransportProtocol.SOAP).getRequestsResultsMarshaller()
+        Factory.getMarshallerFactory(transport).getRequestsResultsMarshaller()
         	.marshalDocument(results);
     }
 
@@ -138,11 +157,11 @@ public class PdpHandlerClientTest {
         requests.addRequest(root6);
 
         Marshaller<Requests> m = new Marshaller<Requests>(requests.getClass(),
-        		TransportProtocol.SOAP);
+        		transport);
         String xml = m.marshalDocument(requests);
 
         Requests urequests = m.unmarshalDocument(xml);
-        Factory.getMarshallerFactory(TransportProtocol.SOAP).getRequestsMarshaller()
+        Factory.getMarshallerFactory(transport).getRequestsMarshaller()
         	.marshalDocument(urequests);
 
         return requests;

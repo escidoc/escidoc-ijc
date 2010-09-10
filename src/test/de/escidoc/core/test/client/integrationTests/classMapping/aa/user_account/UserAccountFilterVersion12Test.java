@@ -31,14 +31,19 @@ package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_accoun
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
@@ -52,10 +57,22 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class UserAccountFilterVersion12Test {
 
-    public static final String FILTER_PARAMETER_QUERY = "query";
+	private TransportProtocol transport;
+	
+	public UserAccountFilterVersion12Test(TransportProtocol transport) {
+		this.transport = transport;
+	}
 
+	@SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
+	
     /**
      * Test retrieving User Account through filter request (filter for version
      * 1.2).
@@ -84,6 +101,7 @@ public class UserAccountFilterVersion12Test {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         // create
         UserAccount createdUa = uac.create(ua);

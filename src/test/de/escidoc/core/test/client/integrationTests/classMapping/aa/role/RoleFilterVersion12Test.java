@@ -33,6 +33,7 @@ import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -42,14 +43,20 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.RoleHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.aa.role.Role;
@@ -68,10 +75,22 @@ import de.escidoc.core.test.client.util.Template;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class RoleFilterVersion12Test {
 
-    public static final String FILTER_PARAMETER_QUERY = "query";
-    
+	private TransportProtocol transport;
+	
+	public RoleFilterVersion12Test(TransportProtocol transport) {
+		this.transport = transport;
+	}
+
+	@SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
+	
     /**
      * Test retrieving Roles through filter request (filter for version 1.2).
      * 
@@ -85,9 +104,10 @@ public class RoleFilterVersion12Test {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RoleHandlerClient rc = new RoleHandlerClient();
+        RoleHandlerClientInterface rc = new RoleHandlerClient();
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
+        rc.setTransport(transport);
 
         Role role = createRole();
         Role createdRole = rc.create(role);
@@ -95,9 +115,11 @@ public class RoleFilterVersion12Test {
         
         // now check if at least this Container is in the list
 
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
+        
         UserAccount me = uac.retrieveCurrentUser();
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
@@ -176,14 +198,13 @@ public class RoleFilterVersion12Test {
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), 
-        		EscidocClientTestBase.getTransport());
+        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), transport);
         
         String xml = m.marshalDocument(role);
 
         Role urole = m.unmarshalDocument(xml);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
-        	.getRoleMarshaller().marshalDocument(urole);
+        Factory.getMarshallerFactory(transport).getRoleMarshaller()
+        	.marshalDocument(urole);
 
         return role;
     }

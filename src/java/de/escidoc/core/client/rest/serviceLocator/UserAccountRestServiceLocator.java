@@ -84,7 +84,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, MissingAttributeValueException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        post(PATH_USER_ACCOUNT + "/activate", taskParam);
+        post(PATH_USER_ACCOUNT + "/" + accountId + "/activate", taskParam);
     }
 
     public void deactivate(final String accountId, final String taskParam)
@@ -94,7 +94,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         AuthenticationException, AlreadyDeactiveException,
         AuthorizationException, InvalidXmlException {
 
-        post(PATH_USER_ACCOUNT + "/deactivate", taskParam);
+        post(PATH_USER_ACCOUNT + "/" + accountId + "/deactivate", taskParam);
     }
 
     public void updatePassword(final String accountId, final String taskParam)

@@ -3,8 +3,7 @@
 	<!--  REST Binding -->
 
 	<mapping name="role" class="de.escidoc.core.resources.aa.role.Role"
-		ns="http://www.escidoc.de/schemas/role/0.4"
-		post-set="ensureValidXLinkHrefDefinitions">
+		ns="http://www.escidoc.de/schemas/role/0.4">
 		
 		<namespace uri="urn:oasis:names:tc:xacml:1.0:policy" prefix="xacml-policy" />
 		<namespace uri="http://www.escidoc.de/schemas/role/0.4"
@@ -14,10 +13,6 @@
 			***************************************** Root attributes
 			******************************************
 		-->
-		<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-		<value name="objid" style="attribute" 
-			set-method="setObjid" get-method="getObjid" usage="optional" />
-			
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
@@ -54,7 +49,8 @@
 		-->
 
 		<structure field="policyOrPolicySet" type="org.w3c.dom.Element"
-			marshaller="org.jibx.extras.DomElementMapper" unmarshaller="org.jibx.extras.DomElementMapper"
+			marshaller="org.jibx.extras.DomElementMapper" 
+			unmarshaller="org.jibx.extras.DomElementMapper"
 			usage="optional" />
 
 
@@ -137,10 +133,6 @@
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="created-by" field="createdBy" usage="optional">
-
-			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-			<value name="objid" style="attribute" 
-				set-method="setObjid" get-method="getObjid" usage="optional" />	
 					
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -153,10 +145,6 @@
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="modified-by" field="modifiedBy" usage="optional">
 
-			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-			<value name="objid" style="attribute" 
-				set-method="setObjid" get-method="getObjid" usage="optional" />
-				
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 

@@ -44,12 +44,16 @@ public class SearchResultRecordRecord extends AbstractRecord<SearchResultRecord>
 	/**
 	 * Use SearchResultMarshaller to bind the content.
 	 * 
+	 * FIXME Use the transport protocol of the parent Marshaller as soon as SRW
+	 * returns the content in REST format, when request is done via REST
+	 * transport protocol. 
+	 * 
 	 * @param xml
 	 * @return
 	 */
 	final SearchResultRecord decodeXMLString(final String xml) {
 		try {
-			return Factory.getMarshallerFactory(getProtocol())
+			return Factory.getMarshallerFactory(TransportProtocol.SOAP)
 				.getSearchResultMarshaller().unmarshalDocument(xmlHeader + xml);
 		} catch (InternalClientException e) {
 			LOGGER.debug("Unable to unmarshal recordData.", e);

@@ -32,7 +32,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
@@ -62,8 +68,22 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class GrantsTest {
 
+	private TransportProtocol transport;
+	
+	public GrantsTest(TransportProtocol transport) {
+		this.transport = transport;
+	}
+
+	@SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
+	
 	/**
 	 * Test to create and retrieve a grant.
 	 * 
@@ -81,6 +101,7 @@ public class GrantsTest {
 		
 		uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
 		uahc.setHandle(auth.getHandle());
+		uahc.setTransport(transport);
 
 		// create User Account
 		UserAccount ua = new UserAccount();

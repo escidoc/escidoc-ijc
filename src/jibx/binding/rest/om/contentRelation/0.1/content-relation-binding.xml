@@ -13,8 +13,7 @@
 	<!-- start: abstract binding of a single content relation -->
 	<mapping ns="http://www.escidoc.de/schemas/content-relation/0.1"
 		class="de.escidoc.core.resources.om.contentRelation.ContentRelation"
-		abstract="true" type-name="abstract-content-relation"
-		post-set="ensureValidXLinkHrefDefinitions">
+		abstract="true" type-name="abstract-content-relation">
 
 		<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1"
 			prefix="escidocContentRelation" />
@@ -29,10 +28,6 @@
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
 		<!-- Root attributes -->
-		<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-		<value name="objid" style="attribute" 
-			set-method="setObjid" get-method="getObjid" usage="optional" />
-			
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
@@ -58,10 +53,6 @@
 			name="subject" field="subject" usage="optional"
 			type="de.escidoc.core.resources.ResourceRef">
 			
-			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-			<value name="objid" style="attribute" 
-				set-method="setObjid" get-method="getObjid" usage="optional" />
-			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
@@ -73,10 +64,6 @@
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
 			name="object" field="object" usage="optional"
 			type="de.escidoc.core.resources.ResourceRef">
-			
-			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-			<value name="objid" style="attribute" 
-				set-method="setObjid" get-method="getObjid" usage="optional" />
 			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -138,10 +125,6 @@
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="created-by" field="createdBy" usage="optional">
 
-			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-			<value name="objid" style="attribute"  set-method="setObjid" 
-				get-method="getObjid" usage="optional" />
-
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
@@ -152,10 +135,6 @@
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="modified-by" field="modifiedBy" usage="optional">
-
-			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-			<value name="objid" style="attribute"  set-method="setObjid" 
-				get-method="getObjid" usage="optional" />
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -187,10 +166,6 @@
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="lock-owner" field="lockOwner" usage="optional">
 
-			<!-- Keep mapping objid because core returns objects in SOAP format in SRW -->
-			<value name="objid" style="attribute"  set-method="setObjid" 
-				get-method="getObjid" usage="optional" />
-			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
 			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 

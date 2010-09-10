@@ -32,6 +32,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -58,8 +59,10 @@ public class OuRetrieveTest {
 
     	OrganizationalUnitHandlerClientInterface cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+    	Authentication auth = new Authentication(
+    	    EscidocClientTestBase.DEFAULT_SERVICE_URL,
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+    	cc.setHandle(auth.getHandle());
 
         OrganizationalUnit ou = cc.retrieve("escidoc:ex3");
 

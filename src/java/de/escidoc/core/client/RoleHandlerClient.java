@@ -50,6 +50,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.RoleRecord;
 
 /**
  * This is the generic RoleContainerHandlerClient which binds the transport
@@ -227,9 +228,9 @@ public class RoleHandlerClient extends AbstractHandlerClient
     	Collection<Role> results = new LinkedList<Role>();
     	
     	for (Record record : response.getRecords()) {
-			Object result = record.getRecordData();
-			if(result instanceof Role) {
-				results.add((Role)result);
+			if(record instanceof RoleRecord) {
+				Role result = ((RoleRecord)record).getRecordData();
+				results.add(result);
 			}
 		}
     	return results;

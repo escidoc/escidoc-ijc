@@ -30,7 +30,6 @@ package de.escidoc.core.resources;
 
 import java.util.Map;
 
-
 /**
  * Object reference.
  * 
@@ -44,32 +43,25 @@ public class ResourceRef extends XLinkResource {
      * 
      */
     public static enum RESOURCE_TYPE {
-    	// root resources
-        Context(true), 
-        Item(true), 
-        Container(true), 
-        OrganizationalUnit(true),
-        UserAccount(true), 
-        ContentModel(true),
-        Grant(true),
-        Role(true),
-        ContentRelation(true),
+        // root resources
+        Context(true), Item(true), Container(true), OrganizationalUnit(true), UserAccount(
+            true), ContentModel(true), Grant(true), Role(true), ContentRelation(
+            true),
         // sub resources
-        Component(false), 
-        Toc(false), // ???
+        Component(false), Toc(false), // ???
         UserAccountAttribute(false);
-        
+
         private final boolean isRootResource;
-        
+
         RESOURCE_TYPE(boolean isRootResource) {
-        	this.isRootResource = isRootResource;
+            this.isRootResource = isRootResource;
         }
-        
+
         public boolean isRootResource() {
-        	return isRootResource;
+            return isRootResource;
         }
     }
-    
+
     private String objid;
 
     private RESOURCE_TYPE resourceType = null;
@@ -87,31 +79,31 @@ public class ResourceRef extends XLinkResource {
      *            The objid of the resource.
      */
     public ResourceRef(final String objid) {
-    	setObjid(objid);
+        setObjid(objid);
     }
-    
+
     /**
      * 
      * @param objid
      * @param type
      */
     public ResourceRef(final String objid, final RESOURCE_TYPE type) {
-    	setResourceType(type);
-    	setObjid(objid);
-    	setXLinkTitle(type+"Title");
+        setResourceType(type);
+        setObjid(objid);
+        setXLinkTitle(type + "Title");
     }
-    
+
     /**
      * 
      * @param objid
      * @param type
      * @param title
      */
-    public ResourceRef(final String objid, final RESOURCE_TYPE type, 
-    		String title) {
-    	setResourceType(type);
-    	setObjid(objid);
-    	setXLinkTitle(title);
+    public ResourceRef(final String objid, final RESOURCE_TYPE type,
+        String title) {
+        setResourceType(type);
+        setObjid(objid);
+        setXLinkTitle(title);
     }
 
     /**
@@ -122,8 +114,8 @@ public class ResourceRef extends XLinkResource {
      *            The title of the resource (for XML Xlink title attribute)
      */
     public ResourceRef(final String href, final String title) {
-    	setXLinkHref(href);
-    	setXLinkTitle(title);
+        setXLinkHref(href);
+        setXLinkTitle(title);
     }
 
     /**
@@ -136,7 +128,7 @@ public class ResourceRef extends XLinkResource {
      *            The title of the resource (for XML Xlink title attribute)
      */
     public ResourceRef(final String objid, final String href, final String title) {
-    	this.objid = objid;
+        this.objid = objid;
         setXLinkHref(href);
         setXLinkTitle(title);
     }
@@ -173,24 +165,24 @@ public class ResourceRef extends XLinkResource {
      * Set object id.
      * 
      * Workaround needed because SRW returns search results as SOAP formatted
-     * XML. Therefore we need to generate the Href in case we are using the 
-     * REST protocol.
+     * XML. Therefore we need to generate the Href in case we are using the REST
+     * protocol.
      * 
      * @param objid
      *            The object Id.
      */
     public void setObjid(final String objid) {
-    	this.objid = objid;
+        this.objid = objid;
     }
 
     @Override
     public void setXLinkHref(final String href) {
         super.setXLinkHref(href);
-        if(href != null) {
-        	this.objid = href.substring(href.lastIndexOf('/')+1);
+        if (href != null) {
+            this.objid = href.substring(href.lastIndexOf('/') + 1);
         }
     }
-    
+
     /**
      * Set the type of the resource for the reference.
      * 
@@ -218,95 +210,104 @@ public class ResourceRef extends XLinkResource {
      * 
      * @param xLinkHref
      * @return the resource type of the specified xLinkHref or null if and only
-     * if the specified xLinkHref cannot be mapped to a root resource type.
+     *         if the specified xLinkHref cannot be mapped to a root resource
+     *         type.
      */
-    public static final RESOURCE_TYPE getRootResourceTypeForHref(String xLinkHref) {
-    	if(xLinkHref == null) return null;
-    	
-    	for (Map.Entry<RESOURCE_TYPE, String> entry : URL_TYPE.entrySet()) {
-			if(entry.getKey().isRootResource() && 
-					xLinkHref.startsWith(entry.getValue())) {
-				return entry.getKey(); 
-			}
-		}
-    	return null;
+    public static final RESOURCE_TYPE getRootResourceTypeForHref(
+        String xLinkHref) {
+        if (xLinkHref == null)
+            return null;
+
+        for (Map.Entry<RESOURCE_TYPE, String> entry : URL_TYPE.entrySet()) {
+            if (entry.getKey().isRootResource()
+                && xLinkHref.startsWith(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
-    
+
     /**
      * Method used by ResourceRef implementations to ensure a fully valid
-     * xLinkHref definition for all sub resources they may own. 
-     * The validation methods calling this method may be called by JiBX as
-     * post-set methods.
+     * xLinkHref definition for all sub resources they may own. The validation
+     * methods calling this method may be called by JiBX as post-set methods.
      * 
      * @param resource
      * @param type
      * @param prefix
      * @return the generated HREF
      */
-    protected static final String genXLinkHref(final ResourceRef resource, 
-    		final RESOURCE_TYPE type, final String prefix) {
-    	
-    	if(resource != null && resource.getXLinkHref() == null) {
-    		
-    		if(type != null) {
-    			resource.setResourceType(type);
-    		
-	    		String URL = URL_TYPE.get(type);
-	    		if(URL!=null) {
-	    			String href = URL + "/" + resource.getObjid();
-	    			if(prefix != null)
-	    				href = prefix + href;
-		    		resource.setXLinkHref(href);
-		    		return href;
-	    		}
-    		} else if(prefix != null) {
-    			resource.setXLinkHref(prefix);
-	    		return prefix;
-    		}
-    	}
-    	return "";
+    protected static final String genXLinkHref(
+        final ResourceRef resource, final RESOURCE_TYPE type,
+        final String prefix) {
+
+        if (resource != null && resource.getXLinkHref() == null) {
+
+            if (type != null && resource.getObjid() != null) {
+                resource.setResourceType(type);
+
+                String URL = URL_TYPE.get(type);
+                if (URL != null) {
+                    String href = URL + "/" + resource.getObjid();
+                    if (prefix != null)
+                        href = prefix + href;
+                    resource.setXLinkHref(href);
+                    return href;
+                }
+            }
+            else if (prefix != null) {
+                resource.setXLinkHref(prefix);
+                return prefix;
+            }
+        }
+        return "";
     }
-    
+
     /**
      * Method used by ResourceRef implementations to ensure a fully valid
-     * xLinkHref definition for all sub resources they may own. 
-     * The validation methods calling this method may be called by JiBX as
-     * post-set methods.
+     * xLinkHref definition for all sub resources they may own. The validation
+     * methods calling this method may be called by JiBX as post-set methods.
      */
     protected void genOwnXLinkHref() {
-    	if(getXLinkHref() == null && getResourceType() != null) {
-    		setXLinkHref(URL_TYPE.get(getResourceType()) + "/" + getObjid());
-    	}
+        if (getXLinkHref() == null && getResourceType() != null
+            && getObjid() != null) {
+            setXLinkHref(URL_TYPE.get(getResourceType()) + "/" + getObjid());
+        }
     }
-    
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((objid == null) ? 0 : objid.hashCode());
-		return result;
-	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ResourceRef other = (ResourceRef) obj;
-		if (objid == null) {
-			if (other.objid != null)
-				return false;
-		} else if (!objid.equals(other.objid))
-			return false;
-		return true;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((objid == null) ? 0 : objid.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ResourceRef other = (ResourceRef) obj;
+        if (objid == null) {
+            if (other.objid != null)
+                return false;
+        }
+        else if (!objid.equals(other.objid))
+            return false;
+        return true;
+    }
 }

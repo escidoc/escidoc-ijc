@@ -522,7 +522,7 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
             getSoapHandlerClient().deletePreference(userId, name);
         }
         else {
-            getRestHandlerClient().createPreference(userId, name);
+            getRestHandlerClient().deletePreference(userId, name);
         }
     }
 
@@ -702,7 +702,7 @@ public class UserAccountHandlerClient extends AbstractHandlerClient
             getSoapHandlerClient().deleteAttribute(userId, attributeId);
         }
         else {
-            getRestHandlerClient().createAttribute(userId, attributeId);
+            getRestHandlerClient().deleteAttribute(userId, attributeId);
         }
     }
 

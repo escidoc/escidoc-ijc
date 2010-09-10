@@ -32,6 +32,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -40,16 +41,21 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.RoleHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.RoleNotFoundException;
+import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.aa.role.Role;
@@ -68,9 +74,21 @@ import de.escidoc.core.test.client.util.Template;
  * 
  * 
  */
+@RunWith(Parameterized.class)
 public class RoleHandlerClientTest {
 
+	private TransportProtocol transport;
 	
+	public RoleHandlerClientTest(TransportProtocol transport) {
+		this.transport = transport;
+	}
+
+	@SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 	
     /**
      * Test to create and retrieve user account.
@@ -85,9 +103,10 @@ public class RoleHandlerClientTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RoleHandlerClient rc = new RoleHandlerClient();
+        RoleHandlerClientInterface rc = new RoleHandlerClient();
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
+        rc.setTransport(transport);
 
         Role role = createRole();
         Role createdRole = rc.create(role);
@@ -113,6 +132,7 @@ public class RoleHandlerClientTest {
         RoleHandlerClient rc = new RoleHandlerClient();
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
+        rc.setTransport(transport);
 
         Role role = createRole();
         Role createdRole = rc.create(role);
@@ -141,6 +161,7 @@ public class RoleHandlerClientTest {
         RoleHandlerClient rc = new RoleHandlerClient();
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
+        rc.setTransport(transport);
    
         Role createdRole = rc.create(role);
 
@@ -176,7 +197,7 @@ public class RoleHandlerClientTest {
         filterParam.setFilters(filters);
 
         // serialize data
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        Factory.getMarshallerFactory(transport)
         	.getTaskParamMarshaller().marshalDocument(filterParam);
     }
 
@@ -203,6 +224,7 @@ public class RoleHandlerClientTest {
         RoleHandlerClient rc = new RoleHandlerClient();
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
+        rc.setTransport(transport);
 
         Roles roleList = rc.retrieveRoles(filterParam);
 
@@ -267,12 +289,12 @@ public class RoleHandlerClientTest {
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), EscidocClientTestBase.getTransport());
+        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), transport);
         
         String xml = m.marshalDocument(role);
 
         Role urole = m.unmarshalDocument(xml);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        Factory.getMarshallerFactory(transport)
         	.getRoleMarshaller().marshalDocument(urole);
 
         return role;

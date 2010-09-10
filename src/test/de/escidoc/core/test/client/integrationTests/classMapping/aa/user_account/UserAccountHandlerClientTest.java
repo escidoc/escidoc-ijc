@@ -33,11 +33,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
@@ -56,8 +61,22 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author ROF, SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class UserAccountHandlerClientTest {
 
+	private TransportProtocol transport;
+	
+	public UserAccountHandlerClientTest(TransportProtocol transport) {
+		this.transport = transport;
+	}
+
+	@SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
+	
     /**
      * Test to create and retrieve user account.
      * 
@@ -77,6 +96,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         // create
         UserAccount createdUa = uac.create(ua);
@@ -105,6 +125,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         // create
         uac.create(null);
@@ -129,6 +150,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         UserAccount createdUa = uac.create(ua);
 
@@ -174,6 +196,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         UserAccount createdUa = uac.create(ua);
 
@@ -229,6 +252,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         UserAccounts userAccountList = uac.retrieveUserAccounts(filterParam);
 
@@ -255,6 +279,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         // create
         UserAccount createdUa = uac.create(ua);
@@ -287,6 +312,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         UserAccount ua = createUserAccount();
 
@@ -318,6 +344,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
@@ -342,6 +369,7 @@ public class UserAccountHandlerClientTest {
         UserAccountHandlerClient uac2 = new UserAccountHandlerClient();
         uac2.setServiceAddress(auth.getServiceAddress());
         uac2.setHandle(auth2.getHandle());
+        uac2.setTransport(transport);
 
         uac2.retrieve(objId);
         auth.logout();

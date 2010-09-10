@@ -54,6 +54,7 @@ import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.ItemRecord;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -133,9 +134,11 @@ public class ItemFilterVersion12Test {
          Collection<String> itemIds = 
         	 new ArrayList<String>(response.getNumberOfResultingRecords());
          for (@SuppressWarnings("rawtypes") Record record : response.getRecords()) {
-        	 Object data = record.getRecordData();
-        	 if(data != null && data instanceof Item)
-        		 itemIds.add(((Item)data).getObjid());
+             if(record instanceof ItemRecord) {
+                 Item data = ((ItemRecord)record).getRecordData();
+                 if(data != null)
+                    itemIds.add(data.getObjid());
+             }
          }
         
          assertTrue("Created Item missing in list", 

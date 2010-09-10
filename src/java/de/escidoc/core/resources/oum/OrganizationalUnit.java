@@ -165,9 +165,11 @@ public class OrganizationalUnit extends GenericResource {
     			parents.setXLinkHref(getXLinkHref() + "/parents");
     		}
     		
-    		for (Parent parent : parents.getParentRef()) {
-    			genXLinkHref(parent, RESOURCE_TYPE.OrganizationalUnit, null);
-			}
+    		if(parents.getParentRef() != null) {
+        		for (Parent parent : parents.getParentRef()) {
+        			genXLinkHref(parent, RESOURCE_TYPE.OrganizationalUnit, null);
+    			}
+    		}
     	}
     	if(mdRecords != null) {
     		if(mdRecords.getXLinkHref() == null) {
