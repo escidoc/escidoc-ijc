@@ -61,8 +61,8 @@ public abstract class ClientBase {
 
     private final Logger logger = Logger.getLogger(ClientBase.class.getName());
 
-    private final EngineConfiguration engineConfig =
-        new FileProvider(ENGINE_CONFIG_FILE);
+    private final EngineConfiguration engineConfig = new FileProvider(
+        ENGINE_CONFIG_FILE);
 
     private String serviceAddress = null;
 
@@ -209,8 +209,7 @@ public abstract class ClientBase {
     /**
      * Get Authentication Handle.
      * 
-     * @return
-     *            the handle to set
+     * @return the handle to set
      */
     public String getHandle() {
 
@@ -268,7 +267,6 @@ public abstract class ClientBase {
         return handle;
     }
 
-    
     /**
      * Converts a SRW SearchRetrieveRequest to the data structure for filter
      * requests for eSciDoc (version 1.2).
@@ -283,12 +281,12 @@ public abstract class ClientBase {
         HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
 
         if (filter.getMaximumRecords() != null) {
-            filter12.put("maximumRecords", new String[] { String.valueOf(filter
-                .getMaximumRecords()) });
+            filter12.put("maximumRecords",
+                new String[] { String.valueOf(filter.getMaximumRecords()) });
         }
         if (filter.getStartRecord() != null) {
-            filter12.put("startRecord", new String[] { String.valueOf(filter
-                .getStartRecord()) });
+            filter12.put("startRecord",
+                new String[] { String.valueOf(filter.getStartRecord()) });
         }
         if (filter.getQuery() != null) {
             filter12.put("query", new String[] { filter.getQuery() });
@@ -321,6 +319,5 @@ public abstract class ClientBase {
 
         return filter12;
     }
-
 
 }

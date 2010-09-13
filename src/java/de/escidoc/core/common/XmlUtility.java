@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
  */
 public class XmlUtility {
 
-	public static final String AMPERSAND = "&";
+    public static final String AMPERSAND = "&";
 
     public static final String ESC_AMPERSAND = "&amp;";
 
@@ -48,45 +48,45 @@ public class XmlUtility {
     public static final String QUOT = "\"";
 
     public static final String ESC_QUOT = "&quot;";
-	
-	private static final Pattern PATTERN_ESCAPE_NEEDED =
-        Pattern.compile(AMPERSAND + "|" + LESS_THAN + "|" + GREATER_THAN + "|"
-            + QUOT + "|" + APOS);
 
-    private static final Pattern PATTERN_UNESCAPE_NEEDED =
-        Pattern.compile(ESC_AMPERSAND + "|" + ESC_LESS_THAN + "|"
-            + ESC_GREATER_THAN + "|" + ESC_QUOT + "|" + ESC_APOS);
+    private static final Pattern PATTERN_ESCAPE_NEEDED = Pattern
+        .compile(AMPERSAND + "|" + LESS_THAN + "|" + GREATER_THAN + "|" + QUOT
+            + "|" + APOS);
 
-    private static final Pattern PATTERN_AMPERSAND =
-        Pattern.compile("(" + AMPERSAND + ")");
+    private static final Pattern PATTERN_UNESCAPE_NEEDED = Pattern
+        .compile(ESC_AMPERSAND + "|" + ESC_LESS_THAN + "|" + ESC_GREATER_THAN
+            + "|" + ESC_QUOT + "|" + ESC_APOS);
 
-    private static final Pattern PATTERN_LESS_THAN =
-        Pattern.compile("(" + LESS_THAN + ")");
+    private static final Pattern PATTERN_AMPERSAND = Pattern.compile("("
+        + AMPERSAND + ")");
 
-    private static final Pattern PATTERN_GREATER_THAN =
-        Pattern.compile("(" + GREATER_THAN + ")");
+    private static final Pattern PATTERN_LESS_THAN = Pattern.compile("("
+        + LESS_THAN + ")");
 
-    private static final Pattern PATTERN_QUOT =
-        Pattern.compile("(" + QUOT + ")");
+    private static final Pattern PATTERN_GREATER_THAN = Pattern.compile("("
+        + GREATER_THAN + ")");
 
-    private static final Pattern PATTERN_APOS =
-        Pattern.compile("(" + APOS + ")");
+    private static final Pattern PATTERN_QUOT = Pattern.compile("(" + QUOT
+        + ")");
 
-    private static final Pattern PATTERN_ESC_AMPERSAND =
-        Pattern.compile("(" + ESC_AMPERSAND + ")");
+    private static final Pattern PATTERN_APOS = Pattern.compile("(" + APOS
+        + ")");
 
-    private static final Pattern PATTERN_ESC_LESS_THAN =
-        Pattern.compile("(" + ESC_LESS_THAN + ")");
+    private static final Pattern PATTERN_ESC_AMPERSAND = Pattern.compile("("
+        + ESC_AMPERSAND + ")");
 
-    private static final Pattern PATTERN_ESC_GREATER_THAN =
-        Pattern.compile("(" + ESC_GREATER_THAN + ")");
+    private static final Pattern PATTERN_ESC_LESS_THAN = Pattern.compile("("
+        + ESC_LESS_THAN + ")");
 
-    private static final Pattern PATTERN_ESC_QUOT =
-        Pattern.compile("(" + ESC_QUOT + ")");
+    private static final Pattern PATTERN_ESC_GREATER_THAN = Pattern.compile("("
+        + ESC_GREATER_THAN + ")");
 
-    private static final Pattern PATTERN_ESC_APOS =
-        Pattern.compile("(" + ESC_APOS + ")");
-	
+    private static final Pattern PATTERN_ESC_QUOT = Pattern.compile("("
+        + ESC_QUOT + ")");
+
+    private static final Pattern PATTERN_ESC_APOS = Pattern.compile("("
+        + ESC_APOS + ")");
+
     /**
      * Get a DOM object of the XML string.
      * 
@@ -121,20 +121,20 @@ public class XmlUtility {
      * 
      * @throws TransformerException
      */
-    public static String xmlToString(final Node node, 
-    		final boolean omitXMLDeclaration)
+    public static String xmlToString(
+        final Node node, final boolean omitXMLDeclaration)
         throws TransformerException {
 
         Source source = new DOMSource(node);
         StringWriter stringWriter = new StringWriter();
         Result result = new StreamResult(stringWriter);
-        
+
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, 
-        		omitXMLDeclaration ? "yes" : "no");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION,
+            omitXMLDeclaration ? "yes" : "no");
         transformer.transform(source, result);
-        
+
         return stringWriter.getBuffer().toString();
     }
 
@@ -166,9 +166,10 @@ public class XmlUtility {
 
         return result;
     }
-    
+
     /**
-     * Replace all escape sequences for forbidden characters with their readable.
+     * Replace all escape sequences for forbidden characters with their
+     * readable.
      * 
      * @param xmlText
      *            The XML text with escape sequences.

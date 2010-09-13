@@ -45,9 +45,9 @@ import de.escidoc.core.client.soap.SoapClientBase;
  * @author SWA
  * 
  */
-public class StagingHandlerClient extends AbstractHandlerClient
-	<SoapClientBase, RestStagingHandlerClient> 
-	implements StagingHandlerInterface {
+public class StagingHandlerClient
+    extends AbstractHandlerClient<SoapClientBase, RestStagingHandlerClient>
+    implements StagingHandlerInterface {
 
     /**
      * Upload a resource to the Staging Service.
@@ -98,8 +98,7 @@ public class StagingHandlerClient extends AbstractHandlerClient
         final String password) throws EscidocException,
         InternalClientException, TransportException {
 
-        return getRestHandlerClient().login(serviceAddress,
-            username, password);
+        return getRestHandlerClient().login(serviceAddress, username, password);
     }
 
     /*
@@ -117,26 +116,26 @@ public class StagingHandlerClient extends AbstractHandlerClient
     /**
      * SOAP not supported.
      */
-	@Override
-	protected SoapClientBase getSoapHandlerClientInstance()
-			throws InternalClientException {
-		return null;
-	}
+    @Override
+    protected SoapClientBase getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return null;
+    }
 
-	@Override
-	protected RestStagingHandlerClient getRestHandlerClientInstance()
-			throws InternalClientException {
-		return new RestStagingHandlerClient();
-	}
-	
-	@Override
-	public void setTransport(TransportProtocol transport) {
-		// ignore specified TransportProtocol
-		super.setTransport(TransportProtocol.REST);
-	}
+    @Override
+    protected RestStagingHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestStagingHandlerClient();
+    }
 
-	@Override
-	public TransportProtocol getTransport() {
-		return TransportProtocol.REST;
-	}
+    @Override
+    public void setTransport(TransportProtocol transport) {
+        // ignore specified TransportProtocol
+        super.setTransport(TransportProtocol.REST);
+    }
+
+    @Override
+    public TransportProtocol getTransport() {
+        return TransportProtocol.REST;
+    }
 }

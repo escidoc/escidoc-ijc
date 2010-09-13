@@ -66,8 +66,9 @@ import de.escidoc.core.resources.sb.search.records.ContainerRecord;
  * @author SWA
  * 
  */
-public class ContainerHandlerClient extends AbstractHandlerClient
-	<SoapContainerHandlerClient, RestContainerHandlerClient>
+public class ContainerHandlerClient
+    extends
+    AbstractHandlerClient<SoapContainerHandlerClient, RestContainerHandlerClient>
     implements ContainerHandlerClientInterface {
 
     /**
@@ -87,8 +88,10 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         String xml = null;
-        String containerXml = Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().marshalDocument(container);
+        String containerXml =
+            Factory
+                .getMarshallerFactory(getTransport()).getContainerMarshaller()
+                .marshalDocument(container);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().create(containerXml);
         }
@@ -96,8 +99,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
             xml = getRestHandlerClient().create(containerXml);
 
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -123,8 +127,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -169,8 +174,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieveVersionHistory(id);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getVersionHistoryMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getVersionHistoryMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -213,18 +219,23 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         String xml = null;
-        String containerXml = Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().marshalDocument(container);
+        String containerXml =
+            Factory
+                .getMarshallerFactory(getTransport()).getContainerMarshaller()
+                .marshalDocument(container);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().update(container.getObjid(),
+            xml =
+                getSoapHandlerClient().update(container.getObjid(),
                     containerXml);
         }
         else {
-            xml = getRestHandlerClient().update(container.getObjid(),
+            xml =
+                getRestHandlerClient().update(container.getObjid(),
                     containerXml);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /*
@@ -258,8 +269,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
             xml = getRestHandlerClient().submit(id, taskParamString);
         }
 
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -309,8 +321,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().release(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -360,8 +373,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().revise(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -411,8 +425,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().withdraw(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -462,8 +477,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().lock(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -492,8 +508,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().unlock(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /*
@@ -521,15 +538,14 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         String xml = null;
         String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().assignVersionPid(id,
-                    taskParamString);
+            xml = getSoapHandlerClient().assignVersionPid(id, taskParamString);
         }
         else {
-            xml = getRestHandlerClient().assignVersionPid(id,
-                    taskParamString);
+            xml = getRestHandlerClient().assignVersionPid(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -553,15 +569,14 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         String xml = null;
         String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().assignObjectPid(id,
-                    taskParamString);
+            xml = getSoapHandlerClient().assignObjectPid(id, taskParamString);
         }
         else {
-            xml = getRestHandlerClient().assignObjectPid(id,
-                    taskParamString);
+            xml = getRestHandlerClient().assignObjectPid(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -587,17 +602,16 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
-                getSoapHandlerClient().addContentRelations(id,
-                    taskParamString);
+                getSoapHandlerClient().addContentRelations(id, taskParamString);
         }
         else {
             xml =
-                getRestHandlerClient().addContentRelations(id,
-                    taskParamString);
+                getRestHandlerClient().addContentRelations(id, taskParamString);
         }
-        
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().unmarshalDocument(xml);
+
+        return Factory
+            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -622,15 +636,18 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         String xml = null;
         String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().removeContentRelations(id,
+            xml =
+                getSoapHandlerClient().removeContentRelations(id,
                     taskParamString);
         }
         else {
-            xml = getRestHandlerClient().removeContentRelations(id,
+            xml =
+                getRestHandlerClient().removeContentRelations(id,
                     taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -654,15 +671,14 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         String xml = null;
         String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().addMembers(id, taskParamString);
+            xml = getSoapHandlerClient().addMembers(id, taskParamString);
         }
         else {
-            xml =
-                getRestHandlerClient().addMembers(id, taskParamString);
+            xml = getRestHandlerClient().addMembers(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -686,15 +702,14 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         String xml = null;
         String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().removeMembers(id,
-                    taskParamString);
+            xml = getSoapHandlerClient().removeMembers(id, taskParamString);
         }
         else {
-            xml = getRestHandlerClient().removeMembers(id,
-                    taskParamString);
+            xml = getRestHandlerClient().removeMembers(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -717,16 +732,19 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
-        String itemString = Factory.getMarshallerFactory(getTransport())
-        	.getItemMarshaller().marshalDocument(item);
+        String itemString =
+            Factory
+                .getMarshallerFactory(getTransport()).getItemMarshaller()
+                .marshalDocument(item);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().createItem(id, itemString);
         }
         else {
             xml = getRestHandlerClient().createItem(id, itemString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getItemMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getItemMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -749,18 +767,19 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
-        String containerString = Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().marshalDocument(container);
+        String containerString =
+            Factory
+                .getMarshallerFactory(getTransport()).getContainerMarshaller()
+                .marshalDocument(container);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().createContainer(id,
-            		containerString);
+            xml = getSoapHandlerClient().createContainer(id, containerString);
         }
         else {
-            xml = getRestHandlerClient().createContainer(id,
-                    containerString);
+            xml = getRestHandlerClient().createContainer(id, containerString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContainerMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -786,8 +805,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieveStructMap(id);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getStructMapMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getStructMapMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -810,15 +830,14 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         String taskParamString = marshalTaskParam(taskParam);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveContainers(
-            		taskParamString);
+            xml = getSoapHandlerClient().retrieveContainers(taskParamString);
         }
         else {
-            xml = getRestHandlerClient().retrieveContainers(
-            		taskParamString);
+            xml = getRestHandlerClient().retrieveContainers(taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContainerListMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContainerListMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -838,8 +857,8 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-    	evalFilter(filter);
-    	
+        evalFilter(filter);
+
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().retrieveContainers(filter);
@@ -847,30 +866,31 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContainers(filter);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getSearchRetrieveResponseMarshaller() .unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
-    
+
     @SuppressWarnings("rawtypes")
-	@Override
-	public Collection<Container> retrieveContainersAsList(
-			final SearchRetrieveRequestType filter) throws EscidocException,
-			InternalClientException, TransportException {
-    	
-    	SearchRetrieveResponse response = retrieveContainers(filter);
-    	Collection<Container> containers = new LinkedList<Container>();
-    	
-    	for(Record record : response.getRecords()) {
-    		if(record instanceof ContainerRecord) {
-    			ContainerRecord containerRecord = (ContainerRecord)record;
-    			Container container = containerRecord.getRecordData();
-    			if(container != null) {
-    				containers.add(container);
-    			}
-    		}
-    	}
-    	return containers;
-	}
+    @Override
+    public Collection<Container> retrieveContainersAsList(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        SearchRetrieveResponse response = retrieveContainers(filter);
+        Collection<Container> containers = new LinkedList<Container>();
+
+        for (Record record : response.getRecords()) {
+            if (record instanceof ContainerRecord) {
+                ContainerRecord containerRecord = (ContainerRecord) record;
+                Container container = containerRecord.getRecordData();
+                if (container != null) {
+                    containers.add(container);
+                }
+            }
+        }
+        return containers;
+    }
 
     /**
      * Retrieve Containers (Filter for Containers).
@@ -895,8 +915,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContainers(filter);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getExplainResponseMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -922,8 +943,9 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieveRelations(id);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getRelationsMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getRelationsMarshaller()
+            .unmarshalDocument(xml);
 
     }
 
@@ -950,15 +972,14 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         String taskParamString = marshalTaskParam(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
 
-            xml = getSoapHandlerClient().retrieveMembers(id,
-                    taskParamString);
+            xml = getSoapHandlerClient().retrieveMembers(id, taskParamString);
         }
         else {
-            xml = getRestHandlerClient().retrieveMembers(id,
-                    taskParamString);
+            xml = getRestHandlerClient().retrieveMembers(id, taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getMemberListMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getMemberListMarshaller()
+            .unmarshalDocument(xml);
 
     }
 
@@ -977,23 +998,26 @@ public class ContainerHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponse retrieveMembers(final Container container, 
-    		final SearchRetrieveRequestType filter)
+    public SearchRetrieveResponse retrieveMembers(
+        final Container container, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveMembers(
-                    container.getObjid(), filter);
+            xml =
+                getSoapHandlerClient().retrieveMembers(container.getObjid(),
+                    filter);
         }
         else {
-            xml = getRestHandlerClient().retrieveMembers(
-                    container.getObjid(), filter);
+            xml =
+                getRestHandlerClient().retrieveMembers(container.getObjid(),
+                    filter);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
-    
+
     /**
      * Retrieve Members (Filter for Members).
      * 
@@ -1009,21 +1033,24 @@ public class ContainerHandlerClient extends AbstractHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainResponse retrieveMembers(final Container container, 
-    		final ExplainRequestType filter)
+    public ExplainResponse retrieveMembers(
+        final Container container, final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveMembers(
-                    container.getObjid(), filter);
+            xml =
+                getSoapHandlerClient().retrieveMembers(container.getObjid(),
+                    filter);
         }
         else {
-            xml = getRestHandlerClient().retrieveMembers(
-                    container.getObjid(), filter);
+            xml =
+                getRestHandlerClient().retrieveMembers(container.getObjid(),
+                    filter);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getExplainResponseMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -1077,12 +1104,12 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().login(serviceAddress,
-                username, password);
+            return getSoapHandlerClient().login(serviceAddress, username,
+                password);
         }
         else {
-            return getRestHandlerClient().login(serviceAddress,
-                username, password);
+            return getRestHandlerClient().login(serviceAddress, username,
+                password);
         }
     }
 
@@ -1103,15 +1130,15 @@ public class ContainerHandlerClient extends AbstractHandlerClient
         setHandle("");
     }
 
-	@Override
-	protected SoapContainerHandlerClient getSoapHandlerClientInstance()
-			throws InternalClientException {
-		return new SoapContainerHandlerClient();
-	}
+    @Override
+    protected SoapContainerHandlerClient getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return new SoapContainerHandlerClient();
+    }
 
-	@Override
-	protected RestContainerHandlerClient getRestHandlerClientInstance()
-			throws InternalClientException {
-		return new RestContainerHandlerClient();
-	}
+    @Override
+    protected RestContainerHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestContainerHandlerClient();
+    }
 }

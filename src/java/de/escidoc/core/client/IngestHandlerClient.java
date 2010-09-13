@@ -41,11 +41,12 @@ import de.escidoc.core.client.soap.SoapIngestHandlerClient;
  * @author KST
  * 
  */
-public class IngestHandlerClient extends AbstractHandlerClient
-	<SoapIngestHandlerClient, RestIngestHandlerClient>
-	implements IngestHandlerInterface {
+public class IngestHandlerClient
+    extends
+    AbstractHandlerClient<SoapIngestHandlerClient, RestIngestHandlerClient>
+    implements IngestHandlerInterface {
 
-	/**
+    /**
      * Returns the XML presentation of a resource.
      * 
      * @param resourceXml
@@ -119,15 +120,15 @@ public class IngestHandlerClient extends AbstractHandlerClient
         setHandle("");
     }
 
-	@Override
-	protected SoapIngestHandlerClient getSoapHandlerClientInstance()
-			throws InternalClientException {
-		return new SoapIngestHandlerClient();
-	}
+    @Override
+    protected SoapIngestHandlerClient getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return new SoapIngestHandlerClient();
+    }
 
-	@Override
-	protected RestIngestHandlerClient getRestHandlerClientInstance()
-			throws InternalClientException {
-		return new RestIngestHandlerClient();
-	}
+    @Override
+    protected RestIngestHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestIngestHandlerClient();
+    }
 }

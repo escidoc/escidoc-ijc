@@ -49,8 +49,9 @@ import de.escidoc.core.resources.aa.pdp.RequestsResults;
  * @author SWA
  * 
  */
-public class PolicyDecisionPointHandlerClient extends AbstractHandlerClient
-	<SoapPolicyDecisionPointHandlerClient, RestPolicyDecisionPointHandlerClient>
+public class PolicyDecisionPointHandlerClient
+    extends
+    AbstractHandlerClient<SoapPolicyDecisionPointHandlerClient, RestPolicyDecisionPointHandlerClient>
     implements PolicyDecisionPointHandlerClientInterface {
 
     private Authentication auth = null;
@@ -66,18 +67,24 @@ public class PolicyDecisionPointHandlerClient extends AbstractHandlerClient
     public RequestsResults evaluate(Requests requests) throws EscidocException,
         InternalClientException, TransportException {
 
-    	String xml = null;
-    	if(getTransport() == TransportProtocol.SOAP) {
-    		xml = getSoapHandlerClient().evaluate(
-                Factory.getMarshallerFactory(getTransport())
-                	.getRequestsMarshaller().marshalDocument(requests));
-    	} else {
-    		xml = getRestHandlerClient().evaluate(
-                    Factory.getMarshallerFactory(getTransport())
-                    	.getRequestsMarshaller().marshalDocument(requests));
-    	}
-    	return Factory.getMarshallerFactory(getTransport())
-        	.getRequestsResultsMarshaller().unmarshalDocument(xml);
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapHandlerClient().evaluate(
+                    Factory
+                        .getMarshallerFactory(getTransport())
+                        .getRequestsMarshaller().marshalDocument(requests));
+        }
+        else {
+            xml =
+                getRestHandlerClient().evaluate(
+                    Factory
+                        .getMarshallerFactory(getTransport())
+                        .getRequestsMarshaller().marshalDocument(requests));
+        }
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getRequestsResultsMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -93,11 +100,12 @@ public class PolicyDecisionPointHandlerClient extends AbstractHandlerClient
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-    	if(getTransport() == TransportProtocol.SOAP) {
-	        return getSoapHandlerClient().getLastModificationDate(id);
-    	} else {
-    		return getRestHandlerClient().getLastModificationDate(id);
-    	}
+        if (getTransport() == TransportProtocol.SOAP) {
+            return getSoapHandlerClient().getLastModificationDate(id);
+        }
+        else {
+            return getRestHandlerClient().getLastModificationDate(id);
+        }
     }
 
     /*
@@ -142,15 +150,15 @@ public class PolicyDecisionPointHandlerClient extends AbstractHandlerClient
         setHandle("");
     }
 
-	@Override
-	protected SoapPolicyDecisionPointHandlerClient getSoapHandlerClientInstance()
-			throws InternalClientException {
-		return new SoapPolicyDecisionPointHandlerClient();
-	}
+    @Override
+    protected SoapPolicyDecisionPointHandlerClient getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return new SoapPolicyDecisionPointHandlerClient();
+    }
 
-	@Override
-	protected RestPolicyDecisionPointHandlerClient getRestHandlerClientInstance()
-			throws InternalClientException {
-		return new RestPolicyDecisionPointHandlerClient();
-	}
+    @Override
+    protected RestPolicyDecisionPointHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestPolicyDecisionPointHandlerClient();
+    }
 }

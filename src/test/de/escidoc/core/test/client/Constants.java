@@ -36,7 +36,6 @@ package de.escidoc.core.test.client;
  */
 public class Constants {
 
-    
     /*
      * Username/Password logins
      */

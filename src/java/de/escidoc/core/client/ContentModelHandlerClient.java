@@ -47,11 +47,12 @@ import de.escidoc.core.resources.cmm.ContentModel;
  * @author SWA
  * 
  */
-public class ContentModelHandlerClient extends AbstractHandlerClient
-	<SoapContentModelHandlerClient, RestContentModelHandlerClient>
+public class ContentModelHandlerClient
+    extends
+    AbstractHandlerClient<SoapContentModelHandlerClient, RestContentModelHandlerClient>
     implements ContentModelHandlerClientInterface {
 
-	/**
+    /**
      * Create ContentModel in Repository.
      * 
      * @param contentModel
@@ -67,9 +68,14 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
     public ContentModel create(final ContentModel contentModel)
         throws EscidocException, InternalClientException, TransportException {
 
-        String contentModelXml = Factory.getMarshallerFactory(getTransport())
-        	.getContentModelMarshaller().marshalDocument(contentModel);
-        contentModelXml = contentModelXml.substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>".length());
+        String contentModelXml =
+            Factory
+                .getMarshallerFactory(getTransport())
+                .getContentModelMarshaller().marshalDocument(contentModel);
+        contentModelXml =
+            contentModelXml
+                .substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                    .length());
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().create(contentModelXml);
@@ -77,8 +83,9 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().create(contentModelXml);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContentModelMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContentModelMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -104,8 +111,9 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContentModelMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContentModelMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -147,19 +155,24 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
     public ContentModel update(final ContentModel contentModel)
         throws EscidocException, InternalClientException, TransportException {
 
-        String contentModelXml = Factory.getMarshallerFactory(getTransport())
-        	.getContentModelMarshaller().marshalDocument(contentModel);
+        String contentModelXml =
+            Factory
+                .getMarshallerFactory(getTransport())
+                .getContentModelMarshaller().marshalDocument(contentModel);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().update(
-            		contentModel.getObjid(), contentModelXml);
+            xml =
+                getSoapHandlerClient().update(contentModel.getObjid(),
+                    contentModelXml);
         }
         else {
-            xml = getRestHandlerClient().update(
-                    contentModel.getObjid(), contentModelXml);
+            xml =
+                getRestHandlerClient().update(contentModel.getObjid(),
+                    contentModelXml);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getContentModelMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getContentModelMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -178,12 +191,10 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-    	if(getTransport() == TransportProtocol.SOAP)
-    		return getSoapHandlerClient()
-    			.getLastModificationDate(id);
-    	else
-    		return getRestHandlerClient()
-    			.getLastModificationDate(id);
+        if (getTransport() == TransportProtocol.SOAP)
+            return getSoapHandlerClient().getLastModificationDate(id);
+        else
+            return getRestHandlerClient().getLastModificationDate(id);
     }
 
     /**
@@ -210,12 +221,12 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().login(serviceAddress,
-                username, password);
+            return getSoapHandlerClient().login(serviceAddress, username,
+                password);
         }
         else {
-            return getRestHandlerClient().login(serviceAddress,
-                username, password);
+            return getRestHandlerClient().login(serviceAddress, username,
+                password);
         }
     }
 
@@ -232,21 +243,20 @@ public class ContentModelHandlerClient extends AbstractHandlerClient
     @Deprecated
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
-    	
+
         setHandle("");
     }
 
-	@Override
-	protected SoapContentModelHandlerClient getSoapHandlerClientInstance()
-		throws InternalClientException {
-		return new SoapContentModelHandlerClient();
-	}
+    @Override
+    protected SoapContentModelHandlerClient getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return new SoapContentModelHandlerClient();
+    }
 
-	@Override
-	protected RestContentModelHandlerClient getRestHandlerClientInstance()
-		throws InternalClientException {
-		return new RestContentModelHandlerClient();
-	}
-    
-   
+    @Override
+    protected RestContentModelHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestContentModelHandlerClient();
+    }
+
 }

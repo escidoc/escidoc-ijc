@@ -60,9 +60,9 @@ import de.escidoc.core.resources.sb.search.records.RoleRecord;
  * @author SWA
  * 
  */
-public class RoleHandlerClient extends AbstractHandlerClient
-	<SoapRoleHandlerClient, RestRoleHandlerClient>
-		implements RoleHandlerClientInterface {
+public class RoleHandlerClient
+    extends AbstractHandlerClient<SoapRoleHandlerClient, RestRoleHandlerClient>
+    implements RoleHandlerClientInterface {
 
     /**
      * Create a role.
@@ -76,8 +76,10 @@ public class RoleHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         String xml = null;
-        String roleString = Factory.getMarshallerFactory(getTransport())
-        	.getRoleMarshaller().marshalDocument(role);
+        String roleString =
+            Factory
+                .getMarshallerFactory(getTransport()).getRoleMarshaller()
+                .marshalDocument(role);
 
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().create(roleString);
@@ -86,8 +88,9 @@ public class RoleHandlerClient extends AbstractHandlerClient
             xml = getRestHandlerClient().create(roleString);
         }
 
-        return Factory.getMarshallerFactory(getTransport())
-        	.getRoleMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getRoleMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -108,8 +111,9 @@ public class RoleHandlerClient extends AbstractHandlerClient
         else {
             roleString = getRestHandlerClient().retrieve(id);
         }
-        return Factory.getMarshallerFactory(getTransport()).getRoleMarshaller()
-        	.unmarshalDocument(roleString);
+        return Factory
+            .getMarshallerFactory(getTransport()).getRoleMarshaller()
+            .unmarshalDocument(roleString);
     }
 
     /**
@@ -142,19 +146,20 @@ public class RoleHandlerClient extends AbstractHandlerClient
         InternalClientException, TransportException {
 
         String xml = null;
-        String roleString = Factory.getMarshallerFactory(getTransport())
-        	.getRoleMarshaller().marshalDocument(role);
+        String roleString =
+            Factory
+                .getMarshallerFactory(getTransport()).getRoleMarshaller()
+                .marshalDocument(role);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().update(role.getObjid(), roleString);
+            xml = getSoapHandlerClient().update(role.getObjid(), roleString);
         }
         else {
-            xml =
-                getRestHandlerClient().update(role.getObjid(), roleString);
+            xml = getRestHandlerClient().update(role.getObjid(), roleString);
         }
 
-        return Factory.getMarshallerFactory(getTransport()).getRoleMarshaller()
-        	.unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getRoleMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -175,8 +180,10 @@ public class RoleHandlerClient extends AbstractHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String taskParamString = Factory.getMarshallerFactory(getTransport())
-        	.getTaskParamMarshaller().marshalDocument(taskParam);
+        String taskParamString =
+            Factory
+                .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
+                .marshalDocument(taskParam);
         String xml = null;
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -185,8 +192,9 @@ public class RoleHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieveRoles(taskParamString);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getRoleListMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport()).getRoleListMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -206,8 +214,8 @@ public class RoleHandlerClient extends AbstractHandlerClient
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-    	evalFilter(filter);
-    	
+        evalFilter(filter);
+
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().retrieveRoles(filter);
@@ -215,25 +223,26 @@ public class RoleHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieveRoles(filter);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
-    
+
     @SuppressWarnings("rawtypes")
-	public Collection<Role> retrieveRolesAsList(
-            final SearchRetrieveRequestType filter) throws EscidocException,
-            InternalClientException, TransportException {
-    	
-    	SearchRetrieveResponse response = retrieveRoles(filter);
-    	Collection<Role> results = new LinkedList<Role>();
-    	
-    	for (Record record : response.getRecords()) {
-			if(record instanceof RoleRecord) {
-				Role result = ((RoleRecord)record).getRecordData();
-				results.add(result);
-			}
-		}
-    	return results;
+    public Collection<Role> retrieveRolesAsList(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        SearchRetrieveResponse response = retrieveRoles(filter);
+        Collection<Role> results = new LinkedList<Role>();
+
+        for (Record record : response.getRecords()) {
+            if (record instanceof RoleRecord) {
+                Role result = ((RoleRecord) record).getRecordData();
+                results.add(result);
+            }
+        }
+        return results;
     }
 
     /**
@@ -259,8 +268,9 @@ public class RoleHandlerClient extends AbstractHandlerClient
         else {
             xml = getRestHandlerClient().retrieveRoles(filter);
         }
-        return Factory.getMarshallerFactory(getTransport())
-        	.getExplainResponseMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getExplainResponseMarshaller().unmarshalDocument(xml);
     }
 
     /**
@@ -319,15 +329,15 @@ public class RoleHandlerClient extends AbstractHandlerClient
         setHandle("");
     }
 
-	@Override
-	protected SoapRoleHandlerClient getSoapHandlerClientInstance()
-			throws InternalClientException {
-		return new SoapRoleHandlerClient();
-	}
+    @Override
+    protected SoapRoleHandlerClient getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return new SoapRoleHandlerClient();
+    }
 
-	@Override
-	protected RestRoleHandlerClient getRestHandlerClientInstance()
-			throws InternalClientException {
-		return new RestRoleHandlerClient();
-	}
+    @Override
+    protected RestRoleHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestRoleHandlerClient();
+    }
 }

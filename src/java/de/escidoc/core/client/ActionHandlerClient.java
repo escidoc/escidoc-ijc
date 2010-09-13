@@ -54,8 +54,8 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
     private Authentication auth = null;
 
     /**
-     * Create ActionHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
+     * Create ActionHandlerClient instance. The service protocol (REST/SOAP/..)
+     * selected from the configuration. Default is SOAP.
      * 
      * @throws EscidocException
      *             Thrown if an exception from framework is received.
@@ -87,12 +87,15 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
         final String contextId, final UnsecuredActions actions)
         throws EscidocClientException {
 
-        String xml = getSoapActionHandlerClient().createUnsecuredActions(
+        String xml =
+            getSoapActionHandlerClient().createUnsecuredActions(
                 contextId,
-                Factory.getMarshallerFactory().getUnsecuredActionsMarshaller().marshalDocument(
-                    (UnsecuredActions) actions));
-        return Factory.getMarshallerFactory(TransportProtocol.SOAP)
-        	.getUnsecuredActionsMarshaller().unmarshalDocument(xml);
+                Factory
+                    .getMarshallerFactory().getUnsecuredActionsMarshaller()
+                    .marshalDocument((UnsecuredActions) actions));
+        return Factory
+            .getMarshallerFactory(TransportProtocol.SOAP)
+            .getUnsecuredActionsMarshaller().unmarshalDocument(xml);
 
     }
 
@@ -110,8 +113,9 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
         throws EscidocClientException {
         String xml =
             getSoapActionHandlerClient().retrieveUnsecuredActions(contextId);
-        return Factory.getMarshallerFactory(TransportProtocol.SOAP)
-        	.getUnsecuredActionsMarshaller().unmarshalDocument(xml);
+        return Factory
+            .getMarshallerFactory(TransportProtocol.SOAP)
+            .getUnsecuredActionsMarshaller().unmarshalDocument(xml);
     }
 
     /**

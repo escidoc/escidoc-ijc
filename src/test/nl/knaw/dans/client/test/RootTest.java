@@ -16,7 +16,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class RootTest {
 
-	/**
+    /**
      * 
      * @throws InternalClientException
      * @throws ParserConfigurationException
@@ -33,14 +33,15 @@ public class RootTest {
         element.setTextContent("Why 1 < 2, and not 2 &lt; 1");
         root.getMdRecord().setAnyElement(element);
 
-        Marshaller<Root> m = new Marshaller<Root>(root.getClass(),
-        		EscidocClientTestBase.getTransport());
+        Marshaller<Root> m =
+            new Marshaller<Root>(root.getClass(),
+                EscidocClientTestBase.getTransport());
         String xml = m.marshalDocument(root);
         System.out.println(xml);
 
         Root uroot = m.unmarshalDocument(xml);
-        assertEquals("<foo>Why 1 < 2, and not 2 &lt; 1</foo>", uroot
-            .getNormalElement());
+        assertEquals("<foo>Why 1 < 2, and not 2 &lt; 1</foo>",
+            uroot.getNormalElement());
         assertEquals("Why 1 < 2, and not 2 &lt; 1", uroot
             .getMdRecord().getAnyElement().getTextContent());
     }

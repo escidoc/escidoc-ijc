@@ -131,10 +131,10 @@ public class Authentication {
         this.username = username;
 
         /*
-         * SWA: This implementation is wrong or could be at least more efficient. If
-         * the user gets not authentication cookie than is no further request
-         * required. And a request with no authentication cookie should not be
-         * responsed by an HTTP status code 500.
+         * SWA: This implementation is wrong or could be at least more
+         * efficient. If the user gets not authentication cookie than is no
+         * further request required. And a request with no authentication cookie
+         * should not be responsed by an HTTP status code 500.
          */
         try {
             URL loginUrl = new URL(this.serviceAddress + "aa/login");

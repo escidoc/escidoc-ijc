@@ -60,19 +60,19 @@ public class EscidocClientTestBase {
 
     public static final String DEFAULT_INFRASTRUCTURE_PATH = "";
 
-    public static final String DEFAULT_SERVICE_URL =
-        "http://" + DEFAULT_INFRASTRUCTURE_HOST + ":"
-            + DEFAULT_INFRASTRUCTURE_PORT + DEFAULT_INFRASTRUCTURE_PATH;
+    public static final String DEFAULT_SERVICE_URL = "http://"
+        + DEFAULT_INFRASTRUCTURE_HOST + ":" + DEFAULT_INFRASTRUCTURE_PORT
+        + DEFAULT_INFRASTRUCTURE_PATH;
 
-    private static final Pattern PATTERN_OBJID_ATTRIBUTE =
-        Pattern.compile("objid=\"([^\"]*)\"");
+    private static final Pattern PATTERN_OBJID_ATTRIBUTE = Pattern
+        .compile("objid=\"([^\"]*)\"");
 
-    private static final Pattern PATTERN_XLINK_HREF_ATTRIBUTE =
-        Pattern.compile("xlink:href=\"([^\"]*)\"");
+    private static final Pattern PATTERN_XLINK_HREF_ATTRIBUTE = Pattern
+        .compile("xlink:href=\"([^\"]*)\"");
 
-    private static final Pattern PATTERN_LMD_ATTRIBUTE =
-        Pattern.compile("last-modification-date=\"([^\"]*)\"");
-    
+    private static final Pattern PATTERN_LMD_ATTRIBUTE = Pattern
+        .compile("last-modification-date=\"([^\"]*)\"");
+
     private static TransportProtocol transport;
 
     /**
@@ -206,12 +206,14 @@ public class EscidocClientTestBase {
      * @return
      * @throws InternalClientException
      */
-    public static final TransportProtocol getTransport() throws InternalClientException {
-    	if(transport==null) {
-    		transport = TransportProtocol.valueOf(
-    				ConfigurationProvider.getInstance().getProperty(
-    						ConfigurationProvider.PROP_SERVICE_PROTOCOL));
-    	}
-    	return transport;
+    public static final TransportProtocol getTransport()
+        throws InternalClientException {
+        if (transport == null) {
+            transport =
+                TransportProtocol.valueOf(ConfigurationProvider
+                    .getInstance().getProperty(
+                        ConfigurationProvider.PROP_SERVICE_PROTOCOL));
+        }
+        return transport;
     }
 }
