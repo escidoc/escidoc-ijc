@@ -1,6 +1,5 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -98,39 +97,7 @@ public class CreateItemTestWithOneComponent {
     }
 
     @Test
-    public void shouldReturnCreatedItem() throws EscidocException,
-        InternalClientException, TransportException {
-        final Item createdItem = client.create(item);
-        assertNotNull("created item is null. ", createdItem);
-        final String objid = createdItem.getObjid();
-        log.info("Object ID: " + objid);
-    }
-
-    @Test
-    public void shouldReturnItemWithComponent() throws EscidocException,
-        InternalClientException, TransportException {
-
-        final Item createdItem = client.create(item);
-        final String objid = createdItem.getObjid();
-        log.info("Object ID: " + objid);
-
-        final Components components = createdItem.getComponents();
-        assertTrue("component size should be bigger than 0",
-            components.size() > 0);
-
-        for (final Component component : components) {
-            final ComponentContent content = component.getContent();
-            final String base64EncodedContent =
-                content.getBase64EncodedContent();
-            assertNotNull("content should not be null" + base64EncodedContent);
-            assertTrue("content should not be empty",
-                base64EncodedContent.isEmpty());
-            log.info("content: " + base64EncodedContent);
-        }
-    }
-
-    @Test
-    public void shouldReturnComponentContentWhenItemIsRetrieved()
+    public void shouldReturnNonEmptyContentXlinkHrefWhenItemIsRetrieved()
         throws EscidocException, InternalClientException, TransportException {
 
         final Item createdItem = client.create(item);
@@ -144,18 +111,8 @@ public class CreateItemTestWithOneComponent {
 
         for (final Component component : components) {
             final ComponentContent content = component.getContent();
-            final String base64EncodedContent =
-                content.getBase64EncodedContent();
-            assertNotNull("content should not be null" + base64EncodedContent);
-            assertTrue("content should not be empty",
-                base64EncodedContent.isEmpty());
-            log.info("content: " + base64EncodedContent);
-            final byte[] decodeBinaryContent =
-                content.decodeBinaryContent(base64EncodedContent);
-            log.info("Decoded content: " + decodeBinaryContent);
-            log.info("Decoded content length: " + decodeBinaryContent.length);
-            assertTrue("The size of decoded binary content should not be zero",
-                decodeBinaryContent.length > 0);
+            final String xLinkHref = content.getXLinkHref();
+            assertTrue("XLink HREF should not be null", xLinkHref.length() > 0);
         }
     }
 
