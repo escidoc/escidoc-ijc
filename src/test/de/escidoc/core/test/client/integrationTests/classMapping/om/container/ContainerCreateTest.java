@@ -31,6 +31,8 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,18 +43,23 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.xpath.XPathAPI;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relation;
@@ -73,7 +80,21 @@ import de.escidoc.core.test.client.util.Asserts;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ContainerCreateTest {
+
+    private TransportProtocol transport;
+
+    public ContainerCreateTest(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -92,6 +113,7 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
         cc.create(container);
@@ -116,6 +138,7 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
         container.setXLinkTitle("New title for test");
@@ -136,9 +159,10 @@ public class ContainerCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -163,6 +187,7 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
@@ -187,11 +212,12 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, 
-        		ResourceRef.RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            ResourceRef.RESOURCE_TYPE.Context));
         container.setProperties(properties);
         cc.create(container);
     }
@@ -215,10 +241,12 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -247,10 +275,12 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -284,12 +314,14 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         container.setProperties(properties);
 
         // md-record
@@ -327,14 +359,16 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, ResourceRef.RESOURCE_TYPE.ContentModel));
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -361,7 +395,7 @@ public class ContainerCreateTest {
 
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
-     
+
         Container createdContainer = cc.create(container);
 
         // compare the new created Container with the Container from the
@@ -375,10 +409,12 @@ public class ContainerCreateTest {
             createdContainer.getProperties().getContentModel().getObjid());
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass(), cc.getTransport());
-        
-        String xml1 = m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
+            new Marshaller<MetadataRecord>(container
+                .getMetadataRecords().get("escidoc").getClass(),
+                cc.getTransport());
+
+        String xml1 =
+            m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
@@ -422,11 +458,13 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
-        Relation relation = new Relation(
-        		new ResourceRef(Constants.EXAMPLE_ITEM_ID, ResourceRef.RESOURCE_TYPE.Item));
+        Relation relation =
+            new Relation(new ResourceRef(Constants.EXAMPLE_ITEM_ID,
+                RESOURCE_TYPE.Item));
         relation
             .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
         relations.add(relation);
@@ -436,8 +474,9 @@ public class ContainerCreateTest {
 
         // test marshalling created Container.
         Marshaller<Container> c1 =
-            new Marshaller<Container>(createdContainer.getClass(), cc.getTransport());
-        
+            new Marshaller<Container>(createdContainer.getClass(),
+                cc.getTransport());
+
         String xmlc1 = c1.marshalDocument(createdContainer);
 
         // compare the new created Container with the Container from the
@@ -452,10 +491,12 @@ public class ContainerCreateTest {
         // MetadataRecords
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass(), cc.getTransport());
-        
-        String xml1 = m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
+            new Marshaller<MetadataRecord>(container
+                .getMetadataRecords().get("escidoc").getClass(),
+                cc.getTransport());
+
+        String xml1 =
+            m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
@@ -468,8 +509,8 @@ public class ContainerCreateTest {
 
         Marshaller<MetadataRecord> m2 =
             new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass(),
-            		cc.getTransport());
-        
+                cc.getTransport());
+
         String xml2 = m2.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
@@ -511,6 +552,7 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = createContainerWithMinContent();
         Container memberContainer = createContainerWithMinContent();
@@ -518,12 +560,14 @@ public class ContainerCreateTest {
         Container createdMemberContainer = cc.create(memberContainer);
         String memberId = createdMemberContainer.getObjid();
         StructMap structMap = new StructMap();
-        ContainerRef member = new ContainerRef(memberId, ResourceRef.RESOURCE_TYPE.Container);
+        ContainerRef member =
+            new ContainerRef(memberId, RESOURCE_TYPE.Container);
         structMap.add(member);
         container.setStructMap(structMap);
         Container createdContainer = cc.create(container);
         Marshaller<Container> c1 =
-            new Marshaller<Container>(createdContainer.getClass(), cc.getTransport());
+            new Marshaller<Container>(createdContainer.getClass(),
+                cc.getTransport());
         c1.marshalDocument(createdContainer);
 
         StructMap createdStructMap = createdContainer.getStructMap();
@@ -531,8 +575,8 @@ public class ContainerCreateTest {
         Iterator<MemberRef> iterator = createdStructMap.iterator();
         while (iterator.hasNext()) {
             ResourceRef memberResource = iterator.next();
-            assertEquals("member is the wrong resource type", memberResource
-                .getClass(), member.getClass());
+            assertEquals("member is the wrong resource type",
+                memberResource.getClass(), member.getClass());
 
             assertEquals("member has a wrong id", memberResource.getObjid(),
                 memberId);
@@ -559,6 +603,7 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);
@@ -573,8 +618,9 @@ public class ContainerCreateTest {
             createdContainer.getProperties().getContentModel().getObjid());
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container.getMetadataRecords().get(
-                "escidoc").getClass(), cc.getTransport());
+            new Marshaller<MetadataRecord>(container
+                .getMetadataRecords().get("escidoc").getClass(),
+                cc.getTransport());
         String xml1 =
             m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
@@ -589,7 +635,7 @@ public class ContainerCreateTest {
 
         Marshaller<MetadataRecord> m2 =
             new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass(),
-            		cc.getTransport());
+                cc.getTransport());
         String xml2 = m2.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
@@ -618,6 +664,7 @@ public class ContainerCreateTest {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);
@@ -703,9 +750,10 @@ public class ContainerCreateTest {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, ResourceRef.RESOURCE_TYPE.Context));
-        properties.setContentModel(
-        		new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, ResourceRef.RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
 
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();

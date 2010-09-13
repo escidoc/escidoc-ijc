@@ -88,22 +88,24 @@ public class ResourceRef extends XLinkResource {
      * @param type
      */
     public ResourceRef(final String objid, final RESOURCE_TYPE type) {
-        setResourceType(type);
         setObjid(objid);
-        setXLinkTitle(type + "Title");
+        setResourceType(type);
+
+        genOwnXLinkHref();
     }
 
     /**
      * 
      * @param objid
      * @param type
-     * @param title
      */
     public ResourceRef(final String objid, final RESOURCE_TYPE type,
-        String title) {
-        setResourceType(type);
+        final String title) {
         setObjid(objid);
+        setResourceType(type);
+
         setXLinkTitle(title);
+        genOwnXLinkHref();
     }
 
     /**
@@ -128,9 +130,9 @@ public class ResourceRef extends XLinkResource {
      *            The title of the resource (for XML Xlink title attribute)
      */
     public ResourceRef(final String objid, final String href, final String title) {
-        this.objid = objid;
         setXLinkHref(href);
         setXLinkTitle(title);
+        this.objid = objid;
     }
 
     /**
@@ -146,10 +148,10 @@ public class ResourceRef extends XLinkResource {
      */
     public ResourceRef(final String objid, final String href,
         final String title, final RESOURCE_TYPE resourceType) {
-        this.objid = objid;
         setXLinkHref(href);
         setXLinkTitle(title);
         setResourceType(resourceType);
+        this.objid = objid;
     }
 
     /**
@@ -270,7 +272,7 @@ public class ResourceRef extends XLinkResource {
      */
     protected void genOwnXLinkHref() {
         if (getXLinkHref() == null && getResourceType() != null
-            && getObjid() != null) {
+            && getResourceType().isRootResource && getObjid() != null) {
             setXLinkHref(URL_TYPE.get(getResourceType()) + "/" + getObjid());
         }
     }

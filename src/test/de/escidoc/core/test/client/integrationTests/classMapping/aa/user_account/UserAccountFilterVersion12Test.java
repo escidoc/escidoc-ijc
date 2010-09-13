@@ -34,6 +34,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Collection;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import org.apache.axis.types.NonNegativeInteger;
@@ -45,8 +46,11 @@ import org.junit.runners.Parameterized.Parameters;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
+import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -60,19 +64,61 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 @RunWith(Parameterized.class)
 public class UserAccountFilterVersion12Test {
 
-	private TransportProtocol transport;
-	
-	public UserAccountFilterVersion12Test(TransportProtocol transport) {
-		this.transport = transport;
-	}
+    private TransportProtocol transport;
 
-	@SuppressWarnings("rawtypes")
+    public UserAccountFilterVersion12Test(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
     @Parameters
     public static Collection data() {
         return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
             { TransportProtocol.REST } });
     }
-	
+
+    /**
+     * Test for User Account Explain. (filter for version 1.2).
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testExplain() throws Exception {
+
+        UserAccount ua = new UserAccount();
+        
+        // user properties
+        UserAccountProperties properties = new UserAccountProperties();
+        String login = "login" + System.currentTimeMillis();
+        properties.setName("Name " + login);
+        properties.setLoginName(login);
+
+        ua.setProperties(properties);
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        // login
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
+
+        // create
+        uac.create(ua);
+
+        ExplainResponse response =
+            uac.retrieveUserAccounts(new ExplainRequestType());
+
+        ExplainData explain = response.getRecord().getRecordData();
+
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("No index definitions found", explain
+            .getIndexInfo().getIndexes().size() > 0);
+    }
+
     /**
      * Test retrieving User Account through filter request (filter for version
      * 1.2).
@@ -81,7 +127,7 @@ public class UserAccountFilterVersion12Test {
      *             Thrown if anythings failed.
      */
     @Test
-    public void testRetrieveUserAccounts01() throws Exception {
+    public void testFilter01() throws Exception {
 
         UserAccount ua = new UserAccount();
 
@@ -98,7 +144,7 @@ public class UserAccountFilterVersion12Test {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // login
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
         uac.setTransport(transport);
@@ -109,23 +155,22 @@ public class UserAccountFilterVersion12Test {
         UserAccount me = uac.retrieveCurrentUser();
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery(
-        		"\"http://escidoc.de/core/01/structural-relations/created-by\"="
+        srwFilter
+            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"="
                 + me.getObjid());
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse response = uac.retrieveUserAccounts(srwFilter);
-        
-        Collection<UserAccount> userAccountList = 
-        	uac.retrieveUserAccountsAsList(srwFilter);
 
-        assertEquals("Wrong version number", "1.1", response
-            .getVersion());
-        assertTrue("Wrong number of matching records", response
-            .getNumberOfMatchingRecords() >= 1);
-        assertEquals("Wrong record position", 1, response.getRecords()
-        		.iterator().next().getRecordPosition());
-        assertTrue("Different resulting records", userAccountList.size() == 
-        	response.getNumberOfResultingRecords());
+        Collection<UserAccount> userAccountList =
+            uac.retrieveUserAccountsAsList(srwFilter);
+
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("Wrong number of matching records",
+            response.getNumberOfMatchingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response
+            .getRecords().iterator().next().getRecordPosition());
+        assertTrue("Different resulting records",
+            userAccountList.size() == response.getNumberOfResultingRecords());
     }
 }

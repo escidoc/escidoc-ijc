@@ -30,15 +30,22 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
@@ -56,8 +63,22 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ContextCreateTest {
 
+    private TransportProtocol transport;
+
+    public ContextCreateTest(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
+    
     /**
      * Test if the right exception is thrown if calling create with an
      * incomplete Context.
@@ -75,6 +96,7 @@ public class ContextCreateTest {
         ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         cc.create(context);
@@ -97,6 +119,7 @@ public class ContextCreateTest {
         ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -122,6 +145,7 @@ public class ContextCreateTest {
         ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -149,6 +173,7 @@ public class ContextCreateTest {
         ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -186,6 +211,7 @@ public class ContextCreateTest {
         ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -234,6 +260,7 @@ public class ContextCreateTest {
         ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         Properties properties = new Properties();

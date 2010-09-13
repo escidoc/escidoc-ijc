@@ -909,15 +909,16 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainResponse retrieveUserAccounts(final ExplainRequestType filter)
+    public ExplainResponse retrieveUserAccounts(final ExplainRequestType explain)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(explain);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveUserAccounts(filter);
+            xml = getSoapHandlerClient().retrieveUserAccounts(explain);
         }
         else {
-            xml = getRestHandlerClient().retrieveUserAccounts(filter);
+            xml = getRestHandlerClient().retrieveUserAccounts(explain);
         }
         return Factory
             .getMarshallerFactory(getTransport())

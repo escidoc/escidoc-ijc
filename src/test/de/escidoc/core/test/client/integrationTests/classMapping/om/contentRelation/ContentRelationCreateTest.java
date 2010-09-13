@@ -33,12 +33,18 @@ import static org.junit.Assert.assertNotNull;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentRelationHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
@@ -59,7 +65,21 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ContentRelationCreateTest {
+
+    private TransportProtocol transport;
+
+    public ContentRelationCreateTest(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -75,9 +95,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
         cc.create(contentRelation);
@@ -99,9 +121,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
         contentRelation.setXLinkTitle("New title for test");
@@ -122,9 +146,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
@@ -146,9 +172,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
@@ -170,9 +198,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
@@ -197,9 +227,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
@@ -228,9 +260,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
@@ -260,9 +294,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
 
@@ -275,8 +311,10 @@ public class ContentRelationCreateTest {
         contentRelation
             .setType(new URI(
                 "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ResourceRef("escidoc:ex1", RESOURCE_TYPE.Context, "Context Example 1"));
-        contentRelation.setObject(new ResourceRef("escidoc:ex5:1", RESOURCE_TYPE.Item, "eSciDoc Banner"));
+        contentRelation.setSubject(new ResourceRef("escidoc:ex1",
+            RESOURCE_TYPE.Context));
+        contentRelation.setObject(new ResourceRef("escidoc:ex5:1",
+            RESOURCE_TYPE.Item));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
@@ -310,9 +348,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
 
@@ -325,8 +365,10 @@ public class ContentRelationCreateTest {
         contentRelation
             .setType(new URI(
                 "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ResourceRef("escidoc:ex1", RESOURCE_TYPE.Context));
-        contentRelation.setObject(new ResourceRef("escidoc:ex5:1", RESOURCE_TYPE.Item));
+        contentRelation.setSubject(new ResourceRef("escidoc:ex1",
+            RESOURCE_TYPE.Context));
+        contentRelation.setObject(new ResourceRef("escidoc:ex5:1",
+            RESOURCE_TYPE.Item));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
@@ -372,9 +414,11 @@ public class ContentRelationCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContentRelationHandlerClientInterface cc = new ContentRelationHandlerClient();
+        ContentRelationHandlerClientInterface cc =
+            new ContentRelationHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentRelation contentRelation = new ContentRelation();
 
@@ -387,8 +431,10 @@ public class ContentRelationCreateTest {
         contentRelation
             .setType(new URI(
                 "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ResourceRef("escidoc:ex1", RESOURCE_TYPE.Context));
-        contentRelation.setObject(new ResourceRef("escidoc:ex5:1", RESOURCE_TYPE.Item));
+        contentRelation.setSubject(new ResourceRef("escidoc:ex1",
+            RESOURCE_TYPE.Context));
+        contentRelation.setObject(new ResourceRef("escidoc:ex5:1",
+            RESOURCE_TYPE.Item));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
@@ -436,6 +482,7 @@ public class ContentRelationCreateTest {
         assertEquals("Timestamps differ", lmdRetrievedContentRelation,
             lmdResult);
 
+        // TODO:
         // assign version PID --------------------------------------------------
         // release -------------------------------------------------------------
         // update --------------------------------------------------------------

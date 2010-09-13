@@ -30,20 +30,30 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
@@ -51,6 +61,8 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -61,9 +73,21 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ContextFilterVersion12Test {
 
-    public static final String FILTER_PARAMETER_QUERY = "query";
+    private TransportProtocol transport;
+
+    public ContextFilterVersion12Test(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 
     /**
      * Test retrieving Contexts through filter request (filter for version 1.2).
@@ -72,7 +96,7 @@ public class ContextFilterVersion12Test {
      *             Thrown if anythings failed.
      */
     @Test
-    public void testRetrieveContexts01() throws Exception {
+    public void testExplain() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -81,7 +105,68 @@ public class ContextFilterVersion12Test {
         ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
+        cc.create(createContext());
+
+        ExplainResponse response = cc.retrieveContexts(new ExplainRequestType());
+        ExplainData explain = response.getRecord().getRecordData();
+        
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("No index definitions found", explain
+            .getIndexInfo().getIndexes().size() > 0);
+    }
+
+    /**
+     * Test retrieving Contexts through filter request (filter for version 1.2).
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testFilter01() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
+        cc.create(createContext());
+
+        // now check if at least this Context is in the list
+
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
+        UserAccount me = uac.retrieveCurrentUser();
+
+        SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
+        srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
+        srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
+
+        SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
+
+        assertEquals("Wrong version number", "1.1", contextList.getVersion());
+        assertTrue("Wrong number of matching records",
+            contextList.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records",
+            contextList.getNumberOfResultingRecords() >= 1);
+        assertEquals("Wrong record position", 1, contextList
+            .getRecords().iterator().next().getRecordPosition());
+    }
+    
+    /**
+     * 
+     * @return
+     * @throws ParserConfigurationException
+     */
+    private Context createContext() throws ParserConfigurationException {
         Context context = new Context();
         Properties properties = new Properties();
         properties.setDescription("ContextDescription");
@@ -91,8 +176,9 @@ public class ContextFilterVersion12Test {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3", 
-        		ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
+        ResourceRef organizationalUnitRef =
+            new ResourceRef("escidoc:ex3",
+                ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
@@ -111,28 +197,6 @@ public class ContextFilterVersion12Test {
         context.setAdminDescriptors(adminDescriptors);
 
         // create
-        @SuppressWarnings("unused")
-		Context createdContext = cc.create(context);
-        
-        // now check if at least this Context is in the list
-
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        UserAccount me = uac.retrieveCurrentUser();
-
-        SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
-        srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
-
-        SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
-
-        assertEquals("Wrong version number", "1.1", contextList.getVersion());
-        assertTrue("Wrong number of matching records", 
-        		contextList.getNumberOfMatchingRecords() >= 1);
-        assertTrue("Wrong number of resulting records", 
-        		contextList.getNumberOfResultingRecords() >= 1);
-        assertEquals("Wrong record position", 1, contextList
-            .getRecords().iterator().next().getRecordPosition());
-    }    
+        return context;
+    }
 }

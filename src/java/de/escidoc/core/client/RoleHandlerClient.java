@@ -214,7 +214,7 @@ public class RoleHandlerClient
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        evalFilter(filter);
+        evalRequest(filter);
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
@@ -258,15 +258,16 @@ public class RoleHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainResponse retrieveRoles(final ExplainRequestType filter)
+    public ExplainResponse retrieveRoles(final ExplainRequestType explain)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(explain);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveRoles(filter);
+            xml = getSoapHandlerClient().retrieveRoles(explain);
         }
         else {
-            xml = getRestHandlerClient().retrieveRoles(filter);
+            xml = getRestHandlerClient().retrieveRoles(explain);
         }
         return Factory
             .getMarshallerFactory(getTransport())

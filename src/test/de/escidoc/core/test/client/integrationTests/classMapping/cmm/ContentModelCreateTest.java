@@ -31,15 +31,22 @@ package de.escidoc.core.test.client.integrationTests.classMapping.cmm;
 import static org.junit.Assert.assertEquals;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentModelHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.cmm.MetadataRecordDefinition;
@@ -55,8 +62,22 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ContentModelCreateTest {
 
+    private TransportProtocol transport;
+    
+    public ContentModelCreateTest(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
+    
     /**
      * Test if the right exception is thrown if calling create with null.
      * 
@@ -71,6 +92,7 @@ public class ContentModelCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
+        cc.setTransport(transport);
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -92,6 +114,7 @@ public class ContentModelCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
+        cc.setTransport(transport);
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -113,6 +136,7 @@ public class ContentModelCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
+        cc.setTransport(transport);
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -123,7 +147,8 @@ public class ContentModelCreateTest {
         ContentModel cmmCreated = cc.create(cmm);
         
         // asserts
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
+        uac.setTransport(transport);
         uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
@@ -155,6 +180,7 @@ public class ContentModelCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
+        cc.setTransport(transport);
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -175,6 +201,7 @@ public class ContentModelCreateTest {
 
         // asserts
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setTransport(transport);
         uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
@@ -220,6 +247,7 @@ public class ContentModelCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
+        cc.setTransport(transport);
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -264,6 +292,7 @@ public class ContentModelCreateTest {
 
         // asserts
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setTransport(transport);
         uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         
@@ -339,6 +368,7 @@ public class ContentModelCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
+        cc.setTransport(transport);
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
@@ -367,6 +397,7 @@ public class ContentModelCreateTest {
 
         // asserts
         UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        uac.setTransport(transport);
         uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();

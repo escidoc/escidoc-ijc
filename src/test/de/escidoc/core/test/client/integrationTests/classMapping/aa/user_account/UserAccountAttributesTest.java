@@ -44,6 +44,7 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.UserAttributeNotFoundException;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
@@ -86,7 +87,7 @@ public class UserAccountAttributesTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
         uahc.setTransport(transport);
@@ -138,7 +139,7 @@ public class UserAccountAttributesTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
         uahc.setTransport(transport);
@@ -202,7 +203,7 @@ public class UserAccountAttributesTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
         uahc.setTransport(transport);

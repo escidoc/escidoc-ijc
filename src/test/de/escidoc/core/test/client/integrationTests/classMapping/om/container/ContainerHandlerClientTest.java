@@ -30,22 +30,28 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.notfound.ContainerNotFoundException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -63,7 +69,21 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ContainerHandlerClientTest {
+
+    private TransportProtocol transport;
+
+    public ContainerHandlerClientTest(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 
     /**
      * Test retrieving existing Container.
@@ -76,19 +96,23 @@ public class ContainerHandlerClientTest {
         try {
             Authentication auth =
                 new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                    Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+                    Constants.SYSTEM_ADMIN_USER,
+                    Constants.SYSTEM_ADMIN_PASSWORD);
 
             ContainerHandlerClientInterface cc = new ContainerHandlerClient();
             cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
             cc.setHandle(auth.getHandle());
-            
+            cc.setTransport(transport);
+
             // create first a Container
             Container containerNew = new Container();
             ContainerProperties properties = new ContainerProperties();
+            properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+                RESOURCE_TYPE.Context));
             properties
-                .setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
-            properties.setContentModel(new ResourceRef(
-                Constants.EXAMPLE_CONTENT_MODEL_ID));
+                .setContentModel(new ResourceRef(
+                    Constants.EXAMPLE_CONTENT_MODEL_ID,
+                    RESOURCE_TYPE.ContentModel));
             containerNew.setProperties(properties);
             MetadataRecords mdRecords = new MetadataRecords();
             MetadataRecord mdRecord = new MetadataRecord();
@@ -104,12 +128,13 @@ public class ContainerHandlerClientTest {
             containerNew.setMetadataRecords(mdRecords);
             Container createdContainer = cc.create(containerNew);
             String objid = createdContainer.getObjid();
-            
+
             // retrieve the created Container
             Container container = cc.retrieve(objid);
 
-            Factory.getMarshallerFactory(cc.getTransport())
-            	.getContainerMarshaller().marshalDocument(container);
+            Factory
+                .getMarshallerFactory(cc.getTransport())
+                .getContainerMarshaller().marshalDocument(container);
         }
         catch (Exception e) {
             fail("Unexpected exception caught: " + e.getMessage());
@@ -127,8 +152,11 @@ public class ContainerHandlerClientTest {
         try {
 
             ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-            cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            cc.setHandle(new Authentication(
+                EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD)
+                .getHandle());
+            cc.setTransport(transport);
             cc.retrieve("escidoc:-1");
             fail("Missing Exception");
         }
@@ -148,8 +176,14 @@ public class ContainerHandlerClientTest {
      */
     @Test
     public void testRetrieveContainers() throws Exception {
-        
-    	ContainerHandlerClientInterface cc = new ContainerHandlerClient();
+
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
+        cc.setHandle(new Authentication(
+            EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD)
+            .getHandle());
+        cc.setTransport(transport);
+
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
@@ -158,8 +192,9 @@ public class ContainerHandlerClientTest {
             "escidoc:user42", null));
         filterParam.setFilters(filters);
 
-        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
-        	.marshalDocument(filterParam);
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+            .marshalDocument(filterParam);
 
         ContainerList containerList = cc.retrieveContainers(filterParam);
         Marshaller<ContainerList> m =
@@ -177,16 +212,20 @@ public class ContainerHandlerClientTest {
      */
     @Test
     public void testRetrieveMembers() throws Exception {
-        
-    	ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
+        cc.setHandle(new Authentication(
+            EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD)
+            .getHandle());
+        cc.setTransport(transport);
 
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -202,8 +241,9 @@ public class ContainerHandlerClientTest {
         Container createdContainer = cc.create(containerNew);
         String objid = createdContainer.getObjid();
         Container container = cc.retrieve(objid);
-        Factory.getMarshallerFactory(cc.getTransport()).getContainerMarshaller()
-        	.marshalDocument(container);
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getContainerMarshaller()
+            .marshalDocument(container);
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
@@ -212,8 +252,9 @@ public class ContainerHandlerClientTest {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
-        	.marshalDocument(filterParam);
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+            .marshalDocument(filterParam);
 
         MemberList memberList = cc.retrieveMembers(objid, filterParam);
         Marshaller<MemberList> m =

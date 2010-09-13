@@ -129,7 +129,7 @@ public class RoleHandlerClientTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RoleHandlerClient rc = new RoleHandlerClient();
+        RoleHandlerClientInterface rc = new RoleHandlerClient();
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
         rc.setTransport(transport);
@@ -158,7 +158,7 @@ public class RoleHandlerClientTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RoleHandlerClient rc = new RoleHandlerClient();
+        RoleHandlerClientInterface rc = new RoleHandlerClient();
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
         rc.setTransport(transport);
@@ -221,7 +221,7 @@ public class RoleHandlerClientTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RoleHandlerClient rc = new RoleHandlerClient();
+        RoleHandlerClientInterface rc = new RoleHandlerClient();
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
         rc.setTransport(transport);

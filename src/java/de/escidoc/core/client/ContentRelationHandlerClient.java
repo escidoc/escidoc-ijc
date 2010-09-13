@@ -569,7 +569,7 @@ public class ContentRelationHandlerClient
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        evalFilter(filter);
+        evalRequest(filter);
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {

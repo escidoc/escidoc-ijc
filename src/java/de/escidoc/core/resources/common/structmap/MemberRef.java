@@ -53,10 +53,6 @@ public abstract class MemberRef extends ResourceRef {
         super(ref);
     }
 
-    protected MemberRef(String objid, RESOURCE_TYPE type, String title) {
-		super(objid, type, title);
-	}
-
     protected MemberRef(String objid, RESOURCE_TYPE type) {
 		super(objid, type);
 	}

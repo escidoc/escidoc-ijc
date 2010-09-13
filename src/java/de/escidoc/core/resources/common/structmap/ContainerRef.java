@@ -56,15 +56,6 @@ public class ContainerRef extends MemberRef {
 	/**
 	 * @param refId
 	 * @param type
-	 * @param title
-	 */
-	public ContainerRef(String refId, RESOURCE_TYPE type, String title) {
-		super(refId, type, title);
-	}
-
-	/**
-	 * @param refId
-	 * @param type
 	 */
 	public ContainerRef(String refId, RESOURCE_TYPE type) {
 		super(refId, type);

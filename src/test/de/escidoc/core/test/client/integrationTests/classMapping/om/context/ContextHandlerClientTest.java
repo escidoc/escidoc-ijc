@@ -33,23 +33,30 @@ import static org.junit.Assert.fail;
 
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
@@ -69,7 +76,21 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ContextHandlerClientTest extends EscidocClientTestBase {
+
+    private TransportProtocol transport;
+
+    public ContextHandlerClientTest(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 
     /**
      * Test if the right exception is thrown if a non existing Context is
@@ -84,11 +105,13 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
 
             Authentication auth =
                 new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                    Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+                    Constants.SYSTEM_ADMIN_USER,
+                    Constants.SYSTEM_ADMIN_PASSWORD);
 
             ContextHandlerClient cc = new ContextHandlerClient();
             cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
             cc.setHandle(auth.getHandle());
+            cc.setTransport(transport);
 
             cc.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
@@ -114,9 +137,10 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -127,7 +151,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
+        ResourceRef organizationalUnitRef =
+            new ResourceRef("escidoc:ex3", RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
@@ -149,8 +174,9 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         String objid = createdContext.getObjid();
         Context retrievedContext = cc.retrieve(objid);
 
-        Factory.getMarshallerFactory(cc.getTransport()).getContextMarshaller()
-        	.marshalDocument(retrievedContext);
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getContextMarshaller()
+            .marshalDocument(retrievedContext);
     }
 
     /**
@@ -166,9 +192,10 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -179,7 +206,8 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
+        ResourceRef organizationalUnitRef =
+            new ResourceRef("escidoc:ex3", RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
@@ -200,14 +228,15 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         // create
         Context createdContext = cc.create(context);
         String objid = createdContext.getObjid();
-        
+
         // retrieve
         Context retrivedContext = cc.retrieve(objid);
-        
+
         // update
         cc.update(retrivedContext);
-        Factory.getMarshallerFactory(cc.getTransport()).getContextMarshaller()
-        	.marshalDocument(retrivedContext);
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getContextMarshaller()
+            .marshalDocument(retrivedContext);
     }
 
     /**
@@ -224,24 +253,29 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
+
         UserAccount me = uac.retrieveCurrentUser();
 
         // call filter without Authentication (login)
         ContextHandlerClient cc = new ContextHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by", me
-                .getObjid(), null));
+            "http://escidoc.de/core/01/structural-relations/created-by",
+            me.getObjid(), null));
         filterParam.setFilters(filters);
-        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
-        	.marshalDocument(filterParam);
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+            .marshalDocument(filterParam);
 
         ContextList contextList = cc.retrieveContexts(filterParam);
 
@@ -257,28 +291,34 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      */
     @Test
     public void testRetrieveMembersOld() throws Exception {
-    	ContextHandlerClientInterface cc = new ContextHandlerClient();
-
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
         // just getting a valid objid of a user
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
+
         UserAccount me = uac.retrieveCurrentUser();
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by", me
-                .getObjid(), null));
+            "http://escidoc.de/core/01/structural-relations/created-by",
+            me.getObjid(), null));
         filterParam.setFilters(filters);
 
-        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
-        	.marshalDocument(filterParam);
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+            .marshalDocument(filterParam);
 
         MemberList memberList = cc.retrieveMembers("escidoc:ex1", filterParam);
         Marshaller<MemberList> m =
@@ -288,7 +328,7 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
         assertTrue("result list is empty, try another filter", memberList
             .getMembers().size() != 0);
     }
-    
+
     /**
      * Test retrieving Members through new filter request.
      * 
@@ -297,37 +337,44 @@ public class ContextHandlerClientTest extends EscidocClientTestBase {
      */
     @Test
     public void testRetrieveMembersNew() throws Exception {
-    	ContextHandlerClientInterface cc = new ContextHandlerClient();
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
         // just getting a valid objid of a user
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
         uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
+
         UserAccount me = uac.retrieveCurrentUser();
 
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by", me
-                .getObjid(), null));
+            "http://escidoc.de/core/01/structural-relations/created-by",
+            me.getObjid(), null));
         filterParam.setFilters(filters);
 
-        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
-        	.marshalDocument(filterParam);
-        
-        SearchRetrieveRequestType filter = new SearchRetrieveRequestType();
-        filter.setQuery("\"/properties/created-by/id\"="+me.getObjid());
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+            .marshalDocument(filterParam);
 
-        Collection<GenericVersionableResource> memberList = 
-        	cc.retrieveMembersAsList("escidoc:ex1", filter);
-        
-        assertTrue("result list is empty, try another filter", 
-        		memberList.size() != 0);
+        SearchRetrieveRequestType filter = new SearchRetrieveRequestType();
+        filter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
+
+        Collection<GenericVersionableResource> memberList =
+            cc.retrieveMembersAsList("escidoc:ex1", filter);
+
+        assertTrue("result list is empty, try another filter",
+            memberList.size() != 0);
     }
 
     /**

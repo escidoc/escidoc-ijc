@@ -164,7 +164,7 @@ public class SearchHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        evalFilter(request);
+        evalRequest(request);
 
         return getSoapHandlerClient().search(request, database);
     }

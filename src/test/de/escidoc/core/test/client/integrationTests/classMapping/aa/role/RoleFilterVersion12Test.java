@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.aa.role;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.IOException;
@@ -64,6 +65,8 @@ import de.escidoc.core.resources.aa.role.RoleProperties;
 import de.escidoc.core.resources.aa.role.Scope;
 import de.escidoc.core.resources.aa.role.ScopeDef;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
+import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -91,6 +94,36 @@ public class RoleFilterVersion12Test {
             { TransportProtocol.REST } });
     }
 	
+	/**
+     * Test for User Account Explain. (filter for version 1.2).
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testExplain() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        RoleHandlerClientInterface rc = new RoleHandlerClient();
+        rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        rc.setHandle(auth.getHandle());
+        rc.setTransport(transport);
+
+        rc.create(createRole());
+
+        ExplainResponse response =
+            rc.retrieveRoles(new ExplainRequestType());
+
+        ExplainData explain = response.getRecord().getRecordData();
+
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("No index definitions found", explain
+            .getIndexInfo().getIndexes().size() > 0);
+    }
+	
     /**
      * Test retrieving Roles through filter request (filter for version 1.2).
      * 
@@ -98,7 +131,7 @@ public class RoleFilterVersion12Test {
      *             Thrown if anythings failed.
      */
     @Test
-    public void testRetrieveRoles01() throws Exception {
+    public void testFilter01() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,

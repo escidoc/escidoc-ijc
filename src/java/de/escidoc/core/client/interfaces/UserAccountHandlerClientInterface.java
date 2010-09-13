@@ -28,13 +28,25 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import java.util.Collection;
+
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.resources.aa.useraccount.Attribute;
+import de.escidoc.core.resources.aa.useraccount.Attributes;
+import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.Grants;
+import de.escidoc.core.resources.aa.useraccount.Preference;
+import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * This class defines the signatures for the client handler wrapper classes
@@ -62,20 +74,105 @@ public interface UserAccountHandlerClientInterface
     UserAccount retrieveCurrentUser() throws EscidocClientException,
         InternalClientException, TransportException;
 
-    //
-    // Subresource - current grants
-    //
+    /*
+     * Filter
+     */
+
+    @Deprecated
+    UserAccounts retrieveUserAccounts(final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    ExplainResponse retrieveUserAccounts(final ExplainRequestType explain)
+        throws EscidocException, InternalClientException, TransportException;
+
+    SearchRetrieveResponse retrieveUserAccounts(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
+
+    Collection<UserAccount> retrieveUserAccountsAsList(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /*
+     * Subresource current grants
+     */
 
     Grants retrieveCurrentGrants(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
-    //
-    // Subresource - grant
-    //
+    /*
+     * Subresource grants
+     */
 
-    UserAccounts retrieveUserAccounts(final TaskParam taskParam)
+    Grant createGrant(final String userId, final Grant grant)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
+    void revokeGrant(
+        final String userId, final String grantId, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Grant retrieveGrant(final String userId, final String grantId)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    ExplainResponse retrieveGrants(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
+    SearchRetrieveResponse retrieveGrants(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /*
+     * Attributes
+     */
+
+    Attribute createAttribute(final String userId, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Attribute retrieveAttribute(final String userId, final String attributeId)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Attributes retrieveAttributes(final String userId)
+        throws EscidocClientException, InternalClientException;
+
+    Attribute updateAttribute(final String userId, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    void deleteAttribute(final String userId, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    /*
+     * Preferences
+     */
+
+    Preference createPreference(final String userId, final Preference preference)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Preference retrievePreference(final String userId, final String name)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Preferences retrievePreferences(final String userId)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    Preference updatePreference(final String userId, final Preference preference)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    void deletePreference(final String userId, final Preference preference)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
+    void deletePreference(final String userId, final String name)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
 }

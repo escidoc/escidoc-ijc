@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.Collection;
@@ -39,6 +40,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
@@ -48,14 +50,15 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  */
 public interface RoleHandlerClientInterface extends CrudHandlerInterface<Role> {
 
-	/**
-	 * 
-	 * @param taskParam
-	 * @return
-	 * @throws EscidocClientException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
+    /**
+     * 
+     * @param taskParam
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @Deprecated
     Roles retrieveRoles(TaskParam taskParam) throws EscidocClientException,
         InternalClientException, TransportException;
 
@@ -67,9 +70,9 @@ public interface RoleHandlerClientInterface extends CrudHandlerInterface<Role> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveRoles(SearchRetrieveRequestType filter) 
-    	throws EscidocException, InternalClientException, TransportException;
-        
+    SearchRetrieveResponse retrieveRoles(SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
     /**
      * 
      * @param filter
@@ -78,6 +81,9 @@ public interface RoleHandlerClientInterface extends CrudHandlerInterface<Role> {
      * @throws InternalClientException
      * @throws TransportException
      */
-	Collection<Role> retrieveRolesAsList(SearchRetrieveRequestType filter) 
-		throws EscidocException, InternalClientException, TransportException;
+    Collection<Role> retrieveRolesAsList(SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
+    ExplainResponse retrieveRoles(final ExplainRequestType explain)
+        throws EscidocException, InternalClientException, TransportException;
 }

@@ -33,6 +33,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -41,16 +42,23 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
@@ -67,7 +75,21 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class MemberTest {
+
+    private TransportProtocol transport;
+
+    public MemberTest(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 
     /**
      * Test to add an Item as member of a Container.
@@ -82,9 +104,10 @@ public class MemberTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         // create Container
         Container container = createContainer(cc);
@@ -122,9 +145,10 @@ public class MemberTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         // create Container
         Container container = createContainer(cc);
@@ -193,9 +217,10 @@ public class MemberTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         // create Container
         Container container = createContainer(cc);
@@ -291,21 +316,20 @@ public class MemberTest {
      * @return created Container
      * 
      * @throws ParserConfigurationException
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @throws EscidocClientException
      */
-    private Container createContainer(final ContainerHandlerClient cc)
-        throws ParserConfigurationException, EscidocException,
-        InternalClientException, TransportException {
+    private Container createContainer(final ContainerHandlerClientInterface cc)
+        throws ParserConfigurationException, EscidocClientException {
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context, "Test Context"));
         properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel,
+            "Test ContentModel"));
         container.setProperties(properties);
 
         // Metadata Record(s)
@@ -333,10 +357,13 @@ public class MemberTest {
 
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.getProperties()
+            .setContext(
+                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+                    RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
+                RESOURCE_TYPE.ContentModel));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();

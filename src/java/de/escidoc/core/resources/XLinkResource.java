@@ -99,9 +99,6 @@ public abstract class XLinkResource {
      *         uses xlink:href. SOAP needs this.objid only.)
      */
     public XLINK_TYPE getXLinkType() {
-        // if(this.xLinkType == null) {
-        // return (this.xLinkHref != null) ? XLINK_TYPE.simple : null;
-        // }
         return this.xLinkType;
     }
 

@@ -30,12 +30,23 @@ package de.escidoc.core.test.client.integrationTests.classMapping.common;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
+import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
@@ -48,8 +59,22 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ServiceConnection {
 
+    private TransportProtocol transport;
+
+    public ServiceConnection(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
+    
     private static final String ITEM_ID = "escidoc:ex5";
 
     private static final String CONTAINER_ID = "escidoc:ex7";
@@ -66,9 +91,12 @@ public class ServiceConnection {
     @Test
     public void testItem01() throws Exception {
 
-        ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = cc.retrieve(ITEM_ID);
         DateTime lmd = item.getLastModificationDate();
@@ -86,9 +114,12 @@ public class ServiceConnection {
     @Test
     public void testContainer01() throws Exception {
 
-        ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Container container = cc.retrieve(CONTAINER_ID);
         DateTime lmd = container.getLastModificationDate();
@@ -106,9 +137,12 @@ public class ServiceConnection {
     @Test
     public void testContext01() throws Exception {
 
-        ContextHandlerClient cc = new ContextHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = cc.retrieve(CONTEXT_ID);
         DateTime lmd = context.getLastModificationDate();

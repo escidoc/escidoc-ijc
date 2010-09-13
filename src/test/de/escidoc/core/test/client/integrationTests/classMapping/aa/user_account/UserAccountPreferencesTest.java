@@ -44,6 +44,7 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.PreferenceNotFoundException;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.aa.useraccount.Preference;
 import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
@@ -86,7 +87,7 @@ public class UserAccountPreferencesTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
         uahc.setTransport(transport);
@@ -136,7 +137,7 @@ public class UserAccountPreferencesTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
         uahc.setTransport(transport);
@@ -197,7 +198,7 @@ public class UserAccountPreferencesTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        UserAccountHandlerClient uahc = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
         uahc.setTransport(transport);
@@ -236,7 +237,7 @@ public class UserAccountPreferencesTest {
         // retrieve
         try {
             uahc.retrievePreference(objId, uaPref.getName());
-            fail("Prefence not deleted.");
+            fail("Preference not deleted.");
         }
         catch (PreferenceNotFoundException e) {
             return;

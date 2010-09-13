@@ -30,31 +30,42 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
+import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -65,18 +76,31 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
+@RunWith(Parameterized.class)
 public class ContainerFilterVersion12Test {
 
-    public static final String FILTER_PARAMETER_QUERY = "query";
+    private TransportProtocol transport;
+
+    public ContainerFilterVersion12Test(TransportProtocol transport) {
+        this.transport = transport;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
+            { TransportProtocol.REST } });
+    }
 
     /**
-     * Test retrieving Containers through filter request (filter for version 1.2).
+     * Test retrieving Containers through filter request (filter for version
+     * 1.2).
      * 
      * @throws Exception
      *             Thrown if anythings failed.
      */
     @Test
-    public void testRetrieveContainers01() throws Exception {
+    public void testExplain() throws Exception {
 
         // create a Container
         Authentication auth =
@@ -86,14 +110,82 @@ public class ContainerFilterVersion12Test {
         ContainerHandlerClientInterface cc = new ContainerHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
+        cc.create(createContainer());
+
+        ExplainResponse response =
+            cc.retrieveContainers(new ExplainRequestType());
+        ExplainData explain = response.getRecord().getRecordData();
+
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("No index definitions found", explain
+            .getIndexInfo().getIndexes().size() > 0);
+    }
+
+    /**
+     * Test retrieving Containers through filter request (filter for version
+     * 1.2).
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testFilter01() throws Exception {
+
+        // create a Container
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
+        cc.create(createContainer());
+
+        // now check if at least this Container is in the list
+
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
+        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        uac.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+        UserAccount me = uac.retrieveCurrentUser();
+
+        SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
+        srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
+        srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
+
+        SearchRetrieveResponse containerList = cc.retrieveContainers(srwFilter);
+
+        assertEquals("Wrong version number", "1.1", containerList.getVersion());
+        assertTrue("Wrong number of matching records",
+            containerList.getNumberOfMatchingRecords() >= 1);
+        assertEquals("Wrong record position", 1, containerList
+            .getRecords().iterator().next().getRecordPosition());
+
+        // now check the convenience method
+        Collection<Container> list = cc.retrieveContainersAsList(srwFilter);
+
+        assertTrue("Wrong number of records", list.size() == containerList
+            .getRecords().size());
+    }
+
+    /**
+     * 
+     * @return
+     * @throws ParserConfigurationException 
+     */
+    private Container createContainer() throws ParserConfigurationException {
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -120,35 +212,6 @@ public class ContainerFilterVersion12Test {
 
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
-
-        Container createdContainer = cc.create(container);
-
-        
-        // now check if at least this Container is in the list
-
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        UserAccount me = uac.retrieveCurrentUser();
-
-        SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
-        srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
-
-//        cc.setTransport(TransportProtocol.REST);
-        SearchRetrieveResponse containerList = cc.retrieveContainers(srwFilter);
-
-        assertEquals("Wrong version number", "1.1", containerList.getVersion());
-        assertTrue("Wrong number of matching records",
-            containerList.getNumberOfMatchingRecords() >= 1);
-        assertEquals("Wrong record position", 1, containerList
-            .getRecords().iterator().next().getRecordPosition());
-        
-        // now check the convenience method
-        Collection<Container> list = cc.retrieveContainersAsList(srwFilter);
-        
-        assertTrue("Wrong number of records",
-           list.size() == containerList.getRecords().size());
+        return container;
     }
-
 }
