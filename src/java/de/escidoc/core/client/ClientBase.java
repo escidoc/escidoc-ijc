@@ -294,7 +294,7 @@ public abstract class ClientBase {
         if (filter.getVersion() != null) {
             filter12.put("version", new String[] { filter.getVersion() });
         }
-        filter12.put("operation", new String[] { "searchRequest" });
+        filter12.put("operation", new String[] { "searchRetrieve" });
 
         return filter12;
     }
