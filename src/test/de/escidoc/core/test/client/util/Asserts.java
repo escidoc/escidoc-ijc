@@ -99,7 +99,7 @@ public class Asserts {
 
             Marshaller<MetadataRecord> m1 =
                 new Marshaller<MetadataRecord>(mdMaster.getClass(), 
-                		EscidocClientTestBase.getTransport());
+                		EscidocClientTestBase.getDefaultTransportProtocol());
             String xml1 = m1.marshalDocument(mdMaster);
 
             Document mdRecordMaster = XmlUtility.getDocument(xml1);
@@ -109,7 +109,7 @@ public class Asserts {
 
             Marshaller<MetadataRecord> m2 =
                 new Marshaller<MetadataRecord>(mdToComp.getClass(),
-                		EscidocClientTestBase.getTransport());
+                		EscidocClientTestBase.getDefaultTransportProtocol());
             String xml2 = m2.marshalDocument(mdToComp);
 
             Document mdRecordToCompare = XmlUtility.getDocument(xml2);
