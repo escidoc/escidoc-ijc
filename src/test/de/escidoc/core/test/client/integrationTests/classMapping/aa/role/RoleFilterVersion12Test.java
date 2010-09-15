@@ -34,7 +34,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -43,10 +42,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -54,20 +51,18 @@ import org.xml.sax.SAXException;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.RoleHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
-import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.RoleProperties;
 import de.escidoc.core.resources.aa.role.Scope;
 import de.escidoc.core.resources.aa.role.ScopeDef;
-import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -78,23 +73,13 @@ import de.escidoc.core.test.client.util.Template;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class RoleFilterVersion12Test {
+public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
 
-	private TransportProtocol transport;
-	
-	public RoleFilterVersion12Test(TransportProtocol transport) {
-		this.transport = transport;
-	}
-
-	@SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+    public RoleFilterVersion12Test(TransportProtocol transport) {
+        super(transport);
     }
-	
-	/**
+
+    /**
      * Test for User Account Explain. (filter for version 1.2).
      * 
      * @throws Exception
@@ -114,8 +99,7 @@ public class RoleFilterVersion12Test {
 
         rc.create(createRole());
 
-        ExplainResponse response =
-            rc.retrieveRoles(new ExplainRequestType());
+        ExplainResponse response = rc.retrieveRoles(new ExplainRequestType());
 
         ExplainData explain = response.getRecord().getRecordData();
 
@@ -123,7 +107,7 @@ public class RoleFilterVersion12Test {
         assertTrue("No index definitions found", explain
             .getIndexInfo().getIndexes().size() > 0);
     }
-	
+
     /**
      * Test retrieving Roles through filter request (filter for version 1.2).
      * 
@@ -145,36 +129,29 @@ public class RoleFilterVersion12Test {
         Role role = createRole();
         Role createdRole = rc.create(role);
 
-        
         // now check if at least this Container is in the list
 
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
-        
-        UserAccount me = uac.retrieveCurrentUser();
-
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery(
-        		"\"http://escidoc.de/core/01/structural-relations/created-by\"=" 
-        		+ me.getObjid());
+        srwFilter
+            .setQuery("\"http://escidoc.de/core/01/properties/creation-date\"=\""
+                + createdRole
+                    .getProperties().getCreationDate()
+                    .withZone(DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse response = rc.retrieveRoles(srwFilter);
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertTrue("Wrong number of matching records",
-        		response.getNumberOfMatchingRecords() >= 1);
-        assertEquals("Wrong record position", 1, response.getRecords()
-        		.iterator().next().getRecordPosition());
-        
+            response.getNumberOfMatchingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response
+            .getRecords().iterator().next().getRecordPosition());
+
         Collection<Role> roles = rc.retrieveRolesAsList(srwFilter);
-        assertTrue("Different number of resulting records", 
-        		response.getNumberOfResultingRecords() == roles.size());
+        assertTrue("Different number of resulting records",
+            response.getNumberOfResultingRecords() == roles.size());
     }
 
-    
     /**
      * Create a Role VO (but not create it at infrastructure).
      * 
@@ -232,12 +209,13 @@ public class RoleFilterVersion12Test {
 
         // FIXME done without result handling
         Marshaller<Role> m = new Marshaller<Role>(role.getClass(), transport);
-        
+
         String xml = m.marshalDocument(role);
 
         Role urole = m.unmarshalDocument(xml);
-        Factory.getMarshallerFactory(transport).getRoleMarshaller()
-        	.marshalDocument(urole);
+        Factory
+            .getMarshallerFactory(transport).getRoleMarshaller()
+            .marshalDocument(urole);
 
         return role;
     }

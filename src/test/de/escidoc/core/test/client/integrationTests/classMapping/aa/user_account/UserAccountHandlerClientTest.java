@@ -33,13 +33,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
@@ -53,6 +49,7 @@ import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -62,22 +59,12 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author ROF, SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class UserAccountHandlerClientTest {
+public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase {
 
-	private TransportProtocol transport;
-	
 	public UserAccountHandlerClientTest(TransportProtocol transport) {
-		this.transport = transport;
+		super(transport);
 	}
 
-	@SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
-    }
-	
     /**
      * Test to create and retrieve user account.
      * 

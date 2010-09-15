@@ -30,18 +30,14 @@ package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_accoun
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.Collection;
-
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.util.Collection;
+
 import org.apache.axis.types.NonNegativeInteger;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
@@ -52,6 +48,7 @@ import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -61,20 +58,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class UserAccountFilterVersion12Test {
-
-    private TransportProtocol transport;
+public class UserAccountFilterVersion12Test
+    extends AbstractParameterizedTestBase {
 
     public UserAccountFilterVersion12Test(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**
@@ -87,7 +75,7 @@ public class UserAccountFilterVersion12Test {
     public void testExplain() throws Exception {
 
         UserAccount ua = new UserAccount();
-        
+
         // user properties
         UserAccountProperties properties = new UserAccountProperties();
         String login = "login" + System.currentTimeMillis();
@@ -152,12 +140,12 @@ public class UserAccountFilterVersion12Test {
         // create
         UserAccount createdUa = uac.create(ua);
 
-        UserAccount me = uac.retrieveCurrentUser();
-
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
         srwFilter
-            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"="
-                + me.getObjid());
+            .setQuery("\"http://escidoc.de/core/01/properties/creation-date\"=\""
+                + createdUa
+                    .getProperties().getCreationDate()
+                    .withZone(DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse response = uac.retrieveUserAccounts(srwFilter);

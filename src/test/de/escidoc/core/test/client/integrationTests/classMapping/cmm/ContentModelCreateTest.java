@@ -31,14 +31,9 @@ package de.escidoc.core.test.client.integrationTests.classMapping.cmm;
 import static org.junit.Assert.assertEquals;
 
 import java.net.URI;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentModelHandlerClient;
@@ -53,6 +48,7 @@ import de.escidoc.core.resources.cmm.MetadataRecordDefinition;
 import de.escidoc.core.resources.cmm.MetadataRecordDefinitions;
 import de.escidoc.core.resources.cmm.ResourceDefinition;
 import de.escidoc.core.resources.cmm.ResourceDefinitions;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -62,22 +58,12 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContentModelCreateTest {
+public class ContentModelCreateTest extends AbstractParameterizedTestBase {
 
-    private TransportProtocol transport;
-    
     public ContentModelCreateTest(TransportProtocol transport) {
-        this.transport = transport;
+        super(transport);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
-    }
-    
     /**
      * Test if the right exception is thrown if calling create with null.
      * 
@@ -145,7 +131,7 @@ public class ContentModelCreateTest {
         cmm.getProperties().setDescription("Description-" + System.nanoTime());
 
         ContentModel cmmCreated = cc.create(cmm);
-        
+
         // asserts
         UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
         uac.setTransport(transport);
@@ -295,7 +281,7 @@ public class ContentModelCreateTest {
         uac.setTransport(transport);
         uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
-        
+
         UserAccount me = uac.retrieveCurrentUser();
 
         assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated
