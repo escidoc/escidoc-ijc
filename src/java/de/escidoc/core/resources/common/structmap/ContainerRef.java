@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
-
 /**
  * Reference to a Container.
  * 
@@ -38,54 +37,16 @@ package de.escidoc.core.resources.common.structmap;
 public class ContainerRef extends MemberRef {
 
     /**
-     * ContainerRef.
+     * Default constructor used by JiBX.
      */
-    public ContainerRef() {
-        setResourceType(RESOURCE_TYPE.Container);
+    protected ContainerRef() {
+        this(null);
     }
-
+    
     /**
      * ContainerRef.
      */
     public ContainerRef(final String refId) {
-
-        super(refId);
-        setResourceType(RESOURCE_TYPE.Container);
+        super(refId, RESOURCE_TYPE.Container);
     }
-
-	/**
-	 * @param refId
-	 * @param type
-	 */
-	public ContainerRef(String refId, RESOURCE_TYPE type) {
-		super(refId, type);
-	}
-
-	/**
-	 * @param refId
-	 * @param href
-	 * @param title
-	 * @param resourceType
-	 */
-	public ContainerRef(String refId, String href, String title,
-			RESOURCE_TYPE resourceType) {
-		super(refId, href, title, resourceType);
-	}
-
-	/**
-	 * @param refId
-	 * @param href
-	 * @param title
-	 */
-	public ContainerRef(String refId, String href, String title) {
-		super(refId, href, title);
-	}
-
-	/**
-	 * @param href
-	 * @param title
-	 */
-	public ContainerRef(String href, String title) {
-		super(href, title);
-	}
 }

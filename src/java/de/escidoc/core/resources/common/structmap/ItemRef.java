@@ -37,17 +37,16 @@ package de.escidoc.core.resources.common.structmap;
 public class ItemRef extends MemberRef {
 
     /**
-     * ItemRef.
+     * Default constructor used by JiBX.
      */
-    public ItemRef() {
-        setResourceType(RESOURCE_TYPE.Item);
+    protected ItemRef() {
+        this(null);
     }
-
+    
     /**
      * ItemRef.
      */
     public ItemRef(final String ref) {
-        super(ref);
-        setResourceType(RESOURCE_TYPE.Item);
+        super(ref, RESOURCE_TYPE.Item);
     }
 }
