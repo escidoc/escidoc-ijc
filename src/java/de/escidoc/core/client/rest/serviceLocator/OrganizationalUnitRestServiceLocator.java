@@ -93,7 +93,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException {
 
-        return get(PATH_OU + "/" + ouId + "/parents/resources/parent-objects");
+        return get(PATH_OU + "/" + ouId + "/resources/parent-objects");
     }
 
     public String retrieveChildObjects(final String ouId)
