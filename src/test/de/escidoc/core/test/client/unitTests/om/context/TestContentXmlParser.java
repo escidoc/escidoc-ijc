@@ -66,7 +66,7 @@ public class TestContentXmlParser {
         context.setAdminDescriptors(adminDescriptors);
 
         String contextXml =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         		.getContextMarshaller().marshalDocument(context);
 
         Document contextDoc = XmlUtil.getDocument(contextXml);
@@ -105,7 +105,7 @@ public class TestContentXmlParser {
 
         // unmarshall
         Context contextRev =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         		.getContextMarshaller().unmarshalDocument(contextXml);
 
         assertEquals("Content failure", contentElementName, contextRev
@@ -155,7 +155,7 @@ public class TestContentXmlParser {
         context.setAdminDescriptors(adminDescriptors);
 
         String contextXml =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         		.getContextMarshaller().marshalDocument(context);
 
         Document contextDoc = XmlUtil.getDocument(contextXml);
@@ -194,7 +194,7 @@ public class TestContentXmlParser {
 
         // unmarshall
         Context contextRev =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         		.getContextMarshaller().unmarshalDocument(contextXml);
 
         assertEquals("Content failue", contentElementName, contextRev
