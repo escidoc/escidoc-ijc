@@ -40,7 +40,6 @@ public abstract class MemberRef extends ResourceRef {
 
     /**
      * 
-     * @param ref
      */
     protected MemberRef() {
     }
@@ -53,22 +52,12 @@ public abstract class MemberRef extends ResourceRef {
         super(ref);
     }
 
+    /**
+     * 
+     * @param objid
+     * @param type
+     */
     protected MemberRef(String objid, RESOURCE_TYPE type) {
 		super(objid, type);
 	}
-
-    protected MemberRef(String objid, String href, String title,
-			RESOURCE_TYPE resourceType) {
-		super(objid, href, title, resourceType);
-	}
-
-    protected MemberRef(String objid, String href, String title) {
-		super(objid, href, title);
-	}
-
-    protected MemberRef(String href, String title) {
-		super(href, title);
-	}
-    
-    
 }
