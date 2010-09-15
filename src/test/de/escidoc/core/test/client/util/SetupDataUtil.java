@@ -43,11 +43,17 @@ import de.escidoc.core.client.ContentModelHandlerClient;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface;
+import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
+import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
+import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.GrantProperties;
@@ -94,9 +100,9 @@ public class SetupDataUtil {
      * @throws TransportException
      */
     public static OrganizationalUnit createOrganizationalUnit(
-        Authentication auth, final boolean setToOpen)
-        throws InternalClientException, ParserConfigurationException,
-        EscidocException, TransportException {
+        final Authentication auth, final TransportProtocol transport,
+        final boolean setToOpen) throws InternalClientException,
+        ParserConfigurationException, EscidocException, TransportException {
 
         final String ouName = "name" + System.currentTimeMillis();
         final String ouDescription = "Just a generic organizational unit.";
@@ -140,10 +146,11 @@ public class SetupDataUtil {
 
         organizationalUnit.setMetadataRecords(mdRecords);
 
-        OrganizationalUnitHandlerClient ouhc =
+        OrganizationalUnitHandlerClientInterface ouhc =
             new OrganizationalUnitHandlerClient();
         ouhc.setServiceAddress(auth.getServiceAddress());
         ouhc.setHandle(auth.getHandle());
+        ouhc.setTransport(transport);
 
         organizationalUnit = ouhc.create(organizationalUnit);
 
@@ -171,7 +178,8 @@ public class SetupDataUtil {
      */
     public static UserAccount createUserWithDepositorRole(
         final Authentication auth, final String password,
-        final ResourceRef assignOn) throws EscidocClientException {
+        final ResourceRef assignOn, final TransportProtocol transport)
+        throws EscidocClientException {
 
         UserAccount ua = new UserAccount();
 
@@ -184,9 +192,10 @@ public class SetupDataUtil {
         ua.setProperties(properties);
 
         // Get service handler (with authentication)
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
         uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
 
         // create
         UserAccount userAccount = uac.create(ua);
@@ -225,11 +234,13 @@ public class SetupDataUtil {
      */
     public static Context createContext(
         final Authentication auth, final OrganizationalUnit organizationalUnit,
-        final boolean setToOpen) throws EscidocClientException {
+        final TransportProtocol transport, final boolean setToOpen)
+        throws EscidocClientException {
 
-        ContextHandlerClient cc = new ContextHandlerClient();
+        ContextHandlerClientInterface cc = new ContextHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Context context = new Context();
         Properties properties = new Properties();
@@ -278,10 +289,11 @@ public class SetupDataUtil {
      */
     public static Item createItem(
         final Authentication auth, final Context context,
-        final ContentModel contentModel) throws EscidocClientException,
-        ParserConfigurationException {
+        final ContentModel contentModel, final TransportProtocol transport)
+        throws EscidocClientException, ParserConfigurationException {
 
-        return createItem(auth, context.getObjid(), contentModel.getObjid());
+        return createItem(auth, context.getObjid(), contentModel.getObjid(),
+            transport);
     }
 
     /**
@@ -299,8 +311,8 @@ public class SetupDataUtil {
      */
     public static Item createItem(
         final Authentication auth, final String contextId,
-        final String contentModelId) throws EscidocClientException,
-        ParserConfigurationException {
+        final String contentModelId, final TransportProtocol transport)
+        throws EscidocClientException, ParserConfigurationException {
 
         Item item = new Item();
 
@@ -313,9 +325,10 @@ public class SetupDataUtil {
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
-        ItemHandlerClient ihc = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
         ihc.setServiceAddress(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
 
         return ihc.create(item);
     }
@@ -332,12 +345,14 @@ public class SetupDataUtil {
      *             Thrown if value for XSLT of resource definition is not a
      *             valid URI
      */
-    public static ContentModel createContentModel(final Authentication auth)
+    public static ContentModel createContentModel(
+        final Authentication auth, final TransportProtocol transport)
         throws EscidocClientException, URISyntaxException {
 
-        ContentModelHandlerClient cc = new ContentModelHandlerClient();
+        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         ContentModel contentModel = new ContentModel();
         ContentModelProperties properties = new ContentModelProperties();
