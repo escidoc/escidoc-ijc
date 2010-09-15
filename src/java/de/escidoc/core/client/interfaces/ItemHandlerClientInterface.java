@@ -28,11 +28,11 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.Collection;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -42,6 +42,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.component.Component;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
@@ -60,26 +61,24 @@ public interface ItemHandlerClientInterface
      */
 
     Result lock(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     Result lock(final Item item, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     Result unlock(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     Result unlock(final Item item, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
+
+    Item retrieve(final Item item) throws EscidocException,
+        InternalClientException, TransportException;
 
     @Deprecated
-    ItemList retrieveItems(final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-    
+    ItemList retrieveItems(final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
+
     /**
      * 
      * @param filter
@@ -89,18 +88,18 @@ public interface ItemHandlerClientInterface
      * @throws TransportException
      */
     SearchRetrieveResponse retrieveItems(final SearchRetrieveRequestType filter)
-		throws EscidocException, InternalClientException, TransportException;
-    
+        throws EscidocException, InternalClientException, TransportException;
+
     /**
      * This is a convenience method to retrieve the resulting objects as a list.
-     * Since it could happen, that binding of an object fails, this list
-     * will not contain all objects, which could not be bounded.
-     * In case you wish to have complete control over the results, you may use
-     * the method {@link #retrieveItems(SearchRetrieveRequestType)},
-     * since you can still work with the resulting DOM.
+     * Since it could happen, that binding of an object fails, this list will
+     * not contain all objects, which could not be bounded. In case you wish to
+     * have complete control over the results, you may use the method
+     * {@link #retrieveItems(SearchRetrieveRequestType)}, since you can still
+     * work with the resulting DOM.
      * 
-     * Usually binding of an object fails, if the server returns
-     * unexpected record data.
+     * Usually binding of an object fails, if the server returns unexpected
+     * record data.
      * 
      * @param filter
      * @return
@@ -109,40 +108,40 @@ public interface ItemHandlerClientInterface
      * @throws TransportException
      */
     Collection<Item> retrieveItemsAsList(final SearchRetrieveRequestType filter)
-    	throws EscidocException, InternalClientException, TransportException;
+        throws EscidocException, InternalClientException, TransportException;
+
+    ExplainResponse retrieveItems(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
 
     /*
      * Assign PID methods
      */
+    Result assignObjectPid(final Item item, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException;
+
     Result assignContentPid(
         final String id, final String componentId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     Result assignContentPid(
         final Item item, final String componentId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     Result assignVersionPid(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     Result assignVersionPid(final Item item, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /*
      * sub-resources (comming later)
      */
     Component createComponent(final String id, Component component)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     Component createComponent(final Item item, final Component component)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
-    Relations retrieveRelations(final String id) throws EscidocClientException,
+    Relations retrieveRelations(final String id) throws EscidocException,
         InternalClientException, TransportException;
 }
