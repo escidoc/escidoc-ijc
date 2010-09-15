@@ -39,6 +39,7 @@ import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.PathList;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
@@ -74,11 +75,11 @@ public interface OrganizationalUnitHandlerClientInterface
     Result close(final String contextId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
-    // StructMap retrieveParents(final String id, final String xml)
-    // throws EscidocException, InternalClientException, TransportException;
-    //
     // StructMap updateParents(final String id, final String xml)
     // throws EscidocException, InternalClientException, TransportException;
+
+    Parents retrieveParents(final String id) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -100,7 +101,7 @@ public interface OrganizationalUnitHandlerClientInterface
     @Deprecated
     OrganizationalUnitList retrieveOrganizationalUnits(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
-    
+
     /**
      * 
      * @param filter
@@ -110,8 +111,8 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws TransportException
      */
     ExplainResponse retrieveOrganizationalUnits(final ExplainRequestType filter)
-    	throws EscidocException, InternalClientException, TransportException;
-    
+        throws EscidocException, InternalClientException, TransportException;
+
     /**
      * 
      * @param filter
@@ -123,17 +124,17 @@ public interface OrganizationalUnitHandlerClientInterface
     SearchRetrieveResponse retrieveOrganizationalUnits(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException;
-    
+
     /**
      * This is a convenience method to retrieve the resulting objects as a list.
-     * Since it could happen, that binding of an object fails, this list
-     * will not contain all objects, which could not be bounded.
-     * In case you wish to have complete control over the results, you may use
-     * the method {@link #retrieveOrganizationalUnits(SearchRetrieveRequestType)},
-     * since you can still work with the resulting DOM.
+     * Since it could happen, that binding of an object fails, this list will
+     * not contain all objects, which could not be bounded. In case you wish to
+     * have complete control over the results, you may use the method
+     * {@link #retrieveOrganizationalUnits(SearchRetrieveRequestType)}, since
+     * you can still work with the resulting DOM.
      * 
-     * Usually binding of an object fails, if the server returns
-     * unexpected record data.
+     * Usually binding of an object fails, if the server returns unexpected
+     * record data.
      * 
      * @param filter
      * @return
@@ -142,8 +143,8 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws TransportException
      */
     Collection<OrganizationalUnit> retrieveOrganizationalUnitsAsList(
-            final SearchRetrieveRequestType filter) throws EscidocException,
-            InternalClientException, TransportException;
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
