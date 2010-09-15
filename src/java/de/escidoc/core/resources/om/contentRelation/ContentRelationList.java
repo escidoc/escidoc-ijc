@@ -37,6 +37,8 @@ import de.escidoc.core.resources.om.GenericResource;
 /**
  * Content Relation List
  * 
+ * FIXME: extends LinkedList
+ * 
  * @author SWA
  * 
  */

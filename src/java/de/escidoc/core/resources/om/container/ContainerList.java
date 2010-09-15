@@ -34,6 +34,12 @@ import java.util.List;
 
 import de.escidoc.core.resources.om.GenericResource;
 
+/**
+ * FIXME: extends LinkedList
+ * 
+ * @author ?
+ *
+ */
 public class ContainerList extends GenericResource {
 
     private Collection<Container> containers = new LinkedList<Container>();

@@ -37,6 +37,8 @@ import de.escidoc.core.resources.XLinkResource;
 /**
  * Organizational Unit Predecessors.
  * 
+ * FIXME: extends LinkedList
+ * 
  * @author SWA
  * 
  */

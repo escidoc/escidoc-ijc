@@ -35,6 +35,7 @@ import java.util.List;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
+ * FIXME: extends LinkedList
  * 
  * @author schenk
  *
