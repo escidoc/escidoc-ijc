@@ -31,7 +31,6 @@ package de.escidoc.core.resources.aa.role;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.XLinkResource;
 
 /**
  * Properties of a Role.
@@ -39,7 +38,7 @@ import de.escidoc.core.resources.XLinkResource;
  * @author SWA
  * 
  */
-public class RoleProperties extends XLinkResource {
+public class RoleProperties {
 
 	private ResourceRef createdBy;
 	
