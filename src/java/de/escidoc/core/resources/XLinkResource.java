@@ -3,10 +3,7 @@
  */
 package de.escidoc.core.resources;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 
 /**
  * @author MVO
@@ -20,28 +17,6 @@ public abstract class XLinkResource {
      */
     public static enum XLINK_TYPE {
         simple, extended, locator, arc, resource, title
-    }
-
-    public static final Map<RESOURCE_TYPE, String> URL_TYPE =
-        new HashMap<RESOURCE_TYPE, String>();
-    {
-        URL_TYPE.put(RESOURCE_TYPE.Context, "/ir/context");
-        URL_TYPE.put(RESOURCE_TYPE.Item, "/ir/item");
-        URL_TYPE.put(RESOURCE_TYPE.Container, "/ir/container");
-        /* /ir/item/<iID>/components/component/<cID>/ */
-        URL_TYPE.put(RESOURCE_TYPE.Component, "/components/component");
-        // TODO: ???
-        URL_TYPE.put(RESOURCE_TYPE.Toc, "/tocs");
-        URL_TYPE.put(RESOURCE_TYPE.OrganizationalUnit,
-            "/oum/organizational-unit");
-        URL_TYPE.put(RESOURCE_TYPE.UserAccount, "/aa/user-account");
-        /* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
-        URL_TYPE.put(RESOURCE_TYPE.UserAccountAttribute,
-            "/resources/attributes/attribute");
-        URL_TYPE.put(RESOURCE_TYPE.ContentModel, "/cmm/content-model");
-        URL_TYPE.put(RESOURCE_TYPE.Grant, "/aa/grant");
-        URL_TYPE.put(RESOURCE_TYPE.Role, "/aa/role");
-        URL_TYPE.put(RESOURCE_TYPE.ContentRelation, "/ir/content-relation");
     }
 
     private String xLinkHref;
