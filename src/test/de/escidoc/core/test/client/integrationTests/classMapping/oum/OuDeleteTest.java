@@ -40,12 +40,15 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.Properties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -55,7 +58,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class OuDeleteTest {
+public class OuDeleteTest extends AbstractParameterizedTestBase {
+
+    public OuDeleteTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test delete of Organizational Unit.
@@ -67,10 +74,14 @@ public class OuDeleteTest {
     public void testDeleteOu01() throws Exception {
 
         // create OU
-    	OrganizationalUnitHandlerClientInterface cc =
+        OrganizationalUnitHandlerClientInterface cc =
             new OrganizationalUnitHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit createdOU = cc.create(createOu());
 

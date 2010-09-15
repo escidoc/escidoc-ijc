@@ -43,6 +43,7 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
@@ -55,6 +56,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.Properties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -63,7 +65,12 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class OrganizationalUnitHandlerClientTest {
+public class OrganizationalUnitHandlerClientTest
+    extends AbstractParameterizedTestBase {
+
+    public OrganizationalUnitHandlerClientTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test if the right exception is thrown if a non existing OrganizationUnit
@@ -85,6 +92,7 @@ public class OrganizationalUnitHandlerClientTest {
                 new OrganizationalUnitHandlerClient();
             cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
             cc.setHandle(auth.getHandle());
+            cc.setTransport(transport);
 
             cc.retrieve(Constants.INVALID_RESOURCE_ID);
             fail("Missing Exception");
@@ -114,12 +122,15 @@ public class OrganizationalUnitHandlerClientTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit organizationUnit =
             cc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
 
-        Factory.getMarshallerFactory(cc.getTransport()).getOrganizationalUnitMarshaller()
-        	.marshalDocument(organizationUnit);
+        Factory
+            .getMarshallerFactory(cc.getTransport())
+            .getOrganizationalUnitMarshaller()
+            .marshalDocument(organizationUnit);
     }
 
     /**
@@ -139,12 +150,15 @@ public class OrganizationalUnitHandlerClientTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit organizationUnit =
             cc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
         cc.update(organizationUnit);
-        Factory.getMarshallerFactory(cc.getTransport()).getOrganizationalUnitMarshaller()
-        	.marshalDocument(organizationUnit);
+        Factory
+            .getMarshallerFactory(cc.getTransport())
+            .getOrganizationalUnitMarshaller()
+            .marshalDocument(organizationUnit);
     }
 
     /**
@@ -157,9 +171,14 @@ public class OrganizationalUnitHandlerClientTest {
     public void testRetrieveChildObjects() throws Exception {
         OrganizationalUnitHandlerClient ic =
             new OrganizationalUnitHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setHandle(auth.getHandle());
+        ic.setTransport(transport);
 
-        ic
-            .retrieveChildObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID)
+        ic.retrieveChildObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID)
             .getOrganizationalUnits();
     }
 
@@ -199,6 +218,7 @@ public class OrganizationalUnitHandlerClientTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit ou = cc.create(organizationalUnit);
 
@@ -212,11 +232,12 @@ public class OrganizationalUnitHandlerClientTest {
         Collection<Filter> filters = TaskParam.filtersFactory();
 
         filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by", me
-                .getObjid(), null));
+            "http://escidoc.de/core/01/structural-relations/created-by",
+            me.getObjid(), null));
         filterParam.setFilters(filters);
-        Factory.getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
-        	.marshalDocument(filterParam);
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+            .marshalDocument(filterParam);
 
         OrganizationalUnitHandlerClientInterface ic =
             new OrganizationalUnitHandlerClient();

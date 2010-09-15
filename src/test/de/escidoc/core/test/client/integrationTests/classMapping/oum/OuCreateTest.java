@@ -46,6 +46,7 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
@@ -59,6 +60,7 @@ import de.escidoc.core.resources.oum.Predecessor;
 import de.escidoc.core.resources.oum.PredecessorForm;
 import de.escidoc.core.resources.oum.Predecessors;
 import de.escidoc.core.resources.oum.Properties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Asserts;
@@ -69,7 +71,11 @@ import de.escidoc.core.test.client.util.Asserts;
  * @author SWA
  * 
  */
-public class OuCreateTest {
+public class OuCreateTest extends AbstractParameterizedTestBase {
+
+    public OuCreateTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -91,6 +97,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         try {
@@ -125,6 +132,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         MetadataRecords mdRecords = new MetadataRecords();
@@ -171,6 +179,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -220,6 +229,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
@@ -295,6 +305,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
 
@@ -364,6 +375,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit createdOU = cc.create(organizationalUnit);
 
@@ -412,6 +424,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit parentOU = cc.create(organizationalUnit);
 
@@ -462,6 +475,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         // OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
@@ -540,6 +554,7 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         // create OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
@@ -592,12 +607,17 @@ public class OuCreateTest {
         ou4.setMetadataRecords(mdRecords);
         ou4 = cc.create(ou4);
 
-        // retrieve
+        // retrieve parent objects
         OrganizationalUnitList ouList =
             cc.retrieveParentObjects(ou4.getObjid());
 
         Collection<OrganizationalUnit> cou = ouList.getOrganizationalUnits();
         assertEquals("Wrong number ob OUs in List", 3, cou.size());
+
+        // retrieve parent references
+        Parents parentRefs = cc.retrieveParents(ou4.getObjid());
+        assertEquals("Wrong number ob OUs in List", 3, parentRefs
+            .getParentRef().size());
     }
 
     /**
@@ -670,14 +690,16 @@ public class OuCreateTest {
             new OrganizationalUnitHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         Properties properties = new Properties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecord mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", "Test OU "
-                + System.currentTimeMillis(), "The fist OU of a test. ");
+            createMdRecordDC("escidoc", "myMdRecord",
+                "Test OU " + System.currentTimeMillis(),
+                "The fist OU of a test. ");
 
         MetadataRecord mdRecord2 =
             createMdRecordDC("md-record2", "mySecondMdRecord", "Test OU "
