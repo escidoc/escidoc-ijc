@@ -59,9 +59,9 @@ public class TestMarshalling {
 
         Item item = new Item();
         
-        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getItemMarshaller().marshalDocument(item);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getItemMarshaller().unmarshalDocument(xml);
     }
 
@@ -75,9 +75,9 @@ public class TestMarshalling {
     public void testMarshallingContainer01() throws Exception {
 
         Container container = new Container();
-        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
 	    	.getContainerMarshaller().marshalDocument(container);
-	    Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+	    Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
 	    	.getContainerMarshaller().unmarshalDocument(xml);
     }
 
@@ -94,9 +94,9 @@ public class TestMarshalling {
         StructMap structMap = new StructMap();
         container.setStructMap(structMap);
         String xml =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         		.getContainerMarshaller().marshalDocument(container);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getContainerMarshaller().unmarshalDocument(xml);
     }
 
@@ -110,9 +110,9 @@ public class TestMarshalling {
     public void testMarshallingContext01() throws Exception {
 
         Context context = new Context();
-        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getContextMarshaller().marshalDocument(context);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getContextMarshaller().unmarshalDocument(xml);
     }
 
@@ -126,9 +126,9 @@ public class TestMarshalling {
     public void testMarshallingResult01() throws Exception {
 
         Result result = new Result();
-        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getResultMarshaller().marshalDocument(result);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getResultMarshaller().unmarshalDocument(xml);
     }
 
@@ -143,9 +143,9 @@ public class TestMarshalling {
 
         TaskParam taskParam = new TaskParam();
         String xml =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         		.getTaskParamMarshaller().marshalDocument(taskParam);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getTaskParamMarshaller().unmarshalDocument(xml);
     }
 
@@ -209,9 +209,9 @@ public class TestMarshalling {
 
         UserAccount userAccount = new UserAccount();
         String xml =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         		.getUserAccountMarshaller().marshalDocument(userAccount);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getTransport())
+        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
         	.getUserAccountMarshaller().unmarshalDocument(xml);
     }
 
