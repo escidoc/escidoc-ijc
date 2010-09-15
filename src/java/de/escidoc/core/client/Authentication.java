@@ -136,22 +136,24 @@ public class Authentication {
          * further request required. And a request with no authentication cookie
          * should not be responsed by an HTTP status code 500.
          */
+        HttpURLConnection restrictedConn = null;
+        HttpURLConnection authConn = null;
+        HttpURLConnection redirectConn = null;
+
         try {
-            URL loginUrl = new URL(this.serviceAddress + "aa/login");
+            URL loginUrl = new URL(this.serviceAddress + "aa/login?target=");
             URL authURL =
                 new URL(this.serviceAddress + "aa/j_spring_security_check");
 
             HttpURLConnection.setFollowRedirects(false);
 
             // 1) Make a login request in order to get the session cookie.
-            HttpURLConnection restrictedConn =
-                (HttpURLConnection) loginUrl.openConnection();
+            restrictedConn = (HttpURLConnection) loginUrl.openConnection();
             restrictedConn.connect();
 
             // 2) Make a POST request sending the login credentials and the
             // previous session cookie in order to get the next session cookie.
-            HttpURLConnection authConn =
-                (HttpURLConnection) authURL.openConnection();
+            authConn = (HttpURLConnection) authURL.openConnection();
             authConn.setRequestMethod("POST");
             authConn.setDoOutput(true);
 
@@ -171,8 +173,7 @@ public class Authentication {
 
             // 3) Make a login request with the previous session cookie in order
             // to get the auth cookie.
-            HttpURLConnection redirectConn =
-                (HttpURLConnection) loginUrl.openConnection();
+            redirectConn = (HttpURLConnection) loginUrl.openConnection();
             if (cookieList != null) {
                 Iterator<String> cookieIt = cookieList.iterator();
                 while (cookieIt.hasNext()) {
@@ -193,6 +194,14 @@ public class Authentication {
         }
         catch (IOException e) {
             throw new TransportException(e);
+        }
+        finally {
+            if (restrictedConn != null)
+                restrictedConn.disconnect();
+            if (authConn != null)
+                authConn.disconnect();
+            if (redirectConn != null)
+                redirectConn.disconnect();
         }
 
         return handle;
