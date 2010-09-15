@@ -28,7 +28,7 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
-import java.util.LinkedList;
+import de.escidoc.core.resources.XLinkResourceList;
 
 /**
  * StructMap (Structure Map of Container).
@@ -40,7 +40,7 @@ import java.util.LinkedList;
  * @author
  * 
  */
-public class StructMap extends LinkedList<MemberRef> {
+public class StructMap extends XLinkResourceList<MemberRef> {
 
     /**
      * 
