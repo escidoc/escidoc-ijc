@@ -137,7 +137,7 @@ public class Authentication {
          * responsed by an HTTP status code 500.
          */
         try {
-            URL loginUrl = new URL(this.serviceAddress + "aa/login");
+            URL loginUrl = new URL(this.serviceAddress + "aa/login?target=");
             URL authURL =
                 new URL(this.serviceAddress + "aa/j_spring_security_check");
 
