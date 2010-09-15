@@ -49,6 +49,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.PathList;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
@@ -294,11 +295,28 @@ public class OrganizationalUnitHandlerClient
         throw new InternalClientException("Method not yet supported.");
     }
 
-    // public StructMap retrieveParents(final String id, final String xml)
-    // throws EscidocException, InternalClientException, TransportException {
-    // throw new InternalClientException("Method not yet supported.");
-    // }
-    //
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public Parents retrieveParents(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapHandlerClient().retrieveParents(id);
+        }
+        else {
+            xml = getRestHandlerClient().retrieveParents(id);
+        }
+        return Factory
+            .getMarshallerFactory(getTransport()).getParentsMarshaller()
+            .unmarshalDocument(xml);
+    }
+
     // public StructMap updateParents(final String id, final String xml)
     // throws EscidocException, InternalClientException, TransportException {
     //
