@@ -53,8 +53,8 @@ import de.escidoc.core.common.jibx.Factory;
  */
 public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(RestOrganizationalUnitHandlerClient.class.getName());
+    private final Logger logger = Logger
+        .getLogger(RestOrganizationalUnitHandlerClient.class.getName());
 
     private OrganizationalUnitHandler restClient = null;
 
@@ -289,6 +289,37 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     }
 
     /**
+     * Retrieve all Organizational Units references to that this
+     * OrganizationalUnit is subordinated.
+     * 
+     * @param id
+     *            The identifier of the Organizational Unit.
+     * 
+     * @return The XML representation of the list of parent Organizational Units
+     *         corresponding to XML-schema "organizational-unit-list.xsd".
+     * 
+     * @throws EscidocException
+     *             e
+     * @throws InternalClientException
+     *             e
+     * @throws TransportException
+     *             e
+     * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveParentObjects(java.lang.String)
+     */
+    public String retrieveParents(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveParents(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
      * Retrieve the pathList of an OrganizationalUnit. This is a list of all
      * paths from a given organizational unit to all its top level
      * organizational units. Each path contains references to all organizational
@@ -367,9 +398,12 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
-            		.getOrganizationalUnitMarshaller().unmarshalDocument(getClient().retrieve(id)))
-                    	.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.REST)
+                    .getOrganizationalUnitMarshaller()
+                    .unmarshalDocument(getClient().retrieve(id)))
+                    .getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
