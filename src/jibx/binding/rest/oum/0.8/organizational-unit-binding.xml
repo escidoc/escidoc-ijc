@@ -14,7 +14,8 @@
 	<!-- start: abstract binding of a single organizational-unit -->
 	<mapping ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
 		class="de.escidoc.core.resources.oum.OrganizationalUnit"
-		abstract="true" type-name="abstract-organizational-unit">
+		abstract="true" type-name="abstract-organizational-unit"
+		pre-get="genXLink">
 
 		<namespace
 			uri="http://www.escidoc.de/schemas/organizationalunit/0.8"
@@ -265,5 +266,13 @@
 	</mapping>
 	<!-- end: binding of an organizational unit list -->
 
+  <!-- Parents as list -->
+  <mapping name="parents" class="de.escidoc.core.resources.oum.Parents"
+    ns="http://www.escidoc.de/schemas/organizationalunit/0.8">
+    <namespace uri="http://www.escidoc.de/schemas/organizationalunit/0.8"
+      prefix="organizational-unit" />
+    <structure map-as="abstract-parents" usage="optional" />
+  </mapping>
+  
 </binding>
 

@@ -33,7 +33,7 @@
 	<mapping ns="http://www.escidoc.de/schemas/item/0.9"
 		class="de.escidoc.core.resources.om.item.Item" abstract="true"
 		type-name="abstract-item"
-		post-set="ensureValidXLinkHrefDefinitions">
+		post-set="genXLink">
 		
 		<namespace uri="http://www.escidoc.de/schemas/item/0.9"
 			prefix="escidocItem" />

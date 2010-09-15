@@ -13,7 +13,8 @@
 	<!-- start: abstract binding of a single context -->
 	<mapping ns="http://www.escidoc.de/schemas/context/0.7" 
 		class="de.escidoc.core.resources.om.context.Context"
-		abstract="true" type-name="abstract-context">
+		abstract="true" type-name="abstract-context"
+		pre-get="genXLink">
 
 		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
 			prefix="escidocContext" />

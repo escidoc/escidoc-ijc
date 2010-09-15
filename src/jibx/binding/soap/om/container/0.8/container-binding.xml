@@ -36,7 +36,7 @@
 	<mapping ns="http://www.escidoc.de/schemas/container/0.8"
 		class="de.escidoc.core.resources.om.container.Container"
 		abstract="true" type-name="abstract-container"
-		post-set="ensureValidXLinkHrefDefinitions">
+		post-set="genXLink">
 		
 		<namespace uri="http://www.escidoc.de/schemas/container/0.8"
 			prefix="escidocContainer" />

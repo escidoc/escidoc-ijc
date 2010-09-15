@@ -42,7 +42,8 @@
 	<!-- start: abstract binding of a single content-model -->
 	<mapping ns="http://www.escidoc.de/schemas/contentmodel/0.1"
 		class="de.escidoc.core.resources.cmm.ContentModel" abstract="true"
-		type-name="abstract-content-model">
+		type-name="abstract-content-model"
+		pre-get="genXLink">
 		
 		<namespace uri="http://www.escidoc.de/schemas/contentmodel/0.1"
 			prefix="escidocContentModel" />

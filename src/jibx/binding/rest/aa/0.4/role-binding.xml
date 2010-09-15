@@ -3,7 +3,8 @@
 	<!--  REST Binding -->
 
 	<mapping name="role" class="de.escidoc.core.resources.aa.role.Role"
-		ns="http://www.escidoc.de/schemas/role/0.4">
+		ns="http://www.escidoc.de/schemas/role/0.4"
+		pre-get="genXLink">
 		
 		<namespace uri="urn:oasis:names:tc:xacml:1.0:policy" prefix="xacml-policy" />
 		<namespace uri="http://www.escidoc.de/schemas/role/0.4"
@@ -119,13 +120,6 @@
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
-
-		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" type="org.joda.time.DateTime"
 			set-method="setCreationDate" get-method="getCreationDate"

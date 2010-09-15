@@ -10,6 +10,13 @@
 			prefix="srel" />
 			
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+		
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+      set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+    <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+      set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+    <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+      set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
 		<collection ns="http://www.escidoc.de/schemas/structmap/0.4"
 			 create-type="de.escidoc.core.resources.common.structmap.StructMap" ordered="false">
@@ -21,10 +28,8 @@
 				
 				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-					
 				<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-					
 				<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 					set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 			</structure>
@@ -34,10 +39,8 @@
 				
 				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-					
 				<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
 					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-					
 				<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 					set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 			</structure>

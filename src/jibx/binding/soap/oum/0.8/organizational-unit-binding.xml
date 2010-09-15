@@ -15,7 +15,7 @@
 	<mapping ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
 		class="de.escidoc.core.resources.oum.OrganizationalUnit"
 		abstract="true" type-name="abstract-organizational-unit"
-		post-set="ensureValidXLinkHrefDefinitions">
+		post-set="genXLink">
 
 		<namespace
 			uri="http://www.escidoc.de/schemas/organizationalunit/0.8"
@@ -169,10 +169,10 @@
 
 				<value name="objid" style="attribute"
 					set-method="setObjid" get-method="getObjid" usage="optional" />
-				<value name="href" style="attribute"
-					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-				<value name="title" style="attribute"
-					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+<!--				<value name="href" style="attribute"-->
+<!--					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />-->
+<!--				<value name="title" style="attribute"-->
+<!--					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />-->
 			</structure>
 		</collection>
 	</mapping>
@@ -224,6 +224,14 @@
 		</collection>
 	</mapping>
 	<!-- end: binding of an organizational unit list -->
+
+  <!-- Parents as list -->
+  <mapping name="parents" class="de.escidoc.core.resources.oum.Parents"
+    ns="http://www.escidoc.de/schemas/organizationalunit/0.8">
+    <namespace uri="http://www.escidoc.de/schemas/organizationalunit/0.8"
+      prefix="organizational-unit" />
+    <structure map-as="abstract-parents" usage="optional" />
+  </mapping>
 
 </binding>
 

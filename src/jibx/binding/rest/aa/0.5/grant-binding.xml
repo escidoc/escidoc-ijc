@@ -17,6 +17,7 @@
 	<!-- start: binding of a grant list -->
 	<mapping ns="http://www.escidoc.de/schemas/grants/0.5" name="current-grants"
 		class="de.escidoc.core.resources.aa.useraccount.Grants">
+		
 		<namespace uri="http://www.escidoc.de/schemas/grants/0.5"
 			prefix="grants" />
 
@@ -30,8 +31,11 @@
 	<!-- end: binding of a grant list -->
 
 	<!-- start: abstract binding of a single grant -->
-	<mapping ns="http://www.escidoc.de/schemas/grants/0.5" class="de.escidoc.core.resources.aa.useraccount.Grant"
-		abstract="true" type-name="abstract-grant">
+	<mapping ns="http://www.escidoc.de/schemas/grants/0.5" 
+	   class="de.escidoc.core.resources.aa.useraccount.Grant"
+	   abstract="true" type-name="abstract-grant"
+	   pre-get="genXLink">
+		
 		<namespace uri="http://www.escidoc.de/schemas/grants/0.5"
 			prefix="grants" />
 		<namespace uri="http://escidoc.de/core/01/properties/"

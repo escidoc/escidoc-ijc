@@ -4,7 +4,7 @@
 
 	<mapping name="role" class="de.escidoc.core.resources.aa.role.Role"
 		ns="http://www.escidoc.de/schemas/role/0.4"
-		post-set="ensureValidXLinkHrefDefinitions">
+		post-set="genXLink">
 		
 		<namespace uri="urn:oasis:names:tc:xacml:1.0:policy" prefix="xacml-policy" />
 		<namespace uri="http://www.escidoc.de/schemas/role/0.4"
@@ -45,7 +45,8 @@
 		-->
 
 		<structure field="policyOrPolicySet" type="org.w3c.dom.Element"
-			marshaller="org.jibx.extras.DomElementMapper" unmarshaller="org.jibx.extras.DomElementMapper"
+			marshaller="org.jibx.extras.DomElementMapper" 
+			unmarshaller="org.jibx.extras.DomElementMapper"
 			usage="optional" />
 
 
@@ -104,7 +105,8 @@
 	</mapping>
 
 	<!-- start: abstract binding of properties of a role -->
-	<mapping ns="http://escidoc.de/core/01/properties/" class="de.escidoc.core.resources.aa.role.RoleProperties"
+	<mapping ns="http://escidoc.de/core/01/properties/" 
+    class="de.escidoc.core.resources.aa.role.RoleProperties"
 		abstract="true" type-name="abstract-role-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
@@ -112,7 +114,8 @@
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" type="org.joda.time.DateTime"
+		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" 
+		  type="org.joda.time.DateTime"
 			set-method="setCreationDate" get-method="getCreationDate"
 			usage="optional" />
 
