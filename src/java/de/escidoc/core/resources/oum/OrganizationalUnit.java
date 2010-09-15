@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.oum;
 
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
@@ -38,164 +39,165 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
-public class OrganizationalUnit extends GenericResource {
+public class OrganizationalUnit extends GenericResource
+    implements XLinkAutonomous {
 
-	private Properties properties = null;
+    private Properties properties = null;
 
-	private Parents parents = new Parents();
+    private Parents parents = new Parents();
 
-	private MetadataRecords mdRecords = null;
+    private MetadataRecords mdRecords = null;
 
-	private Predecessors predecessors = new Predecessors();
+    private Predecessors predecessors = new Predecessors();
 
-	/**
+    /**
      * 
      */
-	public OrganizationalUnit() {
-		setResourceType(RESOURCE_TYPE.OrganizationalUnit);
-	}
+    public OrganizationalUnit() {
+        setResourceType(RESOURCE_TYPE.OrganizationalUnit);
+    }
 
-	/**
-	 * Return the Resource properties.
-	 * 
-	 * @return properties
-	 */
-	public Properties getProperties() {
-
-		if (this.properties == null) {
-			this.properties = new Properties();
-		}
-		return this.properties;
-	}
-
-	/**
-	 * Set Resource properties.
-	 * 
-	 * @param properties
-	 *            The new ContextProperties.
-	 */
-	public void setProperties(final Properties properties) {
-		this.properties = properties;
-	}
-
-	/**
-	 * See Interface for functional description.
-	 * 
-	 * @return
-	 * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getParents()
-	 */
-	public Parents getParents() {
-
-		return parents;
-	}
-
-	/**
-	 * See Interface for functional description.
-	 * 
-	 * @return
-	 * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getMetadataRecords()
-	 */
-	public MetadataRecords getMetadataRecords() {
-
-		return mdRecords;
-	}
-
-	/**
-	 * See Interface for functional description.
-	 * 
-	 * @return
-	 * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getPredecessors()
-	 */
-	public Predecessors getPredecessors() {
-
-		return predecessors;
-	}
-
-	/**
-	 * See Interface for functional description.
-	 * 
-	 * @param parents
-	 * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setParents(de.escidoc.core.resources.om.organizationalUnit.Parents)
-	 */
-	public void setParents(final Parents parents) {
-
-		this.parents = parents;
-	}
-
-	/**
-	 * See Interface for functional description.
-	 * 
-	 * @param mdRecords
-	 * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setMetadataRecords(de.escidoc.core.resources.common.MetadataRecords)
-	 */
-	public void setMetadataRecords(final MetadataRecords metadataRecords) {
-
-		this.mdRecords = metadataRecords;
-	}
-
-	/**
-	 * See Interface for functional description.
-	 * 
-	 * @param predecessors
-	 * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setPredecessors(de.escidoc.core.resources.om.organizationalUnit.Predecessors)
-	 */
-	public void setPredecessors(final Predecessors predecessors) {
-
-		this.predecessors = predecessors;
-	}
-	
-	/**
-     * XLinkHref validation for JiBX. This method will be called by the JiBX
-     * binding for the REST transport protocol as post-set.
+    /**
+     * Return the Resource properties.
+     * 
+     * @return properties
      */
-    public void ensureValidXLinkHrefDefinitions() {
-    	genOwnXLinkHref();
-    	
-    	if(properties != null) {
-    		if(properties.getXLinkHref() == null) {
-    			properties.setXLinkHref(getXLinkHref() + "/properties");
-    		}
-    		genXLinkHref(properties.getCreatedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    		genXLinkHref(properties.getModifiedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    	}
-    	if(parents != null) {
-    		if(parents.getXLinkHref() == null) {
-    			parents.setXLinkHref(getXLinkHref() + "/parents");
-    		}
-    		
-    		if(parents.getParentRef() != null) {
-        		for (Parent parent : parents.getParentRef()) {
-        			genXLinkHref(parent, RESOURCE_TYPE.OrganizationalUnit, null);
-    			}
-    		}
-    	}
-    	if(mdRecords != null) {
-    		if(mdRecords.getXLinkHref() == null) {
-    			mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
-    		}
-    		
-    		for (MetadataRecord record : mdRecords) {
-				if(record.getXLinkHref() == null) {
-					record.setXLinkHref(getXLinkHref() + 
-							"/md-records/md-record/" + record.getName());
-				}
-			}
-    	}
-    	
-    	// TODO: Is this correct?
-    	if(predecessors != null && predecessors.getXLinkHref() == null) {
-    		predecessors.setXLinkHref(getXLinkHref() + "/predecessors");
-    		predecessors.setXLinkType(XLINK_TYPE.simple);
-    		
-    		for(Predecessor predecessor : predecessors.getPredecessorRef()) {
-    			if(predecessor.getXLinkHref() == null) {
-    				predecessor.setXLinkHref(getXLinkHref() + 
-    						"/predecessors/predecessor/" + 
-    						predecessor.getObjid());
-    			}
-    		}
-    	}
+    public Properties getProperties() {
+
+        if (this.properties == null) {
+            this.properties = new Properties();
+        }
+        return this.properties;
+    }
+
+    /**
+     * Set Resource properties.
+     * 
+     * @param properties
+     *            The new ContextProperties.
+     */
+    public void setProperties(final Properties properties) {
+        this.properties = properties;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @return
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getParents()
+     */
+    public Parents getParents() {
+
+        return parents;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @return
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getMetadataRecords()
+     */
+    public MetadataRecords getMetadataRecords() {
+
+        return mdRecords;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @return
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getPredecessors()
+     */
+    public Predecessors getPredecessors() {
+
+        return predecessors;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @param parents
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setParents(de.escidoc.core.resources.om.organizationalUnit.Parents)
+     */
+    public void setParents(final Parents parents) {
+
+        this.parents = parents;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @param mdRecords
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setMetadataRecords(de.escidoc.core.resources.common.MetadataRecords)
+     */
+    public void setMetadataRecords(final MetadataRecords metadataRecords) {
+
+        this.mdRecords = metadataRecords;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @param predecessors
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setPredecessors(de.escidoc.core.resources.om.organizationalUnit.Predecessors)
+     */
+    public void setPredecessors(final Predecessors predecessors) {
+
+        this.predecessors = predecessors;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+     */
+    public void genXLink() {
+        genOwnXLinkHref();
+
+        if (properties != null) {
+            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
+                properties.setXLinkHref(getXLinkHref() + "/properties");
+            }
+            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+        }
+        if (parents != null) {
+            if (parents.getXLinkHref() == null && getXLinkHref() != null) {
+                parents.setXLinkHref(getXLinkHref() + "/parents");
+            }
+
+            if (parents.getParentRef() != null) {
+                for (Parent parent : parents.getParentRef()) {
+                    genXLinkHref(parent, RESOURCE_TYPE.OrganizationalUnit, null);
+                }
+            }
+        }
+        if (mdRecords != null && getXLinkHref() != null) {
+            if (mdRecords.getXLinkHref() == null) {
+                mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+            }
+
+            for (MetadataRecord record : mdRecords) {
+                if (record.getXLinkHref() == null) {
+                    record.setXLinkHref(getXLinkHref()
+                        + "/md-records/md-record/" + record.getName());
+                }
+            }
+        }
+
+        if (predecessors != null) {
+
+            if (predecessors.getXLinkHref() == null && getXLinkHref() != null) {
+                predecessors.setXLinkHref(getXLinkHref() + "/predecessors");
+            }
+
+            for (Predecessor predecessor : predecessors.getPredecessorRef()) {
+                if (predecessor.getXLinkHref() == null) {
+                    genXLinkHref(predecessor, RESOURCE_TYPE.OrganizationalUnit, null);
+                }
+            }
+        }
     }
 }

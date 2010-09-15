@@ -28,10 +28,14 @@
  */
 package de.escidoc.core.resources.om.container;
 
+import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.Relation;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.GenericVersionableResource;
 
@@ -41,7 +45,8 @@ import de.escidoc.core.resources.om.GenericVersionableResource;
  * @author SWA
  * 
  */
-public class Container extends GenericVersionableResource {
+public class Container extends GenericVersionableResource
+    implements XLinkAutonomous {
 
     private MetadataRecords mdRecords = null;
 
@@ -55,7 +60,7 @@ public class Container extends GenericVersionableResource {
      * 
      */
     public Container() {
-    	setResourceType(RESOURCE_TYPE.Container);
+        setResourceType(RESOURCE_TYPE.Container);
     }
 
     /**
@@ -140,59 +145,83 @@ public class Container extends GenericVersionableResource {
         this.structMap = structMap;
     }
 
-    /**
-     * XLinkHref validation for JiBX. This method will be called by the JiBX
-     * binding for the REST transport protocol as post-set.
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
-    public void ensureValidXLinkHrefDefinitions() {
-    	genOwnXLinkHref();
-    	
-    	if(properties != null) {
-    		if(properties.getXLinkHref() == null) {
-    			properties.setXLinkHref(getXLinkHref() + "/properties");
-    		}
-    		genXLinkHref(properties.getCreatedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    		genXLinkHref(properties.getContext(), 
-    				RESOURCE_TYPE.Context, null);
-    		genXLinkHref(properties.getContentModel(), 
-    				RESOURCE_TYPE.ContentModel, null);
-    		genVersionHref((Version)properties.getVersion());
-    		genVersionHref((Version)properties.getLatestVersion());
-    		genVersionHref((Version)properties.getLatestRelease());
-    	}
-    	if(mdRecords != null) {
-    		if(mdRecords.getXLinkHref() == null) {
-    			mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
-    		}
-    		
-    		for (MetadataRecord record : mdRecords) {
-				if(record.getXLinkHref() == null) {
-					record.setXLinkHref(getXLinkHref() + 
-							"/md-records/md-record/" + record.getName());
-				}
-			}
-    	}
-    	if(relations != null && relations.getXLinkHref() == null) {
-    		relations.setXLinkHref(getXLinkHref() + "/relations");
-    	}
-    	// TODO StructMap
+    public void genXLink() {
+        genOwnXLinkHref();
+
+        if (properties != null) {
+            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
+                properties.setXLinkHref(getXLinkHref() + "/properties");
+            }
+            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+            genXLinkHref(properties.getContext(), RESOURCE_TYPE.Context, null);
+            genXLinkHref(properties.getContentModel(),
+                RESOURCE_TYPE.ContentModel, null);
+            genVersionHref((Version) properties.getVersion());
+            genVersionHref((Version) properties.getLatestVersion());
+            genVersionHref((Version) properties.getLatestRelease());
+        }
+        if (mdRecords != null && getXLinkHref() != null) {
+            if (mdRecords.getXLinkHref() == null) {
+                mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+            }
+
+            for (MetadataRecord record : mdRecords) {
+                if (record.getXLinkHref() == null) {
+                    record.setXLinkHref(getXLinkHref()
+                        + "/md-records/md-record/" + record.getName());
+                }
+            }
+        }
+        if (relations != null) {
+            if (relations.getXLinkHref() == null && getXLinkHref() != null) {
+                relations.setXLinkHref(getXLinkHref() + "/relations");
+            }
+            for (Relation relation : relations) {
+                if (relation.getXLinkHref() == null
+                    && relation.getResourceType() != null
+                    && relation.getResourceType().isRootResource()) {
+                    genXLinkHref(relation, relation.getResourceType(), null);
+                }
+            }
+        }
+        if (structMap != null) {
+            if (structMap.getXLinkHref() == null && getXLinkHref() != null) {
+                structMap.setXLinkHref(getXLinkHref() + "/struct-map");
+            }
+
+            for (MemberRef memberRef : structMap) {
+                if (memberRef.getXLinkHref() == null
+                    && memberRef.getResourceType() != null
+                    && memberRef.getResourceType().isRootResource()) {
+                    genXLinkHref(memberRef, memberRef.getResourceType(), null);
+                }
+            }
+        }
     }
-    
+
     /**
      * Method used by ResourceRef implementations to ensure a fully valid
-     * xLinkHref definition for all sub resources they may own. 
-     * The validation methods calling this method may be called by JiBX as
-     * post-set methods.
+     * xLinkHref definition for all sub resources they may own. The validation
+     * methods calling this method may be called by JiBX as post-set methods.
      * 
      * @param version
      */
     protected void genVersionHref(Version version) {
-    	if(version != null && version.getXLinkHref() == null) {
-			version.setXLinkHref(URL_TYPE.get(RESOURCE_TYPE.Container)+ "/" 
-					+ getObjid() + ":" + version.getNumber());
-			genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount, 
-					null);
-		}
+        if (version != null && version.getXLinkHref() == null) {
+            version.setXLinkHref(ResourceRef.RESOURCE_URL_MAP
+                .get(RESOURCE_TYPE.Container)
+                + "/"
+                + getObjid()
+                + ":"
+                + version.getNumber());
+            genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+        }
     }
 }

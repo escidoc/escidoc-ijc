@@ -30,6 +30,7 @@ package de.escidoc.core.resources.aa.role;
 
 import org.w3c.dom.Element;
 
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -38,7 +39,7 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author ?, SWA
  * 
  */
-public class Role extends GenericResource {
+public class Role extends GenericResource implements XLinkAutonomous {
 
     private RoleProperties properties;
 
@@ -47,9 +48,9 @@ public class Role extends GenericResource {
     private Element policyOrPolicySet;
 
     public Role() {
-    	setResourceType(RESOURCE_TYPE.Role);
+        setResourceType(RESOURCE_TYPE.Role);
     }
-    
+
     /**
      * Get Policy or PolicySet (as DOM Element).
      * 
@@ -106,22 +107,20 @@ public class Role extends GenericResource {
     public void setProperties(final RoleProperties properties) {
         this.properties = properties;
     }
-    
-    /**
-     * XLinkHref validation for JiBX. This method will be called by the JiBX
-     * binding for the REST transport protocol as post-set.
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
-    public void ensureValidXLinkHrefDefinitions() {
-    	genOwnXLinkHref();
-    	
-    	if(properties != null) {
-    		if(properties.getXLinkHref() == null) {
-    			properties.setXLinkHref(getXLinkHref() + "/properties");
-    		}
-    		genXLinkHref(properties.getCreatedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    		genXLinkHref(properties.getModifiedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    	}
+    public void genXLink() {
+        genOwnXLinkHref();
+
+        if (properties != null) {
+            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+        }
     }
 }

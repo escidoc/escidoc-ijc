@@ -31,6 +31,7 @@ package de.escidoc.core.resources.om.contentRelation;
 import java.net.URI;
 
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
@@ -41,7 +42,7 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
-public class ContentRelation extends GenericResource {
+public class ContentRelation extends GenericResource implements XLinkAutonomous {
 
     private MetadataRecords mdRecords;
 
@@ -53,16 +54,16 @@ public class ContentRelation extends GenericResource {
     private String subjectVersion;
 
     private String objectVersion;
-    
+
     private ResourceRef subject;
-    
+
     private ResourceRef object;
 
     /**
      * 
      */
     public ContentRelation() {
-    	setResourceType(RESOURCE_TYPE.ContentRelation);
+        setResourceType(RESOURCE_TYPE.ContentRelation);
     }
 
     /**
@@ -167,65 +168,72 @@ public class ContentRelation extends GenericResource {
         return objectVersion;
     }
 
-	/**
-	 * @return the subjectResourceRef
-	 */
-	public ResourceRef getSubject() {
-		return subject;
-	}
-
-	/**
-	 * @param subjectResourceRef the subjectResourceRef to set
-	 */
-	public void setSubject(ResourceRef subjectResourceRef) {
-		this.subject = subjectResourceRef;
-	}
-
-	/**
-	 * @return the objectResourceRef
-	 */
-	public ResourceRef getObject() {
-		return object;
-	}
-
-	/**
-	 * @param objectResourceRef the objectResourceRef to set
-	 */
-	public void setObject(ResourceRef objectResourceRef) {
-		this.object = objectResourceRef;
-	}
-
-	/**
-     * XLinkHref validation for JiBX. This method will be called by the JiBX
-     * binding for the REST transport protocol as post-set.
+    /**
+     * @return the subjectResourceRef
      */
-    public void ensureValidXLinkHrefDefinitions() {
-    	genOwnXLinkHref();
-    	
-    	if(properties != null) {
-    		if(properties.getXLinkHref() == null) {
-    			properties.setXLinkHref(getXLinkHref() + "/properties");
-    		}
-    		genXLinkHref(properties.getCreatedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    		genXLinkHref(properties.getModifiedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    	}
-    	if(mdRecords != null) {
-    		if(mdRecords.getXLinkHref() == null) {
-    			mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
-    		}
-    		
-    		for (MetadataRecord record : mdRecords) {
-				if(record.getXLinkHref() == null) {
-					record.setXLinkHref(getXLinkHref() + 
-							"/md-records/md-record/" + record.getName());
-				}
-			}
-    	}
-    	/**
-    	 * HREF for subject and object cannot be generated because we do not
-    	 * know the type of the referenced resource. 
-    	 */
+    public ResourceRef getSubject() {
+        return subject;
+    }
+
+    /**
+     * @param subjectResourceRef
+     *            the subjectResourceRef to set
+     */
+    public void setSubject(ResourceRef subjectResourceRef) {
+        this.subject = subjectResourceRef;
+    }
+
+    /**
+     * @return the objectResourceRef
+     */
+    public ResourceRef getObject() {
+        return object;
+    }
+
+    /**
+     * @param objectResourceRef
+     *            the objectResourceRef to set
+     */
+    public void setObject(ResourceRef objectResourceRef) {
+        this.object = objectResourceRef;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+     */
+    public void genXLink() {
+        genOwnXLinkHref();
+
+        if (properties != null) {
+            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
+                properties.setXLinkHref(getXLinkHref() + "/properties");
+            }
+            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+        }
+        if (mdRecords != null && getXLinkHref() != null) {
+            if (mdRecords.getXLinkHref() == null) {
+                mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+            }
+
+            for (MetadataRecord record : mdRecords) {
+                if (record.getXLinkHref() == null) {
+                    record.setXLinkHref(getXLinkHref()
+                        + "/md-records/md-record/" + record.getName());
+                }
+            }
+        }
+        if (subject != null && subject.getResourceType() != null
+            && subject.getResourceType().isRootResource()) {
+            genXLinkHref(subject, subject.getResourceType(), null);
+        }
+        if (object != null && object.getResourceType() != null
+            && object.getResourceType().isRootResource()) {
+            genXLinkHref(object, object.getResourceType(), null);
+        }
     }
 }

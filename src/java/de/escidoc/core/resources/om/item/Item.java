@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.item;
 
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -43,7 +44,7 @@ import de.escidoc.core.resources.om.item.component.Components;
  * 
  * @author ?, SWA
  */
-public class Item extends GenericVersionableResource {
+public class Item extends GenericVersionableResource implements XLinkAutonomous {
 
     private ItemProperties properties = new ItemProperties();
 
@@ -59,7 +60,7 @@ public class Item extends GenericVersionableResource {
      * Item.
      */
     public Item() {
-    	setResourceType(RESOURCE_TYPE.Item);
+        setResourceType(RESOURCE_TYPE.Item);
     }
 
     /**
@@ -160,91 +161,114 @@ public class Item extends GenericVersionableResource {
     public void setContentStreams(final ContentStreams contentStreams) {
         this.contentStreams = contentStreams;
     }
-    
-    /**
-     * XLinkHref validation for JiBX. This method will be called by the JiBX
-     * binding for the REST transport protocol as post-set.
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
-    public void ensureValidXLinkHrefDefinitions() {
-    	genOwnXLinkHref();
-    	
-    	if(properties != null) {
-    		if(properties.getXLinkHref() == null) {
-    			properties.setXLinkHref(getXLinkHref() + "/properties");
-    		}
-    		genXLinkHref(properties.getCreatedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    		genXLinkHref(properties.getContext(), 
-    				RESOURCE_TYPE.Context, null);
-    		genXLinkHref(properties.getContentModel(), 
-    				RESOURCE_TYPE.ContentModel, null);
-    		genVersionHref((Version)properties.getVersion());
-    		genVersionHref((Version)properties.getLatestVersion());
-    		genVersionHref((Version)properties.getLatestRelease());
-    	}
-    	if(components != null) {
-    		if(components.getXLinkHref() == null) {
-    			components.setXLinkHref(getXLinkHref() + "/components");
-    		}
-    		
-    		for (Component component : components) {
-    			String cPrefix = genXLinkHref(component, 
-    					RESOURCE_TYPE.Component, getXLinkHref());
-    			
-    			ComponentProperties properties = component.getProperties();
-    			if(properties != null && properties.getXLinkHref() == null) {
-    				properties.setXLinkHref(cPrefix + "/properties");
-    				
-    				genXLinkHref(properties.getCreatedBy(), 
-    						RESOURCE_TYPE.UserAccount, null);
-    				genXLinkHref(properties.getModifiedBy(), 
-    						RESOURCE_TYPE.UserAccount, null);
-    			}
-    			
-    			if(component.getContent() != null && 
-    					component.getContent().getXLinkHref() == null) {
-    				component.getContent().setXLinkHref(cPrefix + "/content");
-    			}
-			}
-    	}
-    	if(mdRecords != null) {
-    		if(mdRecords.getXLinkHref() == null) {
-    			mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
-    		}
-    		
-    		for (MetadataRecord record : mdRecords) {
-				if(record.getXLinkHref() == null && record.getName() != null) {
-					record.setXLinkHref(getXLinkHref() + 
-							"/md-records/md-record/" + record.getName());
-				}
-			}
-    	}
-    	if(contentStreams != null) {
-    		// TODO
-    	}
-    	if(relations != null && relations.getXLinkHref() == null) {
-    		relations.setXLinkHref(getXLinkHref() + "/relations");
-    		/**
-    		 * If relations are not set by the binding, it is impossible to
-    		 * calculate their HREF since we only know the ID but not the type.
-    		 */
-    	}
+    public void genXLink() {
+        genOwnXLinkHref();
+
+        if (properties != null) {
+            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
+                properties.setXLinkHref(getXLinkHref() + "/properties");
+            }
+            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+            genXLinkHref(properties.getContext(), RESOURCE_TYPE.Context, null);
+            genXLinkHref(properties.getContentModel(),
+                RESOURCE_TYPE.ContentModel, null);
+            genXLinkHref(properties.getOrigin(), RESOURCE_TYPE.Item, null);
+            genXLinkHref(properties.getLockOwner(), RESOURCE_TYPE.UserAccount,
+                null);
+            genVersionHref((Version) properties.getVersion());
+            genVersionHref((Version) properties.getLatestVersion());
+            genVersionHref((Version) properties.getLatestRelease());
+        }
+        if (components != null) {
+            if (components.getXLinkHref() == null && getXLinkHref() != null) {
+                components.setXLinkHref(getXLinkHref() + "/components");
+            }
+
+            for (Component component : components) {
+                String cPrefix = null;
+                if (getXLinkHref() != null) {
+                    cPrefix =
+                        genXLinkHref(component, RESOURCE_TYPE.Component,
+                            getXLinkHref());
+                }
+
+                ComponentProperties properties = component.getProperties();
+                if (properties != null) {
+                    if (properties.getXLinkHref() == null && cPrefix != null) {
+                        properties.setXLinkHref(cPrefix + "/properties");
+                    }
+                    genXLinkHref(properties.getCreatedBy(),
+                        RESOURCE_TYPE.UserAccount, null);
+                    genXLinkHref(properties.getModifiedBy(),
+                        RESOURCE_TYPE.UserAccount, null);
+                }
+
+                if (component.getContent() != null
+                    && component.getContent().getXLinkHref() == null
+                    && cPrefix != null) {
+                    component.getContent().setXLinkHref(cPrefix + "/content");
+                }
+
+                if (component.getMetadataRecords() != null && cPrefix != null) {
+                    if (component.getMetadataRecords() == null) {
+                        component.getMetadataRecords().setXLinkHref(
+                            cPrefix + "/md-records");
+                    }
+
+                    for (MetadataRecord record : component.getMetadataRecords()) {
+                        if (record.getXLinkHref() == null) {
+                            record.setXLinkHref(cPrefix
+                                + "/md-records/md-record/" + record.getName());
+                        }
+                    }
+                }
+            }
+        }
+        if (mdRecords != null && getXLinkHref() != null) {
+            if (mdRecords.getXLinkHref() == null) {
+                mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+            }
+
+            for (MetadataRecord record : mdRecords) {
+                if (record.getXLinkHref() == null && record.getName() != null) {
+                    record.setXLinkHref(getXLinkHref()
+                        + "/md-records/md-record/" + record.getName());
+                }
+            }
+        }
+        if (contentStreams != null) {
+            // TODO
+        }
+        if (relations != null && relations.getXLinkHref() == null
+            && getXLinkHref() != null) {
+            relations.setXLinkHref(getXLinkHref() + "/relations");
+            /**
+             * If relations are not set by the binding, it is impossible to
+             * calculate their HREF since we only know the ID but not the type.
+             */
+        }
     }
-    
+
     /**
      * Method used by ResourceRef implementations to ensure a fully valid
-     * xLinkHref definition for all sub resources they may own. 
-     * The validation methods calling this method may be called by JiBX as
-     * post-set methods.
+     * xLinkHref definition for all sub resources they may own. The validation
+     * methods calling this method may be called by JiBX as post-set methods.
      * 
      * @param version
      */
     protected void genVersionHref(Version version) {
-    	if(version != null && version.getXLinkHref() == null) {
-			version.setXLinkHref(URL_TYPE.get(RESOURCE_TYPE.Item)+ "/" 
-					+ getObjid() + ":" + version.getNumber());
-			genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount, 
-					null);
-		}
+        if (version != null && version.getXLinkHref() == null) {
+            version.setXLinkHref(RESOURCE_URL_MAP.get(RESOURCE_TYPE.Item) + "/"
+                + getObjid() + ":" + version.getNumber());
+            genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package de.escidoc.core.resources.aa.useraccount;
 
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -8,12 +9,12 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author ROF, SWA
  * 
  */
-public class Grant extends GenericResource {
+public class Grant extends GenericResource implements XLinkAutonomous {
 
     private GrantProperties grantProperties;
-    
+
     public Grant() {
-    	setResourceType(RESOURCE_TYPE.Grant);
+        setResourceType(RESOURCE_TYPE.Grant);
     }
 
     /**
@@ -33,5 +34,41 @@ public class Grant extends GenericResource {
      */
     public void setGrantProperties(final GrantProperties grantProperties) {
         this.grantProperties = grantProperties;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+     */
+    public void genXLink() {
+        genOwnXLinkHref();
+
+        if (grantProperties != null) {
+
+            genXLinkHref(grantProperties.getCreatedBy(),
+                RESOURCE_TYPE.UserAccount, null);
+            genXLinkHref(grantProperties.getModifiedBy(),
+                RESOURCE_TYPE.UserAccount, null);
+            genXLinkHref(grantProperties.getGrantedTo(),
+                RESOURCE_TYPE.UserAccount, null);
+            genXLinkHref(grantProperties.getRevokedBy(),
+                RESOURCE_TYPE.UserAccount, null);
+            genXLinkHref(grantProperties.getRole(), RESOURCE_TYPE.Role, null);
+
+            /**
+             * AssignedOn cannot be generated if ResourceType is null or not a
+             * root resource.
+             */
+            if (grantProperties.getAssignedOn() != null
+                && grantProperties.getAssignedOn().getObjid() != null
+                && grantProperties.getAssignedOn().getResourceType() != null
+                && grantProperties
+                    .getAssignedOn().getResourceType().isRootResource()) {
+
+                genXLinkHref(grantProperties.getAssignedOn(), grantProperties
+                    .getAssignedOn().getResourceType(), null);
+            }
+        }
     }
 }

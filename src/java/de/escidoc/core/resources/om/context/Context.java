@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.resources.om.context;
 
+import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -36,7 +38,7 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
-public class Context extends GenericResource {
+public class Context extends GenericResource implements XLinkAutonomous {
 
     private AdminDescriptors adminDescriptors = null;
 
@@ -45,7 +47,7 @@ public class Context extends GenericResource {
     /**
      */
     public Context() {
-    	setResourceType(RESOURCE_TYPE.Context);
+        setResourceType(RESOURCE_TYPE.Context);
     }
 
     /**
@@ -91,31 +93,37 @@ public class Context extends GenericResource {
      * XLinkHref validation for JiBX. This method will be called by the JiBX
      * binding for the REST transport protocol as post-set.
      */
-    public void ensureValidXLinkHrefDefinitions() {
-    	genOwnXLinkHref();
-    	
-    	if(properties != null) {
-    		if(properties.getXLinkHref() == null) {
-    			properties.setXLinkHref(getXLinkHref() + "/properties");
-    		}
-    		genXLinkHref(properties.getCreatedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    		genXLinkHref(properties.getModifiedBy(), 
-    				RESOURCE_TYPE.UserAccount, null);
-    	}
-    	if(adminDescriptors != null) {
-    		if(adminDescriptors.getXLinkHref() == null) {
-    			adminDescriptors.setXLinkHref(getXLinkHref() + 
-    					"/admin-descriptors");
-    		}
-    		
-    		for (AdminDescriptor descriptor : adminDescriptors) {
-    			if(descriptor.getXLinkHref() == null) {
-    				descriptor.setXLinkHref(getXLinkHref() + 
-    						"/admin-descriptors/admin-descriptor/" +
-    						descriptor.getName());
-    			}
-			}
-    	}
+    public void genXLink() {
+        genOwnXLinkHref();
+
+        if (properties != null) {
+            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
+                properties.setXLinkHref(getXLinkHref() + "/properties");
+            }
+            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+                null);
+
+            if (properties.getOrganizationalUnitRefs() != null) {
+                for (ResourceRef ouRef : properties.getOrganizationalUnitRefs()) {
+                    genXLinkHref(ouRef, RESOURCE_TYPE.OrganizationalUnit, null);
+                }
+            }
+        }
+        if (adminDescriptors != null && getXLinkHref() != null) {
+            if (adminDescriptors.getXLinkHref() == null) {
+                adminDescriptors.setXLinkHref(getXLinkHref()
+                    + "/admin-descriptors");
+            }
+
+            for (AdminDescriptor descriptor : adminDescriptors) {
+                if (descriptor.getXLinkHref() == null) {
+                    descriptor.setXLinkHref(getXLinkHref()
+                        + "/admin-descriptors/admin-descriptor/"
+                        + descriptor.getName());
+                }
+            }
+        }
     }
 }
