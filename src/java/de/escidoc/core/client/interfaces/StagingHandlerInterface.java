@@ -52,7 +52,7 @@ public interface StagingHandlerInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public URL upload(final File f) throws EscidocException,
+    URL upload(final File f) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -63,7 +63,7 @@ public interface StagingHandlerInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public URL upload(final InputStream in) throws EscidocException,
+    URL upload(final InputStream in) throws EscidocException,
         InternalClientException, TransportException;
 
     /**

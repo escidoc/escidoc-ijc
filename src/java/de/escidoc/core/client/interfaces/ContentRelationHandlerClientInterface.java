@@ -349,7 +349,7 @@ public interface ContentRelationHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public Result assignObjectPid(final ContentRelation cr, 
+    Result assignObjectPid(final ContentRelation cr, 
     		final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 }

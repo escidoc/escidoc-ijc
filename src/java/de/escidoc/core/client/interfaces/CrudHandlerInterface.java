@@ -30,6 +30,7 @@ package de.escidoc.core.client.interfaces;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 
@@ -124,7 +125,7 @@ public interface CrudHandlerInterface<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
-    T create(T resource) throws EscidocClientException,
+    T create(T resource) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -158,7 +159,7 @@ public interface CrudHandlerInterface<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
-    T retrieve(final String id) throws EscidocClientException,
+    T retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException;
 
     /**

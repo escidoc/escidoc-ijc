@@ -50,7 +50,7 @@ public interface IngestHandlerInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String ingest(final String resourceXml) throws EscidocException,
+    String ingest(final String resourceXml) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -79,6 +79,6 @@ public interface IngestHandlerInterface {
      * @param tp
      *            The Enum containing the TransportProtocol to be used).
      */
-    public void setTransport(final TransportProtocol tp);
+    void setTransport(final TransportProtocol tp);
 
 }

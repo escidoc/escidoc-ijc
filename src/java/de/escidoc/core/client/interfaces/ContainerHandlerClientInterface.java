@@ -185,7 +185,7 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public SearchRetrieveResponse retrieveMembers(final Container container, 
+    SearchRetrieveResponse retrieveMembers(final Container container, 
     		final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
     
@@ -204,7 +204,7 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainResponse retrieveMembers(final Container container, 
+    ExplainResponse retrieveMembers(final Container container, 
     		final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
     

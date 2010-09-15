@@ -22,7 +22,7 @@ public interface SearchHandler {
 	 * @return
 	 * @throws RemoteException
 	 */
-	public String explain(final ExplainRequestType explainRequestType)
+	String explain(final ExplainRequestType explainRequestType)
 		throws RemoteException;
 	
 	/**
@@ -32,7 +32,7 @@ public interface SearchHandler {
 	 * @return
 	 * @throws RemoteException
 	 */
-	public String search(final SearchRetrieveRequestType searchRequestType)
+	String search(final SearchRetrieveRequestType searchRequestType)
 		throws RemoteException;
 	
 	/**
@@ -42,6 +42,6 @@ public interface SearchHandler {
 	 * @return
 	 * @throws RemoteException
 	 */
-	public String scan(final ScanRequestType scanRequestType)
+	String scan(final ScanRequestType scanRequestType)
 		throws RemoteException;
 }
