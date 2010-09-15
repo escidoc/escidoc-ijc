@@ -28,6 +28,12 @@
  */
 package de.escidoc.core.client.interfaces;
 
+/**
+ * FIXME: unused interface: delete?
+ * 
+ * @author ?
+ *
+ */
 public interface BaseClientHandlerInterface {
 
     public void setHandle(final String handle);
