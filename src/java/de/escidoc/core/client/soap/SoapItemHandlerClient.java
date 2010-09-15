@@ -57,8 +57,8 @@ import de.escidoc.core.om.ItemHandlerServiceLocator;
  */
 public class SoapItemHandlerClient extends SoapClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(SoapIngestHandlerClient.class.getName());
+    private final Logger logger = Logger
+        .getLogger(SoapIngestHandlerClient.class.getName());
 
     private ItemHandler soapClient = null;
 
@@ -487,9 +487,11 @@ public class SoapItemHandlerClient extends SoapClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.SOAP)
-            		.getItemMarshaller().unmarshalDocument(getClient().retrieve(id)))
-            			.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.SOAP)
+                    .getItemMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -560,5 +562,4 @@ public class SoapItemHandlerClient extends SoapClientBase {
         return result;
 
     }
-
 }
