@@ -51,5 +51,7 @@
 	<classpathentry kind="lib" path="lib/jibx-1.2.2/xbis-jibx.jar"/>
 	<classpathentry kind="lib" path="lib/jibx-1.2.2/xmlpull_1_1_4.jar"/>
 	<classpathentry kind="lib" path="lib/jibx-1.2.2/xpp3.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j/slf4j-api-1.6.1.jar" sourcepath="C:/eprojects/workspace/eSciDocCoreClient-1.2/lib/slf4j/slf4j-api-1.6.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j/slf4j-log4j12-1.6.1.jar" sourcepath="C:/eprojects/workspace/eSciDocCoreClient-1.2/lib/slf4j/slf4j-log4j12-1.6.1-sources.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
