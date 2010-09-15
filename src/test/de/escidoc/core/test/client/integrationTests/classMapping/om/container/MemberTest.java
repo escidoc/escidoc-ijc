@@ -33,7 +33,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -42,9 +41,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -66,6 +62,7 @@ import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -75,20 +72,10 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class MemberTest {
-
-    private TransportProtocol transport;
+public class MemberTest extends AbstractParameterizedTestBase {
 
     public MemberTest(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**

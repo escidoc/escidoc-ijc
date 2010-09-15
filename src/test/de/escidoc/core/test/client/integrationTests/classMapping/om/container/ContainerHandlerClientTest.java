@@ -30,16 +30,12 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -60,6 +56,7 @@ import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.container.ContainerProperties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -69,20 +66,10 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContainerHandlerClientTest {
-
-    private TransportProtocol transport;
+public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
 
     public ContainerHandlerClientTest(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**

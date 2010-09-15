@@ -33,7 +33,6 @@ import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,22 +42,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
-import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
-import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
@@ -67,6 +61,7 @@ import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -76,20 +71,10 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContainerFilterVersion12Test {
-
-    private TransportProtocol transport;
+public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase {
 
     public ContainerFilterVersion12Test(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**
@@ -143,18 +128,13 @@ public class ContainerFilterVersion12Test {
         cc.setHandle(auth.getHandle());
         cc.setTransport(transport);
 
-        cc.create(createContainer());
+        Container createdContainer = cc.create(createContainer());
 
         // now check if at least this Container is in the list
-
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-        UserAccount me = uac.retrieveCurrentUser();
-
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
+        srwFilter.setQuery("\"/last-modification-date\"=\""
+            + createdContainer.getLastModificationDate().withZone(
+                DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse containerList = cc.retrieveContainers(srwFilter);
@@ -175,7 +155,7 @@ public class ContainerFilterVersion12Test {
     /**
      * 
      * @return
-     * @throws ParserConfigurationException 
+     * @throws ParserConfigurationException
      */
     private Container createContainer() throws ParserConfigurationException {
         Container container = new Container();

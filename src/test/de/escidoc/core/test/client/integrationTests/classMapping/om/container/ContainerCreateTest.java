@@ -31,8 +31,6 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,9 +41,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.xpath.XPathAPI;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -70,6 +65,7 @@ import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Asserts;
@@ -80,20 +76,10 @@ import de.escidoc.core.test.client.util.Asserts;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContainerCreateTest {
-
-    private TransportProtocol transport;
+public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
     public ContainerCreateTest(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**
@@ -560,8 +546,7 @@ public class ContainerCreateTest {
         Container createdMemberContainer = cc.create(memberContainer);
         String memberId = createdMemberContainer.getObjid();
         StructMap structMap = new StructMap();
-        ContainerRef member =
-            new ContainerRef(memberId, RESOURCE_TYPE.Container);
+        ContainerRef member = new ContainerRef(memberId);
         structMap.add(member);
         container.setStructMap(structMap);
         Container createdContainer = cc.create(container);
