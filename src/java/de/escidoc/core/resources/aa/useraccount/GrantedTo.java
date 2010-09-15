@@ -6,6 +6,10 @@ public class GrantedTo extends GenericResource {
 
     private String resource;
 
+    public GrantedTo() {
+        setResourceType(RESOURCE_TYPE.UserAccount);
+    }
+
     public String getResource() {
         return resource;
     }
