@@ -45,6 +45,7 @@ public class Predecessor extends ResourceRef {
      * 
      */
     public Predecessor() {
+        setResourceType(RESOURCE_TYPE.OrganizationalUnit);
     }
 
     /**
@@ -55,8 +56,7 @@ public class Predecessor extends ResourceRef {
      *            The form of predecessor (a Spin-Off, a merge etc.)
      */
     public Predecessor(final String objid, final PredecessorForm form) {
-
-        super.setObjid(objid);
+        super(objid, RESOURCE_TYPE.OrganizationalUnit);
         this.form = form;
     }
 
