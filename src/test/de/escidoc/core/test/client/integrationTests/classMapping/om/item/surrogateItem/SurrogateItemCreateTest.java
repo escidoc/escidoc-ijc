@@ -38,7 +38,10 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -48,6 +51,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -59,7 +63,11 @@ import de.escidoc.core.test.client.util.SetupDataUtil;
  * @author SWA
  * 
  */
-public class SurrogateItemCreateTest {
+public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
+
+    public SurrogateItemCreateTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test create of a surrogate Item.
@@ -92,21 +100,24 @@ public class SurrogateItemCreateTest {
         // -------------------------------------------------
         // Create Organizational Unit (and set status to open)
         OrganizationalUnit organizationalUnit =
-            SetupDataUtil.createOrganizationalUnit(sysadminAuth, true);
+            SetupDataUtil.createOrganizationalUnit(sysadminAuth, transport,
+                true);
 
         // -------------------------------------------------
         // create Context 1
         Context context1 =
-            SetupDataUtil.createContext(sysadminAuth, organizationalUnit, true);
+            SetupDataUtil.createContext(sysadminAuth, organizationalUnit,
+                transport, true);
 
         // create Context 2
         Context context2 =
-            SetupDataUtil.createContext(sysadminAuth, organizationalUnit, true);
+            SetupDataUtil.createContext(sysadminAuth, organizationalUnit,
+                transport, true);
 
         // -------------------------------------------------
         // create Content Model
         ContentModel contentModel =
-            SetupDataUtil.createContentModel(sysadminAuth);
+            SetupDataUtil.createContentModel(sysadminAuth, transport);
 
         // -------------------------------------------------
         // Create User Account
@@ -114,11 +125,11 @@ public class SurrogateItemCreateTest {
 
         UserAccount userAccount =
             SetupDataUtil.createUserWithDepositorRole(sysadminAuth, password,
-                context1);
+                context1, transport);
 
         UserAccount userAccount2 =
             SetupDataUtil.createUserWithDepositorRole(sysadminAuth, password,
-                context2);
+                context2, transport);
 
         // -------------------------------------------------
         // create origin Item
@@ -129,9 +140,10 @@ public class SurrogateItemCreateTest {
                 .getProperties().getLoginName(), password);
 
         // create
-        ItemHandlerClient ihc = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
         ihc.setServiceAddress(depositorAuth.getServiceAddress());
         ihc.setHandle(depositorAuth.getHandle());
+        ihc.setTransport(transport);
 
         Item originItem = new Item();
 
@@ -193,9 +205,10 @@ public class SurrogateItemCreateTest {
             new Authentication(sysadminAuth.getServiceAddress(), userAccount2
                 .getProperties().getLoginName(), password);
 
-        ItemHandlerClient ihc2 = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc2 = new ItemHandlerClient();
         ihc2.setServiceAddress(depositorAuth2.getServiceAddress());
         ihc2.setHandle(depositorAuth2.getHandle());
+        ihc2.setTransport(transport);
 
         Item surrogateItem = new Item();
 
@@ -211,7 +224,7 @@ public class SurrogateItemCreateTest {
         surrogateItem.setMetadataRecords(mdRecords);
 
         surrogateItem.getProperties().setOrigin(
-            new ResourceRef(originItem.getObjid()));
+            new ResourceRef(originItem.getObjid(), RESOURCE_TYPE.Item));
         surrogateItem = ihc2.create(surrogateItem);
 
         /*
