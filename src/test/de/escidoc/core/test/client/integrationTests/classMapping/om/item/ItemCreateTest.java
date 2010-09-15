@@ -48,12 +48,14 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.StagingHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
@@ -68,6 +70,7 @@ import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -78,7 +81,11 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
-public class ItemCreateTest {
+public class ItemCreateTest extends AbstractParameterizedTestBase {
+
+    public ItemCreateTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test if the right exception is thrown if calling create with an
@@ -94,9 +101,10 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         cc.create(item);
@@ -118,9 +126,10 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         item.setXLinkTitle("New title for test");
@@ -141,9 +150,10 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -166,9 +176,10 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -190,9 +201,10 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -217,9 +229,10 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -249,9 +262,10 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -282,9 +296,10 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
@@ -331,16 +346,20 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient ihc = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
         ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
 
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
+        item.getProperties()
+            .setContext(
+                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+                    RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
+                RESOURCE_TYPE.ContentModel));
         item.setXLinkTitle("TEST");
         item.getProperties().setDescription("FOOOOOOooohhhhhhhh");
 
@@ -382,16 +401,20 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient ihc = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
         ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
 
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
+        item.getProperties()
+            .setContext(
+                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+                    RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
+                RESOURCE_TYPE.ContentModel));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -437,13 +460,15 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
 
@@ -492,7 +517,8 @@ public class ItemCreateTest {
         components.add(component);
         item.setComponents(components);
 
-        Marshaller<Item> m = new Marshaller<Item>(item.getClass(), cc.getTransport());
+        Marshaller<Item> m =
+            new Marshaller<Item>(item.getClass(), cc.getTransport());
         m.marshalDocument(item);
 
         Item createdItem = cc.create(item);
@@ -512,15 +538,17 @@ public class ItemCreateTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
 
         Item item = new Item();
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
         properties.setContentModelSpecific(ResourceUtility
@@ -549,7 +577,8 @@ public class ItemCreateTest {
         component.setContent(content);
 
         // only for debug
-        Marshaller<Item> m = new Marshaller<Item>(item.getClass(), cc.getTransport());
+        Marshaller<Item> m =
+            new Marshaller<Item>(item.getClass(), cc.getTransport());
         m.marshalDocument(item);
 
         Item createdItem = cc.create(item);
@@ -572,12 +601,13 @@ public class ItemCreateTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         Item item =
-            createItem(EscidocClientTestBase.DEFAULT_SERVICE_URL, auth
-                .getHandle());
+            createItem(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                auth.getHandle());
 
-        ItemHandlerClient ihc = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
         ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
 
         // submit --------------------------------------------------------------
         TaskParam taskParam = new TaskParam();
@@ -591,8 +621,8 @@ public class ItemCreateTest {
         Item retrievedItem = ihc.retrieve(item);
         DateTime lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem, result
-            .getLastModificationDate());
+        assertEquals("Timestamps differ", lmdRetrievedItem,
+            result.getLastModificationDate());
 
         // assign object PID ---------------------------------------------------
         taskParam = new TaskParam();
@@ -608,8 +638,8 @@ public class ItemCreateTest {
         retrievedItem = ihc.retrieve(item);
         lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem, result
-            .getLastModificationDate());
+        assertEquals("Timestamps differ", lmdRetrievedItem,
+            result.getLastModificationDate());
 
         // assign version PID --------------------------------------------------
         taskParam = new TaskParam();
@@ -654,19 +684,24 @@ public class ItemCreateTest {
         StagingHandlerClient sthc = new StagingHandlerClient();
         sthc.setServiceAddress(auth.getServiceAddress());
         sthc.setHandle(auth.getHandle());
+        sthc.setTransport(transport);
 
         URL contentRef = sthc.upload(file);
 
-        ItemHandlerClient ihc = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
         ihc.setServiceAddress(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
 
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
+        item.getProperties()
+            .setContext(
+                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+                    RESOURCE_TYPE.Context));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
+                RESOURCE_TYPE.ContentModel));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -707,15 +742,17 @@ public class ItemCreateTest {
         throws EscidocClientException, InternalClientException,
         TransportException, ParserConfigurationException {
 
-        ItemHandlerClient cc = new ItemHandlerClient();
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setServiceAddress(serviceAddress);
         cc.setHandle(handle);
+        cc.setTransport(transport);
 
         Item item = new Item();
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
         properties.setContentModelSpecific(ResourceUtility

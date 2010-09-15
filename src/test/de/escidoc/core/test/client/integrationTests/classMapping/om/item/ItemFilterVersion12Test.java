@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.ArrayList;
@@ -38,23 +39,27 @@ import java.util.Collection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
-import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.search.records.ItemRecord;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -64,24 +69,28 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemFilterVersion12Test {
+public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
+
+    public ItemFilterVersion12Test(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
-     * Test retrieving Items through filter request (filter for version 1.2).
+     * Test explain for items (filter for version 1.2).
      * 
      * @throws Exception
      *             Thrown if anythings failed.
      */
     @Test
-    public void testRetrieveItems01() throws Exception {
+    public void testExplain() throws Exception {
 
         // create an Item
         Item item = new Item();
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, 
-        		RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
         // properties.setContentModelSpecific(getContentModelSpecific());
@@ -105,44 +114,97 @@ public class ItemFilterVersion12Test {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient ic = new ItemHandlerClient();
+        ItemHandlerClientInterface ic = new ItemHandlerClient();
         ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ic.setHandle(auth.getHandle());
+        ic.setTransport(transport);
+
+        ic.create(item);
+
+        ExplainResponse response = ic.retrieveItems(new ExplainRequestType());
+        ExplainData explain = response.getRecord().getRecordData();
+
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("No index definitions found", explain
+            .getIndexInfo().getIndexes().size() > 0);
+    }
+
+    /**
+     * Test retrieving Items through filter request (filter for version 1.2).
+     * 
+     * @throws Exception
+     *             Thrown if anythings failed.
+     */
+    @Test
+    public void testRetrieveItems01() throws Exception {
+
+        // create an Item
+        Item item = new Item();
+
+        // Properties
+        ItemProperties properties = new ItemProperties();
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
+        properties.setContentModel(new ResourceRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        // properties.setContentModelSpecific(getContentModelSpecific());
+        item.setProperties(properties);
+
+        // Md-Record
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName("escidoc");
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element element = doc.createElementNS(null, "myMdRecord");
+        mdRecord.setContent(element);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+        mdRecords.add(mdRecord);
+        item.setMetadataRecords(mdRecords);
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ItemHandlerClientInterface ic = new ItemHandlerClient();
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setHandle(auth.getHandle());
+        ic.setTransport(transport);
 
         Item createdItem = ic.create(item);
 
         // now check if at least this Item is in the list
 
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        UserAccount me = uac.retrieveCurrentUser();
-
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
+        srwFilter.setQuery("\"/last-modification-date\"=\""
+            + createdItem
+                .getLastModificationDate().withZone(DateTimeZone.UTC)
+                .toString() + "\"");
 
         SearchRetrieveResponse response = ic.retrieveItems(srwFilter);
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertTrue("Wrong number of matching records",
-        		response.getNumberOfMatchingRecords() >= 1);
+            response.getNumberOfMatchingRecords() >= 1);
         assertTrue("Wrong number of resulting records",
-        		response.getNumberOfResultingRecords() >= 1);
+            response.getNumberOfResultingRecords() >= 1);
         assertEquals("Wrong record position", 1, response
             .getRecords().iterator().next().getRecordPosition());
 
-         Collection<String> itemIds = 
-        	 new ArrayList<String>(response.getNumberOfResultingRecords());
-         for (@SuppressWarnings("rawtypes") Record record : response.getRecords()) {
-             if(record instanceof ItemRecord) {
-                 Item data = ((ItemRecord)record).getRecordData();
-                 if(data != null)
+        Collection<String> itemIds =
+            new ArrayList<String>(response.getNumberOfResultingRecords());
+        for (@SuppressWarnings("rawtypes")
+        Record record : response.getRecords()) {
+            if (record instanceof ItemRecord) {
+                Item data = ((ItemRecord) record).getRecordData();
+                if (data != null)
                     itemIds.add(data.getObjid());
-             }
-         }
-        
-         assertTrue("Created Item missing in list", 
-        		 itemIds.contains(createdItem.getObjid()));
-    }
+            }
+        }
 
+        assertTrue("Created Item missing in list",
+            itemIds.contains(createdItem.getObjid()));
+    }
 }

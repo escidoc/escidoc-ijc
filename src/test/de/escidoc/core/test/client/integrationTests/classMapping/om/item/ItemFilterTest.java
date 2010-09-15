@@ -41,16 +41,17 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
-import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -58,6 +59,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.ItemProperties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -67,7 +69,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemFilterTest {
+public class ItemFilterTest extends AbstractParameterizedTestBase {
+
+    public ItemFilterTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test binding filter.
@@ -120,9 +126,10 @@ public class ItemFilterTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient ic = new ItemHandlerClient();
+        ItemHandlerClientInterface ic = new ItemHandlerClient();
         ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ic.setHandle(auth.getHandle());
+        ic.setTransport(transport);
 
         ItemList itemList = ic.retrieveItems(filterParam);
 
@@ -144,7 +151,8 @@ public class ItemFilterTest {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID, RESOURCE_TYPE.Context));
+        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
+            RESOURCE_TYPE.Context));
         properties.setContentModel(new ResourceRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
         // properties.setContentModelSpecific(getContentModelSpecific());
@@ -168,9 +176,10 @@ public class ItemFilterTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClient ic = new ItemHandlerClient();
+        ItemHandlerClientInterface ic = new ItemHandlerClient();
         ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ic.setHandle(auth.getHandle());
+        ic.setTransport(transport);
 
         Item createdItem = ic.create(item);
 
@@ -178,13 +187,9 @@ public class ItemFilterTest {
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = TaskParam.filtersFactory();
 
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setHandle(ic.getHandle());
-        UserAccount me = uac.retrieveCurrentUser();
-
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by", me
-                .getObjid(), null));
+        filters.add(getFilter("/properties/creation-date", createdItem
+            .getProperties().getCreationDate().withZone(DateTimeZone.UTC)
+            .toString(), null));
         filterParam.setFilters(filters);
 
         ItemList itemList = ic.retrieveItems(filterParam);
@@ -200,8 +205,8 @@ public class ItemFilterTest {
             idList.add(n.getObjid());
         }
 
-        assertTrue("Created Item missing in list", idList.contains(createdItem
-            .getObjid()));
+        assertTrue("Created Item missing in list",
+            idList.contains(createdItem.getObjid()));
 
     }
 
@@ -226,5 +231,5 @@ public class ItemFilterTest {
         filter.setIds(ids);
         return filter;
     }
-    
+
 }

@@ -41,13 +41,17 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Asserts;
@@ -58,7 +62,11 @@ import de.escidoc.core.test.client.util.Asserts;
  * @author SWA
  * 
  */
-public class ItemUpdateTest {
+public class ItemUpdateTest extends AbstractParameterizedTestBase {
+
+    public ItemUpdateTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test update Item by adding one more MetadataRecord.
@@ -71,9 +79,13 @@ public class ItemUpdateTest {
 
         Item item = createItem();
 
-        ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setHandle(auth.getHandle());
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setTransport(transport);
 
         MetadataRecord mdRecord2 = new MetadataRecord();
         mdRecord2.setName("md-record2");
@@ -101,8 +113,8 @@ public class ItemUpdateTest {
         assertEquals(updatedItem.getProperties().getCreatedBy().getObjid(),
             updatedItem.getProperties().getVersion().getModifiedBy().getObjid());
 
-        Asserts.assertMdRecords(item.getMetadataRecords(), updatedItem
-            .getMetadataRecords());
+        Asserts.assertMdRecords(item.getMetadataRecords(),
+            updatedItem.getMetadataRecords());
 
     }
 
@@ -115,8 +127,12 @@ public class ItemUpdateTest {
     private Item createItem() throws Exception {
 
         ItemHandlerClient cc = new ItemHandlerClient();
-        cc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc.setHandle(auth.getHandle());
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setTransport(transport);
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();

@@ -44,9 +44,12 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.common.Result;
@@ -54,6 +57,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -63,7 +67,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemHandlerClientTest {
+public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
+
+    public ItemHandlerClientTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test retrieving settings from properties.
@@ -86,12 +94,18 @@ public class ItemHandlerClientTest {
     @Test
     public void testRetrieve01() throws Exception {
 
-        ItemHandlerClient ic = new ItemHandlerClient();
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ItemHandlerClientInterface ic = new ItemHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ic.setHandle(auth.getHandle());
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setTransport(transport);
+
         Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
-        Factory.getMarshallerFactory(ic.getTransport()).getItemMarshaller()
-        	.marshalDocument(item);
+        Factory
+            .getMarshallerFactory(ic.getTransport()).getItemMarshaller()
+            .marshalDocument(item);
     }
 
     /**
@@ -103,9 +117,15 @@ public class ItemHandlerClientTest {
     @Test
     public void testRetrieve02() throws Exception {
         try {
-            ItemHandlerClient ic = new ItemHandlerClient();
-            ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            ItemHandlerClientInterface ic = new ItemHandlerClient();
+            Authentication auth =
+                new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                    Constants.SYSTEM_ADMIN_USER,
+                    Constants.SYSTEM_ADMIN_PASSWORD);
+            ic.setHandle(auth.getHandle());
+            ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+            ic.setTransport(transport);
+
             ic.retrieve(Constants.INVALID_RESOURCE_ID);
 
             fail("Missing Exception retrieving an non existing Item.");
@@ -127,19 +147,23 @@ public class ItemHandlerClientTest {
     @Test
     public void testCreateAndSubmit() throws Exception {
 
-        ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ItemHandlerClientInterface ic = new ItemHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ic.setHandle(auth.getHandle());
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setTransport(transport);
 
-        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
+        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
 
-        Item resultItem = ihc.create(item);
+        Item resultItem = ic.create(item);
 
         TaskParam taskParam =
             getTaskParam(resultItem.getLastModificationDate(), "Submit Item "
                 + resultItem.getObjid());
 
-        Result result = ihc.submit(resultItem.getObjid(), taskParam);
+        Result result = ic.submit(resultItem.getObjid(), taskParam);
 
         // check result
         result.getLastModificationDate();
@@ -156,12 +180,17 @@ public class ItemHandlerClientTest {
     public void testRetrieveVersionHistory() throws Exception {
 
         ItemHandlerClient ic = new ItemHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ic.setHandle(auth.getHandle());
         ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setTransport(transport);
+
         Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
 
-        ic.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         Item item2 = ic.create(item);
+
         VersionHistory vh1 = ic.retrieveVersionHistory(item2.getObjid());
 
         assertEquals("WOV has wrong number of versions in WOV of Item '"
@@ -204,6 +233,13 @@ public class ItemHandlerClientTest {
     public void testItemLifecycle() throws Exception {
 
         ItemHandlerClient ic = new ItemHandlerClient();
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ic.setHandle(auth.getHandle());
+        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ic.setTransport(transport);
+
         Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
 
         Item resultItem = ic.create(item);
