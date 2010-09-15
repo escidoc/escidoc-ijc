@@ -33,14 +33,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.net.URI;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collection;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentRelationHandlerClient;
@@ -55,6 +50,7 @@ import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.resources.om.contentRelation.ContentRelationProperties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -65,20 +61,10 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContentRelationCreateTest {
-
-    private TransportProtocol transport;
+public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
 
     public ContentRelationCreateTest(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**

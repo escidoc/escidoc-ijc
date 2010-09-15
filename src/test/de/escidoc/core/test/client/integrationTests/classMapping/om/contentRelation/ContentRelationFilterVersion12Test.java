@@ -35,15 +35,11 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Collection;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentRelationHandlerClient;
@@ -60,6 +56,7 @@ import de.escidoc.core.resources.om.contentRelation.ContentRelationProperties;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -70,20 +67,11 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContentRelationFilterVersion12Test {
-
-    private TransportProtocol transport;
+public class ContentRelationFilterVersion12Test
+    extends AbstractParameterizedTestBase {
 
     public ContentRelationFilterVersion12Test(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**
