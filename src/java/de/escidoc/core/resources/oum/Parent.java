@@ -39,18 +39,18 @@ import de.escidoc.core.resources.ResourceRef;
 public class Parent extends ResourceRef {
 
     /**
-     * 
+     * Default constructor used by JiBX.
      */
-    public Parent() {
+    protected Parent() {
+        this(null);
     }
-
+    
     /**
      * 
      * @param objid
      *            The objid of the parent Organizational Unit.
      */
     public Parent(final String objid) {
-
-        super.setObjid(objid);
+        super(objid, RESOURCE_TYPE.OrganizationalUnit);
     }
 }
