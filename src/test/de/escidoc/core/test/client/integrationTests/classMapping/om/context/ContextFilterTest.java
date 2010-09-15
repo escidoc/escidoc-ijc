@@ -30,13 +30,9 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
@@ -45,6 +41,7 @@ import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.context.ContextList;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -54,22 +51,12 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContextFilterTest {
-
-    private TransportProtocol transport;
+public class ContextFilterTest extends AbstractParameterizedTestBase {
 
     public ContextFilterTest(TransportProtocol transport) {
-        this.transport = transport;
+        super(transport);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
-    }
-    
     /**
      * Test retrieving all Contexts through filter request.
      * 

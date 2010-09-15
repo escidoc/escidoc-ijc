@@ -30,16 +30,10 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -54,6 +48,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -63,22 +58,12 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContextCreateTest {
-
-    private TransportProtocol transport;
+public class ContextCreateTest extends AbstractParameterizedTestBase {
 
     public ContextCreateTest(TransportProtocol transport) {
-        this.transport = transport;
+        super(transport);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
-    }
-    
     /**
      * Test if the right exception is thrown if calling create with an
      * incomplete Context.
@@ -222,8 +207,9 @@ public class ContextCreateTest {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3", 
-        		ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
+        ResourceRef organizationalUnitRef =
+            new ResourceRef("escidoc:ex3",
+                ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         context.setProperties(properties);
@@ -271,8 +257,9 @@ public class ContextCreateTest {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3", 
-        		ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
+        ResourceRef organizationalUnitRef =
+            new ResourceRef("escidoc:ex3",
+                ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
         organizationalUnitRefs.add(organizationalUnitRef);
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");

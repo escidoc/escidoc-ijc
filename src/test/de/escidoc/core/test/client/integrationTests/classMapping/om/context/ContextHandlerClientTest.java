@@ -30,19 +30,14 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -68,6 +63,7 @@ import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextList;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -76,20 +72,10 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContextHandlerClientTest extends EscidocClientTestBase {
-
-    private TransportProtocol transport;
+public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
 
     public ContextHandlerClientTest(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**

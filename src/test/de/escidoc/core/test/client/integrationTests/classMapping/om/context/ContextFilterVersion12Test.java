@@ -33,29 +33,21 @@ import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
-import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
@@ -64,6 +56,7 @@ import de.escidoc.core.resources.om.context.Properties;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -73,20 +66,10 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-@RunWith(Parameterized.class)
-public class ContextFilterVersion12Test {
-
-    private TransportProtocol transport;
+public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
 
     public ContextFilterVersion12Test(TransportProtocol transport) {
-        this.transport = transport;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+        super(transport);
     }
 
     /**
@@ -109,9 +92,10 @@ public class ContextFilterVersion12Test {
 
         cc.create(createContext());
 
-        ExplainResponse response = cc.retrieveContexts(new ExplainRequestType());
+        ExplainResponse response =
+            cc.retrieveContexts(new ExplainRequestType());
         ExplainData explain = response.getRecord().getRecordData();
-        
+
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertTrue("No index definitions found", explain
             .getIndexInfo().getIndexes().size() > 0);
@@ -135,19 +119,14 @@ public class ContextFilterVersion12Test {
         cc.setHandle(auth.getHandle());
         cc.setTransport(transport);
 
-        cc.create(createContext());
+        Context createdContext = cc.create(createContext());
 
         // now check if at least this Context is in the list
 
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
-        UserAccount me = uac.retrieveCurrentUser();
-
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
+        srwFilter.setQuery("\"/last-modification-date\"=\""
+            + createdContext.getLastModificationDate().withZone(
+                DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
@@ -160,7 +139,7 @@ public class ContextFilterVersion12Test {
         assertEquals("Wrong record position", 1, contextList
             .getRecords().iterator().next().getRecordPosition());
     }
-    
+
     /**
      * 
      * @return

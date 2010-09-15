@@ -2,17 +2,11 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -32,31 +26,23 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
-@RunWith(Parameterized.class)
-public class OpenContextWithEmptyComment {
-
-    private TransportProtocol transport;
+public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
 
     public OpenContextWithEmptyComment(TransportProtocol transport) {
-        this.transport = transport;
+        super(transport);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
-    }
-    
     private static final String EMPTY_PUBLIC_STATUS_COMMENT = "";
 
     private ContextHandlerClientInterface cc;
 
     /**
      * (see issue INFR-937)
+     * 
      * @throws ParserConfigurationException
      * @throws EscidocClientException
      */
@@ -76,7 +62,7 @@ public class OpenContextWithEmptyComment {
 
     private Context createNewContext() throws ParserConfigurationException,
         EscidocClientException {
-    	
+
         final Context context = new Context();
         final Properties properties = new Properties();
         properties.setDescription("ContextDescription");
@@ -129,8 +115,8 @@ public class OpenContextWithEmptyComment {
         cc.open(context.getObjid(), taskParam);
     }
 
-    private Context retrieveContext(Context context) 
-    	throws EscidocClientException {
+    private Context retrieveContext(Context context)
+        throws EscidocClientException {
         return cc.retrieve(context.getObjid());
     }
 }
