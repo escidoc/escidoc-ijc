@@ -212,17 +212,8 @@ public class ItemHandlerClient
      */
     public Item retrieve(final Item item) throws EscidocException,
         InternalClientException, TransportException {
-
-        String itemString = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            itemString = getSoapHandlerClient().retrieve(item.getObjid());
-        }
-        else {
-            itemString = getRestHandlerClient().retrieve(item.getObjid());
-        }
-        return Factory
-            .getMarshallerFactory(getTransport()).getItemMarshaller()
-            .unmarshalDocument(itemString);
+        
+        return retrieve(item.getObjid());
     }
 
     /**
