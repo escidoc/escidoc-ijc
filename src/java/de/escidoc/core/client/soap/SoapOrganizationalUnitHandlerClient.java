@@ -268,6 +268,37 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         }
         return result;
     }
+    
+    /**
+     * Retrieve all Organizational Units references to that this OrganizationalUnit
+     * is subordinated.
+     * 
+     * @param id
+     *            The identifier of the Organizational Unit.
+     * 
+     * @return The XML representation of the list of parent Organizational Units
+     *         corresponding to XML-schema "organizational-unit-list.xsd".
+     * 
+     * @throws EscidocException
+     *             e
+     * @throws InternalClientException
+     *             e
+     * @throws TransportException
+     *             e
+     * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveParentObjects(java.lang.String)
+     */
+    public String retrieveParents(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveParents(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
 
     /**
      * Retrieve the pathList of an OrganizationalUnit. This is a list of all
