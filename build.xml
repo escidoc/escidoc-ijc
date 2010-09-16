@@ -210,6 +210,7 @@
 		    <fileset dir="${junit.src.dir}">
 		        <include name="**/*Test*.java"/>
 		    	<exclude name="**/EscidocClientTestBase.java" />
+		    	<exclude name="**/AbstractParameterizedTestBase.java" />
 		    </fileset>
 		</batchtest>
 	    </junit>
