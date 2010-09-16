@@ -169,7 +169,7 @@ public class MarshallerFactory {
         if (itemMarshaller == null) {
             itemMarshaller = new Marshaller<Item>(Item.class);
         }
-        itemMarshaller.setTransport(transport);
+        itemMarshaller.setBindingName(transport.name());
 
         return itemMarshaller;
     }
@@ -186,7 +186,7 @@ public class MarshallerFactory {
             searchResultMarshaller =
                 new Marshaller<SearchResultRecord>(SearchResultRecord.class);
         }
-        searchResultMarshaller.setTransport(transport);
+        searchResultMarshaller.setBindingName(transport.name());
 
         return searchResultMarshaller;
     }
@@ -200,7 +200,7 @@ public class MarshallerFactory {
         if (componentMarshaller == null) {
             componentMarshaller = new Marshaller<Component>(Component.class);
         }
-        componentMarshaller.setTransport(transport);
+        componentMarshaller.setBindingName(transport.name());
 
         return componentMarshaller;
     }
@@ -214,7 +214,7 @@ public class MarshallerFactory {
         if (itemListMarshaller == null) {
             itemListMarshaller = new Marshaller<ItemList>(ItemList.class);
         }
-        itemListMarshaller.setTransport(transport);
+        itemListMarshaller.setBindingName(transport.name());
 
         return itemListMarshaller;
     }
@@ -228,7 +228,7 @@ public class MarshallerFactory {
         if (memberListMarshaller == null) {
             memberListMarshaller = new Marshaller<MemberList>(MemberList.class);
         }
-        memberListMarshaller.setTransport(transport);
+        memberListMarshaller.setBindingName(transport.name());
 
         return memberListMarshaller;
     }
@@ -243,7 +243,7 @@ public class MarshallerFactory {
             containerListMarshaller =
                 new Marshaller<ContainerList>(ContainerList.class);
         }
-        containerListMarshaller.setTransport(transport);
+        containerListMarshaller.setBindingName(transport.name());
 
         return containerListMarshaller;
     }
@@ -257,7 +257,7 @@ public class MarshallerFactory {
         if (containerMarshaller == null) {
             containerMarshaller = new Marshaller<Container>(Container.class);
         }
-        containerMarshaller.setTransport(transport);
+        containerMarshaller.setBindingName(transport.name());
 
         return containerMarshaller;
     }
@@ -272,7 +272,7 @@ public class MarshallerFactory {
             contentRelationMarshaller =
                 new Marshaller<ContentRelation>(ContentRelation.class);
         }
-        contentRelationMarshaller.setTransport(transport);
+        contentRelationMarshaller.setBindingName(transport.name());
 
         return contentRelationMarshaller;
     }
@@ -287,7 +287,7 @@ public class MarshallerFactory {
             contextListMarshaller =
                 new Marshaller<ContextList>(ContextList.class);
         }
-        contextListMarshaller.setTransport(transport);
+        contextListMarshaller.setBindingName(transport.name());
 
         return contextListMarshaller;
     }
@@ -301,7 +301,7 @@ public class MarshallerFactory {
         if (contextMarshaller == null) {
             contextMarshaller = new Marshaller<Context>(Context.class);
         }
-        contextMarshaller.setTransport(transport);
+        contextMarshaller.setBindingName(transport.name());
 
         return contextMarshaller;
     }
@@ -316,7 +316,7 @@ public class MarshallerFactory {
             contentModelMarshaller =
                 new Marshaller<ContentModel>(ContentModel.class);
         }
-        contentModelMarshaller.setTransport(transport);
+        contentModelMarshaller.setBindingName(transport.name());
 
         return contentModelMarshaller;
     }
@@ -331,7 +331,7 @@ public class MarshallerFactory {
             organizationalUnitMarshaller =
                 new Marshaller<OrganizationalUnit>(OrganizationalUnit.class);
         }
-        organizationalUnitMarshaller.setTransport(transport);
+        organizationalUnitMarshaller.setBindingName(transport.name());
 
         return organizationalUnitMarshaller;
     }
@@ -347,7 +347,7 @@ public class MarshallerFactory {
                 new Marshaller<OrganizationalUnitList>(
                     OrganizationalUnitList.class);
         }
-        organizationalUnitListMarshaller.setTransport(transport);
+        organizationalUnitListMarshaller.setBindingName(transport.name());
 
         return organizationalUnitListMarshaller;
     }
@@ -361,7 +361,7 @@ public class MarshallerFactory {
         if (pathListMarshaller == null) {
             pathListMarshaller = new Marshaller<PathList>(PathList.class);
         }
-        pathListMarshaller.setTransport(transport);
+        pathListMarshaller.setBindingName(transport.name());
 
         return pathListMarshaller;
     }
@@ -375,7 +375,7 @@ public class MarshallerFactory {
         if (taskParamMarshaller == null) {
             taskParamMarshaller = new Marshaller<TaskParam>(TaskParam.class);
         }
-        taskParamMarshaller.setTransport(transport);
+        taskParamMarshaller.setBindingName(transport.name());
 
         return taskParamMarshaller;
     }
@@ -389,7 +389,7 @@ public class MarshallerFactory {
         if (resultMarshaller == null) {
             resultMarshaller = new Marshaller<Result>(Result.class);
         }
-        resultMarshaller.setTransport(transport);
+        resultMarshaller.setBindingName(transport.name());
 
         return resultMarshaller;
     }
@@ -403,7 +403,7 @@ public class MarshallerFactory {
             versionHistoryMarshaller =
                 new Marshaller<VersionHistory>(VersionHistory.class);
         }
-        versionHistoryMarshaller.setTransport(transport);
+        versionHistoryMarshaller.setBindingName(transport.name());
 
         return versionHistoryMarshaller;
     }
@@ -416,7 +416,7 @@ public class MarshallerFactory {
         if (structMapMarshaller == null) {
             structMapMarshaller = new Marshaller<StructMap>(StructMap.class);
         }
-        structMapMarshaller.setTransport(transport);
+        structMapMarshaller.setBindingName(transport.name());
 
         return structMapMarshaller;
     }
@@ -430,7 +430,7 @@ public class MarshallerFactory {
             adminDescriptorMarshaller =
                 new Marshaller<AdminDescriptor>(AdminDescriptor.class);
         }
-        adminDescriptorMarshaller.setTransport(transport);
+        adminDescriptorMarshaller.setBindingName(transport.name());
 
         return adminDescriptorMarshaller;
     }
@@ -444,7 +444,7 @@ public class MarshallerFactory {
             adminDescriptorListMarshaller =
                 new Marshaller<AdminDescriptors>(AdminDescriptors.class);
         }
-        adminDescriptorListMarshaller.setTransport(transport);
+        adminDescriptorListMarshaller.setBindingName(transport.name());
 
         return adminDescriptorListMarshaller;
     }
@@ -456,7 +456,7 @@ public class MarshallerFactory {
         if (tocMarshaller == null) {
             tocMarshaller = new Marshaller<Toc>(Toc.class);
         }
-        tocMarshaller.setTransport(transport);
+        tocMarshaller.setBindingName(transport.name());
 
         return tocMarshaller;
     }
@@ -471,7 +471,7 @@ public class MarshallerFactory {
         if (propertiesMarshaller == null) {
             propertiesMarshaller = new Marshaller<Properties>(Properties.class);
         }
-        propertiesMarshaller.setTransport(transport);
+        propertiesMarshaller.setBindingName(transport.name());
 
         return propertiesMarshaller;
     }
@@ -485,7 +485,7 @@ public class MarshallerFactory {
             metadataRecordsMarshaller =
                 new Marshaller<MetadataRecords>(MetadataRecords.class);
         }
-        metadataRecordsMarshaller.setTransport(transport);
+        metadataRecordsMarshaller.setBindingName(transport.name());
 
         return metadataRecordsMarshaller;
     }
@@ -498,7 +498,7 @@ public class MarshallerFactory {
         if (relationsMarshaller == null) {
             relationsMarshaller = new Marshaller<Relations>(Relations.class);
         }
-        relationsMarshaller.setTransport(transport);
+        relationsMarshaller.setBindingName(transport.name());
 
         return relationsMarshaller;
     }
@@ -510,7 +510,7 @@ public class MarshallerFactory {
                 new Marshaller<UserAccount>(UserAccount.class);
 
         }
-        userAccountMarshaller.setTransport(transport);
+        userAccountMarshaller.setBindingName(transport.name());
 
         return userAccountMarshaller;
     }
@@ -521,7 +521,7 @@ public class MarshallerFactory {
             requestsMarshaller = new Marshaller<Requests>(Requests.class);
 
         }
-        requestsMarshaller.setTransport(transport);
+        requestsMarshaller.setBindingName(transport.name());
 
         return requestsMarshaller;
     }
@@ -533,7 +533,7 @@ public class MarshallerFactory {
                 new Marshaller<RequestsResults>(RequestsResults.class);
 
         }
-        requestsResultsMarshaller.setTransport(transport);
+        requestsResultsMarshaller.setBindingName(transport.name());
 
         return requestsResultsMarshaller;
     }
@@ -543,7 +543,7 @@ public class MarshallerFactory {
             roleMarshaller = new Marshaller<Role>(Role.class);
 
         }
-        roleMarshaller.setTransport(transport);
+        roleMarshaller.setBindingName(transport.name());
 
         return roleMarshaller;
     }
@@ -555,7 +555,7 @@ public class MarshallerFactory {
                 new Marshaller<UserAccountProperties>(UserAccount.class);
 
         }
-        userAccountPropertiesMarshaller.setTransport(transport);
+        userAccountPropertiesMarshaller.setBindingName(transport.name());
 
         return userAccountPropertiesMarshaller;
     }
@@ -565,7 +565,7 @@ public class MarshallerFactory {
         if (grantMarshaller == null) {
             grantMarshaller = new Marshaller<Grant>(Grant.class);
         }
-        grantMarshaller.setTransport(transport);
+        grantMarshaller.setBindingName(transport.name());
 
         return grantMarshaller;
     }
@@ -575,7 +575,7 @@ public class MarshallerFactory {
         if (grantsMarshaller == null) {
             grantsMarshaller = new Marshaller<Grants>(Grants.class);
         }
-        grantsMarshaller.setTransport(transport);
+        grantsMarshaller.setBindingName(transport.name());
 
         return grantsMarshaller;
     }
@@ -585,7 +585,7 @@ public class MarshallerFactory {
         if (attributeMarshaller == null) {
             attributeMarshaller = new Marshaller<Attribute>(Attribute.class);
         }
-        attributeMarshaller.setTransport(transport);
+        attributeMarshaller.setBindingName(transport.name());
 
         return attributeMarshaller;
     }
@@ -595,7 +595,7 @@ public class MarshallerFactory {
         if (attributesMarshaller == null) {
             attributesMarshaller = new Marshaller<Attributes>(Attributes.class);
         }
-        attributesMarshaller.setTransport(transport);
+        attributesMarshaller.setBindingName(transport.name());
 
         return attributesMarshaller;
     }
@@ -605,7 +605,7 @@ public class MarshallerFactory {
         if (preferenceMarshaller == null) {
             preferenceMarshaller = new Marshaller<Preference>(Preference.class);
         }
-        preferenceMarshaller.setTransport(transport);
+        preferenceMarshaller.setBindingName(transport.name());
 
         return preferenceMarshaller;
     }
@@ -616,7 +616,7 @@ public class MarshallerFactory {
             preferencesMarshaller =
                 new Marshaller<Preferences>(Preferences.class);
         }
-        preferencesMarshaller.setTransport(transport);
+        preferencesMarshaller.setBindingName(transport.name());
 
         return preferencesMarshaller;
     }
@@ -627,7 +627,7 @@ public class MarshallerFactory {
             userAccountListMarshaller =
                 new Marshaller<UserAccounts>(UserAccounts.class);
         }
-        userAccountListMarshaller.setTransport(transport);
+        userAccountListMarshaller.setBindingName(transport.name());
 
         return userAccountListMarshaller;
     }
@@ -638,7 +638,7 @@ public class MarshallerFactory {
             unsecuredActionsMarshaller =
                 new Marshaller<UnsecuredActions>(UnsecuredActions.class);
         }
-        unsecuredActionsMarshaller.setTransport(transport);
+        unsecuredActionsMarshaller.setBindingName(transport.name());
 
         return unsecuredActionsMarshaller;
     }
@@ -648,7 +648,7 @@ public class MarshallerFactory {
         if (roleListMarshaller == null) {
             roleListMarshaller = new Marshaller<Roles>(Roles.class);
         }
-        roleListMarshaller.setTransport(transport);
+        roleListMarshaller.setBindingName(transport.name());
 
         return roleListMarshaller;
     }
@@ -658,7 +658,7 @@ public class MarshallerFactory {
         if (parentsMarshaller == null) {
             parentsMarshaller = new Marshaller<Parents>(Parents.class);
         }
-        parentsMarshaller.setTransport(transport);
+        parentsMarshaller.setBindingName(transport.name());
 
         return parentsMarshaller;
     }
@@ -673,7 +673,7 @@ public class MarshallerFactory {
             explainResponseMarshaller =
                 new Marshaller<ExplainResponse>(ExplainResponse.class);
         }
-        explainResponseMarshaller.setTransport(transport);
+        explainResponseMarshaller.setBindingName(transport.name());
 
         return explainResponseMarshaller;
     }
@@ -689,7 +689,7 @@ public class MarshallerFactory {
             scanResponseMarshaller =
                 new Marshaller<ScanResponse>(ScanResponse.class);
         }
-        scanResponseMarshaller.setTransport(transport);
+        scanResponseMarshaller.setBindingName(transport.name());
 
         return scanResponseMarshaller;
     }
@@ -706,7 +706,7 @@ public class MarshallerFactory {
                 new Marshaller<SearchRetrieveResponse>(
                     SearchRetrieveResponse.class);
         }
-        searchRetrieveResponseMarshaller.setTransport(transport);
+        searchRetrieveResponseMarshaller.setBindingName(transport.name());
 
         return searchRetrieveResponseMarshaller;
     }

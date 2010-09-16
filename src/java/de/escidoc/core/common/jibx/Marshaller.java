@@ -10,9 +10,7 @@ import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 /**
  * 
@@ -23,24 +21,23 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
 @SuppressWarnings("rawtypes")
 public class Marshaller<E> {
 
-    private Class resourceClass = null;
-    
-    private TransportProtocol transport = null;
-    
+    private Class resourceClass;
+
+    private String bindingName;
+
     /**
      * 
      * @param resourceClass
-     * @throws InternalClientException 
+     * @throws InternalClientException
      */
     public Marshaller(final Class resourceClass) throws InternalClientException {
         this.resourceClass = resourceClass;
-        setTransport(null);
     }
-    
-    public Marshaller(final Class resourceClass, TransportProtocol transport) 
-    		throws InternalClientException {
-    	this.resourceClass = resourceClass;
-    	setTransport(transport);
+
+    public Marshaller(final Class resourceClass, String bindingName)
+        throws InternalClientException {
+        this.resourceClass = resourceClass;
+        this.bindingName = bindingName;
     }
 
     /**
@@ -52,15 +49,13 @@ public class Marshaller<E> {
      * @throws InternalClientException
      */
     @SuppressWarnings("unchecked")
-	public E unmarshalDocument(final String xmlDocument)
+    public E unmarshalDocument(final String xmlDocument)
         throws InternalClientException {
 
         E result = null;
-        String prefix = this.transport.name();
-        
+
         try {
-            IBindingFactory bfact = 
-            	BindingDirectory.getFactory(prefix, resourceClass);
+            IBindingFactory bfact = getBindingFactory(resourceClass);
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             ByteArrayInputStream in =
                 new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
@@ -93,18 +88,14 @@ public class Marshaller<E> {
         throws InternalClientException {
 
         String result = null;
-        String prefix = this.transport.name();
 
         try {
-            IBindingFactory bfact = 
-            	BindingDirectory.getFactory(prefix, resource.getClass());
+            IBindingFactory bfact = getBindingFactory(resource.getClass());
             IMarshallingContext mctx = bfact.createMarshallingContext();
             mctx.setIndent(2);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             mctx.marshalDocument(resource, "UTF-8", null, out);
-            result = new String(out.toByteArray(), "UTF-8");// .replaceAll("&lt;",
-            // "<");
-
+            result = new String(out.toByteArray(), "UTF-8");
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -121,19 +112,35 @@ public class Marshaller<E> {
         return result;
     }
 
-	public TransportProtocol getTransport() {
-		return transport;
-	}
+    /**
+     * 
+     * @param bindingName
+     */
+    public void setBindingName(final String bindingName) {
+        this.bindingName = bindingName;
+    }
 
-	public void setTransport(final TransportProtocol transport)
-			throws InternalClientException {
-		if(transport == null) {
-			this.transport = TransportProtocol.valueOf(
-					ConfigurationProvider.getInstance().getProperty(
-							ConfigurationProvider.PROP_SERVICE_PROTOCOL));
-		}
-		else {
-			this.transport = transport;
-		}
-	}
+    /**
+     * 
+     * @return
+     */
+    public String getBindingName() {
+        return this.bindingName;
+    }
+
+    /**
+     * 
+     * @param resource
+     * @return
+     * @throws JiBXException
+     */
+    private IBindingFactory getBindingFactory(final Class resource)
+        throws JiBXException {
+        if (bindingName != null && !bindingName.isEmpty()) {
+            return BindingDirectory.getFactory(bindingName, resource);
+        }
+        else {
+            return BindingDirectory.getFactory(resource);
+        }
+    }
 }
