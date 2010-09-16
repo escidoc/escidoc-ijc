@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.client.interfaces;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -40,7 +39,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  * @author SWA
  * @param <T>
  */
-public interface CrudHandlerInterface<T> {
+public interface CrudHandlerInterface<T> extends HandlerServiceInterface {
 
     /**
      * Login at eSciDoc framework.
@@ -65,51 +64,6 @@ public interface CrudHandlerInterface<T> {
         final String serviceAddress, final String username,
         final String password) throws EscidocClientException,
         InternalClientException, TransportException;
-
-    /**
-     * Set the Authentication Handle.
-     * 
-     * @return handle The Authentication Handle.
-     * @throws InternalClientException
-     *             Thrown if getting failed.
-     */
-    String getHandle() throws InternalClientException;
-
-    /**
-     * Set the Authentication Handle.
-     * 
-     * @param handle
-     *            The Authentication Handle.
-     * @throws InternalClientException
-     *             Thrown if setting failed.
-     */
-    void setHandle(final String handle) throws InternalClientException;
-
-    /**
-     * Set the Service Address.
-     * 
-     * @param address
-     *            The String containing the Service Address of eSciDocCore).
-     * @throws InternalClientException
-     *             Thrown if setting failed.
-     */
-    void setServiceAddress(final String address) throws InternalClientException;
-
-    /**
-     * Set the Transport Protocol.
-     * 
-     * @param tp
-     *            The Enum containing the TransportProtocol to be used).
-     */
-    void setTransport(final TransportProtocol tp);
-    
-    /**
-     * Get the Transport Protocol.
-     * 
-     * @return
-     * 			The Enum containing the TransportProtocol to be used).
-     */
-    TransportProtocol getTransport();
 
     /**
      * Create the resource in the repository.
@@ -177,12 +131,4 @@ public interface CrudHandlerInterface<T> {
      */
     void delete(final String id) throws EscidocClientException,
         InternalClientException, TransportException;
-
-    /**
-     * Serializes the resource to its xml representation.
-     * 
-     * @return xml representation.
-     */
-    String toString();
-
 }

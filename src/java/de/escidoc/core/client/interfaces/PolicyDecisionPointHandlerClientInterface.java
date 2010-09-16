@@ -42,11 +42,11 @@ import de.escidoc.core.resources.aa.pdp.RequestsResults;
  * @author SWA
  * 
  */
-public interface PolicyDecisionPointHandlerClientInterface {
+public interface PolicyDecisionPointHandlerClientInterface
+    extends HandlerServiceInterface {
 
     RequestsResults evaluate(final Requests requests)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
-    
 }
