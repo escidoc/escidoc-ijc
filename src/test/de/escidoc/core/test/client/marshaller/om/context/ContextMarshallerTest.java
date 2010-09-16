@@ -38,6 +38,7 @@ import org.junit.Test;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -46,7 +47,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ContextMarshallerTest {
+public class ContextMarshallerTest extends AbstractParameterizedTestBase {
+
+    public ContextMarshallerTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test unmarshalling of Context.
@@ -62,8 +67,10 @@ public class ContextMarshallerTest {
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(templContext);
 
-        Context context = Factory.getMarshallerFactory(TransportProtocol.SOAP)
-        	.getContextMarshaller().unmarshalDocument(contextXml);
+        Context context =
+            Factory
+                .getMarshallerFactory(transport).getContextMarshaller()
+                .unmarshalDocument(contextXml);
 
         assertEquals("Wrong objid", "escidoc:157546", context.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -86,15 +93,14 @@ public class ContextMarshallerTest {
 
         assertEquals("Wrong description", "ContextDescription", context
             .getProperties().getDescription());
-        assertEquals("Wrong type", "type", context
-            .getProperties().getType());
+        assertEquals("Wrong type", "type", context.getProperties().getType());
 
         // TODO
-//        assertEquals("Wrong number of admin-descriptors", 1, context
-//            .getProperties().getOrganizationalUnitRefs().);
+        // assertEquals("Wrong number of admin-descriptors", 1, context
+        // .getProperties().getOrganizationalUnitRefs().);
 
-//      assertEquals("Wrong name of admin-descriptors", 1, context
-//      .getAdminDescriptors().getAdminDescriptors().);
+        // assertEquals("Wrong name of admin-descriptors", 1, context
+        // .getAdminDescriptors().getAdminDescriptors().);
 
     }
 
@@ -112,7 +118,9 @@ public class ContextMarshallerTest {
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(templContext);
 
-        Context context = Factory.getMarshallerFactory(TransportProtocol.SOAP)
-        	.getContextMarshaller().unmarshalDocument(contextXml);
+        Context context =
+            Factory
+                .getMarshallerFactory(transport).getContextMarshaller()
+                .unmarshalDocument(contextXml);
     }
 }

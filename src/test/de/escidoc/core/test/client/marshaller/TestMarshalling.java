@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.marshaller;
 
 import org.junit.Test;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Result;
@@ -38,7 +39,7 @@ import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 
 /**
  * Test un-/marshalling the resources.
@@ -46,9 +47,13 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class TestMarshalling {
+public class TestMarshalling extends AbstractParameterizedTestBase {
 
-	/**
+    public TestMarshalling(TransportProtocol transport) {
+        super(transport);
+    }
+
+    /**
      * Test un-/marshalling Item.
      * 
      * @throws Exception
@@ -58,11 +63,14 @@ public class TestMarshalling {
     public void testMarshallingItem01() throws Exception {
 
         Item item = new Item();
-        
-        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getItemMarshaller().marshalDocument(item);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getItemMarshaller().unmarshalDocument(xml);
+
+        String xml =
+            Factory
+                .getMarshallerFactory(transport).getItemMarshaller()
+                .marshalDocument(item);
+        Factory
+            .getMarshallerFactory(transport).getItemMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -75,10 +83,13 @@ public class TestMarshalling {
     public void testMarshallingContainer01() throws Exception {
 
         Container container = new Container();
-        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-	    	.getContainerMarshaller().marshalDocument(container);
-	    Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-	    	.getContainerMarshaller().unmarshalDocument(xml);
+        String xml =
+            Factory
+                .getMarshallerFactory(transport).getContainerMarshaller()
+                .marshalDocument(container);
+        Factory
+            .getMarshallerFactory(transport).getContainerMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -94,10 +105,12 @@ public class TestMarshalling {
         StructMap structMap = new StructMap();
         container.setStructMap(structMap);
         String xml =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        		.getContainerMarshaller().marshalDocument(container);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getContainerMarshaller().unmarshalDocument(xml);
+            Factory
+                .getMarshallerFactory(transport).getContainerMarshaller()
+                .marshalDocument(container);
+        Factory
+            .getMarshallerFactory(transport).getContainerMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -110,10 +123,13 @@ public class TestMarshalling {
     public void testMarshallingContext01() throws Exception {
 
         Context context = new Context();
-        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getContextMarshaller().marshalDocument(context);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getContextMarshaller().unmarshalDocument(xml);
+        String xml =
+            Factory
+                .getMarshallerFactory(transport).getContextMarshaller()
+                .marshalDocument(context);
+        Factory
+            .getMarshallerFactory(transport).getContextMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -126,10 +142,13 @@ public class TestMarshalling {
     public void testMarshallingResult01() throws Exception {
 
         Result result = new Result();
-        String xml = Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getResultMarshaller().marshalDocument(result);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getResultMarshaller().unmarshalDocument(xml);
+        String xml =
+            Factory
+                .getMarshallerFactory(transport).getResultMarshaller()
+                .marshalDocument(result);
+        Factory
+            .getMarshallerFactory(transport).getResultMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -143,10 +162,12 @@ public class TestMarshalling {
 
         TaskParam taskParam = new TaskParam();
         String xml =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        		.getTaskParamMarshaller().marshalDocument(taskParam);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getTaskParamMarshaller().unmarshalDocument(xml);
+            Factory
+                .getMarshallerFactory(transport).getTaskParamMarshaller()
+                .marshalDocument(taskParam);
+        Factory
+            .getMarshallerFactory(transport).getTaskParamMarshaller()
+            .unmarshalDocument(xml);
     }
 
     // mapping of subresources currently not supported
@@ -209,10 +230,12 @@ public class TestMarshalling {
 
         UserAccount userAccount = new UserAccount();
         String xml =
-        	Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        		.getUserAccountMarshaller().marshalDocument(userAccount);
-        Factory.getMarshallerFactory(EscidocClientTestBase.getDefaultTransportProtocol())
-        	.getUserAccountMarshaller().unmarshalDocument(xml);
+            Factory
+                .getMarshallerFactory(transport).getUserAccountMarshaller()
+                .marshalDocument(userAccount);
+        Factory
+            .getMarshallerFactory(transport).getUserAccountMarshaller()
+            .unmarshalDocument(xml);
     }
 
     // mapping of subresources currently not supported

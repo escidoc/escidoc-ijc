@@ -518,7 +518,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         item.setComponents(components);
 
         Marshaller<Item> m =
-            new Marshaller<Item>(item.getClass(), cc.getTransport());
+            new Marshaller<Item>(item.getClass(), cc.getTransport().name());
         m.marshalDocument(item);
 
         Item createdItem = cc.create(item);
@@ -578,7 +578,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // only for debug
         Marshaller<Item> m =
-            new Marshaller<Item>(item.getClass(), cc.getTransport());
+            new Marshaller<Item>(item.getClass(), cc.getTransport().name());
         m.marshalDocument(item);
 
         Item createdItem = cc.create(item);

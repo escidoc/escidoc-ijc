@@ -51,6 +51,7 @@ import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -59,7 +60,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ContainerMarshallerTest {
+public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
+
+    public ContainerMarshallerTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test unmarshalling of Container.
@@ -76,8 +81,10 @@ public class ContainerMarshallerTest {
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
-        Container container = Factory.getMarshallerFactory(TransportProtocol.SOAP)
-        	.getContainerMarshaller().unmarshalDocument(containerXml);
+        Container container =
+            Factory
+                .getMarshallerFactory(transport).getContainerMarshaller()
+                .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:157513", container.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -170,8 +177,9 @@ public class ContainerMarshallerTest {
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
         Container container =
-            Factory.getMarshallerFactory(TransportProtocol.SOAP)
-            	.getContainerMarshaller().unmarshalDocument(containerXml);
+            Factory
+                .getMarshallerFactory(transport).getContainerMarshaller()
+                .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:157513", container.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -270,8 +278,10 @@ public class ContainerMarshallerTest {
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
-        Container container = Factory.getMarshallerFactory(TransportProtocol.SOAP)
-        	.getContainerMarshaller().unmarshalDocument(containerXml);
+        Container container =
+            Factory
+                .getMarshallerFactory(transport).getContainerMarshaller()
+                .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:188602", container.getObjid());
         assertEquals("Wrong last modification date", new DateTime(
@@ -374,20 +384,22 @@ public class ContainerMarshallerTest {
         structMap.add(new ContainerRef(member1));
         container.setStructMap(structMap);
 
-        String containerXml = Factory.getMarshallerFactory(TransportProtocol.SOAP)
-            .getContainerMarshaller().marshalDocument(container);
+        String containerXml =
+            Factory
+                .getMarshallerFactory(transport).getContainerMarshaller()
+                .marshalDocument(container);
 
         Document containerDoc = XmlUtility.getDocument(containerXml);
         assertEquals(
             "Wrong Context reference",
             contextId,
             XPathAPI.selectSingleNode(containerDoc,
-                "/container/properties/context/@objid").getTextContent());
+                "/container/properties/context/@objid|/container/properties/context/@href").getTextContent());
         assertEquals(
             "Wrong content model reference",
             contentModelId,
             XPathAPI.selectSingleNode(containerDoc,
-                "/container/properties/content-model/@objid").getTextContent());
+                "/container/properties/content-model/@objid|/container/properties/context/@href").getTextContent());
         assertEquals(
             "Wrong description",
             description,
@@ -401,7 +413,7 @@ public class ContainerMarshallerTest {
             "Wrong member in struct map",
             member1,
             XPathAPI.selectSingleNode(containerDoc,
-                "/container/struct-map/container/@objid").getTextContent());
+                "/container/struct-map/container/@objid|/container/properties/context/@href").getTextContent());
 
     }
 }

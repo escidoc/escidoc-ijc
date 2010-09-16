@@ -276,7 +276,7 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), transport);
+        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), transport.name());
         
         String xml = m.marshalDocument(role);
 

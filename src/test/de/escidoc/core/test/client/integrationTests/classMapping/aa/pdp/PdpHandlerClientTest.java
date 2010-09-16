@@ -29,6 +29,9 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.aa.pdp;
 
 import java.io.IOException;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,10 +42,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import com.sun.xacml.attr.StringAttribute;
+import com.sun.xacml.ctx.Attribute;
+import com.sun.xacml.ctx.RequestCtx;
+import com.sun.xacml.ctx.Subject;
+
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.PolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.aa.pdp.Requests;
@@ -77,7 +86,7 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        PolicyDecisionPointHandlerClient pdpc =
+        PolicyDecisionPointHandlerClientInterface pdpc =
             new PolicyDecisionPointHandlerClient();
         pdpc.setServiceAddress(auth.getServiceAddress());
         pdpc.setHandle(auth.getHandle());
@@ -91,6 +100,55 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
                 .getMarshallerFactory(transport).getRequestsResultsMarshaller()
                 .marshalDocument(results);
         System.out.println(xml);
+
+        /**
+         * TEST IMPL OF PDP REQUEST/RESPONSE
+         */
+
+        /*
+         * PDP
+         */
+
+        // PolicyFinder policyFinder = new PolicyFinder();
+        // Set policyModules = new HashSet();
+        // policyModules.add(new PolicyM);
+        // policyFinder.setModules(policyModules);
+        //
+        // AttributeFinder attrFinder = new AttributeFinder();
+        // List attrModules = new ArrayList();
+        // attrModules.add(new Attr);
+        // attrFinder.setModules(attrModules);
+
+        /*
+         * REQUEST
+         */
+
+        // SUBJECT
+        Set<Attribute> attributes = new HashSet<Attribute>();
+        attributes.add(new Attribute(new URI(
+            "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
+            new StringAttribute("escidoc:user1")));
+        // bundle the attributes in a Subject with the default category
+        Set<Subject> subjects = new HashSet<Subject>();
+        subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attributes));
+
+        Set<Attribute> resourceAttrs = new HashSet<Attribute>();
+        resourceAttrs.add(new Attribute(new URI(
+            "urn:oasis:names:tc:xacml:1.0:resource:resource-id"), null, null,
+            new StringAttribute("escidoc:persistent1")));
+
+        Set<Attribute> actionAttrs = new HashSet<Attribute>();
+        actionAttrs
+            .add(new Attribute(
+                new URI("urn:oasis:names:tc:xacml:1.0:action:action-id"),
+                null,
+                null,
+                new StringAttribute(
+                    "info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
+
+        RequestCtx request =
+            new RequestCtx(subjects, resourceAttrs, actionAttrs, null);
+        // ResponseCtx response = pdp.evaluate(request);
     }
 
     /**
@@ -146,7 +204,7 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
         requests.addRequest(root6);
 
         Marshaller<Requests> m =
-            new Marshaller<Requests>(requests.getClass(), transport);
+            new Marshaller<Requests>(requests.getClass(), transport.name());
         String xml = m.marshalDocument(requests);
 
         Requests urequests = m.unmarshalDocument(xml);

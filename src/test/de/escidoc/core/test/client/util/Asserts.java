@@ -58,7 +58,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class Asserts {
 
-	/**
+    /**
      * Compares all MetadataRecords with the master. If number, attributes or
      * content of the MetadataRecords differ.
      * 
@@ -98,8 +98,8 @@ public class Asserts {
                 toCompareSchema);
 
             Marshaller<MetadataRecord> m1 =
-                new Marshaller<MetadataRecord>(mdMaster.getClass(), 
-                		EscidocClientTestBase.getDefaultTransportProtocol());
+                new Marshaller<MetadataRecord>(mdMaster.getClass(),
+                    EscidocClientTestBase.getDefaultTransportProtocol().name());
             String xml1 = m1.marshalDocument(mdMaster);
 
             Document mdRecordMaster = XmlUtility.getDocument(xml1);
@@ -109,7 +109,7 @@ public class Asserts {
 
             Marshaller<MetadataRecord> m2 =
                 new Marshaller<MetadataRecord>(mdToComp.getClass(),
-                		EscidocClientTestBase.getDefaultTransportProtocol());
+                    EscidocClientTestBase.getDefaultTransportProtocol().name());
             String xml2 = m2.marshalDocument(mdToComp);
 
             Document mdRecordToCompare = XmlUtility.getDocument(xml2);

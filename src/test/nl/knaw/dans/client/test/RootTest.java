@@ -34,8 +34,8 @@ public class RootTest {
         root.getMdRecord().setAnyElement(element);
 
         Marshaller<Root> m =
-            new Marshaller<Root>(root.getClass(),
-                EscidocClientTestBase.getDefaultTransportProtocol());
+            new Marshaller<Root>(root.getClass(), EscidocClientTestBase
+                .getDefaultTransportProtocol().name());
         String xml = m.marshalDocument(root);
         System.out.println(xml);
 

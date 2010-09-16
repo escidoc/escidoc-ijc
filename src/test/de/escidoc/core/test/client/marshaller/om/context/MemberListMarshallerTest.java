@@ -37,6 +37,7 @@ import org.junit.Test;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.MemberList;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -45,7 +46,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class MemberListMarshallerTest {
+public class MemberListMarshallerTest extends AbstractParameterizedTestBase {
+
+    public MemberListMarshallerTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test unmarshalling of Context.
@@ -61,8 +66,10 @@ public class MemberListMarshallerTest {
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(memberListFile);
 
-        MemberList memberList = Factory.getMarshallerFactory(TransportProtocol.SOAP)
-        	.getMemberListMarshaller().unmarshalDocument(contextXml);
+        MemberList memberList =
+            Factory
+                .getMarshallerFactory(transport).getMemberListMarshaller()
+                .unmarshalDocument(contextXml);
 
         assertEquals("Wrong offset", 0, memberList.getOffset());
         assertEquals("Wrong limit", 1000, memberList.getLimit());
