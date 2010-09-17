@@ -31,7 +31,7 @@ public class PolicyDecisionPointRestServiceLocator extends RestServiceMethod
 
 	@Override
 	public void touch() throws RemoteException, SystemException {
-		
+		// do nothing
 	}
 
 }
