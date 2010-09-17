@@ -145,9 +145,11 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
                 null,
                 new StringAttribute(
                     "info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
+        
+        Set<Attribute> envAttrs = new HashSet<Attribute>();
 
         RequestCtx request =
-            new RequestCtx(subjects, resourceAttrs, actionAttrs, null);
+            new RequestCtx(subjects, resourceAttrs, actionAttrs, envAttrs);
         // ResponseCtx response = pdp.evaluate(request);
     }
 

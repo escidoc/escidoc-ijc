@@ -308,7 +308,8 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
 
         MemberList memberList = cc.retrieveMembers("escidoc:ex1", filterParam);
         Marshaller<MemberList> m =
-            new Marshaller<MemberList>(memberList.getClass());
+            Factory.getMarshallerFactory(transport).getMemberListMarshaller();
+
         m.marshalDocument(memberList);
 
         assertTrue("result list is empty, try another filter", memberList

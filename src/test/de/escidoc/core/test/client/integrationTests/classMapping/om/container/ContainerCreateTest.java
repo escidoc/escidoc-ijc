@@ -52,6 +52,7 @@ import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.XmlUtility;
+import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
@@ -412,7 +413,8 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
             createdContainer.getMetadataRecords().get("escidoc");
 
         Marshaller<MetadataRecord> m2 =
-            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass());
+            Factory
+                .getMarshallerFactory(transport).getMetadataRecordMarshaller();
         String xml2 = m2.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);

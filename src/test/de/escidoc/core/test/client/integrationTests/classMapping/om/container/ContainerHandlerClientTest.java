@@ -185,7 +185,8 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
 
         ContainerList containerList = cc.retrieveContainers(filterParam);
         Marshaller<ContainerList> m =
-            new Marshaller<ContainerList>(containerList.getClass());
+            Factory
+                .getMarshallerFactory(transport).getContainerListMarshaller();
         String xml = m.marshalDocument(containerList);
 
         // FIXME check containerList
@@ -245,7 +246,7 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
 
         MemberList memberList = cc.retrieveMembers(objid, filterParam);
         Marshaller<MemberList> m =
-            new Marshaller<MemberList>(memberList.getClass());
+            Factory.getMarshallerFactory(transport).getMemberListMarshaller();
         String xml = m.marshalDocument(memberList);
 
         // FIXME check containerList
