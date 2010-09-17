@@ -54,8 +54,6 @@ public class PolicyDecisionPointHandlerClient
     AbstractHandlerClient<SoapPolicyDecisionPointHandlerClient, RestPolicyDecisionPointHandlerClient>
     implements PolicyDecisionPointHandlerClientInterface {
 
-    private Authentication auth = null;
-
     /**
      * See Interface for functional description.
      * 
@@ -123,7 +121,8 @@ public class PolicyDecisionPointHandlerClient
 
         setServiceAddress(serviceAddress);
 
-        if (this.auth == null) {
+        Authentication auth = null;
+        if (auth == null) {
             try {
                 auth = new Authentication(serviceAddress, username, password);
             }
@@ -132,7 +131,7 @@ public class PolicyDecisionPointHandlerClient
             }
         }
 
-        String handle = this.auth.getHandle();
+        String handle = auth.getHandle();
         setHandle(handle);
 
         return handle;
