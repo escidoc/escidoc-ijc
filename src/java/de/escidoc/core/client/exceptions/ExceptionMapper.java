@@ -26,9 +26,6 @@ public class ExceptionMapper extends Exception {
     private static final String PREFIX_COMMON =
         "de.escidoc.core.common.exceptions";
 
-    private static final String REMOTE_SECURITY_EXCEPTION =
-        "de.escidoc.core.common.exceptions.remote.application.security.SecurityException";
-
     /**
      * Common denominator of package names for exceptions inheriting from
      * {@link EscidocClientException}.
@@ -118,7 +115,6 @@ public class ExceptionMapper extends Exception {
             exceptionCause = obtainExceptionCause(statusText);
 
             Class<?> exClass = Class.forName(exceptionClassName);
-            Class<?> securityExClass = Class.forName(REMOTE_SECURITY_EXCEPTION);
 
             /**
              * SecurityExceptions do have a 4th parameter "redirectLocation",
@@ -126,7 +122,8 @@ public class ExceptionMapper extends Exception {
              * In order to instantiate such exceptions, we have to pass null as
              * a 4th parameter.
              */
-            if (securityExClass.isAssignableFrom(exClass)) {
+            if (de.escidoc.core.common.exceptions.remote.application.security.SecurityException.class
+                .isAssignableFrom(exClass)) {
                 Constructor<?> constructor =
                     exClass.getDeclaredConstructor(new Class[] { int.class,
                         String.class, String.class, String.class });
