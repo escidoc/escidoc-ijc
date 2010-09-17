@@ -30,8 +30,8 @@
 	<include path="rest/aa/0.7/user-account-binding.xml" />
 	<include path="rest/aa/0.5/grant-binding.xml" />
 	<include path="rest/aa/0.4/role-binding.xml" />
-	<include path="rest/aa/0.3/requests-binding.xml" />
-	<include path="rest/aa/0.3/requests-results-binding.xml" />
+<!--	<include path="rest/aa/0.3/requests-binding.xml" />-->
+<!--	<include path="rest/aa/0.3/requests-results-binding.xml" />-->
 	<include path="rest/aa/0.4/unsecured-actions-binding.xml" />
 	<include path="rest/aa/0.1/preference-binding.xml" />
 	<include path="rest/aa/0.1/attribute-binding.xml" />
