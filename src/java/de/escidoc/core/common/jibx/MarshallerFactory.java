@@ -17,6 +17,7 @@ import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.cmm.ContentModel;
+import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
@@ -136,6 +137,8 @@ public class MarshallerFactory {
         null;
 
     private static Marshaller<MetadataRecords> metadataRecordsMarshaller = null;
+
+    private static Marshaller<MetadataRecord> metadataRecordMarshaller = null;
 
     private static Marshaller<Relations> relationsMarshaller = null;
 
@@ -661,6 +664,17 @@ public class MarshallerFactory {
         parentsMarshaller.setBindingName(transport.name());
 
         return parentsMarshaller;
+    }
+
+    public Marshaller<MetadataRecord> getMetadataRecordMarshaller()
+        throws InternalClientException {
+        if (metadataRecordMarshaller == null) {
+            metadataRecordMarshaller =
+                new Marshaller<MetadataRecord>(MetadataRecord.class);
+        }
+        metadataRecordMarshaller.setBindingName(transport.name());
+
+        return metadataRecordMarshaller;
     }
 
     /**
