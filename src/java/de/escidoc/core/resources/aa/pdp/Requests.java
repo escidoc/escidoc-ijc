@@ -28,10 +28,9 @@
  */
 package de.escidoc.core.resources.aa.pdp;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
-import org.w3c.dom.Element;
+import com.sun.xacml.ctx.RequestCtx;
 
 /**
  * PDP requests.
@@ -39,26 +38,7 @@ import org.w3c.dom.Element;
  * @author ?
  * 
  */
-public class Requests {
+public class Requests extends LinkedList<RequestCtx>{
 
-    private final Collection<Element> requests = new LinkedList<Element>();
-
-    /**
-     * Get collection of requests.
-     * 
-     * @return Requests collection
-     */
-    public Collection<Element> getRequests() {
-        return requests;
-    }
-
-    /**
-     * Add a Request (as DOM Element).
-     * 
-     * @param request
-     *            Request as DOM element.
-     */
-    public void addRequest(final Element request) {
-        this.requests.add(request);
-    }
+    
 }
