@@ -26,6 +26,9 @@ public class ExceptionMapper extends Exception {
     private static final String PREFIX_COMMON =
         "de.escidoc.core.common.exceptions";
 
+    private static final String REMOTE_SECURITY_EXCEPTION =
+        "de.escidoc.core.common.exceptions.remote.application.security.SecurityException";
+
     /**
      * Common denominator of package names for exceptions inheriting from
      * {@link EscidocClientException}.
@@ -33,13 +36,17 @@ public class ExceptionMapper extends Exception {
     private static final String PREFIX_CLIENT =
         "de.escidoc.core.client.exceptions";
 
+    private static final Pattern P_CLASS = Pattern.compile(
+        "[^(<class>)].*<class><p>([^<]*)</p></class>.*", Pattern.DOTALL
+            + Pattern.MULTILINE);
+
     /**
      *
      */
     private static final long serialVersionUID = 263830560183559829L;
 
-    private static final Logger LOGGER =
-        Logger.getLogger(ExceptionMapper.class);
+    private static final Logger LOGGER = Logger
+        .getLogger(ExceptionMapper.class);
 
     /**
      * Maps exceptions to an acceptable exception type.
@@ -110,16 +117,31 @@ public class ExceptionMapper extends Exception {
             exceptionMessage = obtainExceptionMessage(subString);
             exceptionCause = obtainExceptionCause(statusText);
 
-            Class<?>[] parameterTypes =
-                new Class[] { int.class, String.class, String.class };
-
             Class<?> exClass = Class.forName(exceptionClassName);
-            Constructor<?> constructor =
-                exClass.getDeclaredConstructor(parameterTypes);
-            result =
-                (RemoteException) constructor.newInstance(statusCode,
-                    exceptionMessage, exceptionCause);
+            Class<?> securityExClass = Class.forName(REMOTE_SECURITY_EXCEPTION);
 
+            /**
+             * SecurityExceptions do have a 4th parameter "redirectLocation",
+             * which is not included in the XML response of the infrastructure.
+             * In order to instantiate such exceptions, we have to pass null as
+             * a 4th parameter.
+             */
+            if (securityExClass.isAssignableFrom(exClass)) {
+                Constructor<?> constructor =
+                    exClass.getDeclaredConstructor(new Class[] { int.class,
+                        String.class, String.class, String.class });
+                result =
+                    (RemoteException) constructor.newInstance(statusCode,
+                        exceptionMessage, exceptionCause, null);
+            }
+            else {
+                Constructor<?> constructor =
+                    exClass.getDeclaredConstructor(new Class[] { int.class,
+                        String.class, String.class });
+                result =
+                    (RemoteException) constructor.newInstance(statusCode,
+                        exceptionMessage, exceptionCause);
+            }
         }
         catch (Exception e) {
             String msg = "Unable to map exception: " + statusLine;
@@ -138,8 +160,10 @@ public class ExceptionMapper extends Exception {
             Class<?>[] parameterTypes =
                 new Class[] { String.class, Throwable.class };
             Class<?> exClass =
-                Class.forName(commonE.getClass().getName().replace(
-                    PREFIX_REMOTE, PREFIX_CLIENT));
+                Class
+                    .forName(commonE
+                        .getClass().getName()
+                        .replace(PREFIX_REMOTE, PREFIX_CLIENT));
             Constructor<?> constructor =
                 exClass.getDeclaredConstructor(parameterTypes);
 
@@ -161,11 +185,7 @@ public class ExceptionMapper extends Exception {
 
         String exceptionClassName = null;
 
-        Pattern pClass =
-            Pattern.compile("[^(<class>)].*<class><p>([^<]*)</p></class>.*",
-                Pattern.DOTALL + Pattern.MULTILINE);
-
-        Matcher m = pClass.matcher(subString);
+        Matcher m = P_CLASS.matcher(subString);
         if (m.find()) {
             exceptionClassName = m.group(1);
             exceptionClassName =
@@ -197,9 +217,8 @@ public class ExceptionMapper extends Exception {
         int begin = text.indexOf(beginTag);
         int end = text.lastIndexOf(endTag);
 
-        return (begin >= 0 && end >= 0) 
-        	? text.substring(begin + beginTag.length(), end)
-        	: text;
+        return (begin >= 0 && end >= 0) ? text.substring(
+            begin + beginTag.length(), end) : text;
     }
 
 }
