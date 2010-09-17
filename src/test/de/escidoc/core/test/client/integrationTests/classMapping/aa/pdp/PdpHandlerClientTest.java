@@ -28,18 +28,15 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.aa.pdp;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import com.sun.xacml.attr.StringAttribute;
@@ -52,14 +49,13 @@ import de.escidoc.core.client.PolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.binding.PDPRequestsMarshaller;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.RequestsResults;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
-import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test PDP Handler.
@@ -92,14 +88,25 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
         pdpc.setHandle(auth.getHandle());
         pdpc.setTransport(transport);
 
-        Requests requests = createRequests();
-        RequestsResults results = pdpc.evaluate(requests);
+        // Requests requests = createRequests();
+//        String xml =
+//            EscidocClientTestBase.getXmlFileAsString(new File(
+//                "templates/soap/pdp/requests.xml"));
+//        
+//        System.out.println(xml);
+//        
+//        Marshaller<Requests> m = new Marshaller<Requests>(Requests.class);
+//        m.setBindingName(transport.name());
+//        
+//        Requests requests = m.unmarshalDocument(xml);
+//        
+//        RequestsResults results = pdpc.evaluate(requests);
 
-        String xml =
-            Factory
-                .getMarshallerFactory(transport).getRequestsResultsMarshaller()
-                .marshalDocument(results);
-        System.out.println(xml);
+        // String xml =
+        // Factory
+        // .getMarshallerFactory(transport).getRequestsResultsMarshaller()
+        // .marshalDocument(results);
+        // System.out.println(xml);
 
         /**
          * TEST IMPL OF PDP REQUEST/RESPONSE
@@ -145,7 +152,7 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
                 null,
                 new StringAttribute(
                     "info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
-        
+
         Set<Attribute> envAttrs = new HashSet<Attribute>();
 
         RequestCtx request =
@@ -172,47 +179,48 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
 
         Requests requests = new Requests();
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-
-        Document doc =
-            builder.parse(Template.load("templates/soap/pdp/request1.xml"));
-        Element root1 = doc.getDocumentElement();
-        requests.addRequest(root1);
-
-        Document doc2 =
-            builder.parse(Template.load("templates/soap/pdp/request2.xml"));
-        Element root2 = doc2.getDocumentElement();
-        requests.addRequest(root2);
-
-        Document doc3 =
-            builder.parse(Template.load("templates/soap/pdp/request3.xml"));
-        Element root3 = doc3.getDocumentElement();
-        requests.addRequest(root3);
-
-        Document doc4 =
-            builder.parse(Template.load("templates/soap/pdp/request4.xml"));
-        Element root4 = doc4.getDocumentElement();
-        requests.addRequest(root4);
-
-        Document doc5 =
-            builder.parse(Template.load("templates/soap/pdp/request5.xml"));
-        Element root5 = doc5.getDocumentElement();
-        requests.addRequest(root5);
-
-        Document doc6 =
-            builder.parse(Template.load("templates/soap/pdp/request6.xml"));
-        Element root6 = doc6.getDocumentElement();
-        requests.addRequest(root6);
-
-        Marshaller<Requests> m =
-            new Marshaller<Requests>(requests.getClass(), transport.name());
-        String xml = m.marshalDocument(requests);
-
-        Requests urequests = m.unmarshalDocument(xml);
-        Factory
-            .getMarshallerFactory(transport).getRequestsMarshaller()
-            .marshalDocument(urequests);
+        // DocumentBuilderFactory factory =
+        // DocumentBuilderFactory.newInstance();
+        // DocumentBuilder builder = factory.newDocumentBuilder();
+        //
+        // Document doc =
+        // builder.parse(Template.load("templates/soap/pdp/request1.xml"));
+        // Element root1 = doc.getDocumentElement();
+        // requests.addRequest(root1);
+        //
+        // Document doc2 =
+        // builder.parse(Template.load("templates/soap/pdp/request2.xml"));
+        // Element root2 = doc2.getDocumentElement();
+        // requests.addRequest(root2);
+        //
+        // Document doc3 =
+        // builder.parse(Template.load("templates/soap/pdp/request3.xml"));
+        // Element root3 = doc3.getDocumentElement();
+        // requests.addRequest(root3);
+        //
+        // Document doc4 =
+        // builder.parse(Template.load("templates/soap/pdp/request4.xml"));
+        // Element root4 = doc4.getDocumentElement();
+        // requests.addRequest(root4);
+        //
+        // Document doc5 =
+        // builder.parse(Template.load("templates/soap/pdp/request5.xml"));
+        // Element root5 = doc5.getDocumentElement();
+        // requests.addRequest(root5);
+        //
+        // Document doc6 =
+        // builder.parse(Template.load("templates/soap/pdp/request6.xml"));
+        // Element root6 = doc6.getDocumentElement();
+        // requests.addRequest(root6);
+        //
+        // Marshaller<Requests> m =
+        // new Marshaller<Requests>(requests.getClass(), transport.name());
+        // String xml = m.marshalDocument(requests);
+        //
+        // Requests urequests = m.unmarshalDocument(xml);
+        // Factory
+        // .getMarshallerFactory(transport).getRequestsMarshaller()
+        // .marshalDocument(urequests);
 
         return requests;
     }
