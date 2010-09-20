@@ -49,8 +49,8 @@ import de.escidoc.core.client.PolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface;
+import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
-import de.escidoc.core.common.jibx.binding.PDPRequestsMarshaller;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.RequestsResults;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
@@ -89,18 +89,18 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
         pdpc.setTransport(transport);
 
         // Requests requests = createRequests();
-//        String xml =
-//            EscidocClientTestBase.getXmlFileAsString(new File(
-//                "templates/soap/pdp/requests.xml"));
-//        
-//        System.out.println(xml);
-//        
-//        Marshaller<Requests> m = new Marshaller<Requests>(Requests.class);
-//        m.setBindingName(transport.name());
-//        
-//        Requests requests = m.unmarshalDocument(xml);
-//        
-//        RequestsResults results = pdpc.evaluate(requests);
+        String xml =
+            EscidocClientTestBase.getXmlFileAsString(new File(
+                "templates/soap/pdp/requests.xml"));
+        Marshaller<Requests> m =
+            Factory.getMarshallerFactory(transport).getRequestsMarshaller();
+        m.setBindingName(transport.name());
+
+        Requests requests = m.unmarshalDocument(xml);
+
+        System.out.println(m.marshalDocument(requests));
+
+        RequestsResults results = pdpc.evaluate(requests);
 
         // String xml =
         // Factory
