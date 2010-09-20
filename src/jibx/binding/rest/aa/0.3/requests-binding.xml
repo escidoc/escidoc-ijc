@@ -1,17 +1,15 @@
 <binding>
 	<!-- REST Binding -->
 
+	<namespace uri="urn:oasis:names:tc:xacml:1.0:context" prefix="xacml-context" />
+
 	<mapping name="Requests" class="de.escidoc.core.resources.aa.pdp.Requests"
-		ns="urn:oasis:names:tc:xacml:1.0:context">
+		ns="urn:oasis:names:tc:xacml:1.0:context" 
+		marshaller="de.escidoc.core.common.jibx.binding.PDPRequestsMarshaller"
+		unmarshaller="de.escidoc.core.common.jibx.binding.PDPRequestsMarshaller"/>
 
 		<!-- <namespace uri="http://www.escidoc.de/schemas/pdp/0.3/requests" -->
 		<!-- prefix="requests" /> -->
-		<namespace uri="urn:oasis:names:tc:xacml:1.0:context"
-			prefix="xacml-context" />
-		<structure ns="urn:oasis:names:tc:xacml:1.0:context"
-			marshaller="de.escidoc.core.common.jibx.binding.PDPRequestsMarshaller"
-			unmarshaller="de.escidoc.core.common.jibx.binding.PDPRequestsMarshaller" />
-
 
 		<!-- ***************************************** -->
 		<!-- Requests -->
@@ -24,6 +22,6 @@
 		<!-- unmarshaller="de.escidoc.core.common.jibx.binding.RequestCtxMarshaller"/> -->
 		<!-- </collection> -->
 
-	</mapping>
+<!--	</mapping>-->
 
 </binding>
