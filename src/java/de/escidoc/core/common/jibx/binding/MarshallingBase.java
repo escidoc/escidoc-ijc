@@ -19,11 +19,11 @@ import org.jibx.runtime.impl.UnmarshallingContext;
  */
 public class MarshallingBase {
 
-    private static final Pattern CDATA_PATTERN =
-        Pattern.compile("<!\\[CDATA.*\\]\\]>");
+    private static final Pattern CDATA_PATTERN = Pattern
+        .compile("<!\\[CDATA.*\\]\\]>");
 
-    private static final Pattern XML_DECLARATION_PATTERN =
-        Pattern.compile("<\\?xml.*\\?>");
+    private static final Pattern XML_DECLARATION_PATTERN = Pattern
+        .compile("<\\?xml.*\\?>");
 
     protected static final String SIZE_ATTRIBUTE_NAME = "size";
 
@@ -81,8 +81,8 @@ public class MarshallingBase {
             else if (ctx.isEnd()) {
                 if (!element.equals(ctx.getElementName())) {
                     result = result.append(getEndElement(ictx));
-                    ctx.parsePastEndTag(ctx.getNamespace(), ctx
-                        .getElementName());
+                    ctx.parsePastEndTag(ctx.getNamespace(),
+                        ctx.getElementName());
                 }
                 else {
                     finished = true;
@@ -113,33 +113,34 @@ public class MarshallingBase {
         else {
             result.append(new StringBuffer(ctx.getElementName()));
         }
-        
+
         // namespaces
         StringBuffer namespaces = new StringBuffer();
         for (int i = 0; i < ctx.getNamespaceCount(); ++i) {
-        	namespaces.append(" xmlns");
-        	String currentNSPrefix = ctx.getNamespacePrefix(i);
-        	if(currentNSPrefix != null && currentNSPrefix.length() != 0) {
-        		namespaces.append(":").append(currentNSPrefix);
-        	}
-        	namespaces.append("=\"")
-        		.append(ctx.getNamespaceUri(i)).append("\"");
+            namespaces.append(" xmlns");
+            String currentNSPrefix = ctx.getNamespacePrefix(i);
+            if (currentNSPrefix != null && currentNSPrefix.length() != 0) {
+                namespaces.append(":").append(currentNSPrefix);
+            }
+            namespaces
+                .append("=\"").append(ctx.getNamespaceUri(i)).append("\"");
         }
         result.append(namespaces);
-        
+
         // attributes
         StringBuffer attributes = new StringBuffer();
         for (int i = 0; i < ctx.getAttributeCount(); ++i) {
-        	String attrPrefix = ctx.getAttributePrefix(i);
-        	attributes.append(" ");
-        	if(attrPrefix != null && attrPrefix.length() != 0) {
-        		attributes.append(attrPrefix).append(":");
-        	}
-            attributes.append(ctx.getAttributeName(i)).append("=\"")
-            	.append(ctx.getAttributeValue(i)).append("\"");
+            String attrPrefix = ctx.getAttributePrefix(i);
+            attributes.append(" ");
+            if (attrPrefix != null && attrPrefix.length() != 0) {
+                attributes.append(attrPrefix).append(":");
+            }
+            attributes
+                .append(ctx.getAttributeName(i)).append("=\"")
+                .append(ctx.getAttributeValue(i)).append("\"");
         }
         result.append(attributes);
-        
+
         return result.append(">");
     }
 
@@ -245,4 +246,14 @@ public class MarshallingBase {
         return name;
     }
 
+    /**
+     * Removes whitespace characters [ \t\n\x0B\f\r] at the beginning and end of
+     * a text.
+     * 
+     * @param textContent
+     * @return
+     */
+    protected String cleanup(String textContent) {
+        return textContent.replaceAll("(^\\s+)|(\\s+$)", "");
+    }
 }
