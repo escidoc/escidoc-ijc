@@ -53,6 +53,7 @@ import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.SearchHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
+import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
@@ -69,191 +70,200 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 @RunWith(Parameterized.class)
 public class SearchHandlerClientTest extends EscidocClientTestBase {
 
-	private TransportProtocol protocol;
-	private RecordPacking packing;
-	
-	private static final StringBuilder out = new StringBuilder(); 
+    private TransportProtocol protocol;
 
-	public SearchHandlerClientTest(TransportProtocol protocol, 
-			RecordPacking packing) {
-		this.protocol = protocol;
-		this.packing = packing;
-	}
+    private RecordPacking packing;
 
-	@Parameters
-	public static Collection data() {
-		return Arrays.asList(new Object[][] {
-				{ TransportProtocol.REST, RecordPacking.xml },
-				{ TransportProtocol.REST, RecordPacking.string },
-				{ TransportProtocol.SOAP, RecordPacking.xml },
-				{ TransportProtocol.SOAP, RecordPacking.string } });
-	}
+    private static final StringBuilder out = new StringBuilder();
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-	
-	@AfterClass
-	public static void afterClass() throws Exception {
-		System.out.println(out.toString());
-	}
+    public SearchHandlerClientTest(TransportProtocol protocol,
+        RecordPacking packing) {
+        this.protocol = protocol;
+        this.packing = packing;
+    }
 
-	/**
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testSRWExplain() throws Exception {
+    @Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][] {
+            { TransportProtocol.REST, RecordPacking.xml },
+            { TransportProtocol.REST, RecordPacking.string },
+            { TransportProtocol.SOAP, RecordPacking.xml },
+            { TransportProtocol.SOAP, RecordPacking.string } });
+    }
 
-		SearchHandlerClient c = new SearchHandlerClient();
-		c.setTransport(protocol);
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
 
-		ExplainRequestType request = new ExplainRequestType();
-		request.setRecordPacking(packing.name());
-		request.setVersion("1.1");
+    @AfterClass
+    public static void afterClass() throws Exception {
+        System.out.println(out.toString());
+    }
 
-		ExplainResponse response = c.explain2(request, null);
-		Record<ExplainData> record = response.getRecord();
-		ExplainData data = record.getRecordData();
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testSRWExplain() throws Exception {
 
-		out.append("\n=========================\n");
-		out.append("testSRWExplain: ");
-		out.append("Protocol: "+protocol.name()+
-				", RecordPacking: "+packing+"\n");
-		data.toString(out);
-		out.append("\n");
-		
-		Assert.assertNotNull(data);
-	}
-	
-	/**
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testFilterExplain() throws Exception {
+        SearchHandlerClient c = new SearchHandlerClient();
+        c.setTransport(protocol);
 
-		ItemHandlerClient c = new ItemHandlerClient();
-		c.setTransport(protocol);
+        ExplainRequestType request = new ExplainRequestType();
+        request.setRecordPacking(packing.name());
+        request.setVersion("1.1");
 
-		ExplainRequestType request = new ExplainRequestType();
-		request.setVersion("1.1");
-		request.setRecordPacking(packing.name());
+        ExplainResponse response = c.explain2(request, null);
+        Record<ExplainData> record = response.getRecord();
+        ExplainData data = record.getRecordData();
 
-		ExplainResponse response = c.retrieveItems(request);
-		Record<ExplainData> record = response.getRecord();
-		ExplainData data = record.getRecordData();
+        out.append("\n=========================\n");
+        out.append("testSRWExplain: ");
+        out.append("Protocol: " + protocol.name() + ", RecordPacking: "
+            + packing + "\n");
+        data.toString(out);
+        out.append("\n");
 
-		out.append("\n=========================\n");
-		out.append("testFilterExplain: ");
-		out.append("Protocol: "+protocol.name()+
-				", RecordPacking: "+packing+"\n");
-		data.toString(out);
-		out.append("\n");
-		
-		Assert.assertNotNull(data);
-	}
+        Assert.assertNotNull(data);
+    }
 
-	/**
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testSRWSearch() throws Exception {
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testFilterExplain() throws Exception {
 
-		SearchHandlerClient c = new SearchHandlerClient();
-		c.setTransport(protocol);
-		String query = "escidoc.metadata=escidoc*";
+        ItemHandlerClient c = new ItemHandlerClient();
+        c.setTransport(protocol);
 
-		SearchRetrieveResponse response = c.search(URLEncoder.encode(
-				query, "UTF-8"), null);
-		
-		out.append("\n=========================\n");
-		out.append("testSRWSearch: query="+query);
-		out.append(" [Protocol: "+protocol.name()+
-				", RecordPacking: "+packing+"]\n");
-		out.append("Results: "+response.getNumberOfResultingRecords()+"\n");
-		
-		for (Iterator<Record> it = response.getRecords().iterator(); it.hasNext();) {
-			Record record = it.next();
-			
-			assertTrue(record instanceof SearchResultRecordRecord);
-			
-			if (record instanceof SearchResultRecordRecord) {
-				SearchResultRecordRecord result = 
-					(SearchResultRecordRecord) record;
-				
-				SearchResultRecord data = result.getRecordData();
-				
-				assertNotNull(data);
-				assertNotNull(data.getContent());
-				
-				out.append(data.getContent().getResourceType().name()+": ID["+
-						data.getContent().getObjid()+ "], Href[" +
-						data.getContent().getXLinkHref() + "], Score[" +
-						data.getScore()+"]\n");
-				assertNotNull(data.getContent().getObjid());
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testFilterSearch() throws Exception {
+        ExplainRequestType request = new ExplainRequestType();
+        request.setVersion("1.1");
+        request.setRecordPacking(packing.name());
 
-		ItemHandlerClientInterface c = new ItemHandlerClient();
-		c.setTransport(protocol);
-		String query = "\"/properties/content-model/id\"=escidoc:ex4";
-//			String query = "\"/id\"=escidoc:1004";
+        ExplainResponse response = c.retrieveItems(request);
+        Record<ExplainData> record = response.getRecord();
+        ExplainData data = record.getRecordData();
 
-		SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-		request.setQuery(query);
-		request.setRecordPacking(packing.name());
+        out.append("\n=========================\n");
+        out.append("testFilterExplain: ");
+        out.append("Protocol: " + protocol.name() + ", RecordPacking: "
+            + packing + "\n");
+        data.toString(out);
+        out.append("\n");
 
-		SearchRetrieveResponse response = c.retrieveItems(request);
-		
-		out.append("\n=========================\n");
-		out.append("testFilterSearch [1]: query="+query);
-		out.append(" [Protocol: "+protocol.name()+
-				", RecordPacking: "+packing+"]\n");
-		out.append("Results: "+response.getNumberOfResultingRecords()+"\n");
-		
-		for (Iterator it = response.getRecords().iterator(); it.hasNext();) {
-			ItemRecord record = (ItemRecord) it.next();
-			Item item = record.getRecordData();
-			out.append("Item: ID["+item.getObjid()+"], Href["+item.getXLinkHref()+"]\n");
-		}
-		
-		Collection<Item> items = c.retrieveItemsAsList(request);
-		
-		out.append("\ntestFilterSearch [2]:\n");
-		out.append("Results: "+items.size()+"\n");
-		
-		for (Item item : items) {
-			out.append("Item: ID["+item.getObjid()+"], Href["+item.getXLinkHref()+"]\n");
-		}
-		
-		assertEquals("Binding of all items within records failed.", 
-				response.getNumberOfResultingRecords(), items.size());
-	}
-	
-	/**
-	 * TODO
-	 * @throws Exception
-	 */
-	// @Test
-	public void testSearchScanREST() throws Exception {
+        Assert.assertNotNull(data);
+    }
 
-		SearchHandlerClient c = new SearchHandlerClient();
-		c.setTransport(TransportProtocol.REST);
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testSRWSearch() throws Exception {
 
-		ScanRequestType request = new ScanRequestType();
-		request.setVersion("1.1");
-		request.setScanClause("escidoc.metadata=escidoc");
+        SearchHandlerClient c = new SearchHandlerClient();
+        c.setTransport(protocol);
+        String query = "escidoc.metadata=escidoc*";
 
-		ScanResponse response = c.scan(request, null);
-	}
+        SearchRetrieveResponse response =
+            c.search(URLEncoder.encode(query, "UTF-8"), null);
+
+        out.append("\n=========================\n");
+        out.append("testSRWSearch: query=" + query);
+        out.append(" [Protocol: " + protocol.name() + ", RecordPacking: "
+            + packing + "]\n");
+        out.append("Results: " + response.getNumberOfResultingRecords() + "\n");
+
+        for (Iterator<Record> it = response.getRecords().iterator(); it
+            .hasNext();) {
+            Record record = it.next();
+
+            assertTrue(record instanceof SearchResultRecordRecord);
+
+            if (record instanceof SearchResultRecordRecord) {
+                SearchResultRecordRecord result =
+                    (SearchResultRecordRecord) record;
+
+                SearchResultRecord data = result.getRecordData();
+
+                assertNotNull(data);
+                assertNotNull(data.getContent());
+
+                System.out.println(Factory
+                    .getMarshallerFactory(protocol).getSearchResultMarshaller()
+                    .marshalDocument(data));
+
+                out.append(data.getContent().getResourceType().name() + ": ID["
+                    + data.getContent().getObjid() + "], Href["
+                    + data.getContent().getXLinkHref() + "], Score["
+                    + data.getScore() + "]\n");
+                assertNotNull(data.getContent().getObjid());
+            }
+        }
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testFilterSearch() throws Exception {
+
+        ItemHandlerClientInterface c = new ItemHandlerClient();
+        c.setTransport(protocol);
+        String query = "\"/properties/content-model/id\"=escidoc:ex4";
+        // String query = "\"/id\"=escidoc:1004";
+
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request.setQuery(query);
+        request.setRecordPacking(packing.name());
+
+        SearchRetrieveResponse response = c.retrieveItems(request);
+
+        out.append("\n=========================\n");
+        out.append("testFilterSearch [1]: query=" + query);
+        out.append(" [Protocol: " + protocol.name() + ", RecordPacking: "
+            + packing + "]\n");
+        out.append("Results: " + response.getNumberOfResultingRecords() + "\n");
+
+        for (Iterator it = response.getRecords().iterator(); it.hasNext();) {
+            ItemRecord record = (ItemRecord) it.next();
+            Item item = record.getRecordData();
+            out.append("Item: ID[" + item.getObjid() + "], Href["
+                + item.getXLinkHref() + "]\n");
+        }
+
+        Collection<Item> items = c.retrieveItemsAsList(request);
+
+        out.append("\ntestFilterSearch [2]:\n");
+        out.append("Results: " + items.size() + "\n");
+
+        for (Item item : items) {
+            out.append("Item: ID[" + item.getObjid() + "], Href["
+                + item.getXLinkHref() + "]\n");
+        }
+
+        assertEquals("Binding of all items within records failed.",
+            response.getNumberOfResultingRecords(), items.size());
+    }
+
+    /**
+     * TODO
+     * 
+     * @throws Exception
+     */
+    // @Test
+    public void testSearchScanREST() throws Exception {
+
+        SearchHandlerClient c = new SearchHandlerClient();
+        c.setTransport(TransportProtocol.REST);
+
+        ScanRequestType request = new ScanRequestType();
+        request.setVersion("1.1");
+        request.setScanClause("escidoc.metadata=escidoc");
+
+        ScanResponse response = c.scan(request, null);
+    }
 }
