@@ -8,12 +8,14 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jibx.extras.DomElementMapper;
 import org.jibx.runtime.IAliasable;
 import org.jibx.runtime.IMarshaller;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshaller;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
+import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
 import com.sun.xacml.ParsingException;
@@ -29,12 +31,30 @@ import de.escidoc.core.resources.aa.pdp.Requests;
  * @author MVO
  * 
  */
-/**
- * @author MVO
- * 
- */
 public class PDPRequestsMarshaller extends MarshallingBase
     implements IMarshaller, IUnmarshaller, IAliasable {
+
+    public static final String NS_PREFIX = "xacml-context";
+
+    public static final String TAG_NAME_REQUEST = "Request";
+
+    public static final String TAG_NAME_SUBJECT = "Subject";
+
+    public static final String TAG_NAME_RESOURCE = "Resource";
+
+    public static final String TAG_NAME_ACTION = "Action";
+
+    public static final String TAG_NAME_ENVIRONMENT = "Environment";
+
+    public static final String TAG_NAME_ATTRIBUTE = "Attribute";
+
+    public static final String TAG_NAME_ATTRIBUTE_VALUE = "AttributeValue";
+
+    public static final String ATTR_NAME_SUBJECT_CATEGORY = "SubjectCategory";
+
+    public static final String ATTR_NAME_ATTRIBUTE_ID = "AttributeId";
+
+    public static final String ATTR_NAME_DATA_TYPE = "DataType";
 
     /**
      * 
@@ -73,60 +93,64 @@ public class PDPRequestsMarshaller extends MarshallingBase
 
         ctx.parsePastStartTag(getUri(), getName());
 
-        while (ctx.isAt(getUri(), "Request")) {
-            ctx.parsePastStartTag(getUri(), "Request");
+        while (ctx.isAt(getUri(), TAG_NAME_REQUEST)) {
+            ctx.parsePastStartTag(getUri(), TAG_NAME_REQUEST);
 
             Set<Subject> subjects = new HashSet<Subject>();
-            Set<Attribute> resourceAttrs = null;
-            Set<Attribute> actionAttrs = null;
-            Set<Attribute> envAttrs = null;
+            Set<Attribute> resourceAttrs = new HashSet<Attribute>();
+            Set<Attribute> actionAttrs = new HashSet<Attribute>();
+            Set<Attribute> envAttrs = new HashSet<Attribute>();
 
             // get subjects
-            while (ctx.isAt(getUri(), "Subject")) {
-                String subjectId = ctx.attributeText(getUri(), "SubjectCategory", "");
+            while (ctx.isAt(getUri(), TAG_NAME_SUBJECT)) {
+                String subjectId =
+                    ctx.attributeText(null, ATTR_NAME_SUBJECT_CATEGORY, null);
 
-                ctx.parsePastStartTag(getUri(), "Subject");
+                ctx.parsePastStartTag(getUri(), TAG_NAME_SUBJECT);
+
+                Set<Attribute> subjectAttrs = new HashSet<Attribute>();
+                parseAttributes(subjectAttrs, ctx);
 
                 if (subjectId == null) {
-                    subjects.add(new Subject(parseAttributes(ctx)));
+                    subjects.add(new Subject(subjectAttrs));
                 }
                 else {
                     try {
                         subjects.add(new Subject(new URI(subjectId),
-                                parseAttributes(ctx)));
+                            subjectAttrs));
                     }
                     catch (URISyntaxException e) {
                         throw new JiBXException("Unable to parse subject.", e);
                     }
                 }
-                ctx.parsePastEndTag(getUri(), "Subject");
+                ctx.parsePastEndTag(getUri(), TAG_NAME_SUBJECT);
             }
-            if (ctx.isAt(getUri(), "Resource")) {
-                ctx.parsePastStartTag(getUri(), "Resource");
+            if (ctx.isAt(getUri(), TAG_NAME_RESOURCE)) {
+                ctx.parsePastStartTag(getUri(), TAG_NAME_RESOURCE);
 
-                resourceAttrs = parseAttributes(ctx);
+                parseAttributes(resourceAttrs, ctx);
 
-                ctx.parsePastEndTag(getUri(), "Resource");
+                ctx.parsePastEndTag(getUri(), TAG_NAME_RESOURCE);
             }
-            if (ctx.isAt(getUri(), "Action")) {
-                ctx.parsePastStartTag(getUri(), "Action");
+            if (ctx.isAt(getUri(), TAG_NAME_ACTION)) {
+                ctx.parsePastStartTag(getUri(), TAG_NAME_ACTION);
 
-                actionAttrs = parseAttributes(ctx);
+                parseAttributes(actionAttrs, ctx);
 
-                ctx.parsePastEndTag(getUri(), "Action");
+                ctx.parsePastEndTag(getUri(), TAG_NAME_ACTION);
             }
-            if (ctx.isAt(getUri(), "Environment")) {
-                ctx.parsePastStartTag(getUri(), "Environment");
+            if (ctx.isAt(getUri(), TAG_NAME_ENVIRONMENT)) {
+                ctx.parsePastStartTag(getUri(), TAG_NAME_ENVIRONMENT);
 
-                envAttrs = parseAttributes(ctx);
+                parseAttributes(envAttrs, ctx);
 
-                ctx.parsePastEndTag(getUri(), "Environment");
+                ctx.parsePastEndTag(getUri(), TAG_NAME_ENVIRONMENT);
             }
 
             requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs,
                 envAttrs));
 
-            ctx.parsePastEndTag(getUri(), "Request");
+            ctx.parsePastEndTag(getUri(), TAG_NAME_REQUEST);
         }
 
         ctx.parsePastEndTag(getUri(), getName());
@@ -141,20 +165,24 @@ public class PDPRequestsMarshaller extends MarshallingBase
      * @throws JiBXException
      * @throws URISyntaxException
      */
-    private Set<Attribute> parseAttributes(final UnmarshallingContext ctx)
+    private void parseAttributes(
+        final Set<Attribute> attributes, final UnmarshallingContext ctx)
         throws JiBXException {
-        Set<Attribute> attributes = new HashSet<Attribute>();
 
         try {
-            while (ctx.isAt(getUri(), "Attribute")) {
-                URI id = new URI(ctx.attributeText(getUri(), "AttributeId"));
+            while (ctx.isAt(getUri(), TAG_NAME_ATTRIBUTE)) {
+                URI id =
+                    new URI(ctx.attributeText(null, ATTR_NAME_ATTRIBUTE_ID));
 
-                URI dataType = new URI(ctx.attributeText(getUri(), "DataType"));
+                URI dataType =
+                    new URI(ctx.attributeText(null, ATTR_NAME_DATA_TYPE));
                 String value = null;
 
-                ctx.parsePastStartTag(getUri(), "Attribute");
-                if (ctx.isAt(getUri(), "AttributeValue")) {
-                    value = ctx.parseContentText();
+                ctx.parsePastStartTag(getUri(), TAG_NAME_ATTRIBUTE);
+                if (ctx.isAt(getUri(), TAG_NAME_ATTRIBUTE_VALUE)) {
+                    value =
+                        cleanup(ctx.parseElementText(getUri(),
+                            TAG_NAME_ATTRIBUTE_VALUE));
                 }
                 else {
                     throw new JiBXException("{" + getUri()
@@ -164,7 +192,7 @@ public class PDPRequestsMarshaller extends MarshallingBase
                 }
                 attributes.add(new Attribute(id, null, null, AttributeFactory
                     .getInstance().createValue(dataType, value)));
-                ctx.parsePastEndTag(getUri(), "Attribute");
+                ctx.parsePastEndTag(getUri(), TAG_NAME_ATTRIBUTE);
             }
         }
         catch (URISyntaxException e) {
@@ -176,14 +204,90 @@ public class PDPRequestsMarshaller extends MarshallingBase
         catch (ParsingException e) {
             throw new JiBXException("Unable to parse attribute.", e);
         }
-
-        return attributes;
     }
 
     @Override
     public void marshal(Object obj, IMarshallingContext ictx)
         throws JiBXException {
-        // TODO Auto-generated method stub
 
+        if (!(obj instanceof Requests)) {
+            throw new JiBXException("Invalid object type for marshaller");
+        }
+        if (!(ictx instanceof MarshallingContext)) {
+            throw new JiBXException("Invalid object type for marshaller");
+        }
+
+        MarshallingContext ctx = (MarshallingContext) ictx;
+        Requests requests = (Requests) obj;
+        int[] urisIndex = new int[1];
+        urisIndex[0] = getIndex();
+        String[] prefixIndex = new String[1];
+        prefixIndex[0] = NS_PREFIX;
+
+        ctx.startTagNamespaces(0, getName(), urisIndex, prefixIndex);
+        ctx.closeStartContent();
+        
+        DomElementMapper elementMapper = null;
+
+        for (RequestCtx request : requests) {
+            ctx.startTag(getIndex(), TAG_NAME_REQUEST);
+
+            for (Object subjectObj : request.getSubjects()) {
+                Subject subject = (Subject) subjectObj;
+
+                ctx.startTagAttributes(getIndex(), TAG_NAME_SUBJECT);
+                ctx.attribute(1, ATTR_NAME_SUBJECT_CATEGORY, subject
+                    .getCategory().toString());
+                ctx.closeStartContent();
+
+                serializeAttributes(subject.getAttributes(), ctx);
+
+                ctx.endTag(getIndex(), TAG_NAME_SUBJECT);
+            }
+
+            ctx.startTag(getIndex(), TAG_NAME_RESOURCE);
+            serializeAttributes(request.getResource(), ctx);
+            ctx.endTag(getIndex(), TAG_NAME_RESOURCE);
+
+            ctx.startTag(getIndex(), TAG_NAME_ACTION);
+            serializeAttributes(request.getAction(), ctx);
+            ctx.endTag(getIndex(), TAG_NAME_ACTION);
+
+            ctx.startTag(getIndex(), TAG_NAME_ENVIRONMENT);
+            serializeAttributes(request.getEnvironmentAttributes(), ctx);
+            ctx.endTag(getIndex(), TAG_NAME_ENVIRONMENT);
+
+            ctx.endTag(getIndex(), TAG_NAME_REQUEST);
+        }
+
+        ctx.endTag(getIndex(), getName());
+    }
+
+    /**
+     * 
+     * @param ctx
+     * @throws JiBXException
+     */
+    private void serializeAttributes(
+        final Set<?> attributes, final MarshallingContext ctx)
+        throws JiBXException {
+
+        for (Object attrObj : attributes) {
+            Attribute attribute = (Attribute) attrObj;
+
+            ctx.startTagAttributes(getIndex(), TAG_NAME_ATTRIBUTE);
+            ctx.attribute(1, ATTR_NAME_ATTRIBUTE_ID, attribute
+                .getId().toString());
+            ctx.attribute(1, ATTR_NAME_DATA_TYPE, attribute
+                .getType().toString());
+
+            ctx.startTag(getIndex(), TAG_NAME_ATTRIBUTE_VALUE);
+
+            ctx.content(attribute.getValue().encode());
+
+            ctx.endTag(getIndex(), TAG_NAME_ATTRIBUTE_VALUE);
+
+            ctx.endTag(getIndex(), TAG_NAME_ATTRIBUTE);
+        }
     }
 }
