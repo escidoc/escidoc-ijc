@@ -5,14 +5,15 @@
 	<include path="rest/common/task-param-binding.xml" />
 	<include path="rest/common/version-history-binding.xml" />
 	<include path="rest/common/0.1/result-binding.xml" />
-	<!--  include path="rest/common/0.4/properties-binding.xml" /-->
+	<!-- include path="rest/common/0.4/properties-binding.xml" / -->
 	<include path="rest/common/0.5/md-records-binding.xml" />
 	<include path="rest/common/0.4/abstract-struct-map-binding.xml" />
 	<include path="rest/common/0.3/relations-binding.xml" />
 	<include path="rest/common/0.9/member-list-binding.xml" />
-	<!--  include path="rest/common/0.6/toc-binding.xml" / -->
-	<!--  include path="rest/common/0.4/properties-no-versioned-binding.xml" / -->
-	<!--  include path="rest/common/0.4/abstract-relations-binding.xml" / -->
+	<!-- include path="rest/common/0.6/toc-binding.xml" / -->
+	<!-- include path="rest/common/0.4/properties-no-versioned-binding.xml" 
+		/ -->
+	<!-- include path="rest/common/0.4/abstract-relations-binding.xml" / -->
 
 	<!-- CMM -->
 	<include path="rest/cmm/0.1/content-model-binding.xml" />
@@ -31,18 +32,18 @@
 	<include path="rest/aa/0.5/grant-binding.xml" />
 	<include path="rest/aa/0.4/role-binding.xml" />
 	<include path="rest/aa/0.3/requests-binding.xml" />
-	<include path="rest/aa/0.3/requests-results-binding.xml" />
+	<include path="rest/aa/0.3/results-binding.xml" />
 	<include path="rest/aa/0.4/unsecured-actions-binding.xml" />
 	<include path="rest/aa/0.1/preference-binding.xml" />
 	<include path="rest/aa/0.1/attribute-binding.xml" />
 
-	 <!-- SB -->
-	 <include path="rest/sb/explain-response-binding.xml"/> 
-	 <include path="rest/sb/explain-data-binding.xml"/>
-	 <include path="rest/sb/search-retrieve-response-binding.xml"/>
-	 <include path="rest/sb/0.8/search-result-record-binding.xml"/>
+	<!-- SB -->
+	<include path="rest/sb/explain-response-binding.xml" />
+	<include path="rest/sb/explain-data-binding.xml" />
+	<include path="rest/sb/search-retrieve-response-binding.xml" />
+	<include path="rest/sb/0.8/search-result-record-binding.xml" />
 
-	 Test 
-<!--	<include path="rest/test/root-binding.xml" />-->
+	Test
+	<!-- <include path="rest/test/root-binding.xml" /> -->
 
 </binding>

@@ -2,26 +2,10 @@
 	<!-- REST Binding -->
 
 	<namespace uri="urn:oasis:names:tc:xacml:1.0:context" prefix="xacml-context" />
+	<namespace uri="http://www.escidoc.de/schemas/pdp/0.3/requests" prefix="requests" />
 
-	<mapping name="Requests" class="de.escidoc.core.resources.aa.pdp.Requests"
-		ns="urn:oasis:names:tc:xacml:1.0:context" 
+	<mapping name="requests" class="de.escidoc.core.resources.aa.pdp.Requests"
+		ns="http://www.escidoc.de/schemas/pdp/0.3/requests" 
 		marshaller="de.escidoc.core.common.jibx.binding.PDPRequestsMarshaller"
 		unmarshaller="de.escidoc.core.common.jibx.binding.PDPRequestsMarshaller"/>
-
-		<!-- <namespace uri="http://www.escidoc.de/schemas/pdp/0.3/requests" -->
-		<!-- prefix="requests" /> -->
-
-		<!-- ***************************************** -->
-		<!-- Requests -->
-		<!-- ****************************************** -->
-		<!-- <collection field="requests" -->
-		<!-- create-type="java.util.LinkedList"> -->
-		<!-- <structure ns="urn:oasis:names:tc:xacml:1.0:context" -->
-		<!-- name="request" type="com.sun.xacml.ctx.RequestCtx" -->
-		<!-- marshaller="de.escidoc.core.common.jibx.binding.RequestCtxMarshaller" -->
-		<!-- unmarshaller="de.escidoc.core.common.jibx.binding.RequestCtxMarshaller"/> -->
-		<!-- </collection> -->
-
-<!--	</mapping>-->
-
 </binding>
