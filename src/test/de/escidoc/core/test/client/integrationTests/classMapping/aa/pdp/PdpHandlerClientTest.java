@@ -28,16 +28,15 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.aa.pdp;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import com.sun.xacml.attr.StringAttribute;
 import com.sun.xacml.ctx.Attribute;
@@ -47,12 +46,13 @@ import com.sun.xacml.ctx.Subject;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.PolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.resources.aa.pdp.Decision;
 import de.escidoc.core.resources.aa.pdp.Requests;
-import de.escidoc.core.resources.aa.pdp.RequestsResults;
+import de.escidoc.core.resources.aa.pdp.Result;
+import de.escidoc.core.resources.aa.pdp.Results;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -69,6 +69,18 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
         super(transport);
     }
 
+    @Test
+    public void testMarshalling() throws Exception {
+        String xml =
+            EscidocClientTestBase.getXmlFileAsString(new File(
+                "templates/soap/pdp/requests.xml"));
+        Marshaller<Requests> m =
+            Factory.getMarshallerFactory(transport).getPDPRequestsMarshaller();
+
+        Requests requests = m.unmarshalDocument(xml);
+        m.marshalDocument(requests);
+    }
+
     /**
      * Test to create and retrieve user account.
      * 
@@ -76,7 +88,7 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
      *             Thrown if anythings failed.
      */
     @Test
-    public void testeEvaluateRequests() throws Exception {
+    public void testEvaluateRequests() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -88,54 +100,13 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
         pdpc.setHandle(auth.getHandle());
         pdpc.setTransport(transport);
 
-        // Requests requests = createRequests();
-        String xml =
-            EscidocClientTestBase.getXmlFileAsString(new File(
-                "templates/soap/pdp/requests.xml"));
-        Marshaller<Requests> m =
-            Factory.getMarshallerFactory(transport).getRequestsMarshaller();
-        m.setBindingName(transport.name());
+        Requests requests = new Requests();
 
-        Requests requests = m.unmarshalDocument(xml);
-
-        System.out.println(m.marshalDocument(requests));
-
-        RequestsResults results = pdpc.evaluate(requests);
-
-        // String xml =
-        // Factory
-        // .getMarshallerFactory(transport).getRequestsResultsMarshaller()
-        // .marshalDocument(results);
-        // System.out.println(xml);
-
-        /**
-         * TEST IMPL OF PDP REQUEST/RESPONSE
-         */
-
-        /*
-         * PDP
-         */
-
-        // PolicyFinder policyFinder = new PolicyFinder();
-        // Set policyModules = new HashSet();
-        // policyModules.add(new PolicyM);
-        // policyFinder.setModules(policyModules);
-        //
-        // AttributeFinder attrFinder = new AttributeFinder();
-        // List attrModules = new ArrayList();
-        // attrModules.add(new Attr);
-        // attrFinder.setModules(attrModules);
-
-        /*
-         * REQUEST
-         */
-
-        // SUBJECT
+        // request 1
         Set<Attribute> attributes = new HashSet<Attribute>();
         attributes.add(new Attribute(new URI(
             "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
             new StringAttribute("escidoc:user1")));
-        // bundle the attributes in a Subject with the default category
         Set<Subject> subjects = new HashSet<Subject>();
         subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attributes));
 
@@ -153,75 +124,144 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
                 new StringAttribute(
                     "info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
 
-        Set<Attribute> envAttrs = new HashSet<Attribute>();
+        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs,
+            Requests.DEFAULT_ENVIRONMENT));
 
-        RequestCtx request =
-            new RequestCtx(subjects, resourceAttrs, actionAttrs, envAttrs);
-        // ResponseCtx response = pdp.evaluate(request);
+        // request 2 - invalid request
+        attributes = new HashSet<Attribute>();
+        attributes.add(new Attribute(new URI(
+            "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
+            new StringAttribute("escidoc:user42")));
+        subjects = new HashSet<Subject>();
+        subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attributes));
+
+        resourceAttrs = new HashSet<Attribute>();
+        resourceAttrs.add(new Attribute(new URI(
+            "info:escidoc/names:aa:1.0:resource:object-type-new"), null, null,
+            new StringAttribute("item")));
+        resourceAttrs.add(new Attribute(new URI(
+            "info:escidoc/names:aa:1.0:resource:item:context-new"), null, null,
+            new StringAttribute("escidoc:persistent3")));
+
+        actionAttrs = new HashSet<Attribute>();
+        actionAttrs
+            .add(new Attribute(new URI(
+                "urn:oasis:names:tc:xacml:1.0:action:action-id"), null, null,
+                new StringAttribute(
+                    "info:escidoc/names:aa:1.0:action:create-item")));
+
+        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs,
+            Requests.DEFAULT_ENVIRONMENT));
+
+        // Response
+        Results results = pdpc.evaluate(requests);
+
+        Iterator<?> itResult = results.iterator();
+        Iterator<?> itRequest = requests.iterator();
+
+        // both iterators should have the same count of entries
+        while (itResult.hasNext() && itRequest.hasNext()) {
+
+            Result result = (Result) itResult.next();
+            RequestCtx requestCtx = (RequestCtx) itRequest.next();
+
+            // there should be only one resultCtx inside most times
+            for (Iterator<?> it2 =
+                result.getResponseCtx().getResults().iterator(); it2.hasNext();) {
+                com.sun.xacml.ctx.Result resultCtx =
+                    (com.sun.xacml.ctx.Result) it2.next();
+
+                if (result.getInterpretedDecision() == Decision.permit) {
+
+                    assertTrue(resultCtx.getDecision() == com.sun.xacml.ctx.Result.DECISION_PERMIT);
+
+                    @SuppressWarnings("unchecked")
+                    Set<Attribute> resAttrs =
+                        (Set<Attribute>) requestCtx.getResource();
+
+                    for (Iterator<Attribute> itx = resAttrs.iterator(); itx
+                        .hasNext();) {
+                        Attribute attribute = itx.next();
+                        if (attribute
+                            .getId()
+                            .toString()
+                            .equals(
+                                "urn:oasis:names:tc:xacml:1.0:resource:resource-id")) {
+
+                            assertTrue(resultCtx.getResource().equals(
+                                attribute.getValue().encode()));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
-     * Create a PDP request message.
+     * Currently, the infrastructure does not support multiple subjects in one
+     * RequestCtx. No exception is thrown. The exception is part of the
+     * ResponseCtx. So you will get a decision deny instead of an Exception.
      * 
-     * @return PDP Request message.
-     * 
-     * @throws ParserConfigurationException
-     *             If parser configuration failed
-     * @throws IOException
-     *             If template access failed.
-     * @throws SAXException
-     *             If template parsing failed
-     * @throws InternalClientException
-     *             If internal client errors occur
+     * @throws Exception
      */
-    private Requests createRequests() throws ParserConfigurationException,
-        SAXException, IOException, InternalClientException {
+    @Test
+    public void testMultipleSubjects() throws Exception {
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        PolicyDecisionPointHandlerClientInterface pdpc =
+            new PolicyDecisionPointHandlerClient();
+        pdpc.setServiceAddress(auth.getServiceAddress());
+        pdpc.setHandle(auth.getHandle());
+        pdpc.setTransport(transport);
 
         Requests requests = new Requests();
 
-        // DocumentBuilderFactory factory =
-        // DocumentBuilderFactory.newInstance();
-        // DocumentBuilder builder = factory.newDocumentBuilder();
-        //
-        // Document doc =
-        // builder.parse(Template.load("templates/soap/pdp/request1.xml"));
-        // Element root1 = doc.getDocumentElement();
-        // requests.addRequest(root1);
-        //
-        // Document doc2 =
-        // builder.parse(Template.load("templates/soap/pdp/request2.xml"));
-        // Element root2 = doc2.getDocumentElement();
-        // requests.addRequest(root2);
-        //
-        // Document doc3 =
-        // builder.parse(Template.load("templates/soap/pdp/request3.xml"));
-        // Element root3 = doc3.getDocumentElement();
-        // requests.addRequest(root3);
-        //
-        // Document doc4 =
-        // builder.parse(Template.load("templates/soap/pdp/request4.xml"));
-        // Element root4 = doc4.getDocumentElement();
-        // requests.addRequest(root4);
-        //
-        // Document doc5 =
-        // builder.parse(Template.load("templates/soap/pdp/request5.xml"));
-        // Element root5 = doc5.getDocumentElement();
-        // requests.addRequest(root5);
-        //
-        // Document doc6 =
-        // builder.parse(Template.load("templates/soap/pdp/request6.xml"));
-        // Element root6 = doc6.getDocumentElement();
-        // requests.addRequest(root6);
-        //
-        // Marshaller<Requests> m =
-        // new Marshaller<Requests>(requests.getClass(), transport.name());
-        // String xml = m.marshalDocument(requests);
-        //
-        // Requests urequests = m.unmarshalDocument(xml);
-        // Factory
-        // .getMarshallerFactory(transport).getRequestsMarshaller()
-        // .marshalDocument(urequests);
+        Set<Subject> subjects = new HashSet<Subject>();
 
-        return requests;
+        // subject 1 - admin
+        Set<Attribute> attrs01 = new HashSet<Attribute>();
+        attrs01.add(new Attribute(new URI(
+            "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
+            new StringAttribute("escidoc:user1")));
+
+        subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attrs01));
+
+        // subject 2 - test user without grants
+        Set<Attribute> attrs02 = new HashSet<Attribute>();
+        attrs02.add(new Attribute(new URI(
+            "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
+            new StringAttribute("escidoc:test")));
+
+        subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attrs02));
+
+        // resource
+        Set<Attribute> resourceAttrs = new HashSet<Attribute>();
+        resourceAttrs.add(new Attribute(new URI(
+            "urn:oasis:names:tc:xacml:1.0:resource:resource-id"), null, null,
+            new StringAttribute("escidoc:persistent1")));
+
+        // action
+        Set<Attribute> actionAttrs = new HashSet<Attribute>();
+        actionAttrs
+            .add(new Attribute(
+                new URI("urn:oasis:names:tc:xacml:1.0:action:action-id"),
+                null,
+                null,
+                new StringAttribute(
+                    "info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
+
+        // request with default environment
+        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs,
+            Requests.DEFAULT_ENVIRONMENT));
+
+        // Response
+        Results results = pdpc.evaluate(requests);
+
+        for (Iterator<Result> it = results.iterator(); it.hasNext();) {
+            Result result = it.next();
+            assertTrue(result.getInterpretedDecision() == Decision.deny);
+        }
     }
 }
