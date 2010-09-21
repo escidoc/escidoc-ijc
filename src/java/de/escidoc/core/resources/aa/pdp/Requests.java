@@ -28,8 +28,11 @@
  */
 package de.escidoc.core.resources.aa.pdp;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
+import com.sun.xacml.ctx.Attribute;
 import com.sun.xacml.ctx.RequestCtx;
 
 /**
@@ -38,7 +41,16 @@ import com.sun.xacml.ctx.RequestCtx;
  * @author ?
  * 
  */
-public class Requests extends LinkedList<RequestCtx>{
+public class Requests extends LinkedList<RequestCtx> {
 
-    
+    /**
+     * Empty set as default environment.
+     */
+    public static final Set<Attribute> DEFAULT_ENVIRONMENT =
+        new HashSet<Attribute>();
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -664197616803277455L;
 }

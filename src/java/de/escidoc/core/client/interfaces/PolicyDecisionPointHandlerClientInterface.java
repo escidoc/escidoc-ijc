@@ -32,7 +32,7 @@ import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.aa.pdp.Requests;
-import de.escidoc.core.resources.aa.pdp.RequestsResults;
+import de.escidoc.core.resources.aa.pdp.Results;
 
 /**
  * This class defines the signatures for the client handler wrapper classes
@@ -45,8 +45,7 @@ import de.escidoc.core.resources.aa.pdp.RequestsResults;
 public interface PolicyDecisionPointHandlerClientInterface
     extends HandlerServiceInterface {
 
-    RequestsResults evaluate(final Requests requests)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    Results evaluate(final Requests requests) throws EscidocClientException,
+        InternalClientException, TransportException;
 
 }

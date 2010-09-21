@@ -39,7 +39,7 @@ import de.escidoc.core.client.rest.RestPolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.soap.SoapPolicyDecisionPointHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.pdp.Requests;
-import de.escidoc.core.resources.aa.pdp.RequestsResults;
+import de.escidoc.core.resources.aa.pdp.Results;
 
 /**
  * This is the generic PolicyDecisionPointHandlerClient which binds the
@@ -62,7 +62,7 @@ public class PolicyDecisionPointHandlerClient
      * @throws EscidocClientException
      * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#create(de.escidoc.core.resources.interfaces.container.ContainerInterface)
      */
-    public RequestsResults evaluate(Requests requests) throws EscidocException,
+    public Results evaluate(Requests requests) throws EscidocException,
         InternalClientException, TransportException {
 
         String xml = null;
@@ -71,18 +71,18 @@ public class PolicyDecisionPointHandlerClient
                 getSoapHandlerClient().evaluate(
                     Factory
                         .getMarshallerFactory(getTransport())
-                        .getRequestsMarshaller().marshalDocument(requests));
+                        .getPDPRequestsMarshaller().marshalDocument(requests));
         }
         else {
             xml =
                 getRestHandlerClient().evaluate(
                     Factory
                         .getMarshallerFactory(getTransport())
-                        .getRequestsMarshaller().marshalDocument(requests));
+                        .getPDPRequestsMarshaller().marshalDocument(requests));
         }
         return Factory
-            .getMarshallerFactory(getTransport())
-            .getRequestsResultsMarshaller().unmarshalDocument(xml);
+            .getMarshallerFactory(getTransport()).getPDPResultsMarshaller()
+            .unmarshalDocument(xml);
     }
 
     /**

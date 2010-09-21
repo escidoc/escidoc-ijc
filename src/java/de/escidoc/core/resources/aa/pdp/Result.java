@@ -28,48 +28,66 @@
  */
 package de.escidoc.core.resources.aa.pdp;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
-import org.w3c.dom.Element;
+import com.sun.xacml.ctx.ResponseCtx;
 
 /**
- * PDP Result.
+ * PDP eSciDoc result.
+ * 
+ * FIXME: Invalid structure: JIRA - INFR-1006
  * 
  * @author ?
  * 
  */
 public class Result {
 
-    private final Collection<Element> responses = new LinkedList<Element>();
-
-    private Decision decision;
+    /**
+     * The origin response
+     */
+    private ResponseCtx responseCtx;
 
     /**
-     * Get Decision.
+     * The interpreted decision.
+     */
+    private Decision interpretedDecision;
+
+    /**
+     * Get interpreted decision.
+     * 
+     * The PDP evaluation may return more than the decisions of type
+     * <i>permit</i> and <i>deny</i>. Those other decisions can be interpreted
+     * in different ways. To point out how to interpret these decisions of the
+     * origin response context, this method will return the eSciDoc
+     * interpretation of these decisions.
      * 
      * @return Decision
      */
-    public Decision getDecision() {
-        return decision;
+    public Decision getInterpretedDecision() {
+        return interpretedDecision;
     }
 
     /**
-     * Set decision.
+     * Set the interpreted decision.
      * 
      * @param decision
      *            Decision
      */
-    public void setDecision(final Decision decision) {
-        this.decision = decision;
+    public void setInterpretedDecision(final Decision decision) {
+        this.interpretedDecision = decision;
     }
 
     /**
-     * Get responsses.
      * 
-     * @return Collection of responses
+     * @return the origin response
      */
-    public Collection<Element> getResponses() {
-        return responses;
+    public ResponseCtx getResponseCtx() {
+        return responseCtx;
+    }
+
+    /**
+     * 
+     * @param responceCtx
+     */
+    public void setResponseCtx(ResponseCtx responseCtx) {
+        this.responseCtx = responseCtx;
     }
 }

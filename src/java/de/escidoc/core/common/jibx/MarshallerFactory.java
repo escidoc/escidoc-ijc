@@ -4,7 +4,7 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.resources.aa.pdp.Requests;
-import de.escidoc.core.resources.aa.pdp.RequestsResults;
+import de.escidoc.core.resources.aa.pdp.Results;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
@@ -77,9 +77,9 @@ public class MarshallerFactory {
 
     private static Marshaller<UserAccount> userAccountMarshaller = null;
 
-    private static Marshaller<Requests> requestsMarshaller = null;
+    private static Marshaller<Requests> pdpRequestsMarshaller = null;
 
-    private static Marshaller<RequestsResults> requestsResultsMarshaller = null;
+    private static Marshaller<Results> pdpResultsMarshaller = null;
 
     private static Marshaller<Role> roleMarshaller = null;
 
@@ -518,27 +518,25 @@ public class MarshallerFactory {
         return userAccountMarshaller;
     }
 
-    public Marshaller<Requests> getRequestsMarshaller()
+    public Marshaller<Requests> getPDPRequestsMarshaller()
         throws InternalClientException {
-        if (requestsMarshaller == null) {
-            requestsMarshaller = new Marshaller<Requests>(Requests.class);
+        if (pdpRequestsMarshaller == null) {
+            pdpRequestsMarshaller = new Marshaller<Requests>(Requests.class);
 
         }
-        requestsMarshaller.setBindingName(transport.name());
+        pdpRequestsMarshaller.setBindingName(transport.name());
 
-        return requestsMarshaller;
+        return pdpRequestsMarshaller;
     }
 
-    public Marshaller<RequestsResults> getRequestsResultsMarshaller()
+    public Marshaller<Results> getPDPResultsMarshaller()
         throws InternalClientException {
-        if (requestsResultsMarshaller == null) {
-            requestsResultsMarshaller =
-                new Marshaller<RequestsResults>(RequestsResults.class);
+        if (pdpResultsMarshaller == null) {
+            pdpResultsMarshaller = new Marshaller<Results>(Results.class);
 
         }
-        requestsResultsMarshaller.setBindingName(transport.name());
-
-        return requestsResultsMarshaller;
+        pdpResultsMarshaller.setBindingName(transport.name());
+        return pdpResultsMarshaller;
     }
 
     public Marshaller<Role> getRoleMarshaller() throws InternalClientException {

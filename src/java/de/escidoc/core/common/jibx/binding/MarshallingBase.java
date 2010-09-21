@@ -256,4 +256,20 @@ public class MarshallingBase {
     protected String cleanup(String textContent) {
         return textContent.replaceAll("(^\\s+)|(\\s+$)", "");
     }
+
+    /**
+     * 
+     * @param ictx
+     * @param namespace
+     * @return
+     */
+    protected int findNamespace(
+        final MarshallingContext ctx, final String namespace) {
+        
+        for(int i=0; i < ctx.getNamespaces().length; i++) {
+            if(ctx.getNamespaces()[i].equals(namespace))
+                return i;
+        }
+        return -1;
+    }
 }
