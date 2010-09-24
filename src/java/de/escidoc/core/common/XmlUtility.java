@@ -139,6 +139,18 @@ public class XmlUtility {
     }
 
     /**
+     * Convert a XML Document to String omitting XML declaration.
+     * 
+     * @param node
+     * @return
+     * @throws TransformerException
+     */
+    public static String xmlToString(final Node node)
+        throws TransformerException {
+        return xmlToString(node, true);
+    }
+
+    /**
      * Replace forbidden characters in XML content with their escape sequence.<br/>
      * This method escapes &, <, and > in attributes and text content. In
      * attributes, it additionally escapes " and '.
