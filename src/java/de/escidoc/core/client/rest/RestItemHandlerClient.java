@@ -54,8 +54,8 @@ import de.escidoc.core.common.jibx.Factory;
  */
 public class RestItemHandlerClient extends RestClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(RestItemHandlerClient.class.getName());
+    private final Logger logger = Logger.getLogger(RestItemHandlerClient.class
+        .getName());
 
     private ItemHandler restClient = null;
 
@@ -459,7 +459,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveVersionHistory(id);
         }
         catch (Exception e) {
-        	ExceptionMapper.map(e);
+            ExceptionMapper.map(e);
         }
         return result;
     }
@@ -529,9 +529,11 @@ public class RestItemHandlerClient extends RestClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
-            		.getItemMarshaller().unmarshalDocument(getClient().retrieve(id)))
-            			.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.REST)
+                    .getItemMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

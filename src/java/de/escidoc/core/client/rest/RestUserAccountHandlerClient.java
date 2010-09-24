@@ -87,7 +87,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
             ExceptionMapper.map(e);
         }
     }
-    
+
     /**
      * 
      * @param resourceXml
@@ -130,7 +130,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
             ExceptionMapper.map(e);
         }
     }
-    
+
     /**
      * 
      * @param id
@@ -140,16 +140,16 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     public void deactivate(final String id, final String taskParam)
-    	throws EscidocException, InternalClientException, TransportException {
-	
-	    try {
-	        getClient().deactivate(id, taskParam);
-	    }
-	    catch (Exception e) {
-	        logger.debug(e);
-	        ExceptionMapper.map(e);
-	    }
-	}
+        throws EscidocException, InternalClientException, TransportException {
+
+        try {
+            getClient().deactivate(id, taskParam);
+        }
+        catch (Exception e) {
+            logger.debug(e);
+            ExceptionMapper.map(e);
+        }
+    }
 
     /**
      * 
@@ -826,9 +826,11 @@ public class RestUserAccountHandlerClient extends RestClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
-            		.getUserAccountMarshaller().unmarshalDocument(getClient().retrieve(id)))
-                    	.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.REST)
+                    .getUserAccountMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

@@ -53,8 +53,8 @@ import de.escidoc.core.common.jibx.Factory;
  */
 public class RestRoleHandlerClient extends RestClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(RestRoleHandlerClient.class.getName());
+    private final Logger logger = Logger.getLogger(RestRoleHandlerClient.class
+        .getName());
 
     private RoleHandler restClient = null;
 
@@ -258,9 +258,11 @@ public class RestRoleHandlerClient extends RestClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
-            		.getRoleMarshaller().unmarshalDocument(getClient().retrieve(id)))
-            			.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.REST)
+                    .getRoleMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

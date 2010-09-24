@@ -53,8 +53,8 @@ import de.escidoc.core.common.jibx.Factory;
  */
 public class RestContextHandlerClient extends RestClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(RestContextHandlerClient.class.getName());
+    private final Logger logger = Logger
+        .getLogger(RestContextHandlerClient.class.getName());
 
     private ContextHandler restClient = null;
 
@@ -372,9 +372,11 @@ public class RestContextHandlerClient extends RestClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.REST)
-            		.getContextMarshaller().unmarshalDocument(getClient().retrieve(id)))
-            			.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.REST)
+                    .getContextMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

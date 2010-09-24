@@ -463,13 +463,14 @@ public class RestServiceMethod {
                 "&startRecord=" + String.valueOf(filter.getStartRecord());
         }
         if (filter.getQuery() != null) {
-        	filter12 += "&query=";
+            filter12 += "&query=";
             try {
-				filter12 += URLEncoder.encode(filter.getQuery(), "UTF-8");
-				
-			} catch (UnsupportedEncodingException e) {
-				// This should never happen.
-			}
+                filter12 += URLEncoder.encode(filter.getQuery(), "UTF-8");
+
+            }
+            catch (UnsupportedEncodingException e) {
+                // This should never happen.
+            }
         }
         if (filter.getVersion() != null) {
             filter12 += "&version=" + filter.getVersion();
@@ -477,7 +478,7 @@ public class RestServiceMethod {
         if (filter.getRecordPacking() != null) {
             filter12 += "&recordPacking=" + filter.getRecordPacking();
         }
-        
+
         return filter12;
     }
 
@@ -496,7 +497,7 @@ public class RestServiceMethod {
         if (filter.getVersion() != null) {
             filter12 += "&version=" + filter.getVersion();
         }
-        
+
         return filter12;
     }
 

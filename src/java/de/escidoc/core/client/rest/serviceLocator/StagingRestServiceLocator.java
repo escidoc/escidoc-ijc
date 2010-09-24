@@ -22,7 +22,8 @@ public class StagingRestServiceLocator extends RestServiceMethod
     private static final String PATH_STAGING = "/st/staging-file";
 
     public String upload(final File f) throws RemoteException,
-        AuthenticationException, AuthorizationException, FileNotFoundException, IOException {
+        AuthenticationException, AuthorizationException, FileNotFoundException,
+        IOException {
 
         return put(PATH_STAGING, f);
     }

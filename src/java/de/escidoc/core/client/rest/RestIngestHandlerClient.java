@@ -51,8 +51,8 @@ import de.escidoc.core.om.IngestHandler;
 public class RestIngestHandlerClient extends RestClientBase
     implements IngestHandlerInterface {
 
-    private final Logger logger =
-        Logger.getLogger(RestIngestHandlerClient.class.getName());
+    private final Logger logger = Logger
+        .getLogger(RestIngestHandlerClient.class.getName());
 
     private IngestHandler restClient = null;
 

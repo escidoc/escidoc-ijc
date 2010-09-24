@@ -60,8 +60,8 @@ import de.escidoc.core.client.rest.serviceLocator.StagingRestServiceLocator;
  */
 public class RestStagingHandlerClient extends RestClientBase {
 
-    private final Logger logger =
-        Logger.getLogger(RestStagingHandlerClient.class.getName());
+    private final Logger logger = Logger
+        .getLogger(RestStagingHandlerClient.class.getName());
 
     private StagingHandler restClient = null;
 

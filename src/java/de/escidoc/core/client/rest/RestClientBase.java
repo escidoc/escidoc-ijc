@@ -8,11 +8,11 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 
 /**
  * @author MVO
- *
+ * 
  */
 public abstract class RestClientBase extends ClientBase {
 
-	/**
+    /**
      * Create an instance of client base using the default constructor.
      * 
      * @throws InternalClientException
