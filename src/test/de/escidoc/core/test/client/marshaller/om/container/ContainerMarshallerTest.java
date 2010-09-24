@@ -45,8 +45,9 @@ import org.w3c.dom.NodeList;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.common.structmap.ContainerRef;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.structmap.ContainerMemberRef;
 import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
@@ -76,8 +77,8 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         File templContainer =
-            new File(
-                "./templates/mockups/soap/om/container/0.8/container01.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/container/0.8/container01.xml");
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
@@ -171,8 +172,8 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshallingLocked() throws Exception {
 
         File templContainer =
-            new File(
-                "./templates/mockups/soap/om/container/0.8/container_locked01.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/container/0.8/container_locked01.xml");
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
@@ -273,8 +274,8 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshallingWithContainerInStructMap() throws Exception {
 
         File templContainer =
-            new File(
-                "./templates/mockups/soap/om/container/0.8/container_with_container_member.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/container/0.8/container_with_container_member.xml");
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 
@@ -375,13 +376,13 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
 
         Container container = new Container();
         ContainerProperties cp = new ContainerProperties();
-        cp.setContext(new ResourceRef(contextId));
-        cp.setContentModel(new ResourceRef(contentModelId));
+        cp.setContext(new ContextRef(contextId));
+        cp.setContentModel(new ContentModelRef(contentModelId));
         cp.setDescription(description);
         container.setProperties(cp);
 
         StructMap structMap = new StructMap();
-        structMap.add(new ContainerRef(member1));
+        structMap.add(new ContainerMemberRef(member1));
         container.setStructMap(structMap);
 
         String containerXml =
@@ -390,16 +391,13 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
                 .marshalDocument(container);
 
         Document containerDoc = XmlUtility.getDocument(containerXml);
-        assertEquals(
-            "Wrong Context reference",
-            contextId,
-            XPathAPI.selectSingleNode(containerDoc,
-                "/container/properties/context/@objid|/container/properties/context/@href").getTextContent());
-        assertEquals(
-            "Wrong content model reference",
-            contentModelId,
-            XPathAPI.selectSingleNode(containerDoc,
-                "/container/properties/content-model/@objid|/container/properties/context/@href").getTextContent());
+
+        assertEquals("Wrong Context reference", contextId,
+            EscidocClientTestBase.obtainObjidByXPath(
+                "/container/properties/context", containerDoc));
+        assertEquals("Wrong content model reference", contentModelId,
+            EscidocClientTestBase.obtainObjidByXPath(
+                "/container/properties/content-model", containerDoc));
         assertEquals(
             "Wrong description",
             description,
@@ -409,11 +407,8 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
         NodeList structMapNodes =
             containerDoc.getElementsByTagName("struct-map:struct-map");
         assertTrue("Wrong number of members", structMapNodes.getLength() == 1);
-        assertEquals(
-            "Wrong member in struct map",
-            member1,
-            XPathAPI.selectSingleNode(containerDoc,
-                "/container/struct-map/container/@objid|/container/properties/context/@href").getTextContent());
-
+        assertEquals("Wrong member in struct map", member1,
+            EscidocClientTestBase.obtainObjidByXPath(
+                "/container/struct-map/container", containerDoc));
     }
 }

@@ -40,6 +40,12 @@ import java.io.StringWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.transform.TransformerException;
+
+import org.apache.xpath.XPathAPI;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
@@ -213,5 +219,23 @@ public class EscidocClientTestBase {
                         ConfigurationProvider.PROP_SERVICE_PROTOCOL));
         }
         return defaultTransportProtocol;
+    }
+
+    /**
+     * 
+     * @param objidOrHref
+     * @return
+     * @throws TransformerException
+     * @throws DOMException
+     */
+    public static final String obtainObjidByXPath(
+        String xPathToElement, Document doc) throws DOMException,
+        TransformerException {
+        String objidOrHref =
+            XPathAPI
+                .selectSingleNode(doc,
+                    xPathToElement + "/@objid|" + xPathToElement + "/@href")
+                .getTextContent();
+        return objidOrHref.substring(objidOrHref.lastIndexOf('/') + 1);
     }
 }

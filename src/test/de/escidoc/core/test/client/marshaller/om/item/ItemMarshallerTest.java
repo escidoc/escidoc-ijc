@@ -42,9 +42,10 @@ import org.w3c.dom.Document;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
@@ -76,7 +77,8 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         File templItem =
-            new File("./templates/mockups/soap/om/item/0.9/item_released01.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/item/0.9/item_released01.xml");
         String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
 
         Item item =
@@ -212,7 +214,8 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling02() throws Exception {
 
         File templItem =
-            new File("./templates/mockups/soap/om/item/0.9/item_locked01.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/item/0.9/item_locked01.xml");
         String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
 
         Item item =
@@ -354,7 +357,8 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
 
         File templItem =
             new File(
-                "./templates/mockups/soap/om/item/0.9/item_one_component_inline_content.xml");
+                "./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/item/0.9/item_one_component_inline_content.xml");
         String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
 
         Item item =
@@ -478,8 +482,9 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
 
-        item.getProperties().setContext(new ResourceRef("escidoc:123"));
-        item.getProperties().setContentModel(new ResourceRef("escidoc:345"));
+        item.getProperties().setContext(new ContextRef("escidoc:123"));
+        item.getProperties()
+            .setContentModel(new ContentModelRef("escidoc:345"));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -535,9 +540,9 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
 
-        item.getProperties().setContext(new ResourceRef("escidoc:context"));
+        item.getProperties().setContext(new ContextRef("escidoc:context"));
         item.getProperties().setContentModel(
-            new ResourceRef("escidoc:content-model"));
+            new ContentModelRef("escidoc:content-model"));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();

@@ -24,10 +24,10 @@ import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.resources.om.item.component.Component;
@@ -136,13 +136,12 @@ public class CreateItemTestWithOneComponent {
     }
 
     private void setContext() {
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
     }
 
     private void setContentModel() {
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
     }
 
     private void setMetadataRecords() throws ParserConfigurationException {

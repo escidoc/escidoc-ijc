@@ -69,7 +69,7 @@ public class StagingTest extends EscidocClientTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         sthc.setHandle(auth.getHandle());
 
-        File f = new File("./templates/soap/item/0.6/item.xml");
+        File f = new File("./templates/soap/om/item/0.6/item.xml");
         URL url = sthc.upload(f);
 
         // assert file

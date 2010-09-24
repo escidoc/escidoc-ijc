@@ -42,7 +42,7 @@ import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
@@ -207,10 +207,8 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef =
-            new ResourceRef("escidoc:ex3",
-                ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
-        organizationalUnitRefs.add(organizationalUnitRef);
+        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         context.setProperties(properties);
 
@@ -257,10 +255,8 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef =
-            new ResourceRef("escidoc:ex3",
-                ResourceRef.RESOURCE_TYPE.OrganizationalUnit);
-        organizationalUnitRefs.add(organizationalUnitRef);
+        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);

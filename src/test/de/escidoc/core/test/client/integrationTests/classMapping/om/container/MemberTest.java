@@ -53,11 +53,11 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
@@ -312,11 +312,10 @@ public class MemberTest extends AbstractParameterizedTestBase {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context, "Test Context"));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel,
-            "Test ContentModel"));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID,
+            "Test Context"));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID, "Test ContentModel"));
         container.setProperties(properties);
 
         // Metadata Record(s)
@@ -344,13 +343,10 @@ public class MemberTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
 
-        item.getProperties()
-            .setContext(
-                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-                    RESOURCE_TYPE.Context));
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
-                RESOURCE_TYPE.ContentModel));
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();

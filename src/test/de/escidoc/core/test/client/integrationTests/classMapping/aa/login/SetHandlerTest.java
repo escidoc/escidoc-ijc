@@ -15,8 +15,7 @@ import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
@@ -53,9 +52,7 @@ public class SetHandlerTest {
 
         final OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        final ResourceRef organizationalUnitRef =
-            new ResourceRef("escidoc:ex3", RESOURCE_TYPE.OrganizationalUnit);
-        organizationalUnitRefs.add(organizationalUnitRef);
+        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);

@@ -42,7 +42,6 @@ import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
-import de.escidoc.core.test.client.util.XmlUtil;
 
 /**
  * Test create Item.
@@ -145,7 +144,7 @@ public class ItemTestRest {
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
-        File templItem = new File("./templates/rest/item/0.9/item01.xml");
+        File templItem = new File("./templates/rest/om/item/0.9/item01.xml");
         String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
 
         // create a new Item (on basis of the valid)
@@ -202,7 +201,7 @@ public class ItemTestRest {
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
-        File templItem = new File("./templates/rest/item/0.9/item01.xml");
+        File templItem = new File("./templates/rest/om/item/0.9/item01.xml");
         String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
 
         // create a new Item (on basis of the valid)
@@ -220,7 +219,7 @@ public class ItemTestRest {
         dcTitle.setTextContent(titleNew);
 
         // updateItemXml
-        String updateItemXml = XmlUtil.xmlToString(itemDoc);
+        String updateItemXml = XmlUtility.xmlToString(itemDoc);
         String updatedItemXml = cc.update(objid, updateItemXml);
 
         // asserts

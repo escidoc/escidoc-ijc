@@ -66,7 +66,8 @@ public class ContentRelationMarshallerTest
 
         File templCR =
             new File(
-                "./templates/mockups/soap/om/content-relation/0.1/content-relation01.xml");
+                "./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/content-relation/0.1/content-relation01.xml");
         String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
 
         ContentRelation cr =
@@ -136,7 +137,8 @@ public class ContentRelationMarshallerTest
 
         File templCR =
             new File(
-                "./templates/mockups/soap/om/content-relation/0.1/content-relation-locked01.xml");
+                "./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/content-relation/0.1/content-relation-locked01.xml");
         String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
 
         ContentRelation cr =
@@ -214,7 +216,8 @@ public class ContentRelationMarshallerTest
 
         File templCR =
             new File(
-                "./templates/mockups/soap/om/content-relation/0.1/content-relation-before-create.xml");
+                "./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/content-relation/0.1/content-relation-before-create.xml");
         String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
 
         ContentRelation cr =

@@ -54,14 +54,16 @@ import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relation;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
-import de.escidoc.core.resources.common.structmap.ContainerRef;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.Reference;
+import de.escidoc.core.resources.common.structmap.ContainerMemberRef;
 import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
@@ -203,8 +205,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            ResourceRef.RESOURCE_TYPE.Context));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         cc.create(container);
     }
@@ -232,8 +233,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -266,8 +266,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -307,8 +306,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         container.setProperties(properties);
 
         // md-record
@@ -352,10 +350,9 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -451,8 +448,8 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
         Relation relation =
-            new Relation(new ResourceRef(Constants.EXAMPLE_ITEM_ID,
-                RESOURCE_TYPE.Item));
+            new Relation(new Reference(Constants.EXAMPLE_ITEM_ID,
+                Resource.RESOURCE_TYPE.Item));
         relation
             .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
         relations.add(relation);
@@ -548,7 +545,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         Container createdMemberContainer = cc.create(memberContainer);
         String memberId = createdMemberContainer.getObjid();
         StructMap structMap = new StructMap();
-        ContainerRef member = new ContainerRef(memberId);
+        ContainerMemberRef member = new ContainerMemberRef(memberId);
         structMap.add(member);
         container.setStructMap(structMap);
         Container createdContainer = cc.create(container);
@@ -561,7 +558,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         assertEquals("Number of members is wrong", 1, createdStructMap.size());
         Iterator<MemberRef> iterator = createdStructMap.iterator();
         while (iterator.hasNext()) {
-            ResourceRef memberResource = iterator.next();
+            Resource memberResource = iterator.next();
             assertEquals("member is the wrong resource type",
                 memberResource.getClass(), member.getClass());
 
@@ -737,10 +734,9 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();

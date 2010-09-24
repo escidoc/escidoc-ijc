@@ -48,10 +48,10 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.resources.sb.Record;
@@ -89,10 +89,9 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
@@ -143,10 +142,9 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 

@@ -106,7 +106,7 @@ public class ContainerTestRest {
         cc.setHandle(auth.getHandle());
 
         File templContainer =
-            new File("./templates/rest/container/0.8/container01.xml");
+            new File("./templates/rest/om/container/0.8/container01.xml");
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(templContainer);
 

@@ -44,10 +44,11 @@ import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
@@ -83,9 +84,9 @@ public class IngestTest {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -106,7 +107,7 @@ public class IngestTest {
         RestItemHandlerClient ic = new RestItemHandlerClient();
         ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ic.setHandle(auth.getHandle());
-        
+
         String itemXml = ic.retrieve(objId);
 
         // ingest Item
@@ -136,8 +137,8 @@ public class IngestTest {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ResourceRef(
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model-specific
@@ -169,12 +170,11 @@ public class IngestTest {
         Container createdContainer = cc.create(container);
         String objId = createdContainer.getObjid();
 
-        
         // organize Container
         RestContainerHandlerClient rchc = new RestContainerHandlerClient();
         rchc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rchc.setHandle(auth.getHandle());
-        
+
         String containerXml = rchc.retrieve(objId);
 
         // ingest Item

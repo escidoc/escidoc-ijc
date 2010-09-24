@@ -54,7 +54,6 @@ import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.GrantProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
@@ -66,6 +65,11 @@ import de.escidoc.core.resources.cmm.ResourceDefinitions;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
+import de.escidoc.core.resources.common.reference.Reference;
+import de.escidoc.core.resources.common.reference.RoleRef;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
@@ -178,7 +182,7 @@ public class SetupDataUtil {
      */
     public static UserAccount createUserWithDepositorRole(
         final Authentication auth, final String password,
-        final ResourceRef assignOn, final TransportProtocol transport)
+        final Reference assignOn, final TransportProtocol transport)
         throws EscidocClientException {
 
         UserAccount ua = new UserAccount();
@@ -210,7 +214,7 @@ public class SetupDataUtil {
         // add Grant
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
-        gProp.setRole(new ResourceRef("escidoc:role-depositor"));
+        gProp.setRole(new RoleRef("escidoc:role-depositor"));
         gProp.setAssignedOn(assignOn);
         grant.setGrantProperties(gProp);
         uac.createGrant(userAccount.getObjid(), grant);
@@ -251,9 +255,9 @@ public class SetupDataUtil {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef =
-            new ResourceRef(organizationalUnit.getObjid());
-        organizationalUnitRefs.add(organizationalUnitRef);
+        organizationalUnitRefs.add(new OrganizationalUnitRef(organizationalUnit
+            .getObjid()));
+
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -316,8 +320,9 @@ public class SetupDataUtil {
 
         Item item = new Item();
 
-        item.getProperties().setContext(new ResourceRef(contextId));
-        item.getProperties().setContentModel(new ResourceRef(contentModelId));
+        item.getProperties().setContext(new ContextRef(contextId));
+        item.getProperties().setContentModel(
+            new ContentModelRef(contentModelId));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();

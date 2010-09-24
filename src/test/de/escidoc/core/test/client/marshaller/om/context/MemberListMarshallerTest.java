@@ -62,7 +62,8 @@ public class MemberListMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         File memberListFile =
-            new File("./templates/mockups/soap/member-list.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/member-list.xml");
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(memberListFile);
 

@@ -270,7 +270,8 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc =
             builder.parse(Template
-                .load("templates/soap/role/policy_for_create.xml"));
+                .load("templates/" + transport.name().toLowerCase()
+                + "/aa/role/policy_for_create.xml"));
         Element root = doc.getDocumentElement();
 
         role.setPolicyOrPolicySet(root);

@@ -63,7 +63,8 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         File templContext =
-            new File("./templates/mockups/soap/om/context/0.7/context01.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/context/0.7/context01.xml");
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(templContext);
 
@@ -114,7 +115,8 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling02() throws Exception {
 
         File templContext =
-            new File("./templates/mockups/soap/om/context/0.7/context02.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/om/context/0.7/context02.xml");
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(templContext);
 

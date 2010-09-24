@@ -38,7 +38,6 @@ import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -65,8 +64,8 @@ public class AttributeMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         File templAttribute =
-            new File(
-                "./templates/mockups/soap/aa/useraccount/attribute_internal.xml");
+            new File("./templates/mockups/" + transport.name().toLowerCase()
+                + "/aa/useraccount/attribute_internal.xml");
         String attributeXml =
             EscidocClientTestBase.getXmlFileAsString(templAttribute);
 

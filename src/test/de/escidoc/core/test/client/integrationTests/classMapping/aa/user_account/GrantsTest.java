@@ -42,8 +42,7 @@ import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException
 import de.escidoc.core.client.exceptions.application.notfound.GrantNotFoundException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.GrantProperties;
 import de.escidoc.core.resources.aa.useraccount.Grants;
@@ -53,6 +52,10 @@ import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.Reference;
+import de.escidoc.core.resources.common.reference.RoleRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
@@ -107,10 +110,7 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         // create Grant
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
-        ResourceRef ref =
-            new ResourceRef("escidoc:role-system-administrator",
-                RESOURCE_TYPE.Role);
-        gProp.setRole(ref);
+        gProp.setRole(new RoleRef("escidoc:role-system-administrator"));
 
         grant.setGrantProperties(gProp);
 
@@ -152,13 +152,10 @@ public class GrantsTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
 
-        item.getProperties()
-            .setContext(
-                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-                    RESOURCE_TYPE.Context));
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
-                RESOURCE_TYPE.ContentModel));
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -196,9 +193,9 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         String roleId = "escidoc:role-audience";
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
-        gProp.setRole(new ResourceRef(roleId, RESOURCE_TYPE.Role));
-        gProp.setAssignedOn(new ResourceRef(createdItem.getObjid(),
-            RESOURCE_TYPE.Item));
+        gProp.setRole(new RoleRef(roleId));
+        gProp.setAssignedOn(new Reference(createdItem.getObjid(),
+            Resource.RESOURCE_TYPE.Item));
         grant.setGrantProperties(gProp);
 
         Grant createdGrant = uahc.createGrant(objId, grant);
@@ -253,9 +250,9 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         String roleId = "escidoc:role-audience";
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
-        gProp.setRole(new ResourceRef(roleId, RESOURCE_TYPE.Role));
-        gProp.setAssignedOn(new ResourceRef("escidoc:NON-exists",
-            RESOURCE_TYPE.UserAccount));
+        gProp.setRole(new RoleRef(roleId));
+        gProp.setAssignedOn(new Reference("escidoc:NON-exists",
+            Resource.RESOURCE_TYPE.UserAccount));
         grant.setGrantProperties(gProp);
 
         uahc.createGrant(objId, grant);
@@ -296,8 +293,7 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         // create Grant
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
-        gProp.setRole(new ResourceRef("escidoc:role-system-administrator",
-            RESOURCE_TYPE.Role));
+        gProp.setRole(new RoleRef("escidoc:role-system-administrator"));
         grant.setGrantProperties(gProp);
 
         Grant createdGrant = uahc.createGrant(objId, grant);
@@ -349,8 +345,7 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         // create Grant
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
-        gProp.setRole(new ResourceRef("escidoc:role-system-administrator",
-            RESOURCE_TYPE.Role));
+        gProp.setRole(new RoleRef("escidoc:role-system-administrator"));
         grant.setGrantProperties(gProp);
 
         Grant createdGrant = uahc.createGrant(objId, grant);

@@ -46,12 +46,12 @@ import de.escidoc.core.client.exceptions.application.notfound.ContainerNotFoundE
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
@@ -94,12 +94,9 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
             // create first a Container
             Container containerNew = new Container();
             ContainerProperties properties = new ContainerProperties();
-            properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-                RESOURCE_TYPE.Context));
-            properties
-                .setContentModel(new ResourceRef(
-                    Constants.EXAMPLE_CONTENT_MODEL_ID,
-                    RESOURCE_TYPE.ContentModel));
+            properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+            properties.setContentModel(new ContentModelRef(
+                Constants.EXAMPLE_CONTENT_MODEL_ID));
             containerNew.setProperties(properties);
             MetadataRecords mdRecords = new MetadataRecords();
             MetadataRecord mdRecord = new MetadataRecord();
@@ -210,10 +207,9 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
 
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();

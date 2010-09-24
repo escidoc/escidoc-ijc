@@ -57,13 +57,13 @@ import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.jibx.Marshaller;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.resources.om.item.component.Component;
@@ -208,7 +208,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.setProperties(properties);
         cc.create(item);
     }
@@ -236,7 +236,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -269,7 +269,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -303,7 +303,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -353,15 +353,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
 
-        item.getProperties()
-            .setContext(
-                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-                    RESOURCE_TYPE.Context));
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
-                RESOURCE_TYPE.ContentModel));
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
         item.setXLinkTitle("TEST");
-        item.getProperties().setDescription("FOOOOOOooohhhhhhhh");
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -408,13 +404,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
 
-        item.getProperties()
-            .setContext(
-                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-                    RESOURCE_TYPE.Context));
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
-                RESOURCE_TYPE.ContentModel));
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -467,10 +460,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -547,10 +540,9 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
         properties.setContentModelSpecific(ResourceUtility
             .getContentModelSpecific());
         item.setProperties(properties);
@@ -695,13 +687,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
 
-        item.getProperties()
-            .setContext(
-                new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-                    RESOURCE_TYPE.Context));
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.getProperties().setContentModel(
-            new ResourceRef(Constants.EXAMPLE_CONTENT_MODEL_ID,
-                RESOURCE_TYPE.ContentModel));
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -751,10 +740,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
+
         properties.setContentModelSpecific(ResourceUtility
             .getContentModelSpecific());
         item.setProperties(properties);

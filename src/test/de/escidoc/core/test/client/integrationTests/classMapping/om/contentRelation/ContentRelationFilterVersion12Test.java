@@ -45,12 +45,12 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentRelationHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.resources.om.contentRelation.ContentRelationProperties;
 import de.escidoc.core.resources.sb.explain.ExplainData;
@@ -167,10 +167,8 @@ public class ContentRelationFilterVersion12Test
             .setType(new URI(
                 "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
 
-        contentRelation.setSubject(new ResourceRef("escidoc:ex1",
-            RESOURCE_TYPE.Context));
-        contentRelation.setObject(new ResourceRef("escidoc:ex5:1",
-            RESOURCE_TYPE.Item));
+        contentRelation.setSubject(new ContextRef("escidoc:ex1"));
+        contentRelation.setObject(new ItemRef("escidoc:ex5:1"));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();

@@ -50,11 +50,10 @@ import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
@@ -137,9 +136,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef =
-            new ResourceRef("escidoc:ex3", RESOURCE_TYPE.OrganizationalUnit);
-        organizationalUnitRefs.add(organizationalUnitRef);
+        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -192,9 +189,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef =
-            new ResourceRef("escidoc:ex3", RESOURCE_TYPE.OrganizationalUnit);
-        organizationalUnitRefs.add(organizationalUnitRef);
+        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);

@@ -13,15 +13,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.Properties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
-import de.escidoc.core.test.client.util.XmlUtil;
 
 /**
  * Test admin descriptor content handling.
@@ -56,8 +56,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-        organizationalUnitRefs.add(organizationalUnitRef);
+        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -75,7 +75,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
                 .getMarshallerFactory(transport).getContextMarshaller()
                 .marshalDocument(context);
 
-        Document contextDoc = XmlUtil.getDocument(contextXml);
+        Document contextDoc = XmlUtility.getDocument(contextXml);
 
         NodeList admDescNodes =
             contextDoc.getElementsByTagName("escidocContext:admin-descriptor");
@@ -143,8 +143,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        ResourceRef organizationalUnitRef = new ResourceRef("escidoc:ex3");
-        organizationalUnitRefs.add(organizationalUnitRef);
+        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -166,7 +166,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
                 .getMarshallerFactory(transport).getContextMarshaller()
                 .marshalDocument(context);
 
-        Document contextDoc = XmlUtil.getDocument(contextXml);
+        Document contextDoc = XmlUtility.getDocument(contextXml);
 
         NodeList admDescNodes =
             contextDoc.getElementsByTagName("escidocContext:admin-descriptor");

@@ -40,14 +40,15 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
@@ -125,11 +126,11 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
 
         UserAccount userAccount =
             SetupDataUtil.createUserWithDepositorRole(sysadminAuth, password,
-                context1, transport);
+                context1.getReference(), transport);
 
         UserAccount userAccount2 =
             SetupDataUtil.createUserWithDepositorRole(sysadminAuth, password,
-                context2, transport);
+                context2.getReference(), transport);
 
         // -------------------------------------------------
         // create origin Item
@@ -148,9 +149,9 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
         Item originItem = new Item();
 
         originItem.getProperties().setContext(
-            new ResourceRef(context1.getObjid()));
+            new ContextRef(context1.getObjid()));
         originItem.getProperties().setContentModel(
-            new ResourceRef(contentModel.getObjid()));
+            new ContentModelRef(contentModel.getObjid()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -213,9 +214,9 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
         Item surrogateItem = new Item();
 
         surrogateItem.getProperties().setContext(
-            new ResourceRef(context2.getObjid()));
+            new ContextRef(context2.getObjid()));
         surrogateItem.getProperties().setContentModel(
-            new ResourceRef(contentModel.getObjid()));
+            new ContentModelRef(contentModel.getObjid()));
 
         // Metadata Record(s)
         mdRecords = new MetadataRecords();
@@ -224,7 +225,7 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
         surrogateItem.setMetadataRecords(mdRecords);
 
         surrogateItem.getProperties().setOrigin(
-            new ResourceRef(originItem.getObjid(), RESOURCE_TYPE.Item));
+            new ItemRef(originItem.getObjid()));
         surrogateItem = ihc2.create(surrogateItem);
 
         /*

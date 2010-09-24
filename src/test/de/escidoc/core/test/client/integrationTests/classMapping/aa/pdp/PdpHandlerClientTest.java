@@ -73,7 +73,8 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
     public void testMarshalling() throws Exception {
         String xml =
             EscidocClientTestBase.getXmlFileAsString(new File(
-                "templates/soap/pdp/requests.xml"));
+                "templates/" + transport.name().toLowerCase()
+                + "/aa/pdp/requests.xml"));
         Marshaller<Requests> m =
             Factory.getMarshallerFactory(transport).getPDPRequestsMarshaller();
 

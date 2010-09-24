@@ -51,11 +51,11 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.ResourceRef.RESOURCE_TYPE;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.sb.explain.ExplainData;
@@ -162,10 +162,9 @@ public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase 
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ResourceRef(Constants.EXAMPLE_CONTEXT_ID,
-            RESOURCE_TYPE.Context));
-        properties.setContentModel(new ResourceRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, RESOURCE_TYPE.ContentModel));
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

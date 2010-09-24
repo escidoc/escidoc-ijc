@@ -45,10 +45,11 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
@@ -136,8 +137,8 @@ public class ItemUpdateTest extends AbstractParameterizedTestBase {
 
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ResourceRef("escidoc:ex1"));
-        properties.setContentModel(new ResourceRef("escidoc:ex4"));
+        properties.setContext(new ContextRef("escidoc:ex1"));
+        properties.setContentModel(new ContentModelRef("escidoc:ex4"));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
