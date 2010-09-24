@@ -52,7 +52,7 @@
 
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
 			name="subject" field="subject" usage="optional"
-			type="de.escidoc.core.resources.ResourceRef">
+			type="de.escidoc.core.resources.common.reference.Reference">
 			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -64,7 +64,7 @@
 
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
 			name="object" field="object" usage="optional"
-			type="de.escidoc.core.resources.ResourceRef">
+			type="de.escidoc.core.resources.common.reference.Reference">
 			
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />

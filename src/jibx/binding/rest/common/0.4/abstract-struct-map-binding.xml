@@ -24,7 +24,7 @@
 			<structure
 				ns="http://escidoc.de/core/01/structural-relations/"
 				name="container"
-				type="de.escidoc.core.resources.common.structmap.ContainerRef">
+				type="de.escidoc.core.resources.common.structmap.ContainerMemberRef">
 				
 				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -35,7 +35,7 @@
 			</structure>
 			<structure
 				ns="http://escidoc.de/core/01/structural-relations/" name="item"
-				type="de.escidoc.core.resources.common.structmap.ItemRef">
+				type="de.escidoc.core.resources.common.structmap.ItemMemberRef">
 				
 				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />

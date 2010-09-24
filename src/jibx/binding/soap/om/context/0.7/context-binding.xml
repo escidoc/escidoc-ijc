@@ -55,7 +55,8 @@
 	<!-- ***************************************** 
 	Properties binding definition 
 		****************************************** -->
-	<mapping ns="http://escidoc.de/core/01/properties/" class="de.escidoc.core.resources.om.context.Properties"
+	<mapping ns="http://escidoc.de/core/01/properties/" 
+    class="de.escidoc.core.resources.om.context.Properties"
 		abstract="true" type-name="context-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
@@ -116,14 +117,15 @@
 		Abstract Organizational Units 
 		****************************************** -->
 	<mapping ns="http://escidoc.de/core/01/properties/"
-		class="de.escidoc.core.resources.ResourceRef"
+		class="de.escidoc.core.resources.common.reference.OrganizationalUnitRef"
 		abstract="true" type-name="abstract-organizational-unit-ref">
 
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
-				name="organizational-unit" type="de.escidoc.core.resources.ResourceRef"
+				name="organizational-unit" 
+				type="de.escidoc.core.resources.common.reference.OrganizationalUnitRef"
 				usage="optional">
 
 			<value name="objid" style="attribute" set-method="setObjid"
@@ -148,7 +150,8 @@
 			<value name="name" set-method="setName" get-method="getName"
 				style="attribute" usage="optional" />
 			<structure field="content" type="org.w3c.dom.Element"
-				marshaller="org.jibx.extras.DomElementMapper" unmarshaller="org.jibx.extras.DomElementMapper"
+				marshaller="org.jibx.extras.DomElementMapper" 
+				unmarshaller="org.jibx.extras.DomElementMapper"
 				usage="optional" />
 		</structure>
 	</mapping>

@@ -45,14 +45,14 @@
 
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
 				name="subject" field="subject" usage="optional"
-				type="de.escidoc.core.resources.ResourceRef">
+				type="de.escidoc.core.resources.common.reference.Reference">
 				<value style="attribute" name="objid" usage="optional" 
 					get-method="getObjid" set-method="setObjid"/>
 		</structure>
 
 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
 				name="object" field="object" usage="optional"
-				type="de.escidoc.core.resources.ResourceRef">
+				type="de.escidoc.core.resources.common.reference.Reference">
 				<value style="attribute" name="objid" usage="optional" 
 					get-method="getObjid" set-method="setObjid"/>
 		</structure>
