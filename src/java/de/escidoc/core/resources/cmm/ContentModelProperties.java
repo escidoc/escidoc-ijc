@@ -30,9 +30,9 @@ package de.escidoc.core.resources.cmm;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
 import de.escidoc.core.resources.interfaces.common.VersionInterface;
@@ -51,7 +51,7 @@ public class ContentModelProperties extends XLinkResource {
 
     private DateTime creationDate;
 
-    private ResourceRef createdBy;
+    private UserAccountRef createdBy;
 
     private String publicStatus;
 
@@ -61,7 +61,7 @@ public class ContentModelProperties extends XLinkResource {
 
     private DateTime lockDate;
 
-    private ResourceRef lockOwner;
+    private UserAccountRef lockOwner;
 
     private String pid;
 
@@ -70,7 +70,6 @@ public class ContentModelProperties extends XLinkResource {
     private Version latestVersion;
 
     private Version latestRelease;
-
 
     /**
      * 
@@ -97,7 +96,7 @@ public class ContentModelProperties extends XLinkResource {
     /**
      * @return the createdBy
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -105,7 +104,7 @@ public class ContentModelProperties extends XLinkResource {
      * @param createdBy
      *            the createdBy to set
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -217,7 +216,7 @@ public class ContentModelProperties extends XLinkResource {
     /**
      * @return the lockOwner
      */
-    public ResourceRef getLockOwner() {
+    public UserAccountRef getLockOwner() {
         return this.lockOwner;
     }
 
@@ -240,7 +239,7 @@ public class ContentModelProperties extends XLinkResource {
      * @param lockOwner
      *            the lockOwner to set
      */
-    public void setLockOwner(final ResourceRef lockOwner) {
+    public void setLockOwner(final UserAccountRef lockOwner) {
         this.lockOwner = lockOwner;
     }
 

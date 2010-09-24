@@ -28,13 +28,14 @@
  */
 package de.escidoc.core.resources.om.container;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relation;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.reference.ContainerRef;
+import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.GenericVersionableResource;
@@ -46,7 +47,7 @@ import de.escidoc.core.resources.om.GenericVersionableResource;
  * 
  */
 public class Container extends GenericVersionableResource
-    implements XLinkAutonomous {
+    implements XLinkAutonomous, Referenceable<ContainerRef> {
 
     private MetadataRecords mdRecords = null;
 
@@ -214,14 +215,20 @@ public class Container extends GenericVersionableResource
      */
     protected void genVersionHref(Version version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(ResourceRef.RESOURCE_URL_MAP
-                .get(RESOURCE_TYPE.Container)
-                + "/"
-                + getObjid()
-                + ":"
-                + version.getNumber());
+            version.setXLinkHref(RESOURCE_URL_MAP.get(RESOURCE_TYPE.Container)
+                + "/" + getObjid() + ":" + version.getNumber());
             genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount,
                 null);
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    public ContainerRef getReference() {
+        return new ContainerRef(getObjid());
     }
 }

@@ -29,7 +29,7 @@
 package de.escidoc.core.resources.oum;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 
 /**
  * Organizational Unit as Predecessor reference.
@@ -37,7 +37,7 @@ import de.escidoc.core.resources.ResourceRef;
  * @author SWA
  * 
  */
-public class Predecessor extends ResourceRef {
+public class Predecessor extends Resource {
 
     private PredecessorForm form;
 
@@ -45,7 +45,7 @@ public class Predecessor extends ResourceRef {
      * 
      */
     public Predecessor() {
-        setResourceType(RESOURCE_TYPE.OrganizationalUnit);
+        this(null, null);
     }
 
     /**

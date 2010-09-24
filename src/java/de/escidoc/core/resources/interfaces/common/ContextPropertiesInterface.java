@@ -2,7 +2,7 @@ package de.escidoc.core.resources.interfaces.common;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
  * Interface for Context Properties.
@@ -30,7 +30,7 @@ public interface ContextPropertiesInterface {
     /**
      * @return The creator.
      */
-    ResourceRef getCreatedBy();
+    UserAccountRef getCreatedBy();
 
     /**
      * Set the creator.
@@ -38,7 +38,7 @@ public interface ContextPropertiesInterface {
      * @param createdBy
      *            The link to the new creator.
      */
-    void setCreatedBy(final ResourceRef createdBy);
+    void setCreatedBy(final UserAccountRef createdBy);
 
     // /**
     // * @return The creation date.
@@ -56,7 +56,7 @@ public interface ContextPropertiesInterface {
     /**
      * @return The creator.
      */
-    ResourceRef getModifiedBy();
+    UserAccountRef getModifiedBy();
 
     /**
      * Set the creator.
@@ -64,7 +64,7 @@ public interface ContextPropertiesInterface {
      * @param createdBy
      *            The link to the new creator.
      */
-    void setModifiedBy(final ResourceRef createdBy);
+    void setModifiedBy(final UserAccountRef createdBy);
 
     /**
      * Get the name of the Context.

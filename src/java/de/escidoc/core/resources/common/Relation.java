@@ -28,7 +28,8 @@
  */
 package de.escidoc.core.resources.common;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.common.reference.Reference;
 
 /**
  * Relation (Content Relation).
@@ -36,7 +37,7 @@ import de.escidoc.core.resources.ResourceRef;
  * @author SWA
  * 
  */
-public class Relation extends ResourceRef {
+public class Relation extends Resource {
     
     private String predicate;
 
@@ -51,7 +52,7 @@ public class Relation extends ResourceRef {
      * @param id
      *            The resource reference.
      */
-    public Relation(final ResourceRef id) {
+    public Relation(final Reference id) {
         setObjid(id.getObjid());
         setResourceType(id.getResourceType());
         setXLinkHref(id.getXLinkHref());

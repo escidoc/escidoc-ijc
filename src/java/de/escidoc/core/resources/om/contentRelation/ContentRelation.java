@@ -30,10 +30,10 @@ package de.escidoc.core.resources.om.contentRelation;
 
 import java.net.URI;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -55,9 +55,9 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
 
     private String objectVersion;
 
-    private ResourceRef subject;
+    private Reference subject;
 
-    private ResourceRef object;
+    private Reference object;
 
     /**
      * 
@@ -171,7 +171,7 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
     /**
      * @return the subjectResourceRef
      */
-    public ResourceRef getSubject() {
+    public Reference getSubject() {
         return subject;
     }
 
@@ -179,14 +179,14 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
      * @param subjectResourceRef
      *            the subjectResourceRef to set
      */
-    public void setSubject(ResourceRef subjectResourceRef) {
+    public void setSubject(Reference subjectResourceRef) {
         this.subject = subjectResourceRef;
     }
 
     /**
      * @return the objectResourceRef
      */
-    public ResourceRef getObject() {
+    public Reference getObject() {
         return object;
     }
 
@@ -194,7 +194,7 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
      * @param objectResourceRef
      *            the objectResourceRef to set
      */
-    public void setObject(ResourceRef objectResourceRef) {
+    public void setObject(Reference objectResourceRef) {
         this.object = objectResourceRef;
     }
 

@@ -30,8 +30,10 @@ package de.escidoc.core.resources.common.properties;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
 import de.escidoc.core.resources.interfaces.common.PropertiesInterface;
@@ -50,23 +52,23 @@ public class Properties extends XLinkResource implements PropertiesInterface {
 
     protected String description;
 
-    protected ResourceRef createdBy;
+    protected UserAccountRef createdBy;
 
-    private ResourceRef modifiedBy;
+    private UserAccountRef modifiedBy;
 
     private String publicStatus;
 
     private String publicStatusComment;
 
-    private ResourceRef context = null;
+    private ContextRef context = null;
 
-    private ResourceRef contentModel = null;
+    private ContentModelRef contentModel = null;
 
     private String lockStatus = null;
 
     private String lockDate;
 
-    private ResourceRef lockOwner = null;
+    private UserAccountRef lockOwner = null;
 
     private String pid = null;
 
@@ -120,7 +122,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
     /**
      * @return the createdBy
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -128,14 +130,14 @@ public class Properties extends XLinkResource implements PropertiesInterface {
      * @param createdBy
      *            the createdBy to set
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
     /**
      * @return the modifedBy
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
     }
 
@@ -143,7 +145,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
      * @param modifiedBy
      *            the createdBy to set
      */
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -180,7 +182,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
     /**
      * @return the contentModel
      */
-    public ResourceRef getContentModel() {
+    public ContentModelRef getContentModel() {
         return contentModel;
     }
 
@@ -188,7 +190,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
      * @param contentModel
      *            the contentModel to set
      */
-    public void setContentModel(final ResourceRef contentModel) {
+    public void setContentModel(final ContentModelRef contentModel) {
         this.contentModel = contentModel;
     }
 
@@ -255,7 +257,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
     /**
      * @return the context
      */
-    public ResourceRef getContext() {
+    public ContextRef getContext() {
         return context;
     }
 
@@ -269,7 +271,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
     /**
      * @return the lockOwner
      */
-    public ResourceRef getLockOwner() {
+    public UserAccountRef getLockOwner() {
         return lockOwner;
     }
 
@@ -291,7 +293,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
      * @param context
      *            the context to set
      */
-    public void setContext(final ResourceRef context) {
+    public void setContext(final ContextRef context) {
         this.context = context;
     }
 
@@ -307,7 +309,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
      * @param lockOwner
      *            the lockOwner to set
      */
-    public void setLockOwner(final ResourceRef lockOwner) {
+    public void setLockOwner(final UserAccountRef lockOwner) {
         this.lockOwner = lockOwner;
     }
 

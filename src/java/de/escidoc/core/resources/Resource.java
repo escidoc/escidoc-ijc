@@ -37,7 +37,7 @@ import java.util.Map;
  * @author SWA
  * 
  */
-public class ResourceRef extends XLinkResource {
+public abstract class Resource extends XLinkResource {
 
     /**
      * Types of eSciDoc resources.
@@ -52,7 +52,7 @@ public class ResourceRef extends XLinkResource {
         Component(false), Toc(false), // ???
         UserAccountAttribute(false);
 
-        private final boolean isRootResource;
+        final boolean isRootResource;
 
         RESOURCE_TYPE(boolean isRootResource) {
             this.isRootResource = isRootResource;
@@ -63,36 +63,47 @@ public class ResourceRef extends XLinkResource {
         }
     }
 
+    public static final Map<RESOURCE_TYPE, String> RESOURCE_URL_MAP =
+        new HashMap<RESOURCE_TYPE, String>();
+    {
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Context,
+            "/ir/context");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Item,
+            "/ir/item");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Container,
+            "/ir/container");
+        /* /ir/item/<iID>/components/component/<cID>/ */
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Component,
+            "/components/component");
+        Resource.RESOURCE_URL_MAP
+            .put(RESOURCE_TYPE.Toc, "/tocs");
+        Resource.RESOURCE_URL_MAP.put(
+            RESOURCE_TYPE.OrganizationalUnit,
+            "/oum/organizational-unit");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.UserAccount,
+            "/aa/user-account");
+        /* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
+        Resource.RESOURCE_URL_MAP.put(
+            RESOURCE_TYPE.UserAccountAttribute,
+            "/resources/attributes/attribute");
+        Resource.RESOURCE_URL_MAP.put(
+            RESOURCE_TYPE.ContentModel, "/cmm/content-model");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Grant,
+            "/aa/grant");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Role,
+            "/aa/role");
+        Resource.RESOURCE_URL_MAP.put(
+            RESOURCE_TYPE.ContentRelation, "/ir/content-relation");
+    }
+
     private String objid;
 
     private RESOURCE_TYPE resourceType = null;
 
-    public static final Map<RESOURCE_TYPE, String> RESOURCE_URL_MAP =
-        new HashMap<RESOURCE_TYPE, String>();
-    {
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.Context, "/ir/context");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.Item, "/ir/item");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.Container, "/ir/container");
-        /* /ir/item/<iID>/components/component/<cID>/ */
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.Component, "/components/component");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.Toc, "/tocs");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.OrganizationalUnit,
-            "/oum/organizational-unit");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.UserAccount, "/aa/user-account");
-        /* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.UserAccountAttribute,
-            "/resources/attributes/attribute");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.ContentModel, "/cmm/content-model");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.Grant, "/aa/grant");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.Role, "/aa/role");
-        RESOURCE_URL_MAP.put(RESOURCE_TYPE.ContentRelation,
-            "/ir/content-relation");
-    }
-
     /**
      * 
      */
-    public ResourceRef() {
+    public Resource() {
 
     }
 
@@ -101,7 +112,7 @@ public class ResourceRef extends XLinkResource {
      * @param objid
      *            The objid of the resource.
      */
-    public ResourceRef(final String objid) {
+    public Resource(final String objid) {
         setObjid(objid);
     }
 
@@ -110,11 +121,9 @@ public class ResourceRef extends XLinkResource {
      * @param objid
      * @param type
      */
-    public ResourceRef(final String objid, final RESOURCE_TYPE type) {
+    public Resource(final String objid, final RESOURCE_TYPE type) {
         setObjid(objid);
         setResourceType(type);
-
-        // genOwnXLinkHref();
     }
 
     /**
@@ -122,13 +131,12 @@ public class ResourceRef extends XLinkResource {
      * @param objid
      * @param type
      */
-    public ResourceRef(final String objid, final RESOURCE_TYPE type,
-        final String title) {
+    public Resource(final String objid,
+        final RESOURCE_TYPE type, final String title) {
         setObjid(objid);
         setResourceType(type);
 
         setXLinkTitle(title);
-        // genOwnXLinkHref();
     }
 
     /**
@@ -138,7 +146,7 @@ public class ResourceRef extends XLinkResource {
      * @param title
      *            The title of the resource (for XML Xlink title attribute)
      */
-    public ResourceRef(final String href, final String title) {
+    public Resource(final String href, final String title) {
         setXLinkHref(href);
         setXLinkTitle(title);
     }
@@ -152,7 +160,7 @@ public class ResourceRef extends XLinkResource {
      * @param title
      *            The title of the resource (for XML Xlink title attribute)
      */
-    public ResourceRef(final String objid, final String href, final String title) {
+    public Resource(final String objid, final String href, final String title) {
         setXLinkHref(href);
         setXLinkTitle(title);
         this.objid = objid;
@@ -169,7 +177,7 @@ public class ResourceRef extends XLinkResource {
      * @param resourceType
      *            The type of the resource.
      */
-    public ResourceRef(final String objid, final String href,
+    public Resource(final String objid, final String href,
         final String title, final RESOURCE_TYPE resourceType) {
         setXLinkHref(href);
         setXLinkTitle(title);
@@ -215,7 +223,6 @@ public class ResourceRef extends XLinkResource {
      *            type of resource
      */
     public void setResourceType(final RESOURCE_TYPE resourceType) {
-
         this.resourceType = resourceType;
     }
 
@@ -225,68 +232,7 @@ public class ResourceRef extends XLinkResource {
      * @return Resource type
      */
     public RESOURCE_TYPE getResourceType() {
-
         return this.resourceType;
-    }
-
-    /**
-     * Returns the resource type of the specified xLinkHref. The xLinkHref is
-     * not being validated.
-     * 
-     * @param xLinkHref
-     * @return the resource type of the specified xLinkHref or null if and only
-     *         if the specified xLinkHref cannot be mapped to a root resource
-     *         type.
-     */
-    public static final RESOURCE_TYPE getRootResourceTypeForHref(
-        String xLinkHref) {
-        if (xLinkHref == null)
-            return null;
-
-        for (Map.Entry<RESOURCE_TYPE, String> entry : RESOURCE_URL_MAP
-            .entrySet()) {
-            if (entry.getKey().isRootResource()
-                && xLinkHref.startsWith(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Method used by ResourceRef implementations to ensure a fully valid
-     * xLinkHref definition for all sub resources they may own. The validation
-     * methods calling this method may be called by JiBX as post-set methods.
-     * 
-     * @param resource
-     * @param type
-     * @param prefix
-     * @return the generated HREF
-     */
-    protected static final String genXLinkHref(
-        final ResourceRef resource, final RESOURCE_TYPE type,
-        final String prefix) {
-
-        if (resource != null && resource.getXLinkHref() == null) {
-
-            if (type != null && resource.getObjid() != null) {
-                resource.setResourceType(type);
-
-                String URL = RESOURCE_URL_MAP.get(type);
-                if (URL != null) {
-                    String href = URL + "/" + resource.getObjid();
-                    if (prefix != null)
-                        href = prefix + href;
-                    resource.setXLinkHref(href);
-                    return href;
-                }
-            }
-            else if (prefix != null) {
-                resource.setXLinkHref(prefix);
-                return prefix;
-            }
-        }
-        return "";
     }
 
     /**
@@ -297,8 +243,8 @@ public class ResourceRef extends XLinkResource {
     protected void genOwnXLinkHref() {
         if (getXLinkHref() == null && getResourceType() != null
             && getResourceType().isRootResource && getObjid() != null) {
-            setXLinkHref(RESOURCE_URL_MAP.get(getResourceType()) + "/"
-                + getObjid());
+            setXLinkHref(Resource.RESOURCE_URL_MAP.get(getResourceType())
+                + "/" + getObjid());
         }
     }
 
@@ -328,7 +274,7 @@ public class ResourceRef extends XLinkResource {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ResourceRef other = (ResourceRef) obj;
+        Resource other = (Resource) obj;
         if (objid == null) {
             if (other.objid != null)
                 return false;
@@ -336,5 +282,65 @@ public class ResourceRef extends XLinkResource {
         else if (!objid.equals(other.objid))
             return false;
         return true;
+    }
+
+    /**
+     * Method used by ResourceRef implementations to ensure a fully valid
+     * xLinkHref definition for all sub resources they may own. The validation
+     * methods calling this method may be called by JiBX as post-set methods.
+     * 
+     * @param resource
+     * @param type
+     * @param prefix
+     * @return the generated HREF
+     */
+    protected static final String genXLinkHref(
+        final Resource resource, final RESOURCE_TYPE type,
+        final String prefix) {
+
+        if (resource != null && resource.getXLinkHref() == null) {
+
+            if (type != null && resource.getObjid() != null) {
+                resource.setResourceType(type);
+
+                String URL = RESOURCE_URL_MAP.get(type);
+                if (URL != null) {
+                    String href = URL + "/" + resource.getObjid();
+                    if (prefix != null)
+                        href = prefix + href;
+                    resource.setXLinkHref(href);
+                    return href;
+                }
+            }
+            else if (prefix != null) {
+                resource.setXLinkHref(prefix);
+                return prefix;
+            }
+        }
+        return "";
+    }
+
+    /**
+     * Returns the resource type of the specified xLinkHref. The xLinkHref is
+     * not being validated.
+     * 
+     * @param xLinkHref
+     * @return the resource type of the specified xLinkHref or null if and only
+     *         if the specified xLinkHref cannot be mapped to a root resource
+     *         type.
+     */
+    public static final RESOURCE_TYPE getRootResourceTypeForHref(
+        String xLinkHref) {
+        if (xLinkHref == null)
+            return null;
+
+        for (Map.Entry<RESOURCE_TYPE, String> entry : RESOURCE_URL_MAP
+            .entrySet()) {
+            if (entry.getKey().isRootResource()
+                && xLinkHref.startsWith(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

@@ -30,7 +30,9 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.Reference;
+import de.escidoc.core.resources.common.reference.RoleRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
  * Properties of Grant.
@@ -42,23 +44,23 @@ public class GrantProperties {
 
     private DateTime creationDate = null;
 
-    private ResourceRef createdBy;
+    private UserAccountRef createdBy;
 
-    private ResourceRef modifiedBy;
+    private UserAccountRef modifiedBy;
 
     private GrantedTo grantedTo;
 
     private String revocationDate;
 
-    private ResourceRef revokedBy;
+    private UserAccountRef revokedBy;
 
     private String grantRemark;
 
     private String revocationRemark;
 
-    private ResourceRef role;
+    private RoleRef role;
 
-    private ResourceRef assignedOn;
+    private Reference assignedOn;
 
     /**
      * Properties for Grant.
@@ -88,7 +90,7 @@ public class GrantProperties {
     /**
      * @return the createdBy
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -96,14 +98,14 @@ public class GrantProperties {
      * @param createdBy
      *            the createdBy to set
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
     /**
      * @return the modifedBy
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
     }
 
@@ -111,7 +113,7 @@ public class GrantProperties {
      * @param modifiedBy
      *            the createdBy to set
      */
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -155,7 +157,7 @@ public class GrantProperties {
      * 
      * @return id of revoker
      */
-    public ResourceRef getRevokedBy() {
+    public UserAccountRef getRevokedBy() {
         return revokedBy;
     }
 
@@ -165,7 +167,7 @@ public class GrantProperties {
      * @param revokedBy
      *            ResourcRef of revoker
      */
-    public void setRevokedBy(final ResourceRef revokedBy) {
+    public void setRevokedBy(final UserAccountRef revokedBy) {
         this.revokedBy = revokedBy;
     }
 
@@ -213,7 +215,7 @@ public class GrantProperties {
      * 
      * @return Role
      */
-    public ResourceRef getRole() {
+    public RoleRef getRole() {
         return role;
     }
 
@@ -224,7 +226,7 @@ public class GrantProperties {
      * @param role
      *            Role
      */
-    public void setRole(final ResourceRef role) {
+    public void setRole(final RoleRef role) {
         this.role = role;
     }
 
@@ -233,7 +235,7 @@ public class GrantProperties {
      * 
      * @return ResourceRef of assigned on.
      */
-    public ResourceRef getAssignedOn() {
+    public Reference getAssignedOn() {
         return assignedOn;
     }
 
@@ -244,7 +246,7 @@ public class GrantProperties {
      * @param assignedOn
      *            ResourceRef where Grant is assigned on
      */
-    public void setAssignedOn(final ResourceRef assignedOn) {
+    public void setAssignedOn(final Reference assignedOn) {
         this.assignedOn = assignedOn;
     }
 }

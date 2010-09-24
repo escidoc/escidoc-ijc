@@ -28,8 +28,10 @@
  */
 package de.escidoc.core.resources.om.context;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -38,7 +40,8 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
-public class Context extends GenericResource implements XLinkAutonomous {
+public class Context extends GenericResource
+    implements XLinkAutonomous, Referenceable<ContextRef> {
 
     private AdminDescriptors adminDescriptors = null;
 
@@ -106,7 +109,7 @@ public class Context extends GenericResource implements XLinkAutonomous {
                 null);
 
             if (properties.getOrganizationalUnitRefs() != null) {
-                for (ResourceRef ouRef : properties.getOrganizationalUnitRefs()) {
+                for (Resource ouRef : properties.getOrganizationalUnitRefs()) {
                     genXLinkHref(ouRef, RESOURCE_TYPE.OrganizationalUnit, null);
                 }
             }
@@ -125,5 +128,12 @@ public class Context extends GenericResource implements XLinkAutonomous {
                 }
             }
         }
+    }
+
+    /* (non-Javadoc)
+     * @see de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    public ContextRef getReference() {
+        return new ContextRef(getObjid());
     }
 }

@@ -3,7 +3,7 @@ package de.escidoc.core.resources.om.context;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 
 /**
  * References of Organizational Units.
@@ -11,7 +11,7 @@ import de.escidoc.core.resources.ResourceRef;
  * @author SWA
  * 
  */
-public class OrganizationalUnitRefs extends LinkedList<ResourceRef> {
+public class OrganizationalUnitRefs extends LinkedList<OrganizationalUnitRef> {
 
     /**
      * 
@@ -25,20 +25,18 @@ public class OrganizationalUnitRefs extends LinkedList<ResourceRef> {
      *            The objid of the Organizational Unit.
      * @return Organizational Unit reference
      */
-    public ResourceRef get(final String objid) {
+    public OrganizationalUnitRef get(final String objid) {
 
-        ResourceRef result = null;
-        Iterator<ResourceRef> ouRefIter = this.iterator();
+        Iterator<OrganizationalUnitRef> ouRefIter = this.iterator();
         while (ouRefIter.hasNext()) {
-            ResourceRef next = ouRefIter.next();
+            OrganizationalUnitRef next = ouRefIter.next();
             if (next.getObjid().equals(objid)) {
-                result = next;
-                break;
+                return next;
             }
         }
-        return result;
+        return null;
     }
-    
+
     /**
      * Delete an Organizational Unit reference.
      * 
@@ -47,15 +45,14 @@ public class OrganizationalUnitRefs extends LinkedList<ResourceRef> {
      */
     public void del(final String objid) {
 
-        Iterator<ResourceRef> ouRefIter = this.iterator();
+        Iterator<OrganizationalUnitRef> ouRefIter = this.iterator();
         while (ouRefIter.hasNext()) {
-            ResourceRef next = ouRefIter.next();
+            OrganizationalUnitRef next = ouRefIter.next();
             if (next.getObjid().equals(objid)) {
                 this.remove(objid);
                 break;
             }
         }
     }
-
 
 }

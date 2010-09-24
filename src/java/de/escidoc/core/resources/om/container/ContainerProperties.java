@@ -30,10 +30,12 @@ package de.escidoc.core.resources.om.container;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
 import de.escidoc.core.resources.interfaces.common.VersionInterface;
@@ -50,21 +52,21 @@ public class ContainerProperties extends XLinkResource {
 
     private String description = null;
 
-    private ResourceRef createdBy = null;
+    private UserAccountRef createdBy = null;
 
     private String publicStatus = null;
 
     private String publicStatusComment = null;
 
-    private ResourceRef context = null;
+    private ContextRef context = null;
 
-    private ResourceRef contentModel = null;
+    private ContentModelRef contentModel = null;
 
     private String lockStatus = null;
 
     private DateTime lockDate = null;
 
-    private ResourceRef lockOwner = null;
+    private UserAccountRef lockOwner = null;
 
     private String pid = null;
 
@@ -108,7 +110,7 @@ public class ContainerProperties extends XLinkResource {
     /**
      * @return the createdBy
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -116,7 +118,7 @@ public class ContainerProperties extends XLinkResource {
      * @param createdBy
      *            the createdBy to set
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -153,7 +155,7 @@ public class ContainerProperties extends XLinkResource {
     /**
      * @return the contentModel
      */
-    public ResourceRef getContentModel() {
+    public ContentModelRef getContentModel() {
         return this.contentModel;
     }
 
@@ -161,7 +163,7 @@ public class ContainerProperties extends XLinkResource {
      * @param contentModel
      *            the contentModel to set
      */
-    public void setContentModel(final ResourceRef contentModel) {
+    public void setContentModel(final ContentModelRef contentModel) {
         this.contentModel = contentModel;
     }
 
@@ -238,7 +240,7 @@ public class ContainerProperties extends XLinkResource {
     /**
      * @return the context
      */
-    public ResourceRef getContext() {
+    public ContextRef getContext() {
         return this.context;
     }
 
@@ -252,7 +254,7 @@ public class ContainerProperties extends XLinkResource {
     /**
      * @return the lockOwner
      */
-    public ResourceRef getLockOwner() {
+    public UserAccountRef getLockOwner() {
         return this.lockOwner;
     }
 
@@ -274,7 +276,7 @@ public class ContainerProperties extends XLinkResource {
      * @param context
      *            the context to set
      */
-    public void setContext(final ResourceRef context) {
+    public void setContext(final ContextRef context) {
         this.context = context;
     }
 
@@ -290,7 +292,7 @@ public class ContainerProperties extends XLinkResource {
      * @param lockOwner
      *            the lockOwner to set
      */
-    public void setLockOwner(final ResourceRef lockOwner) {
+    public void setLockOwner(final UserAccountRef lockOwner) {
         this.lockOwner = lockOwner;
     }
 

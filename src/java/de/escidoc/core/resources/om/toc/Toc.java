@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.toc;
 
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.Properties;

@@ -33,14 +33,14 @@ import java.util.HashMap;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 
 /**
  * 
  * @author SWA
  * 
  */
-public class GenericResource extends ResourceRef {
+public class GenericResource extends Resource {
 
     private DateTime lastModificationDate = null;
 

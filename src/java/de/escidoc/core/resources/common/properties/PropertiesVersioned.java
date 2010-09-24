@@ -30,7 +30,9 @@ package de.escidoc.core.resources.common.properties;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
 import de.escidoc.core.resources.interfaces.common.VersionInterface;
@@ -49,23 +51,23 @@ public class PropertiesVersioned extends Properties
 
     protected String description;
 
-    protected ResourceRef createdBy;
+    protected UserAccountRef createdBy;
 
-    private ResourceRef modifedBy;
+    private UserAccountRef modifedBy;
 
     private String publicStatus;
 
     private String publicStatusComment;
 
-    private ResourceRef context = null;
+    private ContextRef context = null;
 
-    private ResourceRef contentModel = null;
+    private ContentModelRef contentModel = null;
 
     private String lockStatus = null;
 
     private String lockDate;
 
-    private ResourceRef lockOwner = null;
+    private UserAccountRef lockOwner = null;
 
     private String pid = null;
 
@@ -116,7 +118,7 @@ public class PropertiesVersioned extends Properties
     /**
      * @return the createdBy
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -124,14 +126,14 @@ public class PropertiesVersioned extends Properties
      * @param createdBy
      *            the createdBy to set
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
     /**
      * @return the modifedBy
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return this.modifedBy;
     }
 
@@ -139,7 +141,7 @@ public class PropertiesVersioned extends Properties
      * @param modifedBy
      *            the createdBy to set
      */
-    public void setModifiedBy(final ResourceRef modifedBy) {
+    public void setModifiedBy(final UserAccountRef modifedBy) {
         this.modifedBy = modifedBy;
     }
 
@@ -176,7 +178,7 @@ public class PropertiesVersioned extends Properties
     /**
      * @return the contentModel
      */
-    public ResourceRef getContentModel() {
+    public ContentModelRef getContentModel() {
         return contentModel;
     }
 
@@ -184,7 +186,7 @@ public class PropertiesVersioned extends Properties
      * @param contentModel
      *            the contentModel to set
      */
-    public void setContentModel(final ResourceRef contentModel) {
+    public void setContentModel(final ContentModelRef contentModel) {
         this.contentModel = contentModel;
     }
 
@@ -251,7 +253,7 @@ public class PropertiesVersioned extends Properties
     /**
      * @return the context
      */
-    public ResourceRef getContext() {
+    public ContextRef getContext() {
         return context;
     }
 
@@ -265,7 +267,7 @@ public class PropertiesVersioned extends Properties
     /**
      * @return the lockOwner
      */
-    public ResourceRef getLockOwner() {
+    public UserAccountRef getLockOwner() {
         return lockOwner;
     }
 
@@ -287,7 +289,7 @@ public class PropertiesVersioned extends Properties
      * @param context
      *            the context to set
      */
-    public void setContext(final ResourceRef context) {
+    public void setContext(final ContextRef context) {
         this.context = context;
     }
 
@@ -303,7 +305,7 @@ public class PropertiesVersioned extends Properties
      * @param lockOwner
      *            the lockOwner to set
      */
-    public void setLockOwner(final ResourceRef lockOwner) {
+    public void setLockOwner(final UserAccountRef lockOwner) {
         this.lockOwner = lockOwner;
     }
 

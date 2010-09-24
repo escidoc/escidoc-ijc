@@ -30,17 +30,20 @@ package de.escidoc.core.resources.om.item;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.ItemRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
 import de.escidoc.core.resources.interfaces.common.VersionInterface;
 
 /**
  * Properties of the eSciDoc resources. (I'm afraid this structure is close to
- * versionated resource properties.)
+ * versioned resource properties.)
  * 
  * @author SWA
  * 
@@ -49,28 +52,34 @@ public class ItemProperties extends XLinkResource {
 
     private DateTime creationDate = null;
 
+    /**
+     * @deprecated Not yet supported.
+     */
     private String description = null;
 
-    private ResourceRef createdBy = null;
+    private UserAccountRef createdBy = null;
 
-    private ResourceRef origin = null;
+    private ItemRef origin = null;
 
     private String publicStatus = null;
 
     private String publicStatusComment = null;
 
-    private ResourceRef context = null;
+    private ContextRef context = null;
 
-    private ResourceRef contentModel = null;
+    private ContentModelRef contentModel = null;
 
     private String lockStatus = null;
 
     private DateTime lockDate = null;
 
-    private ResourceRef lockOwner = null;
+    private UserAccountRef lockOwner = null;
 
     private String pid = null;
 
+    /**
+     * @deprecated Not yet supported.
+     */
     private String name = null;
 
     private Version version = null;
@@ -91,7 +100,7 @@ public class ItemProperties extends XLinkResource {
     private final String fileName = null;
 
     private final String mimeType = null;
-    
+
     /**
      * 
      */
@@ -117,7 +126,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @return the createdBy
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -125,7 +134,7 @@ public class ItemProperties extends XLinkResource {
      * @param createdBy
      *            the createdBy to set
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -162,7 +171,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @return the contentModel
      */
-    public ResourceRef getContentModel() {
+    public ContentModelRef getContentModel() {
         return contentModel;
     }
 
@@ -170,7 +179,7 @@ public class ItemProperties extends XLinkResource {
      * @param contentModel
      *            the contentModel to set
      */
-    public void setContentModel(final ResourceRef contentModel) {
+    public void setContentModel(final ContentModelRef contentModel) {
         this.contentModel = contentModel;
     }
 
@@ -237,7 +246,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @return the context
      */
-    public ResourceRef getContext() {
+    public ContextRef getContext() {
         return this.context;
     }
 
@@ -251,7 +260,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @return the lockOwner
      */
-    public ResourceRef getLockOwner() {
+    public UserAccountRef getLockOwner() {
         return this.lockOwner;
     }
 
@@ -273,7 +282,7 @@ public class ItemProperties extends XLinkResource {
      * @param context
      *            the context to set
      */
-    public void setContext(final ResourceRef context) {
+    public void setContext(final ContextRef context) {
         this.context = context;
     }
 
@@ -289,7 +298,7 @@ public class ItemProperties extends XLinkResource {
      * @param lockOwner
      *            the lockOwner to set
      */
-    public void setLockOwner(final ResourceRef lockOwner) {
+    public void setLockOwner(final UserAccountRef lockOwner) {
         this.lockOwner = lockOwner;
     }
 
@@ -312,6 +321,7 @@ public class ItemProperties extends XLinkResource {
 
     /**
      * @return the description
+     * @deprecated Not yet supported.
      */
     public String getDescription() {
         return this.description;
@@ -320,6 +330,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @param description
      *            the description to set
+     * @deprecated Not yet supported.
      */
     public void setDescription(final String description) {
         this.description = description;
@@ -327,6 +338,7 @@ public class ItemProperties extends XLinkResource {
 
     /**
      * @return the name
+     * @deprecated Not yet supported.
      */
     public String getName() {
         return this.name;
@@ -335,6 +347,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @param name
      *            the name to set
+     * @deprecated Not yet supported.
      */
     public void setName(final String name) {
         this.name = name;
@@ -381,7 +394,7 @@ public class ItemProperties extends XLinkResource {
      * 
      * @param origin
      */
-    public void setOrigin(final ResourceRef origin) {
+    public void setOrigin(final ItemRef origin) {
         this.origin = origin;
     }
 
@@ -390,7 +403,7 @@ public class ItemProperties extends XLinkResource {
      * 
      * @return
      */
-    public ResourceRef getOrigin() {
+    public ItemRef getOrigin() {
         return origin;
     }
 }

@@ -30,8 +30,8 @@ package de.escidoc.core.resources.oum;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
  * Properties for eSciDoc OrganizationalUnit (non-versioned resource).
@@ -43,9 +43,9 @@ public class Properties extends XLinkResource {
 
     private DateTime creationDate = null;
 
-    private ResourceRef createdBy = null;
+    private UserAccountRef createdBy = null;
 
-    private ResourceRef modifiedBy = null;
+    private UserAccountRef modifiedBy = null;
 
     private String name = null;
 
@@ -79,7 +79,7 @@ public class Properties extends XLinkResource {
     /**
      * @return The creator.
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -89,14 +89,14 @@ public class Properties extends XLinkResource {
      * @param createdBy
      *            The link to the new creator.
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
     /**
      * @return The creator.
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
     }
 
@@ -106,7 +106,7 @@ public class Properties extends XLinkResource {
      * @param modifiedBy
      *            The link to the new modifier.
      */
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

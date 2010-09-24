@@ -28,7 +28,7 @@
  */
 package de.escidoc.core.resources.oum;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 
 /**
  * Organizational Unit as Parent reference.
@@ -36,7 +36,7 @@ import de.escidoc.core.resources.ResourceRef;
  * @author SWA
  * 
  */
-public class Parent extends ResourceRef {
+public class Parent extends Resource {
 
     /**
      * Default constructor used by JiBX.

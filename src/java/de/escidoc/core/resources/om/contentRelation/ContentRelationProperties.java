@@ -30,8 +30,8 @@ package de.escidoc.core.resources.om.contentRelation;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
  * Properties of the eSciDoc ContentRelation.
@@ -45,9 +45,9 @@ public class ContentRelationProperties extends XLinkResource {
 
     private String description;
 
-    private ResourceRef createdBy;
+    private UserAccountRef createdBy;
 
-    private ResourceRef modifiedBy;
+    private UserAccountRef modifiedBy;
 
     private String publicStatus;
 
@@ -57,7 +57,7 @@ public class ContentRelationProperties extends XLinkResource {
 
     private DateTime lockDate;
 
-    private ResourceRef lockOwner;
+    private UserAccountRef lockOwner;
 
     private String pid;
 
@@ -88,7 +88,7 @@ public class ContentRelationProperties extends XLinkResource {
     /**
      * @return the createdBy
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -96,7 +96,7 @@ public class ContentRelationProperties extends XLinkResource {
      * @param createdBy
      *            the createdBy to set
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -165,7 +165,7 @@ public class ContentRelationProperties extends XLinkResource {
     /**
      * @return the lockOwner
      */
-    public ResourceRef getLockOwner() {
+    public UserAccountRef getLockOwner() {
         return this.lockOwner;
     }
 
@@ -188,7 +188,7 @@ public class ContentRelationProperties extends XLinkResource {
      * @param lockOwner
      *            the lockOwner to set
      */
-    public void setLockOwner(final ResourceRef lockOwner) {
+    public void setLockOwner(final UserAccountRef lockOwner) {
         this.lockOwner = lockOwner;
     }
 
@@ -234,7 +234,7 @@ public class ContentRelationProperties extends XLinkResource {
      * 
      * @param modifiedBy
      */
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -242,7 +242,7 @@ public class ContentRelationProperties extends XLinkResource {
      * 
      * @return
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return modifiedBy;
     }
 

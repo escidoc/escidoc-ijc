@@ -30,7 +30,7 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
  * Properties of User Account.
@@ -44,9 +44,9 @@ public class UserAccountProperties {
 
     private String loginName;
 
-    private ResourceRef createdBy;
+    private UserAccountRef createdBy;
 
-    private ResourceRef modifiedBy;
+    private UserAccountRef modifiedBy;
 
     private String name;
 
@@ -108,7 +108,7 @@ public class UserAccountProperties {
      * 
      * @return the creator of the User Account
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -117,8 +117,24 @@ public class UserAccountProperties {
      * 
      * @return modified by
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
+    }
+    
+    /**
+     * 
+     * @param createdBy
+     */
+    public void setCreatedBy(UserAccountRef createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    /**
+     * 
+     * @param modifiedBy
+     */
+    public void setModifiedBy(UserAccountRef modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
 
     /**

@@ -195,7 +195,8 @@ public class OrganizationalUnit extends GenericResource
 
             for (Predecessor predecessor : predecessors.getPredecessorRef()) {
                 if (predecessor.getXLinkHref() == null) {
-                    genXLinkHref(predecessor, RESOURCE_TYPE.OrganizationalUnit, null);
+                    genXLinkHref(predecessor, RESOURCE_TYPE.OrganizationalUnit,
+                        null);
                 }
             }
         }

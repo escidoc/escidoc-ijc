@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 
 /**
  * 
@@ -40,7 +40,7 @@ import de.escidoc.core.resources.ResourceRef;
  * 
  * @param <T>
  */
-public class ResourceList<T extends ResourceRef> {
+public class ResourceList<T extends Resource> {
 
     public final Collection<T> resources = new LinkedList<T>();
 

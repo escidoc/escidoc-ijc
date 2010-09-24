@@ -32,17 +32,18 @@ import java.util.Collection;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
 import de.escidoc.core.resources.interfaces.common.VersionInterface;
 
-public class Version extends ResourceRef
+public class Version extends Resource
     implements LatestVersionInterface, LatestReleaseInterface, VersionInterface {
 
     private String status = null;
 
-    private ResourceRef modifiedBy = null;
+    private UserAccountRef modifiedBy = null;
 
     private String comment = null;
 
@@ -78,12 +79,12 @@ public class Version extends ResourceRef
         this.status = status;
     }
 
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
 
         return (this.modifiedBy);
     }
 
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
 
         this.modifiedBy = modifiedBy;
     }

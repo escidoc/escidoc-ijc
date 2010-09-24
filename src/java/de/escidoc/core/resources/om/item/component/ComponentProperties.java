@@ -30,8 +30,8 @@ package de.escidoc.core.resources.om.item.component;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.item.ComponentPropertiesInterface;
 
 /**
@@ -40,16 +40,16 @@ import de.escidoc.core.resources.interfaces.item.ComponentPropertiesInterface;
  * @author SWA
  * 
  */
-public class ComponentProperties extends XLinkResource 
-	implements ComponentPropertiesInterface {
+public class ComponentProperties extends XLinkResource
+    implements ComponentPropertiesInterface {
 
-	private DateTime creationDate;
+    private DateTime creationDate;
 
     private DateTime lastModificationDate;
 
-    private ResourceRef createdBy;
+    private UserAccountRef createdBy;
 
-    private ResourceRef modifiedBy;
+    private UserAccountRef modifiedBy;
 
     private String name;
 
@@ -91,7 +91,7 @@ public class ComponentProperties extends XLinkResource
     /**
      * @return The creator.
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -101,7 +101,7 @@ public class ComponentProperties extends XLinkResource
      * @param createdBy
      *            The link to the new creator.
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -125,7 +125,7 @@ public class ComponentProperties extends XLinkResource
     /**
      * @return The creator.
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
     }
 
@@ -135,7 +135,7 @@ public class ComponentProperties extends XLinkResource
      * @param modifiedBy
      *            The link to the new modifier.
      */
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

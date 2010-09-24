@@ -30,8 +30,10 @@ package de.escidoc.core.resources.interfaces.common;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
  * @author msc
@@ -59,7 +61,7 @@ public interface VersionableResourcePropertiesInterface
     /**
      * @return The creator.
      */
-    ResourceRef getCreatedBy();
+    UserAccountRef getCreatedBy();
 
     /**
      * Set the creator.
@@ -67,7 +69,7 @@ public interface VersionableResourcePropertiesInterface
      * @param createdBy
      *            The link to the new creator.
      */
-    void setCreatedBy(ResourceRef createdBy);
+    void setCreatedBy(UserAccountRef createdBy);
 
     /**
      * @return The public status.
@@ -98,7 +100,7 @@ public interface VersionableResourcePropertiesInterface
     /**
      * @return Get the context.
      */
-    ResourceRef getContext();
+    ContextRef getContext();
 
     /**
      * Set the new context.
@@ -106,12 +108,12 @@ public interface VersionableResourcePropertiesInterface
      * @param context
      *            the link to the new context.
      */
-    void setContext(ResourceRef context);
+    void setContext(ContextRef context);
 
     /**
      * @return Get the content model.
      */
-    ResourceRef getContentModel();
+    ContentModelRef getContentModel();
 
     /**
      * Set the new content model.
@@ -119,7 +121,7 @@ public interface VersionableResourcePropertiesInterface
      * @param context
      *            the link to the new content model.
      */
-    void setContentModel(ResourceRef contentModel);
+    void setContentModel(ContentModelRef contentModel);
 
     /**
      * @return The lock status.
@@ -150,7 +152,7 @@ public interface VersionableResourcePropertiesInterface
     /**
      * @return The lock owner.
      */
-    ResourceRef getLockOwner();
+    UserAccountRef getLockOwner();
 
     /**
      * Set the lock owner.
@@ -158,7 +160,7 @@ public interface VersionableResourcePropertiesInterface
      * @param lockOwner
      *            The link to the new lock owner.
      */
-    void setLockOwner(ResourceRef lockOwner);
+    void setLockOwner(UserAccountRef lockOwner);
 
     /**
      * @return The object pid.

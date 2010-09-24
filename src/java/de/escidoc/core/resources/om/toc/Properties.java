@@ -30,7 +30,7 @@ package de.escidoc.core.resources.om.toc;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.TocPropertiesInterface;
 
 /**
@@ -45,9 +45,9 @@ public class Properties implements TocPropertiesInterface {
 
     private DateTime lastModificationDate = null;
 
-    private ResourceRef createdBy = null;
+    private UserAccountRef createdBy = null;
 
-    private ResourceRef modifiedBy = null;
+    private UserAccountRef modifiedBy = null;
 
     /**
      * @return The creation date.
@@ -69,7 +69,7 @@ public class Properties implements TocPropertiesInterface {
     /**
      * @return The creator.
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -79,7 +79,7 @@ public class Properties implements TocPropertiesInterface {
      * @param createdBy
      *            The link to the new creator.
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -103,7 +103,7 @@ public class Properties implements TocPropertiesInterface {
     /**
      * @return The creator.
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
     }
 
@@ -113,7 +113,7 @@ public class Properties implements TocPropertiesInterface {
      * @param modifiedBy
      *            The link to the new modifier.
      */
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

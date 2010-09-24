@@ -1,7 +1,6 @@
 package de.escidoc.core.resources.interfaces.common;
 
-import de.escidoc.core.resources.ResourceRef;
-import de.escidoc.core.resources.aa.useraccount.UserAccount;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 public interface VersionInterface extends LatestReleaseInterface {
     /**
@@ -20,7 +19,7 @@ public interface VersionInterface extends LatestReleaseInterface {
     /**
      * @return The modifier.
      */
-    ResourceRef getModifiedBy();
+    UserAccountRef getModifiedBy();
 
     /**
      * Set the modifier.
@@ -28,7 +27,7 @@ public interface VersionInterface extends LatestReleaseInterface {
      * @param modifiedBy
      *            The link to the new modifier.
      */
-    void setModifiedBy(ResourceRef modifiedBy);
+    void setModifiedBy(UserAccountRef modifiedBy);
 
     /**
      * @return The comment.

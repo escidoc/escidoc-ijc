@@ -28,12 +28,15 @@
  */
 package de.escidoc.core.resources.om.item;
 
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.reference.ItemRef;
+import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
@@ -44,7 +47,8 @@ import de.escidoc.core.resources.om.item.component.Components;
  * 
  * @author ?, SWA
  */
-public class Item extends GenericVersionableResource implements XLinkAutonomous {
+public class Item extends GenericVersionableResource
+    implements XLinkAutonomous, Referenceable<ItemRef> {
 
     private ItemProperties properties = new ItemProperties();
 
@@ -265,10 +269,21 @@ public class Item extends GenericVersionableResource implements XLinkAutonomous 
      */
     protected void genVersionHref(Version version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(RESOURCE_URL_MAP.get(RESOURCE_TYPE.Item) + "/"
-                + getObjid() + ":" + version.getNumber());
+            version.setXLinkHref(Resource.RESOURCE_URL_MAP
+                .get(RESOURCE_TYPE.Item)
+                + "/"
+                + getObjid()
+                + ":"
+                + version.getNumber());
             genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount,
                 null);
         }
+    }
+
+    /* (non-Javadoc)
+     * @see de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    public ItemRef getReference() {
+        return new ItemRef(getObjid());
     }
 }

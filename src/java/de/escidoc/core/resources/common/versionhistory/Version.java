@@ -33,9 +33,9 @@ import java.util.LinkedList;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 
-public class Version extends ResourceRef {
+public class Version extends Resource {
 
     private String versionNumber;
 

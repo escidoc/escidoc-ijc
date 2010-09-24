@@ -1,6 +1,6 @@
 package de.escidoc.core.resources.sb.search;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 
 /**
  * SearchResultRecord.
@@ -14,7 +14,7 @@ public class SearchResultRecord {
 
     private Highlight highlight;
 
-    private ResourceRef content;
+    private Resource content;
 
     private String base;
 
@@ -34,11 +34,11 @@ public class SearchResultRecord {
         this.highlight = highlight;
     }
 
-    public ResourceRef getContent() {
+    public Resource getContent() {
         return this.content;
     }
 
-    public void setContent(final ResourceRef content) {
+    public void setContent(final Resource content) {
         this.content = content;
     }
 

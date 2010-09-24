@@ -28,9 +28,11 @@
  */
 package de.escidoc.core.resources.cmm;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -39,7 +41,8 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
-public class ContentModel extends GenericResource implements XLinkAutonomous {
+public class ContentModel extends GenericResource
+    implements XLinkAutonomous, Referenceable<ContentModelRef> {
 
     private ContentModelProperties properties = new ContentModelProperties();
 
@@ -161,7 +164,7 @@ public class ContentModel extends GenericResource implements XLinkAutonomous {
      */
     protected void genVersionHref(Version version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(ResourceRef.RESOURCE_URL_MAP
+            version.setXLinkHref(Resource.RESOURCE_URL_MAP
                 .get(RESOURCE_TYPE.Item)
                 + "/"
                 + getObjid()
@@ -170,5 +173,12 @@ public class ContentModel extends GenericResource implements XLinkAutonomous {
             genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount,
                 null);
         }
+    }
+
+    /* (non-Javadoc)
+     * @see de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    public ContentModelRef getReference() {
+        return new ContentModelRef(getObjid());
     }
 }

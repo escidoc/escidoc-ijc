@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 
 /**
  * Item Content.
@@ -40,7 +40,7 @@ import de.escidoc.core.resources.ResourceRef;
  * @author SWA
  * 
  */
-public class Content extends ResourceRef {
+public class Content extends Resource {
 
     private String storage;
 
@@ -56,7 +56,7 @@ public class Content extends ResourceRef {
      * @param id
      *            The resource reference.
      */
-    public Content(final ResourceRef id) {
+    public Content(final Resource id) {
         super(id.getObjid(), id.getXLinkHref(), id.getXLinkTitle());
     }
 

@@ -30,8 +30,8 @@ package de.escidoc.core.resources.om.context;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
 import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface;
 
 /**
@@ -40,14 +40,14 @@ import de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface;
  * @author SWA
  * 
  */
-public class Properties extends XLinkResource 
-	implements ContextPropertiesInterface {
+public class Properties extends XLinkResource
+    implements ContextPropertiesInterface {
 
     private DateTime creationDate = null;
 
-    private ResourceRef createdBy = null;
+    private UserAccountRef createdBy = null;
 
-    private ResourceRef modifiedBy = null;
+    private UserAccountRef modifiedBy = null;
 
     private String name = null;
 
@@ -81,7 +81,7 @@ public class Properties extends XLinkResource
     /**
      * @return The creator.
      */
-    public ResourceRef getCreatedBy() {
+    public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
@@ -91,14 +91,14 @@ public class Properties extends XLinkResource
      * @param createdBy
      *            The link to the new creator.
      */
-    public void setCreatedBy(final ResourceRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
     /**
      * @return The creator.
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
     }
 
@@ -108,7 +108,7 @@ public class Properties extends XLinkResource
      * @param modifiedBy
      *            The link to the new modifier.
      */
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

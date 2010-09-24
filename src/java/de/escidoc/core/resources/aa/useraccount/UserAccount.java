@@ -28,7 +28,10 @@
  */
 package de.escidoc.core.resources.aa.useraccount;
 
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
+import de.escidoc.core.resources.common.reference.Referenceable;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -37,7 +40,8 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author ROF, SWA
  * 
  */
-public class UserAccount extends GenericResource implements XLinkAutonomous {
+public class UserAccount extends GenericResource
+    implements XLinkAutonomous, Referenceable<UserAccountRef> {
 
     public UserAccount() {
         setResourceType(RESOURCE_TYPE.UserAccount);
@@ -112,4 +116,11 @@ public class UserAccount extends GenericResource implements XLinkAutonomous {
         }
     }
 
+    
+    /* (non-Javadoc)
+     * @see de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    public UserAccountRef getReference() {
+        return new UserAccountRef(getObjid());
+    }
 }

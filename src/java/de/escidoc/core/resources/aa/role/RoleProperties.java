@@ -30,7 +30,7 @@ package de.escidoc.core.resources.aa.role;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
  * Properties of a Role.
@@ -40,9 +40,9 @@ import de.escidoc.core.resources.ResourceRef;
  */
 public class RoleProperties {
 
-	private ResourceRef createdBy;
+	private UserAccountRef createdBy;
 	
-    private ResourceRef modifiedBy;
+    private UserAccountRef modifiedBy;
     
     protected DateTime creationDate = null;
 
@@ -55,7 +55,7 @@ public class RoleProperties {
      * 
      * @return reference to latest modifier
      */
-    public ResourceRef getModifiedBy() {
+    public UserAccountRef getModifiedBy() {
         return modifiedBy;
     }
 
@@ -63,23 +63,23 @@ public class RoleProperties {
      * Set modified by.
      * 
      * @param modifiedBy
-     *            ResourceRef of latest modifier
+     *            UserAccountRef of latest modifier
      */
-    public void setModifiedBy(final ResourceRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
 	/**
 	 * @return the createdBy
 	 */
-	public ResourceRef getCreatedBy() {
+	public UserAccountRef getCreatedBy() {
 		return createdBy;
 	}
 
 	/**
 	 * @param createdBy the createdBy to set
 	 */
-	public void setCreatedBy(ResourceRef createdBy) {
+	public void setCreatedBy(UserAccountRef createdBy) {
 		this.createdBy = createdBy;
 	}
 

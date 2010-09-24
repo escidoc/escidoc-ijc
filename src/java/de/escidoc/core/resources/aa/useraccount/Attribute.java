@@ -2,7 +2,7 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceRef;
+import de.escidoc.core.resources.Resource;
 
 /**
  * User Account Attribute.
@@ -10,7 +10,7 @@ import de.escidoc.core.resources.ResourceRef;
  * @author SWA
  * 
  */
-public class Attribute extends ResourceRef {
+public class Attribute extends Resource {
 
     private String name;
 

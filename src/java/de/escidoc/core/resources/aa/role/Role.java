@@ -31,6 +31,8 @@ package de.escidoc.core.resources.aa.role;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.resources.XLinkAutonomous;
+import de.escidoc.core.resources.common.reference.Referenceable;
+import de.escidoc.core.resources.common.reference.RoleRef;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -39,7 +41,8 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author ?, SWA
  * 
  */
-public class Role extends GenericResource implements XLinkAutonomous {
+public class Role extends GenericResource
+    implements XLinkAutonomous, Referenceable<RoleRef> {
 
     private RoleProperties properties;
 
@@ -122,5 +125,12 @@ public class Role extends GenericResource implements XLinkAutonomous {
             genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
                 null);
         }
+    }
+
+    /* (non-Javadoc)
+     * @see de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    public RoleRef getReference() {
+        return new RoleRef(getObjid());
     }
 }
