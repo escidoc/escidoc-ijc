@@ -1,7 +1,7 @@
 package de.escidoc.core.resources.sb.search;
 
 public class HitWord {
-    
+
     float startIndex;
 
     float endIndex;

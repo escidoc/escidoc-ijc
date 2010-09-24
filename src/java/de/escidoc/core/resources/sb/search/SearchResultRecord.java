@@ -9,7 +9,7 @@ import de.escidoc.core.resources.Resource;
  * 
  */
 public class SearchResultRecord {
-    
+
     private String score;
 
     private Highlight highlight;

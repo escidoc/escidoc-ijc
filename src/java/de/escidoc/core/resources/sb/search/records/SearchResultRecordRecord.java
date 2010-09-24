@@ -14,50 +14,53 @@ import de.escidoc.core.resources.sb.search.SearchResultRecord;
 
 /**
  * @author MVO
- *
+ * 
  */
-public class SearchResultRecordRecord extends AbstractRecord<SearchResultRecord> {
+public class SearchResultRecordRecord
+    extends AbstractRecord<SearchResultRecord> {
 
-	/**
-	 * @param recordSchema
-	 * @param recordPacking
-	 * @param recordPosition
-	 * @param recordDataDOM
-	 * @param recordDataText
-	 * @param protocol
-	 */
-	public SearchResultRecordRecord(String recordSchema, String recordPacking,
-			int recordPosition, Element recordDataDOM, String recordDataText,
-			TransportProtocol protocol) {
-		super(recordSchema, recordPacking, recordPosition, recordDataDOM,
-				recordDataText, protocol);
-	}
+    /**
+     * @param recordSchema
+     * @param recordPacking
+     * @param recordPosition
+     * @param recordDataDOM
+     * @param recordDataText
+     * @param protocol
+     */
+    public SearchResultRecordRecord(String recordSchema, String recordPacking,
+        int recordPosition, Element recordDataDOM, String recordDataText,
+        TransportProtocol protocol) {
+        super(recordSchema, recordPacking, recordPosition, recordDataDOM,
+            recordDataText, protocol);
+    }
 
-	/**
-	 * 
-	 * @param recordType
-	 */
-	public SearchResultRecordRecord(RecordType recordType) {
-		super(recordType);
-	}
+    /**
+     * 
+     * @param recordType
+     */
+    public SearchResultRecordRecord(RecordType recordType) {
+        super(recordType);
+    }
 
-	/**
-	 * Use SearchResultMarshaller to bind the content.
-	 * 
-	 * FIXME Use the transport protocol of the parent Marshaller as soon as SRW
-	 * returns the content in REST format, when request is done via REST
-	 * transport protocol. 
-	 * 
-	 * @param xml
-	 * @return
-	 */
-	final SearchResultRecord decodeXMLString(final String xml) {
-		try {
-			return Factory.getMarshallerFactory(TransportProtocol.SOAP)
-				.getSearchResultMarshaller().unmarshalDocument(xmlHeader + xml);
-		} catch (InternalClientException e) {
-			LOGGER.debug("Unable to unmarshal recordData.", e);
-		}
-		return null;
-	}
+    /**
+     * Use SearchResultMarshaller to bind the content.
+     * 
+     * FIXME Use the transport protocol of the parent Marshaller as soon as SRW
+     * returns the content in REST format, when request is done via REST
+     * transport protocol.
+     * 
+     * @param xml
+     * @return
+     */
+    final SearchResultRecord decodeXMLString(final String xml) {
+        try {
+            return Factory
+                .getMarshallerFactory(TransportProtocol.SOAP)
+                .getSearchResultMarshaller().unmarshalDocument(xmlHeader + xml);
+        }
+        catch (InternalClientException e) {
+            LOGGER.debug("Unable to unmarshal recordData.", e);
+        }
+        return null;
+    }
 }

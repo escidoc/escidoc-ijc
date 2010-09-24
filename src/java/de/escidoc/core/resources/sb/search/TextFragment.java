@@ -3,7 +3,7 @@ package de.escidoc.core.resources.sb.search;
 import java.util.List;
 
 public class TextFragment {
-    
+
     private String textFragmentData;
 
     private List<HitWord> hitWords;
