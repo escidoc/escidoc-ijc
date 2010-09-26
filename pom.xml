@@ -18,6 +18,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<slf4j.version>1.6.1</slf4j.version>
 	</properties>
 
 	<build>
@@ -393,12 +394,29 @@
 					</includes> </configuration> </execution> </executions> -->
 			</plugin>
 
-			<!-- <plugin> <groupId>org.jibx</groupId> <artifactId>maven-jibx-plugin</artifactId> 
-				<version>1.2.2</version> <configuration> <directory>src/main/resources/jibx</directory> 
-				<includes> <includes>resource-binding-rest.xml</includes> <includes>resource-binding-soap.xml</includes> 
-				</includes> <excludes> <exclude>template-binding.xml</exclude> </excludes> 
-				<verbose>true</verbose> </configuration> <executions> <execution> <goals> 
-				<goal>bind</goal> </goals> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.jibx</groupId>
+				<artifactId>maven-jibx-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<directory>src/main/resources/jibx</directory>
+					<includes>
+						<includes>resource-binding-rest.xml</includes>
+						<includes>resource-binding-soap.xml</includes>
+					</includes>
+					<excludes>
+						<exclude>template-binding.xml</exclude>
+					</excludes>
+					<verbose>true</verbose>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>bind</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 	</build>
@@ -426,6 +444,12 @@
 				<groupId>sun-xacml</groupId>
 				<artifactId>sun-xacml</artifactId>
 				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -495,6 +519,10 @@
 			<artifactId>junit</artifactId>
 			<version>4.8.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 	</dependencies>
