@@ -399,15 +399,12 @@
 				<artifactId>maven-jibx-plugin</artifactId>
 				<version>1.2.2</version>
 				<configuration>
-					<directory>src/main/resources/jibx</directory>
+					<directory>src/main/resources/jibx/binding</directory>
 					<includes>
 						<includes>resource-binding-rest.xml</includes>
 						<includes>resource-binding-soap.xml</includes>
 					</includes>
-					<excludes>
-						<exclude>template-binding.xml</exclude>
-					</excludes>
-					<verbose>true</verbose>
+					<verbose>false</verbose>
 				</configuration>
 				<executions>
 					<execution>
