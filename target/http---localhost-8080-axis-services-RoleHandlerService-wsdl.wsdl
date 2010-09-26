@@ -1,0 +1,1099 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.escidoc.de/services/RoleHandlerService/0.1" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://www.escidoc.de/services/RoleHandlerService/0.1" xmlns:intf="http://www.escidoc.de/services/RoleHandlerService/0.1" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://security.application.exceptions.common.core.escidoc.de" xmlns:tns2="http://exceptions.common.core.escidoc.de" xmlns:tns3="http://missing.application.exceptions.common.core.escidoc.de" xmlns:tns4="http://application.exceptions.common.core.escidoc.de" xmlns:tns5="http://notfound.application.exceptions.common.core.escidoc.de" xmlns:tns6="http://violated.application.exceptions.common.core.escidoc.de" xmlns:tns7="http://system.exceptions.common.core.escidoc.de" xmlns:tns8="http://invalid.application.exceptions.common.core.escidoc.de" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="EscidocException">
+    <sequence>
+     <element name="httpStatusCode" type="xsd:int"/>
+     <element name="httpStatusLine" nillable="true" type="xsd:string"/>
+     <element name="httpStatusMsg" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://security.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SecurityException">
+    <complexContent>
+     <extension base="tns2:EscidocException">
+      <sequence>
+       <element name="redirectLocation" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthenticationException">
+    <complexContent>
+     <extension base="tns1:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthorizationException">
+    <complexContent>
+     <extension base="tns1:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="ApplicationException">
+    <complexContent>
+     <extension base="tns2:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://missing.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="MissingParameterException">
+    <complexContent>
+     <extension base="tns4:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingMethodParameterException">
+    <complexContent>
+     <extension base="tns3:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingAttributeValueException">
+    <complexContent>
+     <extension base="tns3:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://notfound.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ResourceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RoleNotFoundException">
+    <complexContent>
+     <extension base="tns5:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://violated.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="RuleViolationException">
+    <complexContent>
+     <extension base="tns4:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RoleInUseViolationException">
+    <complexContent>
+     <extension base="tns6:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UniqueConstraintViolationException">
+    <complexContent>
+     <extension base="tns6:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OptimisticLockingException">
+    <complexContent>
+     <extension base="tns6:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://system.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SystemException">
+    <complexContent>
+     <extension base="tns2:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowEngineSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StatisticPreprocessingSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TripleStoreSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SqlDatabaseSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FedoraSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IntegritySystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ApplicationServerSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FileSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WebserverSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlParserSystemException">
+    <complexContent>
+     <extension base="tns7:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://invalid.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ValidationException">
+    <complexContent>
+     <extension base="tns4:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidXmlException">
+    <complexContent>
+     <extension base="tns8:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlSchemaValidationException">
+    <complexContent>
+     <extension base="tns8:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlCorruptedException">
+    <complexContent>
+     <extension base="tns8:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContentException">
+    <complexContent>
+     <extension base="tns8:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidSearchQueryException">
+    <complexContent>
+     <extension base="tns8:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="mapItem">
+    <sequence>
+     <element name="key" nillable="true" type="xsd:anyType"/>
+     <element name="value" nillable="true" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="Map">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="apachesoap:mapItem"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="AuthorizationException">
+
+      <wsdl:part name="fault" type="tns1:AuthorizationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RoleInUseViolationException">
+
+      <wsdl:part name="fault" type="tns6:RoleInUseViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="OptimisticLockingException">
+
+      <wsdl:part name="fault" type="tns6:OptimisticLockingException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingAttributeValueException">
+
+      <wsdl:part name="fault" type="tns3:MissingAttributeValueException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RoleNotFoundException">
+
+      <wsdl:part name="fault" type="tns5:RoleNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="SystemException">
+
+      <wsdl:part name="fault" type="tns7:SystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveResponse">
+
+      <wsdl:part name="retrieveReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UniqueConstraintViolationException">
+
+      <wsdl:part name="fault" type="tns6:UniqueConstraintViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveRolesResponse1">
+
+      <wsdl:part name="retrieveRolesReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateResponse">
+
+      <wsdl:part name="updateReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthenticationException">
+
+      <wsdl:part name="fault" type="tns1:AuthenticationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveRolesRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidSearchQueryException">
+
+      <wsdl:part name="fault" type="tns8:InvalidSearchQueryException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveRolesRequest1">
+
+      <wsdl:part name="in0" type="apachesoap:Map">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveRolesResponse">
+
+      <wsdl:part name="retrieveRolesReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidContentException">
+
+      <wsdl:part name="fault" type="tns8:InvalidContentException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingMethodParameterException">
+
+      <wsdl:part name="fault" type="tns3:MissingMethodParameterException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidXmlException">
+
+      <wsdl:part name="fault" type="tns8:InvalidXmlException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="createRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="createResponse">
+
+      <wsdl:part name="createReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="RoleHandler">
+
+      <wsdl:operation name="delete" parameterOrder="in0">
+
+         <wsdl:input message="impl:deleteRequest" name="deleteRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteResponse" name="deleteResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RoleNotFoundException" name="RoleNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RoleInUseViolationException" name="RoleInUseViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="create" parameterOrder="in0">
+
+         <wsdl:input message="impl:createRequest" name="createRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:createResponse" name="createResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UniqueConstraintViolationException" name="UniqueConstraintViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="update" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:updateRequest" name="updateRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateResponse" name="updateResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RoleNotFoundException" name="RoleNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UniqueConstraintViolationException" name="UniqueConstraintViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieve" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveRequest" name="retrieveRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveResponse" name="retrieveResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RoleNotFoundException" name="RoleNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveRoles" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveRolesRequest" name="retrieveRolesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveRolesResponse" name="retrieveRolesResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:InvalidContentException" name="InvalidContentException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveRoles" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveRolesRequest1" name="retrieveRolesRequest1">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveRolesResponse1" name="retrieveRolesResponse1">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidSearchQueryException" name="InvalidSearchQueryException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="RoleHandlerServiceSoapBinding" type="impl:RoleHandler">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="delete">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RoleNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RoleNotFoundException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RoleInUseViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RoleInUseViolationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="create">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UniqueConstraintViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UniqueConstraintViolationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="update">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RoleNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RoleNotFoundException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UniqueConstraintViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UniqueConstraintViolationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieve">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RoleNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RoleNotFoundException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveRoles">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveRolesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveRolesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="InvalidContentException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidContentException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveRoles">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveRolesRequest1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveRolesResponse1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidSearchQueryException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidSearchQueryException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/RoleHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="RoleHandlerService">
+
+      <wsdl:port binding="impl:RoleHandlerServiceSoapBinding" name="RoleHandlerService">
+
+         <wsdlsoap:address location="http://localhost:8080/axis/services/RoleHandlerService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

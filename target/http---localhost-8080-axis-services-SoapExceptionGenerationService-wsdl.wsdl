@@ -1,0 +1,2924 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" xmlns:intf="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://exceptions.common.core.escidoc.de" xmlns:tns2="http://invalid.application.exceptions.common.core.escidoc.de" xmlns:tns3="http://application.exceptions.common.core.escidoc.de" xmlns:tns4="http://notfound.application.exceptions.common.core.escidoc.de" xmlns:tns5="http://missing.application.exceptions.common.core.escidoc.de" xmlns:tns6="http://system.exceptions.common.core.escidoc.de" xmlns:tns7="http://violated.application.exceptions.common.core.escidoc.de" xmlns:tns8="http://security.application.exceptions.common.core.escidoc.de" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="EscidocException">
+    <sequence>
+     <element name="httpStatusCode" type="xsd:int"/>
+     <element name="httpStatusLine" nillable="true" type="xsd:string"/>
+     <element name="httpStatusMsg" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="ApplicationException">
+    <complexContent>
+     <extension base="tns1:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://invalid.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ValidationException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidSearchQueryException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidRelationPropertiesException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidXmlException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlSchemaValidationException">
+    <complexContent>
+     <extension base="tns2:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TmeException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidSqlException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidItemStatusException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidTripleStoreQueryException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidTripleStoreOutputFormatException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReferenceCycleException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidWorkflowDefinitionException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContentModelException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidAggregationTypeException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContextStatusException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidStatusException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidResourceException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidPidException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContextException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContentException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidWorkflowTypeException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlCorruptedException">
+    <complexContent>
+     <extension base="tns2:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://notfound.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ResourceNotFoundException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContentModelNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TaskNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RelationPredicateNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IngestionSourceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RelationTypeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IndexNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowTypeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowInstanceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowTemplateNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AggregationTypeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContentRelationNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FileNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SearchNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StagingFileNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserAttributeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ActionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlSchemaNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowDefinitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TargetBasketNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserAccountNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StructuralMapEntryNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReportDefinitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RevisionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AggregationDefinitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ScopeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ComponentNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MdRecordNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IngestionDefinitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="GrantNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ItemReferenceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ItemNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TaskListNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserGroupNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContextNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PreferenceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TransitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PidNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContainerNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="VersionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IngestionTaskNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AdminDescriptorNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RoleNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RelationNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReferencedResourceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://missing.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="MissingParameterException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingWorkflowVariableException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingElementValueException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingUserListException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingAttributeValueException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingMethodParameterException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingLicenceException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingContentException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingMdRecordException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://system.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SystemException">
+    <complexContent>
+     <extension base="tns1:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowEngineSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StatisticPreprocessingSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TripleStoreSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SqlDatabaseSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FedoraSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IntegritySystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ApplicationServerSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FileSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WebserverSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlParserSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://violated.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="RuleViolationException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyAttributeViolationException">
+    <complexContent>
+     <extension base="tns7:ReadonlyViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ResourceInUseException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyExistsException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowTaskViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AdminDescriptorViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitNameNotUniqueException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="LockingException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyDeactiveException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RoleInUseViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PidAlreadyAssignedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TimeFrameViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UniqueConstraintViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyVersionException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OptimisticLockingException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="NotPublishedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitHasChildrenException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyDeletedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ScopeContextViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyPublishedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitHierarchyViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyRevokedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyElementViolationException">
+    <complexContent>
+     <extension base="tns7:ReadonlyViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContextNameNotUniqueException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyWithdrawnException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserGroupHierarchyViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RelationRuleViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyActiveException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://security.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SecurityException">
+    <complexContent>
+     <extension base="tns1:EscidocException">
+      <sequence>
+       <element name="redirectLocation" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthenticationException">
+    <complexContent>
+     <extension base="tns8:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthorizationException">
+    <complexContent>
+     <extension base="tns8:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="TripleStoreSystemException">
+
+      <wsdl:part name="fault" type="tns6:TripleStoreSystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidContextStatusException">
+
+      <wsdl:part name="fault" type="tns2:InvalidContextStatusException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="WorkflowEngineSystemException">
+
+      <wsdl:part name="fault" type="tns6:WorkflowEngineSystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="WebserverSystemException">
+
+      <wsdl:part name="fault" type="tns6:WebserverSystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UserNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:UserNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidWorkflowTypeException">
+
+      <wsdl:part name="fault" type="tns2:InvalidWorkflowTypeException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ReadonlyViolationException">
+
+      <wsdl:part name="fault" type="tns7:ReadonlyViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="IngestionDefinitionNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:IngestionDefinitionNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ContainerNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ContainerNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AlreadyWithdrawnException">
+
+      <wsdl:part name="fault" type="tns7:AlreadyWithdrawnException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RelationNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:RelationNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingParameterException">
+
+      <wsdl:part name="fault" type="tns5:MissingParameterException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="EscidocException">
+
+      <wsdl:part name="fault" type="tns1:EscidocException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="generateExceptionsRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="ApplicationServerSystemException">
+
+      <wsdl:part name="fault" type="tns6:ApplicationServerSystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="generateExceptionsResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidTripleStoreQueryException">
+
+      <wsdl:part name="fault" type="tns2:InvalidTripleStoreQueryException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="IngestionTaskNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:IngestionTaskNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ReadonlyElementViolationException">
+
+      <wsdl:part name="fault" type="tns7:ReadonlyElementViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UserAccountNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:UserAccountNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="VersionNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:VersionNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AggregationDefinitionNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:AggregationDefinitionNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="PidNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:PidNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RelationTypeNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:RelationTypeNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="NotPublishedException">
+
+      <wsdl:part name="fault" type="tns7:NotPublishedException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="WorkflowTaskViolationException">
+
+      <wsdl:part name="fault" type="tns7:WorkflowTaskViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ReferencedResourceNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ReferencedResourceNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingMdRecordException">
+
+      <wsdl:part name="fault" type="tns5:MissingMdRecordException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ComponentNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ComponentNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AlreadyDeletedException">
+
+      <wsdl:part name="fault" type="tns7:AlreadyDeletedException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidAggregationTypeException">
+
+      <wsdl:part name="fault" type="tns2:InvalidAggregationTypeException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="SqlDatabaseSystemException">
+
+      <wsdl:part name="fault" type="tns6:SqlDatabaseSystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="IndexNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:IndexNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="XmlSchemaValidationException">
+
+      <wsdl:part name="fault" type="tns2:XmlSchemaValidationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RelationPredicateNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:RelationPredicateNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="TransitionNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:TransitionNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidPidException">
+
+      <wsdl:part name="fault" type="tns2:InvalidPidException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingContentException">
+
+      <wsdl:part name="fault" type="tns5:MissingContentException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="WorkflowInstanceNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:WorkflowInstanceNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidXmlException">
+
+      <wsdl:part name="fault" type="tns2:InvalidXmlException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ContextNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ContextNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="TimeFrameViolationException">
+
+      <wsdl:part name="fault" type="tns7:TimeFrameViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="WorkflowTypeNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:WorkflowTypeNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ReportDefinitionNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ReportDefinitionNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MdRecordNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:MdRecordNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidWorkflowDefinitionException">
+
+      <wsdl:part name="fault" type="tns2:InvalidWorkflowDefinitionException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="LockingException">
+
+      <wsdl:part name="fault" type="tns7:LockingException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RoleNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:RoleNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="IntegritySystemException">
+
+      <wsdl:part name="fault" type="tns6:IntegritySystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AggregationTypeNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:AggregationTypeNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingLicenceException">
+
+      <wsdl:part name="fault" type="tns5:MissingLicenceException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AlreadyPublishedException">
+
+      <wsdl:part name="fault" type="tns7:AlreadyPublishedException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidContextException">
+
+      <wsdl:part name="fault" type="tns2:InvalidContextException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ReadonlyVersionException">
+
+      <wsdl:part name="fault" type="tns7:ReadonlyVersionException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ItemNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ItemNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidContentModelException">
+
+      <wsdl:part name="fault" type="tns2:InvalidContentModelException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="SearchNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:SearchNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingMethodParameterException">
+
+      <wsdl:part name="fault" type="tns5:MissingMethodParameterException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ContentModelNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ContentModelNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="WorkflowViolationException">
+
+      <wsdl:part name="fault" type="tns7:WorkflowViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ActionNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ActionNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ResourceInUseException">
+
+      <wsdl:part name="fault" type="tns7:ResourceInUseException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UserGroupNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:UserGroupNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidItemStatusException">
+
+      <wsdl:part name="fault" type="tns2:InvalidItemStatusException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="IngestionSourceNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:IngestionSourceNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AdminDescriptorNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:AdminDescriptorNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ContentRelationNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ContentRelationNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AdminDescriptorViolationException">
+
+      <wsdl:part name="fault" type="tns7:AdminDescriptorViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidSearchQueryException">
+
+      <wsdl:part name="fault" type="tns2:InvalidSearchQueryException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RuleViolationException">
+
+      <wsdl:part name="fault" type="tns7:RuleViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="XmlParserSystemException">
+
+      <wsdl:part name="fault" type="tns6:XmlParserSystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="TaskListNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:TaskListNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="WorkflowTemplateNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:WorkflowTemplateNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidStatusException">
+
+      <wsdl:part name="fault" type="tns2:InvalidStatusException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ScopeNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ScopeNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="TaskNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:TaskNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RelationRuleViolationException">
+
+      <wsdl:part name="fault" type="tns7:RelationRuleViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RoleInUseViolationException">
+
+      <wsdl:part name="fault" type="tns7:RoleInUseViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ScopeContextViolationException">
+
+      <wsdl:part name="fault" type="tns7:ScopeContextViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="FileNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:FileNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidTripleStoreOutputFormatException">
+
+      <wsdl:part name="fault" type="tns2:InvalidTripleStoreOutputFormatException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="WorkflowDefinitionNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:WorkflowDefinitionNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="FileSystemException">
+
+      <wsdl:part name="fault" type="tns6:FileSystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidSqlException">
+
+      <wsdl:part name="fault" type="tns2:InvalidSqlException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RevisionNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:RevisionNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidRelationPropertiesException">
+
+      <wsdl:part name="fault" type="tns2:InvalidRelationPropertiesException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingWorkflowVariableException">
+
+      <wsdl:part name="fault" type="tns5:MissingWorkflowVariableException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="OrganizationalUnitHierarchyViolationException">
+
+      <wsdl:part name="fault" type="tns7:OrganizationalUnitHierarchyViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="TmeException">
+
+      <wsdl:part name="fault" type="tns2:TmeException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="OptimisticLockingException">
+
+      <wsdl:part name="fault" type="tns7:OptimisticLockingException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="FedoraSystemException">
+
+      <wsdl:part name="fault" type="tns6:FedoraSystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="XmlSchemaNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:XmlSchemaNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AlreadyExistsException">
+
+      <wsdl:part name="fault" type="tns7:AlreadyExistsException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ItemReferenceNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ItemReferenceNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ReferenceCycleException">
+
+      <wsdl:part name="fault" type="tns2:ReferenceCycleException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UserGroupHierarchyViolationException">
+
+      <wsdl:part name="fault" type="tns7:UserGroupHierarchyViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ApplicationException">
+
+      <wsdl:part name="fault" type="tns3:ApplicationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingUserListException">
+
+      <wsdl:part name="fault" type="tns5:MissingUserListException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidContentException">
+
+      <wsdl:part name="fault" type="tns2:InvalidContentException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="XmlCorruptedException">
+
+      <wsdl:part name="fault" type="tns2:XmlCorruptedException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingElementValueException">
+
+      <wsdl:part name="fault" type="tns5:MissingElementValueException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="TargetBasketNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:TargetBasketNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingAttributeValueException">
+
+      <wsdl:part name="fault" type="tns5:MissingAttributeValueException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="SystemException">
+
+      <wsdl:part name="fault" type="tns6:SystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ValidationException">
+
+      <wsdl:part name="fault" type="tns2:ValidationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="StructuralMapEntryNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:StructuralMapEntryNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ReadonlyAttributeViolationException">
+
+      <wsdl:part name="fault" type="tns7:ReadonlyAttributeViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ResourceNotFoundException">
+
+      <wsdl:part name="fault" type="tns4:ResourceNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="SoapExceptionGeneration">
+
+      <wsdl:operation name="generateExceptions">
+
+         <wsdl:input message="impl:generateExceptionsRequest" name="generateExceptionsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:generateExceptionsResponse" name="generateExceptionsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:ActionNotFoundException" name="ActionNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidItemStatusException" name="InvalidItemStatusException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ResourceInUseException" name="ResourceInUseException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserGroupNotFoundException" name="UserGroupNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IngestionSourceNotFoundException" name="IngestionSourceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidSearchQueryException" name="InvalidSearchQueryException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AdminDescriptorNotFoundException" name="AdminDescriptorNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ContentRelationNotFoundException" name="ContentRelationNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AdminDescriptorViolationException" name="AdminDescriptorViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:WorkflowTemplateNotFoundException" name="WorkflowTemplateNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ScopeNotFoundException" name="ScopeNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:TaskNotFoundException" name="TaskNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RelationRuleViolationException" name="RelationRuleViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RoleInUseViolationException" name="RoleInUseViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidStatusException" name="InvalidStatusException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RuleViolationException" name="RuleViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:XmlParserSystemException" name="XmlParserSystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:TaskListNotFoundException" name="TaskListNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidSqlException" name="InvalidSqlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RevisionNotFoundException" name="RevisionNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidRelationPropertiesException" name="InvalidRelationPropertiesException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:FileNotFoundException" name="FileNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidTripleStoreOutputFormatException" name="InvalidTripleStoreOutputFormatException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ScopeContextViolationException" name="ScopeContextViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:WorkflowDefinitionNotFoundException" name="WorkflowDefinitionNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:FileSystemException" name="FileSystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:TmeException" name="TmeException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:FedoraSystemException" name="FedoraSystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:XmlSchemaNotFoundException" name="XmlSchemaNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingWorkflowVariableException" name="MissingWorkflowVariableException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OrganizationalUnitHierarchyViolationException" name="OrganizationalUnitHierarchyViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidContentException" name="InvalidContentException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:XmlCorruptedException" name="XmlCorruptedException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyExistsException" name="AlreadyExistsException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserGroupHierarchyViolationException" name="UserGroupHierarchyViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ItemReferenceNotFoundException" name="ItemReferenceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReferenceCycleException" name="ReferenceCycleException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingUserListException" name="MissingUserListException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ApplicationException" name="ApplicationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ValidationException" name="ValidationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:StructuralMapEntryNotFoundException" name="StructuralMapEntryNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingElementValueException" name="MissingElementValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:TargetBasketNotFoundException" name="TargetBasketNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ResourceNotFoundException" name="ResourceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReadonlyAttributeViolationException" name="ReadonlyAttributeViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserNotFoundException" name="UserNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:TripleStoreSystemException" name="TripleStoreSystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidContextStatusException" name="InvalidContextStatusException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:WorkflowEngineSystemException" name="WorkflowEngineSystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:WebserverSystemException" name="WebserverSystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RelationNotFoundException" name="RelationNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingParameterException" name="MissingParameterException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:EscidocException" name="EscidocException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ApplicationServerSystemException" name="ApplicationServerSystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReadonlyViolationException" name="ReadonlyViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidWorkflowTypeException" name="InvalidWorkflowTypeException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IngestionDefinitionNotFoundException" name="IngestionDefinitionNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ContainerNotFoundException" name="ContainerNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyWithdrawnException" name="AlreadyWithdrawnException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:VersionNotFoundException" name="VersionNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AggregationDefinitionNotFoundException" name="AggregationDefinitionNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:PidNotFoundException" name="PidNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RelationTypeNotFoundException" name="RelationTypeNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidTripleStoreQueryException" name="InvalidTripleStoreQueryException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IngestionTaskNotFoundException" name="IngestionTaskNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReadonlyElementViolationException" name="ReadonlyElementViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ComponentNotFoundException" name="ComponentNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:NotPublishedException" name="NotPublishedException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:WorkflowTaskViolationException" name="WorkflowTaskViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMdRecordException" name="MissingMdRecordException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReferencedResourceNotFoundException" name="ReferencedResourceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidPidException" name="InvalidPidException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IndexNotFoundException" name="IndexNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:XmlSchemaValidationException" name="XmlSchemaValidationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RelationPredicateNotFoundException" name="RelationPredicateNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:TransitionNotFoundException" name="TransitionNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidAggregationTypeException" name="InvalidAggregationTypeException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyDeletedException" name="AlreadyDeletedException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:SqlDatabaseSystemException" name="SqlDatabaseSystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:TimeFrameViolationException" name="TimeFrameViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:WorkflowTypeNotFoundException" name="WorkflowTypeNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReportDefinitionNotFoundException" name="ReportDefinitionNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingContentException" name="MissingContentException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:WorkflowInstanceNotFoundException" name="WorkflowInstanceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ContextNotFoundException" name="ContextNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RoleNotFoundException" name="RoleNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:IntegritySystemException" name="IntegritySystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AggregationTypeNotFoundException" name="AggregationTypeNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingLicenceException" name="MissingLicenceException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidContextException" name="InvalidContextException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyPublishedException" name="AlreadyPublishedException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MdRecordNotFoundException" name="MdRecordNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidWorkflowDefinitionException" name="InvalidWorkflowDefinitionException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:LockingException" name="LockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:WorkflowViolationException" name="WorkflowViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ContentModelNotFoundException" name="ContentModelNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReadonlyVersionException" name="ReadonlyVersionException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidContentModelException" name="InvalidContentModelException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ItemNotFoundException" name="ItemNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:SearchNotFoundException" name="SearchNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="SoapExceptionGenerationServiceSoapBinding" type="impl:SoapExceptionGeneration">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="generateExceptions">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="generateExceptionsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="generateExceptionsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="ActionNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ActionNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidItemStatusException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidItemStatusException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ResourceInUseException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ResourceInUseException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserGroupNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserGroupNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IngestionSourceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IngestionSourceNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidSearchQueryException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidSearchQueryException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AdminDescriptorNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AdminDescriptorNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ContentRelationNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ContentRelationNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AdminDescriptorViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AdminDescriptorViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="WorkflowTemplateNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WorkflowTemplateNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ScopeNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ScopeNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="TaskNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TaskNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RelationRuleViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RelationRuleViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RoleInUseViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RoleInUseViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidStatusException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidStatusException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RuleViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RuleViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="XmlParserSystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="XmlParserSystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="TaskListNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TaskListNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidSqlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidSqlException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RevisionNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RevisionNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidRelationPropertiesException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidRelationPropertiesException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="FileNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="FileNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidTripleStoreOutputFormatException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidTripleStoreOutputFormatException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ScopeContextViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ScopeContextViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="WorkflowDefinitionNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WorkflowDefinitionNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="FileSystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="FileSystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="TmeException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TmeException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="FedoraSystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="FedoraSystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="XmlSchemaNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="XmlSchemaNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingWorkflowVariableException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingWorkflowVariableException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OrganizationalUnitHierarchyViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OrganizationalUnitHierarchyViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidContentException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidContentException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="XmlCorruptedException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="XmlCorruptedException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyExistsException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyExistsException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserGroupHierarchyViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserGroupHierarchyViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ItemReferenceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ItemReferenceNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReferenceCycleException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReferenceCycleException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingUserListException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingUserListException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ApplicationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ApplicationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ValidationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ValidationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="StructuralMapEntryNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="StructuralMapEntryNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingElementValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingElementValueException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="TargetBasketNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TargetBasketNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ResourceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ResourceNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReadonlyAttributeViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReadonlyAttributeViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="TripleStoreSystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TripleStoreSystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidContextStatusException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidContextStatusException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="WorkflowEngineSystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WorkflowEngineSystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="WebserverSystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WebserverSystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RelationNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RelationNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingParameterException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="EscidocException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EscidocException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ApplicationServerSystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ApplicationServerSystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReadonlyViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReadonlyViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidWorkflowTypeException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidWorkflowTypeException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IngestionDefinitionNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IngestionDefinitionNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ContainerNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ContainerNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyWithdrawnException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyWithdrawnException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="VersionNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="VersionNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AggregationDefinitionNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AggregationDefinitionNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="PidNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="PidNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RelationTypeNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RelationTypeNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidTripleStoreQueryException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidTripleStoreQueryException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IngestionTaskNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IngestionTaskNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReadonlyElementViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReadonlyElementViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ComponentNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ComponentNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NotPublishedException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="NotPublishedException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="WorkflowTaskViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WorkflowTaskViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMdRecordException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMdRecordException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReferencedResourceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReferencedResourceNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidPidException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidPidException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IndexNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IndexNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="XmlSchemaValidationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="XmlSchemaValidationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RelationPredicateNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RelationPredicateNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="TransitionNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TransitionNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidAggregationTypeException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidAggregationTypeException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyDeletedException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyDeletedException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SqlDatabaseSystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SqlDatabaseSystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="TimeFrameViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="TimeFrameViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="WorkflowTypeNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WorkflowTypeNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReportDefinitionNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReportDefinitionNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingContentException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingContentException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="WorkflowInstanceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WorkflowInstanceNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ContextNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ContextNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RoleNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RoleNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IntegritySystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="IntegritySystemException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AggregationTypeNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AggregationTypeNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingLicenceException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingLicenceException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidContextException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidContextException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyPublishedException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyPublishedException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MdRecordNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MdRecordNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidWorkflowDefinitionException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidWorkflowDefinitionException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="LockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="LockingException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="WorkflowViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WorkflowViolationException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ContentModelNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ContentModelNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReadonlyVersionException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReadonlyVersionException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidContentModelException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidContentModelException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ItemNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ItemNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SearchNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SearchNotFoundException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="SoapExceptionGenerationService">
+
+      <wsdl:port binding="impl:SoapExceptionGenerationServiceSoapBinding" name="SoapExceptionGenerationService">
+
+         <wsdlsoap:address location="http://localhost:8080/axis/services/SoapExceptionGenerationService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

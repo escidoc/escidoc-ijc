@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.escidoc.de/services/AdminHandlerService/0.1" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://www.escidoc.de/services/AdminHandlerService/0.1" xmlns:intf="http://www.escidoc.de/services/AdminHandlerService/0.1" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://invalid.application.exceptions.common.core.escidoc.de" xmlns:tns2="http://application.exceptions.common.core.escidoc.de" xmlns:tns3="http://exceptions.common.core.escidoc.de" xmlns:tns4="http://system.exceptions.common.core.escidoc.de" xmlns:tns5="http://security.application.exceptions.common.core.escidoc.de" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="EscidocException">
+    <sequence>
+     <element name="httpStatusCode" type="xsd:int"/>
+     <element name="httpStatusLine" nillable="true" type="xsd:string"/>
+     <element name="httpStatusMsg" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="ApplicationException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://invalid.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ValidationException">
+    <complexContent>
+     <extension base="tns2:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidXmlException">
+    <complexContent>
+     <extension base="tns1:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlSchemaValidationException">
+    <complexContent>
+     <extension base="tns1:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlCorruptedException">
+    <complexContent>
+     <extension base="tns1:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidSearchQueryException">
+    <complexContent>
+     <extension base="tns1:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://system.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SystemException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowEngineSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StatisticPreprocessingSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TripleStoreSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SqlDatabaseSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FedoraSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IntegritySystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ApplicationServerSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FileSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WebserverSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlParserSystemException">
+    <complexContent>
+     <extension base="tns4:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://security.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SecurityException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence>
+       <element name="redirectLocation" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthenticationException">
+    <complexContent>
+     <extension base="tns5:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthorizationException">
+    <complexContent>
+     <extension base="tns5:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getRepositoryInfoRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="loadExamplesResponse">
+
+      <wsdl:part name="loadExamplesReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthorizationException">
+
+      <wsdl:part name="fault" type="tns5:AuthorizationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteObjectsResponse">
+
+      <wsdl:part name="deleteObjectsReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPurgeStatusResponse">
+
+      <wsdl:part name="getPurgeStatusReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="SystemException">
+
+      <wsdl:part name="fault" type="tns4:SystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getReindexStatusResponse">
+
+      <wsdl:part name="getReindexStatusReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="loadExamplesRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="decreaseReindexStatusRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="reindexRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getReindexStatusRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="recacheRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthenticationException">
+
+      <wsdl:part name="fault" type="tns5:AuthenticationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPurgeStatusRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="getRecacheStatusRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidSearchQueryException">
+
+      <wsdl:part name="fault" type="tns1:InvalidSearchQueryException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="reindexResponse">
+
+      <wsdl:part name="reindexReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteObjectsRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="decreaseReindexStatusResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidXmlException">
+
+      <wsdl:part name="fault" type="tns1:InvalidXmlException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="recacheResponse">
+
+      <wsdl:part name="recacheReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRecacheStatusResponse">
+
+      <wsdl:part name="getRecacheStatusReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRepositoryInfoResponse">
+
+      <wsdl:part name="getRepositoryInfoReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="AdminHandler">
+
+      <wsdl:operation name="deleteObjects" parameterOrder="in0">
+
+         <wsdl:input message="impl:deleteObjectsRequest" name="deleteObjectsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteObjectsResponse" name="deleteObjectsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPurgeStatus">
+
+         <wsdl:input message="impl:getPurgeStatusRequest" name="getPurgeStatusRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getPurgeStatusResponse" name="getPurgeStatusResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRecacheStatus">
+
+         <wsdl:input message="impl:getRecacheStatusRequest" name="getRecacheStatusRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getRecacheStatusResponse" name="getRecacheStatusResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getReindexStatus">
+
+         <wsdl:input message="impl:getReindexStatusRequest" name="getReindexStatusRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getReindexStatusResponse" name="getReindexStatusResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="decreaseReindexStatus" parameterOrder="in0">
+
+         <wsdl:input message="impl:decreaseReindexStatusRequest" name="decreaseReindexStatusRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:decreaseReindexStatusResponse" name="decreaseReindexStatusResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="recache" parameterOrder="in0">
+
+         <wsdl:input message="impl:recacheRequest" name="recacheRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:recacheResponse" name="recacheResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="reindex" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:reindexRequest" name="reindexRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:reindexResponse" name="reindexResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidSearchQueryException" name="InvalidSearchQueryException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRepositoryInfo">
+
+         <wsdl:input message="impl:getRepositoryInfoRequest" name="getRepositoryInfoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getRepositoryInfoResponse" name="getRepositoryInfoResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="loadExamples" parameterOrder="in0">
+
+         <wsdl:input message="impl:loadExamplesRequest" name="loadExamplesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:loadExamplesResponse" name="loadExamplesResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidSearchQueryException" name="InvalidSearchQueryException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="AdminHandlerServiceSoapBinding" type="impl:AdminHandler">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="deleteObjects">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteObjectsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteObjectsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPurgeStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPurgeStatusRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPurgeStatusResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRecacheStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getRecacheStatusRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getRecacheStatusResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getReindexStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getReindexStatusRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getReindexStatusResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="decreaseReindexStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="decreaseReindexStatusRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="decreaseReindexStatusResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="recache">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="recacheRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="recacheResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="reindex">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="reindexRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="reindexResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidSearchQueryException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidSearchQueryException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRepositoryInfo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getRepositoryInfoRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getRepositoryInfoResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="loadExamples">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="loadExamplesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="loadExamplesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidSearchQueryException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidSearchQueryException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/AdminHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="AdminHandlerService">
+
+      <wsdl:port binding="impl:AdminHandlerServiceSoapBinding" name="AdminHandlerService">
+
+         <wsdlsoap:address location="http://localhost:8080/axis/services/AdminHandlerService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

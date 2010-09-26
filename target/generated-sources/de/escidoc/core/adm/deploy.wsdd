@@ -1,0 +1,249 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from AdminHandlerService WSDL service -->
+
+  <service name="AdminHandlerService" provider="java:RPC" style="rpc" use="encoded">
+      <parameter name="wsdlTargetNamespace" value="http://www.escidoc.de/services/AdminHandlerService/0.1"/>
+      <parameter name="wsdlServiceElement" value="AdminHandlerService"/>
+      <parameter name="schemaUnqualified" value="http://security.application.exceptions.common.core.escidoc.de,http://application.exceptions.common.core.escidoc.de,http://exceptions.common.core.escidoc.de,http://system.exceptions.common.core.escidoc.de,http://invalid.application.exceptions.common.core.escidoc.de"/>
+      <parameter name="wsdlServicePort" value="AdminHandlerService"/>
+      <parameter name="className" value="de.escidoc.core.adm.AdminHandlerServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="AdminHandler"/>
+      <parameter name="typeMappingVersion" value="1.1"/>
+      <operation name="deleteObjects" qname="operNS:deleteObjects" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" returnQName="deleteObjectsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="getPurgeStatus" qname="operNS:getPurgeStatus" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" returnQName="getPurgeStatusReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="getRecacheStatus" qname="operNS:getRecacheStatus" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" returnQName="getRecacheStatusReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="getReindexStatus" qname="operNS:getReindexStatus" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" returnQName="getReindexStatusReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="decreaseReindexStatus" qname="operNS:decreaseReindexStatus" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="recache" qname="operNS:recache" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" returnQName="recacheReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="reindex" qname="operNS:reindex" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" returnQName="reindexReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidSearchQueryException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException" type="tns:InvalidSearchQueryException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="getRepositoryInfo" qname="operNS:getRepositoryInfo" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" returnQName="getRepositoryInfoReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="loadExamples" qname="operNS:loadExamples" xmlns:operNS="http://www.escidoc.de/services/AdminHandlerService/0.1" returnQName="loadExamplesReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidSearchQueryException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException" type="tns:InvalidSearchQueryException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/AdminHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <parameter name="allowedMethods" value="getReindexStatus getPurgeStatus loadExamples recache getRecacheStatus reindex decreaseReindexStatus getRepositoryInfo deleteObjects"/>
+
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:XmlParserSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.XmlParserSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowEngineSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.WorkflowEngineSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:WebserverSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.WebserverSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidXmlException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:SqlDatabaseSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.SqlDatabaseSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:TripleStoreSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.TripleStoreSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:FedoraSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.FedoraSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidSearchQueryException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:SystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.SystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:XmlCorruptedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.XmlCorruptedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:AuthorizationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:SecurityException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.SecurityException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:IntegritySystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.IntegritySystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:FileSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.FileSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://application.exceptions.common.core.escidoc.de"
+        qname="ns:ApplicationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.ApplicationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:StatisticPreprocessingSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.StatisticPreprocessingSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:ApplicationServerSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.ApplicationServerSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:ValidationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.ValidationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:AuthenticationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://exceptions.common.core.escidoc.de"
+        qname="ns:EscidocException"
+        type="java:de.escidoc.core.common.exceptions.remote.EscidocException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:XmlSchemaValidationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.XmlSchemaValidationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+  </service>
+</deployment>

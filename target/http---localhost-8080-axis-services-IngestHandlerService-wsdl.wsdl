@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.escidoc.de/services/IngestHandlerService/0.1" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://www.escidoc.de/services/IngestHandlerService/0.1" xmlns:intf="http://www.escidoc.de/services/IngestHandlerService/0.1" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://exceptions.common.core.escidoc.de" xmlns:tns2="http://invalid.application.exceptions.common.core.escidoc.de" xmlns:tns3="http://application.exceptions.common.core.escidoc.de" xmlns:tns4="http://notfound.application.exceptions.common.core.escidoc.de" xmlns:tns5="http://missing.application.exceptions.common.core.escidoc.de" xmlns:tns6="http://system.exceptions.common.core.escidoc.de" xmlns:tns7="http://violated.application.exceptions.common.core.escidoc.de" xmlns:tns8="http://security.application.exceptions.common.core.escidoc.de" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="EscidocException">
+    <sequence>
+     <element name="httpStatusCode" type="xsd:int"/>
+     <element name="httpStatusLine" nillable="true" type="xsd:string"/>
+     <element name="httpStatusMsg" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="ApplicationException">
+    <complexContent>
+     <extension base="tns1:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://invalid.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ValidationException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidSearchQueryException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidRelationPropertiesException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidXmlException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlSchemaValidationException">
+    <complexContent>
+     <extension base="tns2:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TmeException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidSqlException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidItemStatusException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidTripleStoreQueryException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidTripleStoreOutputFormatException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReferenceCycleException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidWorkflowDefinitionException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContentModelException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidAggregationTypeException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContextStatusException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidStatusException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidResourceException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidPidException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContextException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContentException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidWorkflowTypeException">
+    <complexContent>
+     <extension base="tns2:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlCorruptedException">
+    <complexContent>
+     <extension base="tns2:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://notfound.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ResourceNotFoundException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContentModelNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TaskNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RelationPredicateNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IngestionSourceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RelationTypeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IndexNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowTypeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowInstanceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowTemplateNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AggregationTypeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContentRelationNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FileNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SearchNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StagingFileNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserAttributeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ActionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlSchemaNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowDefinitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TargetBasketNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserAccountNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StructuralMapEntryNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReportDefinitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RevisionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AggregationDefinitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ScopeNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ComponentNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MdRecordNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IngestionDefinitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="GrantNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ItemReferenceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ItemNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TaskListNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserGroupNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContextNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PreferenceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TransitionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PidNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContainerNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="VersionNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IngestionTaskNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AdminDescriptorNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RoleNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RelationNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReferencedResourceNotFoundException">
+    <complexContent>
+     <extension base="tns4:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://missing.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="MissingParameterException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingWorkflowVariableException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingElementValueException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingUserListException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingAttributeValueException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingMethodParameterException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingLicenceException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingContentException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingMdRecordException">
+    <complexContent>
+     <extension base="tns5:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://system.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SystemException">
+    <complexContent>
+     <extension base="tns1:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowEngineSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StatisticPreprocessingSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TripleStoreSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SqlDatabaseSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FedoraSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IntegritySystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ApplicationServerSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FileSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WebserverSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlParserSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://violated.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="RuleViolationException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyAttributeViolationException">
+    <complexContent>
+     <extension base="tns7:ReadonlyViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ResourceInUseException">
+    <complexContent>
+     <extension base="tns3:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyExistsException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowTaskViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AdminDescriptorViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitNameNotUniqueException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="LockingException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyDeactiveException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RoleInUseViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PidAlreadyAssignedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TimeFrameViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UniqueConstraintViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyVersionException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OptimisticLockingException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="NotPublishedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitHasChildrenException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyDeletedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ScopeContextViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyPublishedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitHierarchyViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyRevokedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyElementViolationException">
+    <complexContent>
+     <extension base="tns7:ReadonlyViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContextNameNotUniqueException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyWithdrawnException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserGroupHierarchyViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RelationRuleViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyActiveException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://security.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SecurityException">
+    <complexContent>
+     <extension base="tns1:EscidocException">
+      <sequence>
+       <element name="redirectLocation" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthenticationException">
+    <complexContent>
+     <extension base="tns8:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthorizationException">
+    <complexContent>
+     <extension base="tns8:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="ingestResponse">
+
+      <wsdl:part name="ingestReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="EscidocException">
+
+      <wsdl:part name="fault" type="tns1:EscidocException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ingestRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="IngestHandler">
+
+      <wsdl:operation name="ingest" parameterOrder="in0">
+
+         <wsdl:input message="impl:ingestRequest" name="ingestRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:ingestResponse" name="ingestResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:EscidocException" name="EscidocException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="IngestHandlerServiceSoapBinding" type="impl:IngestHandler">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="ingest">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="ingestRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/IngestHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="ingestResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/IngestHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="EscidocException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="EscidocException" namespace="http://www.escidoc.de/services/IngestHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="IngestHandlerService">
+
+      <wsdl:port binding="impl:IngestHandlerServiceSoapBinding" name="IngestHandlerService">
+
+         <wsdlsoap:address location="http://localhost:8080/axis/services/IngestHandlerService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

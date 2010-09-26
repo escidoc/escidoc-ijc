@@ -1,0 +1,4002 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://www.escidoc.de/services/UserAccountHandlerService/0.1" xmlns:intf="http://www.escidoc.de/services/UserAccountHandlerService/0.1" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://notfound.application.exceptions.common.core.escidoc.de" xmlns:tns2="http://application.exceptions.common.core.escidoc.de" xmlns:tns3="http://exceptions.common.core.escidoc.de" xmlns:tns4="http://missing.application.exceptions.common.core.escidoc.de" xmlns:tns5="http://security.application.exceptions.common.core.escidoc.de" xmlns:tns6="http://system.exceptions.common.core.escidoc.de" xmlns:tns7="http://violated.application.exceptions.common.core.escidoc.de" xmlns:tns8="http://invalid.application.exceptions.common.core.escidoc.de" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="EscidocException">
+    <sequence>
+     <element name="httpStatusCode" type="xsd:int"/>
+     <element name="httpStatusLine" nillable="true" type="xsd:string"/>
+     <element name="httpStatusMsg" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="ApplicationException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://notfound.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ResourceNotFoundException">
+    <complexContent>
+     <extension base="tns2:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserAccountNotFoundException">
+    <complexContent>
+     <extension base="tns1:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OrganizationalUnitNotFoundException">
+    <complexContent>
+     <extension base="tns1:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="GrantNotFoundException">
+    <complexContent>
+     <extension base="tns1:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="RoleNotFoundException">
+    <complexContent>
+     <extension base="tns1:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PreferenceNotFoundException">
+    <complexContent>
+     <extension base="tns1:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UserAttributeNotFoundException">
+    <complexContent>
+     <extension base="tns1:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://missing.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="MissingParameterException">
+    <complexContent>
+     <extension base="tns2:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingMethodParameterException">
+    <complexContent>
+     <extension base="tns4:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MissingAttributeValueException">
+    <complexContent>
+     <extension base="tns4:MissingParameterException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://security.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SecurityException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence>
+       <element name="redirectLocation" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthenticationException">
+    <complexContent>
+     <extension base="tns5:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthorizationException">
+    <complexContent>
+     <extension base="tns5:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://system.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SystemException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowEngineSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StatisticPreprocessingSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TripleStoreSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SqlDatabaseSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FedoraSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IntegritySystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ApplicationServerSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FileSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WebserverSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlParserSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://violated.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="RuleViolationException">
+    <complexContent>
+     <extension base="tns2:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UniqueConstraintViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="OptimisticLockingException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyActiveException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyExistsException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyDeactiveException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AlreadyRevokedException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyViolationException">
+    <complexContent>
+     <extension base="tns7:RuleViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ReadonlyElementViolationException">
+    <complexContent>
+     <extension base="tns7:ReadonlyViolationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://invalid.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ValidationException">
+    <complexContent>
+     <extension base="tns2:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidStatusException">
+    <complexContent>
+     <extension base="tns8:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidXmlException">
+    <complexContent>
+     <extension base="tns8:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlSchemaValidationException">
+    <complexContent>
+     <extension base="tns8:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlCorruptedException">
+    <complexContent>
+     <extension base="tns8:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidSearchQueryException">
+    <complexContent>
+     <extension base="tns8:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidContentException">
+    <complexContent>
+     <extension base="tns8:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://violated.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://missing.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="mapItem">
+    <sequence>
+     <element name="key" nillable="true" type="xsd:anyType"/>
+     <element name="value" nillable="true" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="Map">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="apachesoap:mapItem"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="retrieveCurrentUserResponse">
+
+      <wsdl:part name="retrieveCurrentUserReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deletePreferenceResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveNamedAttributesRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="createPreferenceResponse">
+
+      <wsdl:part name="createPreferenceReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveGrantsResponse1">
+
+      <wsdl:part name="retrieveGrantsReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrievePreferenceRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingMethodParameterException">
+
+      <wsdl:part name="fault" type="tns4:MissingMethodParameterException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveUserAccountsResponse">
+
+      <wsdl:part name="retrieveUserAccountsReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteAttributeResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="activateResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveUserAccountsResponse1">
+
+      <wsdl:part name="retrieveUserAccountsReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="revokeGrantsRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AlreadyActiveException">
+
+      <wsdl:part name="fault" type="tns7:AlreadyActiveException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="MissingAttributeValueException">
+
+      <wsdl:part name="fault" type="tns4:MissingAttributeValueException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="SystemException">
+
+      <wsdl:part name="fault" type="tns6:SystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="RoleNotFoundException">
+
+      <wsdl:part name="fault" type="tns1:RoleNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UserAttributeNotFoundException">
+
+      <wsdl:part name="fault" type="tns1:UserAttributeNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrievePreferenceResponse">
+
+      <wsdl:part name="retrievePreferenceReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveResponse">
+
+      <wsdl:part name="retrieveReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateResponse">
+
+      <wsdl:part name="updateReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthenticationException">
+
+      <wsdl:part name="fault" type="tns5:AuthenticationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePasswordRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidContentException">
+
+      <wsdl:part name="fault" type="tns8:InvalidContentException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="createAttributeResponse">
+
+      <wsdl:part name="createAttributeReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deactivateResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="createGrantResponse">
+
+      <wsdl:part name="createGrantReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveCurrentGrantsResponse">
+
+      <wsdl:part name="retrieveCurrentGrantsReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidXmlException">
+
+      <wsdl:part name="fault" type="tns8:InvalidXmlException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveGrantsRequest1">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveAttributesResponse">
+
+      <wsdl:part name="retrieveAttributesReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AlreadyExistsException">
+
+      <wsdl:part name="fault" type="tns7:AlreadyExistsException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthorizationException">
+
+      <wsdl:part name="fault" type="tns5:AuthorizationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePreferenceResponse">
+
+      <wsdl:part name="updatePreferenceReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateAttributeRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in2" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveAttributeRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="OptimisticLockingException">
+
+      <wsdl:part name="fault" type="tns7:OptimisticLockingException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveGrantRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UniqueConstraintViolationException">
+
+      <wsdl:part name="fault" type="tns7:UniqueConstraintViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveNamedAttributesResponse">
+
+      <wsdl:part name="retrieveNamedAttributesReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="OrganizationalUnitNotFoundException">
+
+      <wsdl:part name="fault" type="tns1:OrganizationalUnitNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveGrantsRequest">
+
+      <wsdl:part name="in0" type="apachesoap:Map">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePreferenceRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in2" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveCurrentUserRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="createAttributeRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="createPreferenceRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="GrantNotFoundException">
+
+      <wsdl:part name="fault" type="tns1:GrantNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="revokeGrantsResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidStatusException">
+
+      <wsdl:part name="fault" type="tns8:InvalidStatusException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="UserAccountNotFoundException">
+
+      <wsdl:part name="fault" type="tns1:UserAccountNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ReadonlyElementViolationException">
+
+      <wsdl:part name="fault" type="tns7:ReadonlyElementViolationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveUserAccountsRequest">
+
+      <wsdl:part name="in0" type="apachesoap:Map">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="activateRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePreferencesResponse">
+
+      <wsdl:part name="updatePreferencesReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deletePreferenceRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateAttributeResponse">
+
+      <wsdl:part name="updateAttributeReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveAttributeResponse">
+
+      <wsdl:part name="retrieveAttributeReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveGrantResponse">
+
+      <wsdl:part name="retrieveGrantReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deactivateRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveGrantsResponse">
+
+      <wsdl:part name="retrieveGrantsReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidSearchQueryException">
+
+      <wsdl:part name="fault" type="tns8:InvalidSearchQueryException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AlreadyRevokedException">
+
+      <wsdl:part name="fault" type="tns7:AlreadyRevokedException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveUserAccountsRequest1">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="createRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="createResponse">
+
+      <wsdl:part name="createReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrievePreferencesRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="PreferenceNotFoundException">
+
+      <wsdl:part name="fault" type="tns1:PreferenceNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="revokeGrantResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveCurrentGrantsRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="createGrantRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AlreadyDeactiveException">
+
+      <wsdl:part name="fault" type="tns7:AlreadyDeactiveException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteAttributeRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePreferencesRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveAttributesRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrievePreferencesResponse">
+
+      <wsdl:part name="retrievePreferencesReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatePasswordResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="revokeGrantRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in2" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="UserAccountHandler">
+
+      <wsdl:operation name="delete" parameterOrder="in0">
+
+         <wsdl:input message="impl:deleteRequest" name="deleteRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteResponse" name="deleteResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="create" parameterOrder="in0">
+
+         <wsdl:input message="impl:createRequest" name="createRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:createResponse" name="createResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OrganizationalUnitNotFoundException" name="OrganizationalUnitNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidStatusException" name="InvalidStatusException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UniqueConstraintViolationException" name="UniqueConstraintViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="update" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:updateRequest" name="updateRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateResponse" name="updateResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OrganizationalUnitNotFoundException" name="OrganizationalUnitNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidStatusException" name="InvalidStatusException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UniqueConstraintViolationException" name="UniqueConstraintViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieve" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveRequest" name="retrieveRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveResponse" name="retrieveResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="activate" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:activateRequest" name="activateRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:activateResponse" name="activateResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyActiveException" name="AlreadyActiveException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createAttribute" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:createAttributeRequest" name="createAttributeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:createAttributeResponse" name="createAttributeResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyExistsException" name="AlreadyExistsException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deactivate" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:deactivateRequest" name="deactivateRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deactivateResponse" name="deactivateResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyDeactiveException" name="AlreadyDeactiveException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePassword" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:updatePasswordRequest" name="updatePasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updatePasswordResponse" name="updatePasswordResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidStatusException" name="InvalidStatusException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveCurrentUser">
+
+         <wsdl:input message="impl:retrieveCurrentUserRequest" name="retrieveCurrentUserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveCurrentUserResponse" name="retrieveCurrentUserResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveCurrentGrants" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveCurrentGrantsRequest" name="retrieveCurrentGrantsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveCurrentGrantsResponse" name="retrieveCurrentGrantsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveGrant" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:retrieveGrantRequest" name="retrieveGrantRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveGrantResponse" name="retrieveGrantResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:GrantNotFoundException" name="GrantNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveGrants" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveGrantsRequest" name="retrieveGrantsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveGrantsResponse" name="retrieveGrantsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidSearchQueryException" name="InvalidSearchQueryException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveGrants" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveGrantsRequest1" name="retrieveGrantsRequest1">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveGrantsResponse1" name="retrieveGrantsResponse1">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:InvalidContentException" name="InvalidContentException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createGrant" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:createGrantRequest" name="createGrantRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:createGrantResponse" name="createGrantResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:RoleNotFoundException" name="RoleNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyExistsException" name="AlreadyExistsException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="revokeGrant" parameterOrder="in0 in1 in2">
+
+         <wsdl:input message="impl:revokeGrantRequest" name="revokeGrantRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:revokeGrantResponse" name="revokeGrantResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyRevokedException" name="AlreadyRevokedException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:GrantNotFoundException" name="GrantNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="revokeGrants" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:revokeGrantsRequest" name="revokeGrantsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:revokeGrantsResponse" name="revokeGrantsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyRevokedException" name="AlreadyRevokedException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:GrantNotFoundException" name="GrantNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveUserAccounts" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveUserAccountsRequest" name="retrieveUserAccountsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveUserAccountsResponse" name="retrieveUserAccountsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidSearchQueryException" name="InvalidSearchQueryException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveUserAccounts" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveUserAccountsRequest1" name="retrieveUserAccountsRequest1">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveUserAccountsResponse1" name="retrieveUserAccountsResponse1">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:InvalidContentException" name="InvalidContentException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrievePreferences" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrievePreferencesRequest" name="retrievePreferencesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrievePreferencesResponse" name="retrievePreferencesResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createPreference" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:createPreferenceRequest" name="createPreferenceRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:createPreferenceResponse" name="createPreferenceResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:PreferenceNotFoundException" name="PreferenceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyExistsException" name="AlreadyExistsException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePreferences" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:updatePreferencesRequest" name="updatePreferencesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updatePreferencesResponse" name="updatePreferencesResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePreference" parameterOrder="in0 in1 in2">
+
+         <wsdl:input message="impl:updatePreferenceRequest" name="updatePreferenceRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updatePreferenceResponse" name="updatePreferenceResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:MissingAttributeValueException" name="MissingAttributeValueException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:PreferenceNotFoundException" name="PreferenceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AlreadyExistsException" name="AlreadyExistsException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrievePreference" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:retrievePreferenceRequest" name="retrievePreferenceRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrievePreferenceResponse" name="retrievePreferenceResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:PreferenceNotFoundException" name="PreferenceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deletePreference" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:deletePreferenceRequest" name="deletePreferenceRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deletePreferenceResponse" name="deletePreferenceResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:PreferenceNotFoundException" name="PreferenceNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveAttributes" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveAttributesRequest" name="retrieveAttributesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveAttributesResponse" name="retrieveAttributesResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveNamedAttributes" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:retrieveNamedAttributesRequest" name="retrieveNamedAttributesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveNamedAttributesResponse" name="retrieveNamedAttributesResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAttributeNotFoundException" name="UserAttributeNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveAttribute" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:retrieveAttributeRequest" name="retrieveAttributeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveAttributeResponse" name="retrieveAttributeResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAttributeNotFoundException" name="UserAttributeNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateAttribute" parameterOrder="in0 in1 in2">
+
+         <wsdl:input message="impl:updateAttributeRequest" name="updateAttributeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateAttributeResponse" name="updateAttributeResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:OptimisticLockingException" name="OptimisticLockingException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAttributeNotFoundException" name="UserAttributeNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReadonlyElementViolationException" name="ReadonlyElementViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteAttribute" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:deleteAttributeRequest" name="deleteAttributeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteAttributeResponse" name="deleteAttributeResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAccountNotFoundException" name="UserAccountNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:UserAttributeNotFoundException" name="UserAttributeNotFoundException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ReadonlyElementViolationException" name="ReadonlyElementViolationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:MissingMethodParameterException" name="MissingMethodParameterException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="UserAccountHandlerServiceSoapBinding" type="impl:UserAccountHandler">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="delete">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="create">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OrganizationalUnitNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OrganizationalUnitNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidStatusException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidStatusException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UniqueConstraintViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UniqueConstraintViolationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="update">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OrganizationalUnitNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OrganizationalUnitNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidStatusException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidStatusException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UniqueConstraintViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UniqueConstraintViolationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieve">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="activate">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="activateRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="activateResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyActiveException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyActiveException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createAttribute">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createAttributeRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createAttributeResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyExistsException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyExistsException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deactivate">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deactivateRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deactivateResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyDeactiveException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyDeactiveException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updatePasswordRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updatePasswordResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidStatusException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidStatusException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveCurrentUser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveCurrentUserRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveCurrentUserResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveCurrentGrants">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveCurrentGrantsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveCurrentGrantsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveGrant">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveGrantRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveGrantResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="GrantNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="GrantNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveGrants">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveGrantsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveGrantsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidSearchQueryException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidSearchQueryException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveGrants">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveGrantsRequest1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveGrantsResponse1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="InvalidContentException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidContentException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createGrant">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createGrantRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createGrantResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="RoleNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="RoleNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyExistsException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyExistsException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="revokeGrant">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="revokeGrantRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="revokeGrantResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyRevokedException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyRevokedException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="GrantNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="GrantNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="revokeGrants">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="revokeGrantsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="revokeGrantsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyRevokedException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyRevokedException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="GrantNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="GrantNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveUserAccounts">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveUserAccountsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveUserAccountsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidSearchQueryException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidSearchQueryException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveUserAccounts">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveUserAccountsRequest1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveUserAccountsResponse1">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="InvalidContentException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidContentException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrievePreferences">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrievePreferencesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrievePreferencesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createPreference">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createPreferenceRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createPreferenceResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="PreferenceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="PreferenceNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyExistsException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyExistsException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePreferences">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updatePreferencesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updatePreferencesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatePreference">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updatePreferenceRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updatePreferenceResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="MissingAttributeValueException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingAttributeValueException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="PreferenceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="PreferenceNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AlreadyExistsException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AlreadyExistsException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrievePreference">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrievePreferenceRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrievePreferenceResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="PreferenceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="PreferenceNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deletePreference">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deletePreferenceRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deletePreferenceResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="PreferenceNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="PreferenceNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveAttributes">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveAttributesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveAttributesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveNamedAttributes">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveNamedAttributesRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveNamedAttributesResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAttributeNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAttributeNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveAttribute">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveAttributeRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveAttributeResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAttributeNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAttributeNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateAttribute">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateAttributeRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateAttributeResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="OptimisticLockingException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="OptimisticLockingException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAttributeNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAttributeNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReadonlyElementViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReadonlyElementViolationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteAttribute">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteAttributeRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteAttributeResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAccountNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAccountNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="UserAttributeNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="UserAttributeNotFoundException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ReadonlyElementViolationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ReadonlyElementViolationException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MissingMethodParameterException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MissingMethodParameterException" namespace="http://www.escidoc.de/services/UserAccountHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="UserAccountHandlerService">
+
+      <wsdl:port binding="impl:UserAccountHandlerServiceSoapBinding" name="UserAccountHandlerService">
+
+         <wsdlsoap:address location="http://localhost:8080/axis/services/UserAccountHandlerService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

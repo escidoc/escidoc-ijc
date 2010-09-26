@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.escidoc.de/services/ActionHandlerService/0.1" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://www.escidoc.de/services/ActionHandlerService/0.1" xmlns:intf="http://www.escidoc.de/services/ActionHandlerService/0.1" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://notfound.application.exceptions.common.core.escidoc.de" xmlns:tns2="http://application.exceptions.common.core.escidoc.de" xmlns:tns3="http://exceptions.common.core.escidoc.de" xmlns:tns4="http://invalid.application.exceptions.common.core.escidoc.de" xmlns:tns5="http://security.application.exceptions.common.core.escidoc.de" xmlns:tns6="http://system.exceptions.common.core.escidoc.de" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="EscidocException">
+    <sequence>
+     <element name="httpStatusCode" type="xsd:int"/>
+     <element name="httpStatusLine" nillable="true" type="xsd:string"/>
+     <element name="httpStatusMsg" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType abstract="true" name="ApplicationException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://notfound.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ResourceNotFoundException">
+    <complexContent>
+     <extension base="tns2:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ContextNotFoundException">
+    <complexContent>
+     <extension base="tns1:ResourceNotFoundException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://invalid.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ValidationException">
+    <complexContent>
+     <extension base="tns2:ApplicationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InvalidXmlException">
+    <complexContent>
+     <extension base="tns4:ValidationException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlSchemaValidationException">
+    <complexContent>
+     <extension base="tns4:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlCorruptedException">
+    <complexContent>
+     <extension base="tns4:InvalidXmlException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://security.application.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://system.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SecurityException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence>
+       <element name="redirectLocation" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthenticationException">
+    <complexContent>
+     <extension base="tns5:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthorizationException">
+    <complexContent>
+     <extension base="tns5:SecurityException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://system.exceptions.common.core.escidoc.de" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://invalid.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://notfound.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://exceptions.common.core.escidoc.de"/>
+   <import namespace="http://security.application.exceptions.common.core.escidoc.de"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="SystemException">
+    <complexContent>
+     <extension base="tns3:EscidocException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WorkflowEngineSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="StatisticPreprocessingSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="TripleStoreSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SqlDatabaseSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FedoraSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IntegritySystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ApplicationServerSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="FileSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="WebserverSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="XmlParserSystemException">
+    <complexContent>
+     <extension base="tns6:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="createUnsecuredActionsRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+      <wsdl:part name="in1" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="InvalidXmlException">
+
+      <wsdl:part name="fault" type="tns4:InvalidXmlException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="ContextNotFoundException">
+
+      <wsdl:part name="fault" type="tns1:ContextNotFoundException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteUnsecuredActionsRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveUnsecuredActionsRequest">
+
+      <wsdl:part name="in0" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteUnsecuredActionsResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="SystemException">
+
+      <wsdl:part name="fault" type="tns6:SystemException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="createUnsecuredActionsResponse">
+
+      <wsdl:part name="createUnsecuredActionsReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retrieveUnsecuredActionsResponse">
+
+      <wsdl:part name="retrieveUnsecuredActionsReturn" type="xsd:string">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthorizationException">
+
+      <wsdl:part name="fault" type="tns5:AuthorizationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthenticationException">
+
+      <wsdl:part name="fault" type="tns5:AuthenticationException">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="ActionHandler">
+
+      <wsdl:operation name="createUnsecuredActions" parameterOrder="in0 in1">
+
+         <wsdl:input message="impl:createUnsecuredActionsRequest" name="createUnsecuredActionsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:createUnsecuredActionsResponse" name="createUnsecuredActionsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:InvalidXmlException" name="InvalidXmlException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ContextNotFoundException" name="ContextNotFoundException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteUnsecuredActions" parameterOrder="in0">
+
+         <wsdl:input message="impl:deleteUnsecuredActionsRequest" name="deleteUnsecuredActionsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteUnsecuredActionsResponse" name="deleteUnsecuredActionsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ContextNotFoundException" name="ContextNotFoundException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveUnsecuredActions" parameterOrder="in0">
+
+         <wsdl:input message="impl:retrieveUnsecuredActionsRequest" name="retrieveUnsecuredActionsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retrieveUnsecuredActionsResponse" name="retrieveUnsecuredActionsResponse">
+
+       </wsdl:output>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthorizationException" name="AuthorizationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:AuthenticationException" name="AuthenticationException">
+
+       </wsdl:fault>
+
+         <wsdl:fault message="impl:ContextNotFoundException" name="ContextNotFoundException">
+
+       </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ActionHandlerServiceSoapBinding" type="impl:ActionHandler">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="createUnsecuredActions">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createUnsecuredActionsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createUnsecuredActionsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InvalidXmlException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="InvalidXmlException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ContextNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ContextNotFoundException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteUnsecuredActions">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteUnsecuredActionsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteUnsecuredActionsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ContextNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ContextNotFoundException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retrieveUnsecuredActions">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retrieveUnsecuredActionsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retrieveUnsecuredActionsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="SystemException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthorizationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthorizationException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthenticationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AuthenticationException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="ContextNotFoundException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="ContextNotFoundException" namespace="http://www.escidoc.de/services/ActionHandlerService/0.1" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ActionHandlerService">
+
+      <wsdl:port binding="impl:ActionHandlerServiceSoapBinding" name="ActionHandlerService">
+
+         <wsdlsoap:address location="http://localhost:8080/axis/services/ActionHandlerService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

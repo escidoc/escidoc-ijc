@@ -1,0 +1,933 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ItemHandlerService WSDL service -->
+
+  <service name="ItemHandlerService" provider="java:RPC" style="rpc" use="encoded">
+      <parameter name="wsdlTargetNamespace" value="http://www.escidoc.de/services/ItemHandlerService/0.1"/>
+      <parameter name="wsdlServiceElement" value="ItemHandlerService"/>
+      <parameter name="schemaUnqualified" value="http://xml.apache.org/xml-soap,http://missing.application.exceptions.common.core.escidoc.de,http://security.application.exceptions.common.core.escidoc.de,http://application.exceptions.common.core.escidoc.de,http://exceptions.common.core.escidoc.de,http://violated.application.exceptions.common.core.escidoc.de,http://notfound.application.exceptions.common.core.escidoc.de,http://system.exceptions.common.core.escidoc.de,http://invalid.application.exceptions.common.core.escidoc.de"/>
+      <parameter name="wsdlServicePort" value="ItemHandlerService"/>
+      <parameter name="className" value="de.escidoc.core.om.ItemHandlerServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="ItemHandler"/>
+      <parameter name="typeMappingVersion" value="1.1"/>
+      <operation name="lock" qname="operNS:lock" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="lockReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="delete" qname="operNS:delete" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyPublishedException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyPublishedException" type="tns:AlreadyPublishedException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="release" qname="operNS:release" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="releaseReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="create" qname="operNS:create" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="createReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="MissingAttributeValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException" type="tns:MissingAttributeValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RelationPredicateNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException" type="tns:RelationPredicateNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingElementValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException" type="tns:MissingElementValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyElementViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException" type="tns:ReadonlyElementViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContentModelNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException" type="tns:ContentModelNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="FileNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException" type="tns:FileNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException" type="tns:MissingContentException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyAttributeViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException" type="tns:ReadonlyAttributeViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMdRecordException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException" type="tns:MissingMdRecordException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReferencedResourceNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException" type="tns:ReferencedResourceNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContextNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException" type="tns:ContextNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="unlock" qname="operNS:unlock" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="unlockReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="update" qname="operNS:update" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="updateReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="RelationPredicateNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException" type="tns:RelationPredicateNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingAttributeValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException" type="tns:MissingAttributeValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContextException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException" type="tns:InvalidContextException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="FileNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException" type="tns:FileNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyExistsException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException" type="tns:AlreadyExistsException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="NotPublishedException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException" type="tns:NotPublishedException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException" type="tns:MissingContentException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMdRecordException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException" type="tns:MissingMdRecordException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReferencedResourceNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException" type="tns:ReferencedResourceNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieve" qname="operNS:retrieve" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="submit" qname="operNS:submit" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="submitReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="createComponent" qname="operNS:createComponent" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="createComponentReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="MissingAttributeValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException" type="tns:MissingAttributeValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingElementValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException" type="tns:MissingElementValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="FileNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException" type="tns:FileNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException" type="tns:MissingContentException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveProperties" qname="operNS:retrieveProperties" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrievePropertiesReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveContentStreams" qname="operNS:retrieveContentStreams" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveContentStreamsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveContentStream" qname="operNS:retrieveContentStream" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveContentStreamReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContentStreamNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContentStreamNotFoundException" type="tns:ContentStreamNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveVersionHistory" qname="operNS:retrieveVersionHistory" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveVersionHistoryReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveMdRecord" qname="operNS:retrieveMdRecord" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveMdRecordReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MdRecordNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException" type="tns:MdRecordNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveMdRecords" qname="operNS:retrieveMdRecords" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveMdRecordsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveRelations" qname="operNS:retrieveRelations" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveRelationsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="withdraw" qname="operNS:withdraw" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="withdrawReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="NotPublishedException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException" type="tns:NotPublishedException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyWithdrawnException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyWithdrawnException" type="tns:AlreadyWithdrawnException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="revise" qname="operNS:revise" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="reviseReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="moveToContext" qname="operNS:moveToContext" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="moveToContextReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContextNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException" type="tns:ContextNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="addContentRelations" qname="operNS:addContentRelations" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="addContentRelationsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RelationPredicateNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException" type="tns:RelationPredicateNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingElementValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException" type="tns:MissingElementValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyExistsException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException" type="tns:AlreadyExistsException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReferencedResourceNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException" type="tns:ReferencedResourceNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="removeContentRelations" qname="operNS:removeContentRelations" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="removeContentRelationsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingElementValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException" type="tns:MissingElementValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyDeletedException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyDeletedException" type="tns:AlreadyDeletedException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContentRelationNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContentRelationNotFoundException" type="tns:ContentRelationNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="assignObjectPid" qname="operNS:assignObjectPid" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="assignObjectPidReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="assignVersionPid" qname="operNS:assignVersionPid" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="assignVersionPidReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveComponent" qname="operNS:retrieveComponent" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveComponentReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveComponentMdRecords" qname="operNS:retrieveComponentMdRecords" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveComponentMdRecordsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveComponentMdRecord" qname="operNS:retrieveComponentMdRecord" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveComponentMdRecordReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in2" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MdRecordNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException" type="tns:MdRecordNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="updateComponent" qname="operNS:updateComponent" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="updateComponentReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in2" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="MissingAttributeValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException" type="tns:MissingAttributeValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="FileNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException" type="tns:FileNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException" type="tns:MissingContentException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveComponents" qname="operNS:retrieveComponents" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveComponentsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveComponentProperties" qname="operNS:retrieveComponentProperties" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveComponentPropertiesReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="createMetadataRecord" qname="operNS:createMetadataRecord" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="createMetadataRecordReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingAttributeValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException" type="tns:MissingAttributeValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="createMdRecord" qname="operNS:createMdRecord" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="createMdRecordReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingAttributeValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException" type="tns:MissingAttributeValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="updateMdRecord" qname="operNS:updateMdRecord" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="updateMdRecordReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in2" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MdRecordNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException" type="tns:MdRecordNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="deleteComponent" qname="operNS:deleteComponent" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveItems" qname="operNS:retrieveItems" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveItemsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:Map" xmlns:tns="http://xml.apache.org/xml-soap"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidSearchQueryException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException" type="tns:InvalidSearchQueryException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="retrieveItems" qname="operNS:retrieveItems" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="retrieveItemsReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidSearchQueryException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException" type="tns:InvalidSearchQueryException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <operation name="assignContentPid" qname="operNS:assignContentPid" xmlns:operNS="http://www.escidoc.de/services/ItemHandlerService/0.1" returnQName="assignContentPidReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="in0" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in1" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="in2" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthorizationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException" type="tns:AuthorizationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AuthenticationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException" type="tns:AuthenticationException" xmlns:tns="http://security.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/ItemHandlerService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <parameter name="allowedMethods" value="update retrieveVersionHistory retrieveComponent createComponent retrieveItems retrieveComponentProperties retrieveProperties moveToContext updateMdRecord assignVersionPid retrieveContentStreams withdraw delete retrieveMdRecord retrieveComponents addContentRelations unlock retrieveRelations submit retrieveContentStream assignObjectPid lock create updateComponent removeContentRelations assignContentPid createMdRecord createMetadataRecord retrieveMdRecords retrieveComponentMdRecords deleteComponent retrieve retrieveComponentMdRecord revise release"/>
+
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowEngineSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.WorkflowEngineSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:WebserverSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.WebserverSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingParameterException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingParameterException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:TripleStoreSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.TripleStoreSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:AuthorizationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyWithdrawnException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyWithdrawnException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReadonlyViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContentRelationNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ContentRelationNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:ApplicationServerSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.ApplicationServerSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidStatusException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:AuthenticationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://exceptions.common.core.escidoc.de"
+        qname="ns:EscidocException"
+        type="java:de.escidoc.core.common.exceptions.remote.EscidocException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:XmlParserSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.XmlParserSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReadonlyElementViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:RuleViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.RuleViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingMdRecordException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidSearchQueryException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReferencedResourceNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:FileSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.FileSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:FileNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:NotPublishedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ComponentNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyDeletedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyDeletedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:SqlDatabaseSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.SqlDatabaseSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:FedoraSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.FedoraSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContentStreamNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ContentStreamNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:OptimisticLockingException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:RelationPredicateNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingContentException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:SecurityException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.SecurityException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContextNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyExistsException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://application.exceptions.common.core.escidoc.de"
+        qname="ns:ApplicationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.ApplicationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:StatisticPreprocessingSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.StatisticPreprocessingSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidContextException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:ValidationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.ValidationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:MdRecordNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:LockingException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.LockingException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidXmlException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingMethodParameterException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyPublishedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyPublishedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:SystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.SystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:XmlCorruptedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.XmlCorruptedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:IntegritySystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.IntegritySystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidContentException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReadonlyVersionException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingAttributeValueException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReadonlyAttributeViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ItemNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ResourceNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ResourceNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContentModelNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingElementValueException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:XmlSchemaValidationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.XmlSchemaValidationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+  </service>
+</deployment>

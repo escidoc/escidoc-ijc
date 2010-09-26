@@ -1,0 +1,1126 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from SoapExceptionGenerationService WSDL service -->
+
+  <service name="SoapExceptionGenerationService" provider="java:RPC" style="rpc" use="encoded">
+      <parameter name="wsdlTargetNamespace" value="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1"/>
+      <parameter name="wsdlServiceElement" value="SoapExceptionGenerationService"/>
+      <parameter name="schemaUnqualified" value="http://missing.application.exceptions.common.core.escidoc.de,http://security.application.exceptions.common.core.escidoc.de,http://application.exceptions.common.core.escidoc.de,http://exceptions.common.core.escidoc.de,http://violated.application.exceptions.common.core.escidoc.de,http://notfound.application.exceptions.common.core.escidoc.de,http://system.exceptions.common.core.escidoc.de,http://invalid.application.exceptions.common.core.escidoc.de"/>
+      <parameter name="wsdlServicePort" value="SoapExceptionGenerationService"/>
+      <parameter name="className" value="de.escidoc.core.common.SoapExceptionGenerationServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="SoapExceptionGeneration"/>
+      <parameter name="typeMappingVersion" value="1.1"/>
+      <operation name="generateExceptions" qname="operNS:generateExceptions" xmlns:operNS="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" soapAction="" >
+        <fault name="ActionNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ActionNotFoundException" type="tns:ActionNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidItemStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidItemStatusException" type="tns:InvalidItemStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="UserGroupNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.UserGroupNotFoundException" type="tns:UserGroupNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ResourceInUseException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ResourceInUseException" type="tns:ResourceInUseException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="IngestionSourceNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.IngestionSourceNotFoundException" type="tns:IngestionSourceNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidSearchQueryException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException" type="tns:InvalidSearchQueryException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AdminDescriptorNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.AdminDescriptorNotFoundException" type="tns:AdminDescriptorNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContentRelationNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContentRelationNotFoundException" type="tns:ContentRelationNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AdminDescriptorViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AdminDescriptorViolationException" type="tns:AdminDescriptorViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="WorkflowTemplateNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.WorkflowTemplateNotFoundException" type="tns:WorkflowTemplateNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RelationRuleViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.RelationRuleViolationException" type="tns:RelationRuleViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="TaskNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.TaskNotFoundException" type="tns:TaskNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ScopeNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ScopeNotFoundException" type="tns:ScopeNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RoleInUseViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.RoleInUseViolationException" type="tns:RoleInUseViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException" type="tns:InvalidStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RuleViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.RuleViolationException" type="tns:RuleViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="XmlParserSystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.XmlParserSystemException" type="tns:XmlParserSystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="TaskListNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.TaskListNotFoundException" type="tns:TaskListNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidSqlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSqlException" type="tns:InvalidSqlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RevisionNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.RevisionNotFoundException" type="tns:RevisionNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidRelationPropertiesException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidRelationPropertiesException" type="tns:InvalidRelationPropertiesException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="FileNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException" type="tns:FileNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidTripleStoreOutputFormatException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidTripleStoreOutputFormatException" type="tns:InvalidTripleStoreOutputFormatException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ScopeContextViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ScopeContextViolationException" type="tns:ScopeContextViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="WorkflowDefinitionNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.WorkflowDefinitionNotFoundException" type="tns:WorkflowDefinitionNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="FileSystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.FileSystemException" type="tns:FileSystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="OptimisticLockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException" type="tns:OptimisticLockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="TmeException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.TmeException" type="tns:TmeException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="FedoraSystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.FedoraSystemException" type="tns:FedoraSystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="XmlSchemaNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.XmlSchemaNotFoundException" type="tns:XmlSchemaNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="OrganizationalUnitHierarchyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.OrganizationalUnitHierarchyViolationException" type="tns:OrganizationalUnitHierarchyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingWorkflowVariableException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingWorkflowVariableException" type="tns:MissingWorkflowVariableException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException" type="tns:InvalidContentException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="XmlCorruptedException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.XmlCorruptedException" type="tns:XmlCorruptedException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyExistsException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException" type="tns:AlreadyExistsException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="UserGroupHierarchyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.UserGroupHierarchyViolationException" type="tns:UserGroupHierarchyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReferenceCycleException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.ReferenceCycleException" type="tns:ReferenceCycleException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemReferenceNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemReferenceNotFoundException" type="tns:ItemReferenceNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingUserListException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingUserListException" type="tns:MissingUserListException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ApplicationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.ApplicationException" type="tns:ApplicationException" xmlns:tns="http://application.exceptions.common.core.escidoc.de"/>
+        <fault name="SystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SystemException" type="tns:SystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingAttributeValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException" type="tns:MissingAttributeValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ValidationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.ValidationException" type="tns:ValidationException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="StructuralMapEntryNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.StructuralMapEntryNotFoundException" type="tns:StructuralMapEntryNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="TargetBasketNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.TargetBasketNotFoundException" type="tns:TargetBasketNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingElementValueException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException" type="tns:MissingElementValueException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ResourceNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ResourceNotFoundException" type="tns:ResourceNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyAttributeViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException" type="tns:ReadonlyAttributeViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="UserNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.UserNotFoundException" type="tns:UserNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="TripleStoreSystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.TripleStoreSystemException" type="tns:TripleStoreSystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContextStatusException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextStatusException" type="tns:InvalidContextStatusException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="WorkflowEngineSystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.WorkflowEngineSystemException" type="tns:WorkflowEngineSystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="WebserverSystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.WebserverSystemException" type="tns:WebserverSystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="RelationNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.RelationNotFoundException" type="tns:RelationNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingParameterException" type="tns:MissingParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="EscidocException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.EscidocException" type="tns:EscidocException" xmlns:tns="http://exceptions.common.core.escidoc.de"/>
+        <fault name="ApplicationServerSystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.ApplicationServerSystemException" type="tns:ApplicationServerSystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException" type="tns:ReadonlyViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidWorkflowTypeException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidWorkflowTypeException" type="tns:InvalidWorkflowTypeException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="IngestionDefinitionNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.IngestionDefinitionNotFoundException" type="tns:IngestionDefinitionNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContainerNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContainerNotFoundException" type="tns:ContainerNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyWithdrawnException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyWithdrawnException" type="tns:AlreadyWithdrawnException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="UserAccountNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.UserAccountNotFoundException" type="tns:UserAccountNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="VersionNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.VersionNotFoundException" type="tns:VersionNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AggregationDefinitionNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.AggregationDefinitionNotFoundException" type="tns:AggregationDefinitionNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="PidNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.PidNotFoundException" type="tns:PidNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RelationTypeNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.RelationTypeNotFoundException" type="tns:RelationTypeNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidTripleStoreQueryException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidTripleStoreQueryException" type="tns:InvalidTripleStoreQueryException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="IngestionTaskNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.IngestionTaskNotFoundException" type="tns:IngestionTaskNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyElementViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException" type="tns:ReadonlyElementViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ComponentNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException" type="tns:ComponentNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="NotPublishedException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException" type="tns:NotPublishedException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="WorkflowTaskViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.WorkflowTaskViolationException" type="tns:WorkflowTaskViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMdRecordException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException" type="tns:MissingMdRecordException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReferencedResourceNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException" type="tns:ReferencedResourceNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidPidException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidPidException" type="tns:InvalidPidException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="IndexNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.IndexNotFoundException" type="tns:IndexNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="XmlSchemaValidationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.XmlSchemaValidationException" type="tns:XmlSchemaValidationException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RelationPredicateNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException" type="tns:RelationPredicateNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="TransitionNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.TransitionNotFoundException" type="tns:TransitionNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidAggregationTypeException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidAggregationTypeException" type="tns:InvalidAggregationTypeException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyDeletedException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyDeletedException" type="tns:AlreadyDeletedException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="SqlDatabaseSystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.SqlDatabaseSystemException" type="tns:SqlDatabaseSystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="TimeFrameViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.TimeFrameViolationException" type="tns:TimeFrameViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="WorkflowTypeNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.WorkflowTypeNotFoundException" type="tns:WorkflowTypeNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReportDefinitionNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ReportDefinitionNotFoundException" type="tns:ReportDefinitionNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingContentException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException" type="tns:MissingContentException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="WorkflowInstanceNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.WorkflowInstanceNotFoundException" type="tns:WorkflowInstanceNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidXmlException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException" type="tns:InvalidXmlException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContextNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException" type="tns:ContextNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="RoleNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.RoleNotFoundException" type="tns:RoleNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="IntegritySystemException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.system.IntegritySystemException" type="tns:IntegritySystemException" xmlns:tns="http://system.exceptions.common.core.escidoc.de"/>
+        <fault name="AggregationTypeNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.AggregationTypeNotFoundException" type="tns:AggregationTypeNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingLicenceException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingLicenceException" type="tns:MissingLicenceException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContextException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException" type="tns:InvalidContextException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="AlreadyPublishedException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.AlreadyPublishedException" type="tns:AlreadyPublishedException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MdRecordNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException" type="tns:MdRecordNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="LockingException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.LockingException" type="tns:LockingException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidWorkflowDefinitionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidWorkflowDefinitionException" type="tns:InvalidWorkflowDefinitionException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="WorkflowViolationException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.WorkflowViolationException" type="tns:WorkflowViolationException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ContentModelNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException" type="tns:ContentModelNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ReadonlyVersionException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException" type="tns:ReadonlyVersionException" xmlns:tns="http://violated.application.exceptions.common.core.escidoc.de"/>
+        <fault name="InvalidContentModelException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentModelException" type="tns:InvalidContentModelException" xmlns:tns="http://invalid.application.exceptions.common.core.escidoc.de"/>
+        <fault name="ItemNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException" type="tns:ItemNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="SearchNotFoundException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.notfound.SearchNotFoundException" type="tns:SearchNotFoundException" xmlns:tns="http://notfound.application.exceptions.common.core.escidoc.de"/>
+        <fault name="MissingMethodParameterException" qname="fns:fault" xmlns:fns="http://www.escidoc.de/services/SoapExceptionGenerationService/0.1" class="de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException" type="tns:MissingMethodParameterException" xmlns:tns="http://missing.application.exceptions.common.core.escidoc.de"/>
+      </operation>
+      <parameter name="allowedMethods" value="generateExceptions"/>
+
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowEngineSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.WorkflowEngineSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingParameterException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingParameterException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:WebserverSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.WebserverSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:IngestionSourceNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.IngestionSourceNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ActionNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ActionNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:TripleStoreSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.TripleStoreSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidTripleStoreOutputFormatException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidTripleStoreOutputFormatException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:UserGroupNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.UserGroupNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidRelationPropertiesException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidRelationPropertiesException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidSqlException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSqlException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyWithdrawnException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyWithdrawnException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:AdminDescriptorNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.AdminDescriptorNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReadonlyViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContentRelationNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ContentRelationNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidStatusException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:ApplicationServerSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.ApplicationServerSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:AuthenticationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://exceptions.common.core.escidoc.de"
+        qname="ns:EscidocException"
+        type="java:de.escidoc.core.common.exceptions.remote.EscidocException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyRevokedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyRevokedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReadonlyElementViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:TaskListNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.TaskListNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:TaskNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.TaskNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ScopeNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ScopeNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingMdRecordException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidSearchQueryException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowTemplateNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.WorkflowTemplateNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowDefinitionNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.WorkflowDefinitionNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:PidAlreadyAssignedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.PidAlreadyAssignedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:FileNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:NotPublishedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidItemStatusException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidItemStatusException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:GrantNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.GrantNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowTaskViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.WorkflowTaskViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContextNameNotUniqueException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ContextNameNotUniqueException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:RevisionNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.RevisionNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyDeletedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyDeletedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:SqlDatabaseSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.SqlDatabaseSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:UniqueConstraintViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.UniqueConstraintViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:XmlSchemaNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.XmlSchemaNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingContentException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:SecurityException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.SecurityException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://application.exceptions.common.core.escidoc.de"
+        qname="ns:ApplicationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.ApplicationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:StatisticPreprocessingSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.StatisticPreprocessingSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ItemReferenceNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ItemReferenceNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:ValidationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.ValidationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:TimeFrameViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.TimeFrameViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:LockingException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.LockingException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReferenceCycleException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.ReferenceCycleException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:TargetBasketNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.TargetBasketNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingMethodParameterException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:StructuralMapEntryNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.StructuralMapEntryNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyPublishedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyPublishedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:XmlCorruptedException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.XmlCorruptedException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidContentException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:IntegritySystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.IntegritySystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingLicenceException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingLicenceException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReadonlyVersionException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ResourceNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ResourceNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.WorkflowViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:TmeException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.TmeException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:OrganizationalUnitHasChildrenException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.OrganizationalUnitHasChildrenException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:OrganizationalUnitNameNotUniqueException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.OrganizationalUnitNameNotUniqueException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ResourceInUseException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ResourceInUseException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:PreferenceNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.PreferenceNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:UserNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.UserNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyDeactiveException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyDeactiveException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://security.application.exceptions.common.core.escidoc.de"
+        qname="ns:AuthorizationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AdminDescriptorViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AdminDescriptorViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:IngestionDefinitionNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.IngestionDefinitionNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContainerNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ContainerNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidTripleStoreQueryException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidTripleStoreQueryException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:RelationNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.RelationNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidResourceException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidResourceException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:XmlParserSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.XmlParserSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidWorkflowTypeException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidWorkflowTypeException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:RuleViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.RuleViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:IngestionTaskNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.IngestionTaskNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:RelationRuleViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.RelationRuleViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:RoleInUseViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.RoleInUseViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:AggregationDefinitionNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.AggregationDefinitionNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:PidNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.PidNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:RelationTypeNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.RelationTypeNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:UserAccountNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.UserAccountNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:VersionNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.VersionNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReferencedResourceNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:FileSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.FileSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ScopeContextViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ScopeContextViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidContextStatusException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextStatusException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:OrganizationalUnitNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.OrganizationalUnitNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ComponentNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:OrganizationalUnitHierarchyViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.OrganizationalUnitHierarchyViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidContentModelException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentModelException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingUserListException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingUserListException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:FedoraSystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.FedoraSystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:StagingFileNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.StagingFileNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:OptimisticLockingException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:IndexNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.IndexNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:RelationPredicateNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:TransitionNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.TransitionNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidWorkflowDefinitionException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidWorkflowDefinitionException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContextNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyExistsException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:UserGroupHierarchyViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.UserGroupHierarchyViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowInstanceNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.WorkflowInstanceNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidContextException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingWorkflowVariableException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingWorkflowVariableException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReportDefinitionNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ReportDefinitionNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:WorkflowTypeNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.WorkflowTypeNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:UserAttributeNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.UserAttributeNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:MdRecordNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidXmlException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:AggregationTypeNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.AggregationTypeNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://system.exceptions.common.core.escidoc.de"
+        qname="ns:SystemException"
+        type="java:de.escidoc.core.common.exceptions.remote.system.SystemException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:AlreadyActiveException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.AlreadyActiveException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:RoleNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.RoleNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:SearchNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.SearchNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidAggregationTypeException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidAggregationTypeException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingAttributeValueException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ItemNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://violated.application.exceptions.common.core.escidoc.de"
+        qname="ns:ReadonlyAttributeViolationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://notfound.application.exceptions.common.core.escidoc.de"
+        qname="ns:ContentModelNotFoundException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://missing.application.exceptions.common.core.escidoc.de"
+        qname="ns:MissingElementValueException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:XmlSchemaValidationException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.XmlSchemaValidationException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      <typeMapping
+        xmlns:ns="http://invalid.application.exceptions.common.core.escidoc.de"
+        qname="ns:InvalidPidException"
+        type="java:de.escidoc.core.common.exceptions.remote.application.invalid.InvalidPidException"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+  </service>
+</deployment>
