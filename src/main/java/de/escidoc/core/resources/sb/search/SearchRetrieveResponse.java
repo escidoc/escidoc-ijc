@@ -42,15 +42,15 @@ public class SearchRetrieveResponse extends Response {
         throws InternalClientException {
         super(zingResponseType.getVersion());
         this.numberOfRecords = zingResponseType.getNumberOfRecords().intValue();
-// FIXME compilation error
-        /*        
-        RecordType[] records = zingResponseType.getRecords();
-        if (records != null) {
-            for (int i = 0; i < records.length; i++) {
-                this.records.add(new SearchResultRecordRecord(records[i]));
+
+        if (zingResponseType.getRecords() != null) {
+            RecordType[] records = zingResponseType.getRecords().getRecord();
+            if (records != null) {
+                for (int i = 0; i < records.length; i++) {
+                    this.records.add(new SearchResultRecordRecord(records[i]));
+                }
             }
         }
-*/        
     }
 
     /**

@@ -3,10 +3,11 @@
  */
 package de.escidoc.core.resources.sb.scan;
 
+import gov.loc.www.zing.srw.ScanResponseType;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
-import gov.loc.www.zing.srw.ScanResponseType;
 import de.escidoc.core.resources.sb.Response;
 
 /**
@@ -31,14 +32,11 @@ public class ScanResponse extends Response {
     protected ScanResponse(ScanResponseType type) {
         super(type.getVersion());
 
-        // FIXME compilation error
-/*        
-        if (type.getTerms() != null) {
-            for (int i = 0; i < type.getTerms().length; i++) {
-                terms.add(new Term(type.getTerms()[i]));
+        if (type.getTerms() != null && type.getTerms().getTerm() != null) {
+            for (int i = 0; i < type.getTerms().getTerm().length; i++) {
+                terms.add(new Term(type.getTerms().getTerm(i)));
             }
         }
-*/        
     }
 
     /**
