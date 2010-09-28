@@ -72,10 +72,10 @@ import de.escidoc.core.test.client.util.Template;
  * 
  */
 public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
-	
-	public RoleHandlerClientTest(TransportProtocol transport) {
-		super(transport);
-	}
+
+    public RoleHandlerClientTest(TransportProtocol transport) {
+        super(transport);
+    }
 
     /**
      * Test to create and retrieve user account.
@@ -100,8 +100,9 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
 
         String objId = createdRole.getObjid();
 
-        Factory.getMarshallerFactory(rc.getTransport()).getRoleMarshaller()
-        	.marshalDocument(rc.retrieve(objId));
+        Factory
+            .getMarshallerFactory(rc.getTransport()).getRoleMarshaller()
+            .marshalDocument(rc.retrieve(objId));
 
     }
 
@@ -139,7 +140,7 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
     public void testDeleteSuccessfulRole() throws Exception {
 
         Role role = createRole();
-        
+
         // login
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -149,7 +150,7 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         rc.setHandle(auth.getHandle());
         rc.setTransport(transport);
-   
+
         Role createdRole = rc.create(role);
 
         String objId = createdRole.getObjid();
@@ -184,8 +185,9 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         filterParam.setFilters(filters);
 
         // serialize data
-        Factory.getMarshallerFactory(transport)
-        	.getTaskParamMarshaller().marshalDocument(filterParam);
+        Factory
+            .getMarshallerFactory(transport).getTaskParamMarshaller()
+            .marshalDocument(filterParam);
     }
 
     /**
@@ -216,8 +218,9 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         Roles roleList = rc.retrieveRoles(filterParam);
 
         // test deserialize Role XML
-        Factory.getMarshallerFactory(rc.getTransport()).getRoleListMarshaller()
-        	.marshalDocument(roleList);
+        Factory
+            .getMarshallerFactory(rc.getTransport()).getRoleListMarshaller()
+            .marshalDocument(roleList);
     }
 
     /**
@@ -269,21 +272,22 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc =
-            builder.parse(Template
-                .load("templates/" + transport.name().toLowerCase()
+            builder.parse(Template.load(transport.name().toLowerCase()
                 + "/aa/role/policy_for_create.xml"));
         Element root = doc.getDocumentElement();
 
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), transport.name());
-        
+        Marshaller<Role> m =
+            new Marshaller<Role>(role.getClass(), transport.name());
+
         String xml = m.marshalDocument(role);
 
         Role urole = m.unmarshalDocument(xml);
-        Factory.getMarshallerFactory(transport)
-        	.getRoleMarshaller().marshalDocument(urole);
+        Factory
+            .getMarshallerFactory(transport).getRoleMarshaller()
+            .marshalDocument(urole);
 
         return role;
     }

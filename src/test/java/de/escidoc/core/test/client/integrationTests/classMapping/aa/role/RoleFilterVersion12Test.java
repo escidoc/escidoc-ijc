@@ -201,15 +201,15 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc =
-            builder.parse(Template
-                .load("templates/" + transport.name().toLowerCase()
+            builder.parse(Template.load(transport.name().toLowerCase()
                 + "/aa/role/policy_for_create.xml"));
         Element root = doc.getDocumentElement();
 
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m = new Marshaller<Role>(role.getClass(), transport.name());
+        Marshaller<Role> m =
+            new Marshaller<Role>(role.getClass(), transport.name());
 
         String xml = m.marshalDocument(role);
 

@@ -31,7 +31,6 @@ package de.escidoc.core.test.client.marshaller.om.container;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -54,6 +53,7 @@ import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test marshalling/unmarshalling of Containers with mockups.
@@ -76,11 +76,10 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshalling01() throws Exception {
 
-        File templContainer =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/container/0.8/container01.xml");
         String containerXml =
-            EscidocClientTestBase.getXmlFileAsString(templContainer);
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/container/0.8/container01.xml"));
 
         Container container =
             Factory
@@ -171,11 +170,10 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshallingLocked() throws Exception {
 
-        File templContainer =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/container/0.8/container_locked01.xml");
         String containerXml =
-            EscidocClientTestBase.getXmlFileAsString(templContainer);
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/container/0.8/container_locked01.xml"));
 
         Container container =
             Factory
@@ -273,11 +271,10 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshallingWithContainerInStructMap() throws Exception {
 
-        File templContainer =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/container/0.8/container_with_container_member.xml");
         String containerXml =
-            EscidocClientTestBase.getXmlFileAsString(templContainer);
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/container/0.8/container_with_container_member.xml"));
 
         Container container =
             Factory

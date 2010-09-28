@@ -28,13 +28,12 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.cmm;
 
-import java.io.File;
-
 import org.junit.Test;
 
 import de.escidoc.core.client.rest.RestContentModelHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test methods for ContentModel on REST interface of client lib.
@@ -58,9 +57,9 @@ public class ContentModelTestRest {
             Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         // load XML template of organizational unit
-        File templOu =
-            new File("./templates/rest/om/content-model/0.1/content-model.xml");
-        String ouXml = EscidocClientTestBase.getXmlFileAsString(templOu);
+        String ouXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/om/content-model/0.1/content-model.xml"));
 
         // create
         String crtdOuXML = rcmhc.create(ouXml);

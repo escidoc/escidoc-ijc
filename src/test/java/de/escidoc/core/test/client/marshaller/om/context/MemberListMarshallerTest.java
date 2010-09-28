@@ -30,8 +30,6 @@ package de.escidoc.core.test.client.marshaller.om.context;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-
 import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
@@ -39,6 +37,7 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test marshalling/unmarshalling of member list of Context with mockups.
@@ -61,11 +60,9 @@ public class MemberListMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshalling01() throws Exception {
 
-        File memberListFile =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/member-list.xml");
         String contextXml =
-            EscidocClientTestBase.getXmlFileAsString(memberListFile);
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase() + "/member-list.xml"));
 
         MemberList memberList =
             Factory

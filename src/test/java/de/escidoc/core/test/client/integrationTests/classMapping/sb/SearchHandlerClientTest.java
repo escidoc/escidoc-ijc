@@ -64,6 +64,7 @@ import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.search.records.ItemRecord;
 import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
+import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 @SuppressWarnings({ "rawtypes", "unused" })
@@ -165,7 +166,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
         SearchHandlerClient c = new SearchHandlerClient();
         c.setTransport(protocol);
-        String query = "escidoc.metadata=escidoc*";
+        String query = "escidoc.objid=" + Constants.EXAMPLE_ITEM_ID;
 
         SearchRetrieveResponse response =
             c.search(URLEncoder.encode(query, "UTF-8"), null);
@@ -191,10 +192,6 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
                 assertNotNull(data);
                 assertNotNull(data.getContent());
 
-                System.out.println(Factory
-                    .getMarshallerFactory(protocol).getSearchResultMarshaller()
-                    .marshalDocument(data));
-
                 out.append(data.getContent().getResourceType().name() + ": ID["
                     + data.getContent().getObjid() + "], Href["
                     + data.getContent().getXLinkHref() + "], Score["
@@ -213,8 +210,7 @@ public class SearchHandlerClientTest extends EscidocClientTestBase {
 
         ItemHandlerClientInterface c = new ItemHandlerClient();
         c.setTransport(protocol);
-        String query = "\"/properties/content-model/id\"=escidoc:ex4";
-        // String query = "\"/id\"=escidoc:1004";
+        String query = "\"/id\"=" + Constants.EXAMPLE_ITEM_ID;
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery(query);

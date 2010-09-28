@@ -31,8 +31,6 @@ package de.escidoc.core.test.client.marshaller.om.contentRelation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.io.File;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -41,6 +39,7 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test marshalling/unmarshalling of ContentRelation with mockups.
@@ -64,11 +63,10 @@ public class ContentRelationMarshallerTest
     @Test
     public void unmarshallingRetrieved() throws Exception {
 
-        File templCR =
-            new File(
-                "./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/content-relation/0.1/content-relation01.xml");
-        String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
+        String crXml =
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/content-relation/0.1/content-relation01.xml"));
 
         ContentRelation cr =
             Factory
@@ -135,11 +133,10 @@ public class ContentRelationMarshallerTest
     @Test
     public void unmarshallingRetrievLocked() throws Exception {
 
-        File templCR =
-            new File(
-                "./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/content-relation/0.1/content-relation-locked01.xml");
-        String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
+        String crXml =
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/content-relation/0.1/content-relation-locked01.xml"));
 
         ContentRelation cr =
             Factory
@@ -214,11 +211,12 @@ public class ContentRelationMarshallerTest
     @Test
     public void unmarshallingBeforeCreate() throws Exception {
 
-        File templCR =
-            new File(
-                "./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/content-relation/0.1/content-relation-before-create.xml");
-        String crXml = EscidocClientTestBase.getXmlFileAsString(templCR);
+        String crXml =
+            EscidocClientTestBase
+                .getXmlFileAsString(Template
+                    .load("/mockups/"
+                        + transport.name().toLowerCase()
+                        + "/om/content-relation/0.1/content-relation-before-create.xml"));
 
         ContentRelation cr =
             Factory

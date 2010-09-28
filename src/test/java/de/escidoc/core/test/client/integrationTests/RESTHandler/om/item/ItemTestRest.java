@@ -30,8 +30,6 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.om.item;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-
 import org.apache.xpath.XPathAPI;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -42,6 +40,7 @@ import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test create Item.
@@ -99,20 +98,27 @@ public class ItemTestRest {
         Document itemCreatedDoc = XmlUtility.getDocument(createdItemXml);
 
         // /item/@title == dc:title
-        assertEquals("xlink:title not updated in root element", XPathAPI
-            .selectSingleNode(itemTemplateDoc,
-                "/item/md-records/md-record[@name='escidoc']/dc-md/title")
-            .getTextContent(), XPathAPI.selectSingleNode(itemCreatedDoc,
-            "/item/@title").getTextContent());
+        assertEquals(
+            "xlink:title not updated in root element",
+            XPathAPI
+                .selectSingleNode(itemTemplateDoc,
+                    "/item/md-records/md-record[@name='escidoc']/dc-md/title")
+                .getTextContent(),
+            XPathAPI
+                .selectSingleNode(itemCreatedDoc, "/item/@title")
+                .getTextContent());
 
         // dc:title == dc:title
-        assertEquals("xlink:title not updated in root element", XPathAPI
-            .selectSingleNode(itemTemplateDoc,
-                "/item/md-records/md-record[@name='escidoc']/dc-md/title")
-            .getTextContent(), XPathAPI
-            .selectSingleNode(itemCreatedDoc,
-                "/item/md-records/md-record[@name='escidoc']/dc-md/title")
-            .getTextContent());
+        assertEquals(
+            "xlink:title not updated in root element",
+            XPathAPI
+                .selectSingleNode(itemTemplateDoc,
+                    "/item/md-records/md-record[@name='escidoc']/dc-md/title")
+                .getTextContent(),
+            XPathAPI
+                .selectSingleNode(itemCreatedDoc,
+                    "/item/md-records/md-record[@name='escidoc']/dc-md/title")
+                .getTextContent());
 
         // description
         assertEquals(
@@ -144,8 +150,9 @@ public class ItemTestRest {
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
-        File templItem = new File("./templates/rest/om/item/0.9/item01.xml");
-        String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
+        String itemXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/om/item/0.9/item01.xml"));
 
         // create a new Item (on basis of the valid)
         String createdItemXml = cc.create(itemXml);
@@ -155,20 +162,27 @@ public class ItemTestRest {
         Document itemCreatedDoc = XmlUtility.getDocument(createdItemXml);
 
         // /item/@title == dc:title
-        assertEquals("xlink:title not updated in root element", XPathAPI
-            .selectSingleNode(itemTemplateDoc,
-                "/item/md-records/md-record[@name='escidoc']/metadata/title")
-            .getTextContent(), XPathAPI.selectSingleNode(itemCreatedDoc,
-            "/item/@title").getTextContent());
+        assertEquals(
+            "xlink:title not updated in root element",
+            XPathAPI
+                .selectSingleNode(itemTemplateDoc,
+                    "/item/md-records/md-record[@name='escidoc']/metadata/title")
+                .getTextContent(),
+            XPathAPI
+                .selectSingleNode(itemCreatedDoc, "/item/@title")
+                .getTextContent());
 
         // dc:title == dc:title
-        assertEquals("xlink:title not updated in root element", XPathAPI
-            .selectSingleNode(itemTemplateDoc,
-                "/item/md-records/md-record[@name='escidoc']/metadata/title")
-            .getTextContent(), XPathAPI
-            .selectSingleNode(itemCreatedDoc,
-                "/item/md-records/md-record[@name='escidoc']/metadata/title")
-            .getTextContent());
+        assertEquals(
+            "xlink:title not updated in root element",
+            XPathAPI
+                .selectSingleNode(itemTemplateDoc,
+                    "/item/md-records/md-record[@name='escidoc']/metadata/title")
+                .getTextContent(),
+            XPathAPI
+                .selectSingleNode(itemCreatedDoc,
+                    "/item/md-records/md-record[@name='escidoc']/metadata/title")
+                .getTextContent());
 
         // description
         assertEquals(
@@ -201,8 +215,9 @@ public class ItemTestRest {
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
-        File templItem = new File("./templates/rest/om/item/0.9/item01.xml");
-        String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
+        String itemXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/om/item/0.9/item01.xml"));
 
         // create a new Item (on basis of the valid)
         String createdItemXml = cc.create(itemXml);

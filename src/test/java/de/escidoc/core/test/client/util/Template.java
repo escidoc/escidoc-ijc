@@ -28,9 +28,8 @@
  */
 package de.escidoc.core.test.client.util;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * Utility class to handle template.
@@ -39,6 +38,8 @@ import java.io.FileNotFoundException;
  * 
  */
 public class Template {
+
+    public static final String TEMPLATES_PATH = "/templates";
 
     /**
      * Get FileInputStream from template.
@@ -50,11 +51,27 @@ public class Template {
      * @throws FileNotFoundException
      *             If file could not be found
      */
-    public static FileInputStream load(final String path)
+    public static InputStream load(final String subPath)
         throws FileNotFoundException {
 
-        File f = new File(path);
-        return new FileInputStream(f);
+        if (subPath == null)
+            return null;
+
+        if (subPath.indexOf('/') == 0) {
+            return Template.class.getResourceAsStream(TEMPLATES_PATH + subPath);
+        }
+        else {
+            return Template.class.getResourceAsStream(TEMPLATES_PATH + '/'
+                + subPath);
+        }
+
+        // File f = null;
+        // if(subPath.indexOf('/') == 0) {
+        // f = new File(TEMPLATES_PATH + subPath);
+        // } else {
+        // f = new File(TEMPLATES_PATH + '/' + subPath);
+        // }
+        // return new FileInputStream(f);
     }
 
 }

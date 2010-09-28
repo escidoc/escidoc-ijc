@@ -33,8 +33,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -45,6 +43,7 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.StagingHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test of Staging Handler.
@@ -64,13 +63,13 @@ public class StagingTest extends EscidocClientTestBase {
     public void uploadFileTest() throws Exception {
 
         StagingHandlerClient sthc = new StagingHandlerClient();
-        Authentication auth = new Authentication(
-        		EscidocClientTestBase.DEFAULT_SERVICE_URL,
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         sthc.setHandle(auth.getHandle());
 
-        File f = new File("./templates/soap/om/item/0.6/item.xml");
-        URL url = sthc.upload(f);
+        InputStream inputStream = Template.load("/soap/om/item/0.6/item.xml");
+        URL url = sthc.upload(inputStream);
 
         // assert file
         String stagingFile = "";
@@ -81,9 +80,11 @@ public class StagingTest extends EscidocClientTestBase {
             stagingFile += s;
         }
 
+        inputStream = Template.load("/soap/om/item/0.6/item.xml");
+        
         String localFile = "";
         BufferedReader in =
-            new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+            new BufferedReader(new InputStreamReader(inputStream));
         try {
             String line;
             while ((line = in.readLine()) != null) {

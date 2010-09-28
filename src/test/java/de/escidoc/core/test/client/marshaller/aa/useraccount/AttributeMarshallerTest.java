@@ -31,8 +31,6 @@ package de.escidoc.core.test.client.marshaller.aa.useraccount;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -41,6 +39,7 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test marshalling/unmarshalling of User Account attributes with mockups.
@@ -63,11 +62,10 @@ public class AttributeMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshalling01() throws Exception {
 
-        File templAttribute =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/aa/useraccount/attribute_internal.xml");
         String attributeXml =
-            EscidocClientTestBase.getXmlFileAsString(templAttribute);
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/aa/useraccount/attribute_internal.xml"));
 
         Attribute attribute =
             Factory

@@ -56,6 +56,7 @@ import de.escidoc.core.resources.aa.pdp.Results;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test PDP Handler.
@@ -72,9 +73,8 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
     @Test
     public void testMarshalling() throws Exception {
         String xml =
-            EscidocClientTestBase.getXmlFileAsString(new File(
-                "templates/" + transport.name().toLowerCase()
-                + "/aa/pdp/requests.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load(transport
+                .name().toLowerCase() + "/aa/pdp/requests.xml"));
         Marshaller<Requests> m =
             Factory.getMarshallerFactory(transport).getPDPRequestsMarshaller();
 

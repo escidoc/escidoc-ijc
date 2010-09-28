@@ -32,8 +32,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
 import org.apache.xpath.XPathAPI;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -54,6 +52,7 @@ import de.escidoc.core.resources.om.item.component.Components;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test marshalling/unmarshalling of Items with mockups.
@@ -76,10 +75,10 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshalling01() throws Exception {
 
-        File templItem =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/item/0.9/item_released01.xml");
-        String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
+        String itemXml =
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/item/0.9/item_released01.xml"));
 
         Item item =
             Factory
@@ -213,10 +212,10 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshalling02() throws Exception {
 
-        File templItem =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/item/0.9/item_locked01.xml");
-        String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
+        String itemXml =
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/item/0.9/item_locked01.xml"));
 
         Item item =
             Factory
@@ -355,11 +354,10 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshallItemWithComponentInlineContent() throws Exception {
 
-        File templItem =
-            new File(
-                "./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/item/0.9/item_one_component_inline_content.xml");
-        String itemXml = EscidocClientTestBase.getXmlFileAsString(templItem);
+        String itemXml =
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/item/0.9/item_one_component_inline_content.xml"));
 
         Item item =
             Factory

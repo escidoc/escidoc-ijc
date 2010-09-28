@@ -30,8 +30,6 @@ package de.escidoc.core.test.client.marshaller.om.context;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -40,6 +38,7 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test marshalling/unmarshalling of Context with mockups.
@@ -62,11 +61,10 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshalling01() throws Exception {
 
-        File templContext =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/context/0.7/context01.xml");
         String contextXml =
-            EscidocClientTestBase.getXmlFileAsString(templContext);
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/context/0.7/context01.xml"));
 
         Context context =
             Factory
@@ -114,11 +112,10 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshalling02() throws Exception {
 
-        File templContext =
-            new File("./templates/mockups/" + transport.name().toLowerCase()
-                + "/om/context/0.7/context02.xml");
         String contextXml =
-            EscidocClientTestBase.getXmlFileAsString(templContext);
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/context/0.7/context02.xml"));
 
         Context context =
             Factory

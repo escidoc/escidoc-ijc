@@ -31,14 +31,13 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.aa.user_account
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test User Account Preferences via REST interface.
@@ -66,10 +65,10 @@ public class UserAccountPreferencesTestRest {
         uahc.setHandle(auth.getHandle());
 
         // create User Account
-        File templ =
-            new File("./templates/rest/aa/user_account/"
-                + "escidoc_useraccount_for_create.xml");
-        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String resourceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/"
+                    + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
         resourceXml =
@@ -86,23 +85,22 @@ public class UserAccountPreferencesTestRest {
             EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Preference
-        templ =
-            new File("./templates/rest/aa/user_account/"
-                + "useraccount_preference.xml");
-        String preferenceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String preferenceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/" + "useraccount_preference.xml"));
 
         String createXml = uahc.createPreference(objidLmd[0], preferenceXml);
-        assertTrue("Missing preferencce", createXml
-            .contains("KeyForTestCreate"));
-        assertTrue("Missing preferencce", createXml
-            .contains("ValueForTestCreate"));
+        assertTrue("Missing preferencce",
+            createXml.contains("KeyForTestCreate"));
+        assertTrue("Missing preferencce",
+            createXml.contains("ValueForTestCreate"));
 
         // retrieve
         String preferencesXml = uahc.retrievePreferences(objidLmd[0]);
-        assertTrue("Missing preferencce", preferencesXml
-            .contains("KeyForTestCreate"));
-        assertTrue("Missing preferencce", preferencesXml
-            .contains("ValueForTestCreate"));
+        assertTrue("Missing preferencce",
+            preferencesXml.contains("KeyForTestCreate"));
+        assertTrue("Missing preferencce",
+            preferencesXml.contains("ValueForTestCreate"));
     }
 
     /**
@@ -123,10 +121,10 @@ public class UserAccountPreferencesTestRest {
         uahc.setHandle(auth.getHandle());
 
         // create User Account
-        File templ =
-            new File("./templates/rest/aa/user_account/"
-                + "escidoc_useraccount_for_create.xml");
-        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String resourceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/"
+                    + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
         resourceXml =
@@ -143,10 +141,9 @@ public class UserAccountPreferencesTestRest {
             EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Preference
-        templ =
-            new File("./templates/rest/aa/user_account/"
-                + "useraccount_preference.xml");
-        String preferenceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String preferenceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/" + "useraccount_preference.xml"));
 
         uahc.createPreference(objidLmd[0], preferenceXml);
         String createdXml = uahc.retrievePreferences(objidLmd[0]);
@@ -157,17 +154,17 @@ public class UserAccountPreferencesTestRest {
 
         String updatedXml =
             uahc.updatePreferences(objidLmd[0], newPreferencesXml);
-        assertTrue("Missing preferencce", updatedXml
-            .contains("KeyForTestCreate"));
-        assertTrue("Missing preferencce", updatedXml
-            .contains("ValueForTestUpdate"));
+        assertTrue("Missing preferencce",
+            updatedXml.contains("KeyForTestCreate"));
+        assertTrue("Missing preferencce",
+            updatedXml.contains("ValueForTestUpdate"));
 
         // retrieve
         String preferencesXml = uahc.retrievePreferences(objidLmd[0]);
-        assertTrue("Missing preferencce", preferencesXml
-            .contains("KeyForTestCreate"));
-        assertTrue("Missing preferencce", preferencesXml
-            .contains("ValueForTestUpdate"));
+        assertTrue("Missing preferencce",
+            preferencesXml.contains("KeyForTestCreate"));
+        assertTrue("Missing preferencce",
+            preferencesXml.contains("ValueForTestUpdate"));
     }
 
     /**
@@ -188,10 +185,10 @@ public class UserAccountPreferencesTestRest {
         uahc.setHandle(auth.getHandle());
 
         // create User Account
-        File templ =
-            new File("./templates/rest/aa/user_account/"
-                + "escidoc_useraccount_for_create.xml");
-        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String resourceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/"
+                    + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
         resourceXml =
@@ -208,21 +205,19 @@ public class UserAccountPreferencesTestRest {
             EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Preference
-        templ =
-            new File("./templates/rest/aa/user_account/"
-                + "useraccount_preference.xml");
-        String preferenceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String preferenceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/" + "useraccount_preference.xml"));
 
         uahc.createPreference(objidLmd[0], preferenceXml);
 
         uahc.deletePreference(objidLmd[0], "KeyForTestCreate");
 
         String updatedXml = uahc.retrievePreferences(objidLmd[0]);
-        assertFalse("Missing preferencce", updatedXml
-            .contains("KeyForTestCreate"));
-        assertFalse("Missing preferencce", updatedXml
-            .contains("ValueForTestUpdate"));
+        assertFalse("Missing preferencce",
+            updatedXml.contains("KeyForTestCreate"));
+        assertFalse("Missing preferencce",
+            updatedXml.contains("ValueForTestUpdate"));
 
     }
-
 }

@@ -30,14 +30,13 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.aa.user_account
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test User Account Grants via REST interface.
@@ -65,10 +64,10 @@ public class GrantsTest {
         uahc.setHandle(auth.getHandle());
 
         // create User Account
-        File templ =
-            new File("./templates/rest/aa/user_account/"
-                + "escidoc_useraccount_for_create.xml");
-        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String resourceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/"
+                    + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
         resourceXml =
@@ -125,26 +124,15 @@ public class GrantsTest {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
         uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         uahc.setHandle(auth.getHandle());
 
         // create User Account
-        File templ =
-            new File("./templates/rest/aa/user_account/"
-                + "escidoc_useraccount_for_create.xml");
-        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String resourceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/"
+                    + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
         resourceXml =
@@ -205,10 +193,10 @@ public class GrantsTest {
         uahc.setHandle(auth.getHandle());
 
         // create User Account
-        File templ =
-            new File("./templates/rest/aa/user_account/"
-                + "escidoc_useraccount_for_create.xml");
-        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String resourceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/"
+                    + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
         resourceXml =

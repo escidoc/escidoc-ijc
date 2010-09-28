@@ -30,8 +30,6 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.aa.user_account
 
 import static org.junit.Assert.fail;
 
-import java.io.File;
-
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -40,6 +38,7 @@ import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoun
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test User Account via REST interface.
@@ -67,10 +66,10 @@ public class UserAccountTestRest {
         uahc.setHandle(auth.getHandle());
 
         // load XML template of organizational unit
-        File templ =
-            new File("./templates/rest/aa/user_account/"
-                + "escidoc_useraccount_for_create.xml");
-        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String resourceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/"
+                    + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
         resourceXml =
@@ -107,10 +106,10 @@ public class UserAccountTestRest {
         uahc.setHandle(auth.getHandle());
 
         // load XML template of organizational unit
-        File templ =
-            new File("./templates/rest/aa/user_account/"
-                + "escidoc_useraccount_for_create.xml");
-        String resourceXml = EscidocClientTestBase.getXmlFileAsString(templ);
+        String resourceXml =
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/aa/user_account/"
+                    + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
         resourceXml =

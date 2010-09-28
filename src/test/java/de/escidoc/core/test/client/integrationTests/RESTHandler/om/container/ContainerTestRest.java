@@ -28,14 +28,13 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.container;
 
-import java.io.File;
-
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * Test methods for Container on REST interface of client lib.
@@ -105,10 +104,9 @@ public class ContainerTestRest {
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
-        File templContainer =
-            new File("./templates/rest/om/container/0.8/container01.xml");
         String containerXml =
-            EscidocClientTestBase.getXmlFileAsString(templContainer);
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load("/rest/om/container/0.8/container01.xml"));
 
         // create a new Item (on basis of the valid)
         String createdContainerXml = cc.create(containerXml);
