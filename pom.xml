@@ -91,6 +91,111 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!--  we need a running eSciDoc infrastructure  -->
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.0.3</version>
+				<executions>
+					<execution>
+						<id>install</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>start-container</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<wait>false</wait>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-container</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<container>
+						<containerId>jboss42x</containerId>
+						<timeout>240000</timeout>
+						<zipUrlInstaller>
+							<url>http://escidev5:8888/files/jboss-4.2.3.GA.escidoc-core-02.zip
+							</url>
+<!--							<url>http://escidev5:8888/files/jboss-5.1.0.GA-jdk6.zip</url>-->
+							<installDir>${installDir}</installDir>
+						</zipUrlInstaller>
+						<output>${project.build.directory}/jboss42x/container.log</output>
+						<append>false</append>
+						<log>${project.build.directory}/jboss42x/cargo.log</log>
+					</container>
+
+					<configuration>
+						<type>standalone</type>
+						<home>${project.build.directory}/jboss42x/container</home>
+						<properties>
+    	    				<cargo.hostname>localhost</cargo.hostname>
+	        				<cargo.protocol>http</cargo.protocol>
+						
+							<cargo.servlet.port>8080</cargo.servlet.port>
+							<cargo.rmi.port>1099</cargo.rmi.port>
+							<cargo.logging>medium</cargo.logging>
+							<cargo.jvmargs>-Dhttp.proxyHost=proxy.fiz-karlsruhe.de -Dhttp.proxyPort=8888 -Dhttp.nonProxyHosts="*.escidoc.de|*escidoc.org|localhost"</cargo.jvmargs>
+						</properties>
+						<deployables>
+							<deployable>
+								<groupId>org.escidoc</groupId>
+								<artifactId>escidoc-core</artifactId>
+								<type>ear</type>
+								<pingURL>http://localhost:8080/adm/admin/get-repository-info</pingURL>
+							</deployable>
+						</deployables><!--
+						<configfiles>
+						 config 
+    					    <configfile>
+          						<file>${basedir}/../data/jboss/server/default/conf/escidoc-core-log4j.xml</file>
+          						<file>${basedir}/../data/jboss/server/default/conf/escidoc-core.properties</file>
+          						<file>${basedir}/../data/jboss/server/default/conf/escidoc-login.xml</file>
+          						<file>${basedir}/../data/jboss/server/default/conf/jboss-log4j.xml</file>
+          						<file>${basedir}/../data/jboss/server/default/conf/catalog.xml</file>
+          						<todir>conf</todir>
+        					</configfile>
+    					    <configfile>
+          						<file>${basedir}/../data/jboss/server/default/conf/props/defaultRoles.properties</file>
+          						<file>${basedir}/../data/jboss/server/default/conf/props/defaultUsers.properties</file>
+          						<todir>conf/props</todir>
+        					</configfile>
+        					
+							 search 
+    					    <configfile>
+          						<file>${basedir}/../data/jboss/server/default/conf/search/sen.xml</file>
+          						<todir>conf/search</todir>
+        					</configfile>
+    					    <configfile>
+          						<file>${basedir}/../data/jboss/server/default/conf/search/config/fedoragsearch.properties</file>
+          						<file>${basedir}/../data/jboss/server/default/conf/search/config/gsearchAttributes.xslt</file>
+          						<file>${basedir}/../data/jboss/server/default/conf/search/config/permissions.xslt</file>
+          						<file>${basedir}/../data/jboss/server/default/conf/search/config/SRWServer.props</file>
+          						<todir>conf/search/config</todir>
+        					</configfile>
+        					 missing: index, repository, rest 
+    					    <configfile>
+          						<file>${basedir}/../data/jboss/server/default/conf/tme/jhove.conf</file>
+          						<todir>conf/tme</todir>
+        					</configfile>
+      					</configfiles>
+					--></configuration>
+				</configuration>
+			</plugin>
+			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>axistools-maven-plugin</artifactId>
