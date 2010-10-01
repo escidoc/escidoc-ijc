@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.net.URL;
@@ -257,7 +258,12 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
         tp.setUrl(new URL("http://www.escidoc.de/test-pid"));
         Result pidResult = ic.assignObjectPid(resultItem.getObjid(), tp);
         assertNotNull("AssignObjectPid returns null", pidResult);
-        assertNotNull("PID is missing", pidResult.getPidParam());
+        assertTrue("AssignObjectPid returns empty result", !pidResult.isEmpty());
+        assertTrue("AssignObjectPid returns invalid result", pidResult
+            .get(0).getNodeName().equals("pid"));
+        System.out.println(pidResult.get(0).getTextContent());
+        assertTrue("AssignObjectPid returns invalid result", !pidResult
+            .get(0).getTextContent().isEmpty());
 
         // retrieve
         resultItem = ic.retrieve(resultItem.getObjid());

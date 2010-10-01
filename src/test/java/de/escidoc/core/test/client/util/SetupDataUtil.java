@@ -64,6 +64,7 @@ import de.escidoc.core.resources.cmm.ResourceDefinition;
 import de.escidoc.core.resources.cmm.ResourceDefinitions;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
@@ -164,7 +165,7 @@ public class SetupDataUtil {
             tp.setLastModificationDate(organizationalUnit
                 .getLastModificationDate());
 
-            ouhc.open(organizationalUnit.getObjid(), tp);
+            Result result = ouhc.open(organizationalUnit.getObjid(), tp);
             // get latest status of OU
             organizationalUnit = ouhc.retrieve(organizationalUnit.getObjid());
         }
