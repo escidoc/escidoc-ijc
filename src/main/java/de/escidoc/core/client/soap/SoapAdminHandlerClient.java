@@ -5,7 +5,6 @@ package de.escidoc.core.client.soap;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.rmi.Remote;
 
 import javax.xml.rpc.ServiceException;
 
@@ -55,7 +54,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public String deleteObjects(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
         try {
-            return soapClient.deleteObjects(taskParam);
+            return getClient().deleteObjects(taskParam);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -73,7 +72,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public String getPurgeStatus() throws EscidocException,
         InternalClientException, TransportException {
         try {
-            return soapClient.getPurgeStatus();
+            return getClient().getPurgeStatus();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -91,7 +90,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public String getRecacheStatus() throws EscidocException,
         InternalClientException, TransportException {
         try {
-            return soapClient.getRecacheStatus();
+            return getClient().getRecacheStatus();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -109,7 +108,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public String getReindexStatus() throws EscidocException,
         InternalClientException, TransportException {
         try {
-            return soapClient.getReindexStatus();
+            return getClient().getReindexStatus();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -127,7 +126,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public void decreaseReindexStatus(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
         try {
-            soapClient.decreaseReindexStatus(taskParam);
+            getClient().decreaseReindexStatus(taskParam);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -145,7 +144,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public String recache(final boolean clearCache) throws EscidocException,
         InternalClientException, TransportException {
         try {
-            return soapClient.recache(clearCache ? "true" : "false");
+            return getClient().recache(clearCache ? "true" : "false");
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -165,7 +164,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public String reindex(final boolean clearIndex, final String indexNamePrefix)
         throws EscidocException, InternalClientException, TransportException {
         try {
-            return soapClient.reindex(clearIndex ? "true" : "false",
+            return getClient().reindex(clearIndex ? "true" : "false",
                 indexNamePrefix);
         }
         catch (Exception e) {
@@ -184,7 +183,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public String getRepositoryInfo() throws EscidocException,
         InternalClientException, TransportException {
         try {
-            return soapClient.getRepositoryInfo();
+            return getClient().getRepositoryInfo();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -194,16 +193,16 @@ public class SoapAdminHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @param type
+     * @param exampleSet
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String loadExamples(final String type) throws EscidocException,
-        InternalClientException, TransportException {
+    public String loadExamples(final String exampleSet)
+        throws EscidocException, InternalClientException, TransportException {
         try {
-            return soapClient.loadExamples(type);
+            return getClient().loadExamples(exampleSet);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -216,7 +215,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * 
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
-    public Remote getClient() throws InternalClientException {
+    public AdminHandler getClient() throws InternalClientException {
         try {
             if (soapClient == null) {
                 AdminHandlerServiceLocator serviceLocator =

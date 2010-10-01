@@ -92,10 +92,10 @@ public class AdminRestServiceLocator extends RestServiceMethod
     /* (non-Javadoc)
      * @see de.escidoc.core.adm.AdminHandler#loadExamples(java.lang.String)
      */
-    public String loadExamples(final String type) throws RemoteException,
+    public String loadExamples(final String exampleSet) throws RemoteException,
         SystemException, InvalidSearchQueryException, AuthorizationException,
         AuthenticationException {
-        return get(PATH_CONTEXT + "/load-examples/" + type);
+        return get(PATH_CONTEXT + "/load-examples/" + exampleSet);
     }
 
 }

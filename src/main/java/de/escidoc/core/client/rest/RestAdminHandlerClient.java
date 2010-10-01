@@ -181,16 +181,16 @@ public class RestAdminHandlerClient extends RestClientBase {
     }
 
     /**
-     * @param type
+     * @param exampleSet
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String loadExamples(final String type) throws EscidocException,
+    public String loadExamples(final String exampleSet) throws EscidocException,
         InternalClientException, TransportException {
         try {
-            return getClient().loadExamples(type);
+            return getClient().loadExamples(exampleSet);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

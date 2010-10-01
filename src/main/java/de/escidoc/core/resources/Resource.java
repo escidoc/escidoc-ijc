@@ -45,55 +45,67 @@ public abstract class Resource extends XLinkResource {
      */
     public static enum RESOURCE_TYPE {
         // root resources
-        Context(true), Item(true), Container(true), OrganizationalUnit(true), UserAccount(
-            true), ContentModel(true), Grant(true), Role(true), ContentRelation(
-            true),
+        Context(true, "context"), Item(true, "item"), Container(true,
+            "container"), OrganizationalUnit(true, "organizational-unit"), UserAccount(
+            true, "user-account"), ContentModel(true, "content-model"), Grant(
+            true, "grant"), Role(true, "role"), ContentRelation(true,
+            "content-relation"),
         // sub resources
-        Component(false), Toc(false), // ???
-        UserAccountAttribute(false);
+        Component(false, "component"), Toc(false, null), UserAccountAttribute(
+            false, null);
 
         final boolean isRootResource;
 
-        RESOURCE_TYPE(boolean isRootResource) {
+        final String tagName;
+
+        RESOURCE_TYPE(boolean isRootResource, String tagName) {
             this.isRootResource = isRootResource;
+            this.tagName = tagName;
         }
 
         public boolean isRootResource() {
             return isRootResource;
+        }
+
+        public String getTagName() {
+            return tagName;
+        }
+
+        public static final RESOURCE_TYPE valueByTagName(String tagName) {
+            if (tagName == null)
+                return null;
+
+            for (int i = 0; i < values().length; i++) {
+                if (values()[i].tagName.equals(tagName))
+                    return values()[i];
+            }
+            return null;
         }
     }
 
     public static final Map<RESOURCE_TYPE, String> RESOURCE_URL_MAP =
         new HashMap<RESOURCE_TYPE, String>();
     {
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Context,
-            "/ir/context");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Item,
-            "/ir/item");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Container,
-            "/ir/container");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Context, "/ir/context");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Item, "/ir/item");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Container, "/ir/container");
         /* /ir/item/<iID>/components/component/<cID>/ */
         Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Component,
             "/components/component");
-        Resource.RESOURCE_URL_MAP
-            .put(RESOURCE_TYPE.Toc, "/tocs");
-        Resource.RESOURCE_URL_MAP.put(
-            RESOURCE_TYPE.OrganizationalUnit,
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Toc, "/tocs");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.OrganizationalUnit,
             "/oum/organizational-unit");
         Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.UserAccount,
             "/aa/user-account");
         /* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
-        Resource.RESOURCE_URL_MAP.put(
-            RESOURCE_TYPE.UserAccountAttribute,
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.UserAccountAttribute,
             "/resources/attributes/attribute");
-        Resource.RESOURCE_URL_MAP.put(
-            RESOURCE_TYPE.ContentModel, "/cmm/content-model");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Grant,
-            "/aa/grant");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Role,
-            "/aa/role");
-        Resource.RESOURCE_URL_MAP.put(
-            RESOURCE_TYPE.ContentRelation, "/ir/content-relation");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.ContentModel,
+            "/cmm/content-model");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Grant, "/aa/grant");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Role, "/aa/role");
+        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.ContentRelation,
+            "/ir/content-relation");
     }
 
     private String objid;
@@ -131,8 +143,8 @@ public abstract class Resource extends XLinkResource {
      * @param objid
      * @param type
      */
-    public Resource(final String objid,
-        final RESOURCE_TYPE type, final String title) {
+    public Resource(final String objid, final RESOURCE_TYPE type,
+        final String title) {
         setObjid(objid);
         setResourceType(type);
 
@@ -177,8 +189,8 @@ public abstract class Resource extends XLinkResource {
      * @param resourceType
      *            The type of the resource.
      */
-    public Resource(final String objid, final String href,
-        final String title, final RESOURCE_TYPE resourceType) {
+    public Resource(final String objid, final String href, final String title,
+        final RESOURCE_TYPE resourceType) {
         setXLinkHref(href);
         setXLinkTitle(title);
         setResourceType(resourceType);
@@ -243,8 +255,8 @@ public abstract class Resource extends XLinkResource {
     protected void genOwnXLinkHref() {
         if (getXLinkHref() == null && getResourceType() != null
             && getResourceType().isRootResource && getObjid() != null) {
-            setXLinkHref(Resource.RESOURCE_URL_MAP.get(getResourceType())
-                + "/" + getObjid());
+            setXLinkHref(Resource.RESOURCE_URL_MAP.get(getResourceType()) + "/"
+                + getObjid());
         }
     }
 
@@ -295,8 +307,7 @@ public abstract class Resource extends XLinkResource {
      * @return the generated HREF
      */
     protected static final String genXLinkHref(
-        final Resource resource, final RESOURCE_TYPE type,
-        final String prefix) {
+        final Resource resource, final RESOURCE_TYPE type, final String prefix) {
 
         if (resource != null && resource.getXLinkHref() == null) {
 
