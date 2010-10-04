@@ -572,10 +572,21 @@
 				<version>${slf4j.version}</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.escidoc</groupId>
+				<artifactId>escidoc-core</artifactId>
+				<version>1.2</version>
+				<type>ear</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+				<groupId>org.escidoc</groupId>
+				<artifactId>escidoc-core</artifactId>
+				<type>ear</type>
+		</dependency>
 		<!-- Joda Time -->
 		<dependency>
 			<groupId>joda-time</groupId>
