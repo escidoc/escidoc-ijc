@@ -91,111 +91,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
-			<!--  we need a running eSciDoc infrastructure  -->
-			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.0.3</version>
-				<executions>
-					<execution>
-						<id>install</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>install</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>start-container</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-						<configuration>
-							<wait>false</wait>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-container</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<container>
-						<containerId>jboss42x</containerId>
-						<timeout>240000</timeout>
-						<zipUrlInstaller>
-							<url>http://escidev5:8888/files/jboss-4.2.3.GA.escidoc-core-02.zip
-							</url>
-<!--							<url>http://escidev5:8888/files/jboss-5.1.0.GA-jdk6.zip</url>-->
-							<installDir>${installDir}</installDir>
-						</zipUrlInstaller>
-						<output>${project.build.directory}/jboss42x/container.log</output>
-						<append>false</append>
-						<log>${project.build.directory}/jboss42x/cargo.log</log>
-					</container>
 
-					<configuration>
-						<type>standalone</type>
-						<home>${project.build.directory}/jboss42x/container</home>
-						<properties>
-    	    				<cargo.hostname>localhost</cargo.hostname>
-	        				<cargo.protocol>http</cargo.protocol>
-						
-							<cargo.servlet.port>8080</cargo.servlet.port>
-							<cargo.rmi.port>1099</cargo.rmi.port>
-							<cargo.logging>medium</cargo.logging>
-							<cargo.jvmargs>-Dhttp.proxyHost=proxy.fiz-karlsruhe.de -Dhttp.proxyPort=8888 -Dhttp.nonProxyHosts="*.escidoc.de|*escidoc.org|localhost"</cargo.jvmargs>
-						</properties>
-						<deployables>
-							<deployable>
-								<groupId>org.escidoc</groupId>
-								<artifactId>escidoc-core</artifactId>
-								<type>ear</type>
-								<pingURL>http://localhost:8080/adm/admin/get-repository-info</pingURL>
-							</deployable>
-						</deployables><!--
-						<configfiles>
-						 config 
-    					    <configfile>
-          						<file>${basedir}/../data/jboss/server/default/conf/escidoc-core-log4j.xml</file>
-          						<file>${basedir}/../data/jboss/server/default/conf/escidoc-core.properties</file>
-          						<file>${basedir}/../data/jboss/server/default/conf/escidoc-login.xml</file>
-          						<file>${basedir}/../data/jboss/server/default/conf/jboss-log4j.xml</file>
-          						<file>${basedir}/../data/jboss/server/default/conf/catalog.xml</file>
-          						<todir>conf</todir>
-        					</configfile>
-    					    <configfile>
-          						<file>${basedir}/../data/jboss/server/default/conf/props/defaultRoles.properties</file>
-          						<file>${basedir}/../data/jboss/server/default/conf/props/defaultUsers.properties</file>
-          						<todir>conf/props</todir>
-        					</configfile>
-        					
-							 search 
-    					    <configfile>
-          						<file>${basedir}/../data/jboss/server/default/conf/search/sen.xml</file>
-          						<todir>conf/search</todir>
-        					</configfile>
-    					    <configfile>
-          						<file>${basedir}/../data/jboss/server/default/conf/search/config/fedoragsearch.properties</file>
-          						<file>${basedir}/../data/jboss/server/default/conf/search/config/gsearchAttributes.xslt</file>
-          						<file>${basedir}/../data/jboss/server/default/conf/search/config/permissions.xslt</file>
-          						<file>${basedir}/../data/jboss/server/default/conf/search/config/SRWServer.props</file>
-          						<todir>conf/search/config</todir>
-        					</configfile>
-        					 missing: index, repository, rest 
-    					    <configfile>
-          						<file>${basedir}/../data/jboss/server/default/conf/tme/jhove.conf</file>
-          						<todir>conf/tme</todir>
-        					</configfile>
-      					</configfiles>
-					--></configuration>
-				</configuration>
-			</plugin>
-			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>axistools-maven-plugin</artifactId>
@@ -543,6 +439,385 @@
 	</build>
 
 
+	<profiles>
+
+		<profile>
+			<id>install-escidoc</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<build>
+<!-- 			
+				<filters>
+					<filter>src/test/filters/filter.properties</filter>
+				</filters>
+				<resources>
+					<resource>
+						<directory>src/test/data/sql</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+-->
+				<plugins>
+					<!-- we need to setup the database for escidoc -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>sql-maven-plugin</artifactId>
+						<version>1.3</version>
+						<dependencies>
+							<!-- specify the dependent jdbc driver here -->
+							<dependency>
+								<groupId>postgresql</groupId>
+								<artifactId>postgresql</artifactId>
+								<version>8.4-701.jdbc4</version>
+							</dependency>
+						</dependencies>
+						<!-- common configuration shared by all executions -->
+						<configuration>
+							<driver>org.postgresql.Driver</driver>
+							<url>jdbc:postgresql://localhost:5432/postgres</url>
+							<username>postgres</username>
+							<password>postgres</password>
+							<!-- You can comment out username/password configurations and have 
+								maven to look them up in your settings.xml using ${settingsKey} -->
+							<settingsKey>sensibleKey</settingsKey>
+							<!--all executions are ignored if -Dmaven.test.skip=true -->
+							<skip>${maven.test.skip}</skip>
+						</configuration>
+						<executions>
+							<execution>
+								<id>drop-db-before-compile</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<!-- need another database to drop the targeted one -->
+									<url>jdbc:postgresql://localhost:5432/postgres</url>
+									<autocommit>true</autocommit>
+									<sqlCommand>DROP DATABASE "escidoc-core"</sqlCommand>
+									<!-- ignore error when database is not avaiable -->
+									<onError>continue</onError>
+								</configuration>
+							</execution>
+							<execution>
+								<id>drop-role-before-compile</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<!-- need another database to drop the targeted one -->
+									<url>jdbc:postgresql://localhost:5432/postgres</url>
+									<autocommit>true</autocommit>
+									<sqlCommand>DROP ROLE "escidoc"</sqlCommand>
+									<!-- ignore error when database is not avaiable -->
+									<onError>continue</onError>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>create-role</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<url>jdbc:postgresql://localhost:5432/postgres</url>
+									<!-- no transaction -->
+									<autocommit>true</autocommit>
+									<sqlCommand>CREATE ROLE "escidoc" LOGIN PASSWORD 'escidoc'
+										VALID
+										UNTIL 'infinity';</sqlCommand>
+								</configuration>
+							</execution>
+							<execution>
+								<id>create-db</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<url>jdbc:postgresql://localhost:5432/postgres</url>
+									<!-- no transaction -->
+									<autocommit>true</autocommit>
+									<sqlCommand>CREATE DATABASE "escidoc-core" WITH ENCODING='UTF8'
+										OWNER="escidoc"</sqlCommand>
+								</configuration>
+							</execution>
+							<execution>
+								<id>create-db-lang</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
+									<!-- no transaction -->
+									<autocommit>true</autocommit>
+									<srcFiles>
+										<srcFile>src/test/data/sql/postgres/create-language.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/pgxml.sql</srcFile>
+									</srcFiles>
+								</configuration>
+							</execution>
+							<execution>
+								<id>create-schemas</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<driver>org.postgresql.Driver</driver>
+									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
+									<username>escidoc</username>
+									<password>escidoc</password>
+									<autocommit>true</autocommit>
+									<srcFiles>
+										<!-- the initialize phase allows no filtering. Furthermore is creating 
+											database part of the test phase. That's why here should only be these tables 
+											are generated where hibernate depends on. -->
+										<srcFile>src/test/data/sql/postgres/aa/aa.create.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/adm/adm.create.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/oai/oai.create.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/om/om.create.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/sm/sm.create.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/st/st.create.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/db-cache/list.create.sql</srcFile>
+									</srcFiles>
+								</configuration>
+							</execution>
+							<execution>
+								<!-- the initialize phase allows no filtering. Furthermore is creating 
+									database part of the test phase. That's why here should only be these tables 
+									are generated where hibernate depends on. -->
+								<id>insert-accounts-into-db</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<driver>org.postgresql.Driver</driver>
+									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
+									<username>escidoc</username>
+									<password>escidoc</password>
+									<autocommit>true</autocommit>
+									<srcFiles>
+										<srcFile>src/test/data/sql/postgres/aa/aa.init.user-accounts.common.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/aa/aa.init.user-accounts.MPDL.sql</srcFile>
+									</srcFiles>
+								</configuration>
+							</execution>
+							<execution>
+								<!-- the initialize phase allows no filtering. Furthermore is creating 
+									database part of the test phase. That's why here should only be these tables 
+									are generated where hibernate depends on. -->
+								<id>init-handles-into-db</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<driver>org.postgresql.Driver</driver>
+									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
+									<username>escidoc</username>
+									<password>escidoc</password>
+									<autocommit>true</autocommit>
+									<fileset>
+										<basedir>${basedir}</basedir>
+										<includes>
+											<include>src/test/data/sql/postgres/aa/aa.init.handles.*.sql</include>
+										</includes>
+									</fileset>
+								</configuration>
+							</execution>
+							<execution>
+								<!-- the initialize phase allows no filtering. Furthermore is creating 
+									database part of the test phase. That's why here should only be these tables 
+									are generated where hibernate depends on. -->
+								<id>insert-roles-into-db</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<driver>org.postgresql.Driver</driver>
+									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
+									<username>escidoc</username>
+									<password>escidoc</password>
+									<autocommit>true</autocommit>
+									<fileset>
+										<basedir>${basedir}</basedir>
+										<includes>
+											<include>src/test/data/sql/postgres/aa/aa.init.roles.*.sql</include>
+										</includes>
+									</fileset>
+								</configuration>
+							</execution>
+							<execution>
+								<!-- the initialize phase allows no filtering. Furthermore is creating 
+									database part of the test phase. That's why here should only be these tables 
+									are generated where hibernate depends on. -->
+								<id>insert-into-db</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<driver>org.postgresql.Driver</driver>
+									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
+									<username>escidoc</username>
+									<password>escidoc</password>
+									<autocommit>true</autocommit>
+									<fileset>
+										<basedir>${basedir}</basedir>
+										<includes>
+											<include>src/test/data/sql/postgres/aa/aa.init.grants.*.sql</include>
+											<include>src/test/data/sql/postgres/aa/aa.init.actions.sql</include>
+											<include>src/test/data/sql/postgres/aa/aa.init.method-mappings.*.sql</include>
+										</includes>
+									</fileset>
+								</configuration>
+							</execution>
+							<execution>
+								<id>insert-test-user</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<driver>org.postgresql.Driver</driver>
+									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
+									<username>escidoc</username>
+									<password>escidoc</password>
+									<autocommit>true</autocommit>
+									<srcFiles>
+										<!-- the initialize phase allows no filtering. Furthermore is creating 
+											database part of the test phase. That's why here should only be these tables 
+											are generated where hibernate depends on. -->
+	<!-- 
+										<srcFile>src/test/data/sql/postgres/test/test.aa.init.roles.sql</srcFile>
+ -->										
+										<srcFile>src/test/data/sql/postgres/test/test.aa.init.users.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/test/test.aa.init.groups.sql</srcFile>
+										<srcFile>src/test/data/sql/postgres/test/test.sm.create.sql</srcFile>
+									</srcFiles>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- we need a running eSciDoc infrastructure -->
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<version>1.0.3</version>
+						<executions>
+							<execution>
+								<id>install</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>install</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>start-container</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>start</goal>
+								</goals>
+								<configuration>
+									<wait>false</wait>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-container</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<container>
+								<containerId>jboss42x</containerId>
+								<timeout>240000</timeout>
+								<zipUrlInstaller>
+									<url>http://escidev5:8888/files/jboss-4.2.3.GA-jdk6-escidoc1.2.zip</url>
+									<installDir>${installDir}</installDir>
+								</zipUrlInstaller>
+								<output>${project.build.directory}/jboss42x/container.log</output>
+								<append>false</append>
+								<log>${project.build.directory}/jboss42x/cargo.log</log>
+							</container>
+
+							<configuration>
+								<type>standalone</type>
+								<home>${project.build.directory}/jboss42x/container</home>
+								<properties>
+									<cargo.hostname>localhost</cargo.hostname>
+									<cargo.protocol>http</cargo.protocol>
+
+									<cargo.servlet.port>8080</cargo.servlet.port>
+									<cargo.rmi.port>1099</cargo.rmi.port>
+									<cargo.logging>medium</cargo.logging>
+									<cargo.jvmargs>-Dhttp.proxyHost=proxy.fiz-karlsruhe.de
+										-Dhttp.proxyPort=8888
+										-Dhttp.nonProxyHosts="*.escidoc.de|*escidoc.org|localhost"</cargo.jvmargs>
+								</properties>
+								<deployables>
+									<deployable>
+										<groupId>org.escidoc</groupId>
+										<artifactId>escidoc-core</artifactId>
+										<type>ear</type>
+										<pingURL>http://localhost:8080/adm/admin/get-repository-info</pingURL>
+									</deployable>
+									<!--  deploy fedora -->
+									<!-- <deployable> <groupId>org.escidoc</groupId> <artifactId>fcrepo</artifactId> 
+										<type>war</type> </deployable> -->
+								</deployables>
+								<configfiles>
+									<!-- config -->
+									<configfile>
+										<file>src/test/data/jboss/server/default/conf/escidoc-core-log4j.xml</file>
+										<file>src/test/data/jboss/server/default/conf/escidoc-core.properties</file>
+										<file>src/test/data/jboss/server/default/conf/escidoc-login.xml</file>
+										<file>src/test/data/jboss/server/default/conf/jboss-log4j.xml</file>
+										<file>src/test/data/jboss/server/default/conf/catalog.xml</file>
+										<todir>conf</todir>
+									</configfile>
+									<configfile>
+										<file>src/test/data/jboss/server/default/conf/props/defaultRoles.properties</file>
+										<file>src/test/data/jboss/server/default/conf/props/defaultUsers.properties</file>
+										<todir>conf/props</todir>
+									</configfile>
+									<!-- search -->
+									<configfile>
+										<file>src/test/data/jboss/server/default/conf/search/sen.xml</file>
+										<todir>conf/search</todir>
+									</configfile>
+									<configfile>
+										<file>src/test/data/jboss/server/default/conf/search/config/fedoragsearch.properties</file>
+										<file>src/test/data/jboss/server/default/conf/search/config/gsearchAttributes.xslt</file>
+										<file>src/test/data/jboss/server/default/conf/search/config/permissions.xslt</file>
+										<file>src/test/data/jboss/server/default/conf/search/config/SRWServer.props</file>
+										<todir>conf/search/config</todir>
+									</configfile>
+									<!-- missing: index, repository, rest -->
+									<configfile>
+										<file>src/test/data/jboss/server/default/conf/tme/jhove.conf</file>
+										<todir>conf/tme</todir>
+									</configfile>
+								</configfiles>
+							</configuration>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- Joda Time -->
@@ -583,9 +858,9 @@
 
 	<dependencies>
 		<dependency>
-				<groupId>org.escidoc</groupId>
-				<artifactId>escidoc-core</artifactId>
-				<type>ear</type>
+			<groupId>org.escidoc</groupId>
+			<artifactId>escidoc-core</artifactId>
+			<type>ear</type>
 		</dependency>
 		<!-- Joda Time -->
 		<dependency>
@@ -622,10 +897,10 @@
 			<version>1.2.2</version>
 		</dependency>
 		<dependency>
-	    <groupId>org.codehaus.woodstox</groupId>
-	    <artifactId>wstx-asl</artifactId>
-	    <version>3.2.9</version>
-  	</dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>wstx-asl</artifactId>
+			<version>3.2.9</version>
+		</dependency>
 		<dependency>
 			<groupId>org.jibx</groupId>
 			<artifactId>jibx-extras</artifactId>
@@ -646,10 +921,10 @@
 			<version>1.4</version>
 		</dependency>
 		<dependency>
-      <groupId>commons-discovery</groupId>
-      <artifactId>commons-discovery</artifactId>
-      <version>0.2</version>
-    </dependency>
+			<groupId>commons-discovery</groupId>
+			<artifactId>commons-discovery</artifactId>
+			<version>0.2</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
