@@ -9,13 +9,6 @@ CREATE TABLE list.container (
   primary key (id)
 );
 
-CREATE TABLE list.content_model (
-  id                            TEXT NOT NULL,
-  rest_content                  TEXT NOT NULL,
-  soap_content                  TEXT NOT NULL,
-  primary key (id)
-);
-
 CREATE TABLE list.content_relation (
   id                            TEXT NOT NULL,
   rest_content                  TEXT NOT NULL,
@@ -47,24 +40,15 @@ CREATE TABLE list.ou (
 CREATE TABLE list.filter (
   role_id			TEXT,
   type				TEXT NOT NULL,
-  scope_rule			TEXT NOT NULL,
-  policy_rule			TEXT NOT NULL,
+  rule				TEXT NOT NULL,
   CONSTRAINT FK_FILTER_ROLE_ID FOREIGN KEY (role_id) REFERENCES aa.escidoc_role(id)
 );
 
---CREATE TABLE list.property (
---  resource_id                   TEXT NOT NULL,
---  local_path                    TEXT NOT NULL,
---  value                         VARCHAR(${escidoc.database.index.prefix.length}) NOT NULL,
---  position                    INTEGER NOT NULL
---);
-
--- FIXME the prefix length is configurable
 CREATE TABLE list.property (
   resource_id                   TEXT NOT NULL,
   local_path                    TEXT NOT NULL,
   value                         VARCHAR(2000) NOT NULL,
-  position                      INTEGER NOT NULL
+  position			INTEGER NOT NULL
 );
 
 -- create indexes
@@ -207,29 +191,3 @@ CREATE OR REPLACE FUNCTION getAllChildItems(param_expression TEXT) RETURNS SETOF
       END LOOP;\
     END IF;\
   END' LANGUAGE 'plpgsql';
-
- CREATE OR REPLACE FUNCTION getChildOUs(param_resource_id TEXT) RETURNS SETOF resource AS '
-   DECLARE\
-     var_resource_id TEXT;\
-   BEGIN\
-     IF param_resource_id IS NOT NULL THEN\
-       FOR var_resource_id IN SELECT resource_id FROM list.property WHERE local_path=''/parents/parent/id'' AND value=param_resource_id LOOP\
-         RETURN QUERY SELECT DISTINCT CAST(value AS TEXT) FROM list.property WHERE value=var_resource_id\
-                      UNION ALL\
-                      SELECT * FROM getChildOUs(var_resource_id);\
-       END LOOP;\
-     END IF;\
-   END' LANGUAGE 'plpgsql';
-
- CREATE OR REPLACE FUNCTION getAllChildOUs(param_expression TEXT) RETURNS SETOF resource AS '
-   DECLARE\
-     var_resource_id TEXT;\
-   BEGIN\
-     IF param_expression IS NOT NULL THEN\
-       FOR var_resource_id IN EXECUTE param_expression LOOP\
-         RETURN QUERY SELECT DISTINCT CAST(var_resource_id AS TEXT) FROM list.property\
-                      UNION ALL\
-                      SELECT * FROM getChildOUs(var_resource_id);\
-       END LOOP;\
-     END IF;\
-   END' LANGUAGE 'plpgsql';
