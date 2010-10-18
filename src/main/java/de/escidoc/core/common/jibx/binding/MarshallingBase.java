@@ -13,6 +13,8 @@ import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
+import de.escidoc.core.common.XmlUtility;
+
 /**
  * @author msc
  * 
@@ -76,11 +78,17 @@ public class MarshallingBase {
             if (ctx.isStart()) {
                 result = result.append(getStartElement(ictx));
                 ctx.parsePastStartTag(ctx.getNamespace(), ctx.getElementName());
-                result = result.append(getContent(ictx));
+                /*
+                 * The woodstox parser returns text content as decoded text and
+                 * since we are generating a xml text here, we have to encode
+                 * the content again. There is no way to get the origin text.
+                 */
+                result.append(XmlUtility.escapeForbiddenXmlCharacters(ctx
+                    .accumulateText()));
             }
             else if (ctx.isEnd()) {
                 if (!element.equals(ctx.getElementName())) {
-                    result = result.append(getEndElement(ictx));
+                    result.append(getEndElement(ictx));
                     ctx.parsePastEndTag(ctx.getNamespace(),
                         ctx.getElementName());
                 }
@@ -153,12 +161,14 @@ public class MarshallingBase {
      * @throws JiBXException
      *             Thrown if JiBX mapping failed.
      */
-    private StringBuffer getContent(final IUnmarshallingContext ictx)
-        throws JiBXException {
-        StringBuffer result = new StringBuffer();
-        UnmarshallingContext ctx = (UnmarshallingContext) ictx;
-        return result.append(ctx.parseContentText());
-    }
+    // private StringBuffer getContent(final IUnmarshallingContext ictx)
+    // throws JiBXException {
+    // StringBuffer result = new StringBuffer();
+    // UnmarshallingContext ctx = (UnmarshallingContext) ictx;
+    // String tmp = ctx.parseContentText();
+    // System.out.println(tmp);
+    // return result.append(tmp);
+    // }
 
     /**
      * Get XML end element.
@@ -265,9 +275,9 @@ public class MarshallingBase {
      */
     protected int findNamespace(
         final MarshallingContext ctx, final String namespace) {
-        
-        for(int i=0; i < ctx.getNamespaces().length; i++) {
-            if(ctx.getNamespaces()[i].equals(namespace))
+
+        for (int i = 0; i < ctx.getNamespaces().length; i++) {
+            if (ctx.getNamespaces()[i].equals(namespace))
                 return i;
         }
         return -1;
