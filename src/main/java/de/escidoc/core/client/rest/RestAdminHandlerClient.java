@@ -208,6 +208,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 
             AdminRestServiceLocator serviceLocator =
                 new AdminRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

@@ -6,7 +6,11 @@ package de.escidoc.core.client.interfaces;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.resources.adm.LoadExamplesResult;
+import de.escidoc.core.resources.adm.LoadExamplesResult.Entry;
+import de.escidoc.core.resources.adm.MessagesStatus;
+import de.escidoc.core.resources.adm.RepositoryInfo;
+import de.escidoc.core.resources.common.MessagesResult;
+import de.escidoc.core.resources.common.TaskParam;
 
 /**
  * @author MVO
@@ -16,7 +20,7 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
 
     public static final String EXAMPLE_SET_COMMON = "common";
 
-    public String deleteObjects(final String taskParam)
+    public MessagesStatus deleteObjects(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -25,7 +29,7 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getPurgeStatus() throws EscidocException,
+    public MessagesStatus getPurgeStatus() throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -34,7 +38,7 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getRecacheStatus() throws EscidocException,
+    public MessagesStatus getRecacheStatus() throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -43,7 +47,7 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getReindexStatus() throws EscidocException,
+    public MessagesStatus getReindexStatus() throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -62,8 +66,8 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String recache(final boolean clearCache) throws EscidocException,
-        InternalClientException, TransportException;
+    public MessagesStatus recache(final boolean clearCache)
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param clearIndex
@@ -73,7 +77,19 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String reindex(final boolean clearIndex, final String indexNamePrefix)
+    public MessagesStatus reindex(
+        final boolean clearIndex, final String indexNamePrefix)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param clearIndex
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public MessagesStatus reindexAll(final boolean clearIndex)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -82,7 +98,7 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getRepositoryInfo() throws EscidocException,
+    public RepositoryInfo getRepositoryInfo() throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -92,7 +108,7 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public LoadExamplesResult loadExamples(final String exampleSet)
+    public MessagesResult<Entry> loadExamples(final String exampleSet)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -103,6 +119,6 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public LoadExamplesResult loadExamples() throws EscidocException,
+    public MessagesResult<Entry> loadExamples() throws EscidocException,
         InternalClientException, TransportException;
 }

@@ -3,8 +3,6 @@
  */
 package de.escidoc.core.client;
 
-import org.w3c.dom.Element;
-
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -12,9 +10,14 @@ import de.escidoc.core.client.interfaces.AdminHandlerClientInterface;
 import de.escidoc.core.client.rest.RestAdminHandlerClient;
 import de.escidoc.core.client.soap.SoapAdminHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.Resource.RESOURCE_TYPE;
+import de.escidoc.core.resources.adm.AdminStatus;
 import de.escidoc.core.resources.adm.LoadExamplesResult;
+import de.escidoc.core.resources.adm.LoadExamplesResult.Entry;
+import de.escidoc.core.resources.adm.MessagesStatus;
+import de.escidoc.core.resources.adm.RepositoryInfo;
+import de.escidoc.core.resources.common.MessagesResult;
 import de.escidoc.core.resources.common.Result;
+import de.escidoc.core.resources.common.TaskParam;
 
 /**
  * @author MVO
@@ -27,29 +30,31 @@ public class AdminHandlerClient
 
     /**
      * 
-     */
-    public AdminHandlerClient() {
-    }
-
-    /**
-     * 
      * @param taskParam
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String deleteObjects(final String taskParam)
+    public MessagesStatus deleteObjects(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
-        String result = null;
+
+        String xml =
+            Factory
+                .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
+                .marshalDocument(taskParam);
+
         if (getTransport() == TransportProtocol.SOAP) {
-            result = getSoapHandlerClient().deleteObjects(taskParam);
+            xml = getSoapHandlerClient().deleteObjects(xml);
         }
         else {
-            result = getRestHandlerClient().deleteObjects(taskParam);
+            xml = getRestHandlerClient().deleteObjects(xml);
         }
-        // TODO check result
-        return result;
+        Result result =
+            Factory
+                .getMarshallerFactory(getTransport()).getResultMarshaller()
+                .unmarshalDocument(xml);
+        return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
 
     /**
@@ -58,17 +63,20 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getPurgeStatus() throws EscidocException,
+    public MessagesStatus getPurgeStatus() throws EscidocException,
         InternalClientException, TransportException {
-        String result = null;
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            result = getSoapHandlerClient().getPurgeStatus();
+            xml = getSoapHandlerClient().getPurgeStatus();
         }
         else {
-            result = getRestHandlerClient().getPurgeStatus();
+            xml = getRestHandlerClient().getPurgeStatus();
         }
-        // TODO check result
-        return result;
+        Result result =
+            Factory
+                .getMarshallerFactory(getTransport()).getResultMarshaller()
+                .unmarshalDocument(xml);
+        return new MessagesStatus(result);
     }
 
     /**
@@ -77,17 +85,20 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getRecacheStatus() throws EscidocException,
+    public MessagesStatus getRecacheStatus() throws EscidocException,
         InternalClientException, TransportException {
-        String result = null;
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            result = getSoapHandlerClient().getRecacheStatus();
+            xml = getSoapHandlerClient().getRecacheStatus();
         }
         else {
-            result = getRestHandlerClient().getRecacheStatus();
+            xml = getRestHandlerClient().getRecacheStatus();
         }
-        // TODO check result
-        return result;
+        Result result =
+            Factory
+                .getMarshallerFactory(getTransport()).getResultMarshaller()
+                .unmarshalDocument(xml);
+        return new MessagesStatus(result);
     }
 
     /**
@@ -96,17 +107,20 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getReindexStatus() throws EscidocException,
+    public MessagesStatus getReindexStatus() throws EscidocException,
         InternalClientException, TransportException {
-        String result = null;
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            result = getSoapHandlerClient().getReindexStatus();
+            xml = getSoapHandlerClient().getReindexStatus();
         }
         else {
-            result = getRestHandlerClient().getReindexStatus();
+            xml = getRestHandlerClient().getReindexStatus();
         }
-        // TODO check result
-        return result;
+        Result result =
+            Factory
+                .getMarshallerFactory(getTransport()).getResultMarshaller()
+                .unmarshalDocument(xml);
+        return new MessagesStatus(result);
     }
 
     /**
@@ -132,17 +146,20 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String recache(final boolean clearCache) throws EscidocException,
-        InternalClientException, TransportException {
-        String result = null;
+    public MessagesStatus recache(final boolean clearCache)
+        throws EscidocException, InternalClientException, TransportException {
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            result = getSoapHandlerClient().recache(clearCache);
+            xml = getSoapHandlerClient().recache(clearCache);
         }
         else {
-            result = getRestHandlerClient().recache(clearCache);
+            xml = getRestHandlerClient().recache(clearCache);
         }
-        // TODO check result
-        return result;
+        Result result =
+            Factory
+                .getMarshallerFactory(getTransport()).getResultMarshaller()
+                .unmarshalDocument(xml);
+        return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
 
     /**
@@ -153,19 +170,34 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String reindex(final boolean clearIndex, final String indexNamePrefix)
+    public MessagesStatus reindex(
+        final boolean clearIndex, final String indexNamePrefix)
         throws EscidocException, InternalClientException, TransportException {
-        String result = null;
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            result =
-                getSoapHandlerClient().reindex(clearIndex, indexNamePrefix);
+            xml = getSoapHandlerClient().reindex(clearIndex, indexNamePrefix);
         }
         else {
-            result =
-                getRestHandlerClient().reindex(clearIndex, indexNamePrefix);
+            xml = getRestHandlerClient().reindex(clearIndex, indexNamePrefix);
         }
-        // TODO check result
-        return result;
+        Result result =
+            Factory
+                .getMarshallerFactory(getTransport()).getResultMarshaller()
+                .unmarshalDocument(xml);
+        return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
+    }
+
+    /**
+     * 
+     * @param clearIndex
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public MessagesStatus reindexAll(final boolean clearIndex)
+        throws EscidocException, InternalClientException, TransportException {
+        return reindex(clearIndex, "all");
     }
 
     /**
@@ -174,17 +206,18 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getRepositoryInfo() throws EscidocException,
+    public RepositoryInfo getRepositoryInfo() throws EscidocException,
         InternalClientException, TransportException {
-        String result = null;
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            result = getSoapHandlerClient().getRepositoryInfo();
+            xml = getSoapHandlerClient().getRepositoryInfo();
         }
         else {
-            result = getRestHandlerClient().getRepositoryInfo();
+            xml = getRestHandlerClient().getRepositoryInfo();
         }
-        // TODO check result
-        return result;
+        return new RepositoryInfo(Factory
+            .getMarshallerFactory(getTransport())
+            .getCommonPropertiesMarshaller().unmarshalDocument(xml));
     }
 
     /**
@@ -194,7 +227,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public LoadExamplesResult loadExamples(final String exampleSet)
+    public MessagesResult<Entry> loadExamples(final String exampleSet)
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
@@ -208,19 +241,7 @@ public class AdminHandlerClient
                 .getMarshallerFactory(getTransport()).getResultMarshaller()
                 .unmarshalDocument(xml);
 
-        // evaluate result
-        LoadExamplesResult leResult = new LoadExamplesResult();
-
-        for (Element element : result) {
-            String message = element.getTextContent();
-            String type = message.substring(8, message.indexOf(':'));
-            String objid = message.substring(message.indexOf(':') + 2);
-
-            leResult.add(leResult.new Entry(
-                objid, RESOURCE_TYPE.valueByTagName(type), message));
-        }
-
-        return leResult;
+        return new LoadExamplesResult(result);
     }
 
     /**
@@ -230,7 +251,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public LoadExamplesResult loadExamples() throws EscidocException,
+    public MessagesResult<Entry> loadExamples() throws EscidocException,
         InternalClientException, TransportException {
         return loadExamples(EXAMPLE_SET_COMMON);
     }
