@@ -29,6 +29,11 @@
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.item;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Collection;
 
 import org.apache.xpath.XPathAPI;
 import org.junit.Test;
@@ -36,8 +41,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.common.XmlUtility;
+import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -59,11 +69,11 @@ public class ItemTestRest {
     @Test
     public void testRetrieveItem01() throws Exception {
 
-        Authentication auth =
+        final Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RestItemHandlerClient cc = new RestItemHandlerClient();
+        final RestItemHandlerClient cc = new RestItemHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
@@ -79,23 +89,23 @@ public class ItemTestRest {
     @Test
     public void testCreateItem01() throws Exception {
 
-        Authentication auth =
+        final Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RestItemHandlerClient cc = new RestItemHandlerClient();
+        final RestItemHandlerClient cc = new RestItemHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
         // retrieve a valid Item
-        String item = cc.retrieve(Constants.EXAMPLE_ITEM_ID);
+        final String item = cc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
         // create a new Item (on basis of the valid)
-        String createdItemXml = cc.create(item);
+        final String createdItemXml = cc.create(item);
 
         // asserts
-        Document itemTemplateDoc = XmlUtility.getDocument(item);
-        Document itemCreatedDoc = XmlUtility.getDocument(createdItemXml);
+        final Document itemTemplateDoc = XmlUtility.getDocument(item);
+        final Document itemCreatedDoc = XmlUtility.getDocument(createdItemXml);
 
         // /item/@title == dc:title
         assertEquals(
@@ -142,24 +152,24 @@ public class ItemTestRest {
     @Test
     public void testCreateItem02() throws Exception {
 
-        Authentication auth =
+        final Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RestItemHandlerClient cc = new RestItemHandlerClient();
+        final RestItemHandlerClient cc = new RestItemHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
-        String itemXml =
+        final String itemXml =
             EscidocClientTestBase.getXmlFileAsString(Template
                 .load("/rest/om/item/0.9/item01.xml"));
 
         // create a new Item (on basis of the valid)
-        String createdItemXml = cc.create(itemXml);
+        final String createdItemXml = cc.create(itemXml);
 
         // asserts
-        Document itemTemplateDoc = XmlUtility.getDocument(itemXml);
-        Document itemCreatedDoc = XmlUtility.getDocument(createdItemXml);
+        final Document itemTemplateDoc = XmlUtility.getDocument(itemXml);
+        final Document itemCreatedDoc = XmlUtility.getDocument(createdItemXml);
 
         // /item/@title == dc:title
         assertEquals(
@@ -207,38 +217,38 @@ public class ItemTestRest {
     @Test
     public void testUpdateItem01() throws Exception {
 
-        Authentication auth =
+        final Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        RestItemHandlerClient cc = new RestItemHandlerClient();
+        final RestItemHandlerClient cc = new RestItemHandlerClient();
         cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setHandle(auth.getHandle());
 
-        String itemXml =
+        final String itemXml =
             EscidocClientTestBase.getXmlFileAsString(Template
                 .load("/rest/om/item/0.9/item01.xml"));
 
         // create a new Item (on basis of the valid)
-        String createdItemXml = cc.create(itemXml);
+        final String createdItemXml = cc.create(itemXml);
 
-        Document itemDoc = XmlUtility.getDocument(createdItemXml);
+        final Document itemDoc = XmlUtility.getDocument(createdItemXml);
 
-        String hrefPath =
+        final String hrefPath =
             XPathAPI.selectSingleNode(itemDoc, "/item/@href").getTextContent();
-        String objid = hrefPath.substring(hrefPath.lastIndexOf("/") + 1);
+        final String objid = hrefPath.substring(hrefPath.lastIndexOf("/") + 1);
 
         // assumtion, there is only one ds:title element
-        Node dcTitle = itemDoc.getElementsByTagName("dc:title").item(0);
-        String titleNew = "New Item Description " + System.nanoTime();
+        final Node dcTitle = itemDoc.getElementsByTagName("dc:title").item(0);
+        final String titleNew = "New Item Description " + System.nanoTime();
         dcTitle.setTextContent(titleNew);
 
         // updateItemXml
-        String updateItemXml = XmlUtility.xmlToString(itemDoc);
-        String updatedItemXml = cc.update(objid, updateItemXml);
+        final String updateItemXml = XmlUtility.xmlToString(itemDoc);
+        final String updatedItemXml = cc.update(objid, updateItemXml);
 
         // asserts
-        Document itemUpdatedDoc = XmlUtility.getDocument(updatedItemXml);
+        final Document itemUpdatedDoc = XmlUtility.getDocument(updatedItemXml);
 
         assertEquals("xlink:title not updated in root element", titleNew,
             XPathAPI
@@ -251,4 +261,24 @@ public class ItemTestRest {
 
     }
 
+    @Test
+    public void shouldReturnAllReleasedItems() throws EscidocClientException {
+        final Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        final ItemHandlerClientInterface cc = new ItemHandlerClient();
+        cc.setTransport(TransportProtocol.REST);
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+
+        final SearchRetrieveRequestType filter =
+            new SearchRetrieveRequestType();
+        filter.setQuery("\"\"");
+        final Collection<Item> retrieveItems = cc.retrieveItemsAsList(filter);
+
+        assertNotNull("retrieveItems should not be null.", retrieveItems);
+        assertTrue("retrieveItems should not be empty.",
+            !retrieveItems.isEmpty());
+    }
 }
