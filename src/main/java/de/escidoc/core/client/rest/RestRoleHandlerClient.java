@@ -282,6 +282,7 @@ public class RestRoleHandlerClient extends RestClientBase {
 
             RoleRestServiceLocator serviceLocator =
                 new RoleRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

@@ -186,6 +186,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
 
             ContentModelRestServiceLocator serviceLocator =
                 new ContentModelRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

@@ -730,6 +730,7 @@ public class RestContainerHandlerClient extends RestClientBase {
 
             ContainerRestServiceLocator serviceLocator =
                 new ContainerRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

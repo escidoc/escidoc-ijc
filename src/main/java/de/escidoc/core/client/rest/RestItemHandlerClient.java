@@ -553,6 +553,7 @@ public class RestItemHandlerClient extends RestClientBase {
 
             ItemRestServiceLocator serviceLocator =
                 new ItemRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

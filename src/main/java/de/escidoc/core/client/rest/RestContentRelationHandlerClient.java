@@ -390,6 +390,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
 
             ContentRelationRestServiceLocator serviceLocator =
                 new ContentRelationRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

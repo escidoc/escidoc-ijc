@@ -423,6 +423,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
             OrganizationalUnitRestServiceLocator serviceLocator =
                 new OrganizationalUnitRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

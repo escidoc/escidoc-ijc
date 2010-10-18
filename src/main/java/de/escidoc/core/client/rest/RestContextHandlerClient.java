@@ -396,6 +396,7 @@ public class RestContextHandlerClient extends RestClientBase {
 
             ContextRestServiceLocator serviceLocator =
                 new ContextRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

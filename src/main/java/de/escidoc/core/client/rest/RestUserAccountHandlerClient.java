@@ -850,6 +850,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
 
             UserAccountRestServiceLocator serviceLocator =
                 new UserAccountRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

@@ -168,6 +168,7 @@ public class RestStagingHandlerClient extends RestClientBase {
 
             StagingRestServiceLocator serviceLocator =
                 new StagingRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

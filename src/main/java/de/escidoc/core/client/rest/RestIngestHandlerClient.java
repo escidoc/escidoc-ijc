@@ -122,6 +122,7 @@ public class RestIngestHandlerClient extends RestClientBase
         if (restClient == null) {
             IngestRestServiceLocator serviceLocator =
                 new IngestRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

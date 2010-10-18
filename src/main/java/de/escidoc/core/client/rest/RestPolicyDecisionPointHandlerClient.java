@@ -61,6 +61,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
             PolicyDecisionPointRestServiceLocator serviceLocator =
                 new PolicyDecisionPointRestServiceLocator();
+            serviceLocator.setFollowRedirects(followRedirects);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());
