@@ -40,6 +40,12 @@ public interface HandlerServiceInterface {
      *             Thrown if setting failed.
      */
     void setServiceAddress(final String address) throws InternalClientException;
+    
+    /**
+     * 
+     * @return the Service Address.
+     */
+    String getServiceAddress();
 
     /**
      * Set the Transport Protocol.
