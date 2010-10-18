@@ -12,6 +12,8 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  */
 public abstract class RestClientBase extends ClientBase {
 
+    protected boolean followRedirects = false;
+
     /**
      * Create an instance of client base using the default constructor.
      * 
@@ -33,5 +35,13 @@ public abstract class RestClientBase extends ClientBase {
     public RestClientBase(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param followRedirects
+     */
+    public void setFollowRedirects(final boolean followRedirects) {
+        this.followRedirects = followRedirects;
     }
 }
