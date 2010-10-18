@@ -125,10 +125,8 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
     }
 
     private TaskParam createTaskParamWithTopLevelFilter() {
-        final Collection<Filter> filters = TaskParam.filtersFactory();
-        filters.add(createTopLevelFilter());
         final TaskParam taskParam = new TaskParam();
-        taskParam.setFilters(filters);
+        taskParam.getFilters().add(createTopLevelFilter());
         return taskParam;
     }
 

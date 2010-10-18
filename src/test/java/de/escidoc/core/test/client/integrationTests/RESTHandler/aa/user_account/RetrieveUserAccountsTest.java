@@ -61,13 +61,11 @@ public class RetrieveUserAccountsTest {
     }
 
     private static TaskParam createdBy(final String userAccountObjectId) {
-        final Collection<Filter> filters = TaskParam.filtersFactory();
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            userAccountObjectId, null));
-
         final TaskParam filterParam = new TaskParam();
-        filterParam.setFilters(filters);
+        filterParam.getFilters().add(
+            getFilter(
+                "http://escidoc.de/core/01/structural-relations/created-by",
+                userAccountObjectId, null));
         return filterParam;
     }
 

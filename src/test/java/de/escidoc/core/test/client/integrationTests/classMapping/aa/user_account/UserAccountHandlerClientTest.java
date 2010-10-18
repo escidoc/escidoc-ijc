@@ -225,7 +225,7 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
     public void testRetrieveUserAccounts() throws Exception {
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",

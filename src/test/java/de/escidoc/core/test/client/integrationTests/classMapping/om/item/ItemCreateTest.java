@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -55,6 +56,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMdRecordException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -217,13 +219,42 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      * Test if the right exception is thrown if calling create with an
      * incomplete Item.
      * 
+     * @throws Exception
+     *             Thrown if no or wrong exception is caught from the framework.
+     */
+    @Test(expected = XmlSchemaValidationException.class)
+    public void testCreateItem06() throws Exception {
+
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ItemHandlerClientInterface cc = new ItemHandlerClient();
+        cc.setServiceAddress(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
+        Item item = new Item();
+        ItemProperties properties = new ItemProperties();
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.setProperties(properties);
+        MetadataRecords mdRecords = new MetadataRecords();
+        item.setMetadataRecords(mdRecords);
+
+        cc.create(item);
+    }
+
+    /**
+     * Test if the right exception is thrown if calling create with an
+     * incomplete Item.
+     * 
      * One invalid MetadataRecord (no name, no content) is part of Item.
      * 
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test(expected = XmlSchemaValidationException.class)
-    public void testCreateItem06() throws Exception {
+    public void testCreateItem07() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -256,7 +287,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test(expected = XmlSchemaValidationException.class)
-    public void testCreateItem07() throws Exception {
+    public void testCreateItem08() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -290,7 +321,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test(expected = InvalidXmlException.class)
-    public void testCreateItem08() throws Exception {
+    public void testCreateItem09() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -340,7 +371,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      *             Thrown if creation failed or non-volatile Item values differ.
      */
     @Test
-    public void testCreateItem09() throws Exception {
+    public void testCreateItem10() throws Exception {
 
         Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
@@ -440,6 +471,239 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
             .getMetadataRecords().size());
     }
 
+    /**
+     * Test deletion of non-default md-record.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testMDRecordsDeletion01() throws Exception {
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord1);
+
+        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        mdRecords.add(mdrecord2);
+
+        item.setMetadataRecords(mdRecords);
+
+        // create
+        Item createdItem = ihc.create(item);
+
+        // compare the new created Item with the Item from the request
+        assertNotNull("Object id is null", createdItem.getObjid());
+        assertEquals(Constants.EXAMPLE_CONTEXT_ID, createdItem
+            .getProperties().getContext().getObjid());
+        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem
+            .getMetadataRecords().size());
+
+        // delete md-record
+        createdItem.getMetadataRecords().del(mdrecord2.getName());
+
+        Item updatedItem = ihc.update(createdItem);
+
+        // compare the new created Item with the Item from the request
+        assertNotNull("Object id is null", updatedItem.getObjid());
+        assertEquals(Constants.EXAMPLE_CONTEXT_ID, updatedItem
+            .getProperties().getContext().getObjid());
+        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, updatedItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(1, updatedItem.getMetadataRecords().size());
+    }
+
+    /**
+     * Test deletion of required default md-record.
+     * 
+     * @throws Exception
+     */
+    @Test(expected = MissingMdRecordException.class)
+    public void testMDRecordsDeletion02() throws Exception {
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord1);
+
+        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        mdRecords.add(mdrecord2);
+
+        item.setMetadataRecords(mdRecords);
+
+        // create
+        Item createdItem = ihc.create(item);
+
+        // compare the new created Item with the Item from the request
+        assertNotNull("Object id is null", createdItem.getObjid());
+        assertEquals(Constants.EXAMPLE_CONTEXT_ID, createdItem
+            .getProperties().getContext().getObjid());
+        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem
+            .getMetadataRecords().size());
+
+        // delete required md-record
+        createdItem.getMetadataRecords().del(mdrecord1.getName());
+
+        Item updatedItem = ihc.update(createdItem);
+
+        // compare the new created Item with the Item from the request
+        assertNotNull("Object id is null", updatedItem.getObjid());
+        assertEquals(Constants.EXAMPLE_CONTEXT_ID, updatedItem
+            .getProperties().getContext().getObjid());
+        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, updatedItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(1, updatedItem.getMetadataRecords().size());
+    }
+    
+    /**
+     * Test deletion of all md-record entries.
+     * 
+     * @throws Exception
+     */
+    @Test(expected = InvalidXmlException.class)
+    public void testMDRecordsDeletion03() throws Exception {
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord1);
+
+        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        mdRecords.add(mdrecord2);
+
+        item.setMetadataRecords(mdRecords);
+
+        // create
+        Item createdItem = ihc.create(item);
+
+        // compare the new created Item with the Item from the request
+        assertNotNull("Object id is null", createdItem.getObjid());
+        assertEquals(Constants.EXAMPLE_CONTEXT_ID, createdItem
+            .getProperties().getContext().getObjid());
+        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem
+            .getMetadataRecords().size());
+
+        // delete all md-record entries
+        createdItem.getMetadataRecords().del(mdrecord1.getName());
+        createdItem.getMetadataRecords().del(mdrecord2.getName());
+
+        ihc.update(createdItem);
+    }
+    
+    /**
+     * Test deletion of md-records.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testMDRecordsDeletion04() throws Exception {
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
+        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        item.getProperties().setContentModel(
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord1);
+
+        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        mdRecords.add(mdrecord2);
+
+        item.setMetadataRecords(mdRecords);
+
+        // create
+        Item createdItem = ihc.create(item);
+
+        // compare the new created Item with the Item from the request
+        assertNotNull("Object id is null", createdItem.getObjid());
+        assertEquals(Constants.EXAMPLE_CONTEXT_ID, createdItem
+            .getProperties().getContext().getObjid());
+        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem
+            .getMetadataRecords().size());
+
+        // delete md-records
+        createdItem.setMetadataRecords(null);
+
+        Item updatedItem = ihc.update(createdItem);
+
+        // compare the new created Item with the Item from the request
+        assertNotNull("Object id is null", updatedItem.getObjid());
+        assertEquals(Constants.EXAMPLE_CONTEXT_ID, updatedItem
+            .getProperties().getContext().getObjid());
+        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, updatedItem
+            .getProperties().getContentModel().getObjid());
+        assertNull(updatedItem.getMetadataRecords());
+    }
+    
     /**
      * Test create an Item with one Component.
      * 

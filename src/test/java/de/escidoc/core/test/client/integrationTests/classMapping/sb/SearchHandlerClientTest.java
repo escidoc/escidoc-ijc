@@ -69,7 +69,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 
 @SuppressWarnings({ "rawtypes", "unused" })
 @RunWith(Parameterized.class)
-public class SearchHandlerClientTest extends EscidocClientTestBase {
+public class SearchHandlerClientTest {
 
     private TransportProtocol protocol;
 

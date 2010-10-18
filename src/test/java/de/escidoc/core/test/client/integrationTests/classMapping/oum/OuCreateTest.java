@@ -47,8 +47,10 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMdRecordException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -268,7 +270,7 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
      *             Thrown if successful creation failed.
      */
     @Test
-    public void testCreateOrganizationalUni05() throws Exception {
+    public void testCreateOrganizationalUnit05() throws Exception {
 
         final String ouName = "Generic Organizational Unit";
 
@@ -395,7 +397,7 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
      *             Thrown if successful creation failed.
      */
     @Test
-    public void testCreateOrganizationalUni07() throws Exception {
+    public void testCreateOrganizationalUnit07() throws Exception {
 
         final String ouName =
             "Generic Organizational Unit " + System.currentTimeMillis();
@@ -671,6 +673,236 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         mdRecord.setContent(mdRecordContent);
 
         return mdRecord;
+    }
+
+    /**
+     * Test deletion of non-default md-record.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testMDRecordsDeletion01() throws Exception {
+        final String ouName =
+            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouDescription = "Description of Organizational Unit.";
+
+        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        Properties properties = new Properties();
+        properties.setName("Organizational_Unit_Test_Name");
+        organizationalUnit.setProperties(properties);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdRecord1 =
+            createMdRecordDC("escidoc", "organization-details", ouName,
+                ouDescription);
+
+        MetadataRecord mdRecord2 =
+            createMdRecordDC("mytest", "organization-details2", ouName,
+                ouDescription);
+
+        mdRecords.add(mdRecord1);
+        mdRecords.add(mdRecord2);
+        organizationalUnit.setMetadataRecords(mdRecords);
+
+        // create parent OU
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        OrganizationalUnitHandlerClientInterface cc =
+            new OrganizationalUnitHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
+        OrganizationalUnit ou = cc.create(organizationalUnit);
+
+        // assert values of created OU
+        assertEquals("Name of OU wrong", ou.getProperties().getName(), ouName);
+        assertEquals("Description of OU wrong", ou
+            .getProperties().getDescription(), ouDescription);
+        assertEquals(2, ou.getMetadataRecords().size());
+
+        // delete md-record
+        ou.getMetadataRecords().del(mdRecord2.getName());
+
+        OrganizationalUnit updatedOU = cc.update(ou);
+
+        // assert values of created OU
+        assertEquals("Name of OU wrong", updatedOU.getProperties().getName(),
+            ouName);
+        assertEquals("Description of OU wrong", updatedOU
+            .getProperties().getDescription(), ouDescription);
+        assertEquals(1, updatedOU.getMetadataRecords().size());
+    }
+
+    /**
+     * Test deletion of required default md-record.
+     * 
+     * @throws Exception
+     */
+    @Test(expected = MissingMdRecordException.class)
+    public void testMDRecordsDeletion02() throws Exception {
+        final String ouName =
+            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouDescription = "Description of Organizational Unit.";
+
+        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        Properties properties = new Properties();
+        properties.setName("Organizational_Unit_Test_Name");
+        organizationalUnit.setProperties(properties);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdRecord1 =
+            createMdRecordDC("escidoc", "organization-details", ouName,
+                ouDescription);
+
+        MetadataRecord mdRecord2 =
+            createMdRecordDC("mytest", "organization-details2", ouName,
+                ouDescription);
+
+        mdRecords.add(mdRecord1);
+        mdRecords.add(mdRecord2);
+        organizationalUnit.setMetadataRecords(mdRecords);
+
+        // create parent OU
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        OrganizationalUnitHandlerClientInterface cc =
+            new OrganizationalUnitHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
+        OrganizationalUnit ou = cc.create(organizationalUnit);
+
+        // assert values of created OU
+        assertEquals("Name of OU wrong", ou.getProperties().getName(), ouName);
+        assertEquals("Description of OU wrong", ou
+            .getProperties().getDescription(), ouDescription);
+        assertEquals(2, ou.getMetadataRecords().size());
+
+        // delete md-record
+        ou.getMetadataRecords().del(mdRecord1.getName());
+
+        cc.update(ou);
+    }
+
+    /**
+     * Test deletion of all md-record entries.
+     * 
+     * @throws Exception
+     */
+    @Test(expected = InvalidXmlException.class)
+    public void testMDRecordsDeletion03() throws Exception {
+        final String ouName =
+            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouDescription = "Description of Organizational Unit.";
+
+        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        Properties properties = new Properties();
+        properties.setName("Organizational_Unit_Test_Name");
+        organizationalUnit.setProperties(properties);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdRecord1 =
+            createMdRecordDC("escidoc", "organization-details", ouName,
+                ouDescription);
+
+        MetadataRecord mdRecord2 =
+            createMdRecordDC("mytest", "organization-details2", ouName,
+                ouDescription);
+
+        mdRecords.add(mdRecord1);
+        mdRecords.add(mdRecord2);
+        organizationalUnit.setMetadataRecords(mdRecords);
+
+        // create parent OU
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        OrganizationalUnitHandlerClientInterface cc =
+            new OrganizationalUnitHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
+        OrganizationalUnit ou = cc.create(organizationalUnit);
+
+        // assert values of created OU
+        assertEquals("Name of OU wrong", ou.getProperties().getName(), ouName);
+        assertEquals("Description of OU wrong", ou
+            .getProperties().getDescription(), ouDescription);
+        assertEquals(2, ou.getMetadataRecords().size());
+
+        // delete md-record
+        ou.getMetadataRecords().del(mdRecord1.getName());
+        ou.getMetadataRecords().del(mdRecord2.getName());
+
+        cc.update(ou);
+    }
+
+    /**
+     * Test deletion of md-records.
+     * 
+     * TODO: Inconsistency in relation of md-records of an item resource.
+     * 
+     * @throws Exception
+     */
+    @Test(expected = XmlSchemaValidationException.class)
+    public void testMDRecordsDeletion04() throws Exception {
+        final String ouName =
+            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouDescription = "Description of Organizational Unit.";
+
+        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        Properties properties = new Properties();
+        properties.setName("Organizational_Unit_Test_Name");
+        organizationalUnit.setProperties(properties);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        MetadataRecord mdRecord1 =
+            createMdRecordDC("escidoc", "organization-details", ouName,
+                ouDescription);
+
+        MetadataRecord mdRecord2 =
+            createMdRecordDC("mytest", "organization-details2", ouName,
+                ouDescription);
+
+        mdRecords.add(mdRecord1);
+        mdRecords.add(mdRecord2);
+        organizationalUnit.setMetadataRecords(mdRecords);
+
+        // create parent OU
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+
+        OrganizationalUnitHandlerClientInterface cc =
+            new OrganizationalUnitHandlerClient();
+        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+
+        OrganizationalUnit ou = cc.create(organizationalUnit);
+
+        // assert values of created OU
+        assertEquals("Name of OU wrong", ou.getProperties().getName(), ouName);
+        assertEquals("Description of OU wrong", ou
+            .getProperties().getDescription(), ouDescription);
+        assertEquals(2, ou.getMetadataRecords().size());
+
+        // delete md-records
+        ou.setMetadataRecords(null);
+
+        cc.update(ou);
     }
 
     /**

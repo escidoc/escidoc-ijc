@@ -67,7 +67,7 @@ public class ContextFilterTest extends AbstractParameterizedTestBase {
     public void testRetrieveContexts() throws Exception {
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
         filters.add(new Filter());
 
         Authentication auth =

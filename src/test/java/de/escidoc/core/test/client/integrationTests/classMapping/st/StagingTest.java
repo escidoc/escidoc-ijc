@@ -51,7 +51,7 @@ import de.escidoc.core.test.client.util.Template;
  * @author SWA
  * 
  */
-public class StagingTest extends EscidocClientTestBase {
+public class StagingTest {
 
     /**
      * Test to search repository.

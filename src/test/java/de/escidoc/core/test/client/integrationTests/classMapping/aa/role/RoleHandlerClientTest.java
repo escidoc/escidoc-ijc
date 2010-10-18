@@ -179,7 +179,7 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
     public void testSerializeRole() throws InternalClientException {
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
 
         filters.add(getFilter("limited", "false", null));
         filterParam.setFilters(filters);
@@ -201,7 +201,7 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
     public void testRetrieveRoles() throws EscidocClientException {
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
 
         filters.add(getFilter("limited", "false", null));
         filterParam.setFilters(filters);

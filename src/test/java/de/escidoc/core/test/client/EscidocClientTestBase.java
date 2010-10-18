@@ -55,7 +55,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  * @author SWA
  * 
  */
-public class EscidocClientTestBase {
+public final class EscidocClientTestBase {
 
     public static final String DEFAULT_INFRASTRUCTURE_HOST = "localhost";
 
@@ -77,6 +77,9 @@ public class EscidocClientTestBase {
         .compile("last-modification-date=\"([^\"]*)\"");
 
     private static TransportProtocol defaultTransportProtocol;
+
+    private EscidocClientTestBase() {
+    }
 
     /**
      * Asserts that the exception is of expected type<br>

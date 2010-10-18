@@ -248,7 +248,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
         cc.setTransport(transport);
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",
@@ -290,7 +290,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
         UserAccount me = uac.retrieveCurrentUser();
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",
@@ -338,7 +338,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
         UserAccount me = uac.retrieveCurrentUser();
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",

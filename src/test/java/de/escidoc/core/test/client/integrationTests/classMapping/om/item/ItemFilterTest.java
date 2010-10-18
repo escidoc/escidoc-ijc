@@ -89,7 +89,7 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
         tp.setComment("Lalalala!");
         tp.setPid("pid");
 
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = tp.getFilters();
         Collection<String> ids = new LinkedList<String>();
         ids.add("escidoc:7043");
         ids.add("escidoc:7044");
@@ -115,7 +115,7 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
     public void testRetrieveItems() throws Exception {
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
 
         filters.add(getFilter(
             "http://escidoc.de/core/01/structural-relations/created-by",
@@ -184,7 +184,7 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
 
         // now check if at least this Item is in the list
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = TaskParam.filtersFactory();
+        Collection<Filter> filters = filterParam.getFilters();
 
         filters.add(getFilter("/properties/creation-date", createdItem
             .getProperties().getCreationDate().withZone(DateTimeZone.UTC)

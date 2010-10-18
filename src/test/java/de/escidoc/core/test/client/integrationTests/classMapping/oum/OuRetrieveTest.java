@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -75,6 +76,7 @@ public class OuRetrieveTest extends AbstractParameterizedTestBase {
         OrganizationalUnit ou = cc.retrieve("escidoc:ex3");
 
         MetadataRecord mdRecord = ou.getMetadataRecords().get("escidoc");
+        assertNotNull(ou.getMetadataRecords().get("escidoc"));
         assertEquals("wrong name", "escidoc", mdRecord.getName());
     }
 
