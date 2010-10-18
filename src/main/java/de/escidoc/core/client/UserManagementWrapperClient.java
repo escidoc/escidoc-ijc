@@ -33,6 +33,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
+import de.escidoc.core.client.rest.RestUserManagementWrapperClient;
 import de.escidoc.core.client.soap.SoapUserManagementWrapperClient;
 
 /**
@@ -44,27 +45,12 @@ import de.escidoc.core.client.soap.SoapUserManagementWrapperClient;
  * 
  */
 public class UserManagementWrapperClient
+    extends
+    AbstractHandlerClient<SoapUserManagementWrapperClient, RestUserManagementWrapperClient>
     implements UserManagementWrapperClientInterface {
 
-    private SoapUserManagementWrapperClient soapUserManagementWrapperClient =
-        null;
-
-    private Authentication auth = null;
-
-    /**
-     * Create ContainersoapContainerHandlerClient instance. The service protocol
-     * (REST/SOAP/..) selected from the configuration. Default is SOAP.
-     * 
-     * @throws ClientException
-     * 
-     */
-    public UserManagementWrapperClient() throws EscidocException,
-        InternalClientException, TransportException {
-
-        // read service protocol from config or set as default SOAP
-        this.soapUserManagementWrapperClient =
-            new SoapUserManagementWrapperClient();
-    }
+    @Deprecated
+    private Authentication auth;
 
     /*
      * (non-Javadoc)
@@ -73,10 +59,15 @@ public class UserManagementWrapperClient
      * de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface
      * #logout()
      */
-    public void logout() throws EscidocClientException,
+    public void logout() throws EscidocException,
         InternalClientException, TransportException {
 
-        getSoapUserManagementWrapperClient().logout();
+        if (getTransport() == TransportProtocol.SOAP) {
+            getSoapHandlerClient().logout();
+        }
+        else {
+            getRestHandlerClient().logout();
+        }
     }
 
     /*
@@ -109,35 +100,16 @@ public class UserManagementWrapperClient
         return handle;
     }
 
-    /**
-     * See Interface for functional description.
-     * 
-     * @param handle
-     * @see de.escidoc.core.client.interfaces.BaseClientHandlerInterface#setHandle(java.lang.String)
-     */
-    public void setHandle(final String handle) {
-
-        getSoapUserManagementWrapperClient().setHandle(handle);
-    }
-
-    /**
-     * @return the soapContainerHandlerClient
-     */
-    public SoapUserManagementWrapperClient getSoapUserManagementWrapperClient() {
-        return soapUserManagementWrapperClient;
-    }
-
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
+    @Override
+    protected SoapUserManagementWrapperClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        getSoapUserManagementWrapperClient().setServiceAddress(address);
+        return new SoapUserManagementWrapperClient();
+    }
+
+    @Override
+    protected RestUserManagementWrapperClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestUserManagementWrapperClient();
     }
 
 }

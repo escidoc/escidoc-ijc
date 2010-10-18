@@ -35,14 +35,13 @@ import javax.xml.rpc.ServiceException;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.aa.UserManagementWrapper;
+import de.escidoc.core.aa.UserManagementWrapperServiceLocator;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.aa.UserManagementWrapper;
-import de.escidoc.core.aa.UserManagementWrapperServiceLocator;
 
 /**
  * SOAP Handler for User Management.
@@ -50,7 +49,7 @@ import de.escidoc.core.aa.UserManagementWrapperServiceLocator;
  * @author SWA
  * 
  */
-public class SoapUserManagementWrapperClient extends ClientBase {
+public class SoapUserManagementWrapperClient extends SoapClientBase {
 
     private UserManagementWrapper soapClient = null;
 
@@ -59,8 +58,14 @@ public class SoapUserManagementWrapperClient extends ClientBase {
         super();
     }
 
-    public void logout() throws EscidocClientException,
-        InternalClientException, TransportException {
+    /**
+     * 
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void logout() throws EscidocException, InternalClientException,
+        TransportException {
         try {
             getClient().logout();
         }
@@ -70,11 +75,28 @@ public class SoapUserManagementWrapperClient extends ClientBase {
     }
 
     /**
-     * @return Returns the soapClient.
+     * TODO ?
+     * 
+     * @param in0
+     * @throws EscidocException
      * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void initHandleExpiryTimestamp(String in0) throws EscidocException,
+        InternalClientException, TransportException {
+        try {
+            getClient().initHandleExpiryTimestamp(in0);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
-    @Override
     public UserManagementWrapper getClient() throws InternalClientException {
 
         try {
@@ -109,34 +131,17 @@ public class SoapUserManagementWrapperClient extends ClientBase {
         return soapClient;
     }
 
-    /**
-     * Get the last-modification timestamp of the context.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            The id of the context.
-     * @return The timestamp of the last modification of the context.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
+     * @see
+     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
+     * )
      */
-    @Override
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        DateTime result = null;
-        // try {
-        // result =
-        // (Factory.getContextMarshaller()
-        // .unmarshalDocument(getSoapClient().retrieve(id)))
-        // .getLastModificationDate();
-        // }
-        // catch (Exception e) {
-        // ExceptionMapper.map(e);
-        // }
-        return result;
+        return null;
     }
 
 }
