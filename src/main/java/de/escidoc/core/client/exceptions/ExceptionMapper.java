@@ -98,7 +98,8 @@ public class ExceptionMapper extends Exception {
      * @throws EscidocException
      */
     public static void constructEscidocException(
-        final int statusCode, final String statusLine, final String statusText)
+        final int statusCode, final String statusLine,
+        final String redirectLocation, final String statusText)
         throws SystemException, RemoteException {
 
         RemoteException result = null;
@@ -129,7 +130,7 @@ public class ExceptionMapper extends Exception {
                         String.class, String.class, String.class });
                 result =
                     (RemoteException) constructor.newInstance(statusCode,
-                        exceptionMessage, exceptionCause, null);
+                        exceptionMessage, exceptionCause, redirectLocation);
             }
             else {
                 Constructor<?> constructor =

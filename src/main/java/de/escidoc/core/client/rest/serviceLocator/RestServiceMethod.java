@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -44,13 +45,15 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author SWA
  * 
  */
-public class RestServiceMethod {
+public abstract class RestServiceMethod {
 
-    private String serviceAddress = null;
+    private String serviceAddress;
 
-    private MultiThreadedHttpConnectionManager connectionManager = null;
+    private MultiThreadedHttpConnectionManager connectionManager;
 
-    private HttpClient client = null;
+    private HttpClient client;
+
+    private boolean followRedirects = true;
 
     /**
      * Set the address of the service.
@@ -65,6 +68,14 @@ public class RestServiceMethod {
 
         URL url = new URL(address);
         this.serviceAddress = unifyAddress(url.toString());
+    }
+
+    /**
+     * 
+     * @param followRedirects
+     */
+    public void setFollowRedirects(final boolean followRedirects) {
+        this.followRedirects = followRedirects;
     }
 
     /**
@@ -84,6 +95,7 @@ public class RestServiceMethod {
 
         String result = null;
         PutMethod put = new PutMethod(this.serviceAddress + path);
+        put.setFollowRedirects(this.followRedirects);
         PWCallback.addEscidocUserHandleCookie(put);
 
         if (content != null) {
@@ -158,6 +170,7 @@ public class RestServiceMethod {
 
         String result = null;
         PutMethod put = new PutMethod(this.serviceAddress + path);
+        put.setFollowRedirects(this.followRedirects);
         PWCallback.addEscidocUserHandleCookie(put);
 
         put.setRequestBody(ins);
@@ -205,6 +218,7 @@ public class RestServiceMethod {
 
         String result = null;
         PostMethod post = new PostMethod(this.serviceAddress + path);
+        post.setFollowRedirects(this.followRedirects);
         PWCallback.addEscidocUserHandleCookie(post);
         RequestEntity entity;
         try {
@@ -249,6 +263,7 @@ public class RestServiceMethod {
 
         String result = null;
         GetMethod get = new GetMethod(this.serviceAddress + path);
+        get.setFollowRedirects(this.followRedirects);
         PWCallback.addEscidocUserHandleCookie(get);
 
         try {
@@ -312,6 +327,7 @@ public class RestServiceMethod {
 
         String result = null;
         DeleteMethod del = new DeleteMethod(this.serviceAddress + path);
+        del.setFollowRedirects(this.followRedirects);
         PWCallback.addEscidocUserHandleCookie(del);
 
         try {
@@ -348,8 +364,19 @@ public class RestServiceMethod {
         throws SystemException, RemoteException {
 
         if (method.getStatusCode() / 100 != 2) {
+            Header header = method.getResponseHeader("Location");
+            String redirectLocation = null;
+            if (header != null) {
+                redirectLocation = header.getValue();
+            }
+
+            /*
+             * TODO: ExceptionMapper does parse XML from response body to
+             * extract the Exception class, which is already given within the
+             * response header named as "eSciDocException".
+             */
             ExceptionMapper.constructEscidocException(method.getStatusCode(),
-                method.getStatusLine().toString(), body);
+                method.getStatusLine().toString(), redirectLocation, body);
         }
 
     }
