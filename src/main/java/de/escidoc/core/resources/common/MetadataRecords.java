@@ -78,10 +78,10 @@ public class MetadataRecords extends XLinkResourceList<MetadataRecord> {
     public void del(final String name) {
 
         Iterator<MetadataRecord> mdRecordIter = this.iterator();
-        while (mdRecordIter.hasNext()) {
+        for (int i=0; mdRecordIter.hasNext(); i++) {
             MetadataRecord next = mdRecordIter.next();
             if (next.getName().equals(name)) {
-                this.remove(name);
+                this.remove(i);
                 break;
             }
         }
