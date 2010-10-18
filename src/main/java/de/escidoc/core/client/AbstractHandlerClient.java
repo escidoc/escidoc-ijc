@@ -84,7 +84,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
             filter.setQuery("");
         }
     }
-    
+
     /**
      * This method validates the specified filter and sets default values to the
      * filter if and only if the tested values are null or empty.
@@ -194,6 +194,13 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
             restHandlerClient = getRestHandlerClientInstance();
             if (handle != null)
                 restHandlerClient.setHandle(handle);
+            /*
+             * When sending REST requests via independent HandlerClients, we
+             * have to get an AuthenticationException instead of the login page
+             * HTML code, since we are parsing the content of the response to
+             * objects:
+             */
+            restHandlerClient.setFollowRedirects(false);
         }
         restHandlerClient.setServiceAddress(serviceAddress);
         // restHandlerClient.setHandle(handle);
