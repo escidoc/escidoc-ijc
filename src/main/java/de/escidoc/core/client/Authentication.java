@@ -36,9 +36,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
 
 /**
  * Authenticate against eSciDoc framework.
@@ -48,17 +50,13 @@ import de.escidoc.core.client.exceptions.application.security.AuthenticationExce
  */
 public class Authentication {
 
-    private String handle = null;
+    private String handle;
 
-    private String serviceAddress = null;
+    private String serviceAddress;
 
-    private String username = null;
+    private String username;
 
-    /**
-     * Authentication.
-     */
-    public Authentication() {
-    }
+    private UserManagementWrapperClientInterface userManagement;
 
     /**
      * Authentication.
@@ -69,12 +67,16 @@ public class Authentication {
      *            Username
      * @param password
      *            Password.
+     * @throws TransportException
+     * @throws AuthenticationException
+     * @throws InternalClientException
      * 
      * @throws IOException
      *             Thrown if Authentication failed.
      */
     public Authentication(final String serviceAddress, final String username,
-        final String password) throws EscidocClientException {
+        final String password) throws AuthenticationException,
+        TransportException {
 
         login(serviceAddress, username, password);
     }
@@ -124,8 +126,7 @@ public class Authentication {
      */
     public String login(
         final String serviceUrl, final String username, final String password)
-        throws InternalClientException, TransportException,
-        AuthenticationException {
+        throws TransportException, AuthenticationException {
 
         this.serviceAddress = unifyAddress(serviceUrl);
         this.username = username;
@@ -214,14 +215,20 @@ public class Authentication {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void logout() throws EscidocClientException,
-        InternalClientException, TransportException {
+    public void logout() throws EscidocException, InternalClientException,
+        TransportException {
 
-        UserManagementWrapperClient umwc = new UserManagementWrapperClient();
-        umwc.setServiceAddress(this.serviceAddress);
-        umwc.setHandle(this.handle);
-
-        umwc.logout();
+        if (userManagement == null) {
+            userManagement = new UserManagementWrapperClient();
+            /*
+             * The serviceAddress and handle do not change within an instance of
+             * this class.
+             */
+            userManagement.setServiceAddress(serviceAddress);
+            userManagement.setHandle(handle);
+            userManagement.setTransport(TransportProtocol.REST);
+        }
+        userManagement.logout();
     }
 
     /**
