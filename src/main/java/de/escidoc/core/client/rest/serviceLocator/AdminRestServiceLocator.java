@@ -22,7 +22,9 @@ public class AdminRestServiceLocator extends RestServiceMethod
 
     private static final String PATH_CONTEXT = "/adm/admin";
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.adm.AdminHandler#deleteObjects(java.lang.String)
      */
     public String deleteObjects(final String taskParam) throws RemoteException,
@@ -31,7 +33,9 @@ public class AdminRestServiceLocator extends RestServiceMethod
         return post(PATH_CONTEXT + "/deleteobjects", taskParam);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.adm.AdminHandler#getPurgeStatus()
      */
     public String getPurgeStatus() throws RemoteException, SystemException,
@@ -39,7 +43,9 @@ public class AdminRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTEXT + "/deleteobjects");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.adm.AdminHandler#getRecacheStatus()
      */
     public String getRecacheStatus() throws RemoteException, SystemException,
@@ -47,7 +53,9 @@ public class AdminRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTEXT + "/recache");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.adm.AdminHandler#getReindexStatus()
      */
     public String getReindexStatus() throws RemoteException, SystemException,
@@ -55,8 +63,11 @@ public class AdminRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTEXT + "/reindex");
     }
 
-    /* (non-Javadoc)
-     * @see de.escidoc.core.adm.AdminHandler#decreaseReindexStatus(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.adm.AdminHandler#decreaseReindexStatus(java.lang.String)
      */
     public void decreaseReindexStatus(final String taskParam)
         throws RemoteException, SystemException, AuthorizationException,
@@ -64,24 +75,32 @@ public class AdminRestServiceLocator extends RestServiceMethod
         post(PATH_CONTEXT + "/decrease-reindex-status", taskParam);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.adm.AdminHandler#recache(java.lang.String)
      */
     public String recache(final String clearCache) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException {
-        return post(PATH_CONTEXT + "/recache/" + clearCache, null);
+        return post(PATH_CONTEXT + "/recache/" + clearCache, "");
     }
 
-    /* (non-Javadoc)
-     * @see de.escidoc.core.adm.AdminHandler#reindex(java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.adm.AdminHandler#reindex(java.lang.String,
+     * java.lang.String)
      */
     public String reindex(final String clearIndex, final String indexNamePrefix)
         throws RemoteException, SystemException, InvalidSearchQueryException,
         AuthorizationException, AuthenticationException {
-        return post(PATH_CONTEXT + "/reindex/" + indexNamePrefix, null);
+        return post(PATH_CONTEXT + "/reindex/" + clearIndex + "/"
+            + indexNamePrefix, "");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.adm.AdminHandler#getRepositoryInfo()
      */
     public String getRepositoryInfo() throws RemoteException, SystemException,
@@ -89,7 +108,9 @@ public class AdminRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTEXT + "/get-repository-info");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.adm.AdminHandler#loadExamples(java.lang.String)
      */
     public String loadExamples(final String exampleSet) throws RemoteException,
