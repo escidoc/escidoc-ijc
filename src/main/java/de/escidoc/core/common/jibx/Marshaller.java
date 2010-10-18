@@ -18,24 +18,26 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  * 
  * @param <E>
  */
-@SuppressWarnings("rawtypes")
 public class Marshaller<E> {
 
-    private Class resourceClass;
+    private Class<?> resourceClass;
 
     private String bindingName;
 
     /**
      * 
      * @param resourceClass
-     * @throws InternalClientException
      */
-    public Marshaller(final Class resourceClass) throws InternalClientException {
+    public Marshaller(final Class<?> resourceClass) {
         this.resourceClass = resourceClass;
     }
 
-    public Marshaller(final Class resourceClass, String bindingName)
-        throws InternalClientException {
+    /**
+     * 
+     * @param resourceClass
+     * @param bindingName
+     */
+    public Marshaller(final Class<?> resourceClass, String bindingName) {
         this.resourceClass = resourceClass;
         this.bindingName = bindingName;
     }
@@ -134,7 +136,7 @@ public class Marshaller<E> {
      * @return
      * @throws JiBXException
      */
-    private IBindingFactory getBindingFactory(final Class resource)
+    private IBindingFactory getBindingFactory(final Class<?> resource)
         throws JiBXException {
         if (bindingName != null && !bindingName.isEmpty()) {
             return BindingDirectory.getFactory(bindingName, resource);
