@@ -1,7 +1,6 @@
 package de.escidoc.core.common.jibx;
 
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Results;
@@ -157,17 +156,22 @@ public class MarshallerFactory {
     private static Marshaller<SearchRetrieveResponse> searchRetrieveResponseMarshaller =
         null;
 
+    private static Marshaller<de.escidoc.core.resources.common.Properties> commonPropertiesMarshaller;
+
     private final TransportProtocol transport;
 
+    /**
+     * 
+     * @param transport
+     */
     protected MarshallerFactory(TransportProtocol transport) {
         this.transport = transport;
     }
 
     /**
      * @return the itemMarshaller
-     * @throws InternalClientException
      */
-    public Marshaller<Item> getItemMarshaller() throws InternalClientException {
+    public Marshaller<Item> getItemMarshaller() {
 
         if (itemMarshaller == null) {
             itemMarshaller = new Marshaller<Item>(Item.class);
@@ -178,12 +182,10 @@ public class MarshallerFactory {
     }
 
     /**
-     * FIXME Filter and Search should be the same.
      * 
      * @return the searchResultMarshaller
      */
-    public Marshaller<SearchResultRecord> getSearchResultMarshaller()
-        throws InternalClientException {
+    public Marshaller<SearchResultRecord> getSearchResultMarshaller() {
 
         if (searchResultMarshaller == null) {
             searchResultMarshaller =
@@ -197,8 +199,7 @@ public class MarshallerFactory {
     /**
      * @return the componentMarshaller
      */
-    public Marshaller<Component> getComponentMarshaller()
-        throws InternalClientException {
+    public Marshaller<Component> getComponentMarshaller() {
 
         if (componentMarshaller == null) {
             componentMarshaller = new Marshaller<Component>(Component.class);
@@ -211,8 +212,7 @@ public class MarshallerFactory {
     /**
      * @return the itemListMarshaller
      */
-    public Marshaller<ItemList> getItemListMarshaller()
-        throws InternalClientException {
+    public Marshaller<ItemList> getItemListMarshaller() {
 
         if (itemListMarshaller == null) {
             itemListMarshaller = new Marshaller<ItemList>(ItemList.class);
@@ -225,8 +225,7 @@ public class MarshallerFactory {
     /**
      * @return the memberListMarshaller
      */
-    public Marshaller<MemberList> getMemberListMarshaller()
-        throws InternalClientException {
+    public Marshaller<MemberList> getMemberListMarshaller() {
 
         if (memberListMarshaller == null) {
             memberListMarshaller = new Marshaller<MemberList>(MemberList.class);
@@ -239,8 +238,7 @@ public class MarshallerFactory {
     /**
      * @return the containerListMarshaller
      */
-    public Marshaller<ContainerList> getContainerListMarshaller()
-        throws InternalClientException {
+    public Marshaller<ContainerList> getContainerListMarshaller() {
 
         if (containerListMarshaller == null) {
             containerListMarshaller =
@@ -254,8 +252,7 @@ public class MarshallerFactory {
     /**
      * @return the containerMarshaller
      */
-    public Marshaller<Container> getContainerMarshaller()
-        throws InternalClientException {
+    public Marshaller<Container> getContainerMarshaller() {
 
         if (containerMarshaller == null) {
             containerMarshaller = new Marshaller<Container>(Container.class);
@@ -268,8 +265,7 @@ public class MarshallerFactory {
     /**
      * @return the contentRelationMarshaller
      */
-    public Marshaller<ContentRelation> getContentRelationMarshaller()
-        throws InternalClientException {
+    public Marshaller<ContentRelation> getContentRelationMarshaller() {
 
         if (contentRelationMarshaller == null) {
             contentRelationMarshaller =
@@ -283,8 +279,7 @@ public class MarshallerFactory {
     /**
      * @return the contextListMarshaller
      */
-    public Marshaller<ContextList> getContextListMarshaller()
-        throws InternalClientException {
+    public Marshaller<ContextList> getContextListMarshaller() {
 
         if (contextListMarshaller == null) {
             contextListMarshaller =
@@ -298,8 +293,7 @@ public class MarshallerFactory {
     /**
      * @return the contextMarshaller
      */
-    public Marshaller<Context> getContextMarshaller()
-        throws InternalClientException {
+    public Marshaller<Context> getContextMarshaller() {
 
         if (contextMarshaller == null) {
             contextMarshaller = new Marshaller<Context>(Context.class);
@@ -312,8 +306,7 @@ public class MarshallerFactory {
     /**
      * @return the contentModelMarshaller
      */
-    public Marshaller<ContentModel> getContentModelMarshaller()
-        throws InternalClientException {
+    public Marshaller<ContentModel> getContentModelMarshaller() {
 
         if (contentModelMarshaller == null) {
             contentModelMarshaller =
@@ -327,8 +320,7 @@ public class MarshallerFactory {
     /**
      * @return the organizationalUnitMarshaller
      */
-    public Marshaller<OrganizationalUnit> getOrganizationalUnitMarshaller()
-        throws InternalClientException {
+    public Marshaller<OrganizationalUnit> getOrganizationalUnitMarshaller() {
 
         if (organizationalUnitMarshaller == null) {
             organizationalUnitMarshaller =
@@ -342,8 +334,7 @@ public class MarshallerFactory {
     /**
      * @return the organizationalUnitListMarshaller
      */
-    public Marshaller<OrganizationalUnitList> getOrganizationalUnitListMarshaller()
-        throws InternalClientException {
+    public Marshaller<OrganizationalUnitList> getOrganizationalUnitListMarshaller() {
 
         if (organizationalUnitListMarshaller == null) {
             organizationalUnitListMarshaller =
@@ -358,8 +349,7 @@ public class MarshallerFactory {
     /**
      * @return the pathListMarshaller
      */
-    public Marshaller<PathList> getPathListMarshaller()
-        throws InternalClientException {
+    public Marshaller<PathList> getPathListMarshaller() {
 
         if (pathListMarshaller == null) {
             pathListMarshaller = new Marshaller<PathList>(PathList.class);
@@ -372,8 +362,7 @@ public class MarshallerFactory {
     /**
      * @return the taskParamMarshaller
      */
-    public Marshaller<TaskParam> getTaskParamMarshaller()
-        throws InternalClientException {
+    public Marshaller<TaskParam> getTaskParamMarshaller() {
 
         if (taskParamMarshaller == null) {
             taskParamMarshaller = new Marshaller<TaskParam>(TaskParam.class);
@@ -386,8 +375,7 @@ public class MarshallerFactory {
     /**
      * @return the resultMarshaller
      */
-    public Marshaller<Result> getResultMarshaller()
-        throws InternalClientException {
+    public Marshaller<Result> getResultMarshaller() {
 
         if (resultMarshaller == null) {
             resultMarshaller = new Marshaller<Result>(Result.class);
@@ -400,8 +388,7 @@ public class MarshallerFactory {
     /**
      * @return the versionHistoryMarshaller
      */
-    public Marshaller<VersionHistory> getVersionHistoryMarshaller()
-        throws InternalClientException {
+    public Marshaller<VersionHistory> getVersionHistoryMarshaller() {
         if (versionHistoryMarshaller == null) {
             versionHistoryMarshaller =
                 new Marshaller<VersionHistory>(VersionHistory.class);
@@ -414,8 +401,7 @@ public class MarshallerFactory {
     /**
      * @return the structMapMarshaller
      */
-    public Marshaller<StructMap> getStructMapMarshaller()
-        throws InternalClientException {
+    public Marshaller<StructMap> getStructMapMarshaller() {
         if (structMapMarshaller == null) {
             structMapMarshaller = new Marshaller<StructMap>(StructMap.class);
         }
@@ -427,8 +413,7 @@ public class MarshallerFactory {
     /**
      * @return the adminDescriptorMarshaller
      */
-    public Marshaller<AdminDescriptor> getAdminDescriptorMarshaller()
-        throws InternalClientException {
+    public Marshaller<AdminDescriptor> getAdminDescriptorMarshaller() {
         if (adminDescriptorMarshaller == null) {
             adminDescriptorMarshaller =
                 new Marshaller<AdminDescriptor>(AdminDescriptor.class);
@@ -441,8 +426,7 @@ public class MarshallerFactory {
     /**
      * @return the adminDescriptorListMarshaller
      */
-    public Marshaller<AdminDescriptors> getAdminDescriptorListMarshaller()
-        throws InternalClientException {
+    public Marshaller<AdminDescriptors> getAdminDescriptorListMarshaller() {
         if (adminDescriptorListMarshaller == null) {
             adminDescriptorListMarshaller =
                 new Marshaller<AdminDescriptors>(AdminDescriptors.class);
@@ -455,7 +439,7 @@ public class MarshallerFactory {
     /**
      * @return the tocMarshaller
      */
-    public Marshaller<Toc> getTocMarshaller() throws InternalClientException {
+    public Marshaller<Toc> getTocMarshaller() {
         if (tocMarshaller == null) {
             tocMarshaller = new Marshaller<Toc>(Toc.class);
         }
@@ -469,8 +453,7 @@ public class MarshallerFactory {
     /**
      * @return the propertiesMarshaller
      */
-    public Marshaller<Properties> getPropertiesMarshaller()
-        throws InternalClientException {
+    public Marshaller<Properties> getPropertiesMarshaller() {
         if (propertiesMarshaller == null) {
             propertiesMarshaller = new Marshaller<Properties>(Properties.class);
         }
@@ -482,8 +465,7 @@ public class MarshallerFactory {
     /**
      * @return the metadataRecordsMarshaller
      */
-    public Marshaller<MetadataRecords> getMetadataRecordsMarshaller()
-        throws InternalClientException {
+    public Marshaller<MetadataRecords> getMetadataRecordsMarshaller() {
         if (metadataRecordsMarshaller == null) {
             metadataRecordsMarshaller =
                 new Marshaller<MetadataRecords>(MetadataRecords.class);
@@ -496,8 +478,7 @@ public class MarshallerFactory {
     /**
      * @return the relationsRecordsMarshaller
      */
-    public Marshaller<Relations> getRelationsMarshaller()
-        throws InternalClientException {
+    public Marshaller<Relations> getRelationsMarshaller() {
         if (relationsMarshaller == null) {
             relationsMarshaller = new Marshaller<Relations>(Relations.class);
         }
@@ -506,8 +487,7 @@ public class MarshallerFactory {
         return relationsMarshaller;
     }
 
-    public Marshaller<UserAccount> getUserAccountMarshaller()
-        throws InternalClientException {
+    public Marshaller<UserAccount> getUserAccountMarshaller() {
         if (userAccountMarshaller == null) {
             userAccountMarshaller =
                 new Marshaller<UserAccount>(UserAccount.class);
@@ -518,8 +498,7 @@ public class MarshallerFactory {
         return userAccountMarshaller;
     }
 
-    public Marshaller<Requests> getPDPRequestsMarshaller()
-        throws InternalClientException {
+    public Marshaller<Requests> getPDPRequestsMarshaller() {
         if (pdpRequestsMarshaller == null) {
             pdpRequestsMarshaller = new Marshaller<Requests>(Requests.class);
 
@@ -529,8 +508,7 @@ public class MarshallerFactory {
         return pdpRequestsMarshaller;
     }
 
-    public Marshaller<Results> getPDPResultsMarshaller()
-        throws InternalClientException {
+    public Marshaller<Results> getPDPResultsMarshaller() {
         if (pdpResultsMarshaller == null) {
             pdpResultsMarshaller = new Marshaller<Results>(Results.class);
 
@@ -539,7 +517,7 @@ public class MarshallerFactory {
         return pdpResultsMarshaller;
     }
 
-    public Marshaller<Role> getRoleMarshaller() throws InternalClientException {
+    public Marshaller<Role> getRoleMarshaller() {
         if (roleMarshaller == null) {
             roleMarshaller = new Marshaller<Role>(Role.class);
 
@@ -549,8 +527,7 @@ public class MarshallerFactory {
         return roleMarshaller;
     }
 
-    public Marshaller<UserAccountProperties> getUserAccountPropertiesMarshaller()
-        throws InternalClientException {
+    public Marshaller<UserAccountProperties> getUserAccountPropertiesMarshaller() {
         if (userAccountPropertiesMarshaller == null) {
             userAccountPropertiesMarshaller =
                 new Marshaller<UserAccountProperties>(UserAccount.class);
@@ -561,8 +538,7 @@ public class MarshallerFactory {
         return userAccountPropertiesMarshaller;
     }
 
-    public Marshaller<Grant> getGrantMarshaller()
-        throws InternalClientException {
+    public Marshaller<Grant> getGrantMarshaller() {
         if (grantMarshaller == null) {
             grantMarshaller = new Marshaller<Grant>(Grant.class);
         }
@@ -571,8 +547,7 @@ public class MarshallerFactory {
         return grantMarshaller;
     }
 
-    public Marshaller<Grants> getGrantsMarshaller()
-        throws InternalClientException {
+    public Marshaller<Grants> getGrantsMarshaller() {
         if (grantsMarshaller == null) {
             grantsMarshaller = new Marshaller<Grants>(Grants.class);
         }
@@ -581,8 +556,7 @@ public class MarshallerFactory {
         return grantsMarshaller;
     }
 
-    public Marshaller<Attribute> getAttributeMarshaller()
-        throws InternalClientException {
+    public Marshaller<Attribute> getAttributeMarshaller() {
         if (attributeMarshaller == null) {
             attributeMarshaller = new Marshaller<Attribute>(Attribute.class);
         }
@@ -591,8 +565,7 @@ public class MarshallerFactory {
         return attributeMarshaller;
     }
 
-    public Marshaller<Attributes> getAttributesMarshaller()
-        throws InternalClientException {
+    public Marshaller<Attributes> getAttributesMarshaller() {
         if (attributesMarshaller == null) {
             attributesMarshaller = new Marshaller<Attributes>(Attributes.class);
         }
@@ -601,8 +574,7 @@ public class MarshallerFactory {
         return attributesMarshaller;
     }
 
-    public Marshaller<Preference> getPreferenceMarshaller()
-        throws InternalClientException {
+    public Marshaller<Preference> getPreferenceMarshaller() {
         if (preferenceMarshaller == null) {
             preferenceMarshaller = new Marshaller<Preference>(Preference.class);
         }
@@ -611,8 +583,7 @@ public class MarshallerFactory {
         return preferenceMarshaller;
     }
 
-    public Marshaller<Preferences> getPreferencesMarshaller()
-        throws InternalClientException {
+    public Marshaller<Preferences> getPreferencesMarshaller() {
         if (preferencesMarshaller == null) {
             preferencesMarshaller =
                 new Marshaller<Preferences>(Preferences.class);
@@ -622,8 +593,7 @@ public class MarshallerFactory {
         return preferencesMarshaller;
     }
 
-    public Marshaller<UserAccounts> getUserAccountListMarshaller()
-        throws InternalClientException {
+    public Marshaller<UserAccounts> getUserAccountListMarshaller() {
         if (userAccountListMarshaller == null) {
             userAccountListMarshaller =
                 new Marshaller<UserAccounts>(UserAccounts.class);
@@ -633,8 +603,7 @@ public class MarshallerFactory {
         return userAccountListMarshaller;
     }
 
-    public Marshaller<UnsecuredActions> getUnsecuredActionsMarshaller()
-        throws InternalClientException {
+    public Marshaller<UnsecuredActions> getUnsecuredActionsMarshaller() {
         if (unsecuredActionsMarshaller == null) {
             unsecuredActionsMarshaller =
                 new Marshaller<UnsecuredActions>(UnsecuredActions.class);
@@ -644,8 +613,7 @@ public class MarshallerFactory {
         return unsecuredActionsMarshaller;
     }
 
-    public Marshaller<Roles> getRoleListMarshaller()
-        throws InternalClientException {
+    public Marshaller<Roles> getRoleListMarshaller() {
         if (roleListMarshaller == null) {
             roleListMarshaller = new Marshaller<Roles>(Roles.class);
         }
@@ -654,8 +622,7 @@ public class MarshallerFactory {
         return roleListMarshaller;
     }
 
-    public Marshaller<Parents> getParentsMarshaller()
-        throws InternalClientException {
+    public Marshaller<Parents> getParentsMarshaller() {
         if (parentsMarshaller == null) {
             parentsMarshaller = new Marshaller<Parents>(Parents.class);
         }
@@ -664,8 +631,7 @@ public class MarshallerFactory {
         return parentsMarshaller;
     }
 
-    public Marshaller<MetadataRecord> getMetadataRecordMarshaller()
-        throws InternalClientException {
+    public Marshaller<MetadataRecord> getMetadataRecordMarshaller() {
         if (metadataRecordMarshaller == null) {
             metadataRecordMarshaller =
                 new Marshaller<MetadataRecord>(MetadataRecord.class);
@@ -677,10 +643,8 @@ public class MarshallerFactory {
 
     /**
      * @return the explainResponseMarshaller
-     * @throws InternalClientException
      */
-    public Marshaller<ExplainResponse> getExplainResponseMarshaller()
-        throws InternalClientException {
+    public Marshaller<ExplainResponse> getExplainResponseMarshaller() {
         if (explainResponseMarshaller == null) {
             explainResponseMarshaller =
                 new Marshaller<ExplainResponse>(ExplainResponse.class);
@@ -693,10 +657,8 @@ public class MarshallerFactory {
     /**
      * 
      * @return
-     * @throws InternalClientException
      */
-    public Marshaller<ScanResponse> getScanResponseMarshaller()
-        throws InternalClientException {
+    public Marshaller<ScanResponse> getScanResponseMarshaller() {
         if (scanResponseMarshaller == null) {
             scanResponseMarshaller =
                 new Marshaller<ScanResponse>(ScanResponse.class);
@@ -709,10 +671,8 @@ public class MarshallerFactory {
     /**
      * 
      * @return
-     * @throws InternalClientException
      */
-    public Marshaller<SearchRetrieveResponse> getSearchRetrieveResponseMarshaller()
-        throws InternalClientException {
+    public Marshaller<SearchRetrieveResponse> getSearchRetrieveResponseMarshaller() {
         if (searchRetrieveResponseMarshaller == null) {
             searchRetrieveResponseMarshaller =
                 new Marshaller<SearchRetrieveResponse>(
@@ -721,6 +681,30 @@ public class MarshallerFactory {
         searchRetrieveResponseMarshaller.setBindingName(transport.name());
 
         return searchRetrieveResponseMarshaller;
+    }
+
+    /**
+     * Returns a marshaller to be used for marshalling/unmarshalling of common
+     * properties. For example:<br/><br/>
+     * <code>
+     * &lt;properties&gt;<br/>
+     * &lt;entry key="keyName"&gt;value&lt;/entry&gt;<br/>
+     * &lt;entry key="keyName"&gt;value&lt;/entry&gt;<br/>
+     * &lt;entry key="keyName"&gt;value&lt;/entry&gt;<br/>
+     * &lt;/properties&gt;<br/>
+     * </code>
+     * 
+     * @return a marshaller for the common properties.
+     */
+    public Marshaller<de.escidoc.core.resources.common.Properties> getCommonPropertiesMarshaller() {
+        if (commonPropertiesMarshaller == null) {
+            commonPropertiesMarshaller =
+                new Marshaller<de.escidoc.core.resources.common.Properties>(
+                    de.escidoc.core.resources.common.Properties.class);
+        }
+        commonPropertiesMarshaller.setBindingName(transport.name());
+
+        return commonPropertiesMarshaller;
     }
 
 }

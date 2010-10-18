@@ -14,6 +14,7 @@
 	<!-- include path="rest/common/0.4/properties-no-versioned-binding.xml" 
 		/ -->
 	<!-- include path="rest/common/0.4/abstract-relations-binding.xml" / -->
+	<include path="rest/common/properties-binding.xml"/>
 
 	<!-- CMM -->
 	<include path="rest/cmm/0.1/content-model-binding.xml" />
@@ -42,8 +43,4 @@
 	<include path="rest/sb/explain-data-binding.xml" />
 	<include path="rest/sb/search-retrieve-response-binding.xml" />
 	<include path="rest/sb/0.8/search-result-record-binding.xml" />
-
-	Test
-	<!-- <include path="rest/test/root-binding.xml" /> -->
-
 </binding>
