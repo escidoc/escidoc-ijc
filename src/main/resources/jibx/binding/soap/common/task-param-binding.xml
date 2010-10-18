@@ -43,21 +43,27 @@
 		<!-- *****************************************
 			IDs 
 			****************************************** -->
-		<collection field="ids" usage="optional">
-			<value name="id" />
+		<collection field="ids" usage="optional" create-type="java.util.LinkedList">
+			<value name="id" type="java.lang.String"/>
 		</collection>
 
 		<!-- *****************************************
 			Filter 
 			****************************************** -->
-		<collection field="filters"
-			factory="de.escidoc.core.resources.common.TaskParam.filtersFactory">
-			<structure name="filter"
+		<collection field="filters" usage="optional"
+		  create-type="java.util.LinkedList">
+			<structure name="filter" usage="optional"
 				type="de.escidoc.core.resources.common.Filter"
-					marshaller="de.escidoc.core.common.jibx.binding.Filter"
-					unmarshaller="de.escidoc.core.common.jibx.binding.Filter"
+					marshaller="de.escidoc.core.common.jibx.binding.FilterMarshaller"
+					unmarshaller="de.escidoc.core.common.jibx.binding.FilterMarshaller"
 				/>
 		</collection>
+		
+		<!-- *****************************************
+      keepInSync
+      ****************************************** -->
+    <value name="keepInSync" set-method="setKeepInSync" 
+      get-method="isKeepInSync" usage="optional"/>
 	</mapping>
 	<!-- end: binding of a task param -->
 </binding>
