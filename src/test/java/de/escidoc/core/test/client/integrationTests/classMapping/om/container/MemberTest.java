@@ -53,6 +53,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
@@ -355,9 +356,10 @@ public class MemberTest extends AbstractParameterizedTestBase {
         item.setMetadataRecords(mdRecords);
 
         // login
-        ItemHandlerClient ihc = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc = new ItemHandlerClient();
         ihc.setServiceAddress(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
 
         // create
         Item newItem = ihc.create(item);
