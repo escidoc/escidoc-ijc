@@ -28,22 +28,21 @@
  */
 package de.escidoc.core.client.interfaces;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 
 /**
  * Marker interface for ingest handlers
- *
+ * 
  * @author KST
- *
+ * 
  */
-public interface IngestHandlerInterface {
+public interface IngestHandlerInterface extends HandlerServiceInterface {
 
     /**
      * Ingest a resource.
-     *
+     * 
      * @param resourceXml
      * @return
      * @throws EscidocException
@@ -52,33 +51,5 @@ public interface IngestHandlerInterface {
      */
     String ingest(final String resourceXml) throws EscidocException,
         InternalClientException, TransportException;
-
-    /**
-     * Set the Authentication Handle.
-     *
-     * @param handle
-     *            The Authentication Handle Shibboleth).
-     * @throws InternalClientException
-     *             Thrown if setting failed.
-     */
-    void setHandle(final String handle) throws InternalClientException;
-
-    /**
-     * Set the Service Address.
-     *
-     * @param handle
-     *            The String containing the Service Address of eSciDocCore).
-     * @throws InternalClientException
-     *             Thrown if setting failed.
-     */
-    void setServiceAddress(final String address) throws InternalClientException;
-
-    /**
-     * Set the Transport Protocol.
-     *
-     * @param tp
-     *            The Enum containing the TransportProtocol to be used).
-     */
-    void setTransport(final TransportProtocol tp);
 
 }

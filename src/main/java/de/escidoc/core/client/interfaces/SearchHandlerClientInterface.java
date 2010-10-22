@@ -49,7 +49,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA, MVO
  * 
  */
-public interface SearchHandlerClientInterface {
+public interface SearchHandlerClientInterface extends HandlerServiceInterface {
     
 	/**
      * @param request
