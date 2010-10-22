@@ -42,7 +42,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  * @author SWA
  * 
  */
-public interface StagingHandlerInterface {
+public interface StagingHandlerClientInterface extends HandlerServiceInterface {
 
     /**
      * Upload a resource.
@@ -65,15 +65,4 @@ public interface StagingHandlerInterface {
      */
     URL upload(final InputStream in) throws EscidocException,
         InternalClientException, TransportException;
-
-    /**
-     * Set the Service Address.
-     * 
-     * @param handle
-     *            The String containing the Service Address of eSciDocCore).
-     * @throws InternalClientException
-     *             Thrown if setting failed.
-     */
-    void setServiceAddress(final String address) throws InternalClientException;
-
 }
