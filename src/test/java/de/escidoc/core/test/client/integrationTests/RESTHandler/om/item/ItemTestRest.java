@@ -29,25 +29,17 @@
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.item;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-
-import java.util.Collection;
 
 import org.apache.xpath.XPathAPI;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.client.exceptions.EscidocClientException;
-import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.common.XmlUtility;
-import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -60,6 +52,24 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class ItemTestRest {
 
+    private Authentication auth;
+
+    private RestItemHandlerClient cc;
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new RestItemHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+
     /**
      * Test if retrieve Item via REST is successful.
      * 
@@ -68,15 +78,6 @@ public class ItemTestRest {
      */
     @Test
     public void testRetrieveItem01() throws Exception {
-
-        final Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        final RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-
         cc.retrieve(Constants.EXAMPLE_ITEM_ID);
     }
 
@@ -88,15 +89,6 @@ public class ItemTestRest {
      */
     @Test
     public void testCreateItem01() throws Exception {
-
-        final Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        final RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-
         // retrieve a valid Item
         final String item = cc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
@@ -151,15 +143,6 @@ public class ItemTestRest {
      */
     @Test
     public void testCreateItem02() throws Exception {
-
-        final Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        final RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-
         final String itemXml =
             EscidocClientTestBase.getXmlFileAsString(Template
                 .load("/rest/om/item/0.9/item01.xml"));
@@ -216,15 +199,6 @@ public class ItemTestRest {
      */
     @Test
     public void testUpdateItem01() throws Exception {
-
-        final Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        final RestItemHandlerClient cc = new RestItemHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-
         final String itemXml =
             EscidocClientTestBase.getXmlFileAsString(Template
                 .load("/rest/om/item/0.9/item01.xml"));
@@ -258,9 +232,11 @@ public class ItemTestRest {
         assertEquals("dc:title not updated in md-record", titleNew,
             itemUpdatedDoc
                 .getElementsByTagName("dc:title").item(0).getTextContent());
-
     }
-
+    
+    /**
+     * TODO: This is NOT a REST test.
+     *
     @Test
     public void shouldReturnAllReleasedItems() throws EscidocClientException {
         final Authentication auth =
@@ -280,5 +256,5 @@ public class ItemTestRest {
         assertNotNull("retrieveItems should not be null.", retrieveItems);
         assertTrue("retrieveItems should not be empty.",
             !retrieveItems.isEmpty());
-    }
+    }*/
 }
