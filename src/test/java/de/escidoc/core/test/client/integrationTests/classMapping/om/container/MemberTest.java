@@ -40,6 +40,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,8 +77,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class MemberTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContainerHandlerClientInterface cc;
+
     public MemberTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContainerHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -87,21 +108,11 @@ public class MemberTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void addMember01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         // create Container
         Container container = createContainer(cc);
 
         // create Item
-        Item item = createItem(auth);
+        Item item = createItem();
 
         // task oriented methods take values via task param
         TaskParam taskParam = new TaskParam();
@@ -128,26 +139,16 @@ public class MemberTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void addMember02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         // create Container
         Container container = createContainer(cc);
 
         // create Item
-        Item item1 = createItem(auth);
-        Item item2 = createItem(auth);
-        Item item3 = createItem(auth);
-        Item item4 = createItem(auth);
-        Item item5 = createItem(auth);
-        Item item6 = createItem(auth);
+        Item item1 = createItem();
+        Item item2 = createItem();
+        Item item3 = createItem();
+        Item item4 = createItem();
+        Item item5 = createItem();
+        Item item6 = createItem();
 
         // task oriented methods take values via task param
         TaskParam taskParam = new TaskParam();
@@ -200,26 +201,16 @@ public class MemberTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void deleteMember02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         // create Container
         Container container = createContainer(cc);
 
         // create Item
-        Item item1 = createItem(auth);
-        Item item2 = createItem(auth);
-        Item item3 = createItem(auth);
-        Item item4 = createItem(auth);
-        Item item5 = createItem(auth);
-        Item item6 = createItem(auth);
+        Item item1 = createItem();
+        Item item2 = createItem();
+        Item item3 = createItem();
+        Item item4 = createItem();
+        Item item5 = createItem();
+        Item item6 = createItem();
 
         // task oriented methods take values via task param
         TaskParam taskParam = new TaskParam();
@@ -338,9 +329,8 @@ public class MemberTest extends AbstractParameterizedTestBase {
      * @throws EscidocException
      * @throws TransportException
      */
-    private Item createItem(final Authentication auth)
-        throws ParserConfigurationException, InternalClientException,
-        EscidocException, TransportException {
+    private Item createItem() throws ParserConfigurationException,
+        InternalClientException, EscidocException, TransportException {
 
         Item item = new Item();
 
@@ -356,8 +346,8 @@ public class MemberTest extends AbstractParameterizedTestBase {
         item.setMetadataRecords(mdRecords);
 
         // login
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(auth.getServiceAddress());
+        ItemHandlerClientInterface ihc =
+            new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
         ihc.setTransport(transport);
 

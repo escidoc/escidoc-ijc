@@ -30,12 +30,13 @@ package de.escidoc.core.test.client.integrationTests.classMapping.aa.pdp;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.sun.xacml.attr.StringAttribute;
@@ -66,8 +67,27 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private PolicyDecisionPointHandlerClientInterface pdpc;
+
     public PdpHandlerClientTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        pdpc = new PolicyDecisionPointHandlerClient(auth.getServiceAddress());
+        pdpc.setHandle(auth.getHandle());
+        pdpc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     @Test
@@ -90,17 +110,6 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testEvaluateRequests() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        PolicyDecisionPointHandlerClientInterface pdpc =
-            new PolicyDecisionPointHandlerClient();
-        pdpc.setServiceAddress(auth.getServiceAddress());
-        pdpc.setHandle(auth.getHandle());
-        pdpc.setTransport(transport);
-
         Requests requests = new Requests();
 
         // request 1
@@ -207,16 +216,6 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testMultipleSubjects() throws Exception {
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        PolicyDecisionPointHandlerClientInterface pdpc =
-            new PolicyDecisionPointHandlerClient();
-        pdpc.setServiceAddress(auth.getServiceAddress());
-        pdpc.setHandle(auth.getHandle());
-        pdpc.setTransport(transport);
-
         Requests requests = new Requests();
 
         Set<Subject> subjects = new HashSet<Subject>();

@@ -36,6 +36,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -60,8 +62,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class OuDeleteTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private OrganizationalUnitHandlerClientInterface ohc;
+
     public OuDeleteTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+        ohc.setHandle(auth.getHandle());
+        ohc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -74,19 +95,10 @@ public class OuDeleteTest extends AbstractParameterizedTestBase {
     public void testDeleteOu01() throws Exception {
 
         // create OU
-        OrganizationalUnitHandlerClientInterface cc =
-            new OrganizationalUnitHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
-        OrganizationalUnit createdOU = cc.create(createOu());
+        OrganizationalUnit createdOU = ohc.create(createOu());
 
         // delete createdOU
-        cc.delete(createdOU.getObjid());
+        ohc.delete(createdOU.getObjid());
 
     }
 

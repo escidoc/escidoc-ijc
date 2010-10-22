@@ -40,6 +40,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.joda.time.DateTimeZone;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -71,8 +73,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ItemHandlerClientInterface ihc;
+    
     public ItemFilterVersion12Test(TransportProtocol transport) {
         super(transport);
+    }
+    
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc = new ItemHandlerClient(auth.getServiceAddress());
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -83,44 +104,7 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
      */
     @Test
     public void testExplain() throws Exception {
-
-        // create an Item
-        Item item = new Item();
-
-        // Properties
-        ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
-        // properties.setContentModelSpecific(getContentModelSpecific());
-        item.setProperties(properties);
-
-        // Md-Record
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
-        mdRecord.setContent(element);
-
-        MetadataRecords mdRecords = new MetadataRecords();
-        mdRecords.add(mdRecord);
-        item.setMetadataRecords(mdRecords);
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface ic = new ItemHandlerClient();
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setHandle(auth.getHandle());
-        ic.setTransport(transport);
-
-        ic.create(item);
-
-        ExplainResponse response = ic.retrieveItems(new ExplainRequestType());
+        ExplainResponse response = ihc.retrieveItems(new ExplainRequestType());
         ExplainData explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
@@ -162,16 +146,7 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface ic = new ItemHandlerClient();
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setHandle(auth.getHandle());
-        ic.setTransport(transport);
-
-        Item createdItem = ic.create(item);
+        Item createdItem = ihc.create(item);
 
         // now check if at least this Item is in the list
 
@@ -181,7 +156,7 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
                 .getLastModificationDate().withZone(DateTimeZone.UTC)
                 .toString() + "\"");
 
-        SearchRetrieveResponse response = ic.retrieveItems(srwFilter);
+        SearchRetrieveResponse response = ihc.retrieveItems(srwFilter);
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertTrue("Wrong number of matching records",

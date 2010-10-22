@@ -28,9 +28,9 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.net.URL;
@@ -42,6 +42,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -58,6 +60,8 @@ import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.exceptions.application.missing.MissingMdRecordException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
+import de.escidoc.core.client.interfaces.StagingHandlerClientInterface;
+import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -85,8 +89,27 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  */
 public class ItemCreateTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ItemHandlerClientInterface ihc;
+
     public ItemCreateTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc = new ItemHandlerClient(auth.getServiceAddress());
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -98,18 +121,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -123,19 +136,9 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         item.setXLinkTitle("New title for test");
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -147,21 +150,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem03() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         item.setProperties(properties);
 
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -173,20 +166,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem04() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         item.setProperties(properties);
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -198,21 +181,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem05() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
         item.setProperties(properties);
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -224,16 +197,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateItem06() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
@@ -241,7 +204,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         MetadataRecords mdRecords = new MetadataRecords();
         item.setMetadataRecords(mdRecords);
 
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -255,16 +218,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateItem07() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
@@ -274,7 +227,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -288,16 +241,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateItem08() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
@@ -308,7 +251,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -322,16 +265,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem09() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
@@ -361,7 +294,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
-        cc.create(item);
+        ihc.create(item);
     }
 
     /**
@@ -372,16 +305,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateItem10() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
-
         Item item = new Item();
 
         item.getProperties().setContext(
@@ -423,16 +346,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
-
         Item item = new Item();
 
         item.getProperties().setContext(
@@ -478,15 +391,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testMDRecordsDeletion01() throws Exception {
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
-
         Item item = new Item();
 
         item.getProperties().setContext(
@@ -538,15 +442,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = MissingMdRecordException.class)
     public void testMDRecordsDeletion02() throws Exception {
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
-
         Item item = new Item();
 
         item.getProperties().setContext(
@@ -590,7 +485,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
             .getProperties().getContentModel().getObjid());
         assertEquals(1, updatedItem.getMetadataRecords().size());
     }
-    
+
     /**
      * Test deletion of all md-record entries.
      * 
@@ -598,15 +493,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testMDRecordsDeletion03() throws Exception {
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
-
         Item item = new Item();
 
         item.getProperties().setContext(
@@ -643,7 +529,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         ihc.update(createdItem);
     }
-    
+
     /**
      * Test deletion of md-records.
      * 
@@ -651,15 +537,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testMDRecordsDeletion04() throws Exception {
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
-
         Item item = new Item();
 
         item.getProperties().setContext(
@@ -703,7 +580,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
             .getProperties().getContentModel().getObjid());
         assertNull(updatedItem.getMetadataRecords());
     }
-    
+
     /**
      * Test create an Item with one Component.
      * 
@@ -712,16 +589,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateItemWithOneComponent() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
 
@@ -775,10 +642,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         item.setComponents(components);
 
         Marshaller<Item> m =
-            new Marshaller<Item>(item.getClass(), cc.getTransport().name());
+            Factory
+                .getMarshallerFactory(ihc.getTransport()).getItemMarshaller();
         m.marshalDocument(item);
 
-        Item createdItem = cc.create(item);
+        Item createdItem = ihc.create(item);
         m.marshalDocument(createdItem);
     }
 
@@ -790,16 +658,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testloginAndCreateItemWith02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Item item = new Item();
 
         // Properties
@@ -834,10 +692,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // only for debug
         Marshaller<Item> m =
-            new Marshaller<Item>(item.getClass(), cc.getTransport().name());
+            Factory
+                .getMarshallerFactory(ihc.getTransport()).getItemMarshaller();
         m.marshalDocument(item);
 
-        Item createdItem = cc.create(item);
+        Item createdItem = ihc.create(item);
 
         // only for debug
         m.marshalDocument(createdItem);
@@ -851,19 +710,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testLifecycleItem01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        Item item =
-            createItem(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                auth.getHandle());
-
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
+        Item item = createItem();
 
         // submit --------------------------------------------------------------
         TaskParam taskParam = new TaskParam();
@@ -929,25 +776,15 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void createItemWithComponentAndContent() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
         // create file with random content
         File file = ResourceUtility.createFileWithRandomContent();
 
-        StagingHandlerClient sthc = new StagingHandlerClient();
-        sthc.setServiceAddress(auth.getServiceAddress());
+        StagingHandlerClientInterface sthc =
+            new StagingHandlerClient(auth.getServiceAddress());
         sthc.setHandle(auth.getHandle());
         sthc.setTransport(transport);
 
         URL contentRef = sthc.upload(file);
-
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(auth.getServiceAddress());
-        ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
 
         Item item = new Item();
 
@@ -978,7 +815,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // create
         Item newItem = ihc.create(item);
-
     }
 
     /**
@@ -991,14 +827,9 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private Item createItem(final String serviceAddress, final String handle)
-        throws EscidocClientException, InternalClientException,
-        TransportException, ParserConfigurationException {
-
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        cc.setServiceAddress(serviceAddress);
-        cc.setHandle(handle);
-        cc.setTransport(transport);
+    private Item createItem() throws EscidocClientException,
+        InternalClientException, TransportException,
+        ParserConfigurationException {
 
         Item item = new Item();
 
@@ -1033,7 +864,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);
 
-        return cc.create(item);
+        return ihc.create(item);
     }
-
 }

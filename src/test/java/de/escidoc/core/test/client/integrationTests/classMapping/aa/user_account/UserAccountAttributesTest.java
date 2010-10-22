@@ -32,6 +32,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -55,9 +57,28 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
 
-	public UserAccountAttributesTest(TransportProtocol transport) {
-		super(transport);
-	}
+    private Authentication auth;
+
+    private UserAccountHandlerClientInterface uahc;
+
+    public UserAccountAttributesTest(TransportProtocol transport) {
+        super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uahc = new UserAccountHandlerClient(auth.getServiceAddress());
+        uahc.setHandle(auth.getHandle());
+        uahc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
 
     /**
      * Test to create and retrieve user account attributes.
@@ -67,16 +88,6 @@ public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void createAttributes01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-        uahc.setTransport(transport);
-
         // create User Account
         UserAccount ua = new UserAccount();
 
@@ -119,16 +130,6 @@ public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void updateAttribute01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-        uahc.setTransport(transport);
-
         // create User Account
         UserAccount ua = new UserAccount();
 
@@ -183,16 +184,6 @@ public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testDeleteAttribute01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-        uahc.setTransport(transport);
-
         // create User Account
         UserAccount ua = new UserAccount();
 

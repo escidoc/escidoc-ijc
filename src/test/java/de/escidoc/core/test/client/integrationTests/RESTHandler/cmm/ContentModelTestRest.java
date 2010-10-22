@@ -28,9 +28,14 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.cmm;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.rest.RestContentModelHandlerClient;
+import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -43,6 +48,24 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class ContentModelTestRest {
 
+    private Authentication auth;
+
+    private RestContentModelHandlerClient rcmhc;
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        rcmhc = new RestContentModelHandlerClient(auth.getServiceAddress());
+        rcmhc.setHandle(auth.getHandle());
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+
     /**
      * 
      * @throws Exception
@@ -50,19 +73,16 @@ public class ContentModelTestRest {
      */
     @Test
     public void testRetrieveContentModel01() throws Exception {
-
-        RestContentModelHandlerClient rcmhc =
-            new RestContentModelHandlerClient();
-        rcmhc.login(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
         // load XML template of organizational unit
         String ouXml =
             EscidocClientTestBase.getXmlFileAsString(Template
                 .load("/rest/om/content-model/0.1/content-model.xml"));
-
         // create
         String crtdOuXML = rcmhc.create(ouXml);
+
+        Factory
+            .getMarshallerFactory(TransportProtocol.REST)
+            .getContentModelMarshaller().unmarshalDocument(crtdOuXML);
     }
 
 }

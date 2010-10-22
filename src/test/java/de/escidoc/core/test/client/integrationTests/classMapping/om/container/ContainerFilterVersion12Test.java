@@ -43,6 +43,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.joda.time.DateTimeZone;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,8 +75,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContainerHandlerClientInterface cc;
+
     public ContainerFilterVersion12Test(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContainerHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -86,17 +107,6 @@ public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase 
      */
     @Test
     public void testExplain() throws Exception {
-
-        // create a Container
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         cc.create(createContainer());
 
         ExplainResponse response =
@@ -117,17 +127,6 @@ public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase 
      */
     @Test
     public void testFilter01() throws Exception {
-
-        // create a Container
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container createdContainer = cc.create(createContainer());
 
         // now check if at least this Container is in the list

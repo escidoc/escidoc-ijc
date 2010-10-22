@@ -39,6 +39,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.joda.time.DateTimeZone;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,10 +70,29 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContextHandlerClientInterface cc;
+    
     public ContextFilterVersion12Test(TransportProtocol transport) {
         super(transport);
     }
+    
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContextHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
 
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+    
     /**
      * Test retrieving Contexts through filter request (filter for version 1.2).
      * 
@@ -80,18 +101,6 @@ public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
      */
     @Test
     public void testExplain() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
-        cc.create(createContext());
-
         ExplainResponse response =
             cc.retrieveContexts(new ExplainRequestType());
         ExplainData explain = response.getRecord().getRecordData();
@@ -109,16 +118,6 @@ public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
      */
     @Test
     public void testFilter01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context createdContext = cc.create(createContext());
 
         // now check if at least this Context is in the list

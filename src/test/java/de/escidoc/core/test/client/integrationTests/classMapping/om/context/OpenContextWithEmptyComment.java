@@ -6,6 +6,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,13 +33,30 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
 
+    private static final String EMPTY_PUBLIC_STATUS_COMMENT = "";
+
+    private Authentication auth;
+    
+    private ContextHandlerClientInterface cc;
+    
     public OpenContextWithEmptyComment(TransportProtocol transport) {
         super(transport);
     }
+    
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContextHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
 
-    private static final String EMPTY_PUBLIC_STATUS_COMMENT = "";
-
-    private ContextHandlerClientInterface cc;
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
 
     /**
      * (see issue INFR-937)
@@ -48,8 +67,6 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
     @Test
     public void shouldSetPublicStatusCommentToEmpty()
         throws ParserConfigurationException, EscidocClientException {
-
-        loginAsSysAdmin();
         Context createdContext = createNewContext();
         openContext(createdContext, EMPTY_PUBLIC_STATUS_COMMENT);
         Context openedContext = retrieveContext(createdContext);
@@ -59,6 +76,12 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
                 .getProperties().getPublicStatusComment());
     }
 
+    /**
+     * 
+     * @return
+     * @throws ParserConfigurationException
+     * @throws EscidocClientException
+     */
     private Context createNewContext() throws ParserConfigurationException,
         EscidocClientException {
 
@@ -93,17 +116,14 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
         return cc.create(context);
     }
 
-    private void loginAsSysAdmin() throws EscidocClientException {
-        final Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-    }
-
+    /**
+     * 
+     * @param context
+     * @param publicStatusComment
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     private void openContext(Context context, String publicStatusComment)
         throws EscidocException, InternalClientException, TransportException {
         final TaskParam taskParam = new TaskParam();
@@ -112,6 +132,12 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
         cc.open(context.getObjid(), taskParam);
     }
 
+    /**
+     * 
+     * @param context
+     * @return
+     * @throws EscidocClientException
+     */
     private Context retrieveContext(Context context)
         throws EscidocClientException {
         return cc.retrieve(context.getObjid());

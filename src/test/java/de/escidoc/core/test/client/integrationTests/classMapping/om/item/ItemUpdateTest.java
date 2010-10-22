@@ -37,6 +37,8 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -65,8 +67,27 @@ import de.escidoc.core.test.client.util.Asserts;
  */
 public class ItemUpdateTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ItemHandlerClientInterface ihc;
+
     public ItemUpdateTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc = new ItemHandlerClient(auth.getServiceAddress());
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -80,14 +101,6 @@ public class ItemUpdateTest extends AbstractParameterizedTestBase {
 
         Item item = createItem();
 
-        ItemHandlerClientInterface cc = new ItemHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        cc.setHandle(auth.getHandle());
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setTransport(transport);
-
         MetadataRecord mdRecord2 = new MetadataRecord();
         mdRecord2.setName("md-record2");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -99,7 +112,7 @@ public class ItemUpdateTest extends AbstractParameterizedTestBase {
         mdRecord2.setContent(element);
 
         item.getMetadataRecords().add(mdRecord2);
-        Item updatedItem = cc.update(item);
+        Item updatedItem = ihc.update(item);
 
         // compare the new created Item with the Item from the request
         String objId = updatedItem.getObjid();
@@ -126,15 +139,6 @@ public class ItemUpdateTest extends AbstractParameterizedTestBase {
      *             Thrown if creation failed or non-volatile Item values differ.
      */
     private Item createItem() throws Exception {
-
-        ItemHandlerClient cc = new ItemHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        cc.setHandle(auth.getHandle());
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setTransport(transport);
-
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef("escidoc:ex1"));
@@ -166,7 +170,6 @@ public class ItemUpdateTest extends AbstractParameterizedTestBase {
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
-        return cc.create(item);
-
+        return ihc.create(item);
     }
 }

@@ -33,6 +33,8 @@ import static org.junit.Assert.assertEquals;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,8 +62,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContextCreateTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContextHandlerClientInterface cc;
+
     public ContextCreateTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContextHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -73,16 +94,6 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context context = new Context();
         cc.create(context);
     }
@@ -96,16 +107,6 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context context = new Context();
         Properties properties = new Properties();
         context.setProperties(properties);
@@ -122,16 +123,6 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext03() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context context = new Context();
         Properties properties = new Properties();
         context.setProperties(properties);
@@ -150,16 +141,6 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext04() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context context = new Context();
         Properties properties = new Properties();
         context.setProperties(properties);
@@ -188,16 +169,6 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext08() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context context = new Context();
         Properties properties = new Properties();
         properties.setDescription("ContextDescription");
@@ -236,16 +207,6 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateContext09() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context context = new Context();
         Properties properties = new Properties();
         properties.setDescription("ContextDescription");

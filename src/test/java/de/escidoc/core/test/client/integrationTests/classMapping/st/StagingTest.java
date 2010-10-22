@@ -37,10 +37,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.StagingHandlerClient;
+import de.escidoc.core.client.interfaces.StagingHandlerClientInterface;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -53,6 +56,24 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class StagingTest {
 
+    private Authentication auth;
+
+    private StagingHandlerClientInterface sthc;
+    
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        sthc = new StagingHandlerClient(auth.getServiceAddress());
+        sthc.setHandle(auth.getHandle());
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+    
     /**
      * Test to search repository.
      * 
@@ -61,12 +82,6 @@ public class StagingTest {
      */
     @Test
     public void uploadFileTest() throws Exception {
-
-        StagingHandlerClient sthc = new StagingHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        sthc.setHandle(auth.getHandle());
 
         InputStream inputStream = Template.load("/soap/om/item/0.6/item.xml");
         URL url = sthc.upload(inputStream);

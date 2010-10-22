@@ -28,9 +28,11 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -51,8 +53,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class OuRetrieveTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private OrganizationalUnitHandlerClientInterface ohc;
+
     public OuRetrieveTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+        ohc.setHandle(auth.getHandle());
+        ohc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -63,17 +84,7 @@ public class OuRetrieveTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveExampleOu01() throws Exception {
-
-        OrganizationalUnitHandlerClientInterface cc =
-            new OrganizationalUnitHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        cc.setHandle(auth.getHandle());
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setTransport(transport);
-
-        OrganizationalUnit ou = cc.retrieve("escidoc:ex3");
+        OrganizationalUnit ou = ohc.retrieve("escidoc:ex3");
 
         MetadataRecord mdRecord = ou.getMetadataRecords().get("escidoc");
         assertNotNull(ou.getMetadataRecords().get("escidoc"));

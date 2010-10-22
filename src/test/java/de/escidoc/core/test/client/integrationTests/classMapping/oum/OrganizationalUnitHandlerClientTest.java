@@ -29,7 +29,6 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Collection;
 
@@ -37,6 +36,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,8 +69,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 public class OrganizationalUnitHandlerClientTest
     extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private OrganizationalUnitHandlerClientInterface ohc;
+
     public OrganizationalUnitHandlerClientTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+        ohc.setHandle(auth.getHandle());
+        ohc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -79,30 +99,9 @@ public class OrganizationalUnitHandlerClientTest
      * @throws Exception
      *             Thrown if not the right exception is caught.
      */
-    @Test
+    @Test(expected = OrganizationalUnitNotFoundException.class)
     public void testRetrieveUnknown() throws Exception {
-        try {
-
-            Authentication auth =
-                new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                    Constants.SYSTEM_ADMIN_USER,
-                    Constants.SYSTEM_ADMIN_PASSWORD);
-
-            OrganizationalUnitHandlerClientInterface cc =
-                new OrganizationalUnitHandlerClient();
-            cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-            cc.setHandle(auth.getHandle());
-            cc.setTransport(transport);
-
-            cc.retrieve(Constants.INVALID_RESOURCE_ID);
-            fail("Missing Exception");
-        }
-        catch (OrganizationalUnitNotFoundException e) {
-            return;
-        }
-        catch (Exception e) {
-            fail("Wrong exception caught: " + e.getMessage());
-        }
+        ohc.retrieve(Constants.INVALID_RESOURCE_ID);
     }
 
     /**
@@ -113,22 +112,11 @@ public class OrganizationalUnitHandlerClientTest
      */
     @Test
     public void testRetrieve01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        OrganizationalUnitHandlerClientInterface cc =
-            new OrganizationalUnitHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         OrganizationalUnit organizationUnit =
-            cc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+            ohc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
 
         Factory
-            .getMarshallerFactory(cc.getTransport())
+            .getMarshallerFactory(ohc.getTransport())
             .getOrganizationalUnitMarshaller()
             .marshalDocument(organizationUnit);
     }
@@ -141,22 +129,11 @@ public class OrganizationalUnitHandlerClientTest
      */
     @Test
     public void testRetrieveUpdate() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        OrganizationalUnitHandlerClientInterface cc =
-            new OrganizationalUnitHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         OrganizationalUnit organizationUnit =
-            cc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
-        cc.update(organizationUnit);
+            ohc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+        ohc.update(organizationUnit);
         Factory
-            .getMarshallerFactory(cc.getTransport())
+            .getMarshallerFactory(ohc.getTransport())
             .getOrganizationalUnitMarshaller()
             .marshalDocument(organizationUnit);
     }
@@ -169,16 +146,7 @@ public class OrganizationalUnitHandlerClientTest
      */
     @Test
     public void testRetrieveChildObjects() throws Exception {
-        OrganizationalUnitHandlerClient ic =
-            new OrganizationalUnitHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setHandle(auth.getHandle());
-        ic.setTransport(transport);
-
-        ic.retrieveChildObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID)
+        ohc.retrieveChildObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID)
             .getOrganizationalUnits();
     }
 
@@ -210,21 +178,11 @@ public class OrganizationalUnitHandlerClientTest
         organizationalUnit.setMetadataRecords(mdRecords);
 
         // create parent OU
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        OrganizationalUnitHandlerClientInterface cc =
-            new OrganizationalUnitHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
-        OrganizationalUnit ou = cc.create(organizationalUnit);
+        OrganizationalUnit ou = ohc.create(organizationalUnit);
 
         // just getting a valid objid of a user
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        UserAccountHandlerClient uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
@@ -236,7 +194,7 @@ public class OrganizationalUnitHandlerClientTest
             me.getObjid(), null));
         filterParam.setFilters(filters);
         Factory
-            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+            .getMarshallerFactory(ohc.getTransport()).getTaskParamMarshaller()
             .marshalDocument(filterParam);
 
         OrganizationalUnitHandlerClientInterface ic =

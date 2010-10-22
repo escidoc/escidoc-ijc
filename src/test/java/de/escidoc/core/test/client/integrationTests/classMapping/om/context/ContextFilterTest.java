@@ -32,6 +32,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -53,10 +55,29 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContextFilterTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContextHandlerClientInterface cc;
+    
     public ContextFilterTest(TransportProtocol transport) {
         super(transport);
     }
 
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContextHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+    
     /**
      * Test retrieving all Contexts through filter request.
      * 
@@ -70,16 +91,7 @@ public class ContextFilterTest extends AbstractParameterizedTestBase {
         Collection<Filter> filters = filterParam.getFilters();
         filters.add(new Filter());
 
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface ic = new ContextHandlerClient();
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setHandle(auth.getHandle());
-        ic.setTransport(transport);
-
-        ContextList contextList = ic.retrieveContexts(filterParam);
+        ContextList contextList = cc.retrieveContexts(filterParam);
 
         assertTrue("At least one Context should be there", contextList
             .getContexts().size() > 0);

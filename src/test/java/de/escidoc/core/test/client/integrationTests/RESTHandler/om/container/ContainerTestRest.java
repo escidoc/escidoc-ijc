@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.test.client.integrationTests.RESTHandler.om.container;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -44,6 +46,24 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class ContainerTestRest {
 
+    private Authentication auth;
+
+    private RestContainerHandlerClient cc;
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new RestContainerHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+
     /**
      * 
      * @throws Exception
@@ -51,15 +71,6 @@ public class ContainerTestRest {
      */
     @Test
     public void testRetrieveContainer01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-
         cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
     }
 
@@ -71,15 +82,6 @@ public class ContainerTestRest {
      */
     @Test
     public void testCreateContainer01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-
         // get a valid container
         String container = cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
 
@@ -95,15 +97,6 @@ public class ContainerTestRest {
      */
     @Test
     public void testCreateContainer02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RestContainerHandlerClient cc = new RestContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-
         String containerXml =
             EscidocClientTestBase.getXmlFileAsString(Template
                 .load("/rest/om/container/0.8/container01.xml"));

@@ -113,8 +113,8 @@ public class AuthenticationTest extends AbstractParameterizedTestBase {
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClientInterface ih = new ItemHandlerClient();
-        ih.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ItemHandlerClientInterface ih =
+            new ItemHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ih.setHandle(auth.getHandle());
         ih.setTransport(transport);
         ih.retrieve(Constants.EXAMPLE_ITEM_ID);
@@ -133,8 +133,8 @@ public class AuthenticationTest extends AbstractParameterizedTestBase {
 
         auth.logout();
 
-        ItemHandlerClientInterface ih = new ItemHandlerClient();
-        ih.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ItemHandlerClientInterface ih =
+            new ItemHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ih.setHandle(auth.getHandle());
         ih.setTransport(transport);
 
@@ -158,16 +158,22 @@ public class AuthenticationTest extends AbstractParameterizedTestBase {
      * 
      * @throws Exception
      */
-    @Test(expected = AuthenticationException.class)
+    @Test(expected = AuthorizationException.class)
     public void shouldThrownAnExceptionIfHandleIsNotSet() throws Exception {
         createNewContext();
     }
 
+    /**
+     * 
+     * @return
+     * @throws ParserConfigurationException
+     * @throws EscidocClientException
+     */
     private Context createNewContext() throws ParserConfigurationException,
         EscidocClientException {
 
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ContextHandlerClientInterface cc =
+            new ContextHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         cc.setTransport(TransportProtocol.REST);
 
         final Context context = new Context();

@@ -35,6 +35,8 @@ import static org.junit.Assert.fail;
 
 import java.util.Collection;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -61,9 +63,28 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase {
 
-	public UserAccountHandlerClientTest(TransportProtocol transport) {
-		super(transport);
-	}
+    private Authentication auth;
+
+    private UserAccountHandlerClientInterface uac;
+
+    public UserAccountHandlerClientTest(TransportProtocol transport) {
+        super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac = new UserAccountHandlerClient(auth.getServiceAddress());
+        uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
 
     /**
      * Test to create and retrieve user account.
@@ -76,23 +97,14 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
 
         UserAccount ua = createUserAccount();
 
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
-
         // create
         UserAccount createdUa = uac.create(ua);
 
         // test marshalling
         String objId = createdUa.getObjid();
-        Factory.getMarshallerFactory(uac.getTransport()).getUserAccountMarshaller()
-        	.marshalDocument(uac.retrieve(objId));
+        Factory
+            .getMarshallerFactory(uac.getTransport())
+            .getUserAccountMarshaller().marshalDocument(uac.retrieve(objId));
     }
 
     /**
@@ -104,17 +116,6 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
      */
     @Test(expected = NullPointerException.class)
     public void createUserAccountWithNull() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
-
         // create
         uac.create(null);
     }
@@ -129,16 +130,6 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
     public void testUpdateUserAccount() throws Exception {
 
         UserAccount ua = createUserAccount();
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
 
         UserAccount createdUa = uac.create(ua);
 
@@ -159,8 +150,9 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
         assertEquals(newLoginName, updatedProperties.getLoginName());
 
         // test marshalling
-        Factory.getMarshallerFactory(uac.getTransport()).getUserAccountMarshaller()
-        	.marshalDocument(updatedUserAccont);
+        Factory
+            .getMarshallerFactory(uac.getTransport())
+            .getUserAccountMarshaller().marshalDocument(updatedUserAccont);
     }
 
     /**
@@ -175,16 +167,6 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
     public void testDeactivateAndActivate() throws EscidocClientException {
 
         UserAccount ua = createUserAccount();
-
-        // login
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
 
         UserAccount createdUa = uac.create(ua);
 
@@ -232,20 +214,11 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
             "escidoc:user42", null));
         filterParam.setFilters(filters);
 
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
-
         UserAccounts userAccountList = uac.retrieveUserAccounts(filterParam);
 
-        Factory.getMarshallerFactory(uac.getTransport()).getUserAccountListMarshaller()
-        	.marshalDocument(userAccountList);
+        Factory
+            .getMarshallerFactory(uac.getTransport())
+            .getUserAccountListMarshaller().marshalDocument(userAccountList);
     }
 
     /**
@@ -258,16 +231,6 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
     public void testDeleteUserAccount() throws Exception {
 
         UserAccount ua = createUserAccount();
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
 
         // create
         UserAccount createdUa = uac.create(ua);
@@ -292,16 +255,6 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
      */
     public void retrieveGrants() throws Exception {
 
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
-
         UserAccount ua = createUserAccount();
 
         UserAccount createdUa = uac.create(ua);
@@ -309,8 +262,9 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
 
         // FIXME there are no grant, that's why the test is bad
 
-        Factory.getMarshallerFactory(uac.getTransport()).getGrantsMarshaller()
-        	.marshalDocument(uac.retrieveCurrentGrants(objId));
+        Factory
+            .getMarshallerFactory(uac.getTransport()).getGrantsMarshaller()
+            .marshalDocument(uac.retrieveCurrentGrants(objId));
     }
 
     /**
@@ -323,16 +277,6 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
      */
     @Test
     public void updatePassword() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
 
         UserAccount ua = createUserAccount();
         UserAccount createdUa = uac.create(ua);
@@ -351,17 +295,14 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
         // check login with a new password
         // it assumed that a user is allowed to retrieve its own account
         Authentication auth2 =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                login, password);
+            new Authentication(auth.getServiceAddress(), login, password);
 
-        UserAccountHandlerClientInterface uac2 = new UserAccountHandlerClient();
-        uac2.setServiceAddress(auth.getServiceAddress());
+        UserAccountHandlerClientInterface uac2 =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac2.setHandle(auth2.getHandle());
         uac2.setTransport(transport);
 
         uac2.retrieve(objId);
-        auth.logout();
-
     }
 
     /**

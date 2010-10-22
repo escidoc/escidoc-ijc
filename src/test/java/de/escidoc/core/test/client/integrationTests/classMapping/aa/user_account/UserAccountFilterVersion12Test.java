@@ -37,6 +37,8 @@ import java.util.Collection;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.joda.time.DateTimeZone;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -61,8 +63,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 public class UserAccountFilterVersion12Test
     extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private UserAccountHandlerClientInterface uac;
+
     public UserAccountFilterVersion12Test(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uac = new UserAccountHandlerClient(auth.getServiceAddress());
+        uac.setHandle(auth.getHandle());
+        uac.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -83,16 +104,6 @@ public class UserAccountFilterVersion12Test
         properties.setLoginName(login);
 
         ua.setProperties(properties);
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
 
         // create
         uac.create(ua);
@@ -126,16 +137,6 @@ public class UserAccountFilterVersion12Test
         properties.setLoginName(login);
 
         ua.setProperties(properties);
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        // login
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
 
         // create
         UserAccount createdUa = uac.create(ua);

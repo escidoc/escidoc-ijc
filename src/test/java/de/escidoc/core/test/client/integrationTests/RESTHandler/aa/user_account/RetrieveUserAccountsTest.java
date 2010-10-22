@@ -1,81 +1,88 @@
 package de.escidoc.core.test.client.integrationTests.RESTHandler.aa.user_account;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.escidoc.core.client.UserAccountHandlerClient;
+import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
+import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
-import de.escidoc.core.resources.aa.useraccount.UserAccounts;
-import de.escidoc.core.resources.common.Filter;
-import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
+import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class RetrieveUserAccountsTest {
-    private static final String SYSADMIN_OBJECT_ID = "escidoc:exuser1";
 
-    private UserAccountHandlerClient client;
+    private Authentication auth;
+
+    private RestUserAccountHandlerClient uahc;
 
     @Before
-    public void setUp() throws EscidocClientException {
-        initUserAccountRestClient();
-        craeteTestUserAccount();
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uahc = new RestUserAccountHandlerClient(auth.getServiceAddress());
+        uahc.setHandle(auth.getHandle());
     }
 
-    private void craeteTestUserAccount() throws EscidocException,
-        InternalClientException, TransportException {
-
-        final UserAccount fakeUserAccount =
-            FakeUserAccountFactory.createFakeUserAccount();
-
-        client.create(fakeUserAccount);
-    }
-
-    private void initUserAccountRestClient() throws EscidocClientException {
-        client = ClientFactory.createRestClientForUserAccount();
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     @Test
-    public void ShouldReturnAllUserAccounts() throws InternalClientException,
+    public void ShouldReturnUserAccount() throws InternalClientException,
         TransportException, EscidocClientException {
-        final UserAccounts usersCreatedBySysAdmin =
-            client.retrieveUserAccounts(createdBy(SYSADMIN_OBJECT_ID));
 
-        final Collection<UserAccount> userAccountsCreatedBySysAdmin =
-            usersCreatedBySysAdmin.getUserAccounts();
+        String objid = createTestUserAccount();
+        assertNotNull(objid);
 
-        assertTrue("User Accounts created by SysAdmin should not be empty.",
-            !userAccountsCreatedBySysAdmin.isEmpty());
+        final String createdUser = uahc.retrieve(objid);
 
-        for (final UserAccount userAccount : userAccountsCreatedBySysAdmin) {
-            final String objid = userAccount.getObjid();
-            assertNotNull("Object Id should not be null. ", objid);
-        }
+        Marshaller<UserAccount> m =
+            Factory
+                .getMarshallerFactory(TransportProtocol.REST)
+                .getUserAccountMarshaller();
+        UserAccount user = m.unmarshalDocument(createdUser);
+        assertNotNull("Object Id should not be null. ", user.getObjid());
     }
 
-    private static TaskParam createdBy(final String userAccountObjectId) {
-        final TaskParam filterParam = new TaskParam();
-        filterParam.getFilters().add(
-            getFilter(
-                "http://escidoc.de/core/01/structural-relations/created-by",
-                userAccountObjectId, null));
-        return filterParam;
-    }
+    /**
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String createTestUserAccount() throws EscidocException,
+        InternalClientException, TransportException {
 
-    private static Filter getFilter(
-        final String name, final String value, final Collection<String> ids) {
+        UserAccount ua = new UserAccount();
+        UserAccountProperties properties = new UserAccountProperties();
+        String login = "login" + System.currentTimeMillis();
+        properties.setName("Name " + login);
+        properties.setLoginName(login);
+        ua.setProperties(properties);
 
-        final Filter filter = new Filter();
-        filter.setName(name);
-        filter.setValue(value);
-        filter.setIds(ids);
-        return filter;
+        Marshaller<UserAccount> m =
+            Factory
+                .getMarshallerFactory(TransportProtocol.REST)
+                .getUserAccountMarshaller();
+        String xml = m.marshalDocument(ua);
+
+        xml = uahc.create(xml);
+
+        UserAccount createdUser = m.unmarshalDocument(xml);
+        return createdUser.getObjid();
     }
 }

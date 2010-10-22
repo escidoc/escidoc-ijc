@@ -34,9 +34,12 @@ import static org.junit.Assert.assertThat;
 
 import java.net.URL;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
+import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
@@ -66,8 +69,27 @@ import de.escidoc.core.test.client.util.SetupDataUtil;
  */
 public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ItemHandlerClientInterface ihc;
+
     public SurrogateItemCreateTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc = new ItemHandlerClient(auth.getServiceAddress());
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -94,42 +116,37 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
          * <pre> User -> Organizational Unit </pre>
          */
 
-        Authentication sysadminAuth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
         // -------------------------------------------------
         // Create Organizational Unit (and set status to open)
         OrganizationalUnit organizationalUnit =
-            SetupDataUtil.createOrganizationalUnit(sysadminAuth, transport,
-                true);
+            SetupDataUtil.createOrganizationalUnit(auth, transport, true);
 
         // -------------------------------------------------
         // create Context 1
         Context context1 =
-            SetupDataUtil.createContext(sysadminAuth, organizationalUnit,
-                transport, true);
+            SetupDataUtil.createContext(auth, organizationalUnit, transport,
+                true);
 
         // create Context 2
         Context context2 =
-            SetupDataUtil.createContext(sysadminAuth, organizationalUnit,
-                transport, true);
+            SetupDataUtil.createContext(auth, organizationalUnit, transport,
+                true);
 
         // -------------------------------------------------
         // create Content Model
         ContentModel contentModel =
-            SetupDataUtil.createContentModel(sysadminAuth, transport);
+            SetupDataUtil.createContentModel(auth, transport);
 
         // -------------------------------------------------
         // Create User Account
         String password = String.valueOf(System.nanoTime());
 
         UserAccount userAccount =
-            SetupDataUtil.createUserWithDepositorRole(sysadminAuth, password,
+            SetupDataUtil.createUserWithDepositorRole(auth, password,
                 context1.getReference(), transport);
 
         UserAccount userAccount2 =
-            SetupDataUtil.createUserWithDepositorRole(sysadminAuth, password,
+            SetupDataUtil.createUserWithDepositorRole(auth, password,
                 context2.getReference(), transport);
 
         // -------------------------------------------------
@@ -137,12 +154,12 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
 
         // authenticate User Account
         Authentication depositorAuth =
-            new Authentication(sysadminAuth.getServiceAddress(), userAccount
+            new Authentication(auth.getServiceAddress(), userAccount
                 .getProperties().getLoginName(), password);
 
         // create
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(depositorAuth.getServiceAddress());
+        ItemHandlerClientInterface ihc =
+            new ItemHandlerClient(depositorAuth.getServiceAddress());
         ihc.setHandle(depositorAuth.getHandle());
         ihc.setTransport(transport);
 
@@ -203,11 +220,11 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
         // prepare a new Item as Surrogate Item
         // authenticate User Account
         Authentication depositorAuth2 =
-            new Authentication(sysadminAuth.getServiceAddress(), userAccount2
+            new Authentication(auth.getServiceAddress(), userAccount2
                 .getProperties().getLoginName(), password);
 
-        ItemHandlerClientInterface ihc2 = new ItemHandlerClient();
-        ihc2.setServiceAddress(depositorAuth2.getServiceAddress());
+        ItemHandlerClientInterface ihc2 =
+            new ItemHandlerClient(depositorAuth2.getServiceAddress());
         ihc2.setHandle(depositorAuth2.getHandle());
         ihc2.setTransport(transport);
 

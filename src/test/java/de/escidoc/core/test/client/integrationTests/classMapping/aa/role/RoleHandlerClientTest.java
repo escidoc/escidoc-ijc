@@ -39,6 +39,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,8 +75,27 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private RoleHandlerClientInterface rc;
+
     public RoleHandlerClientTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        rc = new RoleHandlerClient(auth.getServiceAddress());
+        rc.setHandle(auth.getHandle());
+        rc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -85,16 +106,6 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateAndRetrieveSuccessfulRole() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RoleHandlerClientInterface rc = new RoleHandlerClient();
-        rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        rc.setHandle(auth.getHandle());
-        rc.setTransport(transport);
-
         Role role = createRole();
         Role createdRole = rc.create(role);
 
@@ -112,16 +123,6 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testUpdateSuccessfulRole() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RoleHandlerClientInterface rc = new RoleHandlerClient();
-        rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        rc.setHandle(auth.getHandle());
-        rc.setTransport(transport);
-
         Role role = createRole();
         Role createdRole = rc.create(role);
         String newName = "newName" + System.currentTimeMillis();
@@ -138,18 +139,7 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testDeleteSuccessfulRole() throws Exception {
-
         Role role = createRole();
-
-        // login
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RoleHandlerClientInterface rc = new RoleHandlerClient();
-        rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        rc.setHandle(auth.getHandle());
-        rc.setTransport(transport);
 
         Role createdRole = rc.create(role);
 
@@ -205,15 +195,6 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
 
         filters.add(getFilter("limited", "false", null));
         filterParam.setFilters(filters);
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RoleHandlerClientInterface rc = new RoleHandlerClient();
-        rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        rc.setHandle(auth.getHandle());
-        rc.setTransport(transport);
 
         Roles roleList = rc.retrieveRoles(filterParam);
 

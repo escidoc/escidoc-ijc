@@ -65,15 +65,6 @@ public class ActionHandlerClientTest {
         actions.addAction("1");
         actions.addAction("2");
 
-        // Marshaller<UnsecuredActions> m = new
-        // Marshaller<UnsecuredActions>(actions.getClass());
-        // String xml = m.marshalDocument(actions);
-        //
-        // UnsecuredActions uactions = m.unmarshalDocument(xml);
-        // String actionsXml =
-        // Factory.getUnsecuredActionsMarshaller().marshalDocument(
-        // uactions);
-
         UnsecuredActions ua =
             ac.createUnsecuredActions("escidoc:persistent3", actions);
         Factory.getMarshallerFactory(TransportProtocol.SOAP)

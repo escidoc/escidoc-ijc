@@ -35,6 +35,8 @@ import java.net.URI;
 import java.net.URL;
 
 import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -63,8 +65,27 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  */
 public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContentRelationHandlerClientInterface cc;
+
     public ContentRelationCreateTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContentRelationHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -76,17 +97,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
         cc.create(contentRelation);
     }
@@ -102,17 +112,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
         contentRelation.setXLinkTitle("New title for test");
         cc.create(contentRelation);
@@ -127,17 +126,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation03() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
@@ -153,17 +141,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation04() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
@@ -179,17 +156,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation05() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
@@ -208,17 +174,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation06() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
@@ -241,17 +196,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation07() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
@@ -275,17 +219,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateContentRelation08() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
 
         // properties
@@ -313,8 +246,9 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
         assertNotNull("Object id is null", createdCR.getObjid());
         assertEquals("Relation type differ", contentRelation.getType(),
             createdCR.getType());
-        assertEquals("Subjects differ", contentRelation.getSubject().getObjid(),
-            createdCR.getSubject().getObjid());
+        assertEquals("Subjects differ",
+            contentRelation.getSubject().getObjid(), createdCR
+                .getSubject().getObjid());
         assertEquals("Objects differ", contentRelation.getObject().getObjid(),
             createdCR.getObject().getObjid());
     }
@@ -327,17 +261,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
 
         // properties
@@ -371,8 +294,9 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
         assertNotNull("Object id is null", createdCR.getObjid());
         assertEquals("Relation type differ", contentRelation.getType(),
             createdCR.getType());
-        assertEquals("Subjects differ", contentRelation.getSubject().getObjid(),
-            createdCR.getSubject().getObjid());
+        assertEquals("Subjects differ",
+            contentRelation.getSubject().getObjid(), createdCR
+                .getSubject().getObjid());
         assertEquals("Objects differ", contentRelation.getObject().getObjid(),
             createdCR.getObject().getObjid());
 
@@ -391,17 +315,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testLifecycleContentRelation01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = new ContentRelation();
 
         // properties

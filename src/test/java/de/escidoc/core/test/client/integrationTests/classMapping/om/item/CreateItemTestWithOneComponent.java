@@ -1,15 +1,16 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -20,10 +21,13 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.StagingHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
+import de.escidoc.core.client.interfaces.StagingHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
@@ -34,77 +38,53 @@ import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
+import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
-public class CreateItemTestWithOneComponent {
+public class CreateItemTestWithOneComponent
+    extends AbstractParameterizedTestBase {
 
     private static final String TEST_FILE_PATH = "./resources/escidoc.jpeg";
 
     private static final Logger log = LoggerFactory
         .getLogger(CreateItemTestWithOneComponent.class);
 
-    private static final String ESCIDOC = "escidoc";
+    private StagingHandlerClientInterface stagingClient;
 
-    private final StagingHandlerClient stagingClient =
-        new StagingHandlerClient();
-
-    private final ItemHandlerClient client = new ItemHandlerClient();
+    private ItemHandlerClientInterface itemClient;
 
     private Authentication auth;
 
-    private final ItemProperties properties = new ItemProperties();
-
-    private final Item item = new Item();
-
-    private final Component component = new Component();
-
-    private final ComponentContent content = new ComponentContent();
-
-    private final ComponentProperties componentProperties =
-        new ComponentProperties();
-
-    private final Components components = new Components();
-
-    private final MetadataRecords mdRecords = new MetadataRecords();
-
-    private final MetadataRecord mdRecord = new MetadataRecord();
-
-    private File file;
-
-    private URL contentRef;
+    public CreateItemTestWithOneComponent(TransportProtocol transport) {
+        super(transport);
+    }
 
     @Before
-    public void setUp() throws EscidocClientException,
-        ParserConfigurationException, IOException {
+    public void init() throws Exception {
         authentificate();
-        createTestFile();
         initStagingClient();
         initItemClient();
-        initItem();
     }
 
-    private void createTestFile() {
-        file = new File(TEST_FILE_PATH);
-    }
-
-    private void initStagingClient() throws EscidocException,
-        InternalClientException, TransportException {
-        stagingClient.setServiceAddress(auth.getServiceAddress());
-        stagingClient.setHandle(auth.getHandle());
-
-        contentRef = stagingClient.upload(file);
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     @Test
     public void shouldReturnNonEmptyContentXlinkHrefWhenItemIsRetrieved()
-        throws EscidocException, InternalClientException, TransportException {
+        throws Exception {
 
-        final Item createdItem = client.create(item);
+        // staging
+        URL contentRef = stagingClient.upload(new File(TEST_FILE_PATH));
+
+        Item item = initItem(contentRef);
+        final Item createdItem = itemClient.create(item);
         final String objid = createdItem.getObjid();
         log.info("Object ID: " + objid);
 
-        final Item retrievedItem = client.retrieve(objid);
+        final Item retrievedItem = itemClient.retrieve(objid);
         final Components components = retrievedItem.getComponents();
         assertTrue("component size should be bigger than 0",
             components.size() > 0);
@@ -112,7 +92,9 @@ public class CreateItemTestWithOneComponent {
         for (final Component component : components) {
             final ComponentContent content = component.getContent();
             final String xLinkHref = content.getXLinkHref();
-            assertTrue("XLink HREF should not be null", xLinkHref.length() > 0);
+
+            assertNotNull("XLink HREF should not be null", xLinkHref);
+            assertTrue("XLink HREF should not be empty", xLinkHref.length() > 0);
         }
     }
 
@@ -122,30 +104,34 @@ public class CreateItemTestWithOneComponent {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
     }
 
-    private void initItemClient() {
-        client.setServiceAddress(auth.getServiceAddress());
-        client.setHandle(auth.getHandle());
+    private void initStagingClient() throws EscidocException,
+        InternalClientException, TransportException {
+        stagingClient = new StagingHandlerClient(auth.getServiceAddress());
+        stagingClient.setHandle(auth.getHandle());
     }
 
-    private void initItem() throws ParserConfigurationException {
-        item.setProperties(properties);
-        setContext();
-        setContentModel();
-        setMetadataRecords();
-        setComponents();
+    private void initItemClient() throws InternalClientException {
+        itemClient = new ItemHandlerClient(auth.getServiceAddress());
+        itemClient.setHandle(auth.getHandle());
+        itemClient.setTransport(transport);
     }
 
-    private void setContext() {
+    private Item initItem(final URL contentRef)
+        throws ParserConfigurationException {
+        Item item = new Item();
+        ItemProperties properties = item.getProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-    }
-
-    private void setContentModel() {
         properties.setContentModel(new ContentModelRef(
             Constants.EXAMPLE_CONTENT_MODEL_ID));
+        setMdRecords(item);
+        setComponents(item, contentRef);
+        return item;
     }
 
-    private void setMetadataRecords() throws ParserConfigurationException {
-        mdRecord.setName(ESCIDOC);
+    private void setMdRecords(final Item item)
+        throws ParserConfigurationException {
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName("escidoc");
 
         final DocumentBuilderFactory factory =
             DocumentBuilderFactory.newInstance();
@@ -154,33 +140,40 @@ public class CreateItemTestWithOneComponent {
         final Element element = document.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
+        MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
     }
 
-    private void setComponents() {
-        setComponentProperties();
-        setComponentContent();
+    private void setComponents(final Item item, final URL contentRef) {
+        Component component = new Component();
+        setComponentProperties(component, contentRef);
+        setComponentContent(component, contentRef);
+        Components components = new Components();
         components.add(component);
         item.setComponents(components);
     }
 
-    private void setComponentContent() {
+    private void setComponentContent(
+        final Component component, final URL contentRef) {
+        ComponentContent content = new ComponentContent();
         content.setXLinkHref(contentRef.toString());
         content.setStorage("internal-managed");
         component.setContent(content);
     }
 
-    private void setComponentProperties() {
-        componentProperties.setDescription("Random content");
-        componentProperties.setFileName(contentRef.getFile());
-        componentProperties.setVisibility("public");
-        componentProperties.setContentCategory("pre-print");
+    private void setComponentProperties(
+        final Component component, final URL contentRef) {
+        ComponentProperties properties = new ComponentProperties();
+        properties.setDescription("Random content");
+        properties.setFileName(contentRef.getFile());
+        properties.setVisibility("public");
+        properties.setContentCategory("pre-print");
 
-        // componentProperties.setContentCategory("content-category");
-        // componentProperties.setMimeType("text/xml");
-        // componentProperties.setValidStatus("valid");
-        // componentProperties.setVisibility("insitutional");
-        component.setProperties(componentProperties);
+        // properties.setContentCategory("content-category");
+        // properties.setMimeType("text/xml");
+        // properties.setValidStatus("valid");
+        // properties.setVisibility("insitutional");
+        component.setProperties(properties);
     }
 }

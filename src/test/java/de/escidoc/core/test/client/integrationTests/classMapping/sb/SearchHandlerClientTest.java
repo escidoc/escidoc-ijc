@@ -42,18 +42,20 @@ import java.util.Iterator;
 
 import junit.framework.Assert;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.SearchHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.client.interfaces.SearchHandlerClientInterface;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
@@ -67,24 +69,28 @@ import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
-@SuppressWarnings({ "rawtypes", "unused" })
 @RunWith(Parameterized.class)
 public class SearchHandlerClientTest {
 
-    private TransportProtocol protocol;
-
-    private RecordPacking packing;
+    private static final Logger LOG = LoggerFactory
+        .getLogger(SearchHandlerClientTest.class);
 
     private static final StringBuilder out = new StringBuilder();
 
-    public SearchHandlerClientTest(TransportProtocol protocol,
+    private final TransportProtocol transport;
+
+    private final RecordPacking packing;
+
+    private SearchHandlerClientInterface c;
+
+    public SearchHandlerClientTest(TransportProtocol transport,
         RecordPacking packing) {
-        this.protocol = protocol;
+        this.transport = transport;
         this.packing = packing;
     }
 
     @Parameters
-    public static Collection data() {
+    public static Collection<?> data() {
         return Arrays.asList(new Object[][] {
             { TransportProtocol.REST, RecordPacking.xml },
             { TransportProtocol.REST, RecordPacking.string },
@@ -92,13 +98,17 @@ public class SearchHandlerClientTest {
             { TransportProtocol.SOAP, RecordPacking.string } });
     }
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @Before
+    public void init() throws Exception {
+        // No authentication required for SB
+        c = new SearchHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        c.setTransport(transport);
     }
 
-    @AfterClass
-    public static void afterClass() throws Exception {
-        System.out.println(out.toString());
+    @After
+    public void post() throws Exception {
+        LOG.debug(out.toString());
+        out.delete(0, out.length());
     }
 
     /**
@@ -107,9 +117,6 @@ public class SearchHandlerClientTest {
      */
     @Test
     public void testSRWExplain() throws Exception {
-
-        SearchHandlerClient c = new SearchHandlerClient();
-        c.setTransport(protocol);
 
         ExplainRequestType request = new ExplainRequestType();
         request.setRecordPacking(packing.name());
@@ -121,9 +128,12 @@ public class SearchHandlerClientTest {
 
         out.append("\n=========================\n");
         out.append("testSRWExplain: ");
-        out.append("Protocol: " + protocol.name() + ", RecordPacking: "
-            + packing + "\n");
-        data.toString(out);
+        out.append("Protocol: ");
+        out.append(transport.name());
+        out.append(", RecordPacking: ");
+        out.append(packing);
+        out.append("\n");
+        out.append(data.toString());
         out.append("\n");
 
         Assert.assertNotNull(data);
@@ -136,8 +146,8 @@ public class SearchHandlerClientTest {
     @Test
     public void testFilterExplain() throws Exception {
 
-        ItemHandlerClient c = new ItemHandlerClient();
-        c.setTransport(protocol);
+        ItemHandlerClientInterface c = new ItemHandlerClient();
+        c.setTransport(transport);
 
         ExplainRequestType request = new ExplainRequestType();
         request.setVersion("1.1");
@@ -149,9 +159,12 @@ public class SearchHandlerClientTest {
 
         out.append("\n=========================\n");
         out.append("testFilterExplain: ");
-        out.append("Protocol: " + protocol.name() + ", RecordPacking: "
-            + packing + "\n");
-        data.toString(out);
+        out.append("Protocol: ");
+        out.append(transport.name());
+        out.append(", RecordPacking: ");
+        out.append(packing);
+        out.append("\n");
+        out.append(data.toString());
         out.append("\n");
 
         Assert.assertNotNull(data);
@@ -164,22 +177,26 @@ public class SearchHandlerClientTest {
     @Test
     public void testSRWSearch() throws Exception {
 
-        SearchHandlerClient c = new SearchHandlerClient();
-        c.setTransport(protocol);
         String query = "escidoc.objid=" + Constants.EXAMPLE_ITEM_ID;
 
         SearchRetrieveResponse response =
             c.search(URLEncoder.encode(query, "UTF-8"), null);
 
         out.append("\n=========================\n");
-        out.append("testSRWSearch: query=" + query);
-        out.append(" [Protocol: " + protocol.name() + ", RecordPacking: "
-            + packing + "]\n");
-        out.append("Results: " + response.getNumberOfResultingRecords() + "\n");
+        out.append("testSRWSearch: query=");
+        out.append(query);
+        out.append(" [Protocol: ");
+        out.append(transport.name());
+        out.append(", RecordPacking: ");
+        out.append(packing);
+        out.append("]\n");
+        out.append("Results: ");
+        out.append(response.getNumberOfResultingRecords());
+        out.append("\n");
 
-        for (Iterator<Record> it = response.getRecords().iterator(); it
+        for (Iterator<Record<?>> it = response.getRecords().iterator(); it
             .hasNext();) {
-            Record record = it.next();
+            Record<?> record = it.next();
 
             assertTrue(record instanceof SearchResultRecordRecord);
 
@@ -209,7 +226,8 @@ public class SearchHandlerClientTest {
     public void testFilterSearch() throws Exception {
 
         ItemHandlerClientInterface c = new ItemHandlerClient();
-        c.setTransport(protocol);
+        c.setTransport(transport);
+        
         String query = "\"/id\"=" + Constants.EXAMPLE_ITEM_ID;
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
@@ -219,14 +237,20 @@ public class SearchHandlerClientTest {
         SearchRetrieveResponse response = c.retrieveItems(request);
 
         out.append("\n=========================\n");
-        out.append("testFilterSearch [1]: query=" + query);
-        out.append(" [Protocol: " + protocol.name() + ", RecordPacking: "
-            + packing + "]\n");
-        out.append("Results: " + response.getNumberOfResultingRecords() + "\n");
+        out.append("testFilterSearch [1]: query=");
+        out.append(query);
+        out.append(" [Protocol: ");
+        out.append(transport.name());
+        out.append(", RecordPacking: ");
+        out.append(packing);
+        out.append("]\n");
+        out.append("Results: ");
+        out.append(response.getNumberOfResultingRecords());
+        out.append("\n");
 
-        for (Iterator it = response.getRecords().iterator(); it.hasNext();) {
-            ItemRecord record = (ItemRecord) it.next();
-            Item item = record.getRecordData();
+        for (Record<?> record : response.getRecords()) {
+            ItemRecord itemRecord = (ItemRecord) record;
+            Item item = itemRecord.getRecordData();
             out.append("Item: ID[" + item.getObjid() + "], Href["
                 + item.getXLinkHref() + "]\n");
         }
@@ -234,11 +258,16 @@ public class SearchHandlerClientTest {
         Collection<Item> items = c.retrieveItemsAsList(request);
 
         out.append("\ntestFilterSearch [2]:\n");
-        out.append("Results: " + items.size() + "\n");
+        out.append("Results: ");
+        out.append(items.size());
+        out.append("\n");
 
         for (Item item : items) {
-            out.append("Item: ID[" + item.getObjid() + "], Href["
-                + item.getXLinkHref() + "]\n");
+            out.append("Item: ID[");
+            out.append(item.getObjid());
+            out.append("], Href[");
+            out.append(item.getXLinkHref());
+            out.append("]\n");
         }
 
         assertEquals("Binding of all items within records failed.",
@@ -252,9 +281,6 @@ public class SearchHandlerClientTest {
      */
     // @Test
     public void testSearchScanREST() throws Exception {
-
-        SearchHandlerClient c = new SearchHandlerClient();
-        c.setTransport(TransportProtocol.REST);
 
         ScanRequestType request = new ScanRequestType();
         request.setVersion("1.1");

@@ -33,6 +33,8 @@ import static org.junit.Assert.assertEquals;
 import java.net.URI;
 import java.util.Iterator;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -60,8 +62,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContentModelCreateTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContentModelHandlerClientInterface cc;
+
     public ContentModelCreateTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContentModelHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -72,16 +93,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = NullPointerException.class)
     public void createContentModelNullPointerCheck() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
-        cc.setTransport(transport);
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-
         cc.create(null);
     }
 
@@ -94,16 +105,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void createContentModelFail01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
-        cc.setTransport(transport);
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-
         ContentModel cmm = new ContentModel();
         cc.create(cmm);
     }
@@ -116,16 +117,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void createContentModel01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
-        cc.setTransport(transport);
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-
         ContentModel cmm = new ContentModel();
         cmm.getProperties().setName("Name-" + System.nanoTime());
         cmm.getProperties().setDescription("Description-" + System.nanoTime());
@@ -133,9 +124,9 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
         ContentModel cmmCreated = cc.create(cmm);
 
         // asserts
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
+        UserAccountHandlerClientInterface uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setTransport(transport);
-        uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
@@ -160,16 +151,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void createContentModel02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
-        cc.setTransport(transport);
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-
         ContentModel cmm = new ContentModel();
         cmm.getProperties().setName("Name-" + System.nanoTime());
         cmm.getProperties().setDescription("Description-" + System.nanoTime());
@@ -186,9 +167,9 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
         ContentModel cmmCreated = cc.create(cmm);
 
         // asserts
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClient uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setTransport(transport);
-        uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
@@ -215,7 +196,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
 
         assertEquals("Wrong creator", me.getObjid(), cmmCreated
             .getProperties().getCreatedBy().getObjid());
-
     }
 
     /**
@@ -227,16 +207,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void createContentModel03() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
-        cc.setTransport(transport);
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-
         ContentModel cmm = new ContentModel();
         cmm.getProperties().setName("Name-" + System.nanoTime());
         cmm.getProperties().setDescription("Description-" + System.nanoTime());
@@ -277,9 +247,9 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
         ContentModel cmmCreated = cc.create(cmm);
 
         // asserts
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClient uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setTransport(transport);
-        uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
 
         UserAccount me = uac.retrieveCurrentUser();
@@ -348,16 +318,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void updateContentModel01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
-        cc.setTransport(transport);
-        cc.setServiceAddress(auth.getServiceAddress());
-        cc.setHandle(auth.getHandle());
-
         ContentModel cmm = new ContentModel();
         cmm.getProperties().setName("Name-" + System.nanoTime());
         cmm.getProperties().setDescription("Description-" + System.nanoTime());
@@ -382,9 +342,9 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
         ContentModel cmmUpdated = cc.update(cmmCreated);
 
         // asserts
-        UserAccountHandlerClient uac = new UserAccountHandlerClient();
+        UserAccountHandlerClient uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setTransport(transport);
-        uac.setServiceAddress(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 

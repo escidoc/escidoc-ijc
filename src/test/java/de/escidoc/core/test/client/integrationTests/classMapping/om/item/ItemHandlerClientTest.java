@@ -31,7 +31,6 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.net.URL;
 import java.util.LinkedList;
@@ -41,6 +40,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -70,8 +71,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ItemHandlerClientInterface ihc;
+
     public ItemHandlerClientTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        ihc = new ItemHandlerClient(auth.getServiceAddress());
+        ihc.setHandle(auth.getHandle());
+        ihc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -95,17 +115,9 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
     @Test
     public void testRetrieve01() throws Exception {
 
-        ItemHandlerClientInterface ic = new ItemHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        ic.setHandle(auth.getHandle());
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setTransport(transport);
-
-        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
+        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
         Factory
-            .getMarshallerFactory(ic.getTransport()).getItemMarshaller()
+            .getMarshallerFactory(ihc.getTransport()).getItemMarshaller()
             .marshalDocument(item);
     }
 
@@ -115,28 +127,9 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
      * @throws Exception
      *             Thrown if the wrong exception is caught.
      */
-    @Test
+    @Test(expected = ItemNotFoundException.class)
     public void testRetrieve02() throws Exception {
-        try {
-            ItemHandlerClientInterface ic = new ItemHandlerClient();
-            Authentication auth =
-                new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                    Constants.SYSTEM_ADMIN_USER,
-                    Constants.SYSTEM_ADMIN_PASSWORD);
-            ic.setHandle(auth.getHandle());
-            ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-            ic.setTransport(transport);
-
-            ic.retrieve(Constants.INVALID_RESOURCE_ID);
-
-            fail("Missing Exception retrieving an non existing Item.");
-        }
-        catch (Exception e) {
-            Class<?> ec = ItemNotFoundException.class;
-            EscidocClientTestBase.assertExceptionType(ec.getName()
-                + " expected.", ec, e);
-
-        }
+        ihc.retrieve(Constants.INVALID_RESOURCE_ID);
     }
 
     /**
@@ -147,24 +140,15 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateAndSubmit() throws Exception {
+        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
-        ItemHandlerClientInterface ic = new ItemHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        ic.setHandle(auth.getHandle());
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setTransport(transport);
-
-        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
-
-        Item resultItem = ic.create(item);
+        Item resultItem = ihc.create(item);
 
         TaskParam taskParam =
             getTaskParam(resultItem.getLastModificationDate(), "Submit Item "
                 + resultItem.getObjid());
 
-        Result result = ic.submit(resultItem.getObjid(), taskParam);
+        Result result = ihc.submit(resultItem.getObjid(), taskParam);
 
         // check result
         result.getLastModificationDate();
@@ -179,20 +163,11 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveVersionHistory() throws Exception {
+        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
-        ItemHandlerClient ic = new ItemHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        ic.setHandle(auth.getHandle());
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setTransport(transport);
+        Item item2 = ihc.create(item);
 
-        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
-
-        Item item2 = ic.create(item);
-
-        VersionHistory vh1 = ic.retrieveVersionHistory(item2.getObjid());
+        VersionHistory vh1 = ihc.retrieveVersionHistory(item2.getObjid());
 
         assertEquals("WOV has wrong number of versions in WOV of Item '"
             + item2.getObjid() + "'", 1, vh1.getVersions().size());
@@ -217,10 +192,10 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
 
         item2.getProperties().setContentModelSpecific(cms);
 
-        item2 = ic.update(item2);
+        item2 = ihc.update(item2);
 
         VersionHistory vh2 =
-            ic.retrieveVersionHistory(((Item) item2).getObjid());
+            ihc.retrieveVersionHistory(((Item) item2).getObjid());
 
     }
 
@@ -232,31 +207,22 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testItemLifecycle() throws Exception {
+        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
 
-        ItemHandlerClient ic = new ItemHandlerClient();
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        ic.setHandle(auth.getHandle());
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setTransport(transport);
-
-        Item item = ic.retrieve(Constants.EXAMPLE_ITEM_ID);
-
-        Item resultItem = ic.create(item);
+        Item resultItem = ihc.create(item);
         TaskParam tp = new TaskParam();
         tp.setLastModificationDate(resultItem.getLastModificationDate());
 
         // submit
         tp.setComment("Item '" + resultItem.getObjid() + " will be submitted.");
-        ic.submit(resultItem.getObjid(), tp);
-        resultItem = ic.retrieve(resultItem.getObjid());
+        ihc.submit(resultItem.getObjid(), tp);
+        resultItem = ihc.retrieve(resultItem.getObjid());
 
         // assign object pid
         tp.setLastModificationDate(resultItem.getLastModificationDate());
         tp.setComment(null);
         tp.setUrl(new URL("http://www.escidoc.de/test-pid"));
-        Result pidResult = ic.assignObjectPid(resultItem.getObjid(), tp);
+        Result pidResult = ihc.assignObjectPid(resultItem.getObjid(), tp);
         assertNotNull("AssignObjectPid returns null", pidResult);
         assertTrue("AssignObjectPid returns empty result", !pidResult.isEmpty());
         assertTrue("AssignObjectPid returns invalid result", pidResult
@@ -266,20 +232,20 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
             .get(0).getTextContent().isEmpty());
 
         // retrieve
-        resultItem = ic.retrieve(resultItem.getObjid());
+        resultItem = ihc.retrieve(resultItem.getObjid());
 
         // assign version pid
         tp.setLastModificationDate(resultItem.getLastModificationDate());
         tp.setComment(null);
         tp.setUrl(new URL("http://www.escidoc.de/test-pid"));
-        pidResult = ic.assignVersionPid(resultItem.getObjid() + ":1", tp);
-        resultItem = ic.retrieve(resultItem.getObjid());
+        pidResult = ihc.assignVersionPid(resultItem.getObjid() + ":1", tp);
+        resultItem = ihc.retrieve(resultItem.getObjid());
 
         // release
         tp.setLastModificationDate(resultItem.getLastModificationDate());
         tp.setComment("Item '" + resultItem.getObjid() + " will be released.");
-        ic.release(resultItem.getObjid(), tp);
-        resultItem = ic.retrieve(resultItem.getObjid());
+        ihc.release(resultItem.getObjid(), tp);
+        resultItem = ihc.retrieve(resultItem.getObjid());
 
     }
 

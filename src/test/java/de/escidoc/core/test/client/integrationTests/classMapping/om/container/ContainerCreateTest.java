@@ -40,6 +40,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.xpath.XPathAPI;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -81,10 +83,29 @@ import de.escidoc.core.test.client.util.Asserts;
  */
 public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContainerHandlerClientInterface cc;
+    
     public ContainerCreateTest(TransportProtocol transport) {
         super(transport);
     }
 
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContainerHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+    
     /**
      * Test if the right exception is thrown if calling create with an
      * incomplete Container.
@@ -94,16 +115,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
         cc.create(container);
     }
@@ -119,16 +130,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
         container.setXLinkTitle("New title for test");
         cc.create(container);
@@ -143,16 +144,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer03() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
         container.setProperties(properties);
@@ -168,16 +159,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer04() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
         container.setProperties(properties);
@@ -193,16 +174,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer05() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
@@ -221,16 +192,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer06() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
@@ -254,16 +215,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer07() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
@@ -292,16 +243,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateContainer08() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
 
         // properties
@@ -336,16 +277,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateContainer09() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = new Container();
 
         // properties
@@ -435,16 +366,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateContainer10() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
         Relation relation =
@@ -529,16 +450,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateContainerWithOneMember() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = createContainerWithMinContent();
         Container memberContainer = createContainerWithMinContent();
 
@@ -579,16 +490,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateContainer20() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);
 
@@ -640,16 +541,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Container container = createContainerWithMinContent();
         Container createdContainer = cc.create(container);
 
@@ -752,7 +643,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         mdRecords.add(mdRecord);
         MetadataRecord mdRecord2 = new MetadataRecord();
         mdRecord2.setName("md-record2");
-        Document doc2 = builder.newDocument();
         Element element2 = doc.createElementNS(null, "myMdRecord");
         element2.setTextContent("222222222");
 
@@ -762,9 +652,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         MetadataRecord mdRecord3 = new MetadataRecord();
         mdRecord3.setName("md-record3");
-        Document doc3 = builder.newDocument();
         Element element3 = doc.createElementNS(null, "myMdRecord");
-        Document doc4 = builder.newDocument();
         Element element4 = doc.createElementNS(null, "some-other-stuff");
         element2.setTextContent("33333333333333333333");
         element2.appendChild(element4);

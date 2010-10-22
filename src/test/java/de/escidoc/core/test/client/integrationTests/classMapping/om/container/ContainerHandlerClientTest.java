@@ -28,13 +28,13 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 
-import static org.junit.Assert.fail;
-
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,8 +68,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContainerHandlerClientInterface cc;
+
     public ContainerHandlerClientTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContainerHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -80,49 +99,33 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieve() throws Exception {
-        try {
-            Authentication auth =
-                new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                    Constants.SYSTEM_ADMIN_USER,
-                    Constants.SYSTEM_ADMIN_PASSWORD);
+        // create first a Container
+        Container containerNew = new Container();
+        ContainerProperties properties = new ContainerProperties();
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        containerNew.setProperties(properties);
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName("escidoc");
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element element = doc.createElementNS(null, "myMdRecord");
+        mdRecord.setContent(element);
 
-            ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-            cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-            cc.setHandle(auth.getHandle());
-            cc.setTransport(transport);
+        mdRecords.add(mdRecord);
+        containerNew.setMetadataRecords(mdRecords);
+        Container createdContainer = cc.create(containerNew);
+        String objid = createdContainer.getObjid();
 
-            // create first a Container
-            Container containerNew = new Container();
-            ContainerProperties properties = new ContainerProperties();
-            properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-            properties.setContentModel(new ContentModelRef(
-                Constants.EXAMPLE_CONTENT_MODEL_ID));
-            containerNew.setProperties(properties);
-            MetadataRecords mdRecords = new MetadataRecords();
-            MetadataRecord mdRecord = new MetadataRecord();
-            mdRecord.setName("escidoc");
-            DocumentBuilderFactory factory =
-                DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.newDocument();
-            Element element = doc.createElementNS(null, "myMdRecord");
-            mdRecord.setContent(element);
+        // retrieve the created Container
+        Container container = cc.retrieve(objid);
 
-            mdRecords.add(mdRecord);
-            containerNew.setMetadataRecords(mdRecords);
-            Container createdContainer = cc.create(containerNew);
-            String objid = createdContainer.getObjid();
-
-            // retrieve the created Container
-            Container container = cc.retrieve(objid);
-
-            Factory
-                .getMarshallerFactory(cc.getTransport())
-                .getContainerMarshaller().marshalDocument(container);
-        }
-        catch (Exception e) {
-            fail("Unexpected exception caught: " + e.getMessage());
-        }
+        Factory
+            .getMarshallerFactory(cc.getTransport()).getContainerMarshaller()
+            .marshalDocument(container);
     }
 
     /**
@@ -131,25 +134,9 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
      * @throws Exception
      *             If infrastructure throws no or wrong Exception.
      */
-    @Test
+    @Test(expected = ContainerNotFoundException.class)
     public void testRetrieveUnknown() throws Exception {
-        try {
-
-            ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-            cc.setHandle(new Authentication(
-                EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD)
-                .getHandle());
-            cc.setTransport(transport);
-            cc.retrieve("escidoc:-1");
-            fail("Missing Exception");
-        }
-        catch (ContainerNotFoundException e) {
-            return;
-        }
-        catch (Exception e) {
-            fail("Wrong exception caught: " + e.getMessage());
-        }
+        cc.retrieve("escidoc:-1");
     }
 
     /**
@@ -160,14 +147,6 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveContainers() throws Exception {
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setHandle(new Authentication(
-            EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD)
-            .getHandle());
-        cc.setTransport(transport);
-
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = filterParam.getFilters();
 
@@ -197,14 +176,6 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveMembers() throws Exception {
-
-        ContainerHandlerClientInterface cc = new ContainerHandlerClient();
-        cc.setHandle(new Authentication(
-            EscidocClientTestBase.DEFAULT_SERVICE_URL,
-            Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD)
-            .getHandle());
-        cc.setTransport(transport);
-
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));

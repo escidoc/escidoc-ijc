@@ -43,6 +43,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.joda.time.DateTimeZone;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,8 +77,27 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private RoleHandlerClientInterface rc;
+    
     public RoleFilterVersion12Test(TransportProtocol transport) {
         super(transport);
+    }
+    
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        rc = new RoleHandlerClient(auth.getServiceAddress());
+        rc.setHandle(auth.getHandle());
+        rc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -87,16 +108,6 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
      */
     @Test
     public void testExplain() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RoleHandlerClientInterface rc = new RoleHandlerClient();
-        rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        rc.setHandle(auth.getHandle());
-        rc.setTransport(transport);
-
         rc.create(createRole());
 
         ExplainResponse response = rc.retrieveRoles(new ExplainRequestType());
@@ -116,16 +127,6 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
      */
     @Test
     public void testFilter01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RoleHandlerClientInterface rc = new RoleHandlerClient();
-        rc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        rc.setHandle(auth.getHandle());
-        rc.setTransport(transport);
-
         Role role = createRole();
         Role createdRole = rc.create(role);
 

@@ -30,6 +30,8 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.aa.user_account
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -46,6 +48,24 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class GrantsTest {
 
+    private Authentication auth;
+
+    private RestUserAccountHandlerClient uahc;
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uahc = new RestUserAccountHandlerClient(auth.getServiceAddress());
+        uahc.setHandle(auth.getHandle());
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+
     /**
      * Test to create and retrieve a grant.
      * 
@@ -54,15 +74,6 @@ public class GrantsTest {
      */
     @Test
     public void testCreateGrant01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-
         // create User Account
         String resourceXml =
             EscidocClientTestBase.getXmlFileAsString(Template
@@ -119,15 +130,6 @@ public class GrantsTest {
      */
     @Test
     public void testCreateGrant02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-
         // create User Account
         String resourceXml =
             EscidocClientTestBase.getXmlFileAsString(Template
@@ -183,15 +185,6 @@ public class GrantsTest {
      */
     @Test
     public void testDeleteGrant01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        RestUserAccountHandlerClient uahc = new RestUserAccountHandlerClient();
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-
         // create User Account
         String resourceXml =
             EscidocClientTestBase.getXmlFileAsString(Template

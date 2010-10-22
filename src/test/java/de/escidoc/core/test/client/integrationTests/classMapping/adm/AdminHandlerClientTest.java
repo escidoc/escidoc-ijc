@@ -68,7 +68,6 @@ public class AdminHandlerClientTest {
 
     private AdminHandlerClientInterface ahc;
 
-    
     /**
      * 
      * @throws Exception
@@ -78,8 +77,7 @@ public class AdminHandlerClientTest {
         auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        ahc = new AdminHandlerClient();
-        ahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        ahc = new AdminHandlerClient(auth.getServiceAddress());
         ahc.setHandle(auth.getHandle());
         // ADM has some serious problems, when called via SOAP
         ahc.setTransport(TransportProtocol.REST);
@@ -337,20 +335,19 @@ public class AdminHandlerClientTest {
     public void testPurge() throws Exception {
         // create some data to delete
         // initialize handler clients
-        ItemHandlerClientInterface ih = new ItemHandlerClient();
-        ih.setHandle(ahc.getHandle());
-        ih.setServiceAddress(ahc.getServiceAddress());
+        ItemHandlerClientInterface ih =
+            new ItemHandlerClient(auth.getServiceAddress());
+        ih.setHandle(auth.getHandle());
         ih.setTransport(ahc.getTransport());
 
         OrganizationalUnitHandlerClientInterface oh =
-            new OrganizationalUnitHandlerClient();
-        oh.setHandle(ahc.getHandle());
-        oh.setServiceAddress(ahc.getServiceAddress());
+            new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+        oh.setHandle(auth.getHandle());
         oh.setTransport(ahc.getTransport());
 
-        ContainerHandlerClientInterface ch = new ContainerHandlerClient();
-        ch.setHandle(ahc.getHandle());
-        ch.setServiceAddress(ahc.getServiceAddress());
+        ContainerHandlerClientInterface ch =
+            new ContainerHandlerClient(auth.getServiceAddress());
+        ch.setHandle(auth.getHandle());
         ch.setTransport(ahc.getTransport());
 
         Collection<String> ids = new LinkedList<String>();
@@ -438,12 +435,12 @@ public class AdminHandlerClientTest {
             assertTrue(newStatus.getStatusCode() == MessagesStatus.STATUS_FINISHED);
         }
     }
-    
+
     /**
-     *
+     * 
      * @throws Exception
      */
-    //@Test
+    // @Test
     public void testDecreaseReindexStatus() throws Exception {
         // TODO What's the story of this function???
     }
@@ -611,7 +608,7 @@ public class AdminHandlerClientTest {
         }
         LOG.debug(sb.toString());
     }
-    
+
     /**
      * 
      * @param status

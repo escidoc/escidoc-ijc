@@ -32,6 +32,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -70,8 +72,27 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  */
 public class GrantsTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private UserAccountHandlerClientInterface uahc;
+
     public GrantsTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        uahc = new UserAccountHandlerClient(auth.getServiceAddress());
+        uahc.setHandle(auth.getHandle());
+        uahc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -82,17 +103,6 @@ public class GrantsTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateGrant01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
-
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setTransport(transport);
-        uahc.setHandle(auth.getHandle());
-
         // create User Account
         UserAccount ua = new UserAccount();
 
@@ -139,15 +149,10 @@ public class GrantsTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateGrant02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
         // create Item
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
+        ItemHandlerClientInterface ihc =
+            new ItemHandlerClient(auth.getServiceAddress());
         ihc.setTransport(transport);
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ihc.setHandle(auth.getHandle());
 
         Item item = new Item();
@@ -169,11 +174,6 @@ public class GrantsTest extends AbstractParameterizedTestBase {
 
         // create
         Item createdItem = ihc.create(item);
-
-        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
-        uahc.setTransport(transport);
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
 
         // create User Account
         UserAccount ua = new UserAccount();
@@ -222,16 +222,6 @@ public class GrantsTest extends AbstractParameterizedTestBase {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateGrant03() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
-        uahc.setTransport(transport);
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-
         // create User Account
         UserAccount ua = new UserAccount();
 
@@ -266,16 +256,6 @@ public class GrantsTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRevokeGrant01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
-        uahc.setTransport(transport);
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-
         // create User Account
         UserAccount ua = new UserAccount();
 
@@ -318,16 +298,6 @@ public class GrantsTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRevokeGrant02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uahc = new UserAccountHandlerClient();
-        uahc.setTransport(transport);
-        uahc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        uahc.setHandle(auth.getHandle());
-
         // create User Account
         UserAccount ua = new UserAccount();
 
@@ -362,7 +332,5 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         catch (GrantNotFoundException e) {
             return;
         }
-
     }
-
 }

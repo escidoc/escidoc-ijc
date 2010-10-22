@@ -14,9 +14,10 @@ public class ClientFactory {
         final Authentication auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-        final UserAccountHandlerClient client = new UserAccountHandlerClient();
+        final UserAccountHandlerClient client =
+            new UserAccountHandlerClient(
+                EscidocClientTestBase.DEFAULT_SERVICE_URL);
         client.setTransport(TransportProtocol.REST);
-        client.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         client.setHandle(auth.getHandle());
         return client;
     }

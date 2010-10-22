@@ -39,6 +39,8 @@ import java.util.Collection;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -70,10 +72,29 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
 public class ContentRelationFilterVersion12Test
     extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContentRelationHandlerClientInterface cc;
+    
     public ContentRelationFilterVersion12Test(TransportProtocol transport) {
         super(transport);
     }
 
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContentRelationHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+    
     /**
      * Test retrieving Contexts through filter request (filter for version 1.2).
      * 
@@ -82,17 +103,6 @@ public class ContentRelationFilterVersion12Test
      */
     @Test
     public void testExplain() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         cc.create(createContentRelation());
 
         ExplainResponse response =
@@ -112,17 +122,6 @@ public class ContentRelationFilterVersion12Test
      */
     @Test
     public void testFilter01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContentRelationHandlerClientInterface cc =
-            new ContentRelationHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         ContentRelation contentRelation = cc.create(createContentRelation());
 
         // submit --------------------------------------------------------------

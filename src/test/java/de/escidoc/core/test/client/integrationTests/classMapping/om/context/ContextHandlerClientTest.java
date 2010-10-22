@@ -29,7 +29,6 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.Collection;
@@ -37,6 +36,8 @@ import java.util.Collection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,8 +74,27 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  */
 public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
 
+    private Authentication auth;
+
+    private ContextHandlerClientInterface cc;
+
     public ContextHandlerClientTest(TransportProtocol transport) {
         super(transport);
+    }
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        cc = new ContextHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+        cc.setTransport(transport);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
     }
 
     /**
@@ -84,29 +104,9 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
      * @throws Exception
      *             Thrown if not the right exception is caught.
      */
-    @Test
+    @Test(expected = ContextNotFoundException.class)
     public void testRetrieveUnknown() throws Exception {
-        try {
-
-            Authentication auth =
-                new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                    Constants.SYSTEM_ADMIN_USER,
-                    Constants.SYSTEM_ADMIN_PASSWORD);
-
-            ContextHandlerClient cc = new ContextHandlerClient();
-            cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-            cc.setHandle(auth.getHandle());
-            cc.setTransport(transport);
-
-            cc.retrieve(Constants.INVALID_RESOURCE_ID);
-            fail("Missing Exception");
-        }
-        catch (ContextNotFoundException e) {
-            return;
-        }
-        catch (Exception e) {
-            fail("Wrong exception caught: " + e.getMessage());
-        }
+        cc.retrieve(Constants.INVALID_RESOURCE_ID);
     }
 
     /**
@@ -117,16 +117,6 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieve01() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context context = new Context();
         Properties properties = new Properties();
         properties.setDescription("ContextDescription");
@@ -170,16 +160,6 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveUpdate() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         Context context = new Context();
         Properties properties = new Properties();
         properties.setDescription("ContextDescription");
@@ -230,21 +210,17 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
     public void testRetrieveContextsOld() throws Exception {
 
         // just getting a valid objid of a user
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        UserAccountHandlerClientInterface uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         uac.setTransport(transport);
 
         UserAccount me = uac.retrieveCurrentUser();
 
         // call filter without Authentication (login)
-        ContextHandlerClient cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
+        ContextHandlerClient cc =
+            new ContextHandlerClient(auth.getServiceAddress());
+        // do not set handle here (see above comment)
         cc.setTransport(transport);
 
         TaskParam filterParam = new TaskParam();
@@ -272,18 +248,9 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveMembersOld() throws Exception {
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         // just getting a valid objid of a user
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        UserAccountHandlerClientInterface uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         uac.setTransport(transport);
 
@@ -319,35 +286,13 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveMembersNew() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
-
         // just getting a valid objid of a user
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        UserAccountHandlerClientInterface uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         uac.setTransport(transport);
 
         UserAccount me = uac.retrieveCurrentUser();
-
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
-
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            me.getObjid(), null));
-        filterParam.setFilters(filters);
-
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
-            .marshalDocument(filterParam);
 
         SearchRetrieveRequestType filter = new SearchRetrieveRequestType();
         filter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());

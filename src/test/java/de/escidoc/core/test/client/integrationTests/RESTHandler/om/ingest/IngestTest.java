@@ -34,16 +34,19 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.ContainerHandlerClient;
-import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
+import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
@@ -64,6 +67,20 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  */
 public class IngestTest {
 
+    private Authentication auth;
+
+    @Before
+    public void init() throws Exception {
+        auth =
+            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+    }
+
+    @After
+    public void post() throws Exception {
+        auth.logout();
+    }
+
     /**
      * Test ingesting an Item.
      * 
@@ -73,13 +90,14 @@ public class IngestTest {
     @Test
     public void testIngestItem01() throws Exception {
 
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ItemHandlerClient ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        RestItemHandlerClient ihc =
+            new RestItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
+
+        Marshaller<Item> m =
+            Factory
+                .getMarshallerFactory(TransportProtocol.REST)
+                .getItemMarshaller();
 
         Item item = new Item();
 
@@ -99,21 +117,21 @@ public class IngestTest {
         item.setMetadataRecords(mdRecords);
 
         // create
-        Item createdItem = ihc.create(item);
+        String resultXml = ihc.create(m.marshalDocument(item));
+
+        Item createdItem = m.unmarshalDocument(resultXml);
 
         String objId = createdItem.getObjid();
 
         // organize Item
-        RestItemHandlerClient ic = new RestItemHandlerClient();
-        ic.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        ic.setHandle(auth.getHandle());
-
-        String itemXml = ic.retrieve(objId);
+        String itemXml = ihc.retrieve(objId);
 
         // ingest Item
-        RestIngestHandlerClient cc = new RestIngestHandlerClient();
-        cc.setHandle(ic.getHandle());
-        cc.ingest(itemXml);
+        RestIngestHandlerClient inhc =
+            new RestIngestHandlerClient(auth.getServiceAddress());
+        inhc.setHandle(auth.getHandle());
+
+        inhc.ingest(itemXml);
     }
 
     /**
@@ -124,14 +142,14 @@ public class IngestTest {
      */
     @Test
     public void testIngestContainer02() throws Exception {
-
-        Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
-
-        ContainerHandlerClient cc = new ContainerHandlerClient();
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        RestContainerHandlerClient cc =
+            new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
+
+        Marshaller<Container> m =
+            Factory
+                .getMarshallerFactory(TransportProtocol.REST)
+                .getContainerMarshaller();
 
         Container container = new Container();
 
@@ -167,19 +185,19 @@ public class IngestTest {
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
-        Container createdContainer = cc.create(container);
+        String resultXml = cc.create(m.marshalDocument(container));
+
+        Container createdContainer = m.unmarshalDocument(resultXml);
         String objId = createdContainer.getObjid();
 
         // organize Container
-        RestContainerHandlerClient rchc = new RestContainerHandlerClient();
-        rchc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        rchc.setHandle(auth.getHandle());
-
-        String containerXml = rchc.retrieve(objId);
+        String containerXml = cc.retrieve(objId);
 
         // ingest Item
-        RestIngestHandlerClient rihc = new RestIngestHandlerClient();
+        RestIngestHandlerClient rihc =
+            new RestIngestHandlerClient(auth.getServiceAddress());
         rihc.setHandle(auth.getHandle());
+
         rihc.ingest(containerXml);
     }
 

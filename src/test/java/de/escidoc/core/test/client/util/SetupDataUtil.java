@@ -152,8 +152,7 @@ public class SetupDataUtil {
         organizationalUnit.setMetadataRecords(mdRecords);
 
         OrganizationalUnitHandlerClientInterface ouhc =
-            new OrganizationalUnitHandlerClient();
-        ouhc.setServiceAddress(auth.getServiceAddress());
+            new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ouhc.setHandle(auth.getHandle());
         ouhc.setTransport(transport);
 
@@ -197,8 +196,8 @@ public class SetupDataUtil {
         ua.setProperties(properties);
 
         // Get service handler (with authentication)
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient();
-        uac.setServiceAddress(auth.getServiceAddress());
+        UserAccountHandlerClientInterface uac =
+            new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         uac.setTransport(transport);
 
@@ -242,8 +241,8 @@ public class SetupDataUtil {
         final TransportProtocol transport, final boolean setToOpen)
         throws EscidocClientException {
 
-        ContextHandlerClientInterface cc = new ContextHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
+        ContextHandlerClientInterface cc =
+            new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
         cc.setTransport(transport);
 
@@ -331,8 +330,8 @@ public class SetupDataUtil {
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
-        ItemHandlerClientInterface ihc = new ItemHandlerClient();
-        ihc.setServiceAddress(auth.getServiceAddress());
+        ItemHandlerClientInterface ihc =
+            new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
         ihc.setTransport(transport);
 
@@ -355,8 +354,8 @@ public class SetupDataUtil {
         final Authentication auth, final TransportProtocol transport)
         throws EscidocClientException, URISyntaxException {
 
-        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient();
-        cc.setServiceAddress(auth.getServiceAddress());
+        ContentModelHandlerClientInterface cc =
+            new ContentModelHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
         cc.setTransport(transport);
 
