@@ -32,16 +32,6 @@ public interface HandlerServiceInterface {
     void setHandle(final String handle) throws InternalClientException;
 
     /**
-     * Set the Service Address.
-     * 
-     * @param address
-     *            The String containing the Service Address of eSciDocCore).
-     * @throws InternalClientException
-     *             Thrown if setting failed.
-     */
-    void setServiceAddress(final String address) throws InternalClientException;
-    
-    /**
      * 
      * @return the Service Address.
      */
