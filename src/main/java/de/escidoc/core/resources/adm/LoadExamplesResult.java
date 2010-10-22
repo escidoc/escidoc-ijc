@@ -22,7 +22,7 @@ public class LoadExamplesResult
      * 
      * @param result
      */
-    public LoadExamplesResult(Result result) {
+    public LoadExamplesResult(final Result result) {
         super(result);
     }
 
@@ -32,9 +32,9 @@ public class LoadExamplesResult
     @Override
     protected Entry extractMessage(
         final Element messageNode, final int messageCount) {
-        String message = messageNode.getTextContent();
-        String type = message.substring(8, message.indexOf(':'));
-        String objid = message.substring(message.indexOf(':') + 2);
+        final String message = messageNode.getTextContent();
+        final String type = message.substring(8, message.indexOf(':'));
+        final String objid = message.substring(message.indexOf(':') + 2);
         return new Entry(objid, RESOURCE_TYPE.valueByTagName(type), message);
     }
 
@@ -57,7 +57,8 @@ public class LoadExamplesResult
          * @param type
          * @param message
          */
-        public Entry(String objid, RESOURCE_TYPE type, String message) {
+        public Entry(final String objid, final RESOURCE_TYPE type,
+            final String message) {
             this.objid = objid;
             this.type = type;
             this.message = message;
@@ -86,5 +87,12 @@ public class LoadExamplesResult
         public RESOURCE_TYPE getResourceType() {
             return type;
         }
+
+        @Override
+        public String toString() {
+            return "Entry [message=" + message + ", objid=" + objid + ", type="
+                + type + "]";
+        }
+
     }
 }
