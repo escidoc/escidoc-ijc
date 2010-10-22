@@ -20,6 +20,8 @@ public class CustomConverter {
      * @return string representation of URI
      */
     public static String serializeURI(final URI uri) {
+        if (uri == null)
+            return "";
         return uri.toString();
     }
 
