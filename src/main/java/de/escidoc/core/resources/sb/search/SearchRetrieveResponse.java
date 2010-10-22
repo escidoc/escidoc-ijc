@@ -22,8 +22,7 @@ public class SearchRetrieveResponse extends Response {
 
     private int numberOfRecords = -1;
 
-    @SuppressWarnings("rawtypes")
-    private final Collection<Record> records = new LinkedList<Record>();
+    private final Collection<Record<?>> records = new LinkedList<Record<?>>();
 
     /**
      * Constructor for REST response.
@@ -75,8 +74,7 @@ public class SearchRetrieveResponse extends Response {
      * 
      * @return records
      */
-    @SuppressWarnings("rawtypes")
-    public Collection<Record> getRecords() {
+    public Collection<Record<?>> getRecords() {
         return records;
     }
 
