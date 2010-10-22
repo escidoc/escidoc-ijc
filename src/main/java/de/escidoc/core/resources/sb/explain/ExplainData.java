@@ -64,7 +64,8 @@ public class ExplainData implements RecordData {
      * 
      * @see java.lang.Object#toString()
      */
-    public void toString(StringBuilder builder) {
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
         builder.append("ExplainData [authoritative=");
         builder.append(authoritative);
         builder.append(", serverInfo=");
@@ -91,5 +92,6 @@ public class ExplainData implements RecordData {
         builder.append(", configInfo=");
         builder.append(configInfo);
         builder.append("]");
+        return builder.toString();
     }
 }
