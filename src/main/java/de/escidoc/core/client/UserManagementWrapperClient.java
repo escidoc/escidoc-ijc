@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.client;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -49,8 +48,20 @@ public class UserManagementWrapperClient
     AbstractHandlerClient<SoapUserManagementWrapperClient, RestUserManagementWrapperClient>
     implements UserManagementWrapperClientInterface {
 
-    @Deprecated
-    private Authentication auth;
+    /**
+     * 
+     */
+    public UserManagementWrapperClient() {
+        super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public UserManagementWrapperClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
 
     /*
      * (non-Javadoc)
@@ -59,8 +70,8 @@ public class UserManagementWrapperClient
      * de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface
      * #logout()
      */
-    public void logout() throws EscidocException,
-        InternalClientException, TransportException {
+    public void logout() throws EscidocException, InternalClientException,
+        TransportException {
 
         if (getTransport() == TransportProtocol.SOAP) {
             getSoapHandlerClient().logout();
@@ -70,46 +81,16 @@ public class UserManagementWrapperClient
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
-     * .String, java.lang.String, java.lang.String)
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
-        setServiceAddress(serviceAddress);
-
-        if (this.auth == null) {
-            try {
-                auth = new Authentication(serviceAddress, username, password);
-            }
-            catch (EscidocClientException e) {
-                throw new InternalClientException("Login failed.", e);
-            }
-        }
-
-        String handle = this.auth.getHandle();
-        setHandle(handle);
-
-        return handle;
-    }
-
     @Override
     protected SoapUserManagementWrapperClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        return new SoapUserManagementWrapperClient();
+        return new SoapUserManagementWrapperClient(getServiceAddress());
     }
 
     @Override
     protected RestUserManagementWrapperClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestUserManagementWrapperClient();
+        return new RestUserManagementWrapperClient(getServiceAddress());
     }
 
 }

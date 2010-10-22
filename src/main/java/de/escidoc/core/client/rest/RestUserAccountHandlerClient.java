@@ -64,8 +64,17 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestUserAccountHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestUserAccountHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -850,7 +859,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
 
             UserAccountRestServiceLocator serviceLocator =
                 new UserAccountRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.client.soap;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
@@ -53,9 +52,21 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
 
     private ContentModelHandler soapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapContentModelHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapContentModelHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -164,10 +175,11 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.SOAP)
-            		.getContentModelMarshaller().unmarshalDocument(
-            				getClient().retrieve(id)))
-            			.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.SOAP)
+                    .getContentModelMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -187,27 +199,11 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 ContentModelHandlerServiceLocator serviceLocator =
                     new ContentModelHandlerServiceLocator(getEngineConfig());
-
-                String adress =
-                    serviceLocator.getContentModelHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
-
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getContentModelHandlerServiceAddress());
                 soapClient = serviceLocator.getContentModelHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

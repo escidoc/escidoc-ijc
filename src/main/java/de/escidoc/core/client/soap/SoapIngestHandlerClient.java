@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.client.soap;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
@@ -50,14 +49,25 @@ import de.escidoc.core.om.IngestHandlerServiceLocator;
  * @author SWA
  * 
  */
-public class SoapIngestHandlerClient extends SoapClientBase
-    implements IngestHandlerInterface {
+public class SoapIngestHandlerClient extends SoapClientBase {
 
     private IngestHandler soapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapIngestHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapIngestHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -115,25 +125,11 @@ public class SoapIngestHandlerClient extends SoapClientBase
             if (soapClient == null) {
                 IngestHandlerServiceLocator serviceLocator =
                     new IngestHandlerServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getIngestHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
-
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getIngestHandlerServiceAddress());
                 soapClient = serviceLocator.getIngestHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {
@@ -141,10 +137,4 @@ public class SoapIngestHandlerClient extends SoapClientBase
         }
         return soapClient;
     }
-
-    public void setTransport(TransportProtocol tp) {
-        // TODO Auto-generated method stub
-
-    }
-
 }

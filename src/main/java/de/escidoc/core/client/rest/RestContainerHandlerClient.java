@@ -58,14 +58,21 @@ public class RestContainerHandlerClient extends RestClientBase {
     private ContainerHandler restClient = null;
 
     /**
-     * Container Handler for REST interface.
      * 
      * @throws InternalClientException
-     *             Thrown if an exception happend on client layer
      */
     public RestContainerHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestContainerHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -730,7 +737,7 @@ public class RestContainerHandlerClient extends RestClientBase {
 
             ContainerRestServiceLocator serviceLocator =
                 new ContainerRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

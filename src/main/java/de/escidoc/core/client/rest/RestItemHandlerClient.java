@@ -62,11 +62,19 @@ public class RestItemHandlerClient extends RestClientBase {
     /**
      * 
      * @throws InternalClientException
-     *             Thrwown
      */
     public RestItemHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestItemHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -553,7 +561,7 @@ public class RestItemHandlerClient extends RestClientBase {
 
             ItemRestServiceLocator serviceLocator =
                 new ItemRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

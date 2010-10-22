@@ -219,12 +219,11 @@ public class Authentication {
         TransportException {
 
         if (userManagement == null) {
-            userManagement = new UserManagementWrapperClient();
+            userManagement = new UserManagementWrapperClient(serviceAddress);
             /*
              * The serviceAddress and handle do not change within an instance of
              * this class.
              */
-            userManagement.setServiceAddress(serviceAddress);
             userManagement.setHandle(handle);
             userManagement.setTransport(TransportProtocol.REST);
         }

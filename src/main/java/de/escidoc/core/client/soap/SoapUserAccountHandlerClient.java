@@ -31,7 +31,6 @@ package de.escidoc.core.client.soap;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -39,6 +38,8 @@ import javax.xml.rpc.ServiceException;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.aa.UserAccountHandler;
+import de.escidoc.core.aa.UserAccountHandlerServiceLocator;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -46,8 +47,6 @@ import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.aa.UserAccountHandler;
-import de.escidoc.core.aa.UserAccountHandlerServiceLocator;
 
 /**
  * SOAP Handler for User Account.
@@ -59,9 +58,21 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
 
     private UserAccountHandler soapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapUserAccountHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapUserAccountHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -789,9 +800,11 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.SOAP)
-            		.getUserAccountMarshaller().unmarshalDocument(getClient().retrieve(id)))
-                    	.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.SOAP)
+                    .getUserAccountMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -811,25 +824,11 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 UserAccountHandlerServiceLocator serviceLocator =
                     new UserAccountHandlerServiceLocator(getEngineConfig());
-                String adress =
-                    serviceLocator.getUserAccountHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getUserAccountHandlerServiceAddress());
                 soapClient = serviceLocator.getUserAccountHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

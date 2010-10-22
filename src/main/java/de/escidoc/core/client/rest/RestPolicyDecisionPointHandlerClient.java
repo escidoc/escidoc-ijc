@@ -22,9 +22,23 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
     private PolicyDecisionPoint restClient;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public RestPolicyDecisionPointHandlerClient()
         throws InternalClientException {
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestPolicyDecisionPointHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -61,7 +75,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
             PolicyDecisionPointRestServiceLocator serviceLocator =
                 new PolicyDecisionPointRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

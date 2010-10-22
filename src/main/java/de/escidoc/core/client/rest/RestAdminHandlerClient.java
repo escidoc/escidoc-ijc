@@ -32,12 +32,12 @@ public class RestAdminHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @param serviceAdress
+     * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestAdminHandlerClient(final String serviceAdress)
+    public RestAdminHandlerClient(final String serviceAddress)
         throws InternalClientException {
-        super(serviceAdress);
+        super(serviceAddress);
     }
 
     /**
@@ -208,7 +208,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 
             AdminRestServiceLocator serviceLocator =
                 new AdminRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

@@ -73,6 +73,21 @@ public class ContextHandlerClient
     implements ContextHandlerClientInterface {
 
     /**
+     * 
+     */
+    public ContextHandlerClient() {
+        super();
+    }
+    
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public ContextHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+    
+    /**
      * Create Context in Repository.
      * 
      * @param context
@@ -608,68 +623,23 @@ public class ContextHandlerClient
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        return getSoapHandlerClient().getLastModificationDate(id);
-    }
-
-    /**
-     * Login.
-     * 
-     * @param serviceAddress
-     *            URL of framework
-     * @param username
-     *            Username/ID
-     * @param password
-     *            Password
-     * @return Login-Handle.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
         if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().login(serviceAddress, username,
-                password);
+            return getSoapHandlerClient().getLastModificationDate(id);
         }
         else {
-            return getRestHandlerClient().login(serviceAddress, username,
-                password);
+            return getRestHandlerClient().getLastModificationDate(id);
         }
-    }
-
-    /**
-     * Logout.
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
-
-        setHandle("");
     }
 
     @Override
     protected SoapContextHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        return new SoapContextHandlerClient();
+        return new SoapContextHandlerClient(getServiceAddress());
     }
 
     @Override
     protected RestContextHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestContextHandlerClient();
+        return new RestContextHandlerClient(getServiceAddress());
     }
 }

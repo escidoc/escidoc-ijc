@@ -58,9 +58,22 @@ public class RestContentRelationHandlerClient extends RestClientBase {
 
     private ContentRelationHandler restClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public RestContentRelationHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestContentRelationHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -390,7 +403,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
 
             ContentRelationRestServiceLocator serviceLocator =
                 new ContentRelationRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

@@ -45,7 +45,6 @@ import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.soap.security.PWCallback;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 /**
@@ -64,9 +63,12 @@ public abstract class ClientBase {
     private final EngineConfiguration engineConfig = new FileProvider(
         ENGINE_CONFIG_FILE);
 
-    private String serviceAddress = null;
+    private String serviceAddress;
 
+    @Deprecated
     private Authentication auth = null;
+
+    private String handle;
 
     /**
      * Create an instance of client base using the default constructor.
@@ -108,7 +110,7 @@ public abstract class ClientBase {
      * @throws InternalClientException
      *             Thrown if address is not a valid URL.
      */
-    public void setServiceAddress(final String address)
+    private void setServiceAddress(final String address)
         throws InternalClientException {
         if (address == null) {
             this.serviceAddress =
@@ -213,7 +215,7 @@ public abstract class ClientBase {
      */
     public String getHandle() {
 
-        return PWCallback.getHandle();
+        return this.handle;
     }
 
     /**
@@ -224,7 +226,7 @@ public abstract class ClientBase {
      */
     public void setHandle(final String handle) {
 
-        PWCallback.setHandle(handle);
+        this.handle = handle;
     }
 
     /**

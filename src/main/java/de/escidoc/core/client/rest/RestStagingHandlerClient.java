@@ -68,11 +68,19 @@ public class RestStagingHandlerClient extends RestClientBase {
     /**
      * 
      * @throws InternalClientException
-     *             Thrown
      */
     public RestStagingHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestStagingHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -168,7 +176,7 @@ public class RestStagingHandlerClient extends RestClientBase {
 
             StagingRestServiceLocator serviceLocator =
                 new StagingRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());
@@ -181,6 +189,14 @@ public class RestStagingHandlerClient extends RestClientBase {
         return this.restClient;
     }
 
+    /**
+     * 
+     * @param xml
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
     public static URL extractStagingUrl(final String xml)
         throws ParserConfigurationException, SAXException, IOException {
 

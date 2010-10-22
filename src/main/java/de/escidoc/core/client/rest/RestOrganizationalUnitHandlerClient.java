@@ -61,11 +61,19 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     /**
      * 
      * @throws InternalClientException
-     *             Thrown in case of client internal errors.
      */
     public RestOrganizationalUnitHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestOrganizationalUnitHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -423,7 +431,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
             OrganizationalUnitRestServiceLocator serviceLocator =
                 new OrganizationalUnitRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

@@ -71,7 +71,20 @@ public class UserAccountHandlerClient
     AbstractHandlerClient<SoapUserAccountHandlerClient, RestUserAccountHandlerClient>
     implements UserAccountHandlerClientInterface {
 
-    private Authentication auth = null;
+    /**
+     * 
+     */
+    public UserAccountHandlerClient() {
+        super();
+    }
+    
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public UserAccountHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
 
     /**
      * See Interface for functional description.
@@ -1038,58 +1051,16 @@ public class UserAccountHandlerClient
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
-     * .String, java.lang.String, java.lang.String)
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
-        setServiceAddress(serviceAddress);
-
-        if (this.auth == null) {
-            try {
-                auth = new Authentication(serviceAddress, username, password);
-            }
-            catch (EscidocClientException e) {
-                throw new InternalClientException("Login failed.", e);
-            }
-        }
-
-        String handle = this.auth.getHandle();
-        setHandle(handle);
-
-        return handle;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#logout()
-     */
-    @Deprecated
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
-
-        setHandle("");
-    }
-
     @Override
     protected SoapUserAccountHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        return new SoapUserAccountHandlerClient();
+        return new SoapUserAccountHandlerClient(getServiceAddress());
     }
 
     @Override
     protected RestUserAccountHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestUserAccountHandlerClient();
+        return new RestUserAccountHandlerClient(getServiceAddress());
     }
 
 }

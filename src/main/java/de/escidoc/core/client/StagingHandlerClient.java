@@ -35,20 +35,35 @@ import java.net.URL;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.StagingHandlerInterface;
+import de.escidoc.core.client.interfaces.StagingHandlerClientInterface;
 import de.escidoc.core.client.rest.RestStagingHandlerClient;
 import de.escidoc.core.client.soap.SoapClientBase;
 
 /**
- * Handler for Staging Service.
+ * Handler for Staging Service. REST only!
  * 
  * @author SWA
  * 
  */
 public class StagingHandlerClient
     extends AbstractHandlerClient<SoapClientBase, RestStagingHandlerClient>
-    implements StagingHandlerInterface {
+    implements StagingHandlerClientInterface {
 
+    /**
+     * 
+     */
+    public StagingHandlerClient() {
+        super();
+    }
+    
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public StagingHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+    
     /**
      * Upload a resource to the Staging Service.
      * 
@@ -85,34 +100,6 @@ public class StagingHandlerClient
         return getRestHandlerClient().upload(ins);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
-     * .String, java.lang.String, java.lang.String)
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
-        return getRestHandlerClient().login(serviceAddress, username, password);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#logout()
-     */
-    @Deprecated
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
-
-        setHandle("");
-    }
-
     /**
      * SOAP not supported.
      */
@@ -125,7 +112,7 @@ public class StagingHandlerClient
     @Override
     protected RestStagingHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestStagingHandlerClient();
+        return new RestStagingHandlerClient(getServiceAddress());
     }
 
     @Override

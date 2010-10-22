@@ -3,7 +3,6 @@
  */
 package de.escidoc.core.client.soap;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
@@ -220,24 +219,11 @@ public class SoapAdminHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 AdminHandlerServiceLocator serviceLocator =
                     new AdminHandlerServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getAdminHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getAdminHandlerServiceAddress());
                 soapClient = serviceLocator.getAdminHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

@@ -5,7 +5,9 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import org.apache.log4j.Logger;
 
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestClientBase;
 import de.escidoc.core.client.soap.SoapClientBase;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
@@ -29,8 +31,9 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
     protected restType restHandlerClient;
 
     /**
-	 * 
-	 */
+     * TODO put default transport loading into a static variable somewhere as a
+     * constant value.
+     */
     public AbstractHandlerClient() {
         try {
             this.transport =
@@ -42,6 +45,15 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
             LOGGER.debug("Unable to get the default transport protocol from "
                 + "configuration. Using SOAP protocol instead.", e);
         }
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public AbstractHandlerClient(final String serviceAddress) {
+        this();
+        this.serviceAddress = serviceAddress;
     }
 
     /**
@@ -138,18 +150,6 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
     }
 
     /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public final void setServiceAddress(final String address) {
-        this.serviceAddress = address;
-    }
-
-    /**
      * @return the handle
      */
     public final String getHandle() {
@@ -177,7 +177,6 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
             if (handle != null)
                 soapHandlerClient.setHandle(handle);
         }
-        soapHandlerClient.setServiceAddress(serviceAddress);
         return soapHandlerClient;
     }
 
@@ -194,19 +193,45 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
             restHandlerClient = getRestHandlerClientInstance();
             if (handle != null)
                 restHandlerClient.setHandle(handle);
-            /*
-             * When sending REST requests via independent HandlerClients, we
-             * have to get an AuthenticationException instead of the login page
-             * HTML code, since we are parsing the content of the response to
-             * objects:
-             */
-            restHandlerClient.setFollowRedirects(false);
         }
-        restHandlerClient.setServiceAddress(serviceAddress);
-        // restHandlerClient.setHandle(handle);
         return restHandlerClient;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
+     * .String, java.lang.String, java.lang.String)
+     */
+    @Deprecated
+    public String login(
+        final String serviceAddress, final String username,
+        final String password) throws EscidocException,
+        InternalClientException, TransportException {
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            return getSoapHandlerClient().login(serviceAddress, username,
+                password);
+        }
+        else {
+            return getRestHandlerClient().login(serviceAddress, username,
+                password);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#logout()
+     */
+    @Deprecated
+    public void logout() throws EscidocException, InternalClientException,
+        TransportException {
+
+        setHandle("");
+    }
+    
     protected abstract soapType getSoapHandlerClientInstance()
         throws InternalClientException;
 

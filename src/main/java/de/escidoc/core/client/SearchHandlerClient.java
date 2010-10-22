@@ -65,6 +65,21 @@ public class SearchHandlerClient
     implements SearchHandlerClientInterface {
 
     /**
+     * 
+     */
+    public SearchHandlerClient() {
+        super();
+    }
+    
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public SearchHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+    
+    /**
      * Does not support REST protocol!
      */
     @Override
@@ -224,12 +239,12 @@ public class SearchHandlerClient
     @Override
     protected SoapSearchHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        return new SoapSearchHandlerClient();
+        return new SoapSearchHandlerClient(getServiceAddress());
     }
 
     @Override
     protected RestSearchHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestSearchHandlerClient();
+        return new RestSearchHandlerClient(getServiceAddress());
     }
 }

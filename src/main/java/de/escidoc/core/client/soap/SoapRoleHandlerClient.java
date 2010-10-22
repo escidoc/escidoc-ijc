@@ -31,7 +31,6 @@ package de.escidoc.core.client.soap;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -58,9 +57,21 @@ public class SoapRoleHandlerClient extends SoapClientBase {
 
     private RoleHandler soapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapRoleHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapRoleHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -211,9 +222,11 @@ public class SoapRoleHandlerClient extends SoapClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.SOAP)
-            		.getContextMarshaller().unmarshalDocument(getClient().retrieve(id)))
-            			.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.SOAP)
+                    .getContextMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -233,24 +246,11 @@ public class SoapRoleHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 RoleHandlerServiceLocator serviceLocator =
                     new RoleHandlerServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getRoleHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getRoleHandlerServiceAddress());
                 soapClient = serviceLocator.getRoleHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

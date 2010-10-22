@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.client.soap;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
@@ -53,10 +52,21 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
 
     private PolicyDecisionPoint soapClient = null;
 
-    public SoapPolicyDecisionPointHandlerClient()
-        throws InternalClientException {
-
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapPolicyDecisionPointHandlerClient() throws InternalClientException {
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapPolicyDecisionPointHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -113,25 +123,11 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 PolicyDecisionPointServiceLocator serviceLocator =
                     new PolicyDecisionPointServiceLocator(getEngineConfig());
-                String adress =
-                    serviceLocator.getPolicyDecisionPointServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getPolicyDecisionPointServiceAddress());
                 soapClient = serviceLocator.getPolicyDecisionPointService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

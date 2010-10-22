@@ -44,14 +44,14 @@ import de.escidoc.core.resources.aa.actions.UnsecuredActions;
  * transport specific classes. The transport specification is done via
  * properties configuration of the eSciDoc client.
  * 
+ * FIXME: Documentation invalid. TODO: SOAP only?
+ * 
  * @author SWA
  * 
  */
 public class ActionHandlerClient implements ActionHandlerClientInterface {
 
     private SoapActionHandlerClient soapActionHandlerClient = null;
-
-    private Authentication auth = null;
 
     /**
      * Create ActionHandlerClient instance. The service protocol (REST/SOAP/..)
@@ -66,9 +66,25 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      */
     public ActionHandlerClient() throws EscidocException,
         InternalClientException, TransportException {
-
-        // read service protocol from config or set as default SOAP
         this.soapActionHandlerClient = new SoapActionHandlerClient();
+    }
+
+    /**
+     * Create ActionHandlerClient instance. The service protocol (REST/SOAP/..)
+     * selected from the configuration. Default is SOAP.
+     * 
+     * @param serviceAddress
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    public ActionHandlerClient(final String serviceAddress)
+        throws EscidocException, InternalClientException, TransportException {
+        this.soapActionHandlerClient =
+            new SoapActionHandlerClient(serviceAddress);
     }
 
     /**
@@ -171,21 +187,8 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
         final String password) throws EscidocException,
         InternalClientException, TransportException {
 
-        setServiceAddress(serviceAddress);
-
-        if (this.auth == null) {
-            try {
-                auth = new Authentication(serviceAddress, username, password);
-            }
-            catch (EscidocClientException e) {
-                throw new InternalClientException("Login failed.", e);
-            }
-        }
-
-        String handle = this.auth.getHandle();
-        setHandle(handle);
-
-        return handle;
+        return getSoapActionHandlerClient().login(serviceAddress, username,
+            password);
     }
 
     /**
@@ -212,8 +215,23 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      *            Login-Handle
      */
     public void setHandle(final String handle) {
-
         getSoapActionHandlerClient().setHandle(handle);
+    }
+    
+    /**
+     * 
+     * @return The handle used for authentication by this client. 
+     */
+    public String getHandle() {
+        return getSoapActionHandlerClient().getHandle();
+    }
+    
+    /**
+     * 
+     * @return The serviceAddress of this client.
+     */
+    public String getServiceAddress() {
+        return getSoapActionHandlerClient().getServiceAddress();
     }
 
     /**
@@ -223,19 +241,6 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      */
     public SoapActionHandlerClient getSoapActionHandlerClient() {
         return soapActionHandlerClient;
-    }
-
-    /**
-     * Set the service endpoint address.
-     * 
-     * @param address
-     *            URL of the service endpoint.
-     * @throws InternalClientException
-     *             Thrown if URL is not valid.
-     */
-    public void setServiceAddress(final String address)
-        throws InternalClientException {
-        getSoapActionHandlerClient().setServiceAddress(address);
     }
 
 }

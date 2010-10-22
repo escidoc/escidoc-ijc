@@ -31,7 +31,6 @@ package de.escidoc.core.client.soap;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -56,12 +55,24 @@ import de.escidoc.core.om.ContainerHandlerServiceLocator;
  */
 public class SoapContainerHandlerClient extends SoapClientBase {
 
+    private ContainerHandler soapClient = null;
+    
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapContainerHandlerClient() throws InternalClientException {
-
         super();
     }
 
-    private ContainerHandler soapClient = null;
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapContainerHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
 
     /**
      * 
@@ -561,7 +572,6 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         return filterContainers(getEscidoc12Filter(filter));
     }
 
-
     /**
      * Retrieve Container Relations via SOAP.
      * 
@@ -642,7 +652,6 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         return filterMembers(id, getEscidoc12Filter(filter));
     }
 
-
     /**
      * See Interface for functional description.
      * 
@@ -659,9 +668,11 @@ public class SoapContainerHandlerClient extends SoapClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.SOAP)
-            		.getContainerMarshaller().unmarshalDocument(getClient().retrieve(id)))
-                			.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.SOAP)
+                    .getContainerMarshaller().unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -683,27 +694,11 @@ public class SoapContainerHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 ContainerHandlerServiceLocator serviceLocator =
                     new ContainerHandlerServiceLocator(getEngineConfig());
-
-                String adress =
-                    serviceLocator.getContainerHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
-
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getContainerHandlerServiceAddress());
                 soapClient = serviceLocator.getContainerHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {
@@ -722,7 +717,8 @@ public class SoapContainerHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String filterContainers(final HashMap<String, String[]> escidoc12Filter)
+    private String filterContainers(
+        final HashMap<String, String[]> escidoc12Filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;

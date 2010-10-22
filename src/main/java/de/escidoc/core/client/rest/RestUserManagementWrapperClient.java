@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.aa.UserManagementWrapper;
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -31,8 +30,24 @@ public class RestUserManagementWrapperClient extends RestClientBase {
         super();
     }
 
-    public void logout() throws EscidocException,
-        InternalClientException, TransportException {
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestUserManagementWrapperClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void logout() throws EscidocException, InternalClientException,
+        TransportException {
         try {
             getClient().logout();
         }
@@ -52,7 +67,7 @@ public class RestUserManagementWrapperClient extends RestClientBase {
         if (restClient == null) {
             UserManagementWrapperRestServiceLocator serviceLocator =
                 new UserManagementWrapperRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

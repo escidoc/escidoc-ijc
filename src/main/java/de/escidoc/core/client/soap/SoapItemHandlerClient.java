@@ -31,7 +31,6 @@ package de.escidoc.core.client.soap;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -62,8 +61,21 @@ public class SoapItemHandlerClient extends SoapClientBase {
 
     private ItemHandler soapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapItemHandlerClient() throws InternalClientException {
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapItemHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -509,28 +521,13 @@ public class SoapItemHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-
-                // build service URL from config file
                 ItemHandlerServiceLocator serviceLocator =
                     new ItemHandlerServiceLocator(getEngineConfig());
-
-                URL url = null;
-                try {
-                    url =
-                        new URL(serviceLocator.getItemHandlerServiceAddress());
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-
-                try {
-                    url = new URL(getServiceAddress() + url.getFile());
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
-
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getItemHandlerServiceAddress());
                 soapClient = serviceLocator.getItemHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

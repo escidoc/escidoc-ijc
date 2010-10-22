@@ -61,11 +61,19 @@ public class RestRoleHandlerClient extends RestClientBase {
     /**
      * 
      * @throws InternalClientException
-     *             Thrown
      */
     public RestRoleHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestRoleHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -282,7 +290,7 @@ public class RestRoleHandlerClient extends RestClientBase {
 
             RoleRestServiceLocator serviceLocator =
                 new RoleRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

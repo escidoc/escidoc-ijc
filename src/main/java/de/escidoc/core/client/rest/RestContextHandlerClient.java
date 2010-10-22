@@ -58,9 +58,22 @@ public class RestContextHandlerClient extends RestClientBase {
 
     private ContextHandler restClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public RestContextHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestContextHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -396,7 +409,7 @@ public class RestContextHandlerClient extends RestClientBase {
 
             ContextRestServiceLocator serviceLocator =
                 new ContextRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());

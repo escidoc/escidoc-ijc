@@ -55,6 +55,21 @@ public class PolicyDecisionPointHandlerClient
     implements PolicyDecisionPointHandlerClientInterface {
 
     /**
+     * 
+     */
+    public PolicyDecisionPointHandlerClient() {
+        super();
+    }
+    
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public PolicyDecisionPointHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+    
+    /**
      * See Interface for functional description.
      * 
      * @param container
@@ -106,58 +121,15 @@ public class PolicyDecisionPointHandlerClient
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
-     * .String, java.lang.String, java.lang.String)
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
-        setServiceAddress(serviceAddress);
-
-        Authentication auth = null;
-        if (auth == null) {
-            try {
-                auth = new Authentication(serviceAddress, username, password);
-            }
-            catch (EscidocClientException e) {
-                throw new InternalClientException("Login failed.", e);
-            }
-        }
-
-        String handle = auth.getHandle();
-        setHandle(handle);
-
-        return handle;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#logout()
-     */
-    @Deprecated
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
-
-        setHandle("");
-    }
-
     @Override
     protected SoapPolicyDecisionPointHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        return new SoapPolicyDecisionPointHandlerClient();
+        return new SoapPolicyDecisionPointHandlerClient(getServiceAddress());
     }
 
     @Override
     protected RestPolicyDecisionPointHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestPolicyDecisionPointHandlerClient();
+        return new RestPolicyDecisionPointHandlerClient(getServiceAddress());
     }
 }

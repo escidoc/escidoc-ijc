@@ -33,12 +33,10 @@ import java.net.MalformedURLException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.IngestHandlerInterface;
 import de.escidoc.core.client.rest.serviceLocator.IngestRestServiceLocator;
 import de.escidoc.core.om.IngestHandler;
 
@@ -48,17 +46,29 @@ import de.escidoc.core.om.IngestHandler;
  * @author SWA
  * 
  */
-public class RestIngestHandlerClient extends RestClientBase
-    implements IngestHandlerInterface {
+public class RestIngestHandlerClient extends RestClientBase {
 
     private final Logger logger = Logger
         .getLogger(RestIngestHandlerClient.class.getName());
 
     private IngestHandler restClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public RestIngestHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestIngestHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -122,7 +132,7 @@ public class RestIngestHandlerClient extends RestClientBase
         if (restClient == null) {
             IngestRestServiceLocator serviceLocator =
                 new IngestRestServiceLocator();
-            serviceLocator.setFollowRedirects(followRedirects);
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
                 serviceLocator.setServiceAddress(getServiceAddress());
@@ -133,13 +143,5 @@ public class RestIngestHandlerClient extends RestClientBase
             restClient = serviceLocator;
         }
         return this.restClient;
-    }
-
-    /**
-     * Set Transport protocol.
-     */
-    public void setTransport(TransportProtocol tp) {
-        // TODO Auto-generated method stub
-
     }
 }

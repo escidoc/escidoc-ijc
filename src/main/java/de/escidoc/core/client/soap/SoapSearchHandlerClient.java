@@ -55,7 +55,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 /**
  * SOAP Handler for Search requests.
  * 
- * @author SWA
+ * @author SWA, MVO
  * 
  */
 public class SoapSearchHandlerClient extends SoapClientBase {
@@ -64,9 +64,21 @@ public class SoapSearchHandlerClient extends SoapClientBase {
 
     private ExplainPort explainSoapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapSearchHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapSearchHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -87,8 +99,8 @@ public class SoapSearchHandlerClient extends SoapClientBase {
 
         ExplainResponseType result = null;
         try {
-        	result = getExplainClient(database).explainOperation(request);
-            
+            result = getExplainClient(database).explainOperation(request);
+
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -154,47 +166,29 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      *            database used for search if null, database "escidoc_all" will
      *            be used for search
      * @return
-     * @throws ServiceException
+     * @throws InternalClientException
      */
     public ExplainPort getExplainClient(final String database)
-        throws ServiceException, InternalClientException {
-
-        this.explainSoapClient = null;
-
-        // Vector mappings = new Vector();
-        // addBeanMapping(ExplainResponseType.class, mappings);
-        // addBeanMapping(ExplainRequestType.class, mappings);
-
-        SRWSampleServiceLocator service = new SRWSampleServiceLocator();
-        if (database != null) {
-            URL url;
-            // String
-            // adress="http://localhost:8080/srw/search/escidoc_all?wsdl";
-            String adress = service.getExplainSOAPAddress();
-
-            try {
-                url = new URL(adress);
+        throws InternalClientException {
+        try {
+            if (explainSoapClient == null) {
+                SRWSampleServiceLocator service = new SRWSampleServiceLocator();
+                if (database != null) {
+                    URL url =
+                        getHandlerServiceURL(service.getExplainSOAPAddress(),
+                            database);
+                    explainSoapClient = service.getExplainSOAP(url);
+                }
+                else {
+                    explainSoapClient = service.getExplainSOAP();
+                }
+                registerPWCallback(explainSoapClient);
             }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
-            String path = url.getFile();
-
-            int index = path.lastIndexOf("/");
-            path = path.substring(0, index + 1);
-            try {
-                url = new URL(getServiceAddress() + path + database);
-            }
-            catch (MalformedURLException e) {
-                throw new ServiceException(e);
-            }
-            this.explainSoapClient = service.getExplainSOAP(url);
         }
-        else {
-            this.explainSoapClient = service.getExplainSOAP();
+        catch (ServiceException e) {
+            throw new InternalClientException(e.getMessage(), e);
         }
-
-        return this.explainSoapClient;
+        return explainSoapClient;
     }
 
     /**
@@ -203,50 +197,80 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      *            database used for search if null, database "escidoc_all" will
      *            be used for search
      * @return
-     * @throws ServiceException
+     * @throws InternalClientException
      */
     public SRWPort getSearchClient(final String database)
-        throws ServiceException, InternalClientException {
+        throws InternalClientException {
+        try {
+            if (searchSoapClient == null) {
+                SRWSampleServiceLocator service = new SRWSampleServiceLocator();
 
-        this.searchSoapClient = null;
-
-        SRWSampleServiceLocator service = new SRWSampleServiceLocator();
-        if (database != null) {
-            URL url;
-            // String
-            // adress="http://localhost:8080/srw/search/escidoc_all?wsdl";
-            String adress = service.getSRWAddress();
-
-            try {
-                url = new URL(adress);
+                if (database != null) {
+                    URL url =
+                        getHandlerServiceURL(service.getSRWAddress(), database);
+                    searchSoapClient = service.getSRW(url);
+                }
+                else {
+                    searchSoapClient = service.getSRW();
+                }
+                registerPWCallback(searchSoapClient);
             }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
-            String path = url.getFile();
-
-            int index = path.lastIndexOf("/");
-            path = path.substring(0, index + 1);
-            try {
-                url = new URL(getServiceAddress() + path + database);
-            }
-            catch (MalformedURLException e) {
-                throw new ServiceException(e);
-            }
-            this.searchSoapClient = service.getSRW(url);
         }
-        else {
-            this.searchSoapClient = service.getSRW();
+        catch (ServiceException e) {
+            throw new InternalClientException(e.getMessage(), e);
         }
 
         return searchSoapClient;
     }
 
+    /**
+     * 
+     * @param handlerServiceAddress
+     * @param database
+     * @return
+     * @throws InternalClientException
+     */
+    protected URL getHandlerServiceURL(
+        final String handlerServiceAddress, final String database)
+        throws InternalClientException {
+        // address="http://localhost:8080/srw/search/escidoc_all?wsdl";
+        URL url;
+        try {
+            url = new URL(handlerServiceAddress);
+        }
+        catch (MalformedURLException e) {
+            throw new InternalClientException(e);
+        }
+        String path = url.getFile();
+
+        int index = path.lastIndexOf("/");
+        path = path.substring(0, index + 1);
+        try {
+            url = new URL(getServiceAddress() + path + database);
+        }
+        catch (MalformedURLException e) {
+            throw new InternalClientException(e);
+        }
+        return url;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.ClientBase#getClient()
+     */
     public Remote getClient() throws InternalClientException {
 
         throw new InternalClientException("The method is not supported");
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
+     * )
+     */
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

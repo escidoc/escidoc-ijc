@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.client.soap;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
@@ -37,7 +36,6 @@ import org.joda.time.DateTime;
 
 import de.escidoc.core.aa.ActionHandler;
 import de.escidoc.core.aa.ActionHandlerServiceLocator;
-import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -50,14 +48,25 @@ import de.escidoc.core.client.exceptions.TransportException;
  * @author SWA
  * 
  */
-public class SoapActionHandlerClient extends ClientBase {
+public class SoapActionHandlerClient extends SoapClientBase {
 
     private ActionHandler soapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapActionHandlerClient() throws InternalClientException {
-
         super();
+    }
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapActionHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -156,24 +165,11 @@ public class SoapActionHandlerClient extends ClientBase {
             if (soapClient == null) {
                 ActionHandlerServiceLocator serviceLocator =
                     new ActionHandlerServiceLocator(getEngineConfig());
-                String adress = serviceLocator.getActionHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getActionHandlerServiceAddress());
                 soapClient = serviceLocator.getActionHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

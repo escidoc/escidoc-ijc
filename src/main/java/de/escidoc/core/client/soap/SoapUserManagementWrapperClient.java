@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.client.soap;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
@@ -53,9 +52,21 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
 
     private UserManagementWrapper soapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapUserManagementWrapperClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapUserManagementWrapperClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -103,26 +114,12 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
             if (soapClient == null) {
                 UserManagementWrapperServiceLocator serviceLocator =
                     new UserManagementWrapperServiceLocator(getEngineConfig());
-                String adress =
-                    serviceLocator.getUserManagementWrapperServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getUserManagementWrapperServiceAddress());
                 soapClient =
                     serviceLocator.getUserManagementWrapperService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

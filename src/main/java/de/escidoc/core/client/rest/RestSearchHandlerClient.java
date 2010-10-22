@@ -33,6 +33,7 @@ public class RestSearchHandlerClient extends RestClientBase {
     private SearchHandler restClient = null;
 
     /**
+     * 
      * @throws InternalClientException
      */
     public RestSearchHandlerClient() throws InternalClientException {
@@ -40,10 +41,11 @@ public class RestSearchHandlerClient extends RestClientBase {
     }
 
     /**
+     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestSearchHandlerClient(String serviceAddress)
+    public RestSearchHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
     }
@@ -132,9 +134,10 @@ public class RestSearchHandlerClient extends RestClientBase {
 
             SearchRestServiceLocator serviceLocator =
                 new SearchRestServiceLocator();
+            serviceLocator.registerRestCallbackHandler(this);
 
             try {
-                String serviceAdress =
+                String serviceAddress =
                     "http://"
                         + getConfiguration().getProperty(
                             ConfigurationProvider.PROP_SEARCH_HOST)
@@ -143,15 +146,15 @@ public class RestSearchHandlerClient extends RestClientBase {
                             ConfigurationProvider.PROP_SEARCH_PORT);
 
                 if (database == null) {
-                    serviceAdress +=
+                    serviceAddress +=
                         getConfiguration().getProperty(
                             ConfigurationProvider.PROP_SEARCH_DATABASE);
                 }
                 else {
-                    serviceAdress += database;
+                    serviceAddress += database;
                 }
 
-                serviceLocator.setServiceAddress(serviceAdress);
+                serviceLocator.setServiceAddress(serviceAddress);
             }
             catch (MalformedURLException e) {
                 throw new InternalClientException(e);

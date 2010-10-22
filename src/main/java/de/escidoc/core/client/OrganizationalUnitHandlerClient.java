@@ -70,6 +70,21 @@ public class OrganizationalUnitHandlerClient
     implements OrganizationalUnitHandlerClientInterface {
 
     /**
+     * 
+     */
+    public OrganizationalUnitHandlerClient() {
+        super();
+    }
+    
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public OrganizationalUnitHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+    
+    /**
      * See Interface for functional description.
      * 
      * @param organizationalUnit
@@ -252,42 +267,7 @@ public class OrganizationalUnitHandlerClient
 
         return getSoapHandlerClient().getLastModificationDate(id);
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
-     * .String, java.lang.String, java.lang.String)
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().login(serviceAddress, username,
-                password);
-        }
-        else {
-            return getRestHandlerClient().login(serviceAddress, username,
-                password);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#logout()
-     */
-    @Deprecated
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
-
-        setHandle("");
-    }
-
+    
     @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -479,13 +459,13 @@ public class OrganizationalUnitHandlerClient
     @Override
     protected SoapOrganizationalUnitHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        return new SoapOrganizationalUnitHandlerClient();
+        return new SoapOrganizationalUnitHandlerClient(getServiceAddress());
     }
 
     @Override
     protected RestOrganizationalUnitHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestOrganizationalUnitHandlerClient();
+        return new RestOrganizationalUnitHandlerClient(getServiceAddress());
     }
 
 }

@@ -47,6 +47,21 @@ public class IngestHandlerClient
     implements IngestHandlerInterface {
 
     /**
+     * 
+     */
+    public IngestHandlerClient() {
+        super();
+    }
+    
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public IngestHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+    
+    /**
      * Returns the XML presentation of a resource.
      * 
      * @param resourceXml
@@ -70,65 +85,15 @@ public class IngestHandlerClient
         }
     }
 
-    /**
-     * Login.
-     * 
-     * @param serviceAddress
-     *            URL of framework
-     * @param username
-     *            Username/ID
-     * @param password
-     *            Password
-     * @return Login-Handle.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().login(serviceAddress, username,
-                password);
-        }
-        else {
-            return getRestHandlerClient().login(serviceAddress, username,
-                password);
-        }
-    }
-
-    /**
-     * Logout.
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
-
-        setHandle("");
-    }
-
     @Override
     protected SoapIngestHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        return new SoapIngestHandlerClient();
+        return new SoapIngestHandlerClient(getServiceAddress());
     }
 
     @Override
     protected RestIngestHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestIngestHandlerClient();
+        return new RestIngestHandlerClient(getServiceAddress());
     }
 }

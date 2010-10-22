@@ -31,7 +31,6 @@ package de.escidoc.core.client.soap;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -62,9 +61,21 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
     private OrganizationalUnitHandler soapClient = null;
 
+    /**
+     * 
+     * @throws InternalClientException
+     */
     public SoapOrganizationalUnitHandlerClient() throws InternalClientException {
-
         super();
+    }
+
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public SoapOrganizationalUnitHandlerClient(final String serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
     }
 
     /**
@@ -268,10 +279,10 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         }
         return result;
     }
-    
+
     /**
-     * Retrieve all Organizational Units references to that this OrganizationalUnit
-     * is subordinated.
+     * Retrieve all Organizational Units references to that this
+     * OrganizationalUnit is subordinated.
      * 
      * @param id
      *            The identifier of the Organizational Unit.
@@ -287,8 +298,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveParentObjects(java.lang.String)
      */
-    public String retrieveParents(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveParents(final String id) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -428,9 +439,12 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
         DateTime result = null;
         try {
-            result = (Factory.getMarshallerFactory(TransportProtocol.SOAP)
-            		.getOrganizationalUnitMarshaller().unmarshalDocument(getClient().retrieve(id)))
-                    	.getLastModificationDate();
+            result =
+                (Factory
+                    .getMarshallerFactory(TransportProtocol.SOAP)
+                    .getOrganizationalUnitMarshaller()
+                    .unmarshalDocument(getClient().retrieve(id)))
+                    .getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -451,27 +465,12 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
                 OrganizationalUnitHandlerServiceLocator serviceLocator =
                     new OrganizationalUnitHandlerServiceLocator(
                         getEngineConfig());
-                String adress =
-                    serviceLocator.getOrganizationalUnitHandlerServiceAddress();
-                URL url = null;
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new InternalClientException(e);
-                }
-                String path = url.getFile();
-                adress = getServiceAddress() + path;
-
-                try {
-                    url = new URL(adress);
-                }
-                catch (MalformedURLException e) {
-                    throw new ServiceException(e);
-                }
-
+                URL url =
+                    getHandlerServiceURL(serviceLocator
+                        .getOrganizationalUnitHandlerServiceAddress());
                 soapClient =
                     serviceLocator.getOrganizationalUnitHandlerService(url);
+                registerPWCallback(soapClient);
             }
         }
         catch (ServiceException e) {

@@ -30,6 +30,22 @@ public class AdminHandlerClient
 
     /**
      * 
+     */
+    public AdminHandlerClient() {
+        super();
+    }
+    
+    /**
+     * 
+     * @param serviceAddress
+     */
+    public AdminHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+    
+    
+    /**
+     * 
      * @param taskParam
      * @return
      * @throws EscidocException
@@ -259,13 +275,13 @@ public class AdminHandlerClient
     @Override
     protected SoapAdminHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
-        return new SoapAdminHandlerClient();
+        return new SoapAdminHandlerClient(getServiceAddress());
     }
 
     @Override
     protected RestAdminHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
-        return new RestAdminHandlerClient();
+        return new RestAdminHandlerClient(getServiceAddress());
     }
 
 }

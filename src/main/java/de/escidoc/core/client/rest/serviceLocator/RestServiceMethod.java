@@ -16,6 +16,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.rmi.RemoteException;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.codec.EncoderException;
@@ -34,13 +36,11 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
-import de.escidoc.core.client.soap.security.PWCallback;
+import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
 
 /**
  * HTTP Methods for REST.
- * 
- * FIXME: Use of class de.escidoc.core.client.soap.security.PWCallback???
  * 
  * @author SWA
  * 
@@ -53,7 +53,8 @@ public abstract class RestServiceMethod {
 
     private HttpClient client;
 
-    private boolean followRedirects = true;
+    private final Collection<RestCallbackHandler> callbackHandlers =
+        new LinkedList<RestCallbackHandler>();
 
     /**
      * Set the address of the service.
@@ -68,14 +69,6 @@ public abstract class RestServiceMethod {
 
         URL url = new URL(address);
         this.serviceAddress = unifyAddress(url.toString());
-    }
-
-    /**
-     * 
-     * @param followRedirects
-     */
-    public void setFollowRedirects(final boolean followRedirects) {
-        this.followRedirects = followRedirects;
     }
 
     /**
@@ -95,8 +88,8 @@ public abstract class RestServiceMethod {
 
         String result = null;
         PutMethod put = new PutMethod(this.serviceAddress + path);
-        put.setFollowRedirects(this.followRedirects);
-        PWCallback.addEscidocUserHandleCookie(put);
+
+        invokeCallbackHandlers(put);
 
         if (content != null) {
             RequestEntity entity;
@@ -170,8 +163,7 @@ public abstract class RestServiceMethod {
 
         String result = null;
         PutMethod put = new PutMethod(this.serviceAddress + path);
-        put.setFollowRedirects(this.followRedirects);
-        PWCallback.addEscidocUserHandleCookie(put);
+        invokeCallbackHandlers(put);
 
         put.setRequestBody(ins);
 
@@ -218,8 +210,7 @@ public abstract class RestServiceMethod {
 
         String result = null;
         PostMethod post = new PostMethod(this.serviceAddress + path);
-        post.setFollowRedirects(this.followRedirects);
-        PWCallback.addEscidocUserHandleCookie(post);
+        invokeCallbackHandlers(post);
         RequestEntity entity;
         try {
             entity = new StringRequestEntity(content, "text/xml", "UTF-8");
@@ -263,8 +254,7 @@ public abstract class RestServiceMethod {
 
         String result = null;
         GetMethod get = new GetMethod(this.serviceAddress + path);
-        get.setFollowRedirects(this.followRedirects);
-        PWCallback.addEscidocUserHandleCookie(get);
+        invokeCallbackHandlers(get);
 
         try {
             try {
@@ -327,8 +317,7 @@ public abstract class RestServiceMethod {
 
         String result = null;
         DeleteMethod del = new DeleteMethod(this.serviceAddress + path);
-        del.setFollowRedirects(this.followRedirects);
-        PWCallback.addEscidocUserHandleCookie(del);
+        invokeCallbackHandlers(del);
 
         try {
             try {
@@ -379,6 +368,36 @@ public abstract class RestServiceMethod {
                 method.getStatusLine().toString(), redirectLocation, body);
         }
 
+    }
+
+    /**
+     * Registers an implementation of the {@link RestCallbackHandler} interface
+     * to this instance. All chained handlers will be called to set content for
+     * each HTTP method before the HTTP method is being executed. The first
+     * handler, which got registered, will be the first one, which is being
+     * called. Note, that each successive handler may be able to overwrite
+     * content set by each preceding handler.<br/>
+     * If the specified handler is <code>null</code>, it will be ignored.
+     * 
+     * @param handler
+     *            the handler to register.
+     */
+    public void registerRestCallbackHandler(RestCallbackHandler handler) {
+        if (handler != null) {
+            callbackHandlers.add(handler);
+        }
+    }
+
+    /**
+     * Calls the registered callback handlers to add their cookies to the HTTP
+     * method.
+     * 
+     * @param method
+     */
+    private void invokeCallbackHandlers(final HttpMethodBase method) {
+        for (RestCallbackHandler handler : callbackHandlers) {
+            handler.handleHttpMethod(method);
+        }
     }
 
     private synchronized HttpClient getRestClient() {
