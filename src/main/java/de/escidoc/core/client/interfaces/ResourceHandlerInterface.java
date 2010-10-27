@@ -97,6 +97,7 @@ interface ResourceHandlerInterface<T> extends CrudHandlerInterface<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
+    @Deprecated
     DateTime getLastModificationDate(final String id)
         throws EscidocClientException, InternalClientException,
         TransportException;

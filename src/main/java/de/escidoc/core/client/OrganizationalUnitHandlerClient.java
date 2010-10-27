@@ -262,6 +262,7 @@ public class OrganizationalUnitHandlerClient
      * @throws TransportException
      * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#getLastModificationDate(java.lang.String)
      */
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

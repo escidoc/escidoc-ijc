@@ -93,6 +93,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
      * )
      */
     @Override
+    @Deprecated
     public DateTime getLastModificationDate(String id) throws EscidocException,
         InternalClientException, TransportException {
         return null;

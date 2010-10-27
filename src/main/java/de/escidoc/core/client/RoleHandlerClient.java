@@ -304,6 +304,7 @@ public class RoleHandlerClient
      * @throws TransportException
      * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#getLastModificationDate(java.lang.String)
      */
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

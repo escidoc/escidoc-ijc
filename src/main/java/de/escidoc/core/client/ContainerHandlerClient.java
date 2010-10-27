@@ -1080,6 +1080,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

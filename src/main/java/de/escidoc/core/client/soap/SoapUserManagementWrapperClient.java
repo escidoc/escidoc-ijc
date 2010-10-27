@@ -135,6 +135,7 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
      * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
      * )
      */
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

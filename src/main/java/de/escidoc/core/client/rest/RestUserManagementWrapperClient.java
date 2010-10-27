@@ -89,6 +89,7 @@ public class RestUserManagementWrapperClient extends RestClientBase {
      * @throws TransportException
      */
     @Override
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
         return null;

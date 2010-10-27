@@ -158,6 +158,7 @@ public class RestStagingHandlerClient extends RestClientBase {
     }
 
     @Override
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

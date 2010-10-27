@@ -61,6 +61,7 @@ public interface ContentModelHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Deprecated
 	DateTime getLastModificationDate(final String id)
 		throws EscidocException, InternalClientException, TransportException;
 }

@@ -170,6 +170,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
      */
     @Override
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

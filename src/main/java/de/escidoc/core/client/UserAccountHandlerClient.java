@@ -1042,6 +1042,7 @@ public class UserAccountHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

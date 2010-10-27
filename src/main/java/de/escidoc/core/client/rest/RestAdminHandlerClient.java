@@ -228,6 +228,7 @@ public class RestAdminHandlerClient extends RestClientBase {
      * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
      * )
      */
+    @Deprecated
     public DateTime getLastModificationDate(String id) throws EscidocException,
         InternalClientException, TransportException {
         return null;

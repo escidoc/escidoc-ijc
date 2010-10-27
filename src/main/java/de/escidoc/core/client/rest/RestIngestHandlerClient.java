@@ -113,6 +113,7 @@ public class RestIngestHandlerClient extends RestClientBase {
      *             Thrown in case of failures on transport level.
      */
     @Override
+    @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 

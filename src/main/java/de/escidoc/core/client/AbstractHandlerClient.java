@@ -1,9 +1,5 @@
 package de.escidoc.core.client;
 
-import gov.loc.www.zing.srw.ExplainRequestType;
-import gov.loc.www.zing.srw.ScanRequestType;
-import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-
 import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.exceptions.EscidocException;
