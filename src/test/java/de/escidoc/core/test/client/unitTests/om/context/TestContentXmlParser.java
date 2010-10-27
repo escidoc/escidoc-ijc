@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,6 +31,9 @@ import de.escidoc.core.test.client.AbstractParameterizedTestBase;
  * 
  */
 public class TestContentXmlParser extends AbstractParameterizedTestBase {
+
+    private static final Logger LOG = Logger
+        .getLogger(TestContentXmlParser.class);
 
     public TestContentXmlParser(TransportProtocol transport) {
         super(transport);
@@ -105,7 +109,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         assertEquals("Content lost", contentElementName,
             admContentNode.getNodeName());
 
-        System.out.println("-" + admContentNode.getTextContent() + "-");
+        LOG.debug("-" + admContentNode.getTextContent() + "-");
         assertTrue("Wrong content",
             admContentNode.getTextContent().length() == 0);
 
@@ -196,7 +200,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         assertEquals("Content lost", contentElementName,
             admContentNode.getNodeName());
 
-        System.out.println("-" + admContentNode.getTextContent() + "-");
+        LOG.debug("-" + admContentNode.getTextContent() + "-");
         assertTrue("Wrong content",
             admContentNode.getTextContent().length() == 0);
 
