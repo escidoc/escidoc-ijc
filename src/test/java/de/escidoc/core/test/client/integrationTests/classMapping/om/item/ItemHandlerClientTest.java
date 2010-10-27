@@ -39,6 +39,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -70,6 +71,9 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * 
  */
 public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
+
+    private static final Logger LOG = Logger
+        .getLogger(ItemHandlerClientTest.class);
 
     private Authentication auth;
 
@@ -227,7 +231,7 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
         assertTrue("AssignObjectPid returns empty result", !pidResult.isEmpty());
         assertTrue("AssignObjectPid returns invalid result", pidResult
             .get(0).getNodeName().equals("pid"));
-        System.out.println(pidResult.get(0).getTextContent());
+        LOG.debug(pidResult.get(0).getTextContent());
         assertTrue("AssignObjectPid returns invalid result", !pidResult
             .get(0).getTextContent().isEmpty());
 
