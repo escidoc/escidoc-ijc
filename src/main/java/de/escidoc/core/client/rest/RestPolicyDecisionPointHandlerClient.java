@@ -43,9 +43,6 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
     /**
      * 
-     * TODO HIER!
-     * 
-     * 
      * @param requestsXml
      * @return
      * @throws EscidocException
