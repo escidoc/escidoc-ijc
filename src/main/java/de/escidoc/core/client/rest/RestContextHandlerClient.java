@@ -335,6 +335,7 @@ public class RestContextHandlerClient extends RestClientBase {
     public String retrieveContexts(final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter, true);
         String result = null;
         try {
             result = getClient().retrieveContexts(filter);

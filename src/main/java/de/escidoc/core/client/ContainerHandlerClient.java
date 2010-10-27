@@ -869,17 +869,15 @@ public class ContainerHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     public SearchRetrieveResponse retrieveContainers(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
-
-        evalRequest(filter);
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveContainers(filter);
+            xml = getSoapHandlerClient().retrieveContainers(request);
         }
         else {
-            xml = getRestHandlerClient().retrieveContainers(filter);
+            xml = getRestHandlerClient().retrieveContainers(request);
         }
         return Factory
             .getMarshallerFactory(getTransport())

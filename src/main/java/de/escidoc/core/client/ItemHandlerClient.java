@@ -297,7 +297,7 @@ public class ItemHandlerClient
     /**
      * Retrieve Items (Filter for Items).
      * 
-     * @param filter
+     * @param request
      *            Filter parameter
      * @return SearchRetrieveResponseType
      * @throws EscidocException
@@ -308,17 +308,18 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     public SearchRetrieveResponse retrieveItems(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        evalRequest(filter);
-
+        if (request == null)
+            throw new IllegalArgumentException("request must not be null.");
+        
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveItems(filter);
+            xml = getSoapHandlerClient().retrieveItems(request);
         }
         else {
-            xml = getRestHandlerClient().retrieveItems(filter);
+            xml = getRestHandlerClient().retrieveItems(request);
         }
         return Factory
             .getMarshallerFactory(getTransport())

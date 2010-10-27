@@ -216,6 +216,8 @@ public class RestRoleHandlerClient extends RestClientBase {
     public String retrieveRoles(final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter, true);
+        
         String result = null;
         try {
             result = getClient().retrieveRoles(filter);
@@ -237,6 +239,8 @@ public class RestRoleHandlerClient extends RestClientBase {
     public String retrieveRoles(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter);
+        
         String result = null;
         try {
             result = getClient().retrieveRoles(filter);

@@ -75,10 +75,6 @@ public final class ConfigurationProvider {
 
     public static final String PROP_SERVICE_PROTOCOL = "service_protocol";
     
-    public static final String PROP_SEARCH_HOST = "search.host";
-    
-    public static final String PROP_SEARCH_PORT = "search.port";
-    
     public static final String PROP_SEARCH_DATABASE = "search.database";
 
     private static ConfigurationProvider instance = null;

@@ -29,10 +29,8 @@
 package de.escidoc.core.client;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
-import gov.loc.www.zing.srw.ExplainResponseType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-import gov.loc.www.zing.srw.SearchRetrieveResponseType;
 
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.axis.types.PositiveInteger;
@@ -45,7 +43,6 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.SearchHandlerClientInterface;
 import de.escidoc.core.client.rest.RestSearchHandlerClient;
 import de.escidoc.core.client.soap.SoapSearchHandlerClient;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
@@ -70,7 +67,7 @@ public class SearchHandlerClient
     public SearchHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -78,29 +75,9 @@ public class SearchHandlerClient
     public SearchHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
-    /**
-     * Does not support REST protocol!
-     */
-    @Override
-    @Deprecated
-    public ExplainResponseType explain(
-        final ExplainRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().explain(request, database);
-        }
-        return null;
-        // FIXME
-        // else {
-        // return getRestHandlerClient().explain(request, database);
-        // }
-    }
 
     @Override
-    public ExplainResponse explain2(
+    public ExplainResponse explain(
         final ExplainRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -123,6 +100,7 @@ public class SearchHandlerClient
         final String query, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+        
         return search(query, null, null, null, null, null, database);
     }
 
@@ -132,6 +110,7 @@ public class SearchHandlerClient
         final Integer maximumRecords, final String sortKeys,
         final String database) throws EscidocClientException,
         InternalClientException, TransportException {
+        
         return search(query, startRecord, maximumRecords, sortKeys, null, null,
             database);
     }
@@ -143,8 +122,9 @@ public class SearchHandlerClient
         final String stylesheetURI, final String version, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+        
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request.setQuery((query == null) ? "" : query);
+        request.setQuery((query == null) ? null : query);
         request.setVersion((version == null) ? "1.1" : version);
         request.setRecordPacking("string");
         request.setSortKeys(sortKeys);
@@ -166,45 +146,19 @@ public class SearchHandlerClient
                 startRecord.intValue(), 10)));
         }
 
-        return search2(request, database);
-    }
-
-    /**
-     * Does not support REST protocol!
-     */
-    @Deprecated
-    @Override
-    public SearchRetrieveResponseType search(
-        final SearchRetrieveRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-
-        evalRequest(request);
-
-        return getSoapHandlerClient().search(request, database);
+        return search(request, database);
     }
 
     @Override
-    public SearchRetrieveResponse search2(
+    public SearchRetrieveResponse search(
         final SearchRetrieveRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
-
-        if (request.getQuery() == null)
-            request.setQuery("");
 
         if (getTransport() == TransportProtocol.SOAP) {
-            String db = database;
-            // TODO general solution in SOAP client
-            if (db == null) {
-                db =
-                    ConfigurationProvider.getInstance().getProperty(
-                        ConfigurationProvider.PROP_SEARCH_DATABASE);
-                db = db.substring(db.lastIndexOf('/'));
-            }
             return SearchRetrieveResponse
                 .createSearchRetrieveResponse(getSoapHandlerClient().search(
-                    request, db));
+                    request, database));
         }
         else {
             String xml = getRestHandlerClient().search(request, database);
@@ -219,9 +173,6 @@ public class SearchHandlerClient
         final ScanRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
-
-        if (request.getScanClause() == null)
-            request.setScanClause("");
 
         if (getTransport() == TransportProtocol.SOAP) {
             return ScanResponse.createScanResponse(getSoapHandlerClient().scan(

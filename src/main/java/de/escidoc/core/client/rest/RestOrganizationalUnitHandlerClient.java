@@ -234,6 +234,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
+        evalRequest(filter, true);
+        
         String result = null;
         try {
             result = getClient().retrieveOrganizationalUnits(filter);

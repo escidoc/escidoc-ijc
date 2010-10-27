@@ -422,8 +422,6 @@ public class ContextHandlerClient
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        evalRequest(filter);
-
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().retrieveContexts(filter);
@@ -532,7 +530,6 @@ public class ContextHandlerClient
         final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
-        evalRequest(filter);
         String xml = null;
 
         if (getTransport() == TransportProtocol.SOAP) {

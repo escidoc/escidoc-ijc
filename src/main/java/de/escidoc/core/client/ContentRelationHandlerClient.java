@@ -584,8 +584,6 @@ public class ContentRelationHandlerClient
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        evalRequest(filter);
-
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().retrieveContentRelations(filter);
@@ -597,7 +595,7 @@ public class ContentRelationHandlerClient
             .getMarshallerFactory(getTransport())
             .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
-
+    
     @SuppressWarnings("rawtypes")
     @Override
     public Collection<ContentRelation> retrieveContentRelationsAsList(

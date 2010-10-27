@@ -7,6 +7,7 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 
 /**
@@ -33,7 +34,7 @@ public interface SearchHandler {
 	 * @throws RemoteException
 	 */
 	String search(final SearchRetrieveRequestType searchRequestType)
-		throws RemoteException;
+		throws RemoteException, UnsupportedEncodingException;
 	
 	/**
 	 * 
@@ -43,5 +44,5 @@ public interface SearchHandler {
 	 * @throws RemoteException
 	 */
 	String scan(final ScanRequestType scanRequestType)
-		throws RemoteException;
+		throws RemoteException, UnsupportedEncodingException;
 }

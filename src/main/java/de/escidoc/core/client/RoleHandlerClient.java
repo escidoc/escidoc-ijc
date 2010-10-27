@@ -215,7 +215,7 @@ public class RoleHandlerClient
     /**
      * Retrieve Roles (Filter for Roles).
      * 
-     * @param filter
+     * @param request
      *            Filter parameter
      * @return SearchRetrieveResponseType
      * @throws EscidocException
@@ -226,24 +226,27 @@ public class RoleHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     public SearchRetrieveResponse retrieveRoles(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        evalRequest(filter);
+        if (request == null)
+            throw new IllegalArgumentException("request must not be null.");
 
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveRoles(filter);
+            xml = getSoapHandlerClient().retrieveRoles(request);
         }
         else {
-            xml = getRestHandlerClient().retrieveRoles(filter);
+            xml = getRestHandlerClient().retrieveRoles(request);
         }
         return Factory
             .getMarshallerFactory(getTransport())
             .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
 
-    @SuppressWarnings("rawtypes")
+    /* (non-Javadoc)
+     * @see de.escidoc.core.client.interfaces.RoleHandlerClientInterface#retrieveRolesAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     public Collection<Role> retrieveRolesAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
@@ -251,7 +254,7 @@ public class RoleHandlerClient
         SearchRetrieveResponse response = retrieveRoles(filter);
         Collection<Role> results = new LinkedList<Role>();
 
-        for (Record record : response.getRecords()) {
+        for (Record<?> record : response.getRecords()) {
             if (record instanceof RoleRecord) {
                 Role result = ((RoleRecord) record).getRecordData();
                 results.add(result);
@@ -273,16 +276,18 @@ public class RoleHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainResponse retrieveRoles(final ExplainRequestType explain)
+    public ExplainResponse retrieveRoles(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        evalRequest(explain);
+        if (request == null)
+            throw new IllegalArgumentException("request must not be null.");
+        
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveRoles(explain);
+            xml = getSoapHandlerClient().retrieveRoles(request);
         }
         else {
-            xml = getRestHandlerClient().retrieveRoles(explain);
+            xml = getRestHandlerClient().retrieveRoles(request);
         }
         return Factory
             .getMarshallerFactory(getTransport())

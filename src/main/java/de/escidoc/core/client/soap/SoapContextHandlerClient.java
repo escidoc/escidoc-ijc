@@ -279,6 +279,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
     public String retrieveContexts(final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter, true);
         return filterContexts(getEscidoc12Filter(filter));
     }
 
@@ -309,6 +310,11 @@ public class SoapContextHandlerClient extends SoapClientBase {
     public String retrieveMembers(final String id, final String filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+        if (filter == null)
+            throw new IllegalArgumentException("filter must not be null.");
+        
         String result = null;
         try {
             result = getClient().retrieveMembers(id, filter);
@@ -331,6 +337,10 @@ public class SoapContextHandlerClient extends SoapClientBase {
         final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("Id must not be null.");
+
+        evalRequest(filter, true);
         return filterMembers(id, getEscidoc12Filter(filter));
     }
 
@@ -366,6 +376,9 @@ public class SoapContextHandlerClient extends SoapClientBase {
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+        
         DateTime result = null;
         try {
             result =
@@ -388,20 +401,21 @@ public class SoapContextHandlerClient extends SoapClientBase {
     @Override
     public ContextHandler getClient() throws InternalClientException {
 
-        try {
-            if (soapClient == null) {
-                ContextHandlerServiceLocator serviceLocator =
-                    new ContextHandlerServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getContextHandlerServiceAddress());
+        if (soapClient == null) {
+            ContextHandlerServiceLocator serviceLocator =
+                new ContextHandlerServiceLocator(getEngineConfig());
+            URL url =
+                getHandlerServiceURL(serviceLocator
+                    .getContextHandlerServiceAddress());
+            try {
                 soapClient = serviceLocator.getContextHandlerService(url);
-                registerPWCallback(soapClient);
             }
+            catch (ServiceException e) {
+                throw new InternalClientException(e.getMessage(), e);
+            }
+            registerPWCallback(soapClient);
         }
-        catch (ServiceException e) {
-            throw new InternalClientException(e.getMessage(), e);
-        }
+
         return soapClient;
     }
 
@@ -419,6 +433,10 @@ public class SoapContextHandlerClient extends SoapClientBase {
         final HashMap<String, String[]> escidoc12Filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (escidoc12Filter == null)
+            throw new IllegalArgumentException(
+                "escidoc12Filter must not be null.");
+        
         String result = null;
         try {
             result = getClient().retrieveContexts(escidoc12Filter);
@@ -445,6 +463,12 @@ public class SoapContextHandlerClient extends SoapClientBase {
     private String filterMembers(
         final String contextId, final HashMap<String, String[]> escidoc12Filter)
         throws EscidocException, InternalClientException, TransportException {
+
+        if (contextId == null)
+            throw new IllegalArgumentException("contextId must not be null.");
+        if (escidoc12Filter == null)
+            throw new IllegalArgumentException(
+                "escidoc12Filter must not be null.");
 
         String result = null;
         try {

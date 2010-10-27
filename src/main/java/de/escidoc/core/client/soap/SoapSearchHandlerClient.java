@@ -51,6 +51,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 /**
  * SOAP Handler for Search requests.
@@ -97,6 +98,8 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         throws EscidocClientException, InternalClientException,
         TransportException {
 
+        evalRequest(request);
+        
         ExplainResponseType result = null;
         try {
             result = getExplainClient(database).explainOperation(request);
@@ -123,8 +126,11 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         final SearchRetrieveRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+        
+        evalRequest(request, false);
 
         SearchRetrieveResponseType result = null;
+        
         try {
             result = getSearchClient(database).searchRetrieveOperation(request);
         }
@@ -149,6 +155,8 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         final ScanRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
+        
+        evalRequest(request, false);
 
         ScanResponseType result = null;
         try {
@@ -201,23 +209,30 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      */
     public SRWPort getSearchClient(final String database)
         throws InternalClientException {
-        try {
-            if (searchSoapClient == null) {
-                SRWSampleServiceLocator service = new SRWSampleServiceLocator();
 
-                if (database != null) {
-                    URL url =
-                        getHandlerServiceURL(service.getSRWAddress(), database);
-                    searchSoapClient = service.getSRW(url);
-                }
-                else {
+        if (searchSoapClient == null) {
+            SRWSampleServiceLocator service = new SRWSampleServiceLocator();
+
+            String db = database;
+            if (db == null) {
+                db =
+                    ConfigurationProvider.getInstance().getProperty(
+                        ConfigurationProvider.PROP_SEARCH_DATABASE);
+            }
+            try {
+                if (db == null) {
                     searchSoapClient = service.getSRW();
                 }
-                registerPWCallback(searchSoapClient);
+                else {
+                    URL url =
+                        getHandlerServiceURL(service.getSRWAddress(), db);
+                    searchSoapClient = service.getSRW(url);
+                }
             }
-        }
-        catch (ServiceException e) {
-            throw new InternalClientException(e.getMessage(), e);
+            catch (ServiceException e) {
+                throw new InternalClientException(e.getMessage(), e);
+            }
+            registerPWCallback(searchSoapClient);
         }
 
         return searchSoapClient;

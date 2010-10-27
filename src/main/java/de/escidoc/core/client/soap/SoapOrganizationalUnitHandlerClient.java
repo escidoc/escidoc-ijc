@@ -232,6 +232,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
+        evalRequest(filter, true);
         return filterOrganizationalUnits(getEscidoc12Filter(filter));
     }
 

@@ -311,6 +311,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
+        evalRequest(filter, true);
         return filterContentRelations(getEscidoc12Filter(filter));
     }
 

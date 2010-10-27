@@ -225,8 +225,8 @@ public class OrganizationalUnitHandlerClient
             .unmarshalDocument(xml);
     }
 
-    /**
-     *
+    /* (non-Javadoc)
+     * @see de.escidoc.core.client.interfaces.ResourceHandlerInterface#retrieveProperties(java.lang.String)
      */
     public Properties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
@@ -268,6 +268,9 @@ public class OrganizationalUnitHandlerClient
         return getSoapHandlerClient().getLastModificationDate(id);
     }
     
+    /* (non-Javadoc)
+     * @see de.escidoc.core.client.interfaces.ResourceHandlerInterface#assignObjectPid(java.lang.String, de.escidoc.core.resources.common.TaskParam)
+     */
     @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -297,12 +300,9 @@ public class OrganizationalUnitHandlerClient
             .unmarshalDocument(xml);
     }
 
-    // public StructMap updateParents(final String id, final String xml)
-    // throws EscidocException, InternalClientException, TransportException {
-    //
-    // throw new InternalClientException("Method not yet supported.");
-    // }
-
+    /* (non-Javadoc)
+     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#retrieveParentObjects(java.lang.String)
+     */
     public OrganizationalUnitList retrieveParentObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
@@ -317,6 +317,9 @@ public class OrganizationalUnitHandlerClient
             .getOrganizationalUnitListMarshaller().unmarshalDocument(xml);
     }
 
+    /* (non-Javadoc)
+     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#retrieveChildObjects(java.lang.String)
+     */
     @Override
     public OrganizationalUnitList retrieveChildObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
@@ -381,24 +384,24 @@ public class OrganizationalUnitHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     public SearchRetrieveResponse retrieveOrganizationalUnits(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        evalRequest(filter);
-
+        if (request == null)
+            throw new IllegalArgumentException("request must not be null.");
+        
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveOrganizationalUnits(filter);
+            xml = getSoapHandlerClient().retrieveOrganizationalUnits(request);
         }
         else {
-            xml = getRestHandlerClient().retrieveOrganizationalUnits(filter);
+            xml = getRestHandlerClient().retrieveOrganizationalUnits(request);
         }
         return Factory
             .getMarshallerFactory(getTransport())
             .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public Collection<OrganizationalUnit> retrieveOrganizationalUnitsAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
@@ -408,7 +411,7 @@ public class OrganizationalUnitHandlerClient
         Collection<OrganizationalUnit> results =
             new LinkedList<OrganizationalUnit>();
 
-        for (Record record : response.getRecords()) {
+        for (Record<?> record : response.getRecords()) {
             if (record instanceof OrganizationalUnitRecord) {
                 OrganizationalUnitRecord oRecord =
                     (OrganizationalUnitRecord) record;

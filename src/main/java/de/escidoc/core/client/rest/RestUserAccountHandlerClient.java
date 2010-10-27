@@ -288,6 +288,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
     public String retrieveUserAccounts(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter);
+        
         String result = null;
         try {
             result = getClient().retrieveUserAccounts(filter);

@@ -369,6 +369,8 @@ public class SoapItemHandlerClient extends SoapClientBase {
     public String retrieveItems(final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter, true);
+        
         return filterItems(getEscidoc12Filter(filter));
     }
 

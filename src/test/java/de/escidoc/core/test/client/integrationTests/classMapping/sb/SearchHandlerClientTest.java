@@ -35,7 +35,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -62,6 +61,7 @@ import de.escidoc.core.resources.sb.Record.RecordPacking;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
+import de.escidoc.core.resources.sb.scan.Term;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.search.records.ItemRecord;
@@ -122,7 +122,7 @@ public class SearchHandlerClientTest {
         request.setRecordPacking(packing.name());
         request.setVersion("1.1");
 
-        ExplainResponse response = c.explain2(request, null);
+        ExplainResponse response = c.explain(request, null);
         Record<ExplainData> record = response.getRecord();
         ExplainData data = record.getRecordData();
 
@@ -179,8 +179,7 @@ public class SearchHandlerClientTest {
 
         String query = "escidoc.objid=" + Constants.EXAMPLE_ITEM_ID;
 
-        SearchRetrieveResponse response =
-            c.search(URLEncoder.encode(query, "UTF-8"), null);
+        SearchRetrieveResponse response = c.search(query, null);
 
         out.append("\n=========================\n");
         out.append("testSRWSearch: query=");
@@ -219,6 +218,25 @@ public class SearchHandlerClientTest {
     }
 
     /**
+     * Test SRW Search with null query.
+     * 
+     * @throws Exception
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullSearch() throws Exception {
+        String query = null;
+        SearchRetrieveResponse response = c.search(query, null);
+
+        assertNotNull("Response should not be null.", response);
+        assertTrue("", response.getNumberOfMatchingRecords() > 0);
+
+        response = c.search(new SearchRetrieveRequestType(), null);
+
+        assertNotNull("Response should not be null.", response);
+        assertTrue("", response.getNumberOfMatchingRecords() > 0);
+    }
+
+    /**
      * 
      * @throws Exception
      */
@@ -227,7 +245,7 @@ public class SearchHandlerClientTest {
 
         ItemHandlerClientInterface c = new ItemHandlerClient();
         c.setTransport(transport);
-        
+
         String query = "\"/id\"=" + Constants.EXAMPLE_ITEM_ID;
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
@@ -275,17 +293,58 @@ public class SearchHandlerClientTest {
     }
 
     /**
+     * Test Filter with null query.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testNullFilterSearch() throws Exception {
+        ItemHandlerClientInterface c = new ItemHandlerClient();
+        c.setTransport(transport);
+
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request.setRecordPacking(packing.name());
+
+        SearchRetrieveResponse response = c.retrieveItems(request);
+
+        assertNotNull("Response should not be null.", response);
+        assertTrue("Filter should return ALL entries on empty search.",
+            response.getNumberOfMatchingRecords() > 0);
+    }
+
+    /**
      * TODO
      * 
      * @throws Exception
      */
     // @Test
-    public void testSearchScanREST() throws Exception {
+    public void testSearchScan() throws Exception {
 
         ScanRequestType request = new ScanRequestType();
-        request.setVersion("1.1");
         request.setScanClause("escidoc.metadata=escidoc");
 
         ScanResponse response = c.scan(request, null);
+
+        assertNotNull(response.getTerms());
+
+        out.append("\n=========================\n");
+        out.append("ScanRequest: clause=");
+        out.append(request.getScanClause());
+        out.append(" [Protocol: ");
+        out.append(transport.name());
+        out.append("]\n");
+        out.append("Results: ");
+
+        for (Term term : response.getTerms()) {
+
+            assertTrue(term.getNumberOfRecords() > 0);
+            assertNotNull(term.getValue());
+
+            out.append("Term: ");
+            out.append(term.getValue());
+            out.append(" [");
+            out.append(term.getNumberOfRecords());
+            out.append("]");
+        }
     }
 }

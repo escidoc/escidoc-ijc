@@ -29,10 +29,8 @@
 package de.escidoc.core.client.interfaces;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
-import gov.loc.www.zing.srw.ExplainResponseType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-import gov.loc.www.zing.srw.SearchRetrieveResponseType;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -51,21 +49,6 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  */
 public interface SearchHandlerClientInterface extends HandlerServiceInterface {
     
-	/**
-     * @param request
-     * @param database The database to perform the search on. If database is 
-     * null, the default value will be determined from 
-     * {@link ConfigurationProvider}.
-     * @return
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    ExplainResponseType explain(
-        final ExplainRequestType request, final String soapDatabase)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-    
     /**
      * 
      * @param request
@@ -77,7 +60,7 @@ public interface SearchHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse explain2(
+    ExplainResponse explain(
         final ExplainRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException;
@@ -153,22 +136,7 @@ public interface SearchHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse search2(
-        final SearchRetrieveRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-    
-    /**
-     * @param request
-     * @param database The database to perform the search on. If database is 
-     * null, the default value will be determined from 
-     * {@link ConfigurationProvider}.
-     * @return
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    SearchRetrieveResponseType search(
+    SearchRetrieveResponse search(
         final SearchRetrieveRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException;

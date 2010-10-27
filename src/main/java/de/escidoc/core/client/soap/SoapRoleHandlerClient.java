@@ -162,6 +162,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
     public String retrieveRoles(final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter, true);
         return filterRoles(getEscidoc12Filter(filter));
     }
 
@@ -176,6 +177,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
     public String retrieveRoles(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter);
         return filterRoles(getEscidoc12Filter(filter));
     }
 

@@ -7,6 +7,8 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.rmi.RemoteException;
 
 import de.escidoc.core.client.interfaces.SearchHandler;
@@ -18,6 +20,10 @@ import de.escidoc.core.client.interfaces.SearchHandler;
 public class SearchRestServiceLocator extends RestServiceMethod
     implements SearchHandler {
 
+    private static final String PATH_SRW = "/srw/search";
+
+    private String database;
+
     /*
      * (non-Javadoc)
      * 
@@ -27,17 +33,20 @@ public class SearchRestServiceLocator extends RestServiceMethod
      */
     public String explain(final ExplainRequestType explainRequestType)
         throws RemoteException {
-        return get(getExplainRequest(explainRequestType));
+        return get(PATH_SRW + "/" + ((this.database == null) ? "" : database)
+            + "/" + getExplainRequest(explainRequestType));
     }
 
     public String search(final SearchRetrieveRequestType searchRequestType)
-        throws RemoteException {
-        return get(getSearchRequest(searchRequestType));
+        throws RemoteException, UnsupportedEncodingException {
+        return get(PATH_SRW + "/" + ((this.database == null) ? "" : database)
+            + "/" + getSearchRequest(searchRequestType));
     }
 
     public String scan(final ScanRequestType scanRequestType)
-        throws RemoteException {
-        return get(getScanRequest(scanRequestType));
+        throws RemoteException, UnsupportedEncodingException {
+        return get(PATH_SRW + "/" + ((this.database == null) ? "" : database)
+            + "/" + getScanRequest(scanRequestType));
     }
 
     /**
@@ -65,12 +74,15 @@ public class SearchRestServiceLocator extends RestServiceMethod
      * 
      * @param request
      * @return
+     * @throws UnsupportedEncodingException
      */
-    private String getSearchRequest(final SearchRetrieveRequestType request) {
+    private String getSearchRequest(final SearchRetrieveRequestType request)
+        throws UnsupportedEncodingException {
         String result = "?operation=searchRetrieve";
 
         if (request.getQuery() != null) {
-            result += "&query=" + request.getQuery();
+            result +=
+                "&query=" + URLEncoder.encode(request.getQuery(), "UTF-8");
         }
         if (request.getStartRecord() != null) {
             result +=
@@ -108,12 +120,16 @@ public class SearchRestServiceLocator extends RestServiceMethod
      * 
      * @param request
      * @return
+     * @throws UnsupportedEncodingException
      */
-    private String getScanRequest(final ScanRequestType request) {
+    private String getScanRequest(final ScanRequestType request)
+        throws UnsupportedEncodingException {
         String result = "?operation=scan";
 
         if (request.getScanClause() != null) {
-            result += "&scanClause=" + request.getScanClause();
+            result +=
+                "&scanClause="
+                    + URLEncoder.encode(request.getScanClause(), "UTF-8");
         }
         if (request.getResponsePosition() != null) {
             result +=
@@ -129,5 +145,13 @@ public class SearchRestServiceLocator extends RestServiceMethod
         }
 
         return result;
+    }
+
+    /**
+     * 
+     * @param db
+     */
+    public void setDatabase(String database) {
+        this.database = database;
     }
 }

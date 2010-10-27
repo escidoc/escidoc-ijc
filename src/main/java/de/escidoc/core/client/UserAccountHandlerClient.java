@@ -77,7 +77,7 @@ public class UserAccountHandlerClient
     public UserAccountHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -922,16 +922,18 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public ExplainResponse retrieveUserAccounts(final ExplainRequestType explain)
+    public ExplainResponse retrieveUserAccounts(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        evalRequest(explain);
+        if (request == null)
+            throw new IllegalArgumentException("request must not be null.");
+
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveUserAccounts(explain);
+            xml = getSoapHandlerClient().retrieveUserAccounts(request);
         }
         else {
-            xml = getRestHandlerClient().retrieveUserAccounts(explain);
+            xml = getRestHandlerClient().retrieveUserAccounts(request);
         }
         return Factory
             .getMarshallerFactory(getTransport())

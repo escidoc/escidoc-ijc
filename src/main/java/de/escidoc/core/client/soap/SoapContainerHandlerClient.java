@@ -56,7 +56,7 @@ import de.escidoc.core.om.ContainerHandlerServiceLocator;
 public class SoapContainerHandlerClient extends SoapClientBase {
 
     private ContainerHandler soapClient = null;
-    
+
     /**
      * 
      * @throws InternalClientException
@@ -552,10 +552,11 @@ public class SoapContainerHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContainers(final SearchRetrieveRequestType filter)
+    public String retrieveContainers(final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        return filterContainers(getEscidoc12Filter(filter));
+        evalRequest(request, true);
+        return filterContainers(getEscidoc12Filter(request));
     }
 
     /**
@@ -566,10 +567,11 @@ public class SoapContainerHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContainers(final ExplainRequestType filter)
+    public String retrieveContainers(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        return filterContainers(getEscidoc12Filter(filter));
+        evalRequest(request);
+        return filterContainers(getEscidoc12Filter(request));
     }
 
     /**
@@ -720,6 +722,10 @@ public class SoapContainerHandlerClient extends SoapClientBase {
     private String filterContainers(
         final HashMap<String, String[]> escidoc12Filter)
         throws EscidocException, InternalClientException, TransportException {
+
+        if (escidoc12Filter == null)
+            throw new IllegalArgumentException(
+                "Escidoc12Filter must not be null.");
 
         String result = null;
         try {

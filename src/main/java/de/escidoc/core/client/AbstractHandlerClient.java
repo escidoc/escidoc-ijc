@@ -1,6 +1,7 @@
 package de.escidoc.core.client;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import org.apache.log4j.Logger;
@@ -70,53 +71,6 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      */
     public void setTransport(TransportProtocol transport) {
         this.transport = transport;
-    }
-
-    /**
-     * This method validates the specified filter and sets default values to the
-     * filter if and only if the tested values are null or empty.
-     * 
-     * Currently checked values:
-     * <ul>
-     * <li>version (default: "1.1")</li>
-     * <li>recordPacking (default: "string")</li>
-     * </ul>
-     * 
-     * @param filter
-     */
-    protected void evalRequest(final SearchRetrieveRequestType filter) {
-        if (filter.getVersion() == null || filter.getVersion().isEmpty()) {
-            filter.setVersion("1.1");
-        }
-        if (filter.getRecordPacking() == null
-            || filter.getRecordPacking().isEmpty()) {
-            filter.setRecordPacking("string");
-        }
-        if (filter.getQuery() == null) {
-            filter.setQuery("");
-        }
-    }
-
-    /**
-     * This method validates the specified filter and sets default values to the
-     * filter if and only if the tested values are null or empty.
-     * 
-     * Currently checked values:
-     * <ul>
-     * <li>version (default: "1.1")</li>
-     * <li>recordPacking (default: "string")</li>
-     * </ul>
-     * 
-     * @param explain
-     */
-    protected void evalRequest(final ExplainRequestType explain) {
-        if (explain.getVersion() == null || explain.getVersion().isEmpty()) {
-            explain.setVersion("1.1");
-        }
-        if (explain.getRecordPacking() == null
-            || explain.getRecordPacking().isEmpty()) {
-            explain.setRecordPacking("string");
-        }
     }
 
     /**
@@ -231,7 +185,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
 
         setHandle("");
     }
-    
+
     protected abstract soapType getSoapHandlerClientInstance()
         throws InternalClientException;
 

@@ -399,6 +399,8 @@ public class RestItemHandlerClient extends RestClientBase {
     public String retrieveItems(final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter, true);
+        
         String result = null;
         try {
             result = getClient().retrieveItems(filter);

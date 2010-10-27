@@ -29,6 +29,7 @@
 package de.escidoc.core.client;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.MalformedURLException;
@@ -322,4 +323,74 @@ public abstract class ClientBase {
         return filter12;
     }
 
+    /**
+     * This method validates the specified filter and sets default values to the
+     * filter if and only if the tested values are null or empty.
+     * 
+     * Currently checked values:
+     * <ul>
+     * <li>version (default: "1.1")</li>
+     * <li>recordPacking (default: "string")</li>
+     * </ul>
+     * 
+     * @param request
+     */
+    protected void evalRequest(
+        final SearchRetrieveRequestType request, final boolean nullQueryAllowed) {
+
+        if (request == null)
+            throw new IllegalArgumentException("Request must not be null.");
+        if (!nullQueryAllowed && request.getQuery() == null)
+            throw new IllegalArgumentException("Query must not be null.");
+
+        if (request.getVersion() == null || request.getVersion().isEmpty()) {
+            request.setVersion("1.1");
+        }
+        if (request.getRecordPacking() == null
+            || request.getRecordPacking().isEmpty()) {
+            request.setRecordPacking("string");
+        }
+    }
+
+    /**
+     * 
+     * @param request
+     */
+    protected void evalRequest(
+        final ScanRequestType request, final boolean nullQueryAllowed) {
+
+        if (request == null)
+            throw new IllegalArgumentException("Request must not be null.");
+        if (!nullQueryAllowed && request.getScanClause() == null)
+            throw new IllegalArgumentException("Query must not be null.");
+
+        if (request.getVersion() == null || request.getVersion().isEmpty()) {
+            request.setVersion("1.1");
+        }
+    }
+
+    /**
+     * This method validates the specified filter and sets default values to the
+     * filter if and only if the tested values are null or empty.
+     * 
+     * Currently checked values:
+     * <ul>
+     * <li>version (default: "1.1")</li>
+     * <li>recordPacking (default: "string")</li>
+     * </ul>
+     * 
+     * @param request
+     */
+    protected void evalRequest(final ExplainRequestType request) {
+        if (request == null)
+            throw new IllegalArgumentException("Request must not be null.");
+
+        if (request.getVersion() == null || request.getVersion().isEmpty()) {
+            request.setVersion("1.1");
+        }
+        if (request.getRecordPacking() == null
+            || request.getRecordPacking().isEmpty()) {
+            request.setRecordPacking("string");
+        }
+    }
 }

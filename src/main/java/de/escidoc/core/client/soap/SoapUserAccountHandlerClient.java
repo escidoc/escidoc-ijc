@@ -677,6 +677,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
     public String retrieveUserAccounts(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        evalRequest(filter);
         return filterUserAccounts(getEscidoc12Filter(filter));
     }
 
