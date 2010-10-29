@@ -86,7 +86,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
     private Authentication auth;
 
     private ContainerHandlerClientInterface cc;
-    
+
     public ContainerCreateTest(TransportProtocol transport) {
         super(transport);
     }
@@ -105,7 +105,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
     public void post() throws Exception {
         auth.logout();
     }
-    
+
     /**
      * Test if the right exception is thrown if calling create with an
      * incomplete Container.
@@ -324,8 +324,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
             createdContainer.getProperties().getContentModel().getObjid());
 
         Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container
-                .getMetadataRecords().get("escidoc").getClass(), cc
+            new Marshaller<MetadataRecord>(MetadataRecord.class, cc
                 .getTransport().name());
 
         String xml1 =
@@ -379,11 +378,10 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         Container createdContainer = cc.create(container);
 
         // test marshalling created Container.
-        Marshaller<Container> c1 =
-            new Marshaller<Container>(createdContainer.getClass(), cc
-                .getTransport().name());
+        Marshaller<Container> mContainer =
+            new Marshaller<Container>(Container.class, cc.getTransport().name());
 
-        String xmlc1 = c1.marshalDocument(createdContainer);
+        String xmlc1 = mContainer.marshalDocument(createdContainer);
 
         // compare the new created Container with the Container from the
         // request
@@ -396,13 +394,13 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         // MetadataRecords
 
-        Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container
-                .getMetadataRecords().get("escidoc").getClass(), cc
+        Marshaller<MetadataRecord> mMetadataRecord =
+            new Marshaller<MetadataRecord>(MetadataRecord.class, cc
                 .getTransport().name());
 
         String xml1 =
-            m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
+            mMetadataRecord.marshalDocument(container.getMetadataRecords().get(
+                "escidoc"));
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
@@ -413,11 +411,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         MetadataRecord createdContainerMdRecord =
             createdContainer.getMetadataRecords().get("escidoc");
 
-        Marshaller<MetadataRecord> m2 =
-            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass(),
-                cc.getTransport().name());
-
-        String xml2 = m2.marshalDocument(createdContainerMdRecord);
+        String xml2 = mMetadataRecord.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =
@@ -460,10 +454,9 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         structMap.add(member);
         container.setStructMap(structMap);
         Container createdContainer = cc.create(container);
-        Marshaller<Container> c1 =
-            new Marshaller<Container>(createdContainer.getClass(), cc
-                .getTransport().name());
-        c1.marshalDocument(createdContainer);
+        Marshaller<Container> m =
+            new Marshaller<Container>(Container.class, cc.getTransport().name());
+        m.marshalDocument(createdContainer);
 
         StructMap createdStructMap = createdContainer.getStructMap();
         assertEquals("Number of members is wrong", 1, createdStructMap.size());
@@ -502,12 +495,11 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         assertEquals(container.getProperties().getContentModel().getObjid(),
             createdContainer.getProperties().getContentModel().getObjid());
 
-        Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(container
-                .getMetadataRecords().get("escidoc").getClass(), cc
+        Marshaller<MetadataRecord> m =
+            new Marshaller<MetadataRecord>(MetadataRecord.class, cc
                 .getTransport().name());
         String xml1 =
-            m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
+            m.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
@@ -518,10 +510,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         MetadataRecord createdContainerMdRecord =
             createdContainer.getMetadataRecords().get("escidoc");
 
-        Marshaller<MetadataRecord> m2 =
-            new Marshaller<MetadataRecord>(createdContainerMdRecord.getClass(),
-                cc.getTransport().name());
-        String xml2 = m2.marshalDocument(createdContainerMdRecord);
+        String xml2 = m.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =

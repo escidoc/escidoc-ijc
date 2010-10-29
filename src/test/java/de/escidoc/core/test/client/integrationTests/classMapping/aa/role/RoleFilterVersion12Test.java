@@ -80,11 +80,11 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
     private Authentication auth;
 
     private RoleHandlerClientInterface rc;
-    
+
     public RoleFilterVersion12Test(TransportProtocol transport) {
         super(transport);
     }
-    
+
     @Before
     public void init() throws Exception {
         auth =
@@ -210,15 +210,12 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
 
         // FIXME done without result handling
         Marshaller<Role> m =
-            new Marshaller<Role>(role.getClass(), transport.name());
+            Factory.getMarshallerFactory(transport).getRoleMarshaller();
 
         String xml = m.marshalDocument(role);
 
         Role urole = m.unmarshalDocument(xml);
-        Factory
-            .getMarshallerFactory(transport).getRoleMarshaller()
-            .marshalDocument(urole);
 
-        return role;
+        return urole;
     }
 }

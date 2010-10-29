@@ -97,20 +97,18 @@ public class Asserts {
             assertEquals("MetadataRecord Schemas not equal.", masterSchema,
                 toCompareSchema);
 
-            Marshaller<MetadataRecord> m1 =
-                new Marshaller<MetadataRecord>(mdMaster.getClass(),
+            Marshaller<MetadataRecord> m =
+                new Marshaller<MetadataRecord>(MetadataRecord.class,
                     EscidocClientTestBase.getDefaultTransportProtocol().name());
-            String xml1 = m1.marshalDocument(mdMaster);
+            
+            String xml1 = m.marshalDocument(mdMaster);
 
             Document mdRecordMaster = XmlUtility.getDocument(xml1);
             Node mdRecordMasterNode =
                 XPathAPI.selectSingleNode(mdRecordMaster, "/md-record");
             Node mdRecordMasterContent = mdRecordMasterNode.getFirstChild();
 
-            Marshaller<MetadataRecord> m2 =
-                new Marshaller<MetadataRecord>(mdToComp.getClass(),
-                    EscidocClientTestBase.getDefaultTransportProtocol().name());
-            String xml2 = m2.marshalDocument(mdToComp);
+            String xml2 = m.marshalDocument(mdToComp);
 
             Document mdRecordToCompare = XmlUtility.getDocument(xml2);
             Node mdRecordToCompareNode =
