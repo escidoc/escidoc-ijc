@@ -43,4 +43,7 @@
 	<include path="rest/sb/explain-data-binding.xml" />
 	<include path="rest/sb/search-retrieve-response-binding.xml" />
 	<include path="rest/sb/0.8/search-result-record-binding.xml" />
+	
+	<!-- SM -->
+	<include path="rest/sm/0.3/scope-binding.xml" />
 </binding>

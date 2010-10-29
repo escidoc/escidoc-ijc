@@ -42,4 +42,7 @@
 	<include path="soap/sb/explain-data-binding.xml" />
 	<include path="soap/sb/search-retrieve-response-binding.xml" />
 	<include path="soap/sb/0.8/search-result-record-binding.xml" />
+	
+	<!-- SM -->
+  <include path="soap/sm/0.3/scope-binding.xml" />
 </binding>
