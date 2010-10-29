@@ -77,7 +77,7 @@ public class RestIngestHandlerClient extends RestClientBase {
      * @param resourceXml
      *            XML representation of eSciDoc resources (Item, Container,
      *            Context, ..)
-     * @return objid of the ingested resource
+     * @return xml of the ingested resource
      * @throws EscidocException
      *             Thrown in case of eSciDoc framework failures.
      * @throws InternalClientException
