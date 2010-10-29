@@ -182,9 +182,19 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
         setHandle("");
     }
 
+    /**
+     * 
+     * @return The SOAP instance of the handler client.
+     * @throws InternalClientException
+     */
     protected abstract soapType getSoapHandlerClientInstance()
         throws InternalClientException;
 
+    /**
+     * 
+     * @return The REST instance of the handler client.
+     * @throws InternalClientException
+     */
     protected abstract restType getRestHandlerClientInstance()
         throws InternalClientException;
 }
