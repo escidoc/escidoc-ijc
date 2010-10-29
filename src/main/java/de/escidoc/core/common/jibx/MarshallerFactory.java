@@ -1,5 +1,7 @@
 package de.escidoc.core.common.jibx;
 
+import java.util.HashMap;
+
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.resources.aa.pdp.Requests;
@@ -44,79 +46,316 @@ import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sm.Scope;
 
 /**
  * Marshaller Factory.
  * 
- * 
+ * TODO: Remove comments and/or old code after review if accepted.
  */
 public class MarshallerFactory {
 
-    private static Marshaller<OrganizationalUnit> organizationalUnitMarshaller =
+    /*
+     * ################ START OF NEW IMPL ##################
+     */
+
+    // AA
+    public static final Class<UserAccount> CLASS_USER_ACCOUNT =
+        UserAccount.class;
+
+    public static final Class<Requests> CLASS_PDP_REQUESTS = Requests.class;
+
+    public static final Class<Results> CLASS_PDP_RESULTS = Results.class;
+
+    public static final Class<Role> CLASS_ROLE = Role.class;
+
+    public static final Class<UserAccountProperties> CLASS_USER_ACCOUNT_PROPERTIES =
+        UserAccountProperties.class;
+
+    public static final Class<Grant> CLASS_GRANT = Grant.class;
+
+    public static final Class<Grants> CLASS_GRANTS = Grants.class;
+
+    public static final Class<Attribute> CLASS_ATTRIBUTE = Attribute.class;
+
+    public static final Class<Attributes> CLASS_ATTRIBUTES = Attributes.class;
+
+    public static final Class<Preference> CLASS_PREFERENCE = Preference.class;
+
+    public static final Class<Preferences> CLASS_PREFERENCES =
+        Preferences.class;
+
+    public static final Class<UserAccounts> CLASS_USER_ACCOUNTS =
+        UserAccounts.class;
+
+    public static final Class<Roles> CLASS_ROLES = Roles.class;
+
+    public static final Class<UnsecuredActions> CLASS_UNSECURED_ACTIONS =
+        UnsecuredActions.class;
+
+    // OM
+    public static final Class<Context> CLASS_CONTEXT = Context.class;
+
+    public static final Class<ContentModel> CLASS_CONTENT_MODEL =
+        ContentModel.class;
+
+    public static final Class<MemberList> CLASS_MEMBER_LIST = MemberList.class;
+
+    public static final Class<Item> CLASS_ITEM = Item.class;
+
+    public static final Class<Container> CLASS_CONTAINER = Container.class;
+
+    public static final Class<Component> CLASS_COMPONENT = Component.class;
+
+    public static final Class<ContentRelation> CLASS_CONTENT_RELATION =
+        ContentRelation.class;
+
+    public static final Class<Toc> CLASS_TOC = Toc.class;
+
+    public static final Class<ItemList> CLASS_ITEM_LIST = ItemList.class;
+
+    public static final Class<ContainerList> CLASS_CONTAINER_LIST =
+        ContainerList.class;
+
+    public static final Class<ContextList> CLASS_CONTEXT_LIST =
+        ContextList.class;
+
+    // OUM
+    public static final Class<OrganizationalUnit> CLASS_ORGANIZATIONAL_UNIT =
+        OrganizationalUnit.class;
+
+    public static final Class<OrganizationalUnitList> CLASS_ORGANIZATIONAL_UNIT_LIST =
+        OrganizationalUnitList.class;
+
+    // FIXME: Not implemented?
+    public static final Class<PathList> CLASS_PATH_LIST = PathList.class;
+
+    public static final Class<Parents> CLASS_PARENTS = Parents.class;
+
+    // SM
+
+    public static final Class<Scope> CLASS_SCOPE = Scope.class;
+
+    // Sub resources
+
+    public static final Class<Properties> CLASS_PROPERTIES = Properties.class;
+
+    public static final Class<VersionHistory> CLASS_VERSION_HISTORY =
+        VersionHistory.class;
+
+    public static final Class<StructMap> CLASS_STRUCT_MAP = StructMap.class;
+
+    public static final Class<AdminDescriptor> CLASS_ADMIN_DESCRIPTOR =
+        AdminDescriptor.class;
+
+    public static final Class<AdminDescriptors> CLASS_ADMIN_DESCRIPTORS =
+        AdminDescriptors.class;
+
+    public static final Class<MetadataRecords> CLASS_METADATA_RECORDS =
+        MetadataRecords.class;
+
+    public static final Class<MetadataRecord> CLASS_METADATA_RECORD =
+        MetadataRecord.class;
+
+    public static final Class<Relations> CLASS_RELATIONS = Relations.class;
+
+    // SRW/U
+
+    public static final Class<SearchResultRecord> CLASS_SEARCH_RESULT_RECORD =
+        SearchResultRecord.class;
+
+    public static final Class<ExplainResponse> CLASS_EXPLAIN_RESPONSE =
+        ExplainResponse.class;
+
+    public static final Class<ScanResponse> CLASS_SCAN_RESPONSE =
+        ScanResponse.class;
+
+    public static final Class<SearchRetrieveResponse> CLASS_SEARCH_RETRIEVE_RESPONSE =
+        SearchRetrieveResponse.class;
+
+    // COMMON
+
+    public static final Class<de.escidoc.core.resources.common.Properties> CLASS_COMMON_PROPERTIES =
+        de.escidoc.core.resources.common.Properties.class;
+
+    public static final Class<Result> CLASS_RESULT = Result.class;
+
+    public static final Class<TaskParam> CLASS_TASK_PARAM = TaskParam.class;
+
+    /**
+     * The TransportProtocol used for this MarshallerFactory instance.
+     */
+    private final TransportProtocol transport;
+
+    /**
+     * The HashMap to store the Marshaller instances.
+     */
+    private HashMap<Class<?>, Marshaller<?>> marshallers =
+        new HashMap<Class<?>, Marshaller<?>>();
+
+    /**
+     * 
+     * @param transport
+     */
+    protected MarshallerFactory(final TransportProtocol transport) {
+        if (transport == null)
+            throw new IllegalArgumentException("transport must not be null.");
+
+        this.transport = transport;
+    }
+
+    /**
+     * This is a generic method to return a classified Marshaller instance
+     * depending on the specified <i>clazz</i>. The Marshaller instance exists
+     * only once within this factory instance.<br/>
+     * <br/>
+     * Example:<br/>
+     * <br/>
+     * <code>Factory.getMarshallerFactory(TransportProtocol.REST).getMarshaller(
+     * MarshallerFactory.SCOPE);</code><br/>
+     * <br/>
+     * or<br/>
+     * <br/>
+     * <code>Factory.getMarshallerFactory(TransportProtocol.REST).getMarshaller(
+     * Scope.class);</code><br/>
+     * <br/>
+     * will return the classified Marshaller:<br/>
+     * <br/>
+     * <code>Marshaller&lt;Scope&gt;</code><br/>
+     * <br/>
+     * for the Object:<br/>
+     * <br/>
+     * <code>Scope</code>.
+     * 
+     * @param <T>
+     *            The type of the class to be used to initialize the Marshaller.
+     *            <T> will be defined by <i>clazz</i>.
+     * @param clazz
+     *            The class object of the Object to return a Marshaller for. All
+     *            existing classes are declared within this factory as static
+     *            variables.
+     * @return The classified Marshaller instance depending on the specified
+     *         clazz.
+     */
+    @SuppressWarnings("unchecked")
+    public <T> Marshaller<T> getMarshaller(final Class<T> clazz) {
+
+        if (clazz == null)
+            throw new IllegalArgumentException("clazz must not be null.");
+
+        Marshaller<T> marshaller;
+
+        if (!marshallers.containsKey(clazz)) {
+            marshaller = Marshaller.getMarshaller(clazz, transport.name());
+            marshallers.put(clazz, marshaller);
+
+        }
+        else {
+            marshaller = (Marshaller<T>) marshallers.get(clazz);
+        }
+        return marshaller;
+    }
+
+    /*
+     * ################ END OF NEW IMPL ##################
+     */
+    @Deprecated
+    private Marshaller<OrganizationalUnit> organizationalUnitMarshaller = null;
+
+    @Deprecated
+    private Marshaller<OrganizationalUnitList> organizationalUnitListMarshaller =
         null;
 
-    private static Marshaller<OrganizationalUnitList> organizationalUnitListMarshaller =
+    @Deprecated
+    private Marshaller<Context> contextMarshaller = null;
+
+    @Deprecated
+    private Marshaller<ContentModel> contentModelMarshaller = null;
+
+    @Deprecated
+    private Marshaller<MemberList> memberListMarshaller = null;
+
+    @Deprecated
+    private Marshaller<Item> itemMarshaller = null;
+
+    @Deprecated
+    private Marshaller<PathList> pathListMarshaller = null;
+
+    @Deprecated
+    private Marshaller<Component> componentMarshaller = null;
+
+    @Deprecated
+    private Marshaller<Container> containerMarshaller = null;
+
+    @Deprecated
+    private Marshaller<ContentRelation> contentRelationMarshaller = null;
+
+    @Deprecated
+    private Marshaller<UserAccount> userAccountMarshaller = null;
+
+    @Deprecated
+    private Marshaller<Requests> pdpRequestsMarshaller = null;
+
+    @Deprecated
+    private Marshaller<Results> pdpResultsMarshaller = null;
+
+    @Deprecated
+    private Marshaller<Role> roleMarshaller = null;
+
+    @Deprecated
+    private Marshaller<UserAccountProperties> userAccountPropertiesMarshaller =
         null;
 
-    private static Marshaller<Context> contextMarshaller = null;
+    @Deprecated
+    private Marshaller<Grant> grantMarshaller = null;
 
-    private static Marshaller<ContentModel> contentModelMarshaller = null;
+    @Deprecated
+    private Marshaller<Grants> grantsMarshaller = null;
 
-    private static Marshaller<MemberList> memberListMarshaller = null;
+    @Deprecated
+    private Marshaller<Attribute> attributeMarshaller = null;
 
-    private static Marshaller<Item> itemMarshaller = null;
+    @Deprecated
+    private Marshaller<Attributes> attributesMarshaller = null;
 
-    private static Marshaller<PathList> pathListMarshaller = null;
+    @Deprecated
+    private Marshaller<Preference> preferenceMarshaller = null;
 
-    private static Marshaller<Component> componentMarshaller = null;
+    @Deprecated
+    private Marshaller<Preferences> preferencesMarshaller = null;
 
-    private static Marshaller<Container> containerMarshaller = null;
+    @Deprecated
+    private Marshaller<UserAccounts> userAccountListMarshaller = null;
 
-    private static Marshaller<ContentRelation> contentRelationMarshaller = null;
+    @Deprecated
+    private Marshaller<Roles> roleListMarshaller = null;
 
-    private static Marshaller<UserAccount> userAccountMarshaller = null;
+    @Deprecated
+    private Marshaller<UnsecuredActions> unsecuredActionsMarshaller = null;
 
-    private static Marshaller<Requests> pdpRequestsMarshaller = null;
+    @Deprecated
+    private Marshaller<Toc> tocMarshaller = null;
 
-    private static Marshaller<Results> pdpResultsMarshaller = null;
+    @Deprecated
+    private Marshaller<ItemList> itemListMarshaller = null;
 
-    private static Marshaller<Role> roleMarshaller = null;
+    @Deprecated
+    private Marshaller<ContainerList> containerListMarshaller = null;
 
-    private static Marshaller<UserAccountProperties> userAccountPropertiesMarshaller =
-        null;
+    @Deprecated
+    private Marshaller<ContextList> contextListMarshaller = null;
 
-    private static Marshaller<Grant> grantMarshaller = null;
+    @Deprecated
+    private Marshaller<TaskParam> taskParamMarshaller = null;
 
-    private static Marshaller<Grants> grantsMarshaller = null;
+    @Deprecated
+    private Marshaller<Result> resultMarshaller = null;
 
-    private static Marshaller<Attribute> attributeMarshaller = null;
+    @Deprecated
+    private Marshaller<Parents> parentsMarshaller = null;
 
-    private static Marshaller<Attributes> attributesMarshaller = null;
-
-    private static Marshaller<Preference> preferenceMarshaller = null;
-
-    private static Marshaller<Preferences> preferencesMarshaller = null;
-
-    private static Marshaller<UserAccounts> userAccountListMarshaller = null;
-
-    private static Marshaller<Roles> roleListMarshaller = null;
-
-    private static Marshaller<UnsecuredActions> unsecuredActionsMarshaller =
-        null;
-
-    private static Marshaller<Toc> tocMarshaller = null;
-
-    private static Marshaller<ItemList> itemListMarshaller = null;
-
-    private static Marshaller<ContainerList> containerListMarshaller = null;
-
-    private static Marshaller<ContextList> contextListMarshaller = null;
-
-    private static Marshaller<TaskParam> taskParamMarshaller = null;
-
-    private static Marshaller<Result> resultMarshaller = null;
-
-    private static Marshaller<Parents> parentsMarshaller = null;
+    @Deprecated
+    private Marshaller<Scope> scopeMarshaller = null;
 
     /*
      * ========================================================================
@@ -124,22 +363,29 @@ public class MarshallerFactory {
      * ========================================================================
      */
 
-    private static Marshaller<Properties> propertiesMarshaller = null;
+    @Deprecated
+    private Marshaller<Properties> propertiesMarshaller = null;
 
-    private static Marshaller<VersionHistory> versionHistoryMarshaller = null;
+    @Deprecated
+    private Marshaller<VersionHistory> versionHistoryMarshaller = null;
 
-    private static Marshaller<StructMap> structMapMarshaller = null;
+    @Deprecated
+    private Marshaller<StructMap> structMapMarshaller = null;
 
-    private static Marshaller<AdminDescriptor> adminDescriptorMarshaller = null;
+    @Deprecated
+    private Marshaller<AdminDescriptor> adminDescriptorMarshaller = null;
 
-    private static Marshaller<AdminDescriptors> adminDescriptorListMarshaller =
-        null;
+    @Deprecated
+    private Marshaller<AdminDescriptors> adminDescriptorListMarshaller = null;
 
-    private static Marshaller<MetadataRecords> metadataRecordsMarshaller = null;
+    @Deprecated
+    private Marshaller<MetadataRecords> metadataRecordsMarshaller = null;
 
-    private static Marshaller<MetadataRecord> metadataRecordMarshaller = null;
+    @Deprecated
+    private Marshaller<MetadataRecord> metadataRecordMarshaller = null;
 
-    private static Marshaller<Relations> relationsMarshaller = null;
+    @Deprecated
+    private Marshaller<Relations> relationsMarshaller = null;
 
     /*
      * ========================================================================
@@ -147,30 +393,26 @@ public class MarshallerFactory {
      * ========================================================================
      */
 
-    private static Marshaller<SearchResultRecord> searchResultMarshaller = null;
+    @Deprecated
+    private Marshaller<SearchResultRecord> searchResultMarshaller = null;
 
-    private static Marshaller<ExplainResponse> explainResponseMarshaller = null;
+    @Deprecated
+    private Marshaller<ExplainResponse> explainResponseMarshaller = null;
 
-    private static Marshaller<ScanResponse> scanResponseMarshaller = null;
+    @Deprecated
+    private Marshaller<ScanResponse> scanResponseMarshaller = null;
 
-    private static Marshaller<SearchRetrieveResponse> searchRetrieveResponseMarshaller =
+    @Deprecated
+    private Marshaller<SearchRetrieveResponse> searchRetrieveResponseMarshaller =
         null;
 
-    private static Marshaller<de.escidoc.core.resources.common.Properties> commonPropertiesMarshaller;
-
-    private final TransportProtocol transport;
-
-    /**
-     * 
-     * @param transport
-     */
-    protected MarshallerFactory(TransportProtocol transport) {
-        this.transport = transport;
-    }
+    @Deprecated
+    private Marshaller<de.escidoc.core.resources.common.Properties> commonPropertiesMarshaller;
 
     /**
      * @return the itemMarshaller
      */
+    @Deprecated
     public Marshaller<Item> getItemMarshaller() {
 
         if (itemMarshaller == null) {
@@ -185,6 +427,7 @@ public class MarshallerFactory {
      * 
      * @return the searchResultMarshaller
      */
+    @Deprecated
     public Marshaller<SearchResultRecord> getSearchResultMarshaller() {
 
         if (searchResultMarshaller == null) {
@@ -199,6 +442,7 @@ public class MarshallerFactory {
     /**
      * @return the componentMarshaller
      */
+    @Deprecated
     public Marshaller<Component> getComponentMarshaller() {
 
         if (componentMarshaller == null) {
@@ -212,6 +456,7 @@ public class MarshallerFactory {
     /**
      * @return the itemListMarshaller
      */
+    @Deprecated
     public Marshaller<ItemList> getItemListMarshaller() {
 
         if (itemListMarshaller == null) {
@@ -225,6 +470,7 @@ public class MarshallerFactory {
     /**
      * @return the memberListMarshaller
      */
+    @Deprecated
     public Marshaller<MemberList> getMemberListMarshaller() {
 
         if (memberListMarshaller == null) {
@@ -238,6 +484,7 @@ public class MarshallerFactory {
     /**
      * @return the containerListMarshaller
      */
+    @Deprecated
     public Marshaller<ContainerList> getContainerListMarshaller() {
 
         if (containerListMarshaller == null) {
@@ -252,6 +499,7 @@ public class MarshallerFactory {
     /**
      * @return the containerMarshaller
      */
+    @Deprecated
     public Marshaller<Container> getContainerMarshaller() {
 
         if (containerMarshaller == null) {
@@ -265,6 +513,7 @@ public class MarshallerFactory {
     /**
      * @return the contentRelationMarshaller
      */
+    @Deprecated
     public Marshaller<ContentRelation> getContentRelationMarshaller() {
 
         if (contentRelationMarshaller == null) {
@@ -279,6 +528,7 @@ public class MarshallerFactory {
     /**
      * @return the contextListMarshaller
      */
+    @Deprecated
     public Marshaller<ContextList> getContextListMarshaller() {
 
         if (contextListMarshaller == null) {
@@ -293,6 +543,7 @@ public class MarshallerFactory {
     /**
      * @return the contextMarshaller
      */
+    @Deprecated
     public Marshaller<Context> getContextMarshaller() {
 
         if (contextMarshaller == null) {
@@ -306,6 +557,7 @@ public class MarshallerFactory {
     /**
      * @return the contentModelMarshaller
      */
+    @Deprecated
     public Marshaller<ContentModel> getContentModelMarshaller() {
 
         if (contentModelMarshaller == null) {
@@ -320,6 +572,7 @@ public class MarshallerFactory {
     /**
      * @return the organizationalUnitMarshaller
      */
+    @Deprecated
     public Marshaller<OrganizationalUnit> getOrganizationalUnitMarshaller() {
 
         if (organizationalUnitMarshaller == null) {
@@ -334,6 +587,7 @@ public class MarshallerFactory {
     /**
      * @return the organizationalUnitListMarshaller
      */
+    @Deprecated
     public Marshaller<OrganizationalUnitList> getOrganizationalUnitListMarshaller() {
 
         if (organizationalUnitListMarshaller == null) {
@@ -349,6 +603,7 @@ public class MarshallerFactory {
     /**
      * @return the pathListMarshaller
      */
+    @Deprecated
     public Marshaller<PathList> getPathListMarshaller() {
 
         if (pathListMarshaller == null) {
@@ -362,6 +617,7 @@ public class MarshallerFactory {
     /**
      * @return the taskParamMarshaller
      */
+    @Deprecated
     public Marshaller<TaskParam> getTaskParamMarshaller() {
 
         if (taskParamMarshaller == null) {
@@ -375,6 +631,7 @@ public class MarshallerFactory {
     /**
      * @return the resultMarshaller
      */
+    @Deprecated
     public Marshaller<Result> getResultMarshaller() {
 
         if (resultMarshaller == null) {
@@ -388,6 +645,7 @@ public class MarshallerFactory {
     /**
      * @return the versionHistoryMarshaller
      */
+    @Deprecated
     public Marshaller<VersionHistory> getVersionHistoryMarshaller() {
         if (versionHistoryMarshaller == null) {
             versionHistoryMarshaller =
@@ -401,6 +659,7 @@ public class MarshallerFactory {
     /**
      * @return the structMapMarshaller
      */
+    @Deprecated
     public Marshaller<StructMap> getStructMapMarshaller() {
         if (structMapMarshaller == null) {
             structMapMarshaller = new Marshaller<StructMap>(StructMap.class);
@@ -413,6 +672,7 @@ public class MarshallerFactory {
     /**
      * @return the adminDescriptorMarshaller
      */
+    @Deprecated
     public Marshaller<AdminDescriptor> getAdminDescriptorMarshaller() {
         if (adminDescriptorMarshaller == null) {
             adminDescriptorMarshaller =
@@ -426,6 +686,7 @@ public class MarshallerFactory {
     /**
      * @return the adminDescriptorListMarshaller
      */
+    @Deprecated
     public Marshaller<AdminDescriptors> getAdminDescriptorListMarshaller() {
         if (adminDescriptorListMarshaller == null) {
             adminDescriptorListMarshaller =
@@ -439,6 +700,7 @@ public class MarshallerFactory {
     /**
      * @return the tocMarshaller
      */
+    @Deprecated
     public Marshaller<Toc> getTocMarshaller() {
         if (tocMarshaller == null) {
             tocMarshaller = new Marshaller<Toc>(Toc.class);
@@ -453,6 +715,7 @@ public class MarshallerFactory {
     /**
      * @return the propertiesMarshaller
      */
+    @Deprecated
     public Marshaller<Properties> getPropertiesMarshaller() {
         if (propertiesMarshaller == null) {
             propertiesMarshaller = new Marshaller<Properties>(Properties.class);
@@ -465,6 +728,7 @@ public class MarshallerFactory {
     /**
      * @return the metadataRecordsMarshaller
      */
+    @Deprecated
     public Marshaller<MetadataRecords> getMetadataRecordsMarshaller() {
         if (metadataRecordsMarshaller == null) {
             metadataRecordsMarshaller =
@@ -478,6 +742,7 @@ public class MarshallerFactory {
     /**
      * @return the relationsRecordsMarshaller
      */
+    @Deprecated
     public Marshaller<Relations> getRelationsMarshaller() {
         if (relationsMarshaller == null) {
             relationsMarshaller = new Marshaller<Relations>(Relations.class);
@@ -487,6 +752,7 @@ public class MarshallerFactory {
         return relationsMarshaller;
     }
 
+    @Deprecated
     public Marshaller<UserAccount> getUserAccountMarshaller() {
         if (userAccountMarshaller == null) {
             userAccountMarshaller =
@@ -498,6 +764,7 @@ public class MarshallerFactory {
         return userAccountMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Requests> getPDPRequestsMarshaller() {
         if (pdpRequestsMarshaller == null) {
             pdpRequestsMarshaller = new Marshaller<Requests>(Requests.class);
@@ -508,6 +775,7 @@ public class MarshallerFactory {
         return pdpRequestsMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Results> getPDPResultsMarshaller() {
         if (pdpResultsMarshaller == null) {
             pdpResultsMarshaller = new Marshaller<Results>(Results.class);
@@ -517,6 +785,7 @@ public class MarshallerFactory {
         return pdpResultsMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Role> getRoleMarshaller() {
         if (roleMarshaller == null) {
             roleMarshaller = new Marshaller<Role>(Role.class);
@@ -527,10 +796,12 @@ public class MarshallerFactory {
         return roleMarshaller;
     }
 
+    @Deprecated
     public Marshaller<UserAccountProperties> getUserAccountPropertiesMarshaller() {
         if (userAccountPropertiesMarshaller == null) {
             userAccountPropertiesMarshaller =
-                new Marshaller<UserAccountProperties>(UserAccount.class);
+                new Marshaller<UserAccountProperties>(
+                    UserAccountProperties.class);
 
         }
         userAccountPropertiesMarshaller.setBindingName(transport.name());
@@ -538,6 +809,7 @@ public class MarshallerFactory {
         return userAccountPropertiesMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Grant> getGrantMarshaller() {
         if (grantMarshaller == null) {
             grantMarshaller = new Marshaller<Grant>(Grant.class);
@@ -547,6 +819,7 @@ public class MarshallerFactory {
         return grantMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Grants> getGrantsMarshaller() {
         if (grantsMarshaller == null) {
             grantsMarshaller = new Marshaller<Grants>(Grants.class);
@@ -556,6 +829,7 @@ public class MarshallerFactory {
         return grantsMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Attribute> getAttributeMarshaller() {
         if (attributeMarshaller == null) {
             attributeMarshaller = new Marshaller<Attribute>(Attribute.class);
@@ -565,6 +839,7 @@ public class MarshallerFactory {
         return attributeMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Attributes> getAttributesMarshaller() {
         if (attributesMarshaller == null) {
             attributesMarshaller = new Marshaller<Attributes>(Attributes.class);
@@ -574,6 +849,7 @@ public class MarshallerFactory {
         return attributesMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Preference> getPreferenceMarshaller() {
         if (preferenceMarshaller == null) {
             preferenceMarshaller = new Marshaller<Preference>(Preference.class);
@@ -583,6 +859,7 @@ public class MarshallerFactory {
         return preferenceMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Preferences> getPreferencesMarshaller() {
         if (preferencesMarshaller == null) {
             preferencesMarshaller =
@@ -593,6 +870,7 @@ public class MarshallerFactory {
         return preferencesMarshaller;
     }
 
+    @Deprecated
     public Marshaller<UserAccounts> getUserAccountListMarshaller() {
         if (userAccountListMarshaller == null) {
             userAccountListMarshaller =
@@ -603,6 +881,7 @@ public class MarshallerFactory {
         return userAccountListMarshaller;
     }
 
+    @Deprecated
     public Marshaller<UnsecuredActions> getUnsecuredActionsMarshaller() {
         if (unsecuredActionsMarshaller == null) {
             unsecuredActionsMarshaller =
@@ -613,6 +892,7 @@ public class MarshallerFactory {
         return unsecuredActionsMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Roles> getRoleListMarshaller() {
         if (roleListMarshaller == null) {
             roleListMarshaller = new Marshaller<Roles>(Roles.class);
@@ -622,6 +902,7 @@ public class MarshallerFactory {
         return roleListMarshaller;
     }
 
+    @Deprecated
     public Marshaller<Parents> getParentsMarshaller() {
         if (parentsMarshaller == null) {
             parentsMarshaller = new Marshaller<Parents>(Parents.class);
@@ -631,6 +912,7 @@ public class MarshallerFactory {
         return parentsMarshaller;
     }
 
+    @Deprecated
     public Marshaller<MetadataRecord> getMetadataRecordMarshaller() {
         if (metadataRecordMarshaller == null) {
             metadataRecordMarshaller =
@@ -644,6 +926,7 @@ public class MarshallerFactory {
     /**
      * @return the explainResponseMarshaller
      */
+    @Deprecated
     public Marshaller<ExplainResponse> getExplainResponseMarshaller() {
         if (explainResponseMarshaller == null) {
             explainResponseMarshaller =
@@ -658,6 +941,7 @@ public class MarshallerFactory {
      * 
      * @return
      */
+    @Deprecated
     public Marshaller<ScanResponse> getScanResponseMarshaller() {
         if (scanResponseMarshaller == null) {
             scanResponseMarshaller =
@@ -672,6 +956,7 @@ public class MarshallerFactory {
      * 
      * @return
      */
+    @Deprecated
     public Marshaller<SearchRetrieveResponse> getSearchRetrieveResponseMarshaller() {
         if (searchRetrieveResponseMarshaller == null) {
             searchRetrieveResponseMarshaller =
@@ -684,8 +969,23 @@ public class MarshallerFactory {
     }
 
     /**
+     * 
+     * @return
+     */
+    @Deprecated
+    public Marshaller<Scope> getScopeMarshaller() {
+        if (scopeMarshaller == null) {
+            scopeMarshaller = new Marshaller<Scope>(Scope.class);
+        }
+        scopeMarshaller.setBindingName(transport.name());
+
+        return scopeMarshaller;
+    }
+
+    /**
      * Returns a marshaller to be used for marshalling/unmarshalling of common
-     * properties. For example:<br/><br/>
+     * properties. For example:<br/>
+     * <br/>
      * <code>
      * &lt;properties&gt;<br/>
      * &lt;entry key="keyName"&gt;value&lt;/entry&gt;<br/>
@@ -696,6 +996,7 @@ public class MarshallerFactory {
      * 
      * @return a marshaller for the common properties.
      */
+    @Deprecated
     public Marshaller<de.escidoc.core.resources.common.Properties> getCommonPropertiesMarshaller() {
         if (commonPropertiesMarshaller == null) {
             commonPropertiesMarshaller =
