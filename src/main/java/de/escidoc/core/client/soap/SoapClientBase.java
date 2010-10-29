@@ -19,7 +19,6 @@ import org.apache.ws.security.handler.WSHandlerConstants;
 
 import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 /**
  * @author MVO
