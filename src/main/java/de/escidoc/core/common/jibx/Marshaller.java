@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.log4j.Logger;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
@@ -20,24 +21,35 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  */
 public class Marshaller<E> {
 
-    private Class<?> resourceClass;
+    private static final Logger LOG = Logger.getLogger(Marshaller.class);
+
+    private final Class<E> resourceClass;
 
     private String bindingName;
 
     /**
      * 
      * @param resourceClass
+     * @deprecated Use Marshaller.getMarshaller(Class<E> resourceClass) instead.
      */
-    public Marshaller(final Class<?> resourceClass) {
-        this.resourceClass = resourceClass;
+    @Deprecated
+    public Marshaller(final Class<E> resourceClass) {
+        this(resourceClass, null);
     }
 
     /**
      * 
      * @param resourceClass
      * @param bindingName
+     * @deprecated Use Marshaller.getMarshaller(Class<E> resourceClass, String
+     *             bindingName) instead.
      */
-    public Marshaller(final Class<?> resourceClass, String bindingName) {
+    @Deprecated
+    public Marshaller(final Class<E> resourceClass, final String bindingName) {
+        if (resourceClass == null)
+            throw new IllegalArgumentException(
+                "resourceClass must not be null.");
+
         this.resourceClass = resourceClass;
         this.bindingName = bindingName;
     }
@@ -53,6 +65,9 @@ public class Marshaller<E> {
     @SuppressWarnings("unchecked")
     public E unmarshalDocument(final String xmlDocument)
         throws InternalClientException {
+
+        if (xmlDocument == null)
+            throw new IllegalArgumentException("xmlDocument must not be null.");
 
         E result = null;
 
@@ -70,7 +85,9 @@ public class Marshaller<E> {
                     + " failed! Document is not 'UTF-8' encoded! ", e);
         }
         catch (JiBXException e) {
-            e.printStackTrace();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             throw new InternalClientException(
                 "Unmarshalling from XML document to " + resourceClass.getName()
                     + " failed! ", e);
@@ -88,6 +105,9 @@ public class Marshaller<E> {
      */
     public String marshalDocument(final E resource)
         throws InternalClientException {
+
+        if (resource == null)
+            throw new IllegalArgumentException("resource must not be null.");
 
         String result = null;
 
@@ -144,5 +164,31 @@ public class Marshaller<E> {
         else {
             return BindingDirectory.getFactory(resource);
         }
+    }
+
+    /**
+     * Create a Marshaller for type T.
+     * 
+     * @param <T>
+     * @param clazz
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    public static final <T> Marshaller<T> getMarshaller(final Class<T> clazz) {
+        return new Marshaller<T>(clazz);
+    }
+
+    /**
+     * Create a Marshaller for type T.
+     * 
+     * @param <T>
+     * @param clazz
+     * @param bindingName
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    public static final <T> Marshaller<T> getMarshaller(
+        final Class<T> clazz, final String bindingName) {
+        return new Marshaller<T>(clazz, bindingName);
     }
 }
