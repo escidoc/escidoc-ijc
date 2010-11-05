@@ -3,10 +3,11 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.sm;
 
+import static org.junit.Assert.fail;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.fail;
 
 import de.escidoc.core.client.AggregationDefinitionHandlerClient;
 import de.escidoc.core.client.Authentication;
@@ -34,6 +35,10 @@ public class AggregationDefinitionHandlerClientTest
 
     private String scopeId;
 
+    private static final String SCOPE_ADMIN_ID = "escidoc:scope2";
+
+    private static final String SCOPE_NORMAL_ID = "escidoc:scope1";
+
     public AggregationDefinitionHandlerClientTest(TransportProtocol transport) {
         super(transport);
     }
@@ -49,7 +54,7 @@ public class AggregationDefinitionHandlerClientTest
 
         // prepare scope
         scopeId = createScope(ScopeType.admin);
-        if(scopeId == null)
+        if (scopeId == null)
             fail("Unable to initialze test case. ScopeId is null.");
     }
 
@@ -62,7 +67,7 @@ public class AggregationDefinitionHandlerClientTest
      * 
      * @throws Exception
      */
-    //@Test
+    @Test
     public void testCreate() throws Exception {
         String xml =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -84,11 +89,19 @@ public class AggregationDefinitionHandlerClientTest
                 + "<aggregation-definition:xpath></aggregation-definition:xpath>"
                 + "</aggregation-definition:info-field>"
                 + "</aggregation-definition:field>"
+                + "<aggregation-definition:field>"
+                + "<aggregation-definition:info-field feed=\"statistics-data\">"
+                + "<aggregation-definition:name>Test_Info_Field2</aggregation-definition:name>"
+                + "<aggregation-definition:type>text</aggregation-definition:type>"
+                + "<aggregation-definition:xpath></aggregation-definition:xpath>"
+                + "</aggregation-definition:info-field>"
+                + "</aggregation-definition:field>"
                 +
 
                 "<aggregation-definition:index>"
                 + "<aggregation-definition:name>Index_Name_Test</aggregation-definition:name>"
                 + "<aggregation-definition:field>Test_Info_Field</aggregation-definition:field>"
+                + "<aggregation-definition:field>Test_Info_Field2</aggregation-definition:field>"
                 + "</aggregation-definition:index>"
                 + "</aggregation-definition:aggregation-table>"
 
@@ -100,6 +113,8 @@ public class AggregationDefinitionHandlerClientTest
 
                 + "</aggregation-definition:aggregation-definition>";
 
+        System.out.println(xml);
+        
         System.out.println(adhc.create(xml));
     }
 

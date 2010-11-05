@@ -6,6 +6,9 @@ package de.escidoc.core.test.client.integrationTests.classMapping.sm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +79,7 @@ public class ScopeHandlerClientTest extends AbstractParameterizedTestBase {
             resultScope.getScopeType());
 
         resultScope = shc.create(adminScope);
-        
+
         assertNotNull("Objid should not be null", resultScope.getObjid());
         assertEquals("Name is not equals", adminScope.getName(),
             resultScope.getName());
