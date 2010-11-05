@@ -4,12 +4,14 @@
 package de.escidoc.core.resources.sm;
 
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.common.reference.Referenceable;
+import de.escidoc.core.resources.common.reference.ScopeRef;
 
 /**
  * @author MVO
  * 
  */
-public class Scope extends Resource {
+public class Scope extends Resource implements Referenceable<ScopeRef> {
 
     public enum ScopeType {
         normal, admin
@@ -55,6 +57,9 @@ public class Scope extends Resource {
     public final ScopeType getScopeType() {
         return scopeType;
     }
-    
+
+	public ScopeRef getReference() {
+		return new ScopeRef(this.getObjid());
+	}    
     
 }
