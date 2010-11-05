@@ -36,6 +36,7 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
+import de.escidoc.core.client.rest.RestService;
 import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
 
@@ -45,7 +46,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author SWA
  * 
  */
-public abstract class RestServiceMethod {
+public abstract class RestServiceMethod implements RestService {
 
     private String serviceAddress;
 

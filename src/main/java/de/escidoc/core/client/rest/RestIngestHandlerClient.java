@@ -32,6 +32,7 @@ import java.net.MalformedURLException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.junit.runner.RunWith;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;

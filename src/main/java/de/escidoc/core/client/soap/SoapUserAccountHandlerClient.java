@@ -821,20 +821,19 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      */
     @Override
     public UserAccountHandler getClient() throws InternalClientException {
-
-        try {
-            if (soapClient == null) {
-                UserAccountHandlerServiceLocator serviceLocator =
-                    new UserAccountHandlerServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getUserAccountHandlerServiceAddress());
+        if (soapClient == null) {
+            UserAccountHandlerServiceLocator serviceLocator =
+                new UserAccountHandlerServiceLocator(getEngineConfig());
+            URL url =
+                getHandlerServiceURL(serviceLocator
+                    .getUserAccountHandlerServiceAddress());
+            try {
                 soapClient = serviceLocator.getUserAccountHandlerService(url);
-                registerPWCallback(soapClient);
             }
-        }
-        catch (ServiceException e) {
-            throw new InternalClientException(e.getMessage(), e);
+            catch (ServiceException e) {
+                throw new InternalClientException(e.getMessage(), e);
+            }
+            registerPWCallback(soapClient);
         }
         return soapClient;
     }

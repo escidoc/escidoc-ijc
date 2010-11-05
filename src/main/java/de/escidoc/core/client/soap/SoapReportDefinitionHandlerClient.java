@@ -1,12 +1,15 @@
 /**
  * 
  */
-package de.escidoc.core.client.rest;
+package de.escidoc.core.client.soap;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+
+import javax.xml.rpc.ServiceException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -15,25 +18,25 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.ScopeHandler;
-import de.escidoc.core.client.rest.serviceLocator.ScopeRestServiceLocator;
+import de.escidoc.core.sm.ReportDefinitionHandler;
+import de.escidoc.core.sm.ReportDefinitionHandlerServiceLocator;
 
 /**
  * @author MVO
  * 
  */
-public class RestScopeHandlerClient extends RestClientBase {
+public class SoapReportDefinitionHandlerClient extends SoapClientBase {
 
     private static final Logger LOG = Logger
-        .getLogger(RestScopeHandlerClient.class);
+        .getLogger(SoapReportDefinitionHandlerClient.class);
 
-    private ScopeHandler client;
+    private ReportDefinitionHandler client;
 
     /**
      * 
      * @throws InternalClientException
      */
-    public RestScopeHandlerClient() throws InternalClientException {
+    public SoapReportDefinitionHandlerClient() throws InternalClientException {
         super();
     }
 
@@ -42,12 +45,13 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestScopeHandlerClient(final String serviceAddress)
+    public SoapReportDefinitionHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
     }
 
     /**
+     * 
      * @param id
      * @throws EscidocException
      * @throws InternalClientException
@@ -70,6 +74,7 @@ public class RestScopeHandlerClient extends RestClientBase {
     }
 
     /**
+     * 
      * @param xml
      * @return
      * @throws EscidocException
@@ -82,19 +87,20 @@ public class RestScopeHandlerClient extends RestClientBase {
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
 
-        String result = null;
+        String resultXml = null;
         try {
-            result = getClient().create(xml);
+            resultXml = getClient().create(xml);
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
                 LOG.debug(e.getMessage());
             ExceptionMapper.map(e);
         }
-        return result;
+        return resultXml;
     }
 
     /**
+     * 
      * @param id
      * @param xml
      * @return
@@ -110,19 +116,20 @@ public class RestScopeHandlerClient extends RestClientBase {
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
 
-        String result = null;
+        String resultXml = null;
         try {
-            result = getClient().update(id, xml);
+            resultXml = getClient().update(id, xml);
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
                 LOG.debug(e.getMessage());
             ExceptionMapper.map(e);
         }
-        return result;
+        return resultXml;
     }
 
     /**
+     * 
      * @param id
      * @return
      * @throws EscidocException
@@ -135,64 +142,97 @@ public class RestScopeHandlerClient extends RestClientBase {
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
 
-        String result = null;
+        String xml = null;
         try {
-            result = getClient().retrieve(id);
+            xml = getClient().retrieve(id);
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
                 LOG.debug(e.getMessage());
             ExceptionMapper.map(e);
         }
-        return result;
+        return xml;
     }
 
     /**
-     * @param request
+     * 
+     * @param filter
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final SearchRetrieveRequestType request)
+    @SuppressWarnings("rawtypes")
+    public String retrieveReportDefinitions(final HashMap filter)
         throws EscidocException, InternalClientException, TransportException {
 
-        evalRequest(request, true);
+        if (filter == null)
+            throw new IllegalArgumentException("filter must not be null.");
 
-        String resultXml = null;
+        String xml = null;
         try {
-            resultXml = getClient().retrieveScopes(request);
+            xml = getClient().retrieveReportDefinitions(filter);
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
                 LOG.debug(e.getMessage());
             ExceptionMapper.map(e);
         }
-        return resultXml;
+        return xml;
     }
 
     /**
+     * 
      * @param request
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final ExplainRequestType request)
+    public String retrieveReportDefinitions(
+        final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
+
+        evalRequest(request, true);
+        return filterRoles(getEscidoc12Filter(request));
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveReportDefinitions(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request);
+        return filterRoles(getEscidoc12Filter(request));
+    }
 
-        String resultXml = null;
+    /**
+     * generic filter method request.
+     * 
+     * @param escidoc12Filter
+     *            data structure for eSciDoc 1.2 filter
+     * @return filter response
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private String filterRoles(final HashMap<String, String[]> escidoc12Filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
         try {
-            resultXml = getClient().retrieveScopes(request);
+            result = getClient().retrieveReportDefinitions(escidoc12Filter);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
             ExceptionMapper.map(e);
         }
-        return resultXml;
+        return result;
     }
 
     /*
@@ -201,21 +241,24 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override
-    public ScopeHandler getClient() throws InternalClientException {
-        if (this.client == null) {
+    public ReportDefinitionHandler getClient() throws InternalClientException {
 
-            ScopeRestServiceLocator serviceLocator =
-                new ScopeRestServiceLocator();
+        if (client == null) {
+            ReportDefinitionHandlerServiceLocator serviceLocator =
+                new ReportDefinitionHandlerServiceLocator(getEngineConfig());
+            URL url =
+                getHandlerServiceURL(serviceLocator
+                    .getReportDefinitionHandlerServiceAddress());
             try {
-                serviceLocator.setServiceAddress(getServiceAddress());
+                client = serviceLocator.getReportDefinitionHandlerService(url);
             }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
+            catch (ServiceException e) {
+                throw new InternalClientException(e.getMessage(), e);
             }
-            serviceLocator.registerRestCallbackHandler(this);
-            this.client = serviceLocator;
+            registerPWCallback(client);
         }
-        return this.client;
+
+        return client;
     }
 
     /*
@@ -226,11 +269,10 @@ public class RestScopeHandlerClient extends RestClientBase {
      * )
      */
     @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public DateTime getLastModificationDate(String id) throws EscidocException,
+        InternalClientException, TransportException {
 
-        throw new UnsupportedOperationException("Method no longer supported.");
+        throw new UnsupportedOperationException("Method not supported.");
     }
 
 }

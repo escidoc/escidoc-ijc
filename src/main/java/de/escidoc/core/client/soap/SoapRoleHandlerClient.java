@@ -244,20 +244,19 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      */
     @Override
     public RoleHandler getClient() throws InternalClientException {
-
-        try {
-            if (soapClient == null) {
-                RoleHandlerServiceLocator serviceLocator =
-                    new RoleHandlerServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getRoleHandlerServiceAddress());
+        if (soapClient == null) {
+            RoleHandlerServiceLocator serviceLocator =
+                new RoleHandlerServiceLocator(getEngineConfig());
+            URL url =
+                getHandlerServiceURL(serviceLocator
+                    .getRoleHandlerServiceAddress());
+            try {
                 soapClient = serviceLocator.getRoleHandlerService(url);
-                registerPWCallback(soapClient);
             }
-        }
-        catch (ServiceException e) {
-            throw new InternalClientException(e.getMessage(), e);
+            catch (ServiceException e) {
+                throw new InternalClientException(e.getMessage(), e);
+            }
+            registerPWCallback(soapClient);
         }
         return soapClient;
     }

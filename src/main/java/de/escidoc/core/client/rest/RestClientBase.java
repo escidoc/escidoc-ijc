@@ -51,6 +51,7 @@ public abstract class RestClientBase extends ClientBase
      * @param method
      *            The http method object to add the cookie to.
      */
+    @Override
     public void handleHttpMethod(final HttpMethod method) {
 
         if (getHandle() == null || "".equals(getHandle())) {
