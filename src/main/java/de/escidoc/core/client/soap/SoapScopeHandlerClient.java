@@ -14,8 +14,6 @@ import javax.xml.rpc.ServiceException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import com.sun.xml.internal.ws.server.UnsupportedMediaException;
-
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -190,7 +188,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String filterScopes(HashMap<String, String[]> filter)
+    private String filterScopes(final HashMap<String, String[]> filter)
         throws EscidocException, InternalClientException, TransportException {
         String resultXml = null;
         try {
@@ -236,11 +234,12 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
      * )
      */
+    @Override
     @Deprecated
-    public DateTime getLastModificationDate(String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public DateTime getLastModificationDate(final String id)
+        throws EscidocException, InternalClientException, TransportException {
 
-        throw new UnsupportedMediaException("Method no longer supported.");
+        throw new UnsupportedOperationException("Method not supported.");
     }
 
 }
