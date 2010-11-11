@@ -159,22 +159,18 @@
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 
-		<collection field="parentRefs"
-			create-type="java.util.LinkedList" usage="optional">
+    <collection ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
+       create-type="de.escidoc.core.resources.oum.Parents">
 
-			<structure
-				ns="http://escidoc.de/core/01/structural-relations/"
-				name="parent"
-				type="de.escidoc.core.resources.oum.Parent" usage="optional">
+      <structure
+        ns="http://escidoc.de/core/01/structural-relations/"
+        name="parent"
+        type="de.escidoc.core.resources.oum.Parent" usage="optional">
 
-				<value name="objid" style="attribute"
-					set-method="setObjid" get-method="getObjid" usage="optional" />
-<!--				<value name="href" style="attribute"-->
-<!--					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />-->
-<!--				<value name="title" style="attribute"-->
-<!--					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />-->
-			</structure>
-		</collection>
+        <value name="objid" style="attribute"
+          set-method="setObjid" get-method="getObjid" usage="optional" />
+      </structure>
+    </collection>
 	</mapping>
 
 	<!-- *****************************************

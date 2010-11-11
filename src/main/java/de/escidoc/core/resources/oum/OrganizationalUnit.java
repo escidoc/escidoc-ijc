@@ -151,6 +151,7 @@ public class OrganizationalUnit extends GenericResource
      * 
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
+    @Override
     public void genXLink() {
         genOwnXLinkHref();
 
@@ -168,11 +169,10 @@ public class OrganizationalUnit extends GenericResource
                 parents.setXLinkHref(getXLinkHref() + "/parents");
             }
 
-            if (parents.getParentRef() != null) {
-                for (Parent parent : parents.getParentRef()) {
-                    genXLinkHref(parent, RESOURCE_TYPE.OrganizationalUnit, null);
-                }
+            for (Parent parent : parents) {
+                genXLinkHref(parent, RESOURCE_TYPE.OrganizationalUnit, null);
             }
+
         }
         if (mdRecords != null && getXLinkHref() != null) {
             if (mdRecords.getXLinkHref() == null) {

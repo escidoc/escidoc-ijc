@@ -80,7 +80,7 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
     private OrganizationalUnitHandlerClientInterface ohc;
 
-    public OuCreateTest(TransportProtocol transport) {
+    public OuCreateTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -345,7 +345,7 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
         // create child OU
         Parents parents = new Parents();
-        parents.addParentRef(new Parent(parentOU.getObjid()));
+        parents.add(new Parent(parentOU.getObjid()));
         organizationalUnit.setParents(parents);
 
         OrganizationalUnit childOU = ohc.create(organizationalUnit);
@@ -356,11 +356,11 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         assertEquals("Description of OU wrong", childOU
             .getProperties().getDescription(), ouDescription);
 
-        assertEquals("Number of parents wrong", childOU
-            .getParents().getParentRef().size(), parents.getParentRef().size());
+        assertEquals("Number of parents wrong", childOU.getParents().size(),
+            parents.size());
         assertEquals("Wrong parent objid", childOU
-            .getParents().getParentRef().iterator().next().getObjid(), parents
-            .getParentRef().iterator().next().getObjid());
+            .getParents().iterator().next().getObjid(), parents
+            .iterator().next().getObjid());
 
     }
 
@@ -489,9 +489,9 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         Properties properties4 = new Properties();
 
         Parents parents = new Parents();
-        parents.addParentRef(new Parent(ou1.getObjid()));
-        parents.addParentRef(new Parent(ou2.getObjid()));
-        parents.addParentRef(new Parent(ou3.getObjid()));
+        parents.add(new Parent(ou1.getObjid()));
+        parents.add(new Parent(ou2.getObjid()));
+        parents.add(new Parent(ou3.getObjid()));
         ou4.setParents(parents);
 
         ou4.setProperties(properties4);
@@ -511,8 +511,7 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
         // retrieve parent references
         Parents parentRefs = ohc.retrieveParents(ou4.getObjid());
-        assertEquals("Wrong number ob OUs in List", 3, parentRefs
-            .getParentRef().size());
+        assertEquals("Wrong number ob OUs in List", 3, parentRefs.size());
     }
 
     /**

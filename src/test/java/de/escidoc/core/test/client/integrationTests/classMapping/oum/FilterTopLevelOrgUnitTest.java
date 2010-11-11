@@ -62,7 +62,6 @@ import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
-import de.escidoc.core.resources.oum.Parent;
 import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.Properties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
@@ -184,8 +183,7 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
         for (final OrganizationalUnit organizationalUnit : rootOrgUnitList
             .getOrganizationalUnits()) {
             final Parents parents = organizationalUnit.getParents();
-            final Collection<Parent> parentRef = parents.getParentRef();
-            assertNull("Root org unit can not have parents.", parentRef);
+            assertNull("Root org unit can not have parents.", parents);
         }
     }
 

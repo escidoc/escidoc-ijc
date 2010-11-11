@@ -28,11 +28,7 @@
  */
 package de.escidoc.core.resources.oum;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-
-import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.XLinkResourceList;
 
 /**
  * Organizational Unit Parents.
@@ -40,48 +36,10 @@ import de.escidoc.core.resources.XLinkResource;
  * @author SWA
  * 
  */
-public class Parents extends XLinkResource {
-
-	private Collection<Parent> parentRefs =
-        new LinkedList<Parent>();
-
+public class Parents extends XLinkResourceList<Parent> {
 
     /**
-     * Get the whole Parents collection.
      * 
-     * @return Collection of Parents for the OrganizationalUnit.
      */
-    public Collection<Parent> getParentRef() {
-        return this.parentRefs;
-    }
-
-    /**
-     * Set the whole Parents collection.
-     * 
-     * @param parentRef
-     *            Collection of Parents for the OrganizationalUnit.
-     */
-    public void setParentRef(final Collection<Parent> parentRef) {
-        this.parentRefs = parentRef;
-    }
-
-    /**
-     * Add a Parent to the parent collection of the
-     * OrganizationalUnit.
-     * 
-     * @param parentRef
-     *            New resource reference to the parent.
-     */
-    public void addParentRef(final Parent parentRef) {
-        this.parentRefs.add(parentRef);
-    }
-
-    /**
-     * Iterator over Parents.
-     * 
-     * @return Iterator
-     */
-    public Iterator<Parent> iterator() {
-        return this.parentRefs.iterator();
-    }
+    private static final long serialVersionUID = -962919764840581526L;
 }
