@@ -52,104 +52,160 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
     private static final String PATH_OU = "/oum/organizational-unit";
 
+    @Override
     public String close(final String ouId, final String taskParam)
         throws RemoteException, OptimisticLockingException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (taskParam == null)
+            throw new IllegalArgumentException("taskParam must not be null.");
+
         return post(PATH_OU + "/" + ouId + "/close", taskParam);
     }
 
+    @Override
     public String open(final String ouId, final String taskParam)
         throws RemoteException, OptimisticLockingException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (taskParam == null)
+            throw new IllegalArgumentException("taskParam must not be null.");
+
         return post(PATH_OU + "/" + ouId + "/open", taskParam);
     }
 
-    public String updateParents(final String ouId, final String parents)
+    @Override
+    public String updateParents(final String ouId, final String xmlOfParents)
         throws RemoteException, OptimisticLockingException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         OrganizationalUnitHierarchyViolationException, InvalidStatusException,
         AuthenticationException, AuthorizationException, InvalidXmlException,
         OrganizationalUnitNameNotUniqueException, MissingElementValueException {
 
-        return put(PATH_OU + "/" + ouId + "/parents", parents);
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (xmlOfParents == null)
+            throw new IllegalArgumentException("xmlOfParents must not be null.");
+
+        return put(PATH_OU + "/" + ouId + "/parents", xmlOfParents);
     }
 
+    @Override
     public String retrieveParents(final String ouId) throws RemoteException,
         SystemException, OrganizationalUnitNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+
         return get(PATH_OU + "/" + ouId + "/parents");
     }
 
+    @Override
     public String retrieveParentObjects(final String ouId)
         throws java.rmi.RemoteException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+
         return get(PATH_OU + "/" + ouId + "/resources/parent-objects");
     }
 
+    @Override
     public String retrieveChildObjects(final String ouId)
         throws java.rmi.RemoteException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+
         return get(PATH_OU + "/" + ouId + "/resources/child-objects");
     }
 
+    @Override
     public String retrievePathList(final String ouId) throws RemoteException,
         SystemException, OrganizationalUnitNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+
         return get(PATH_OU + "/" + ouId + "/resources/path-list");
     }
 
-    public String retrieveOrganizationalUnits(final String filter)
+    @Deprecated
+    @Override
+    public String retrieveOrganizationalUnits(final String filterXml)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return post("/oum/organizational-units/filter", filter);
+        if (filterXml == null)
+            throw new IllegalArgumentException("filterXml must not be null.");
+
+        return post("/oum/organizational-units/filter", filterXml);
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
     @Deprecated
     public String retrieveOrganizationalUnits(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
+        if (filter == null)
+            throw new IllegalArgumentException("filter must not be null.");
+
         return get(PATH_OU + "s", filter);
     }
 
+    @Override
     public String retrieveOrganizationalUnits(
-        final SearchRetrieveRequestType filter) throws RemoteException,
+        final SearchRetrieveRequestType request) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return get(PATH_OU + "s" + getEscidoc12Filter(filter));
+        if (request == null)
+            throw new IllegalArgumentException("filter must not be null.");
+
+        return get(PATH_OU + "s" + getEscidoc12Filter(request));
     }
 
-    public String retrieveOrganizationalUnits(final ExplainRequestType filter)
+    @Override
+    public String retrieveOrganizationalUnits(final ExplainRequestType request)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_OU + "s" + getEscidoc12Filter(filter));
+        if (request == null)
+            throw new IllegalArgumentException("request must not be null.");
+
+        return get(PATH_OU + "s" + getEscidoc12Filter(request));
     }
 
+    @Override
     public void delete(final String ouId) throws RemoteException,
         SystemException, LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
         OrganizationalUnitNotFoundException, AlreadyPublishedException,
         AuthorizationException {
+
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
 
         del(PATH_OU + "/" + ouId);
     }
@@ -180,6 +236,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      * @throws MissingElementValueException
      * @see de.escidoc.core.om.OrganizationalUnitHandler#create(String)
      */
+    @Override
     public String create(final String organizationalUnitXml)
         throws RemoteException, SystemException,
         MissingAttributeValueException, MissingContentException,
@@ -191,6 +248,10 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidStatusException,
         ReadonlyElementViolationException, ContentModelNotFoundException,
         InvalidXmlException, MissingElementValueException {
+
+        if (organizationalUnitXml == null)
+            throw new IllegalArgumentException(
+                "organizationalUnitXml must not be null.");
 
         return put(PATH_OU, organizationalUnitXml);
     }
@@ -227,6 +288,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      * @throws InvalidXmlException
      * @see de.escidoc.core.om.OrganizationalUnitHandler#update(String, String)
      */
+    @Override
     public String update(final String ouId, final String organizationalUnitXml)
         throws RemoteException, SystemException, MissingLicenceException,
         ReadonlyVersionException, LockingException, ComponentNotFoundException,
@@ -240,23 +302,43 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         NotPublishedException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
 
+        if (organizationalUnitXml == null)
+            throw new IllegalArgumentException(
+                "organizationalUnitXml must not be null.");
+
         return put(PATH_OU + "/" + ouId, organizationalUnitXml);
     }
 
+    /**
+     * FIXME: No such method supported by the interface?
+     */
     public String lock(final String ouId, final String userId)
         throws RemoteException, OptimisticLockingException, SystemException,
         LockingException, MissingMethodParameterException,
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException, InvalidContentException, InvalidXmlException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (userId == null)
+            throw new IllegalArgumentException("userId must not be null.");
+
         return post(PATH_OU + "/" + ouId + "/lock", userId);
     }
 
+    /**
+     * FIXME: No such method supported by the interface?
+     */
     public String unlock(final String ouId, final String userId)
         throws RemoteException, OptimisticLockingException, SystemException,
         LockingException, MissingMethodParameterException,
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException, InvalidXmlException {
+
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (userId == null)
+            throw new IllegalArgumentException("userId must not be null.");
 
         return post(PATH_OU + "/" + ouId + "/unlock", userId);
     }
@@ -268,10 +350,14 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      *            The id of the Organizational Unit.
      * @return XML representation of Organizational Unit
      */
+    @Override
     public String retrieve(final String ouId) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
+
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
 
         return get(PATH_OU + "/" + ouId);
     }
@@ -283,10 +369,14 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      *            The id of the Organizational Unit.
      * @return list of successors
      */
+    @Override
     public String retrieveSuccessors(final String ouId) throws RemoteException,
         SystemException, OrganizationalUnitNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
+
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
 
         return get(PATH_OU + "/" + ouId + "/resources/successors");
     };
@@ -298,39 +388,67 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
         AuthorizationException, InvalidXmlException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (mdRecordXml == null)
+            throw new IllegalArgumentException("mdRecordXml must not be null.");
+
         return put(PATH_OU + "/" + ouId + "/md-records/md-record", mdRecordXml);
     }
 
+    @Override
     public String retrieveMdRecord(final String ouId, final String mdRecordId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         OrganizationalUnitNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (mdRecordId == null)
+            throw new IllegalArgumentException("mdRecordId must not be null.");
+
         return get(PATH_OU + "/" + ouId + "/md-records/md-record/" + mdRecordId);
     }
 
+    /**
+     * FIXME: Is there any need for this method?
+     */
+    @Override
     public String updateMdRecords(final String ouId, final String mdRecordsXml)
         throws RemoteException, OptimisticLockingException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException,
         OrganizationalUnitNameNotUniqueException, MissingElementValueException {
 
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (mdRecordsXml == null)
+            throw new IllegalArgumentException("mdRecordsXml must not be null.");
+
         return put(PATH_OU + "/" + ouId + "/md-records", mdRecordsXml);
     }
 
-    public String retrieveMdRecords(String ouId) throws RemoteException,
+    @Override
+    public String retrieveMdRecords(final String ouId) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
+
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
 
         return get(PATH_OU + "/" + ouId + "/md-records");
     }
 
+    @Override
     public String retrieveProperties(final String ouId) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
+
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
 
         return get(PATH_OU + "/" + ouId + "/properties");
     }

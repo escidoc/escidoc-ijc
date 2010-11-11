@@ -9,6 +9,7 @@ import de.escidoc.core.client.rest.RestClientBase;
 import de.escidoc.core.client.soap.SoapClientBase;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.TaskParam;
 
 public abstract class AbstractHandlerClient<soapType extends SoapClientBase, restType extends RestClientBase> {
@@ -65,7 +66,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      * 
      * @param transport
      */
-    public void setTransport(TransportProtocol transport) {
+    public void setTransport(final TransportProtocol transport) {
         this.transport = transport;
     }
 
@@ -79,7 +80,8 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
         throws InternalClientException {
 
         return Factory
-            .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
+            .getMarshallerFactory(getTransport())
+            .getMarshaller(MarshallerFactory.CLASS_TASK_PARAM)
             .marshalDocument(taskParam);
     }
 

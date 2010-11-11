@@ -28,10 +28,11 @@
  */
 package de.escidoc.core.client.interfaces;
 
-import java.util.Collection;
-
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Collection;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -157,6 +158,24 @@ public interface OrganizationalUnitHandlerClientInterface
     PathList retrievePathList(final String id) throws EscidocException,
         InternalClientException, TransportException;
 
-    // updateMdRecords
-
+    /**
+     * Updates the parents of an Organizational Unit.<br/>
+     * <br/>
+     * Preconditions:
+     * <ul>
+     * <li>The Organizational Unit must exist.</li>
+     * <li>The public-status is "opened".</li>
+     * </ul>
+     * 
+     * @param id
+     *            The identifier of the Organizational Unit.
+     * @param parents
+     *            The Parents object of the corresponding Organizational Unit.
+     * @return The updated Parents object of the Organizational Unit.
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Parents updateParents(final String id, final Parents parents)
+        throws EscidocException, InternalClientException, TransportException;
 }

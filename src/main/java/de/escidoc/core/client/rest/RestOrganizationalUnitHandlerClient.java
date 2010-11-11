@@ -53,8 +53,8 @@ import de.escidoc.core.common.jibx.Factory;
  */
 public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
-    private final Logger logger = Logger
-        .getLogger(RestOrganizationalUnitHandlerClient.class.getName());
+    private final Logger LOG = Logger
+        .getLogger(RestOrganizationalUnitHandlerClient.class);
 
     private OrganizationalUnitHandler restClient = null;
 
@@ -88,12 +88,18 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String create(final String organizationalUnit)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (organizationalUnit == null)
+            throw new IllegalArgumentException(
+                "organizationalUnit must not be null.");
+
         String result = null;
         try {
             result = getClient().create(organizationalUnit);
         }
         catch (Exception e) {
-            logger.debug(e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -111,10 +117,16 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
         try {
             getClient().delete(id);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
     }
@@ -132,11 +144,17 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
         String result = null;
         try {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -158,15 +176,88 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String update(final String id, final String ouXml)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+        if (ouXml == null)
+            throw new IllegalArgumentException("ouXml must not be null.");
+
         String result = null;
         try {
             result = getClient().update(id, ouXml);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
     }
+
+    /**
+     * Updates the parents of an Organizational Unit.<br/>
+     * <br/>
+     * Preconditions:
+     * <ul>
+     * <li>The Organizational Unit must exist.</li>
+     * <li>The public-status is "opened".</li>
+     * </ul>
+     * 
+     * @param ouId
+     *            The identifier of the Organizational Unit.
+     * @param xmlOfParents
+     *            The XML representation of the parents.
+     * @return The XML representation of the updated parents.
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String updateParents(final String ouId, final String xmlOfParents)
+        throws EscidocException, InternalClientException, TransportException {
+
+        if (ouId == null)
+            throw new IllegalArgumentException("ouId must not be null.");
+        if (xmlOfParents == null)
+            throw new IllegalArgumentException("xmlOfParents must not be null.");
+
+        String result = null;
+        try {
+            result = getClient().updateParents(ouId, xmlOfParents);
+        }
+        catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    // /**
+    // * Update the md-records of an Organizational Unit.
+    // *
+    // * @param ouId
+    // * The identifier of the Organizational Unit.
+    // * @param mdRecordsXml
+    // * The XML representation of the md-records.
+    // * @return The XML representation of the updated md-records.
+    // * @throws EscidocException
+    // * @throws InternalClientException
+    // * @throws TransportException
+    // */
+    // public String updateMdRecords(final String ouId, final String
+    // mdRecordsXml)
+    // throws EscidocException, InternalClientException, TransportException {
+    //
+    // String result = null;
+    // try {
+    // result = getClient().updateMdRecords(ouId, mdRecordsXml);
+    // }
+    // catch (Exception e) {
+    // ExceptionMapper.map(e);
+    // }
+    // return result;
+    // }
 
     /**
      * Retrieve the OrganizationalUnits that are subordinated to this
@@ -189,11 +280,17 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String retrieveChildObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
         String result = null;
         try {
             result = getClient().retrieveChildObjects(id);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -212,11 +309,17 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String retrieveOrganizationalUnits(final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (taskParam == null)
+            throw new IllegalArgumentException("taskParam must not be null.");
+
         String result = null;
         try {
             result = getClient().retrieveOrganizationalUnits(taskParam);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -235,12 +338,15 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         InternalClientException, TransportException {
 
         evalRequest(filter, true);
-        
+
         String result = null;
         try {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -257,11 +363,17 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String retrieveOrganizationalUnits(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (filter == null)
+            throw new IllegalArgumentException("filter must not be null.");
+
         String result = null;
         try {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -288,11 +400,17 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String retrieveParentObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
         String result = null;
         try {
             result = getClient().retrieveParentObjects(id);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -319,11 +437,17 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String retrieveParents(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
         String result = null;
         try {
             result = getClient().retrieveParents(id);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -353,18 +477,38 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
     public String retrievePathList(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
         String result = null;
         try {
             result = getClient().retrievePathList(id);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
     }
 
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String open(final String id, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
+
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+        if (taskParam == null)
+            throw new IllegalArgumentException("taskParam must not be null.");
 
         String result = null;
         try {
@@ -376,14 +520,31 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         return result;
     }
 
+    /**
+     * 
+     * @param id
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String close(final String id, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
+
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+        if (taskParam == null)
+            throw new IllegalArgumentException("taskParam must not be null.");
 
         String result = null;
         try {
             result = getClient().close(id, taskParam);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
@@ -402,20 +563,27 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
      */
+    @Deprecated
     @Override
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
         DateTime result = null;
         try {
             result =
-                (Factory
+                Factory
                     .getMarshallerFactory(TransportProtocol.REST)
                     .getOrganizationalUnitMarshaller()
-                    .unmarshalDocument(getClient().retrieve(id)))
+                    .unmarshalDocument(getClient().retrieve(id))
                     .getLastModificationDate();
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             ExceptionMapper.map(e);
         }
         return result;
