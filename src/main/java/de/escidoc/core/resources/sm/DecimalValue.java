@@ -4,9 +4,9 @@ package de.escidoc.core.resources.sm;
  * @author MRO
  * 
  */
-public abstract class DecimalValue extends Parameter {
+public class DecimalValue implements Parameter {
 
-	private String stringValue;
+	private double decimalValue;
 
 	/**
 	 * Constructor for JiBX only.
@@ -16,12 +16,12 @@ public abstract class DecimalValue extends Parameter {
 
 	}
 
-	public String getStringValue() {
-		return stringValue;
+	public double getDecimalValue() {
+		return decimalValue;
 	}
 
-	public void setStringValue(String stringValue) {
-		this.stringValue = stringValue;
+	public void setDecimalValue(double decimalValue) {
+		this.decimalValue = decimalValue;
 	}
 
 }

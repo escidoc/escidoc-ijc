@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
  * @author MRO
  * 
  */
-public abstract class DateValue extends Parameter {
+public class DateValue implements Parameter {
 
 	private DateTime dateValue;
 

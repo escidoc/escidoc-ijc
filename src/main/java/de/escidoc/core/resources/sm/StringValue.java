@@ -4,7 +4,7 @@ package de.escidoc.core.resources.sm;
  * @author MRO
  * 
  */
-public abstract class StringValue extends Parameter {
+public class StringValue implements Parameter {
 
 	private String stringValue;
 

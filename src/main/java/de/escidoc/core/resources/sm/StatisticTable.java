@@ -22,4 +22,8 @@ public class StatisticTable extends Resource {
 		return xpath;
 	}
 
+	public void setXpath(String xpath) {
+		this.xpath = xpath;
+	}
+
 }

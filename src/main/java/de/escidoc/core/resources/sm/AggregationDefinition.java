@@ -1,5 +1,7 @@
 package de.escidoc.core.resources.sm;
 
+import java.util.LinkedList;
+
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.common.reference.ScopeRef;
 
@@ -11,7 +13,7 @@ public class AggregationDefinition extends Resource {
 
 	private String name;
 	private ScopeRef scope;
-	private AggregationTableType aggregationTable;
+	private LinkedList<AggregationTableType> aggregationTable;
 	private StatisticDataType statisticData;
 
 	/**
@@ -23,7 +25,7 @@ public class AggregationDefinition extends Resource {
 	}
 
 	public AggregationDefinition(String name, ScopeRef scope,
-			AggregationTableType aggregationTable,
+			LinkedList<AggregationTableType> aggregationTable,
 			StatisticDataType statisticData) {
 		if (statisticData == null)
 			throw new IllegalArgumentException(
@@ -50,7 +52,7 @@ public class AggregationDefinition extends Resource {
 		return scope;
 	}
 
-	public AggregationTableType getAggregationTable() {
+	public LinkedList<AggregationTableType> getAggregationTable() {
 		return aggregationTable;
 	}
 

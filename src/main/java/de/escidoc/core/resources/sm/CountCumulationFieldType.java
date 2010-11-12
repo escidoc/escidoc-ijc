@@ -1,12 +1,10 @@
 package de.escidoc.core.resources.sm;
 
-import de.escidoc.core.resources.Resource;
-
 /**
  * @author MRO
  * 
  */
-public class CountCumulationFieldType extends FieldType {
+public class CountCumulationFieldType implements FieldType {
 
 	private String name;
 

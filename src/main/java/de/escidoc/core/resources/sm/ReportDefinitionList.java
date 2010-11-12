@@ -24,4 +24,9 @@ public class ReportDefinitionList extends Resource {
 		return reportDefinitions;
 	}
 
+	public void setReportDefinitions(
+			LinkedList<ReportDefinition> reportDefinitions) {
+		this.reportDefinitions = reportDefinitions;
+	}
+
 }

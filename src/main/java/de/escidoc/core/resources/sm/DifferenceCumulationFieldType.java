@@ -1,12 +1,10 @@
 package de.escidoc.core.resources.sm;
 
-import de.escidoc.core.resources.Resource;
-
 /**
  * @author MRO
  * 
  */
-public class DifferenceCumulationFieldType extends FieldType {
+public class DifferenceCumulationFieldType implements FieldType {
 	
 	private String name;
 	private String xpath;
@@ -21,6 +19,31 @@ public class DifferenceCumulationFieldType extends FieldType {
 	@SuppressWarnings("unused")
 	private DifferenceCumulationFieldType() {
 
+	}
+
+	public DifferenceCumulationFieldType(String name, String xpath, String feed) {
+		if (feed == null)
+			throw new IllegalArgumentException("feed must not be null.");
+		if (xpath == null)
+			throw new IllegalArgumentException("xpath must not be null.");
+		if (name == null)
+			throw new IllegalArgumentException("name must not be null.");
+		
+		this.name = name;
+		this.xpath = xpath;
+		this.feed = feed;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getXpath() {
+		return xpath;
+	}
+
+	public String getFeed() {
+		return feed;
 	}
 	
 }

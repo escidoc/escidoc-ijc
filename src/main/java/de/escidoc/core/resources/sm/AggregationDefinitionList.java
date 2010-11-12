@@ -9,7 +9,7 @@ import de.escidoc.core.resources.Resource;
  * 
  */
 public class AggregationDefinitionList extends Resource {
-	
+
 	private LinkedList<AggregationDefinition> aggregationDefinitions;
 
 	/**
@@ -19,9 +19,14 @@ public class AggregationDefinitionList extends Resource {
 	private AggregationDefinitionList() {
 
 	}
-	
+
 	public LinkedList<AggregationDefinition> getAggregationDefinitions() {
 		return aggregationDefinitions;
+	}
+
+	public void setAggregationDefinitions(
+			LinkedList<AggregationDefinition> aggregationDefinitions) {
+		this.aggregationDefinitions = aggregationDefinitions;
 	}
 
 }

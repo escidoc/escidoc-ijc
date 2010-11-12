@@ -12,7 +12,7 @@ import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 public class ReportParameters extends Resource {
 
 	private ReportDefinitionRef reportDefinition;
-	private LinkedList<Parameter> parameter;
+	private LinkedList<ReportParameter> parameter;
 
 	/**
 	 * Constructor for JiBX only.
@@ -23,7 +23,7 @@ public class ReportParameters extends Resource {
 	}
 
 	public ReportParameters(ReportDefinitionRef reportDefinition,
-			LinkedList<Parameter> parameter) {
+			LinkedList<ReportParameter> parameter) {
 		if (parameter == null)
 			throw new IllegalArgumentException("parameter must not be null.");
 		if (reportDefinition == null)
@@ -38,7 +38,7 @@ public class ReportParameters extends Resource {
 		return reportDefinition;
 	}
 
-	public LinkedList<Parameter> getParameter() {
+	public LinkedList<ReportParameter> getParameter() {
 		return parameter;
 	}
 

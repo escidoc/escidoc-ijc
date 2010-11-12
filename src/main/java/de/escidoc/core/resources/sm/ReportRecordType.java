@@ -10,7 +10,7 @@ import de.escidoc.core.resources.Resource;
  */
 public class ReportRecordType extends Resource {
 
-	private LinkedList<Parameter> parameter;
+	private LinkedList<ReportParameter> parameter;
 
 	/**
 	 * Constructor for JiBX only.
@@ -20,14 +20,14 @@ public class ReportRecordType extends Resource {
 
 	}
 
-	public ReportRecordType(LinkedList<Parameter> parameter) {
+	public ReportRecordType(LinkedList<ReportParameter> parameter) {
 		if (parameter == null)
 			throw new IllegalArgumentException("parameter must not be null.");
 
 		this.parameter = parameter;
 	}
 
-	public LinkedList<Parameter> getParameter() {
+	public LinkedList<ReportParameter> getParameter() {
 		return parameter;
 	}
 

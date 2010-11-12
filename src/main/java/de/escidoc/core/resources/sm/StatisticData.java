@@ -12,7 +12,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
 public class StatisticData extends Resource {
 
 	private ScopeRef scope;
-	private LinkedList<Parameter> parameter;
+	private LinkedList<ReportParameter> parameter;
 
 	/**
 	 * Constructor for JiBX only.
@@ -22,7 +22,7 @@ public class StatisticData extends Resource {
 
 	}
 
-	public StatisticData(ScopeRef scope, LinkedList<Parameter> parameter) {
+	public StatisticData(ScopeRef scope, LinkedList<ReportParameter> parameter) {
 		if (scope == null)
 			throw new IllegalArgumentException("scope must not be null.");
 		if (parameter == null)
@@ -36,7 +36,7 @@ public class StatisticData extends Resource {
 		return scope;
 	}
 
-	public LinkedList<Parameter> getParameter() {
+	public LinkedList<ReportParameter> getParameter() {
 		return parameter;
 	}
 
