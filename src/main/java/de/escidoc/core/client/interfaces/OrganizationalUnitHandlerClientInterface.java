@@ -176,6 +176,6 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Parents updateParents(final String id, final Parents parents)
+    Parents updateParents(final OrganizationalUnit ou, final Parents parents)
         throws EscidocException, InternalClientException, TransportException;
 }

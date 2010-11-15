@@ -177,6 +177,33 @@ public class OrganizationalUnitHandlerClient
      * <li>The Organizational Unit must exist.</li>
      * <li>The public-status is "opened".</li>
      * </ul>
+     * <br/>
+     * <br/>
+     * The supplied Parents object must have a last modification date
+     * definition. This method does the following routine:<br/>
+     * <br/>
+     * <ul>
+     * <li>If the last modification date exists in <code>parents</code>
+     * <ul>
+     * <li>keep this value</li>
+     * </ul>
+     * </li>
+     * <li>Otherwise
+     * <ul>
+     * <li>If the Parents object of the <code>ou</code> has no last modification
+     * date
+     * <ul>
+     * <li>Use the last modification date from the <code>ou</code></li>
+     * </ul>
+     * </li>
+     * <li>Otherwise
+     * <ul>
+     * <li>Use the last modification date from the Parents object</li>
+     * </ul>
+     * </li>
+     * </ul>
+     * </li>
+     * </ul>
      * 
      * @param id
      *            The identifier of the Organizational Unit.
@@ -187,12 +214,26 @@ public class OrganizationalUnitHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public Parents updateParents(final String id, final Parents parents)
+    @Override
+    public Parents updateParents(
+        final OrganizationalUnit ou, final Parents parents)
         throws EscidocException, InternalClientException, TransportException {
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        if (ou == null)
+            throw new IllegalArgumentException("OU must not be null.");
         if (parents == null)
             throw new IllegalArgumentException("parents must not be null.");
+
+        // check last modification date
+        if (parents.getLastModificationDate() == null) {
+            if (ou.getParents() == null
+                || ou.getParents().getLastModificationDate() == null) {
+                parents.setLastModificationDate(ou.getLastModificationDate());
+            }
+            else if (ou.getParents() != null) {
+                parents.setLastModificationDate(ou
+                    .getParents().getLastModificationDate());
+            }
+        }
 
         Marshaller<Parents> m =
             Factory.getMarshallerFactory(getTransport()).getMarshaller(
@@ -200,10 +241,10 @@ public class OrganizationalUnitHandlerClient
         String xml = m.marshalDocument(parents);
 
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().updateParents(id, xml);
+            xml = getSoapHandlerClient().updateParents(ou.getObjid(), xml);
         }
         else {
-            xml = getRestHandlerClient().updateParents(id, xml);
+            xml = getRestHandlerClient().updateParents(ou.getObjid(), xml);
         }
         return m.unmarshalDocument(xml);
     }

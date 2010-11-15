@@ -23,6 +23,7 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.exceptions.application.violated.OptimisticLockingException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -36,7 +37,7 @@ import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
- * FIXME: TODO
+ * 
  * 
  * @author MVO
  * 
@@ -101,9 +102,8 @@ public class OuParentsTest extends AbstractParameterizedTestBase {
 
         Parents p = new Parents();
         p.add(new Parent(ouParent.getObjid()));
-        p.setLastModificationDate(ouChild.getLastModificationDate());
 
-        Parents newP = ohc.updateParents(ouChild.getObjid(), p);
+        Parents newP = ohc.updateParents(ouChild, p);
 
         // retrieve child
         OrganizationalUnit ouChildNew = ohc.retrieve(ouChild.getObjid());
@@ -157,24 +157,78 @@ public class OuParentsTest extends AbstractParameterizedTestBase {
 
         Parents B2A = new Parents();
         B2A.add(new Parent(A.getObjid()));
-        B2A.setLastModificationDate(B.getLastModificationDate());
 
         Parents C2B = new Parents();
         C2B.add(new Parent(B.getObjid()));
-        C2B.setLastModificationDate(C.getLastModificationDate());
 
         // initial constellation
-        ohc.updateParents(B.getObjid(), B2A);
-        Parents newCParents = ohc.updateParents(C.getObjid(), C2B);
+        ohc.updateParents(B, B2A);
+        Parents newCParents = ohc.updateParents(C, C2B);
 
         // test case: A <- C
         Parents C2A = new Parents();
         C2A.add(new Parent(A.getObjid()));
+        // this is required because C has been changed before
         C2A.setLastModificationDate(newCParents.getLastModificationDate());
 
-        ohc.updateParents(C.getObjid(), C2A);
+        ohc.updateParents(C, C2A);
 
         // TODO asserts
+    }
+
+    /**
+     * Before:<br/>
+     * <code>
+     * A<br/>
+     * |_B<br/>
+     * &nbsp;&nbsp;|_C
+     * </code><br/>
+     * <br/>
+     * After:<br/>
+     * <code>
+     * A<br/>
+     * |_B<br/>
+     * |_C
+     * </code>
+     * 
+     * @throws Exception
+     */
+    @Test(expected = OptimisticLockingException.class)
+    public void testParentsUpdate03() throws Exception {
+
+        OrganizationalUnit A =
+            createOU("OU A @ " + System.currentTimeMillis(),
+                "parent description");
+        OrganizationalUnit B =
+            createOU("OU B @ " + System.currentTimeMillis(),
+                "child description");
+        OrganizationalUnit C =
+            createOU("OU C @ " + System.currentTimeMillis(),
+                "child description");
+
+        System.out.println(A.getObjid());
+        System.out.println(B.getObjid());
+        System.out.println(C.getObjid());
+
+        Parents B2A = new Parents();
+        B2A.add(new Parent(A.getObjid()));
+
+        Parents C2B = new Parents();
+        C2B.add(new Parent(B.getObjid()));
+
+        // initial constellation
+        ohc.updateParents(B, B2A);
+        Parents newCParents = ohc.updateParents(C, C2B);
+
+        // test case: A <- C
+        Parents C2A = new Parents();
+        C2A.add(new Parent(A.getObjid()));
+        /*
+         * Either LMD of C2A should be set to the LMD of newCParents or instead
+         * of calling the updateParents method using the old C, we could call
+         * this method using an updated C by retrieving it before.
+         */
+        ohc.updateParents(C, C2A);
     }
 
     /**
