@@ -66,7 +66,7 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
 
     private ContentModelHandlerClientInterface cc;
 
-    public ContentModelCreateTest(TransportProtocol transport) {
+    public ContentModelCreateTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -91,7 +91,7 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createContentModelNullPointerCheck() throws Exception {
         cc.create(null);
     }

@@ -33,7 +33,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,6 +40,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -506,8 +506,7 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         OrganizationalUnitList ouList =
             ohc.retrieveParentObjects(ou4.getObjid());
 
-        Collection<OrganizationalUnit> cou = ouList.getOrganizationalUnits();
-        assertEquals("Wrong number ob OUs in List", 3, cou.size());
+        assertEquals("Wrong number ob OUs in List", 3, ouList.size());
 
         // retrieve parent references
         Parents parentRefs = ohc.retrieveParents(ou4.getObjid());
@@ -618,6 +617,7 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
      * 
      * @throws Exception
      */
+    @Ignore("INFR-1016")
     @Test(expected = InvalidXmlException.class)
     public void testMDRecordsDeletion03() throws Exception {
         final String ouName =

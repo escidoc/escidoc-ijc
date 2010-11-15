@@ -73,7 +73,7 @@ public class OrganizationalUnitHandlerClientTest
 
     private OrganizationalUnitHandlerClientInterface ohc;
 
-    public OrganizationalUnitHandlerClientTest(TransportProtocol transport) {
+    public OrganizationalUnitHandlerClientTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -146,8 +146,7 @@ public class OrganizationalUnitHandlerClientTest
      */
     @Test
     public void testRetrieveChildObjects() throws Exception {
-        ohc.retrieveChildObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID)
-            .getOrganizationalUnits();
+        ohc.retrieveChildObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
     }
 
     /**
@@ -203,8 +202,8 @@ public class OrganizationalUnitHandlerClientTest
         OrganizationalUnitList ouList =
             ic.retrieveOrganizationalUnits(filterParam);
 
-        assertTrue("result list is empty, try another filter", ouList
-            .getOrganizationalUnits().size() != 0);
+        assertTrue("result list is empty, try another filter",
+            ouList.size() != 0);
     }
 
     /**

@@ -93,7 +93,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
     private ItemHandlerClientInterface ihc;
 
-    public ItemCreateTest(TransportProtocol transport) {
+    public ItemCreateTest(final TransportProtocol transport) {
         super(transport);
     }
 

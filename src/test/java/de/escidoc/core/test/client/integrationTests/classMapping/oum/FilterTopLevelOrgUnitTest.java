@@ -168,8 +168,7 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
 
         assertTrue("RootOrgUnitList is null.", rootOrgUnitList != null);
 
-        Collection<OrganizationalUnit> rootOrgUnits =
-            rootOrgUnitList.getOrganizationalUnits();
+        Collection<OrganizationalUnit> rootOrgUnits = rootOrgUnitList;
 
         assertNotNull("rootOrgUnits is null.", rootOrgUnits);
         assertTrue("rootOrgUnits is empty.", rootOrgUnits.size() > 0);
@@ -180,8 +179,7 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
      */
     private void assertThatOrgUnitsDoNotHaveParent(
         final OrganizationalUnitList rootOrgUnitList) {
-        for (final OrganizationalUnit organizationalUnit : rootOrgUnitList
-            .getOrganizationalUnits()) {
+        for (final OrganizationalUnit organizationalUnit : rootOrgUnitList) {
             final Parents parents = organizationalUnit.getParents();
             assertNull("Root org unit can not have parents.", parents);
         }

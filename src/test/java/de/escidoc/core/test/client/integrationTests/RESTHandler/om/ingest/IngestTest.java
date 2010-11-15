@@ -141,7 +141,7 @@ public class IngestTest {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void testIngestContainer02() throws Exception {
+    public void testIngestContainer01() throws Exception {
         RestContainerHandlerClient cc =
             new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
@@ -199,6 +199,61 @@ public class IngestTest {
         rihc.setHandle(auth.getHandle());
 
         rihc.ingest(containerXml);
+    }
+    
+    @Test
+    public void testIngestContainer02() throws Exception {
+        RestContainerHandlerClient cc =
+            new RestContainerHandlerClient(auth.getServiceAddress());
+        cc.setHandle(auth.getHandle());
+
+        Marshaller<Container> m =
+            Factory
+                .getMarshallerFactory(TransportProtocol.REST)
+                .getContainerMarshaller();
+
+        Container container = new Container();
+
+        // properties
+        ContainerProperties properties = new ContainerProperties();
+        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContentModel(new ContentModelRef(
+            Constants.EXAMPLE_CONTENT_MODEL_ID));
+
+        // Content-model-specific
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        Element contentModelSpecific = doc.createElementNS(null, "cms");
+
+        List<Element> cmsContent = new LinkedList<Element>();
+        cmsContent.add(contentModelSpecific);
+        ContentModelSpecific cms = new ContentModelSpecific();
+
+        cms.setContent(cmsContent);
+
+        properties.setContentModelSpecific(cms);
+        container.setProperties(properties);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName("escidoc");
+
+        Document docMdRecord = builder.newDocument();
+        Element element = docMdRecord.createElementNS(null, "myMdRecord");
+        mdRecord.setContent(element);
+
+        mdRecords.add(mdRecord);
+        container.setMetadataRecords(mdRecords);
+
+        String resultXml = m.marshalDocument(container);
+
+        // ingest Item
+        RestIngestHandlerClient rihc =
+            new RestIngestHandlerClient(auth.getServiceAddress());
+        rihc.setHandle(auth.getHandle());
+
+        rihc.ingest(resultXml);
     }
 
 }

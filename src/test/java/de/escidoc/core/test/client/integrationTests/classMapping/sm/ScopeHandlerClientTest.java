@@ -6,18 +6,17 @@ package de.escidoc.core.test.client.integrationTests.classMapping.sm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import de.escidoc.core.client.AggregationDefinitionHandlerClient;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ScopeHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.resources.sm.Scope;
-import de.escidoc.core.resources.sm.Scope.ScopeType;
+import de.escidoc.core.resources.sm.scope.Scope;
+import de.escidoc.core.resources.sm.scope.ScopeType;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -85,5 +84,50 @@ public class ScopeHandlerClientTest extends AbstractParameterizedTestBase {
             resultScope.getName());
         assertEquals("ScopeType is not equals", adminScope.getScopeType(),
             resultScope.getScopeType());
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testDelete01() throws Exception {
+        Scope normalScope =
+            new Scope("NormalScope @ " + System.currentTimeMillis(),
+                ScopeType.normal);
+        Scope createdScope = shc.create(normalScope);
+
+        assertNotNull("Objid should not be null.", createdScope.getObjid());
+
+        shc.delete(createdScope.getObjid());
+    }
+
+    /**
+     * See #INFR-1044.
+     * 
+     * @throws Exception
+     */
+    @Ignore
+    @Test
+    public void testDelete02() throws Exception {
+        Scope normalScope =
+            new Scope("NormalScope @ " + System.currentTimeMillis(),
+                ScopeType.normal);
+        Scope createdScope = shc.create(normalScope);
+
+        assertNotNull("Objid should not be null.", createdScope.getObjid());
+
+        // Create an aggregation definition referring to this scope.
+        AggregationDefinitionHandlerClient c =
+            new AggregationDefinitionHandlerClient(
+                EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        c.setHandle(auth.getHandle());
+        c.setTransport(transport);
+
+        c.create(AggregationDefinitionHandlerClientTest.defineValidAD(
+            "ad-test", "test_table", createdScope.getObjid()));
+
+        // delete scope
+        shc.delete(createdScope.getObjid());
     }
 }

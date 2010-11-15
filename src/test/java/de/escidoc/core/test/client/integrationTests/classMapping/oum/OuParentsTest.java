@@ -3,14 +3,34 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
+import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.Parent;
+import de.escidoc.core.resources.oum.Parents;
+import de.escidoc.core.resources.oum.Properties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -53,39 +73,180 @@ public class OuParentsTest extends AbstractParameterizedTestBase {
      * 
      * @throws Exception
      */
-    @Test
-    public void testParentsUpdate() throws Exception {
-
+    @After
+    public void post() throws Exception {
+        if (auth != null)
+            auth.logout();
     }
 
-    private OrganizationalUnit createOU() {
-        // final String ouName =
-        // "Generic Organizational Unit " + System.currentTimeMillis();
-        // final String ouDescription = "Description of Organizational Unit.";
-        //
-        // OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        // Properties properties = new Properties();
-        // properties.setName("Organizational_Unit_Test_Name");
-        // organizationalUnit.setProperties(properties);
-        //
-        // MetadataRecords mdRecords = new MetadataRecords();
-        //
-        // MetadataRecord mdRecord =
-        // createMdRecordDC("escidoc", "organization-details", ouName,
-        // ouDescription);
-        //
-        // mdRecords.add(mdRecord);
-        // organizationalUnit.setMetadataRecords(mdRecords);
-        //
-        // // create parent OU
-        // OrganizationalUnit parentOU = ohc.create(organizationalUnit);
-        //
-        // // create child OU
-        // Parents parents = new Parents();
-        // parents.addParentRef(new Parent(parentOU.getObjid()));
-        // organizationalUnit.setParents(parents);
-        //
-        // OrganizationalUnit childOU = ohc.create(organizationalUnit);
-        return null;
+    /**
+     * Before:<br/>
+     * <- OU parent<br/>
+     * <- OU child<br/>
+     * <br/>
+     * After:<br/>
+     * <- OU parent <- OU child
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testParentsUpdate01() throws Exception {
+
+        OrganizationalUnit ouParent =
+            createOU("parent OU @ " + System.currentTimeMillis(),
+                "parent description");
+        OrganizationalUnit ouChild =
+            createOU("child OU @ " + System.currentTimeMillis(),
+                "child description");
+
+        Parents p = new Parents();
+        p.add(new Parent(ouParent.getObjid()));
+        p.setLastModificationDate(ouChild.getLastModificationDate());
+
+        Parents newP = ohc.updateParents(ouChild.getObjid(), p);
+
+        // retrieve child
+        OrganizationalUnit ouChildNew = ohc.retrieve(ouChild.getObjid());
+        // test parents
+        assertNotNull(ouChildNew.getParents());
+        assertTrue(ouChildNew.getParents().size() == 1);
+        assertEquals(p.get(0).getObjid(), ouChildNew
+            .getParents().get(0).getObjid());
+
+        // test if parents children got updated
+        OrganizationalUnitList ouChildren =
+            ohc.retrieveChildObjects(ouParent.getObjid());
+
+        assertTrue(ouChildren.size() == 1);
+        assertEquals(ouChildNew.getObjid(), ouChildren.get(0).getObjid());
+    }
+
+    /**
+     * Before:<br/>
+     * <code>
+     * A<br/>
+     * |_B<br/>
+     * &nbsp;&nbsp;|_C
+     * </code><br/>
+     * <br/>
+     * After:<br/>
+     * <code>
+     * A<br/>
+     * |_B<br/>
+     * |_C
+     * </code>
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testParentsUpdate02() throws Exception {
+
+        OrganizationalUnit A =
+            createOU("OU A @ " + System.currentTimeMillis(),
+                "parent description");
+        OrganizationalUnit B =
+            createOU("OU B @ " + System.currentTimeMillis(),
+                "child description");
+        OrganizationalUnit C =
+            createOU("OU C @ " + System.currentTimeMillis(),
+                "child description");
+
+        System.out.println(A.getObjid());
+        System.out.println(B.getObjid());
+        System.out.println(C.getObjid());
+
+        Parents B2A = new Parents();
+        B2A.add(new Parent(A.getObjid()));
+        B2A.setLastModificationDate(B.getLastModificationDate());
+
+        Parents C2B = new Parents();
+        C2B.add(new Parent(B.getObjid()));
+        C2B.setLastModificationDate(C.getLastModificationDate());
+
+        // initial constellation
+        ohc.updateParents(B.getObjid(), B2A);
+        Parents newCParents = ohc.updateParents(C.getObjid(), C2B);
+
+        // test case: A <- C
+        Parents C2A = new Parents();
+        C2A.add(new Parent(A.getObjid()));
+        C2A.setLastModificationDate(newCParents.getLastModificationDate());
+
+        ohc.updateParents(C.getObjid(), C2A);
+
+        // TODO asserts
+    }
+
+    /**
+     * @param name
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @throws ParserConfigurationException
+     */
+    private OrganizationalUnit createOU(
+        final String name, final String description) throws EscidocException,
+        InternalClientException, TransportException,
+        ParserConfigurationException {
+
+        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        Properties properties = new Properties();
+        properties.setName(name);
+        organizationalUnit.setProperties(properties);
+
+        MetadataRecords mdRecords = new MetadataRecords();
+
+        mdRecords.add(createMdRecordDC("escidoc", "foo", name, description));
+        organizationalUnit.setMetadataRecords(mdRecords);
+
+        return ohc.create(organizationalUnit);
+    }
+
+    /**
+     * 
+     * @param mdRecordName
+     * @param rootElementName
+     * @param title
+     * @param description
+     * @return
+     * @throws ParserConfigurationException
+     */
+    private MetadataRecord createMdRecordDC(
+        final String mdRecordName, final String rootElementName,
+        final String title, final String description)
+        throws ParserConfigurationException {
+
+        // md-record
+        MetadataRecord mdRecord = new MetadataRecord();
+        mdRecord.setName(mdRecordName);
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setCoalescing(true);
+        factory.setValidating(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        Document doc = builder.newDocument();
+        Element mdRecordContent = doc.createElementNS(null, rootElementName);
+        mdRecord.setContent(mdRecordContent);
+
+        // title
+        Element titleElmt =
+            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        titleElmt.setPrefix("dc");
+        titleElmt.setTextContent(title);
+        mdRecordContent.appendChild(titleElmt);
+
+        // dc:description
+        Element descriptionElmt =
+            doc.createElementNS("http://purl.org/dc/elements/1.1/",
+                "description");
+        descriptionElmt.setPrefix("dc");
+        descriptionElmt.setTextContent(description);
+        mdRecordContent.appendChild(descriptionElmt);
+        mdRecord.setContent(mdRecordContent);
+
+        return mdRecord;
     }
 }
