@@ -1,7 +1,7 @@
 <binding>
 
 	<mapping name="scope" ns="http://www.escidoc.de/schemas/scope/0.3"
-		class="de.escidoc.core.resources.sm.Scope">
+		class="de.escidoc.core.resources.sm.scope.Scope">
 
 		<namespace uri="http://www.escidoc.de/schemas/scope/0.3"
 			default="elements" prefix="scope" />

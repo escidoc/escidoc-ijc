@@ -180,7 +180,8 @@
 		****************************************** -->
 	<mapping ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
 		class="de.escidoc.core.resources.oum.Parents"
-		abstract="true" type-name="abstract-parents">
+		abstract="true" type-name="abstract-parents"
+		pre-get="genXLink">
 
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
@@ -193,13 +194,17 @@
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
+    <value style="attribute" name="last-modification-date" 
+      set-method="setLastModificationDate" get-method="getLastModificationDate"
+      usage="optional"/>
+
     <collection ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
-       create-type="de.escidoc.core.resources.oum.Parents">
+       create-type="de.escidoc.core.resources.oum.Parents"
+       item-type="de.escidoc.core.resources.oum.Parent">
 
       <structure
         ns="http://escidoc.de/core/01/structural-relations/"
-        name="parent"
-        type="de.escidoc.core.resources.oum.Parent" usage="optional">
+        name="parent" usage="optional">
 
         <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
           set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -252,17 +257,20 @@
 	<!-- start: binding of an organizational unit list -->
 	<mapping ns="http://www.escidoc.de/schemas/organizationalunitlist/0.8"
 		name="organizational-unit-list" class="de.escidoc.core.resources.oum.OrganizationalUnitList">
+		
 		<namespace uri="http://www.escidoc.de/schemas/organizationalunitlist/0.8"
 			prefix="organizational-unit-list" />
 		<namespace uri="http://www.escidoc.de/schemas/organizationalunit/0.8"
 			prefix="organizational-unit" />
-		<collection field="organizationalUnits"
-			factory="de.escidoc.core.resources.oum.OrganizationalUnitList.organizationalUnitsFactory">
+			
+		<collection create-type="de.escidoc.core.resources.oum.OrganizationalUnitList" 
+			item-type="de.escidoc.core.resources.oum.OrganizationalUnit">
+			
 			<structure name="organizational-unit"
-				ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
-				type="de.escidoc.core.resources.oum.OrganizationalUnit">
+				ns="http://www.escidoc.de/schemas/organizationalunit/0.8">
 				<structure map-as="abstract-organizational-unit" />
 			</structure>
+			
 		</collection>
 	</mapping>
 	<!-- end: binding of an organizational unit list -->

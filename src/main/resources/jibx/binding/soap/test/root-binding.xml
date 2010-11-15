@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
 
-	<mapping name="root" class="nl.knaw.dans.client.test.Root">
-
-		<value name="normal-element" field="normalElement" usage="optional"/>
-		<structure name="mdRecord" field="mdRecord" usage="optional"/>
+	<mapping name="test" class="de.escidoc.core.common.Test">
+	
+	   <structure name="name">
+       <value style="text" field="name"/>
+     </structure>
+	
+	   <collection field="tables" create-type="java.util.LinkedList"
+	     item-type="de.escidoc.core.common.TestTable">
+	     
+	     <structure name="table">
+	       <structure name="name">
+	          <value style="text" field="name"/>
+	        </structure>
+	        
+	        <collection field="fields" create-type="java.util.LinkedList"
+	          item-type="de.escidoc.core.common.TestEntry">
+	          <structure name="field">
+	            <value style="text" field="value"/>
+	          </structure>
+	        </collection>
+	        
+	     </structure>
+	   </collection>
+	   
+	   <structure name="data">
+	     <value style="text" field="data"/>
+	   </structure>
 	</mapping>
 
-	<mapping class="nl.knaw.dans.client.test.Root$MDRecord" abstract="true">
-		<structure field="anyElement" type="org.w3c.dom.Element" marshaller="org.jibx.extras.DomElementMapper"
-				unmarshaller="org.jibx.extras.DomElementMapper" usage="optional"/>
-	</mapping>
 </binding>

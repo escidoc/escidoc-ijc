@@ -45,5 +45,9 @@
 	<include path="rest/sb/0.8/search-result-record-binding.xml" />
 	
 	<!-- SM -->
-	<include path="rest/sm/0.3/scope-binding.xml" />
+	<!-- Use SOAP bindings because the infrastructure does not support REST as 
+       for version 1.2 - 1.3 -->
+	<include path="soap/sm/0.3/scope-binding.xml" />
+	<include path="soap/sm/0.3/aggregation-definition-binding.xml" />
+	<include path="soap/sm/0.3/report-definition-binding.xml" />
 </binding>

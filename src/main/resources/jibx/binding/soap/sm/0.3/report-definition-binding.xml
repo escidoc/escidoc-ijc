@@ -1,0 +1,31 @@
+<binding>
+  <mapping name="report-definition" 
+    class="de.escidoc.core.resources.sm.rd.ReportDefinition"
+    ns="http://www.escidoc.de/schemas/reportdefinition/0.3">
+    
+    <namespace uri="http://www.escidoc.de/schemas/reportdefinition/0.3" 
+      default="elements"/>
+      
+    <structure name="name">
+      <value style="text" field="name"/>
+    </structure>
+    
+    <structure name="scope" field="scope" 
+      type="de.escidoc.core.resources.common.reference.ScopeRef">
+      <value style="attribute" name="objid" set-method="setObjid" get-method="getObjid"/>
+    </structure>
+    
+    <structure name="sql" field="sql" type="java.lang.String" 
+      marshaller="de.escidoc.core.common.jibx.binding.OptionalCDataMarshaller" 
+      unmarshaller="de.escidoc.core.common.jibx.binding.OptionalCDataMarshaller"/>
+    
+    <collection name="allowed-roles" field="allowedRoles" 
+      create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.common.reference.RoleRef">
+      <structure name="allowed-role">
+        <value style="attribute" name="objid" set-method="setObjid" 
+          get-method="getObjid"/>
+      </structure>
+    </collection>
+  </mapping>
+</binding>
