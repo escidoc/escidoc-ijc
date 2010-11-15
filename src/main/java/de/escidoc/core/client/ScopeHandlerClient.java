@@ -13,6 +13,8 @@ import de.escidoc.core.client.soap.SoapScopeHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sm.scope.Scope;
 
 /**
@@ -67,15 +69,15 @@ public class ScopeHandlerClient
         Marshaller<Scope> m =
             Factory.getMarshallerFactory(getTransport()).getMarshaller(
                 MarshallerFactory.CLASS_SCOPE);
-        String resultXml = m.marshalDocument(scope);
+        String xml = m.marshalDocument(scope);
 
         if (getTransport() == TransportProtocol.SOAP) {
-            resultXml = getSoapHandlerClient().create(resultXml);
+            xml = getSoapHandlerClient().create(xml);
         }
         else {
-            resultXml = getRestHandlerClient().create(resultXml);
+            xml = getRestHandlerClient().create(xml);
         }
-        return m.unmarshalDocument(resultXml);
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -86,22 +88,23 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String update(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException {
+    public Scope update(final Scope scope) throws EscidocException,
+        InternalClientException, TransportException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
-        if (xml == null)
-            throw new IllegalArgumentException("xml must not be null.");
+        if (scope == null)
+            throw new IllegalArgumentException("scope must not be null.");
 
-        String resultXml = null;
+        Marshaller<Scope> m =
+            Factory.getMarshallerFactory(getTransport()).getMarshaller(
+                Scope.class);
+        String xml = m.marshalDocument(scope);
         if (getTransport() == TransportProtocol.SOAP) {
-            resultXml = getSoapHandlerClient().update(id, xml);
+            xml = getSoapHandlerClient().update(scope.getObjid(), xml);
         }
         else {
-            resultXml = getRestHandlerClient().update(id, xml);
+            xml = getRestHandlerClient().update(scope.getObjid(), xml);
         }
-        return resultXml;
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -111,20 +114,22 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String id) throws EscidocException,
+    public Scope retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
 
-        String resultXml = null;
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            resultXml = getSoapHandlerClient().retrieve(id);
+            xml = getSoapHandlerClient().retrieve(id);
         }
         else {
-            resultXml = getRestHandlerClient().retrieve(id);
+            xml = getRestHandlerClient().retrieve(id);
         }
-        return resultXml;
+        return Factory
+            .getMarshallerFactory(getTransport()).getMarshaller(Scope.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -134,20 +139,23 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public SearchRetrieveResponse retrieveScopes(
+        final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         if (request == null)
             throw new IllegalArgumentException("request must not be null.");
 
-        String resultXml = null;
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            resultXml = getSoapHandlerClient().retrieveScopes(request);
+            xml = getSoapHandlerClient().retrieveScopes(request);
         }
         else {
-            resultXml = getRestHandlerClient().retrieveScopes(request);
+            xml = getRestHandlerClient().retrieveScopes(request);
         }
-        return resultXml;
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /**
@@ -157,20 +165,22 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final ExplainRequestType request)
+    public ExplainResponse retrieveScopes(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
         if (request == null)
             throw new IllegalArgumentException("request must not be null.");
 
-        String resultXml = null;
+        String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
-            resultXml = getSoapHandlerClient().retrieveScopes(request);
+            xml = getSoapHandlerClient().retrieveScopes(request);
         }
         else {
-            resultXml = getRestHandlerClient().retrieveScopes(request);
+            xml = getRestHandlerClient().retrieveScopes(request);
         }
-        return resultXml;
+        return Factory
+            .getMarshallerFactory(getTransport())
+            .getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
     @Override

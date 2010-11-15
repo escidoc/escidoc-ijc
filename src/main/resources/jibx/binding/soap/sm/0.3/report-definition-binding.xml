@@ -6,6 +6,9 @@
     <namespace uri="http://www.escidoc.de/schemas/reportdefinition/0.3" 
       default="elements"/>
       
+    <value name="objid" style="attribute"
+      set-method="setObjid" get-method="getObjid" usage="optional" />
+      
     <structure name="name">
       <value style="text" field="name"/>
     </structure>
@@ -21,7 +24,8 @@
     
     <collection name="allowed-roles" field="allowedRoles" 
       create-type="java.util.LinkedList"
-      item-type="de.escidoc.core.resources.common.reference.RoleRef">
+      item-type="de.escidoc.core.resources.common.reference.RoleRef"
+      usage="optional">
       <structure name="allowed-role">
         <value style="attribute" name="objid" set-method="setObjid" 
           get-method="getObjid"/>

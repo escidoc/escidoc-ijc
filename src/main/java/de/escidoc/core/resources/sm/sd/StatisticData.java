@@ -3,6 +3,7 @@ package de.escidoc.core.resources.sm.sd;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.common.reference.ScopeRef;
 import de.escidoc.core.resources.sm.Parameter;
@@ -11,16 +12,14 @@ import de.escidoc.core.resources.sm.Parameter;
  * @author MRO
  * 
  */
+@JiBX
 public class StatisticData extends Resource {
 
     private ScopeRef scope;
 
-    private Collection<Parameter<?>> parameters =
-        new LinkedList<Parameter<?>>();
+    private Collection<Parameter<?>> parameters;
 
-    /**
-     * Constructor for JiBX only.
-     */
+    @JiBX
     @SuppressWarnings("unused")
     private StatisticData() {
 
@@ -48,7 +47,10 @@ public class StatisticData extends Resource {
     /**
      * @return the parameters
      */
-    public final Collection<Parameter<?>> getParameters() {
+    public Collection<Parameter<?>> getParameters() {
+        if (parameters == null) {
+            parameters = new LinkedList<Parameter<?>>();
+        }
         return parameters;
     }
 }

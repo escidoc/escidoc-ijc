@@ -1,14 +1,15 @@
 package de.escidoc.core.resources.sm;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * @author MRO
  * 
  */
+@JiBX
 public class DecimalParameter extends Parameter<Float> {
 
-    /**
-     * Constructor for JiBX only.
-     */
+    @JiBX
     @SuppressWarnings("unused")
     private DecimalParameter() {
 
@@ -18,8 +19,8 @@ public class DecimalParameter extends Parameter<Float> {
      * 
      * @param value
      */
-    public DecimalParameter(final Float value) {
-        super(value);
+    public DecimalParameter(final String name, final Float value) {
+        super(name, value);
     }
 
     @Override

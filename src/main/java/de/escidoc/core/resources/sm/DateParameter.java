@@ -2,17 +2,16 @@ package de.escidoc.core.resources.sm;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * @author MRO
  * 
  */
+@JiBX
 public class DateParameter extends Parameter<DateTime> {
 
-    private static final ParameterType TYPE = ParameterType.date;
-
-    /**
-     * Constructor for JiBX only.
-     */
+    @JiBX
     @SuppressWarnings("unused")
     private DateParameter() {
     }
@@ -21,8 +20,8 @@ public class DateParameter extends Parameter<DateTime> {
      * 
      * @param date
      */
-    public DateParameter(final DateTime date) {
-        super(date);
+    public DateParameter(final String name, final DateTime date) {
+        super(name, date);
     }
 
     @Override

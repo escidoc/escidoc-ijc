@@ -29,7 +29,6 @@ public class ReportDefinition extends Resource
     @JiBX
     @SuppressWarnings("unused")
     private ReportDefinition() {
-
     }
 
     /**

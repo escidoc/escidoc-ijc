@@ -1,32 +1,37 @@
+/**
+ * 
+ */
 package de.escidoc.core.resources.sm.report;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
+import de.escidoc.core.resources.sm.Parameter;
 
 /**
- * @author MRO
+ * @author MVO
  * 
  */
 @JiBX
-public class Report extends Resource {
+public class ReportParameters {
 
     private ReportDefinitionRef reportDefinition;
 
-    private ReportRecord reportRecord;
+    private Collection<Parameter<?>> parameters;
 
     @JiBX
     @SuppressWarnings("unused")
-    private Report() {
+    private ReportParameters() {
 
     }
 
     /**
      * 
      * @param reportDefinition
-     * @param reportRecord
      */
-    public Report(final ReportDefinitionRef reportDefinition) {
+    public ReportParameters(final ReportDefinitionRef reportDefinition) {
         if (reportDefinition == null)
             throw new IllegalArgumentException(
                 "reportDefinition must not be null.");
@@ -43,17 +48,13 @@ public class Report extends Resource {
 
     /**
      * 
+     * 
      * @return
      */
-    public ReportRecord getReportRecord() {
-        return reportRecord;
-    }
-
-    /**
-     * 
-     * @param reportRecord
-     */
-    public void setReportRecord(final ReportRecord reportRecord) {
-        this.reportRecord = reportRecord;
+    public Collection<Parameter<?>> getParameters() {
+        if (parameters == null) {
+            parameters = new LinkedList<Parameter<?>>();
+        }
+        return parameters;
     }
 }

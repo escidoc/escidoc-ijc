@@ -8,19 +8,21 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestStatisticDataHandlerClient;
 import de.escidoc.core.client.soap.SoapStatisticDataHandlerClient;
+import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.sm.sd.StatisticData;
 
 /**
  * @author MVO
  * 
  */
-public class StatistcDataHandlerClient
+public class StatisticDataHandlerClient
     extends
     AbstractHandlerClient<SoapStatisticDataHandlerClient, RestStatisticDataHandlerClient> {
 
     /**
      * 
      */
-    public StatistcDataHandlerClient() {
+    public StatisticDataHandlerClient() {
         super();
     }
 
@@ -28,7 +30,7 @@ public class StatistcDataHandlerClient
      * 
      * @param serviceAddress
      */
-    public StatistcDataHandlerClient(final String serviceAddress) {
+    public StatisticDataHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
 
@@ -39,11 +41,17 @@ public class StatistcDataHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public void create(final StatisticData statisticData)
+        throws EscidocException, InternalClientException, TransportException {
 
-        if (xml == null)
+        if (statisticData == null)
             throw new IllegalArgumentException("xml must not be null.");
+
+        String xml =
+            Factory
+                .getMarshallerFactory(getTransport())
+                .getMarshaller(StatisticData.class)
+                .marshalDocument(statisticData);
 
         if (getTransport() == TransportProtocol.SOAP) {
             getSoapHandlerClient().create(xml);

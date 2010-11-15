@@ -3,49 +3,35 @@ package de.escidoc.core.resources.sm.report;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.sm.Parameter;
 
 /**
  * @author MRO
  * 
  */
+@JiBX
 public class ReportRecord {
 
-    private String name;
-
-    private Collection<Parameter<?>> parameters =
-        new LinkedList<Parameter<?>>();
-
-    /**
-     * Constructor for JiBX also.
-     */
-    @SuppressWarnings("unused")
-    private ReportRecord() {
-    }
+    private Collection<Parameter<?>> parameters;
 
     /**
      * 
      * @param name
      */
-    public ReportRecord(final String name) {
-        if (name == null)
-            throw new IllegalArgumentException("name must not be null.");
-        this.name = name;
+    public ReportRecord() {
+
     }
 
     /**
-     * ,
+     * 
      * 
      * @return
      */
     public Collection<Parameter<?>> getParameters() {
+        if (parameters == null) {
+            parameters = new LinkedList<Parameter<?>>();
+        }
         return parameters;
-    }
-
-    /**
-     * @return the name
-     */
-    public final String getName() {
-        return name;
     }
 }

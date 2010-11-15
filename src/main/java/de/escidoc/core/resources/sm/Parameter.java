@@ -1,16 +1,19 @@
 package de.escidoc.core.resources.sm;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * @author MRO
  * 
  */
+@JiBX
 public abstract class Parameter<T> {
+
+    private String name;
 
     private T value;
 
-    /**
-     * Package private no-argument constructor for JiBX only.
-     */
+    @JiBX
     Parameter() {
 
     }
@@ -19,10 +22,13 @@ public abstract class Parameter<T> {
      * 
      * @param value
      */
-    public Parameter(final T value) {
+    public Parameter(final String name, final T value) {
+        if (name == null)
+            throw new IllegalArgumentException("name must not be null.");
         if (value == null)
             throw new IllegalArgumentException("value must not be null.");
 
+        this.name = name;
         this.value = value;
     }
 
@@ -32,6 +38,14 @@ public abstract class Parameter<T> {
      */
     public T getValue() {
         return value;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public String getName() {
+        return name;
     }
 
     public abstract ParameterType getParameterType();

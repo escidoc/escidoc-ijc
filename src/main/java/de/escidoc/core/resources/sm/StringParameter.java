@@ -1,14 +1,15 @@
 package de.escidoc.core.resources.sm;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * @author MRO
  * 
  */
+@JiBX
 public class StringParameter extends Parameter<String> {
 
-    /**
-     * Constructor for JiBX only.
-     */
+    @JiBX
     @SuppressWarnings("unused")
     private StringParameter() {
     }
@@ -16,8 +17,8 @@ public class StringParameter extends Parameter<String> {
     /**
      * @param value
      */
-    public StringParameter(final String value) {
-        super(value);
+    public StringParameter(final String name, final String value) {
+        super(name, value);
     }
 
     @Override
