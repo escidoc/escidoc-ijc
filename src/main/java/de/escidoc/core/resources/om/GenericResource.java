@@ -34,13 +34,15 @@ import java.util.HashMap;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.interfaces.OptimisticLocking;
 
 /**
  * 
  * @author SWA
  * 
  */
-public class GenericResource extends Resource {
+public abstract class GenericResource extends Resource
+    implements OptimisticLocking {
 
     private DateTime lastModificationDate = null;
 
@@ -107,6 +109,7 @@ public class GenericResource extends Resource {
      * 
      * @return last-modification-date
      */
+    @Override
     public DateTime getLastModificationDate() {
         return this.lastModificationDate;
     }
@@ -117,6 +120,7 @@ public class GenericResource extends Resource {
      * @param lmd
      *            last-modification-date
      */
+    @Override
     public void setLastModificationDate(final DateTime lmd) {
 
         this.lastModificationDate = lmd;

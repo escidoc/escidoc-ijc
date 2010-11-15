@@ -39,11 +39,8 @@ public class FilterMarshaller extends MarshallingBase
      * 
      * @see org.jibx.runtime.IMarshaller#isExtension(java.lang.String)
      */
+    @Override
     public boolean isExtension(final String arg0) {
-        return false;
-    }
-
-    public boolean isExtension(final int arg0) {
         return false;
     }
 
@@ -53,7 +50,8 @@ public class FilterMarshaller extends MarshallingBase
      * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object,
      * org.jibx.runtime.IMarshallingContext)
      */
-    public void marshal(Object obj, IMarshallingContext ictx)
+    @Override
+    public void marshal(final Object obj, final IMarshallingContext ictx)
         throws JiBXException {
         if (!(obj instanceof de.escidoc.core.resources.common.Filter)) {
             throw new JiBXException("Invalid object type for marshaller");
@@ -84,8 +82,7 @@ public class FilterMarshaller extends MarshallingBase
                 }
             }
             else {
-                ctx.content((filter.getValue() != null) ? filter.getValue()
-                    : "");
+                ctx.content(filter.getValue() != null ? filter.getValue() : "");
             }
             ctx.endTag(getIndex(), getName());
         }
@@ -98,7 +95,9 @@ public class FilterMarshaller extends MarshallingBase
      * @seeorg.jibx.runtime.IUnmarshaller#isPresent(org.jibx.runtime.
      * IUnmarshallingContext)
      */
-    public boolean isPresent(IUnmarshallingContext ictx) throws JiBXException {
+    @Override
+    public boolean isPresent(final IUnmarshallingContext ictx)
+        throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -108,7 +107,8 @@ public class FilterMarshaller extends MarshallingBase
      * @see org.jibx.runtime.IUnmarshaller#unmarshal(java.lang.Object,
      * org.jibx.runtime.IUnmarshallingContext)
      */
-    public Object unmarshal(Object arg0, IUnmarshallingContext ictx)
+    @Override
+    public Object unmarshal(final Object arg0, final IUnmarshallingContext ictx)
         throws JiBXException {
 
         de.escidoc.core.resources.common.Filter result =

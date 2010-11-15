@@ -30,6 +30,8 @@ package de.escidoc.core.resources.aa.pdp;
 
 import com.sun.xacml.ctx.ResponseCtx;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * PDP eSciDoc result.
  * 
@@ -38,6 +40,7 @@ import com.sun.xacml.ctx.ResponseCtx;
  * @author ?
  * 
  */
+@JiBX
 public class Result {
 
     /**
@@ -87,7 +90,7 @@ public class Result {
      * 
      * @param responceCtx
      */
-    public void setResponseCtx(ResponseCtx responseCtx) {
+    public void setResponseCtx(final ResponseCtx responseCtx) {
         this.responseCtx = responseCtx;
     }
 }

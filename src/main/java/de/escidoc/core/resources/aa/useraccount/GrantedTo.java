@@ -1,7 +1,9 @@
 package de.escidoc.core.resources.aa.useraccount;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.om.GenericResource;
 
+@JiBX
 public class GrantedTo extends GenericResource {
 
     private String resource;

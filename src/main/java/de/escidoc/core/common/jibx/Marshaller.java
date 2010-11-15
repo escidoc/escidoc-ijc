@@ -55,7 +55,11 @@ public class Marshaller<E> {
     }
 
     /**
-     * Unmarshall XML document to Java class.
+     * Unmarshall XML document to Java class.<br/>
+     * <br/>
+     * Thread-safety: The UnmarshallingContext itself is not thread-safe. This
+     * method creates a new instance of the UnmarshallingContext for each call.
+     * Therefore this class itself is thread-safe.
      * 
      * @param xmlDocument
      *            The XML document.
@@ -96,7 +100,11 @@ public class Marshaller<E> {
     }
 
     /**
-     * Marshall the Java class to XML representation.
+     * Marshall the Java class to XML representation.<br/>
+     * <br/>
+     * Thread-safety: The MarshallingContext itself is not thread-safe. This
+     * method creates a new instance of the MarshallingContext for each call.
+     * Therefore this class itself is thread-safe.
      * 
      * @param resource
      *            The Java resource

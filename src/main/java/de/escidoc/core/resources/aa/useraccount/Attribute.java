@@ -2,6 +2,7 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
 
 /**
@@ -10,6 +11,7 @@ import de.escidoc.core.resources.Resource;
  * @author SWA
  * 
  */
+@JiBX
 public class Attribute extends Resource {
 
     private String name;
@@ -24,7 +26,7 @@ public class Attribute extends Resource {
      * User Account Attribute.
      */
     public Attribute() {
-    	setResourceType(RESOURCE_TYPE.UserAccountAttribute);
+        setResourceType(RESOURCE_TYPE.UserAccountAttribute);
     }
 
     /**

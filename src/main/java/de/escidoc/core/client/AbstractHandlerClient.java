@@ -123,7 +123,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      *             Thrown if creating instance of SoapContentModelHandlerClient
      *             failed.
      */
-    public soapType getSoapHandlerClient() throws InternalClientException {
+    protected soapType getSoapHandlerClient() throws InternalClientException {
         if (soapHandlerClient == null) {
             soapHandlerClient = getSoapHandlerClientInstance();
             if (handle != null)
@@ -140,7 +140,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      *             Thrown if creating instance of RestContentModelHandlerClient
      *             failed.
      */
-    public restType getRestHandlerClient() throws InternalClientException {
+    protected restType getRestHandlerClient() throws InternalClientException {
         if (restHandlerClient == null) {
             restHandlerClient = getRestHandlerClientInstance();
             if (handle != null)

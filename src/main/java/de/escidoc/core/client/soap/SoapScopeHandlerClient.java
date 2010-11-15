@@ -67,7 +67,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
     }
@@ -91,7 +91,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -119,7 +119,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -144,7 +144,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -196,7 +196,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;

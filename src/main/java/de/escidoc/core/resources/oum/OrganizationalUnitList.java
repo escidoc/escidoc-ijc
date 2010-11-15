@@ -28,9 +28,7 @@
  */
 package de.escidoc.core.resources.oum;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * OrganizationalUnits of eSciDoc.
@@ -38,43 +36,11 @@ import java.util.List;
  * @author SWA
  * 
  */
-public class OrganizationalUnitList {
-
-    private Collection<OrganizationalUnit> organizationalUnits =
-        new LinkedList<OrganizationalUnit>();
+public class OrganizationalUnitList extends LinkedList<OrganizationalUnit> {
 
     /**
      * 
      */
-    public OrganizationalUnitList() {
-    }
+    private static final long serialVersionUID = 2737496391767542743L;
 
-    /**
-     * OrganizationalUnitList factory.
-     * 
-     * @return OrganizationalUnitList
-     */
-    public static List<OrganizationalUnit> organizationalUnitsFactory() {
-        return new LinkedList<OrganizationalUnit>();
-    }
-
-    /**
-     * Get Collection of OrganizationalUnits.
-     * 
-     * @return Collection of OrganizationalUnits
-     */
-    public Collection<OrganizationalUnit> getOrganizationalUnits() {
-        return organizationalUnits;
-    }
-
-    /**
-     * Set Collection of OrganizationalUnits.
-     * 
-     * @param organizationalUnits
-     *            The OrganizationalUnit to set.
-     */
-    public void setOrganizationalUnits(
-        final Collection<OrganizationalUnit> organizationalUnits) {
-        this.organizationalUnits = organizationalUnits;
-    }
 }

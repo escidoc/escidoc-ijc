@@ -53,7 +53,7 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void create(String xml) throws EscidocException,
+    public void create(final String xml) throws EscidocException,
         InternalClientException, TransportException {
 
         if (xml == null)
@@ -64,7 +64,7 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
     }
@@ -101,8 +101,8 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
      * )
      */
     @Override
-    public DateTime getLastModificationDate(String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public DateTime getLastModificationDate(final String id)
+        throws EscidocException, InternalClientException, TransportException {
         throw new UnsupportedOperationException("Method not supported.");
     }
 

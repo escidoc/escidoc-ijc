@@ -31,12 +31,15 @@ package de.escidoc.core.resources.aa.role;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * AA Scope.
  * 
  * @author SWA
  * 
  */
+@JiBX
 public class Scope {
 
     private Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();

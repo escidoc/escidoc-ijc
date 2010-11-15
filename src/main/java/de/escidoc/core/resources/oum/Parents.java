@@ -28,7 +28,13 @@
  */
 package de.escidoc.core.resources.oum;
 
+import org.joda.time.DateTime;
+
+import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.Resource.RESOURCE_TYPE;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.XLinkResourceList;
+import de.escidoc.core.resources.interfaces.OptimisticLocking;
 
 /**
  * Organizational Unit Parents.
@@ -36,10 +42,35 @@ import de.escidoc.core.resources.XLinkResourceList;
  * @author SWA
  * 
  */
-public class Parents extends XLinkResourceList<Parent> {
+public class Parents extends XLinkResourceList<Parent>
+    implements OptimisticLocking, XLinkAutonomous {
+
+    private DateTime lmd;
 
     /**
      * 
      */
     private static final long serialVersionUID = -962919764840581526L;
+
+    @Override
+    public void setLastModificationDate(final DateTime lmd) {
+        this.lmd = lmd;
+    }
+
+    @Override
+    public DateTime getLastModificationDate() {
+        return this.lmd;
+    }
+
+    @Override
+    public void genXLink() {
+        for (Parent parent : this) {
+            if (parent.getXLinkHref() == null && parent.getObjid() != null) {
+                parent.setXLinkHref(Resource.RESOURCE_URL_MAP
+                    .get(RESOURCE_TYPE.OrganizationalUnit)
+                    + "/"
+                    + parent.getObjid());
+            }
+        }
+    }
 }

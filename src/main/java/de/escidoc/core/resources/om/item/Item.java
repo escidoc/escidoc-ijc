@@ -171,6 +171,7 @@ public class Item extends GenericVersionableResource
      * 
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
+    @Override
     public void genXLink() {
         genOwnXLinkHref();
 
@@ -267,7 +268,7 @@ public class Item extends GenericVersionableResource
      * 
      * @param version
      */
-    protected void genVersionHref(Version version) {
+    protected void genVersionHref(final Version version) {
         if (version != null && version.getXLinkHref() == null) {
             version.setXLinkHref(Resource.RESOURCE_URL_MAP
                 .get(RESOURCE_TYPE.Item)
@@ -280,9 +281,13 @@ public class Item extends GenericVersionableResource
         }
     }
 
-    /* (non-Javadoc)
-     * @see de.escidoc.core.resources.common.reference.Referenceable#getReference()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Referenceable#getReference()
      */
+    @Override
     public ItemRef getReference() {
         return new ItemRef(getObjid());
     }

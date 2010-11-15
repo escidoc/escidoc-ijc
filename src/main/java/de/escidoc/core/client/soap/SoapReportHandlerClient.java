@@ -63,7 +63,7 @@ public class SoapReportHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;

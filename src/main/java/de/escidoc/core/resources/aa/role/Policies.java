@@ -28,12 +28,15 @@
  */
 package de.escidoc.core.resources.aa.role;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * Policies.
  * 
  * @author ?, SWA
  * 
  */
+@JiBX
 public class Policies {
 
     private String policy;

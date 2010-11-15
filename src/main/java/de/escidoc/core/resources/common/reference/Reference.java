@@ -16,8 +16,9 @@ public class Reference extends Resource {
     /**
      * Default constructor for JiBX.
      */
-    Reference() {}
-    
+    Reference() {
+    }
+
     /**
      * 
      * @param objid
@@ -34,7 +35,8 @@ public class Reference extends Resource {
      * @param xLinkTitle
      */
     public Reference(final String objid, final RESOURCE_TYPE type,
-        String xLinkTitle) {
+        final String xLinkTitle) {
         super(objid, type, xLinkTitle);
     }
+
 }

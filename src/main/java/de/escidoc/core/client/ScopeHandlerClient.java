@@ -13,7 +13,7 @@ import de.escidoc.core.client.soap.SoapScopeHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.sm.Scope;
+import de.escidoc.core.resources.sm.scope.Scope;
 
 /**
  * @author MVO

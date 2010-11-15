@@ -68,7 +68,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
     }
@@ -93,7 +93,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;
@@ -122,7 +122,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;
@@ -148,7 +148,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return xml;
@@ -175,7 +175,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return xml;
@@ -230,6 +230,8 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
             result = getClient().retrieveReportDefinitions(escidoc12Filter);
         }
         catch (Exception e) {
+            if (LOG.isDebugEnabled())
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return result;
@@ -269,8 +271,8 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * )
      */
     @Override
-    public DateTime getLastModificationDate(String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public DateTime getLastModificationDate(final String id)
+        throws EscidocException, InternalClientException, TransportException {
 
         throw new UnsupportedOperationException("Method not supported.");
     }

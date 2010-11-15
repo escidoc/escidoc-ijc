@@ -61,7 +61,7 @@ public class RestReportHandlerClient extends RestClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;

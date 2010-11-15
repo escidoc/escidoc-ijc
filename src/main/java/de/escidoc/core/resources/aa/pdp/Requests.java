@@ -35,12 +35,15 @@ import java.util.Set;
 import com.sun.xacml.ctx.Attribute;
 import com.sun.xacml.ctx.RequestCtx;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * PDP requests.
  * 
  * @author ?
  * 
  */
+@JiBX
 public class Requests extends LinkedList<RequestCtx> {
 
     /**

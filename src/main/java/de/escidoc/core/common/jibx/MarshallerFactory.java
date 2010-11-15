@@ -46,7 +46,7 @@ import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sm.Scope;
+import de.escidoc.core.resources.sm.scope.Scope;
 
 /**
  * Marshaller Factory.

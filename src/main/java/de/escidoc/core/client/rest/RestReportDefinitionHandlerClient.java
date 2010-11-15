@@ -23,12 +23,11 @@ import de.escidoc.core.client.rest.serviceLocator.ReportDefinitionRestServiceLoc
  * @author MVO
  * 
  */
-public class RestReportDefinitionHandlerClient
-    extends RestClientBase {
+public class RestReportDefinitionHandlerClient extends RestClientBase {
 
     private static final Logger LOG = Logger
         .getLogger(RestReportDefinitionHandlerClient.class);
-    
+
     private ReportDefinitionHandler client;
 
     /**
@@ -67,7 +66,7 @@ public class RestReportDefinitionHandlerClient
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
     }
@@ -92,7 +91,7 @@ public class RestReportDefinitionHandlerClient
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;
@@ -121,7 +120,7 @@ public class RestReportDefinitionHandlerClient
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;
@@ -147,7 +146,7 @@ public class RestReportDefinitionHandlerClient
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return xml;
@@ -174,7 +173,7 @@ public class RestReportDefinitionHandlerClient
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return xml;
@@ -200,7 +199,7 @@ public class RestReportDefinitionHandlerClient
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return xml;
@@ -225,7 +224,7 @@ public class RestReportDefinitionHandlerClient
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return xml;
@@ -246,7 +245,9 @@ public class RestReportDefinitionHandlerClient
         throw new UnsupportedOperationException("Method no longer supported.");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override

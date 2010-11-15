@@ -36,6 +36,7 @@ import java.util.LinkedList;
  * 
  * @author SWA
  * 
+ *         FIXME: Use extends instead.
  */
 public class Roles {
 

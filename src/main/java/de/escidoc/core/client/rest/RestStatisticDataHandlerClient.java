@@ -4,8 +4,6 @@
 package de.escidoc.core.client.rest;
 
 import java.net.MalformedURLException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -14,12 +12,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.rest.serviceLocator.ReportDefinitionRestServiceLocator;
 import de.escidoc.core.client.rest.serviceLocator.StatisticDataRestServiceLocator;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
 import de.escidoc.core.sm.StatisticDataHandler;
 
 /**
@@ -28,9 +21,9 @@ import de.escidoc.core.sm.StatisticDataHandler;
  */
 public class RestStatisticDataHandlerClient extends RestClientBase {
 
-    private static final Logger LOG =
-        Logger.getLogger(RestStatisticDataHandlerClient.class);
-    
+    private static final Logger LOG = Logger
+        .getLogger(RestStatisticDataHandlerClient.class);
+
     private StatisticDataHandler client;
 
     /**
@@ -58,7 +51,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void create(String xml) throws EscidocException,
+    public void create(final String xml) throws EscidocException,
         InternalClientException, TransportException {
 
         if (xml == null)
@@ -69,7 +62,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
     }
@@ -105,8 +98,8 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
      * )
      */
     @Override
-    public DateTime getLastModificationDate(String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public DateTime getLastModificationDate(final String id)
+        throws EscidocException, InternalClientException, TransportException {
         throw new UnsupportedOperationException("Method not supported.");
     }
 

@@ -67,7 +67,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
     }
@@ -92,7 +92,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;
@@ -117,7 +117,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;
@@ -163,15 +163,16 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String filterAggregationDefinitions(HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    private String filterAggregationDefinitions(
+        final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
         String resultXml = null;
         try {
             resultXml = getClient().retrieveAggregationDefinitions(filter);
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage());
+                LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
         return resultXml;
@@ -182,6 +183,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * 
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
+    @Override
     public AggregationDefinitionHandler getClient()
         throws InternalClientException {
         if (client == null) {
@@ -211,9 +213,10 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
      * )
      */
+    @Override
     @Deprecated
-    public DateTime getLastModificationDate(String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public DateTime getLastModificationDate(final String id)
+        throws EscidocException, InternalClientException, TransportException {
         throw new UnsupportedOperationException(
             "This method is no longer supported.");
     }

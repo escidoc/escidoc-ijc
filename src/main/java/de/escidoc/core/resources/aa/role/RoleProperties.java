@@ -30,6 +30,7 @@ package de.escidoc.core.resources.aa.role;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
@@ -38,16 +39,17 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * @author SWA
  * 
  */
+@JiBX
 public class RoleProperties {
 
-	private UserAccountRef createdBy;
-	
+    private UserAccountRef createdBy;
+
     private UserAccountRef modifiedBy;
-    
+
     protected DateTime creationDate = null;
 
     protected String name;
-    
+
     protected String description;
 
     /**
@@ -69,60 +71,64 @@ public class RoleProperties {
         this.modifiedBy = modifiedBy;
     }
 
-	/**
-	 * @return the createdBy
-	 */
-	public UserAccountRef getCreatedBy() {
-		return createdBy;
-	}
+    /**
+     * @return the createdBy
+     */
+    public UserAccountRef getCreatedBy() {
+        return createdBy;
+    }
 
-	/**
-	 * @param createdBy the createdBy to set
-	 */
-	public void setCreatedBy(UserAccountRef createdBy) {
-		this.createdBy = createdBy;
-	}
+    /**
+     * @param createdBy
+     *            the createdBy to set
+     */
+    public void setCreatedBy(final UserAccountRef createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	/**
-	 * @return the creationDate
-	 */
-	public DateTime getCreationDate() {
-		return creationDate;
-	}
+    /**
+     * @return the creationDate
+     */
+    public DateTime getCreationDate() {
+        return creationDate;
+    }
 
-	/**
-	 * @param creationDate the creationDate to set
-	 */
-	public void setCreationDate(DateTime creationDate) {
-		this.creationDate = creationDate;
-	}
+    /**
+     * @param creationDate
+     *            the creationDate to set
+     */
+    public void setCreationDate(final DateTime creationDate) {
+        this.creationDate = creationDate;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * @param name
+     *            the name to set
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
 }

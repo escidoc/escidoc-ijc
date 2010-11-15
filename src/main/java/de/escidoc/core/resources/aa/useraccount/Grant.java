@@ -1,5 +1,6 @@
 package de.escidoc.core.resources.aa.useraccount;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.GrantRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
@@ -11,11 +12,15 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author ROF, SWA
  * 
  */
+@JiBX
 public class Grant extends GenericResource
     implements XLinkAutonomous, Referenceable<GrantRef> {
 
     private GrantProperties grantProperties;
 
+    /**
+     * 
+     */
     public Grant() {
         setResourceType(RESOURCE_TYPE.Grant);
     }
@@ -44,6 +49,7 @@ public class Grant extends GenericResource
      * 
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
+    @Override
     public void genXLink() {
         genOwnXLinkHref();
 
@@ -81,6 +87,7 @@ public class Grant extends GenericResource
      * @see
      * de.escidoc.core.resources.common.reference.Referenceable#getReference()
      */
+    @Override
     public GrantRef getReference() {
         return new GrantRef(getObjid());
     }
