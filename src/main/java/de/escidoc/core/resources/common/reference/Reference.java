@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 
 /**
@@ -24,7 +25,7 @@ public class Reference extends Resource {
      * @param objid
      * @param type
      */
-    public Reference(final String objid, final RESOURCE_TYPE type) {
+    public Reference(final String objid, final ResourceType type) {
         super(objid, type);
     }
 
@@ -34,7 +35,7 @@ public class Reference extends Resource {
      * @param type
      * @param xLinkTitle
      */
-    public Reference(final String objid, final RESOURCE_TYPE type,
+    public Reference(final String objid, final ResourceType type,
         final String xLinkTitle) {
         super(objid, type, xLinkTitle);
     }

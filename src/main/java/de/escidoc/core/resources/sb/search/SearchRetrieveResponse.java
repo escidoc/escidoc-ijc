@@ -37,13 +37,14 @@ public class SearchRetrieveResponse extends Response {
      * @param zingResponseType
      * @throws InternalClientException
      */
-    private SearchRetrieveResponse(SearchRetrieveResponseType zingResponseType)
+    private SearchRetrieveResponse(
+        final SearchRetrieveResponseType axisResponseType)
         throws InternalClientException {
-        super(zingResponseType.getVersion());
-        this.numberOfRecords = zingResponseType.getNumberOfRecords().intValue();
+        super(axisResponseType.getVersion());
+        this.numberOfRecords = axisResponseType.getNumberOfRecords().intValue();
 
-        if (zingResponseType.getRecords() != null) {
-            RecordType[] records = zingResponseType.getRecords().getRecord();
+        if (axisResponseType.getRecords() != null) {
+            RecordType[] records = axisResponseType.getRecords().getRecord();
             if (records != null) {
                 for (int i = 0; i < records.length; i++) {
                     this.records.add(new SearchResultRecordRecord(records[i]));
@@ -85,7 +86,7 @@ public class SearchRetrieveResponse extends Response {
      * @throws InternalClientException
      */
     public static final SearchRetrieveResponse createSearchRetrieveResponse(
-        SearchRetrieveResponseType axisResponseType)
+        final SearchRetrieveResponseType axisResponseType)
         throws InternalClientException {
         return new SearchRetrieveResponse(axisResponseType);
     }

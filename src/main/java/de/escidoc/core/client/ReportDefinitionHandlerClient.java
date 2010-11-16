@@ -17,7 +17,7 @@ import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sm.rd.ReportDefinition;
+import de.escidoc.core.resources.sm.report.ReportDefinition;
 
 /**
  * @author MVO

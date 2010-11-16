@@ -55,6 +55,7 @@ import de.escidoc.core.client.SearchHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.SearchHandlerClientInterface;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
@@ -64,7 +65,7 @@ import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.scan.Term;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ItemRecord;
+import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -83,8 +84,8 @@ public class SearchHandlerClientTest {
 
     private SearchHandlerClientInterface c;
 
-    public SearchHandlerClientTest(TransportProtocol transport,
-        RecordPacking packing) {
+    public SearchHandlerClientTest(final TransportProtocol transport,
+        final RecordPacking packing) {
         this.transport = transport;
         this.packing = packing;
     }
@@ -177,7 +178,8 @@ public class SearchHandlerClientTest {
     @Test
     public void testSRWSearch() throws Exception {
 
-        String query = "escidoc.objid=" + Constants.EXAMPLE_ITEM_ID;
+        String query = "escidoc.objecttype=item";
+        // "escidoc.objid=" + Constants.EXAMPLE_ITEM_ID;
 
         SearchRetrieveResponse response = c.search(query, null);
 
@@ -267,10 +269,12 @@ public class SearchHandlerClientTest {
         out.append("\n");
 
         for (Record<?> record : response.getRecords()) {
-            ItemRecord itemRecord = (ItemRecord) record;
-            Item item = itemRecord.getRecordData();
-            out.append("Item: ID[" + item.getObjid() + "], Href["
-                + item.getXLinkHref() + "]\n");
+            if (record instanceof ResourceRecord<?>
+                && ((ResourceRecord<?>) record).getDataType() == ResourceType.Item) {
+                Item item = (Item) record.getRecordData();
+                out.append("Item: ID[" + item.getObjid() + "], Href["
+                    + item.getXLinkHref() + "]\n");
+            }
         }
 
         Collection<Item> items = c.retrieveItemsAsList(request);

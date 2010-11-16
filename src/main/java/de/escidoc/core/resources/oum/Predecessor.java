@@ -29,6 +29,7 @@
 package de.escidoc.core.resources.oum;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 
 /**
@@ -56,7 +57,7 @@ public class Predecessor extends Resource {
      *            The form of predecessor (a Spin-Off, a merge etc.)
      */
     public Predecessor(final String objid, final PredecessorForm form) {
-        super(objid, RESOURCE_TYPE.OrganizationalUnit);
+        super(objid, ResourceType.OrganizationalUnit);
         this.form = form;
     }
 

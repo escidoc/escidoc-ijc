@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.aa.useraccount;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
@@ -44,7 +45,7 @@ public class UserAccount extends GenericResource
     implements XLinkAutonomous, Referenceable<UserAccountRef> {
 
     public UserAccount() {
-        setResourceType(RESOURCE_TYPE.UserAccount);
+        setResourceType(ResourceType.UserAccount);
     }
 
     private UserAccountProperties properties;
@@ -109,9 +110,9 @@ public class UserAccount extends GenericResource
         genOwnXLinkHref();
 
         if (properties != null) {
-            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
                 null);
-            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }
     }

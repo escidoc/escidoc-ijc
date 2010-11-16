@@ -28,11 +28,11 @@
  */
 package de.escidoc.core.client;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.joda.time.DateTime;
 
@@ -44,13 +44,13 @@ import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
 import de.escidoc.core.client.rest.RestRoleHandlerClient;
 import de.escidoc.core.client.soap.SoapRoleHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.RoleRecord;
 
 /**
  * This is the generic RoleContainerHandlerClient which binds the transport
@@ -70,7 +70,7 @@ public class RoleHandlerClient
     public RoleHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -78,7 +78,7 @@ public class RoleHandlerClient
     public RoleHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * Create a role.
      * 
@@ -87,6 +87,7 @@ public class RoleHandlerClient
      * @return Role
      * @throws EscidocClientException
      */
+    @Override
     public Role create(final Role role) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -116,6 +117,7 @@ public class RoleHandlerClient
      * @throws EscidocClientException
      * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#retrieve(java.lang.String)
      */
+    @Override
     public Role retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -138,6 +140,7 @@ public class RoleHandlerClient
      * @throws EscidocClientException
      * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#delete(java.lang.String)
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -157,6 +160,7 @@ public class RoleHandlerClient
      * @throws EscidocClientException
      * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#update(de.escidoc.core.resources.interfaces.container.ContainerInterface)
      */
+    @Override
     public Role update(final Role role) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -190,6 +194,7 @@ public class RoleHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public Roles retrieveRoles(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
@@ -225,6 +230,7 @@ public class RoleHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public SearchRetrieveResponse retrieveRoles(
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
@@ -244,9 +250,13 @@ public class RoleHandlerClient
             .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
 
-    /* (non-Javadoc)
-     * @see de.escidoc.core.client.interfaces.RoleHandlerClientInterface#retrieveRolesAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.RoleHandlerClientInterface#
+     * retrieveRolesAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
+    @Override
     public Collection<Role> retrieveRolesAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
@@ -255,9 +265,9 @@ public class RoleHandlerClient
         Collection<Role> results = new LinkedList<Role>();
 
         for (Record<?> record : response.getRecords()) {
-            if (record instanceof RoleRecord) {
-                Role result = ((RoleRecord) record).getRecordData();
-                results.add(result);
+            Role role = getSRWResourceRecordData(record, ResourceType.Role);
+            if (role != null) {
+                results.add(role);
             }
         }
         return results;
@@ -276,12 +286,13 @@ public class RoleHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ExplainResponse retrieveRoles(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
         if (request == null)
             throw new IllegalArgumentException("request must not be null.");
-        
+
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().retrieveRoles(request);

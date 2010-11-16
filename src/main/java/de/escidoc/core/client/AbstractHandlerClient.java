@@ -10,7 +10,10 @@ import de.escidoc.core.client.soap.SoapClientBase;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 
 public abstract class AbstractHandlerClient<soapType extends SoapClientBase, restType extends RestClientBase> {
 
@@ -113,6 +116,34 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      */
     public final String getServiceAddress() {
         return serviceAddress;
+    }
+
+    /**
+     * Generic convenience method to get the specific recordData content of a
+     * SearchRetrieveResponse.
+     * 
+     * @param <T>
+     * @param record
+     * @param type
+     *            The ResourceType to be used to perform a check against the
+     *            record, if it contains the object of type T. If ResourceType
+     *            does not fit to the type T, a ClassCastException will be
+     *            thrown.
+     * @return The content of the recordData of the SearchRetrieveResponse
+     *         specified as type T.
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getSRWResourceRecordData(
+        final Record<?> record, final ResourceType type) {
+
+        if (record instanceof ResourceRecord<?>) {
+            ResourceRecord<?> rRecord = (ResourceRecord<?>) record;
+
+            if (rRecord.getDataType() == type) {
+                return (T) record.getRecordData();
+            }
+        }
+        return null;
     }
 
     /**

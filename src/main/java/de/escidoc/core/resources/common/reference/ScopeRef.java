@@ -1,5 +1,7 @@
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.resources.ResourceType;
+
 /**
  * @author MRO
  * 
@@ -15,6 +17,6 @@ public class ScopeRef extends Reference {
 	}
 
 	public ScopeRef(String objid, String xLinkTitle) {
-		super(objid, RESOURCE_TYPE.Scope, xLinkTitle);
+		super(objid, ResourceType.Scope, xLinkTitle);
 	}
 }

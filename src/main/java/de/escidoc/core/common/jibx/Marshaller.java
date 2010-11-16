@@ -76,7 +76,7 @@ public class Marshaller<E> {
         E result = null;
 
         try {
-            IBindingFactory bfact = getBindingFactory(resourceClass);
+            IBindingFactory bfact = getBindingFactory();
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             ByteArrayInputStream in =
                 new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
@@ -120,7 +120,7 @@ public class Marshaller<E> {
         String result = null;
 
         try {
-            IBindingFactory bfact = getBindingFactory(resource.getClass());
+            IBindingFactory bfact = getBindingFactory();
             IMarshallingContext mctx = bfact.createMarshallingContext();
             mctx.setIndent(2);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -164,13 +164,12 @@ public class Marshaller<E> {
      * @return
      * @throws JiBXException
      */
-    private IBindingFactory getBindingFactory(final Class<?> resource)
-        throws JiBXException {
+    private IBindingFactory getBindingFactory() throws JiBXException {
         if (bindingName != null && !bindingName.isEmpty()) {
-            return BindingDirectory.getFactory(bindingName, resource);
+            return BindingDirectory.getFactory(bindingName, resourceClass);
         }
         else {
-            return BindingDirectory.getFactory(resource);
+            return BindingDirectory.getFactory(resourceClass);
         }
     }
 

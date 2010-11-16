@@ -30,6 +30,7 @@ package de.escidoc.core.resources.om.contentRelation;
 
 import java.net.URI;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -63,7 +64,7 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
      * 
      */
     public ContentRelation() {
-        setResourceType(RESOURCE_TYPE.ContentRelation);
+        setResourceType(ResourceType.ContentRelation);
     }
 
     /**
@@ -210,9 +211,9 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
                 null);
-            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }
         if (mdRecords != null && getXLinkHref() != null) {

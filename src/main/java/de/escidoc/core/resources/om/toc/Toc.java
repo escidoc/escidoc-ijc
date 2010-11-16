@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.toc;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -52,7 +53,7 @@ public class Toc extends GenericVersionableResource {
      * 
      */
     public Toc() {
-    	setResourceType(RESOURCE_TYPE.Toc);
+    	setResourceType(ResourceType.Toc);
     }
 
     /**

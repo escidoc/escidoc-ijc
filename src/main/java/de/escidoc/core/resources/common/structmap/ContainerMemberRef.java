@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
+import de.escidoc.core.resources.ResourceType;
+
 /**
  * @author SWA, MVO
  * 
@@ -18,6 +20,6 @@ public class ContainerMemberRef extends MemberRef {
     }
 
     public ContainerMemberRef(String objid, String xLinkTitle) {
-        super(objid, RESOURCE_TYPE.Container, xLinkTitle);
+        super(objid, ResourceType.Container, xLinkTitle);
     }
 }

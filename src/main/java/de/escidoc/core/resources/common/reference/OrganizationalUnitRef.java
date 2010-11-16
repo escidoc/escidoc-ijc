@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.resources.ResourceType;
+
 /**
  * @author MVO
  * 
@@ -18,6 +20,6 @@ public class OrganizationalUnitRef extends Reference {
     }
 
     public OrganizationalUnitRef(String objid, String xLinkTitle) {
-        super(objid, RESOURCE_TYPE.OrganizationalUnit, xLinkTitle);
+        super(objid, ResourceType.OrganizationalUnit, xLinkTitle);
     }
 }

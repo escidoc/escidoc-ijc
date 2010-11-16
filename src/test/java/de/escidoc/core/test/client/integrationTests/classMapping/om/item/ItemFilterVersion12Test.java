@@ -29,6 +29,7 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
@@ -50,6 +51,7 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
@@ -60,7 +62,7 @@ import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ItemRecord;
+import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -76,11 +78,11 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
     private Authentication auth;
 
     private ItemHandlerClientInterface ihc;
-    
-    public ItemFilterVersion12Test(TransportProtocol transport) {
+
+    public ItemFilterVersion12Test(final TransportProtocol transport) {
         super(transport);
     }
-    
+
     @Before
     public void init() throws Exception {
         auth =
@@ -108,6 +110,9 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
         ExplainData explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertNotNull("No index definitions found", explain.getIndexInfo());
+        assertNotNull("No index definitions found", explain
+            .getIndexInfo().getIndexes());
         assertTrue("No index definitions found", explain
             .getIndexInfo().getIndexes().size() > 0);
     }
@@ -168,10 +173,11 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
 
         Collection<String> itemIds =
             new ArrayList<String>(response.getNumberOfResultingRecords());
-        for (@SuppressWarnings("rawtypes")
-        Record record : response.getRecords()) {
-            if (record instanceof ItemRecord) {
-                Item data = ((ItemRecord) record).getRecordData();
+        for (Record<?> record : response.getRecords()) {
+            if (record instanceof ResourceRecord<?>
+                && ((ResourceRecord<?>) record).getDataType() == ResourceType.Item) {
+
+                Item data = (Item) record.getRecordData();
                 if (data != null)
                     itemIds.add(data.getObjid());
             }

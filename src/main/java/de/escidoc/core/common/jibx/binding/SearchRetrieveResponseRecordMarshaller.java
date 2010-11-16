@@ -16,16 +16,18 @@ import org.jibx.runtime.impl.UnmarshallingContext;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.aa.role.Role;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
+import de.escidoc.core.resources.om.container.Container;
+import de.escidoc.core.resources.om.contentRelation.ContentRelation;
+import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
-import de.escidoc.core.resources.sb.search.records.ContainerRecord;
-import de.escidoc.core.resources.sb.search.records.ContentRelationRecord;
-import de.escidoc.core.resources.sb.search.records.ContextRecord;
+import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 import de.escidoc.core.resources.sb.search.records.DefaultRecord;
-import de.escidoc.core.resources.sb.search.records.ItemRecord;
-import de.escidoc.core.resources.sb.search.records.OrganizationalUnitRecord;
-import de.escidoc.core.resources.sb.search.records.RoleRecord;
 import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
-import de.escidoc.core.resources.sb.search.records.UserAccountRecord;
 
 /**
  * @author MVO
@@ -40,50 +42,9 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
     private static final Pattern tagNameNS = Pattern
         .compile("^<([^>\\s]+)[^>]*?>");
 
-    /**
-     * This {@link Enum} exists only because it is not possible to use special
-     * characters in {@link Enum} values.
-     * 
-     * @author MVO
-     * 
-     */
-    private static enum RecordDataTag {
+    private static final String TAG_SRW_RECORD = "search-result-record";
 
-        SearchResultRecord("search-result-record"), Item("item",
-            "http://www.escidoc.de/schemas/item/0.9"), Container("container",
-            "http://www.escidoc.de/schemas/container/0.8"), OrganizationalUnit(
-            "organizational-unit",
-            "http://www.escidoc.de/schemas/organizationalunit/0.8"), Context(
-            "context", "http://www.escidoc.de/schemas/context/0.7"), ContentRelation(
-            "content-relation"), Role("role"), UserAccount("user-account");
-
-        private final String tagName;
-
-        private final String namespace;
-
-        RecordDataTag(String tagName) {
-            this(tagName, null);
-        }
-
-        RecordDataTag(String tagName, String namespace) {
-            this.tagName = tagName;
-            this.namespace = namespace;
-        }
-
-        boolean equals(final String other) {
-            return tagName.equals(other);
-        }
-
-        boolean equals(final String tagName, final String namespace) {
-            if (this.tagName == null)
-                return false;
-            if (this.namespace == null)
-                return this.tagName.equals(tagName);
-            else
-                return this.tagName.equals(tagName)
-                    && this.namespace.equals(namespace);
-        }
-    }
+    // private static final String NS_SRW_RECORD = "";
 
     /**
      * 
@@ -99,6 +60,7 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
     /**
      * @see org.jibx.runtime.IMarshaller#isExtension(java.lang.String)
      */
+    @Override
     public boolean isExtension(final String arg0) {
         return false;
     }
@@ -115,6 +77,7 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
      * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object,
      *      org.jibx.runtime.IMarshallingContext)
      */
+    @Override
     public void marshal(final Object obj, final IMarshallingContext ictx)
         throws JiBXException {
         throw new JiBXException("Marshalling not supported.");
@@ -164,7 +127,9 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
      * @see org.jibx.runtime.IUnmarshaller#isPresent(org.jibx.runtime.
      *      IUnmarshallingContext)
      */
-    public boolean isPresent(IUnmarshallingContext ictx) throws JiBXException {
+    @Override
+    public boolean isPresent(final IUnmarshallingContext ictx)
+        throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -178,7 +143,8 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
      * @see org.jibx.runtime.IUnmarshaller#unmarshal(java.lang.Object,
      *      org.jibx.runtime.IUnmarshallingContext)
      */
-    public Object unmarshal(Object arg0, IUnmarshallingContext ictx)
+    @Override
+    public Object unmarshal(final Object arg0, final IUnmarshallingContext ictx)
         throws JiBXException {
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
 
@@ -261,8 +227,9 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
      * @return
      */
     private Object getRecord(
-        String recordSchema, int recordPosition, String packing,
-        String dataText, Element dataDOM, TransportProtocol transport) {
+        final String recordSchema, final int recordPosition,
+        final String packing, final String dataText, final Element dataDOM,
+        final TransportProtocol transport) {
 
         String tagName = null;
 
@@ -283,30 +250,47 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
         // remove NS prefix if exists
         tagName = tagName.substring(tagName.indexOf(':') + 1);
 
-        if (RecordDataTag.SearchResultRecord.equals(tagName))
+        // non-resources
+        if (TAG_SRW_RECORD.equals(tagName))
             return new SearchResultRecordRecord(recordSchema, packing,
                 recordPosition, dataDOM, dataText, transport);
-        else if (RecordDataTag.Item.equals(tagName))
-            return new ItemRecord(recordSchema, packing, recordPosition,
-                dataDOM, dataText, transport);
-        else if (RecordDataTag.Container.equals(tagName))
-            return new ContainerRecord(recordSchema, packing, recordPosition,
-                dataDOM, dataText, transport);
-        else if (RecordDataTag.OrganizationalUnit.equals(tagName))
-            return new OrganizationalUnitRecord(recordSchema, packing,
+
+        // resources
+        else if (ResourceType.Item.getTagName().equals(tagName)) {
+            return ResourceRecord.createResourceRecord(Item.class,
+                recordSchema, packing, recordPosition, dataDOM, dataText,
+                transport);
+        }
+        else if (ResourceType.Container.getTagName().equals(tagName)) {
+            return ResourceRecord.createResourceRecord(Container.class,
+                recordSchema, packing, recordPosition, dataDOM, dataText,
+                transport);
+        }
+        else if (ResourceType.OrganizationalUnit.getTagName().equals(tagName)) {
+            return ResourceRecord.createResourceRecord(
+                OrganizationalUnit.class, recordSchema, packing,
                 recordPosition, dataDOM, dataText, transport);
-        else if (RecordDataTag.Context.equals(tagName))
-            return new ContextRecord(recordSchema, packing, recordPosition,
-                dataDOM, dataText, transport);
-        else if (RecordDataTag.ContentRelation.equals(tagName))
-            return new ContentRelationRecord(recordSchema, packing,
-                recordPosition, dataDOM, dataText, transport);
-        else if (RecordDataTag.Role.equals(tagName))
-            return new RoleRecord(recordSchema, packing, recordPosition,
-                dataDOM, dataText, transport);
-        else if (RecordDataTag.UserAccount.equals(tagName))
-            return new UserAccountRecord(recordSchema, packing, recordPosition,
-                dataDOM, dataText, transport);
+        }
+        else if (ResourceType.Context.getTagName().equals(tagName)) {
+            return ResourceRecord.createResourceRecord(Context.class,
+                recordSchema, packing, recordPosition, dataDOM, dataText,
+                transport);
+        }
+        else if (ResourceType.ContentRelation.getTagName().equals(tagName)) {
+            return ResourceRecord.createResourceRecord(ContentRelation.class,
+                recordSchema, packing, recordPosition, dataDOM, dataText,
+                transport);
+        }
+        else if (ResourceType.Role.getTagName().equals(tagName)) {
+            return ResourceRecord.createResourceRecord(Role.class,
+                recordSchema, packing, recordPosition, dataDOM, dataText,
+                transport);
+        }
+        else if (ResourceType.UserAccount.getTagName().equals(tagName)) {
+            return ResourceRecord.createResourceRecord(UserAccount.class,
+                recordSchema, packing, recordPosition, dataDOM, dataText,
+                transport);
+        }
 
         /**
          * If we are unable to guess the type of the content return a default

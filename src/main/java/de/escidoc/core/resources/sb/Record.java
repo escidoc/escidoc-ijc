@@ -21,25 +21,21 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.XmlUtility;
 
 /**
- * Read-only class.
  * 
- * This class is a representation of the configInfo of the response of an
- * explain request.
- * 
- * This class may be initialized either by a SOAP response instance or by JiBX
- * if and only if the REST protocol is being used for the explain request.
  * 
  * @author SWA, MVO
  * 
  */
+@JiBX
 public abstract class Record<T> {
 
-    protected static final Logger LOGGER = Logger.getLogger(Record.class);
+    protected static final Logger LOG = Logger.getLogger(Record.class);
 
     public static enum RecordPacking {
         string, xml
@@ -55,16 +51,14 @@ public abstract class Record<T> {
 
     protected String recordDataText;
 
-    protected TransportProtocol protocol;
+    protected TransportProtocol transport;
 
     protected static final String xmlHeader =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
-    /**
-     * Constructor for JiBX.
-     */
+    @JiBX
     protected Record() {
-        this.protocol = TransportProtocol.REST;
+        this.transport = TransportProtocol.REST;
     }
 
     /**
@@ -73,19 +67,21 @@ public abstract class Record<T> {
      * @param recordPosition
      * @param recordDataDOM
      * @param recordDataText
-     * @param protocol
+     * @param transport
      */
-    protected Record(String recordSchema, String recordPacking,
-        int recordPosition, Element recordDataDOM, String recordDataText,
-        TransportProtocol protocol) {
-        super();
+    protected Record(final String recordSchema, final String recordPacking,
+        final int recordPosition, final Element recordDataDOM,
+        final String recordDataText, final TransportProtocol transport) {
+
+        if (transport == null)
+            throw new IllegalArgumentException("protocol must not be null.");
+
         this.recordSchema = recordSchema;
         this.recordPacking = recordPacking;
         this.recordPosition = recordPosition;
         this.recordDataDOM = recordDataDOM;
         this.recordDataText = recordDataText;
-        // TODO
-        this.protocol = protocol;
+        this.transport = transport;
     }
 
     /**
@@ -93,7 +89,7 @@ public abstract class Record<T> {
      * 
      * @throws InternalClientException
      */
-    protected Record(RecordType axisRecord) throws InternalClientException {
+    protected Record(final RecordType axisRecord) {
 
         this.recordSchema = axisRecord.getRecordSchema();
         if (axisRecord.getRecordPacking() != null)
@@ -116,9 +112,9 @@ public abstract class Record<T> {
 
         }
         catch (Exception e) {
-            LOGGER.debug("Unable to get RecordData.", e);
+            LOG.debug("Unable to get RecordData.", e);
         }
-        this.protocol = TransportProtocol.SOAP;
+        this.transport = TransportProtocol.SOAP;
     }
 
     /**
@@ -148,7 +144,7 @@ public abstract class Record<T> {
      * @param ignoreWhitespaceCharacters
      * @return
      */
-    public boolean hasRecordDataText(boolean ignoreWhitespaceCharacters) {
+    public boolean hasRecordDataText(final boolean ignoreWhitespaceCharacters) {
         if (ignoreWhitespaceCharacters) {
             return (recordDataText == null) ? false : (recordDataText
                 .replaceAll("[\\s]", "").length() != 0);
@@ -160,7 +156,7 @@ public abstract class Record<T> {
      * @return the protocol
      */
     public TransportProtocol getProtocol() {
-        return protocol;
+        return transport;
     }
 
     /**
@@ -241,24 +237,5 @@ public abstract class Record<T> {
         t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         t.transform(new DOMSource(getRecordDataDOM()), new StreamResult(sw));
         return sw.toString();
-    }
-
-    /**
-     * Replaces special Characters..
-     * 
-     * @return String Replaced String
-     * @param text
-     *            String text to replace
-     */
-    @Deprecated
-    protected String decodeCharacters(final String text) {
-
-        String tmp = text;
-        tmp = tmp.replaceAll("&lt;", "<");
-        tmp = tmp.replaceAll("&gt;", ">");
-        tmp = tmp.replaceAll("&quot;", "\"");
-        tmp = tmp.replaceAll("&apos;", "'");
-        // text = text.replaceAll("&amp;", "&");
-        return tmp;
     }
 }

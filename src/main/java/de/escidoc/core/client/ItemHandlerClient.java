@@ -28,11 +28,11 @@
  */
 package de.escidoc.core.client;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.joda.time.DateTime;
 
@@ -43,6 +43,7 @@ import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.client.soap.SoapItemHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
@@ -54,7 +55,6 @@ import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ItemRecord;
 
 /**
  * This is the generic ItemClientHandler which binds the transport specific
@@ -74,7 +74,7 @@ public class ItemHandlerClient
     public ItemHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -82,7 +82,7 @@ public class ItemHandlerClient
     public ItemHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * Create Item within the repository.
      * 
@@ -96,6 +96,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Item create(final Item item) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -131,6 +132,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Component createComponent(final String id, final Component component)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -165,6 +167,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Component createComponent(final Item item, final Component component)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -196,6 +199,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Item retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -225,9 +229,10 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Item retrieve(final Item item) throws EscidocException,
         InternalClientException, TransportException {
-        
+
         return retrieve(item.getObjid());
     }
 
@@ -245,6 +250,7 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level. FIXME
      *             implement this method
      */
+    @Override
     public Properties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -274,6 +280,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public ItemList retrieveItems(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -307,13 +314,14 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public SearchRetrieveResponse retrieveItems(
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         if (request == null)
             throw new IllegalArgumentException("request must not be null.");
-        
+
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().retrieveItems(request);
@@ -336,12 +344,9 @@ public class ItemHandlerClient
         Collection<Item> items = new LinkedList<Item>();
 
         for (Record record : response.getRecords()) {
-            if (record instanceof ItemRecord) {
-                ItemRecord itemRecord = (ItemRecord) record;
-                Item item = itemRecord.getRecordData();
-                if (item != null) {
-                    items.add(item);
-                }
+            Item item = getSRWResourceRecordData(record, ResourceType.Item);
+            if (item != null) {
+                items.add(item);
             }
         }
         return items;
@@ -360,6 +365,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ExplainResponse retrieveItems(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -389,6 +395,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Relations retrieveRelations(final String id)
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
@@ -417,6 +424,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public VersionHistory retrieveVersionHistory(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -463,6 +471,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -487,6 +496,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Item update(final Item item) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -526,6 +536,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result submit(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -560,6 +571,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result submit(final Item item, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -581,6 +593,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result release(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -615,6 +628,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result release(final Item item, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -636,6 +650,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result revise(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -670,6 +685,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result revise(final Item item, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -691,6 +707,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result withdraw(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -725,6 +742,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result withdraw(final Item item, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -746,6 +764,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result lock(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -780,6 +799,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result lock(final Item item, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -801,6 +821,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result unlock(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -835,6 +856,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result unlock(final Item item, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -860,6 +882,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignVersionPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -895,6 +918,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignVersionPid(final Item item, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -916,6 +940,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -950,6 +975,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignObjectPid(final Item item, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -973,6 +999,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignContentPid(
         final String id, final String componentId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -1014,6 +1041,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignContentPid(
         final Item item, final String componentId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -1035,6 +1063,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {

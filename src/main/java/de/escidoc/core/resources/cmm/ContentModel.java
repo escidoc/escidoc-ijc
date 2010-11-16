@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.cmm;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.properties.Version;
@@ -53,7 +54,7 @@ public class ContentModel extends GenericResource
     /**
      */
     public ContentModel() {
-        setResourceType(RESOURCE_TYPE.ContentModel);
+        setResourceType(ResourceType.ContentModel);
     }
 
     /**
@@ -127,9 +128,9 @@ public class ContentModel extends GenericResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
                 null);
-            genXLinkHref(properties.getLockOwner(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getLockOwner(), ResourceType.UserAccount,
                 null);
             genVersionHref((Version) properties.getVersion());
             genVersionHref((Version) properties.getLatestVersion());
@@ -165,12 +166,12 @@ public class ContentModel extends GenericResource
     protected void genVersionHref(Version version) {
         if (version != null && version.getXLinkHref() == null) {
             version.setXLinkHref(Resource.RESOURCE_URL_MAP
-                .get(RESOURCE_TYPE.Item)
+                .get(ResourceType.Item)
                 + "/"
                 + getObjid()
                 + ":"
                 + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(version.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }
     }

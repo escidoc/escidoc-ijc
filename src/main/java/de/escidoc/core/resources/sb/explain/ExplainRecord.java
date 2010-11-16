@@ -25,16 +25,13 @@ import de.escidoc.core.resources.sb.Record;
 
 public class ExplainRecord extends Record<ExplainData> {
 
-    // private static final Pattern pattern = Pattern.compile(
-    // "<(([a-zA-Z0-9]+)[:]){0,1}explain[^>]+(xmlns(:\\2){0,1}=\"(.+?)\")[^>]*>");
-
     private ExplainData resultData;
 
     /**
 	 * 
 	 */
     public ExplainRecord() {
-        super();
+
     }
 
     /**
@@ -42,7 +39,8 @@ public class ExplainRecord extends Record<ExplainData> {
      * @param type
      * @throws InternalClientException
      */
-    public ExplainRecord(RecordType axisRecord) throws InternalClientException {
+    public ExplainRecord(final RecordType axisRecord)
+        throws InternalClientException {
         super(axisRecord);
     }
 
@@ -76,7 +74,7 @@ public class ExplainRecord extends Record<ExplainData> {
             }
             catch (JiBXException e) {
                 // ignore
-                LOGGER.debug(e.getMessage(), e);
+                LOG.debug(e.getMessage(), e);
             }
         }
         return null;
@@ -88,7 +86,7 @@ public class ExplainRecord extends Record<ExplainData> {
      * @see decodeFragmentXML()
      * @param element
      */
-    private void removePrefix(Element element, String prefix) {
+    private void removePrefix(final Element element, final String prefix) {
         if (element == null || prefix == null || prefix.length() == 0)
             return;
 
@@ -113,7 +111,7 @@ public class ExplainRecord extends Record<ExplainData> {
             }
             catch (JiBXException e) {
                 // ignore
-                LOGGER.debug(e.getMessage(), e);
+                LOG.debug(e.getMessage(), e);
             }
         }
         return null;

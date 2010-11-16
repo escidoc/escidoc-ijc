@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.resources.ResourceType;
+
 
 /**
  * @author MVO
@@ -19,6 +21,6 @@ public class ContextRef extends Reference {
     }
 
     public ContextRef(String objid, String xLinkTitle) {
-        super(objid, RESOURCE_TYPE.Context, xLinkTitle);
+        super(objid, ResourceType.Context, xLinkTitle);
     }
 }

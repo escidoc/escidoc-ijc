@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.container;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -61,7 +62,7 @@ public class Container extends GenericVersionableResource
      * 
      */
     public Container() {
-        setResourceType(RESOURCE_TYPE.Container);
+        setResourceType(ResourceType.Container);
     }
 
     /**
@@ -158,11 +159,11 @@ public class Container extends GenericVersionableResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
                 null);
-            genXLinkHref(properties.getContext(), RESOURCE_TYPE.Context, null);
+            genXLinkHref(properties.getContext(), ResourceType.Context, null);
             genXLinkHref(properties.getContentModel(),
-                RESOURCE_TYPE.ContentModel, null);
+                ResourceType.ContentModel, null);
             genVersionHref((Version) properties.getVersion());
             genVersionHref((Version) properties.getLatestVersion());
             genVersionHref((Version) properties.getLatestRelease());
@@ -215,9 +216,9 @@ public class Container extends GenericVersionableResource
      */
     protected void genVersionHref(Version version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(RESOURCE_URL_MAP.get(RESOURCE_TYPE.Container)
+            version.setXLinkHref(RESOURCE_URL_MAP.get(ResourceType.Container)
                 + "/" + getObjid() + ":" + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(version.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }
     }

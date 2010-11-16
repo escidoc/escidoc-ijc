@@ -56,6 +56,7 @@ import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -369,7 +370,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         Relations relations = new Relations();
         Relation relation =
             new Relation(new Reference(Constants.EXAMPLE_ITEM_ID,
-                Resource.RESOURCE_TYPE.Item));
+                ResourceType.Item));
         relation
             .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
         relations.add(relation);

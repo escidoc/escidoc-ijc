@@ -43,6 +43,7 @@ import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContextHandlerClient;
 import de.escidoc.core.client.soap.SoapContextHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
@@ -57,7 +58,6 @@ import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ContextRecord;
 
 /**
  * This is the generic ContextSoapHandlerClient which binds the transport
@@ -78,7 +78,7 @@ public class ContextHandlerClient
     public ContextHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -86,7 +86,7 @@ public class ContextHandlerClient
     public ContextHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * Create Context in Repository.
      * 
@@ -100,6 +100,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Context create(final Context context) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -132,6 +133,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Context retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -160,6 +162,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Properties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -178,6 +181,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -202,6 +206,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Context update(final Context context) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -236,6 +241,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result open(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -270,6 +276,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result close(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -304,6 +311,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -327,6 +335,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public AdminDescriptors retrieveAdminDescriptors(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -357,6 +366,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public AdminDescriptor retrieveAdminDescriptor(
         final String id, final String name) throws EscidocException,
         InternalClientException, TransportException {
@@ -386,6 +396,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public ContextList retrieveContexts(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -418,6 +429,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public SearchRetrieveResponse retrieveContexts(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
@@ -443,12 +455,10 @@ public class ContextHandlerClient
         Collection<Context> results = new LinkedList<Context>();
 
         for (Record record : response.getRecords()) {
-            if (record instanceof ContextRecord) {
-                ContextRecord cRecord = (ContextRecord) record;
-                Context result = cRecord.getRecordData();
-                if (result != null) {
-                    results.add(result);
-                }
+            Context result =
+                getSRWResourceRecordData(record, ResourceType.Context);
+            if (result != null) {
+                results.add(result);
             }
         }
         return results;
@@ -467,6 +477,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ExplainResponse retrieveContexts(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -497,6 +508,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public MemberList retrieveMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -526,6 +538,7 @@ public class ContextHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public SearchRetrieveResponse retrieveMembers(
         final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
@@ -553,6 +566,7 @@ public class ContextHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     @SuppressWarnings("rawtypes")
     public Collection<GenericVersionableResource> retrieveMembersAsList(
         final String id, final SearchRetrieveRequestType filter)
@@ -586,6 +600,7 @@ public class ContextHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public ExplainResponse retrieveMembers(
         final String id, final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
@@ -617,6 +632,7 @@ public class ContextHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {

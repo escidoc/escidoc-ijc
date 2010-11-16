@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.item;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.ContentStreams;
@@ -64,7 +65,7 @@ public class Item extends GenericVersionableResource
      * Item.
      */
     public Item() {
-        setResourceType(RESOURCE_TYPE.Item);
+        setResourceType(ResourceType.Item);
     }
 
     /**
@@ -179,13 +180,13 @@ public class Item extends GenericVersionableResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
                 null);
-            genXLinkHref(properties.getContext(), RESOURCE_TYPE.Context, null);
+            genXLinkHref(properties.getContext(), ResourceType.Context, null);
             genXLinkHref(properties.getContentModel(),
-                RESOURCE_TYPE.ContentModel, null);
-            genXLinkHref(properties.getOrigin(), RESOURCE_TYPE.Item, null);
-            genXLinkHref(properties.getLockOwner(), RESOURCE_TYPE.UserAccount,
+                ResourceType.ContentModel, null);
+            genXLinkHref(properties.getOrigin(), ResourceType.Item, null);
+            genXLinkHref(properties.getLockOwner(), ResourceType.UserAccount,
                 null);
             genVersionHref((Version) properties.getVersion());
             genVersionHref((Version) properties.getLatestVersion());
@@ -200,7 +201,7 @@ public class Item extends GenericVersionableResource
                 String cPrefix = null;
                 if (getXLinkHref() != null) {
                     cPrefix =
-                        genXLinkHref(component, RESOURCE_TYPE.Component,
+                        genXLinkHref(component, ResourceType.Component,
                             getXLinkHref());
                 }
 
@@ -210,9 +211,9 @@ public class Item extends GenericVersionableResource
                         properties.setXLinkHref(cPrefix + "/properties");
                     }
                     genXLinkHref(properties.getCreatedBy(),
-                        RESOURCE_TYPE.UserAccount, null);
+                        ResourceType.UserAccount, null);
                     genXLinkHref(properties.getModifiedBy(),
-                        RESOURCE_TYPE.UserAccount, null);
+                        ResourceType.UserAccount, null);
                 }
 
                 if (component.getContent() != null
@@ -271,12 +272,12 @@ public class Item extends GenericVersionableResource
     protected void genVersionHref(final Version version) {
         if (version != null && version.getXLinkHref() == null) {
             version.setXLinkHref(Resource.RESOURCE_URL_MAP
-                .get(RESOURCE_TYPE.Item)
+                .get(ResourceType.Item)
                 + "/"
                 + getObjid()
                 + ":"
                 + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(version.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }
     }

@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Reference;
 
 /**
@@ -11,11 +12,11 @@ import de.escidoc.core.resources.common.reference.Reference;
  */
 public abstract class MemberRef extends Reference {
 
-    public MemberRef(String objid, RESOURCE_TYPE type) {
+    public MemberRef(String objid, ResourceType type) {
         super(objid, type);
     }
 
-    public MemberRef(String objid, RESOURCE_TYPE type, String xLinkTitle) {
+    public MemberRef(String objid, ResourceType type, String xLinkTitle) {
         super(objid, type, xLinkTitle);
     }
 }

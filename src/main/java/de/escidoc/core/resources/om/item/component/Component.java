@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.item.component;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
 
@@ -49,7 +50,7 @@ public class Component extends GenericResource {
      * Component.
      */
     public Component() {
-    	setResourceType(RESOURCE_TYPE.Component);
+    	setResourceType(ResourceType.Component);
     }
 
     /**

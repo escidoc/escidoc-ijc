@@ -44,7 +44,7 @@ import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException
 import de.escidoc.core.client.exceptions.application.notfound.GrantNotFoundException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
-import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.GrantProperties;
 import de.escidoc.core.resources.aa.useraccount.Grants;
@@ -195,7 +195,7 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         GrantProperties gProp = new GrantProperties();
         gProp.setRole(new RoleRef(roleId));
         gProp.setAssignedOn(new Reference(createdItem.getObjid(),
-            Resource.RESOURCE_TYPE.Item));
+            ResourceType.Item));
         grant.setGrantProperties(gProp);
 
         Grant createdGrant = uahc.createGrant(objId, grant);
@@ -242,7 +242,7 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         GrantProperties gProp = new GrantProperties();
         gProp.setRole(new RoleRef(roleId));
         gProp.setAssignedOn(new Reference("escidoc:NON-exists",
-            Resource.RESOURCE_TYPE.UserAccount));
+            ResourceType.UserAccount));
         grant.setGrantProperties(gProp);
 
         uahc.createGrant(objId, grant);

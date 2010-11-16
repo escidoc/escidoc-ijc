@@ -46,6 +46,7 @@ import de.escidoc.core.client.soap.SoapOrganizationalUnitHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
@@ -56,7 +57,6 @@ import de.escidoc.core.resources.oum.PathList;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.OrganizationalUnitRecord;
 
 /**
  * This is the generic OrganizationalUnitClientHandler which binds the transport
@@ -558,13 +558,11 @@ public class OrganizationalUnitHandlerClient
             new LinkedList<OrganizationalUnit>();
 
         for (Record<?> record : response.getRecords()) {
-            if (record instanceof OrganizationalUnitRecord) {
-                OrganizationalUnitRecord oRecord =
-                    (OrganizationalUnitRecord) record;
-                OrganizationalUnit result = oRecord.getRecordData();
-                if (result != null) {
-                    results.add(result);
-                }
+            OrganizationalUnit result =
+                getSRWResourceRecordData(record,
+                    ResourceType.OrganizationalUnit);
+            if (result != null) {
+                results.add(result);
             }
         }
         return results;

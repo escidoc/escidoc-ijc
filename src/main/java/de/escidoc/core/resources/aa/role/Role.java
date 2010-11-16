@@ -31,6 +31,7 @@ package de.escidoc.core.resources.aa.role;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.RoleRef;
@@ -53,7 +54,7 @@ public class Role extends GenericResource
     private Element policyOrPolicySet;
 
     public Role() {
-        setResourceType(RESOURCE_TYPE.Role);
+        setResourceType(ResourceType.Role);
     }
 
     /**
@@ -123,9 +124,9 @@ public class Role extends GenericResource
         genOwnXLinkHref();
 
         if (properties != null) {
-            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
                 null);
-            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }
     }

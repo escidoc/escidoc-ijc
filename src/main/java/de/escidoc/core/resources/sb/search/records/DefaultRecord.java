@@ -6,6 +6,7 @@ package de.escidoc.core.resources.sb.search.records;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.common.jibx.binding.SearchRetrieveResponseRecordMarshaller;
 import de.escidoc.core.resources.sb.Record;
 
 /**
@@ -22,9 +23,9 @@ public class DefaultRecord extends Record<String> {
      * @param recordDataText
      * @param protocol
      */
-    public DefaultRecord(String recordSchema, String recordPacking,
-        int recordPosition, Element recordDataDOM, String recordDataText,
-        TransportProtocol protocol) {
+    public DefaultRecord(final String recordSchema, final String recordPacking,
+        final int recordPosition, final Element recordDataDOM,
+        final String recordDataText, final TransportProtocol protocol) {
         super(recordSchema, recordPacking, recordPosition, recordDataDOM,
             recordDataText, protocol);
     }

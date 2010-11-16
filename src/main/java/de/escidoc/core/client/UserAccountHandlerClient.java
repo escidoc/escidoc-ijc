@@ -44,6 +44,7 @@ import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.client.soap.SoapUserAccountHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.resources.aa.useraccount.Grant;
@@ -56,7 +57,6 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.UserAccountRecord;
 
 /**
  * This is the generic ContainerSoapContainerHandlerClient which binds the
@@ -98,6 +98,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public UserAccount create(final UserAccount userAccount)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -131,6 +132,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public UserAccount retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -157,6 +159,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -180,6 +183,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public UserAccount update(final UserAccount userAccount)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -219,6 +223,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void updatePassword(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -243,6 +248,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void activate(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -267,6 +273,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void deactivate(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -291,6 +298,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public UserAccount retrieveCurrentUser() throws EscidocClientException,
         InternalClientException, TransportException {
 
@@ -322,6 +330,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Grant createGrant(final String userId, final Grant grant)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -360,6 +369,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void revokeGrant(
         final String userId, final String grantId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
@@ -387,6 +397,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Preference createPreference(
         final String userId, final Preference preference)
         throws EscidocClientException, InternalClientException,
@@ -427,6 +438,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Preference retrievePreference(final String userId, final String name)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -458,6 +470,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Preferences retrievePreferences(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -489,6 +502,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Preference updatePreference(
         final String userId, final Preference preference)
         throws EscidocClientException, InternalClientException,
@@ -530,6 +544,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void deletePreference(
         final String userId, final Preference preference)
         throws EscidocClientException, InternalClientException,
@@ -553,6 +568,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void deletePreference(final String userId, final String name)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -577,6 +593,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Attribute createAttribute(
         final String userId, final Attribute attribute)
         throws EscidocClientException, InternalClientException,
@@ -617,6 +634,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Attribute retrieveAttribute(
         final String userId, final String attributeId)
         throws EscidocClientException, InternalClientException,
@@ -649,6 +667,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Attributes retrieveAttributes(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -680,6 +699,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Attribute updateAttribute(
         final String userId, final Attribute attribute)
         throws EscidocClientException, InternalClientException,
@@ -721,6 +741,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void deleteAttribute(final String userId, final Attribute attribute)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -765,6 +786,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Grants retrieveCurrentGrants(final String userId)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -799,6 +821,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Grant retrieveGrant(final String userId, final String grantId)
         throws EscidocClientException, InternalClientException,
         TransportException {
@@ -830,6 +853,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public UserAccounts retrieveUserAccounts(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
@@ -865,6 +889,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public SearchRetrieveResponse retrieveUserAccounts(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
@@ -889,6 +914,7 @@ public class UserAccountHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     @SuppressWarnings("rawtypes")
     public Collection<UserAccount> retrieveUserAccountsAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
@@ -898,12 +924,10 @@ public class UserAccountHandlerClient
         Collection<UserAccount> results = new LinkedList<UserAccount>();
 
         for (Record record : res.getRecords()) {
-            if (record instanceof UserAccountRecord) {
-                UserAccountRecord uRecord = (UserAccountRecord) record;
-                UserAccount result = uRecord.getRecordData();
-                if (result != null)
-                    results.add(result);
-            }
+            UserAccount result =
+                getSRWResourceRecordData(record, ResourceType.UserAccount);
+            if (result != null)
+                results.add(result);
         }
 
         return results;
@@ -922,6 +946,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ExplainResponse retrieveUserAccounts(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -989,6 +1014,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public SearchRetrieveResponse retrieveGrants(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
@@ -1018,6 +1044,7 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ExplainResponse retrieveGrants(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 

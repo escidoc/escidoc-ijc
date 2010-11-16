@@ -41,7 +41,7 @@
 	<!-- SB -->
 	<include path="rest/sb/explain-response-binding.xml" />
 	<include path="rest/sb/explain-data-binding.xml" />
-	<include path="rest/sb/search-retrieve-response-binding.xml" />
+	<include path="rest/sb/srw-response-binding.xml" />
 	<include path="rest/sb/0.8/search-result-record-binding.xml" />
 	
 	<!-- SM -->

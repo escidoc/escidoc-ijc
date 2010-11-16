@@ -5,7 +5,7 @@ package de.escidoc.core.resources.adm;
 
 import org.w3c.dom.Element;
 
-import de.escidoc.core.resources.Resource.RESOURCE_TYPE;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MessagesResult;
 import de.escidoc.core.resources.common.Result;
 
@@ -35,7 +35,7 @@ public class LoadExamplesResult
         final String message = messageNode.getTextContent();
         final String type = message.substring(8, message.indexOf(':'));
         final String objid = message.substring(message.indexOf(':') + 2);
-        return new Entry(objid, RESOURCE_TYPE.valueByTagName(type), message);
+        return new Entry(objid, ResourceType.valueByTagName(type), message);
     }
 
     /**
@@ -49,7 +49,7 @@ public class LoadExamplesResult
 
         private final String objid;
 
-        private final RESOURCE_TYPE type;
+        private final ResourceType type;
 
         /**
          * 
@@ -57,7 +57,7 @@ public class LoadExamplesResult
          * @param type
          * @param message
          */
-        public Entry(final String objid, final RESOURCE_TYPE type,
+        public Entry(final String objid, final ResourceType type,
             final String message) {
             this.objid = objid;
             this.type = type;
@@ -84,7 +84,7 @@ public class LoadExamplesResult
          * 
          * @return
          */
-        public RESOURCE_TYPE getResourceType() {
+        public ResourceType getResourceType() {
             return type;
         }
 

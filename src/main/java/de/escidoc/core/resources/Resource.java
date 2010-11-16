@@ -39,80 +39,34 @@ import java.util.Map;
  */
 public abstract class Resource extends XLinkResource {
 
-    /**
-     * Types of eSciDoc resources.
-     * 
-     */
-    public static enum RESOURCE_TYPE {
-        // root resources
-        Context(true, "context"), Item(true, "item"), Container(true,
-            "container"), OrganizationalUnit(true, "organizational-unit"), UserAccount(
-            true, "user-account"), ContentModel(true, "content-model"), Grant(
-            true, "grant"), Role(true, "role"), ContentRelation(true,
-            "content-relation"), Scope(true, "scope"), ReportDefinition(true,
-            "report-definition"), AggregationDefinition(true,
-            "aggregation-definition"),
-        // sub resources
-        Component(false, "component"), Toc(false, null), UserAccountAttribute(
-            false, null);
-
-        final boolean isRootResource;
-
-        final String tagName;
-
-        RESOURCE_TYPE(final boolean isRootResource, final String tagName) {
-            this.isRootResource = isRootResource;
-            this.tagName = tagName;
-        }
-
-        public boolean isRootResource() {
-            return isRootResource;
-        }
-
-        public String getTagName() {
-            return tagName;
-        }
-
-        public static final RESOURCE_TYPE valueByTagName(final String tagName) {
-            if (tagName == null)
-                return null;
-
-            for (int i = 0; i < values().length; i++) {
-                if (values()[i].tagName.equals(tagName))
-                    return values()[i];
-            }
-            return null;
-        }
-    }
-
-    public static final Map<RESOURCE_TYPE, String> RESOURCE_URL_MAP =
-        new HashMap<RESOURCE_TYPE, String>();
+    public static final Map<ResourceType, String> RESOURCE_URL_MAP =
+        new HashMap<ResourceType, String>();
     {
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Context, "/ir/context");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Item, "/ir/item");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Container, "/ir/container");
+        Resource.RESOURCE_URL_MAP.put(ResourceType.Context, "/ir/context");
+        Resource.RESOURCE_URL_MAP.put(ResourceType.Item, "/ir/item");
+        Resource.RESOURCE_URL_MAP.put(ResourceType.Container, "/ir/container");
         /* /ir/item/<iID>/components/component/<cID>/ */
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Component,
+        Resource.RESOURCE_URL_MAP.put(ResourceType.Component,
             "/components/component");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Toc, "/tocs");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.OrganizationalUnit,
+        Resource.RESOURCE_URL_MAP.put(ResourceType.Toc, "/tocs");
+        Resource.RESOURCE_URL_MAP.put(ResourceType.OrganizationalUnit,
             "/oum/organizational-unit");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.UserAccount,
+        Resource.RESOURCE_URL_MAP.put(ResourceType.UserAccount,
             "/aa/user-account");
         /* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.UserAccountAttribute,
+        Resource.RESOURCE_URL_MAP.put(ResourceType.UserAccountAttribute,
             "/resources/attributes/attribute");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.ContentModel,
+        Resource.RESOURCE_URL_MAP.put(ResourceType.ContentModel,
             "/cmm/content-model");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Grant, "/aa/grant");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.Role, "/aa/role");
-        Resource.RESOURCE_URL_MAP.put(RESOURCE_TYPE.ContentRelation,
+        Resource.RESOURCE_URL_MAP.put(ResourceType.Grant, "/aa/grant");
+        Resource.RESOURCE_URL_MAP.put(ResourceType.Role, "/aa/role");
+        Resource.RESOURCE_URL_MAP.put(ResourceType.ContentRelation,
             "/ir/content-relation");
     }
 
     private String objid;
 
-    private RESOURCE_TYPE resourceType = null;
+    private ResourceType resourceType = null;
 
     /**
      * 
@@ -135,7 +89,7 @@ public abstract class Resource extends XLinkResource {
      * @param objid
      * @param type
      */
-    public Resource(final String objid, final RESOURCE_TYPE type) {
+    public Resource(final String objid, final ResourceType type) {
         setObjid(objid);
         setResourceType(type);
     }
@@ -145,7 +99,7 @@ public abstract class Resource extends XLinkResource {
      * @param objid
      * @param type
      */
-    public Resource(final String objid, final RESOURCE_TYPE type,
+    public Resource(final String objid, final ResourceType type,
         final String title) {
         setObjid(objid);
         setResourceType(type);
@@ -192,7 +146,7 @@ public abstract class Resource extends XLinkResource {
      *            The type of the resource.
      */
     public Resource(final String objid, final String href, final String title,
-        final RESOURCE_TYPE resourceType) {
+        final ResourceType resourceType) {
         setXLinkHref(href);
         setXLinkTitle(title);
         setResourceType(resourceType);
@@ -236,7 +190,7 @@ public abstract class Resource extends XLinkResource {
      * @param resourceType
      *            type of resource
      */
-    public void setResourceType(final RESOURCE_TYPE resourceType) {
+    public void setResourceType(final ResourceType resourceType) {
         this.resourceType = resourceType;
     }
 
@@ -245,7 +199,7 @@ public abstract class Resource extends XLinkResource {
      * 
      * @return Resource type
      */
-    public RESOURCE_TYPE getResourceType() {
+    public ResourceType getResourceType() {
         return this.resourceType;
     }
 
@@ -309,7 +263,7 @@ public abstract class Resource extends XLinkResource {
      * @return the generated HREF
      */
     protected static final String genXLinkHref(
-        final Resource resource, final RESOURCE_TYPE type, final String prefix) {
+        final Resource resource, final ResourceType type, final String prefix) {
 
         if (resource != null && resource.getXLinkHref() == null) {
 
@@ -342,12 +296,12 @@ public abstract class Resource extends XLinkResource {
      *         if the specified xLinkHref cannot be mapped to a root resource
      *         type.
      */
-    public static final RESOURCE_TYPE getRootResourceTypeForHref(
+    public static final ResourceType getRootResourceTypeForHref(
         final String xLinkHref) {
         if (xLinkHref == null)
             return null;
 
-        for (Map.Entry<RESOURCE_TYPE, String> entry : RESOURCE_URL_MAP
+        for (Map.Entry<ResourceType, String> entry : RESOURCE_URL_MAP
             .entrySet()) {
             if (entry.getKey().isRootResource()
                 && xLinkHref.startsWith(entry.getValue())) {

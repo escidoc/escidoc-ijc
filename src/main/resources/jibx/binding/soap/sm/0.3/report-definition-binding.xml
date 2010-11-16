@@ -1,6 +1,6 @@
 <binding>
   <mapping name="report-definition" 
-    class="de.escidoc.core.resources.sm.rd.ReportDefinition"
+    class="de.escidoc.core.resources.sm.report.ReportDefinition"
     ns="http://www.escidoc.de/schemas/reportdefinition/0.3">
     
     <namespace uri="http://www.escidoc.de/schemas/reportdefinition/0.3" 

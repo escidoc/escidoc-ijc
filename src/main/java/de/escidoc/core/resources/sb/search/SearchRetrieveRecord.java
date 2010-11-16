@@ -52,11 +52,11 @@ public class SearchRetrieveRecord extends Record<SearchResultRecord> {
             }
             catch (TransformerException e) {
                 // ignore
-                LOGGER.debug(e.getMessage(), e);
+                LOG.debug(e.getMessage(), e);
             }
             catch (InternalClientException e) {
                 // ignore
-                LOGGER.debug(e.getMessage(), e);
+                LOG.debug(e.getMessage(), e);
             }
             return null;
         }
@@ -77,7 +77,7 @@ public class SearchRetrieveRecord extends Record<SearchResultRecord> {
             }
             catch (InternalClientException e) {
                 // ignore
-                LOGGER.debug(e.getMessage(), e);
+                LOG.debug(e.getMessage(), e);
             }
         }
         return null;

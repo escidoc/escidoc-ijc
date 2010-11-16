@@ -43,6 +43,7 @@ import de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContentRelationHandlerClient;
 import de.escidoc.core.client.soap.SoapContentRelationHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
@@ -50,7 +51,6 @@ import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ContentRelationRecord;
 
 /**
  * This is the generic ContentRelationSoapHandlerClient which binds the
@@ -71,7 +71,7 @@ public class ContentRelationHandlerClient
     public ContentRelationHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -79,7 +79,7 @@ public class ContentRelationHandlerClient
     public ContentRelationHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * Create ContentRelation in Repository.
      * 
@@ -93,6 +93,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ContentRelation create(final ContentRelation contentRelation)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -134,6 +135,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ContentRelation retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -162,6 +164,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Properties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -180,6 +183,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -204,6 +208,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ContentRelation update(final ContentRelation contentRelation)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -243,6 +248,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignObjectPid(
         final ContentRelation cr, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -265,6 +271,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -299,6 +306,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result lock(final ContentRelation cr, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -320,6 +328,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result lock(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -354,6 +363,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result unlock(final ContentRelation cr, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -375,6 +385,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result unlock(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -413,6 +424,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result submit(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -448,6 +460,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result submit(
         final ContentRelation contentRelation, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -470,6 +483,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result release(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -504,6 +518,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result release(
         final ContentRelation contentRelation, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -526,6 +541,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result revise(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -560,6 +576,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result revise(
         final ContentRelation contentRelation, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -580,6 +597,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public SearchRetrieveResponse retrieveContentRelations(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
@@ -595,22 +613,21 @@ public class ContentRelationHandlerClient
             .getMarshallerFactory(getTransport())
             .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
     }
-    
+
     @SuppressWarnings("rawtypes")
     @Override
     public Collection<ContentRelation> retrieveContentRelationsAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
+
         SearchRetrieveResponse response = retrieveContentRelations(filter);
         Collection<ContentRelation> results = new LinkedList<ContentRelation>();
 
         for (Record record : response.getRecords()) {
-            if (record instanceof ContentRelationRecord) {
-                ContentRelationRecord cRecord = (ContentRelationRecord) record;
-                ContentRelation result = cRecord.getRecordData();
-                if (result != null) {
-                    results.add(result);
-                }
+            ContentRelation contentRelation =
+                getSRWResourceRecordData(record, ResourceType.ContentRelation);
+            if (contentRelation != null) {
+                results.add(contentRelation);
             }
         }
         return results;
@@ -629,6 +646,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ExplainResponse retrieveContentRelations(
         final ExplainRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
@@ -658,6 +676,7 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {

@@ -1,6 +1,7 @@
 package de.escidoc.core.resources.aa.useraccount;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.GrantRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
@@ -22,7 +23,7 @@ public class Grant extends GenericResource
      * 
      */
     public Grant() {
-        setResourceType(RESOURCE_TYPE.Grant);
+        setResourceType(ResourceType.Grant);
     }
 
     /**
@@ -56,14 +57,14 @@ public class Grant extends GenericResource
         if (grantProperties != null) {
 
             genXLinkHref(grantProperties.getCreatedBy(),
-                RESOURCE_TYPE.UserAccount, null);
+                ResourceType.UserAccount, null);
             genXLinkHref(grantProperties.getModifiedBy(),
-                RESOURCE_TYPE.UserAccount, null);
+                ResourceType.UserAccount, null);
             genXLinkHref(grantProperties.getGrantedTo(),
-                RESOURCE_TYPE.UserAccount, null);
+                ResourceType.UserAccount, null);
             genXLinkHref(grantProperties.getRevokedBy(),
-                RESOURCE_TYPE.UserAccount, null);
-            genXLinkHref(grantProperties.getRole(), RESOURCE_TYPE.Role, null);
+                ResourceType.UserAccount, null);
+            genXLinkHref(grantProperties.getRole(), ResourceType.Role, null);
 
             /**
              * AssignedOn cannot be generated if ResourceType is null or not a

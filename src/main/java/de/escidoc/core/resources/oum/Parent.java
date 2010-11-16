@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.oum;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 
 /**
@@ -51,6 +52,6 @@ public class Parent extends Resource {
      *            The objid of the parent Organizational Unit.
      */
     public Parent(final String objid) {
-        super(objid, RESOURCE_TYPE.OrganizationalUnit);
+        super(objid, ResourceType.OrganizationalUnit);
     }
 }

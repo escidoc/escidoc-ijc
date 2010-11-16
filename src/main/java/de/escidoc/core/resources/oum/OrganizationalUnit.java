@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.oum;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -54,7 +55,7 @@ public class OrganizationalUnit extends GenericResource
      * 
      */
     public OrganizationalUnit() {
-        setResourceType(RESOURCE_TYPE.OrganizationalUnit);
+        setResourceType(ResourceType.OrganizationalUnit);
     }
 
     /**
@@ -159,9 +160,9 @@ public class OrganizationalUnit extends GenericResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
                 null);
-            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }
         if (parents != null) {
@@ -170,7 +171,7 @@ public class OrganizationalUnit extends GenericResource
             }
 
             for (Parent parent : parents) {
-                genXLinkHref(parent, RESOURCE_TYPE.OrganizationalUnit, null);
+                genXLinkHref(parent, ResourceType.OrganizationalUnit, null);
             }
 
         }
@@ -195,7 +196,7 @@ public class OrganizationalUnit extends GenericResource
 
             for (Predecessor predecessor : predecessors.getPredecessorRef()) {
                 if (predecessor.getXLinkHref() == null) {
-                    genXLinkHref(predecessor, RESOURCE_TYPE.OrganizationalUnit,
+                    genXLinkHref(predecessor, ResourceType.OrganizationalUnit,
                         null);
                 }
             }

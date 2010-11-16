@@ -17,7 +17,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.common.reference.ScopeRef;
-import de.escidoc.core.resources.sm.rd.ReportDefinition;
+import de.escidoc.core.resources.sm.report.ReportDefinition;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;

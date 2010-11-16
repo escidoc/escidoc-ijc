@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.context;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ContextRef;
@@ -50,7 +51,7 @@ public class Context extends GenericResource
     /**
      */
     public Context() {
-        setResourceType(RESOURCE_TYPE.Context);
+        setResourceType(ResourceType.Context);
     }
 
     /**
@@ -103,14 +104,14 @@ public class Context extends GenericResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
                 null);
-            genXLinkHref(properties.getModifiedBy(), RESOURCE_TYPE.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
                 null);
 
             if (properties.getOrganizationalUnitRefs() != null) {
                 for (Resource ouRef : properties.getOrganizationalUnitRefs()) {
-                    genXLinkHref(ouRef, RESOURCE_TYPE.OrganizationalUnit, null);
+                    genXLinkHref(ouRef, ResourceType.OrganizationalUnit, null);
                 }
             }
         }

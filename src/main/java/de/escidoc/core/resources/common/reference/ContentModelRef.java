@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.resources.ResourceType;
+
 /**
  * @author MVO
  * 
@@ -18,6 +20,6 @@ public class ContentModelRef extends Reference {
     }
 
     public ContentModelRef(String objid, String xLinkTitle) {
-        super(objid, RESOURCE_TYPE.ContentModel, xLinkTitle);
+        super(objid, ResourceType.ContentModel, xLinkTitle);
     }
 }

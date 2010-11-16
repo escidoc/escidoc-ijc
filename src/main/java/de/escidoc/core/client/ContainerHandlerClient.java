@@ -43,6 +43,7 @@ import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.client.soap.SoapContainerHandlerClient;
 import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
@@ -56,7 +57,6 @@ import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ContainerRecord;
 
 /**
  * This is the generic ContainerSoapContainerHandlerClient which binds the
@@ -77,7 +77,7 @@ public class ContainerHandlerClient
     public ContainerHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -85,7 +85,7 @@ public class ContainerHandlerClient
     public ContainerHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * Create Container within the repository.
      * 
@@ -99,6 +99,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Container create(final Container container) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -132,6 +133,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Container retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -160,6 +162,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Properties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -179,6 +182,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public VersionHistory retrieveVersionHistory(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -206,6 +210,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -230,6 +235,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Container update(final Container container) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -272,6 +278,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result submit(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -304,6 +311,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result submit(final Container container, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -325,6 +333,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result release(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -356,6 +365,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result release(final Container container, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -377,6 +387,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result revise(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -408,6 +419,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result revise(final Container container, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -429,6 +441,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result withdraw(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -460,6 +473,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result withdraw(final Container container, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -481,6 +495,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result lock(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -512,6 +527,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result unlock(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -547,6 +563,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignVersionPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -578,6 +595,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -609,6 +627,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Container addContentRelations(
         final String id, final TaskParam taskParam) throws EscidocException,
         InternalClientException, TransportException {
@@ -644,6 +663,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Container removeContentRelations(
         final String id, final TaskParam taskParam) throws EscidocException,
         InternalClientException, TransportException {
@@ -680,6 +700,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result addMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -711,6 +732,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Result removeMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -743,6 +765,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Item createItem(final String id, final Item item)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -778,6 +801,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Container createContainer(final String id, final Container container)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -810,6 +834,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public StructMap retrieveStructMap(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -838,6 +863,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public ContainerList retrieveContainers(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -868,6 +894,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public SearchRetrieveResponse retrieveContainers(
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
@@ -893,13 +920,11 @@ public class ContainerHandlerClient
         SearchRetrieveResponse response = retrieveContainers(filter);
         Collection<Container> containers = new LinkedList<Container>();
 
-        for (Record record : response.getRecords()) {
-            if (record instanceof ContainerRecord) {
-                ContainerRecord containerRecord = (ContainerRecord) record;
-                Container container = containerRecord.getRecordData();
-                if (container != null) {
-                    containers.add(container);
-                }
+        for (Record<?> record : response.getRecords()) {
+            Container container =
+                getSRWResourceRecordData(record, ResourceType.Container);
+            if (container != null) {
+                containers.add(container);
             }
         }
         return containers;
@@ -918,6 +943,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ExplainResponse retrieveContainers(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -946,6 +972,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public Relations retrieveRelations(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -977,6 +1004,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public MemberList retrieveMembers(final String id, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
@@ -1011,6 +1039,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public SearchRetrieveResponse retrieveMembers(
         final Container container, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
@@ -1046,6 +1075,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ExplainResponse retrieveMembers(
         final Container container, final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
@@ -1080,6 +1110,7 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     @Deprecated
     public DateTime getLastModificationDate(final String id)
         throws EscidocException, InternalClientException, TransportException {
