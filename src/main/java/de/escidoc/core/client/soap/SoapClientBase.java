@@ -12,7 +12,10 @@ import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
+import org.apache.axis.EngineConfiguration;
 import org.apache.axis.client.Stub;
+import org.apache.axis.configuration.FileProvider;
+import org.apache.log4j.Logger;
 import org.apache.ws.security.WSConstants;
 import org.apache.ws.security.WSPasswordCallback;
 import org.apache.ws.security.handler.WSHandlerConstants;
@@ -27,7 +30,15 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 public abstract class SoapClientBase extends ClientBase
     implements CallbackHandler {
 
-    public static final String ESCIDOC_USER = "eSciDocUser";
+    private static final String ESCIDOC_USER = "eSciDocUser";
+
+    private static final String ENGINE_CONFIG_FILE =
+        "clientlib_wss4j_config.wsdd";
+
+    private static final EngineConfiguration engineConfig = new FileProvider(
+        ENGINE_CONFIG_FILE);
+
+    private final Logger LOG = Logger.getLogger(SoapClientBase.class);
 
     /**
      * Create an instance of client base using the default constructor.
@@ -53,6 +64,42 @@ public abstract class SoapClientBase extends ClientBase
     }
 
     /**
+     * @return Returns the engineConfig.
+     */
+    public EngineConfiguration getEngineConfig() {
+        return engineConfig;
+    }
+
+    /**
+     * Check the given service address if it's base (server_host:port) is the
+     * same as the constant <code>Constants.HOST_PORT</code>. If not
+     * (server_host:port) is changed to the value configured in constant
+     * <code>Constants.HOST_PORT</code>.
+     * 
+     * @param serviceUrl
+     *            The original address.
+     * @return The resulting address.
+     */
+    protected String checkSoapAddress(final String serviceUrl) {
+
+        final int pSize = "http://".length();
+        final int tSize = 5;
+
+        String result = serviceUrl;
+        if (!serviceUrl.startsWith("http://")) {
+            String tmp = serviceUrl.substring(pSize);
+            if (tmp.indexOf(":") != -1) {
+                tmp = tmp.substring(tmp.indexOf(":") + tSize);
+                result = "http://" + serviceUrl + tmp;
+            }
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Service address '" + result + "'");
+        }
+        return result;
+    }
+
+    /**
      * The handle method of the callback handler.
      * 
      * @param callbacks
@@ -64,20 +111,21 @@ public abstract class SoapClientBase extends ClientBase
      * @see javax.security.auth.callback.CallbackHandler#handle
      *      (javax.security.auth.callback.Callback[])
      */
+    @Override
     public void handle(final Callback[] callbacks) throws IOException,
         UnsupportedCallbackException {
 
         String handle = getHandle();
 
-        for (int i = 0; i < callbacks.length; i++) {
-            if (callbacks[i] instanceof WSPasswordCallback) {
-                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+        for (Callback callback : callbacks) {
+            if (callback instanceof WSPasswordCallback) {
+                WSPasswordCallback pc = (WSPasswordCallback) callback;
                 if (ESCIDOC_USER.equals(pc.getIdentifier())) {
-                    pc.setPassword((handle == null) ? "" : handle);
+                    pc.setPassword(handle == null ? "" : handle);
                 }
             }
             else {
-                throw new UnsupportedCallbackException(callbacks[i],
+                throw new UnsupportedCallbackException(callback,
                     "Unrecognized Callback");
             }
         }
@@ -120,7 +168,7 @@ public abstract class SoapClientBase extends ClientBase
      * @throws InternalClientException
      *             if the specified remoteService is not an instance of Stub.
      */
-    protected void registerPWCallback(Remote remoteService)
+    protected void registerPWCallback(final Remote remoteService)
         throws InternalClientException {
         if (remoteService instanceof Stub) {
             Stub stub = (Stub) remoteService;
