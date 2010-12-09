@@ -2,6 +2,7 @@ package de.escidoc.core.common.jibx;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.log4j.Logger;
@@ -26,6 +27,8 @@ public class Marshaller<E> {
     private final Class<E> resourceClass;
 
     private String bindingName;
+
+    private Object userContext;
 
     /**
      * 
@@ -80,13 +83,59 @@ public class Marshaller<E> {
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             ByteArrayInputStream in =
                 new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
-            result = (E) uctx.unmarshalDocument(in, null);
+
+            uctx.setDocument(in, "UTF-8");
+            if (userContext != null)
+                uctx.setUserContext(userContext);
+
+            result = (E) uctx.unmarshalElement();
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             throw new InternalClientException(
                 "Unmarshalling from XML document to " + resourceClass.getName()
                     + " failed! Document is not 'UTF-8' encoded! ", e);
+        }
+        catch (JiBXException e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
+            throw new InternalClientException(
+                "Unmarshalling from XML document to " + resourceClass.getName()
+                    + " failed! ", e);
+        }
+        return result;
+    }
+
+    /**
+     * Unmarshall XML document to Java class.<br/>
+     * <br/>
+     * Thread-safety: The UnmarshallingContext itself is not thread-safe. This
+     * method creates a new instance of the UnmarshallingContext for each call.
+     * Therefore this class itself is thread-safe.
+     * 
+     * @param xmlStream
+     *            The XML document as a stream.
+     * @return The corresponding java class.
+     * @throws InternalClientException
+     */
+    @SuppressWarnings("unchecked")
+    public E unmarshalDocument(final InputStream xmlInputStream)
+        throws InternalClientException {
+
+        if (xmlInputStream == null)
+            throw new IllegalArgumentException(
+                "xmlInputStream must not be null.");
+
+        E result = null;
+
+        try {
+            IBindingFactory bfact = getBindingFactory();
+            IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+            uctx.setDocument(xmlInputStream, "UTF-8");
+            if (userContext != null)
+                uctx.setUserContext(userContext);
+            result = (E) uctx.unmarshalElement();
         }
         catch (JiBXException e) {
             if (LOG.isDebugEnabled()) {
@@ -156,6 +205,21 @@ public class Marshaller<E> {
      */
     public String getBindingName() {
         return this.bindingName;
+    }
+
+    /**
+     * @return the userContext
+     */
+    public final Object getUserContext() {
+        return userContext;
+    }
+
+    /**
+     * @param userContext
+     *            the userContext to set
+     */
+    public final void setUserContext(final Object userContext) {
+        this.userContext = userContext;
     }
 
     /**
