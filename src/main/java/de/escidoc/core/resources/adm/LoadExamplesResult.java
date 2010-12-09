@@ -3,6 +3,9 @@
  */
 package de.escidoc.core.resources.adm;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.w3c.dom.Element;
 
 import de.escidoc.core.resources.ResourceType;
@@ -17,6 +20,16 @@ public class LoadExamplesResult
     extends MessagesResult<LoadExamplesResult.Entry> {
 
     private static final long serialVersionUID = 556659402548830140L;
+
+    private static final Map<String, ResourceType> nameMap =
+        new HashMap<String, ResourceType>();
+    {
+        nameMap.put("container", ResourceType.Container);
+        nameMap.put("content-model", ResourceType.ContentModel);
+        nameMap.put("contex", ResourceType.Context);
+        nameMap.put("item", ResourceType.Item);
+        nameMap.put("organizational-unit", ResourceType.OrganizationalUnit);
+    }
 
     /**
      * 
@@ -35,7 +48,8 @@ public class LoadExamplesResult
         final String message = messageNode.getTextContent();
         final String type = message.substring(8, message.indexOf(':'));
         final String objid = message.substring(message.indexOf(':') + 2);
-        return new Entry(objid, ResourceType.valueByTagName(type), message);
+
+        return new Entry(objid, nameMap.get(type), message);
     }
 
     /**
