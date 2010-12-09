@@ -841,6 +841,7 @@
 				<artifactId>escidoc-core</artifactId>
 				<version>1.2</version>
 				<type>ear</type>
+				<scope>compile</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -850,6 +851,7 @@
 			<groupId>org.escidoc</groupId>
 			<artifactId>escidoc-core</artifactId>
 			<type>ear</type>
+			<scope>compile</scope>
 		</dependency>
 		<!-- Joda Time -->
 		<dependency>
@@ -913,7 +915,7 @@
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>
 			<version>0.2</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
