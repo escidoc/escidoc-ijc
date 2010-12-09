@@ -184,7 +184,7 @@
 		pre-get="genXLink">
 
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
-			prefix="srel" />
+			prefix="srel" default="elements"/>
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
@@ -198,14 +198,10 @@
       set-method="setLastModificationDate" get-method="getLastModificationDate"
       usage="optional"/>
 
-    <collection ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
-       create-type="de.escidoc.core.resources.oum.Parents"
-       item-type="de.escidoc.core.resources.oum.Parent">
+    <collection create-type="de.escidoc.core.resources.oum.Parents"
+       item-type="de.escidoc.core.resources.oum.Parent" usage="optional">
 
-      <structure
-        ns="http://escidoc.de/core/01/structural-relations/"
-        name="parent" usage="optional">
-
+      <structure name="parent">
         <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
           set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
         <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
@@ -256,23 +252,24 @@
 
 	<!-- start: binding of an organizational unit list -->
 	<mapping ns="http://www.escidoc.de/schemas/organizationalunitlist/0.8"
-		name="organizational-unit-list" class="de.escidoc.core.resources.oum.OrganizationalUnitList">
-		
-		<namespace uri="http://www.escidoc.de/schemas/organizationalunitlist/0.8"
-			prefix="organizational-unit-list" />
-		<namespace uri="http://www.escidoc.de/schemas/organizationalunit/0.8"
-			prefix="organizational-unit" />
-			
-		<collection create-type="de.escidoc.core.resources.oum.OrganizationalUnitList" 
-			item-type="de.escidoc.core.resources.oum.OrganizationalUnit">
-			
-			<structure name="organizational-unit"
-				ns="http://www.escidoc.de/schemas/organizationalunit/0.8">
-				<structure map-as="abstract-organizational-unit" />
-			</structure>
-			
-		</collection>
-	</mapping>
+    name="organizational-unit-list" class="de.escidoc.core.resources.oum.OrganizationalUnitList">
+    
+    <namespace uri="http://www.escidoc.de/schemas/organizationalunitlist/0.8"
+      prefix="organizational-unit-list" />
+    <namespace uri="http://www.escidoc.de/schemas/organizationalunit/0.8"
+      prefix="organizational-unit" />
+    
+    <collection create-type="de.escidoc.core.resources.oum.OrganizationalUnitList" 
+      item-type="de.escidoc.core.resources.oum.OrganizationalUnit"
+      usage="optional">
+      
+      <structure name="organizational-unit"
+        ns="http://www.escidoc.de/schemas/organizationalunit/0.8">
+        <structure map-as="abstract-organizational-unit" />
+      </structure>
+      
+    </collection>
+  </mapping>
 	<!-- end: binding of an organizational unit list -->
 
   <!-- Parents as list -->
