@@ -157,20 +157,16 @@
 		abstract="true" type-name="abstract-parents">
 
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
-			prefix="srel" />
+			prefix="srel" default="elements"/>
 			
 	  <value style="attribute" name="last-modification-date" 
       set-method="setLastModificationDate" get-method="getLastModificationDate"
       usage="optional"/>
 
-    <collection ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
-       create-type="de.escidoc.core.resources.oum.Parents"
-       item-type="de.escidoc.core.resources.oum.Parent">
+    <collection create-type="de.escidoc.core.resources.oum.Parents"
+       item-type="de.escidoc.core.resources.oum.Parent" usage="optional">
 
-      <structure
-        ns="http://escidoc.de/core/01/structural-relations/"
-        name="parent" usage="optional">
-
+      <structure name="parent">
         <value name="objid" style="attribute"
           set-method="setObjid" get-method="getObjid" usage="optional" />
       </structure>
@@ -217,7 +213,8 @@
 			prefix="organizational-unit" />
 		
 		<collection create-type="de.escidoc.core.resources.oum.OrganizationalUnitList" 
-      item-type="de.escidoc.core.resources.oum.OrganizationalUnit">
+      item-type="de.escidoc.core.resources.oum.OrganizationalUnit"
+      usage="optional">
 			
 			<structure name="organizational-unit"
 				ns="http://www.escidoc.de/schemas/organizationalunit/0.8">
