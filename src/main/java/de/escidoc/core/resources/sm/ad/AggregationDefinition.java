@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.AggregationDefinitionRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ScopeRef;
@@ -95,6 +96,11 @@ public class AggregationDefinition extends Resource
     @Override
     public AggregationDefinitionRef getReference() {
         return new AggregationDefinitionRef(this.getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.AggregationDefinition;
     }
 
 }
