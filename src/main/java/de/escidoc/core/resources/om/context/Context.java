@@ -28,8 +28,9 @@
  */
 package de.escidoc.core.resources.om.context;
 
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
@@ -41,6 +42,7 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
+@JiBX
 public class Context extends GenericResource
     implements XLinkAutonomous, Referenceable<ContextRef> {
 
@@ -51,7 +53,6 @@ public class Context extends GenericResource
     /**
      */
     public Context() {
-        setResourceType(ResourceType.Context);
     }
 
     /**
@@ -97,6 +98,7 @@ public class Context extends GenericResource
      * XLinkHref validation for JiBX. This method will be called by the JiBX
      * binding for the REST transport protocol as post-set.
      */
+    @Override
     public void genXLink() {
         genOwnXLinkHref();
 
@@ -131,10 +133,19 @@ public class Context extends GenericResource
         }
     }
 
-    /* (non-Javadoc)
-     * @see de.escidoc.core.resources.common.reference.Referenceable#getReference()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Referenceable#getReference()
      */
+    @Override
     public ContextRef getReference() {
         return new ContextRef(getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Context;
     }
 }

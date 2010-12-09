@@ -64,7 +64,6 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
      * 
      */
     public ContentRelation() {
-        setResourceType(ResourceType.ContentRelation);
     }
 
     /**
@@ -180,7 +179,7 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
      * @param subjectResourceRef
      *            the subjectResourceRef to set
      */
-    public void setSubject(Reference subjectResourceRef) {
+    public void setSubject(final Reference subjectResourceRef) {
         this.subject = subjectResourceRef;
     }
 
@@ -195,7 +194,7 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
      * @param objectResourceRef
      *            the objectResourceRef to set
      */
-    public void setObject(Reference objectResourceRef) {
+    public void setObject(final Reference objectResourceRef) {
         this.object = objectResourceRef;
     }
 
@@ -204,6 +203,7 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
      * 
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
+    @Override
     public void genXLink() {
         genOwnXLinkHref();
 
@@ -236,5 +236,10 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
             && object.getResourceType().isRootResource()) {
             genXLinkHref(object, object.getResourceType(), null);
         }
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.ContentRelation;
     }
 }

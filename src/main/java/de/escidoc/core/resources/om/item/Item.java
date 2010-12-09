@@ -28,8 +28,8 @@
  */
 package de.escidoc.core.resources.om.item;
 
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -65,7 +65,6 @@ public class Item extends GenericVersionableResource
      * Item.
      */
     public Item() {
-        setResourceType(ResourceType.Item);
     }
 
     /**
@@ -291,5 +290,10 @@ public class Item extends GenericVersionableResource
     @Override
     public ItemRef getReference() {
         return new ItemRef(getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Item;
     }
 }

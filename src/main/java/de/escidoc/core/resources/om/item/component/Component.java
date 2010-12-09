@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.item.component;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.om.GenericResource;
@@ -38,6 +39,7 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
+@JiBX
 public class Component extends GenericResource {
 
     private ComponentProperties properties;
@@ -50,7 +52,7 @@ public class Component extends GenericResource {
      * Component.
      */
     public Component() {
-    	setResourceType(ResourceType.Component);
+
     }
 
     /**
@@ -116,6 +118,11 @@ public class Component extends GenericResource {
      */
     public void setProperties(final ComponentProperties properties) {
         this.properties = properties;
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Component;
     }
 
 }

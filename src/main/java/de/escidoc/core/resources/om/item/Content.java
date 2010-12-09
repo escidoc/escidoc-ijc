@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 
 /**
  * Item Content.
@@ -48,7 +49,7 @@ public class Content extends Resource {
      * Content.
      */
     public Content() {
-    	
+
     }
 
     /**
@@ -87,5 +88,10 @@ public class Content extends Resource {
 
         URL url = new URL(this.storage);
         return url.openStream();
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return null;
     }
 }

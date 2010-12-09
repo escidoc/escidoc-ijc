@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.om.container;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -47,22 +48,22 @@ import de.escidoc.core.resources.om.GenericVersionableResource;
  * @author SWA
  * 
  */
+@JiBX
 public class Container extends GenericVersionableResource
     implements XLinkAutonomous, Referenceable<ContainerRef> {
 
-    private MetadataRecords mdRecords = null;
+    private MetadataRecords mdRecords;
 
-    private ContainerProperties properties = new ContainerProperties();
+    private ContainerProperties properties;
 
-    private StructMap structMap = null;
+    private StructMap structMap;
 
-    private Relations relations = null;
+    private Relations relations;
 
     /**
      * 
      */
     public Container() {
-        setResourceType(ResourceType.Container);
     }
 
     /**
@@ -71,6 +72,9 @@ public class Container extends GenericVersionableResource
      * @return properties
      */
     public ContainerProperties getProperties() {
+        if (properties == null) {
+            properties = new ContainerProperties();
+        }
         return this.properties;
     }
 
@@ -90,7 +94,9 @@ public class Container extends GenericVersionableResource
      * @return Relations
      */
     public Relations getRelations() {
-
+        if (relations == null) {
+            relations = new Relations();
+        }
         return this.relations;
     }
 
@@ -101,7 +107,6 @@ public class Container extends GenericVersionableResource
      *            The new relations.
      */
     public void setRelations(final Relations relations) {
-
         this.relations = relations;
 
     }
@@ -112,7 +117,9 @@ public class Container extends GenericVersionableResource
      * @return MetadataRecords
      */
     public MetadataRecords getMetadataRecords() {
-
+        if (mdRecords == null) {
+            mdRecords = new MetadataRecords();
+        }
         return this.mdRecords;
     }
 
@@ -123,7 +130,6 @@ public class Container extends GenericVersionableResource
      *            The new metadataRecords of Container.
      */
     public void setMetadataRecords(final MetadataRecords metadataRecords) {
-
         this.mdRecords = metadataRecords;
 
     }
@@ -134,6 +140,9 @@ public class Container extends GenericVersionableResource
      * @return StructMap of Container.
      */
     public StructMap getStructMap() {
+        if (structMap == null) {
+            structMap = new StructMap();
+        }
         return this.structMap;
     }
 
@@ -152,6 +161,7 @@ public class Container extends GenericVersionableResource
      * 
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
+    @Override
     public void genXLink() {
         genOwnXLinkHref();
 
@@ -214,7 +224,7 @@ public class Container extends GenericVersionableResource
      * 
      * @param version
      */
-    protected void genVersionHref(Version version) {
+    protected void genVersionHref(final Version version) {
         if (version != null && version.getXLinkHref() == null) {
             version.setXLinkHref(RESOURCE_URL_MAP.get(ResourceType.Container)
                 + "/" + getObjid() + ":" + version.getNumber());
@@ -229,7 +239,13 @@ public class Container extends GenericVersionableResource
      * @see
      * de.escidoc.core.resources.common.reference.Referenceable#getReference()
      */
+    @Override
     public ContainerRef getReference() {
         return new ContainerRef(getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Container;
     }
 }
