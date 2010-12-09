@@ -46,7 +46,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 
 /**
  * SOAP Handler for User Account.
@@ -803,9 +804,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory
-                    .getMarshallerFactory(TransportProtocol.SOAP)
-                    .getUserAccountMarshaller().unmarshalDocument(getClient()
+                (MarshallerFactory.getInstance(TransportProtocol.SOAP)
+                    .getMarshaller(UserAccount.class).unmarshalDocument(getClient()
                     .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {

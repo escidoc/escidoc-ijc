@@ -45,7 +45,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.om.context.Context;
 
 /**
  * SOAP Handler for Roles.
@@ -226,10 +227,11 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory
-                    .getMarshallerFactory(TransportProtocol.SOAP)
-                    .getContextMarshaller().unmarshalDocument(getClient()
-                    .retrieve(id))).getLastModificationDate();
+                MarshallerFactory
+                    .getInstance(TransportProtocol.SOAP)
+                    .getMarshaller(Context.class)
+                    .unmarshalDocument(getClient().retrieve(id))
+                    .getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

@@ -44,9 +44,10 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.om.ItemHandler;
 import de.escidoc.core.om.ItemHandlerServiceLocator;
+import de.escidoc.core.resources.om.item.Item;
 
 /**
  * SOAP Handler for Item.
@@ -503,9 +504,8 @@ public class SoapItemHandlerClient extends SoapClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory
-                    .getMarshallerFactory(TransportProtocol.SOAP)
-                    .getItemMarshaller().unmarshalDocument(getClient()
+                (MarshallerFactory.getInstance(TransportProtocol.SOAP)
+                    .getMarshaller(Item.class).unmarshalDocument(getClient()
                     .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
