@@ -3,7 +3,9 @@
  */
 package de.escidoc.core.resources.sm.scope;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ScopeRef;
 
@@ -11,15 +13,14 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  * @author MVO
  * 
  */
+@JiBX
 public class Scope extends Resource implements Referenceable<ScopeRef> {
 
     private String name;
 
     private ScopeType scopeType;
 
-    /**
-     * Constructor for JiBX only.
-     */
+    @JiBX
     @SuppressWarnings("unused")
     private Scope() {
     }
@@ -62,5 +63,10 @@ public class Scope extends Resource implements Referenceable<ScopeRef> {
     @Override
     public ScopeRef getReference() {
         return new ScopeRef(this.getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Scope;
     }
 }
