@@ -1,8 +1,11 @@
 package de.escidoc.core.common.jibx;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Results;
@@ -54,10 +57,6 @@ import de.escidoc.core.resources.sm.scope.Scope;
  * TODO: Remove comments and/or old code after review if accepted.
  */
 public class MarshallerFactory {
-
-    /*
-     * ################ START OF NEW IMPL ##################
-     */
 
     // AA
     public static final Class<UserAccount> CLASS_USER_ACCOUNT =
@@ -182,6 +181,11 @@ public class MarshallerFactory {
 
     public static final Class<TaskParam> CLASS_TASK_PARAM = TaskParam.class;
 
+    private static final Map<TransportProtocol, MarshallerFactory> marshallerFactoryMap =
+        new HashMap<TransportProtocol, MarshallerFactory>();
+
+    private static TransportProtocol defaultTransport = null;
+
     /**
      * The TransportProtocol used for this MarshallerFactory instance.
      */
@@ -197,11 +201,54 @@ public class MarshallerFactory {
      * 
      * @param transport
      */
-    protected MarshallerFactory(final TransportProtocol transport) {
+    private MarshallerFactory(final TransportProtocol transport) {
         if (transport == null)
             throw new IllegalArgumentException("transport must not be null.");
 
         this.transport = transport;
+    }
+
+    /**
+     * 
+     * @return
+     * @throws InternalClientException
+     */
+    public static final MarshallerFactory getInstance()
+        throws InternalClientException {
+
+        if (defaultTransport == null) {
+            defaultTransport =
+                TransportProtocol.valueOf(ConfigurationProvider
+                    .getInstance().getProperty(
+                        ConfigurationProvider.PROP_SERVICE_PROTOCOL));
+        }
+        if (defaultTransport == null)
+            throw new InternalClientException(
+                "Unable to load default transport protocol from configuration.");
+        if (marshallerFactoryMap.get(defaultTransport) == null) {
+            MarshallerFactory resultFactory =
+                new MarshallerFactory(defaultTransport);
+            marshallerFactoryMap.put(defaultTransport, resultFactory);
+            return resultFactory;
+        }
+        return marshallerFactoryMap.get(defaultTransport);
+    }
+
+    /**
+     * 
+     * @param transport
+     * @return
+     * @throws InternalClientException
+     */
+    public static final MarshallerFactory getInstance(
+        final TransportProtocol transport) throws InternalClientException {
+
+        if (marshallerFactoryMap.get(transport) == null) {
+            MarshallerFactory resultFactory = new MarshallerFactory(transport);
+            marshallerFactoryMap.put(transport, resultFactory);
+            return resultFactory;
+        }
+        return marshallerFactoryMap.get(transport);
     }
 
     /**
@@ -255,757 +302,4 @@ public class MarshallerFactory {
         }
         return marshaller;
     }
-
-    /*
-     * ################ END OF NEW IMPL ##################
-     */
-    @Deprecated
-    private Marshaller<OrganizationalUnit> organizationalUnitMarshaller = null;
-
-    @Deprecated
-    private Marshaller<OrganizationalUnitList> organizationalUnitListMarshaller =
-        null;
-
-    @Deprecated
-    private Marshaller<Context> contextMarshaller = null;
-
-    @Deprecated
-    private Marshaller<ContentModel> contentModelMarshaller = null;
-
-    @Deprecated
-    private Marshaller<MemberList> memberListMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Item> itemMarshaller = null;
-
-    @Deprecated
-    private Marshaller<PathList> pathListMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Component> componentMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Container> containerMarshaller = null;
-
-    @Deprecated
-    private Marshaller<ContentRelation> contentRelationMarshaller = null;
-
-    @Deprecated
-    private Marshaller<UserAccount> userAccountMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Requests> pdpRequestsMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Results> pdpResultsMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Role> roleMarshaller = null;
-
-    @Deprecated
-    private Marshaller<UserAccountProperties> userAccountPropertiesMarshaller =
-        null;
-
-    @Deprecated
-    private Marshaller<Grant> grantMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Grants> grantsMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Attribute> attributeMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Attributes> attributesMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Preference> preferenceMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Preferences> preferencesMarshaller = null;
-
-    @Deprecated
-    private Marshaller<UserAccounts> userAccountListMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Roles> roleListMarshaller = null;
-
-    @Deprecated
-    private Marshaller<UnsecuredActions> unsecuredActionsMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Toc> tocMarshaller = null;
-
-    @Deprecated
-    private Marshaller<ItemList> itemListMarshaller = null;
-
-    @Deprecated
-    private Marshaller<ContainerList> containerListMarshaller = null;
-
-    @Deprecated
-    private Marshaller<ContextList> contextListMarshaller = null;
-
-    @Deprecated
-    private Marshaller<TaskParam> taskParamMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Result> resultMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Parents> parentsMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Scope> scopeMarshaller = null;
-
-    /*
-     * ========================================================================
-     * Sub resources
-     * ========================================================================
-     */
-
-    @Deprecated
-    private Marshaller<Properties> propertiesMarshaller = null;
-
-    @Deprecated
-    private Marshaller<VersionHistory> versionHistoryMarshaller = null;
-
-    @Deprecated
-    private Marshaller<StructMap> structMapMarshaller = null;
-
-    @Deprecated
-    private Marshaller<AdminDescriptor> adminDescriptorMarshaller = null;
-
-    @Deprecated
-    private Marshaller<AdminDescriptors> adminDescriptorListMarshaller = null;
-
-    @Deprecated
-    private Marshaller<MetadataRecords> metadataRecordsMarshaller = null;
-
-    @Deprecated
-    private Marshaller<MetadataRecord> metadataRecordMarshaller = null;
-
-    @Deprecated
-    private Marshaller<Relations> relationsMarshaller = null;
-
-    /*
-     * ========================================================================
-     * SRW/SRU
-     * ========================================================================
-     */
-
-    @Deprecated
-    private Marshaller<SearchResultRecord> searchResultMarshaller = null;
-
-    @Deprecated
-    private Marshaller<ExplainResponse> explainResponseMarshaller = null;
-
-    @Deprecated
-    private Marshaller<ScanResponse> scanResponseMarshaller = null;
-
-    @Deprecated
-    private Marshaller<SearchRetrieveResponse> searchRetrieveResponseMarshaller =
-        null;
-
-    @Deprecated
-    private Marshaller<de.escidoc.core.resources.common.Properties> commonPropertiesMarshaller;
-
-    /**
-     * @return the itemMarshaller
-     */
-    @Deprecated
-    public Marshaller<Item> getItemMarshaller() {
-
-        if (itemMarshaller == null) {
-            itemMarshaller = new Marshaller<Item>(Item.class);
-        }
-        itemMarshaller.setBindingName(transport.name());
-
-        return itemMarshaller;
-    }
-
-    /**
-     * 
-     * @return the searchResultMarshaller
-     */
-    @Deprecated
-    public Marshaller<SearchResultRecord> getSearchResultMarshaller() {
-
-        if (searchResultMarshaller == null) {
-            searchResultMarshaller =
-                new Marshaller<SearchResultRecord>(SearchResultRecord.class);
-        }
-        searchResultMarshaller.setBindingName(transport.name());
-
-        return searchResultMarshaller;
-    }
-
-    /**
-     * @return the componentMarshaller
-     */
-    @Deprecated
-    public Marshaller<Component> getComponentMarshaller() {
-
-        if (componentMarshaller == null) {
-            componentMarshaller = new Marshaller<Component>(Component.class);
-        }
-        componentMarshaller.setBindingName(transport.name());
-
-        return componentMarshaller;
-    }
-
-    /**
-     * @return the itemListMarshaller
-     */
-    @Deprecated
-    public Marshaller<ItemList> getItemListMarshaller() {
-
-        if (itemListMarshaller == null) {
-            itemListMarshaller = new Marshaller<ItemList>(ItemList.class);
-        }
-        itemListMarshaller.setBindingName(transport.name());
-
-        return itemListMarshaller;
-    }
-
-    /**
-     * @return the memberListMarshaller
-     */
-    @Deprecated
-    public Marshaller<MemberList> getMemberListMarshaller() {
-
-        if (memberListMarshaller == null) {
-            memberListMarshaller = new Marshaller<MemberList>(MemberList.class);
-        }
-        memberListMarshaller.setBindingName(transport.name());
-
-        return memberListMarshaller;
-    }
-
-    /**
-     * @return the containerListMarshaller
-     */
-    @Deprecated
-    public Marshaller<ContainerList> getContainerListMarshaller() {
-
-        if (containerListMarshaller == null) {
-            containerListMarshaller =
-                new Marshaller<ContainerList>(ContainerList.class);
-        }
-        containerListMarshaller.setBindingName(transport.name());
-
-        return containerListMarshaller;
-    }
-
-    /**
-     * @return the containerMarshaller
-     */
-    @Deprecated
-    public Marshaller<Container> getContainerMarshaller() {
-
-        if (containerMarshaller == null) {
-            containerMarshaller = new Marshaller<Container>(Container.class);
-        }
-        containerMarshaller.setBindingName(transport.name());
-
-        return containerMarshaller;
-    }
-
-    /**
-     * @return the contentRelationMarshaller
-     */
-    @Deprecated
-    public Marshaller<ContentRelation> getContentRelationMarshaller() {
-
-        if (contentRelationMarshaller == null) {
-            contentRelationMarshaller =
-                new Marshaller<ContentRelation>(ContentRelation.class);
-        }
-        contentRelationMarshaller.setBindingName(transport.name());
-
-        return contentRelationMarshaller;
-    }
-
-    /**
-     * @return the contextListMarshaller
-     */
-    @Deprecated
-    public Marshaller<ContextList> getContextListMarshaller() {
-
-        if (contextListMarshaller == null) {
-            contextListMarshaller =
-                new Marshaller<ContextList>(ContextList.class);
-        }
-        contextListMarshaller.setBindingName(transport.name());
-
-        return contextListMarshaller;
-    }
-
-    /**
-     * @return the contextMarshaller
-     */
-    @Deprecated
-    public Marshaller<Context> getContextMarshaller() {
-
-        if (contextMarshaller == null) {
-            contextMarshaller = new Marshaller<Context>(Context.class);
-        }
-        contextMarshaller.setBindingName(transport.name());
-
-        return contextMarshaller;
-    }
-
-    /**
-     * @return the contentModelMarshaller
-     */
-    @Deprecated
-    public Marshaller<ContentModel> getContentModelMarshaller() {
-
-        if (contentModelMarshaller == null) {
-            contentModelMarshaller =
-                new Marshaller<ContentModel>(ContentModel.class);
-        }
-        contentModelMarshaller.setBindingName(transport.name());
-
-        return contentModelMarshaller;
-    }
-
-    /**
-     * @return the organizationalUnitMarshaller
-     */
-    @Deprecated
-    public Marshaller<OrganizationalUnit> getOrganizationalUnitMarshaller() {
-
-        if (organizationalUnitMarshaller == null) {
-            organizationalUnitMarshaller =
-                new Marshaller<OrganizationalUnit>(OrganizationalUnit.class);
-        }
-        organizationalUnitMarshaller.setBindingName(transport.name());
-
-        return organizationalUnitMarshaller;
-    }
-
-    /**
-     * @return the organizationalUnitListMarshaller
-     */
-    @Deprecated
-    public Marshaller<OrganizationalUnitList> getOrganizationalUnitListMarshaller() {
-
-        if (organizationalUnitListMarshaller == null) {
-            organizationalUnitListMarshaller =
-                new Marshaller<OrganizationalUnitList>(
-                    OrganizationalUnitList.class);
-        }
-        organizationalUnitListMarshaller.setBindingName(transport.name());
-
-        return organizationalUnitListMarshaller;
-    }
-
-    /**
-     * @return the pathListMarshaller
-     */
-    @Deprecated
-    public Marshaller<PathList> getPathListMarshaller() {
-
-        if (pathListMarshaller == null) {
-            pathListMarshaller = new Marshaller<PathList>(PathList.class);
-        }
-        pathListMarshaller.setBindingName(transport.name());
-
-        return pathListMarshaller;
-    }
-
-    /**
-     * @return the taskParamMarshaller
-     */
-    @Deprecated
-    public Marshaller<TaskParam> getTaskParamMarshaller() {
-
-        if (taskParamMarshaller == null) {
-            taskParamMarshaller = new Marshaller<TaskParam>(TaskParam.class);
-        }
-        taskParamMarshaller.setBindingName(transport.name());
-
-        return taskParamMarshaller;
-    }
-
-    /**
-     * @return the resultMarshaller
-     */
-    @Deprecated
-    public Marshaller<Result> getResultMarshaller() {
-
-        if (resultMarshaller == null) {
-            resultMarshaller = new Marshaller<Result>(Result.class);
-        }
-        resultMarshaller.setBindingName(transport.name());
-
-        return resultMarshaller;
-    }
-
-    /**
-     * @return the versionHistoryMarshaller
-     */
-    @Deprecated
-    public Marshaller<VersionHistory> getVersionHistoryMarshaller() {
-        if (versionHistoryMarshaller == null) {
-            versionHistoryMarshaller =
-                new Marshaller<VersionHistory>(VersionHistory.class);
-        }
-        versionHistoryMarshaller.setBindingName(transport.name());
-
-        return versionHistoryMarshaller;
-    }
-
-    /**
-     * @return the structMapMarshaller
-     */
-    @Deprecated
-    public Marshaller<StructMap> getStructMapMarshaller() {
-        if (structMapMarshaller == null) {
-            structMapMarshaller = new Marshaller<StructMap>(StructMap.class);
-        }
-        structMapMarshaller.setBindingName(transport.name());
-
-        return structMapMarshaller;
-    }
-
-    /**
-     * @return the adminDescriptorMarshaller
-     */
-    @Deprecated
-    public Marshaller<AdminDescriptor> getAdminDescriptorMarshaller() {
-        if (adminDescriptorMarshaller == null) {
-            adminDescriptorMarshaller =
-                new Marshaller<AdminDescriptor>(AdminDescriptor.class);
-        }
-        adminDescriptorMarshaller.setBindingName(transport.name());
-
-        return adminDescriptorMarshaller;
-    }
-
-    /**
-     * @return the adminDescriptorListMarshaller
-     */
-    @Deprecated
-    public Marshaller<AdminDescriptors> getAdminDescriptorListMarshaller() {
-        if (adminDescriptorListMarshaller == null) {
-            adminDescriptorListMarshaller =
-                new Marshaller<AdminDescriptors>(AdminDescriptors.class);
-        }
-        adminDescriptorListMarshaller.setBindingName(transport.name());
-
-        return adminDescriptorListMarshaller;
-    }
-
-    /**
-     * @return the tocMarshaller
-     */
-    @Deprecated
-    public Marshaller<Toc> getTocMarshaller() {
-        if (tocMarshaller == null) {
-            tocMarshaller = new Marshaller<Toc>(Toc.class);
-        }
-        tocMarshaller.setBindingName(transport.name());
-
-        return tocMarshaller;
-    }
-
-    /* ********************************************************************** */
-
-    /**
-     * @return the propertiesMarshaller
-     */
-    @Deprecated
-    public Marshaller<Properties> getPropertiesMarshaller() {
-        if (propertiesMarshaller == null) {
-            propertiesMarshaller = new Marshaller<Properties>(Properties.class);
-        }
-        propertiesMarshaller.setBindingName(transport.name());
-
-        return propertiesMarshaller;
-    }
-
-    /**
-     * @return the metadataRecordsMarshaller
-     */
-    @Deprecated
-    public Marshaller<MetadataRecords> getMetadataRecordsMarshaller() {
-        if (metadataRecordsMarshaller == null) {
-            metadataRecordsMarshaller =
-                new Marshaller<MetadataRecords>(MetadataRecords.class);
-        }
-        metadataRecordsMarshaller.setBindingName(transport.name());
-
-        return metadataRecordsMarshaller;
-    }
-
-    /**
-     * @return the relationsRecordsMarshaller
-     */
-    @Deprecated
-    public Marshaller<Relations> getRelationsMarshaller() {
-        if (relationsMarshaller == null) {
-            relationsMarshaller = new Marshaller<Relations>(Relations.class);
-        }
-        relationsMarshaller.setBindingName(transport.name());
-
-        return relationsMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<UserAccount> getUserAccountMarshaller() {
-        if (userAccountMarshaller == null) {
-            userAccountMarshaller =
-                new Marshaller<UserAccount>(UserAccount.class);
-
-        }
-        userAccountMarshaller.setBindingName(transport.name());
-
-        return userAccountMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Requests> getPDPRequestsMarshaller() {
-        if (pdpRequestsMarshaller == null) {
-            pdpRequestsMarshaller = new Marshaller<Requests>(Requests.class);
-
-        }
-        pdpRequestsMarshaller.setBindingName(transport.name());
-
-        return pdpRequestsMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Results> getPDPResultsMarshaller() {
-        if (pdpResultsMarshaller == null) {
-            pdpResultsMarshaller = new Marshaller<Results>(Results.class);
-
-        }
-        pdpResultsMarshaller.setBindingName(transport.name());
-        return pdpResultsMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Role> getRoleMarshaller() {
-        if (roleMarshaller == null) {
-            roleMarshaller = new Marshaller<Role>(Role.class);
-
-        }
-        roleMarshaller.setBindingName(transport.name());
-
-        return roleMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<UserAccountProperties> getUserAccountPropertiesMarshaller() {
-        if (userAccountPropertiesMarshaller == null) {
-            userAccountPropertiesMarshaller =
-                new Marshaller<UserAccountProperties>(
-                    UserAccountProperties.class);
-
-        }
-        userAccountPropertiesMarshaller.setBindingName(transport.name());
-
-        return userAccountPropertiesMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Grant> getGrantMarshaller() {
-        if (grantMarshaller == null) {
-            grantMarshaller = new Marshaller<Grant>(Grant.class);
-        }
-        grantMarshaller.setBindingName(transport.name());
-
-        return grantMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Grants> getGrantsMarshaller() {
-        if (grantsMarshaller == null) {
-            grantsMarshaller = new Marshaller<Grants>(Grants.class);
-        }
-        grantsMarshaller.setBindingName(transport.name());
-
-        return grantsMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Attribute> getAttributeMarshaller() {
-        if (attributeMarshaller == null) {
-            attributeMarshaller = new Marshaller<Attribute>(Attribute.class);
-        }
-        attributeMarshaller.setBindingName(transport.name());
-
-        return attributeMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Attributes> getAttributesMarshaller() {
-        if (attributesMarshaller == null) {
-            attributesMarshaller = new Marshaller<Attributes>(Attributes.class);
-        }
-        attributesMarshaller.setBindingName(transport.name());
-
-        return attributesMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Preference> getPreferenceMarshaller() {
-        if (preferenceMarshaller == null) {
-            preferenceMarshaller = new Marshaller<Preference>(Preference.class);
-        }
-        preferenceMarshaller.setBindingName(transport.name());
-
-        return preferenceMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Preferences> getPreferencesMarshaller() {
-        if (preferencesMarshaller == null) {
-            preferencesMarshaller =
-                new Marshaller<Preferences>(Preferences.class);
-        }
-        preferencesMarshaller.setBindingName(transport.name());
-
-        return preferencesMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<UserAccounts> getUserAccountListMarshaller() {
-        if (userAccountListMarshaller == null) {
-            userAccountListMarshaller =
-                new Marshaller<UserAccounts>(UserAccounts.class);
-        }
-        userAccountListMarshaller.setBindingName(transport.name());
-
-        return userAccountListMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<UnsecuredActions> getUnsecuredActionsMarshaller() {
-        if (unsecuredActionsMarshaller == null) {
-            unsecuredActionsMarshaller =
-                new Marshaller<UnsecuredActions>(UnsecuredActions.class);
-        }
-        unsecuredActionsMarshaller.setBindingName(transport.name());
-
-        return unsecuredActionsMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Roles> getRoleListMarshaller() {
-        if (roleListMarshaller == null) {
-            roleListMarshaller = new Marshaller<Roles>(Roles.class);
-        }
-        roleListMarshaller.setBindingName(transport.name());
-
-        return roleListMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<Parents> getParentsMarshaller() {
-        if (parentsMarshaller == null) {
-            parentsMarshaller = new Marshaller<Parents>(Parents.class);
-        }
-        parentsMarshaller.setBindingName(transport.name());
-
-        return parentsMarshaller;
-    }
-
-    @Deprecated
-    public Marshaller<MetadataRecord> getMetadataRecordMarshaller() {
-        if (metadataRecordMarshaller == null) {
-            metadataRecordMarshaller =
-                new Marshaller<MetadataRecord>(MetadataRecord.class);
-        }
-        metadataRecordMarshaller.setBindingName(transport.name());
-
-        return metadataRecordMarshaller;
-    }
-
-    /**
-     * @return the explainResponseMarshaller
-     */
-    @Deprecated
-    public Marshaller<ExplainResponse> getExplainResponseMarshaller() {
-        if (explainResponseMarshaller == null) {
-            explainResponseMarshaller =
-                new Marshaller<ExplainResponse>(ExplainResponse.class);
-        }
-        explainResponseMarshaller.setBindingName(transport.name());
-
-        return explainResponseMarshaller;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    @Deprecated
-    public Marshaller<ScanResponse> getScanResponseMarshaller() {
-        if (scanResponseMarshaller == null) {
-            scanResponseMarshaller =
-                new Marshaller<ScanResponse>(ScanResponse.class);
-        }
-        scanResponseMarshaller.setBindingName(transport.name());
-
-        return scanResponseMarshaller;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    @Deprecated
-    public Marshaller<SearchRetrieveResponse> getSearchRetrieveResponseMarshaller() {
-        if (searchRetrieveResponseMarshaller == null) {
-            searchRetrieveResponseMarshaller =
-                new Marshaller<SearchRetrieveResponse>(
-                    SearchRetrieveResponse.class);
-        }
-        searchRetrieveResponseMarshaller.setBindingName(transport.name());
-
-        return searchRetrieveResponseMarshaller;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    @Deprecated
-    public Marshaller<Scope> getScopeMarshaller() {
-        if (scopeMarshaller == null) {
-            scopeMarshaller = new Marshaller<Scope>(Scope.class);
-        }
-        scopeMarshaller.setBindingName(transport.name());
-
-        return scopeMarshaller;
-    }
-
-    /**
-     * Returns a marshaller to be used for marshalling/unmarshalling of common
-     * properties. For example:<br/>
-     * <br/>
-     * <code>
-     * &lt;properties&gt;<br/>
-     * &lt;entry key="keyName"&gt;value&lt;/entry&gt;<br/>
-     * &lt;entry key="keyName"&gt;value&lt;/entry&gt;<br/>
-     * &lt;entry key="keyName"&gt;value&lt;/entry&gt;<br/>
-     * &lt;/properties&gt;<br/>
-     * </code>
-     * 
-     * @return a marshaller for the common properties.
-     */
-    @Deprecated
-    public Marshaller<de.escidoc.core.resources.common.Properties> getCommonPropertiesMarshaller() {
-        if (commonPropertiesMarshaller == null) {
-            commonPropertiesMarshaller =
-                new Marshaller<de.escidoc.core.resources.common.Properties>(
-                    de.escidoc.core.resources.common.Properties.class);
-        }
-        commonPropertiesMarshaller.setBindingName(transport.name());
-
-        return commonPropertiesMarshaller;
-    }
-
 }
