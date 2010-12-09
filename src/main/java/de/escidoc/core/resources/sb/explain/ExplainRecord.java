@@ -52,7 +52,7 @@ public class ExplainRecord extends Record<ExplainData> {
      * with prefix ns2.
      */
     @Override
-    protected ExplainData decodeFragmentXML() {
+    protected ExplainData parseFragmentDOM() {
         if (this.resultData != null)
             return this.resultData;
         else {
@@ -102,7 +102,7 @@ public class ExplainRecord extends Record<ExplainData> {
     }
 
     @Override
-    protected ExplainData decodeFragmentString() {
+    protected ExplainData parseFragmentText() {
         if (resultData != null)
             return resultData;
         else {
