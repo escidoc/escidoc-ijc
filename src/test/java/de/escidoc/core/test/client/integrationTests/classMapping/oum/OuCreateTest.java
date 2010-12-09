@@ -96,7 +96,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -572,6 +573,7 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
      * 
      * @throws Exception
      */
+    @Ignore("INFR-1016")
     @Test(expected = MissingMdRecordException.class)
     public void testMDRecordsDeletion02() throws Exception {
         final String ouName =

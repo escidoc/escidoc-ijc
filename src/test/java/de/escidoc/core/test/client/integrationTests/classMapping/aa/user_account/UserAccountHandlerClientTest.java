@@ -45,7 +45,8 @@ import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.aa.useraccount.UserAccounts;
@@ -67,7 +68,7 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
 
     private UserAccountHandlerClientInterface uac;
 
-    public UserAccountHandlerClientTest(TransportProtocol transport) {
+    public UserAccountHandlerClientTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -83,7 +84,8 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -102,9 +104,9 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
 
         // test marshalling
         String objId = createdUa.getObjid();
-        Factory
-            .getMarshallerFactory(uac.getTransport())
-            .getUserAccountMarshaller().marshalDocument(uac.retrieve(objId));
+        MarshallerFactory
+            .getInstance(uac.getTransport()).getMarshaller(UserAccount.class)
+            .marshalDocument(uac.retrieve(objId));
     }
 
     /**
@@ -114,7 +116,7 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
      * @throws Exception
      *             If creation of user account happens not as expected
      */
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void createUserAccountWithNull() throws Exception {
         // create
         uac.create(null);
@@ -150,9 +152,9 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
         assertEquals(newLoginName, updatedProperties.getLoginName());
 
         // test marshalling
-        Factory
-            .getMarshallerFactory(uac.getTransport())
-            .getUserAccountMarshaller().marshalDocument(updatedUserAccont);
+        MarshallerFactory
+            .getInstance(uac.getTransport()).getMarshaller(UserAccount.class)
+            .marshalDocument(updatedUserAccont);
     }
 
     /**
@@ -216,9 +218,9 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
 
         UserAccounts userAccountList = uac.retrieveUserAccounts(filterParam);
 
-        Factory
-            .getMarshallerFactory(uac.getTransport())
-            .getUserAccountListMarshaller().marshalDocument(userAccountList);
+        MarshallerFactory
+            .getInstance(uac.getTransport()).getMarshaller(UserAccounts.class)
+            .marshalDocument(userAccountList);
     }
 
     /**
@@ -262,8 +264,8 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
 
         // FIXME there are no grant, that's why the test is bad
 
-        Factory
-            .getMarshallerFactory(uac.getTransport()).getGrantsMarshaller()
+        MarshallerFactory
+            .getInstance(uac.getTransport()).getMarshaller(Grants.class)
             .marshalDocument(uac.retrieveCurrentGrants(objId));
     }
 
@@ -346,7 +348,7 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
      */
     // FIXME method is duplicated (see role handler)
     private Filter getFilter(
-        final String name, final String value, Collection<String> ids) {
+        final String name, final String value, final Collection<String> ids) {
 
         Filter filter = new Filter();
         filter.setName(name);

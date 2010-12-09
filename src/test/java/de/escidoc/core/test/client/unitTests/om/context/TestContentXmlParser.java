@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
@@ -35,7 +35,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
     private static final Logger LOG = Logger
         .getLogger(TestContentXmlParser.class);
 
-    public TestContentXmlParser(TransportProtocol transport) {
+    public TestContentXmlParser(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -75,8 +75,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         context.setAdminDescriptors(adminDescriptors);
 
         String contextXml =
-            Factory
-                .getMarshallerFactory(transport).getContextMarshaller()
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
                 .marshalDocument(context);
 
         Document contextDoc = XmlUtility.getDocument(contextXml);
@@ -115,8 +115,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         // unmarshall
         Context contextRev =
-            Factory
-                .getMarshallerFactory(transport).getContextMarshaller()
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
 
         assertEquals("Content failure", contentElementName, contextRev
@@ -166,8 +166,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         context.setAdminDescriptors(adminDescriptors);
 
         String contextXml =
-            Factory
-                .getMarshallerFactory(transport).getContextMarshaller()
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
                 .marshalDocument(context);
 
         Document contextDoc = XmlUtility.getDocument(contextXml);
@@ -206,8 +206,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         // unmarshall
         Context contextRev =
-            Factory
-                .getMarshallerFactory(transport).getContextMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
 
         assertEquals("Content failue", contentElementName, contextRev

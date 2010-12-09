@@ -44,7 +44,6 @@ import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException
 import de.escidoc.core.client.exceptions.application.notfound.GrantNotFoundException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.resources.aa.useraccount.GrantProperties;
 import de.escidoc.core.resources.aa.useraccount.Grants;
@@ -56,8 +55,9 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
-import de.escidoc.core.resources.common.reference.Reference;
+import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.reference.RoleRef;
+import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
@@ -76,7 +76,7 @@ public class GrantsTest extends AbstractParameterizedTestBase {
 
     private UserAccountHandlerClientInterface uahc;
 
-    public GrantsTest(TransportProtocol transport) {
+    public GrantsTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -92,7 +92,8 @@ public class GrantsTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -194,8 +195,7 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
         gProp.setRole(new RoleRef(roleId));
-        gProp.setAssignedOn(new Reference(createdItem.getObjid(),
-            ResourceType.Item));
+        gProp.setAssignedOn(new ItemRef(createdItem.getObjid()));
         grant.setGrantProperties(gProp);
 
         Grant createdGrant = uahc.createGrant(objId, grant);
@@ -241,8 +241,7 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
         gProp.setRole(new RoleRef(roleId));
-        gProp.setAssignedOn(new Reference("escidoc:NON-exists",
-            ResourceType.UserAccount));
+        gProp.setAssignedOn(new UserAccountRef("escidoc:NON-exists"));
         grant.setGrantProperties(gProp);
 
         uahc.createGrant(objId, grant);

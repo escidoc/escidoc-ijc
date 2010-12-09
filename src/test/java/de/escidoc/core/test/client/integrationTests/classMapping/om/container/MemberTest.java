@@ -81,7 +81,7 @@ public class MemberTest extends AbstractParameterizedTestBase {
 
     private ContainerHandlerClientInterface cc;
 
-    public MemberTest(TransportProtocol transport) {
+    public MemberTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -97,7 +97,8 @@ public class MemberTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -304,10 +305,13 @@ public class MemberTest extends AbstractParameterizedTestBase {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID,
-            "Test Context"));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID, "Test ContentModel"));
+        ContextRef cRef = new ContextRef(Constants.EXAMPLE_CONTEXT_ID);
+        cRef.setXLinkTitle("Test Context");
+        properties.setContext(cRef);
+        ContentModelRef cmRef =
+            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID);
+        cmRef.setXLinkTitle("Test ContentModel");
+        properties.setContentModel(cmRef);
         container.setProperties(properties);
 
         // Metadata Record(s)

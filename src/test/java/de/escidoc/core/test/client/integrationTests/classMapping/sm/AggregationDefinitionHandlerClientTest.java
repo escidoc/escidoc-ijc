@@ -8,8 +8,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,10 +28,19 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.reference.ScopeRef;
+import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
+import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 import de.escidoc.core.resources.sm.ad.AggregationDefinition;
 import de.escidoc.core.resources.sm.ad.AggregationTable;
+import de.escidoc.core.resources.sm.ad.CountCumulationField;
+import de.escidoc.core.resources.sm.ad.DifferenceCumulationField;
 import de.escidoc.core.resources.sm.ad.Field;
+import de.escidoc.core.resources.sm.ad.FieldType;
 import de.escidoc.core.resources.sm.ad.Index;
 import de.escidoc.core.resources.sm.ad.InfoField;
 import de.escidoc.core.resources.sm.ad.InfoFieldType;
@@ -38,6 +53,7 @@ import de.escidoc.core.resources.sm.scope.ScopeType;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.util.Template;
 
 /**
  * @author MVO
@@ -52,13 +68,23 @@ public class AggregationDefinitionHandlerClientTest
 
     private String scopeId;
 
-    private static final String FIELD_INFO_NAME = "info_field_01";
+    private static final String FIELD_INFO_PAGE = "page";
 
-    private static final String FIELD_TIME_NAME = "time_field_01";
+    private static final String FIELD_TIME_MONTH = "month";
 
-    private static final String XPATH_INFO = "";
+    private static final String FIELD_TIME_YEAR = "year";
 
-    private static final String IDX_NAME = "idx_01_02";
+    private static final String FIELD_CUMUL_REQUESTS = "requests";
+
+    private static final String FIELD_DIFF_SESSIONS = "sessions";
+
+    private static final String FIELD_INFO_PAGE_XPATH =
+        "//parameter[@name=\"page\"]/stringvalue";
+
+    private static final String FIELD_DIFF_SESSIONS_XPATH =
+        "//parameter[@name=\"session_id\"]/stringvalue";
+
+    private static final String IDX_NAME = "time_idx";
 
     private static final String FEED = "statistics-data";
 
@@ -93,10 +119,26 @@ public class AggregationDefinitionHandlerClientTest
      * @throws Exception
      */
     @Test
+    public void testMarshallingForCdata01() throws Exception {
+        InputStream in = Template.load("/soap/sm/ad/ad-01.xml");
+        AggregationDefinition ad =
+            MarshallerFactory.getInstance(TransportProtocol.SOAP)
+                .getMarshaller(AggregationDefinition.class)
+                .unmarshalDocument(in);
+        String xml =
+            MarshallerFactory.getInstance(TransportProtocol.SOAP)
+                .getMarshaller(AggregationDefinition.class).marshalDocument(ad);
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
     public void testCreate01() throws Exception {
 
-        final String AD_NAME = "ad_test_" + System.currentTimeMillis();
-        final String AD_TABLE_NAME = "ad_test_table";
+        final String AD_NAME = "Page Statistics for PubMan";
+        final String AD_TABLE_NAME = "Report_Test";
 
         AggregationDefinition ad = defineValidAD(AD_NAME, AD_TABLE_NAME);
 
@@ -122,35 +164,63 @@ public class AggregationDefinitionHandlerClientTest
                 table.getName().endsWith(AD_TABLE_NAME));
 
             assertNotNull("Fields is null.", table.getFields());
-            assertTrue("Fields size is not 2.", table.getFields().size() == 2);
+            assertTrue("Fields size is not 2.", table.getFields().size() == 5);
 
-            for (Field fieldEntry : table.getFields()) {
-                switch (fieldEntry.getType()) {
-                    case InfoField: {
-                        InfoField field = (InfoField) fieldEntry;
+            Iterator<Field> it = table.getFields().iterator();
+            Field fieldEntry = it.next();
+            // info field
+            assertTrue(fieldEntry.getType() == FieldType.InfoField);
+            InfoField field = (InfoField) fieldEntry;
 
-                        assertEquals("Incorrect field name.", FIELD_INFO_NAME,
-                            field.getName());
-                        assertEquals("Incorrect feed.", FEED, field.getFeed());
-                        assertTrue("Wrong field type.",
-                            InfoFieldType.text == field.getInfoFieldType());
-                        assertEquals("Incorrect xPath.", XPATH_INFO,
-                            field.getXPath());
-                        break;
-                    }
-                    case TimeReductionField: {
-                        TimeReductionField field =
-                            (TimeReductionField) fieldEntry;
+            assertEquals("Incorrect field name.", FIELD_INFO_PAGE,
+                field.getName());
+            assertEquals("Incorrect feed.", FEED, field.getFeed());
+            assertTrue("Wrong field type.",
+                InfoFieldType.text == field.getInfoFieldType());
+            assertEquals("Incorrect xPath.", FIELD_INFO_PAGE_XPATH,
+                field.getXPath());
 
-                        assertEquals("Incorrect field name.", FIELD_TIME_NAME,
-                            field.getName());
-                        assertEquals("Incorrect feed.", FEED, field.getFeed());
-                        assertTrue("Wrong field type.",
-                            TimeReductionFieldType.day == field.getReduceTo());
-                        break;
-                    }
-                }
-            }
+            fieldEntry = it.next();
+            // time reduction field
+            assertTrue(fieldEntry.getType() == FieldType.TimeReductionField);
+            TimeReductionField timeField = (TimeReductionField) fieldEntry;
+
+            assertEquals("Incorrect field name.", FIELD_TIME_MONTH,
+                timeField.getName());
+            assertEquals("Incorrect feed.", FEED, timeField.getFeed());
+            assertTrue("Wrong field type.",
+                TimeReductionFieldType.month == timeField.getReduceTo());
+
+            fieldEntry = it.next();
+            // time reduction field
+            assertTrue(fieldEntry.getType() == FieldType.TimeReductionField);
+            TimeReductionField timeField2 = (TimeReductionField) fieldEntry;
+
+            assertEquals("Incorrect field name.", FIELD_TIME_YEAR,
+                timeField2.getName());
+            assertEquals("Incorrect feed.", FEED, timeField2.getFeed());
+            assertTrue("Wrong field type.",
+                TimeReductionFieldType.year == timeField2.getReduceTo());
+
+            fieldEntry = it.next();
+            // count cumulation field
+            assertTrue(fieldEntry.getType() == FieldType.CountCumulationField);
+            CountCumulationField countField = (CountCumulationField) fieldEntry;
+
+            assertEquals("Incorrect field name.", FIELD_CUMUL_REQUESTS,
+                countField.getName());
+
+            fieldEntry = it.next();
+            // time reduction field
+            assertTrue(fieldEntry.getType() == FieldType.DifferenceCumulationField);
+            DifferenceCumulationField diffField =
+                (DifferenceCumulationField) fieldEntry;
+
+            assertEquals("Incorrect field name.", FIELD_DIFF_SESSIONS,
+                diffField.getName());
+            assertEquals("Incorrect feed.", FEED, diffField.getFeed());
+            assertEquals("Incorrect xPath.", FIELD_DIFF_SESSIONS_XPATH,
+                diffField.getXPath());
         }
     }
 
@@ -223,6 +293,72 @@ public class AggregationDefinitionHandlerClientTest
     }
 
     /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testExplain() throws Exception {
+        AggregationDefinition ad =
+            defineValidAD("ad_test_" + System.currentTimeMillis(), "table_name");
+        AggregationDefinition createdAd = adhc.create(ad);
+
+        assertNotNull("Objid should not be null.", createdAd.getObjid());
+
+        ExplainRequestType request = new ExplainRequestType();
+        ExplainResponse response = adhc.retrieveAggregationDefinitions(request);
+        ExplainData explain = response.getRecord().getRecordData();
+
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertNotNull("No index definitions found", explain.getIndexInfo());
+        assertNotNull("No index definitions found", explain
+            .getIndexInfo().getIndexes());
+        assertTrue("No index definitions found", explain
+            .getIndexInfo().getIndexes().size() > 0);
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testFilter() throws Exception {
+        AggregationDefinition ad =
+            defineValidAD("ad_test_" + System.currentTimeMillis(), "table_name");
+        AggregationDefinition createdAd = adhc.create(ad);
+
+        assertNotNull("Objid should not be null.", createdAd.getObjid());
+
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request.setQuery("\"http://purl.org/dc/elements/1.1/identifier\"="
+            + createdAd.getObjid());
+        SearchRetrieveResponse response =
+            adhc.retrieveAggregationDefinitions(request);
+
+        assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertTrue("Wrong number of matching records",
+            response.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records",
+            response.getNumberOfResultingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response
+            .getRecords().iterator().next().getRecordPosition());
+
+        Collection<String> ids =
+            new ArrayList<String>(response.getNumberOfResultingRecords());
+        for (Record<?> record : response.getRecords()) {
+            if (record instanceof ResourceRecord<?>
+                && ((ResourceRecord<?>) record).getRecordDataType() == AggregationDefinition.class) {
+
+                AggregationDefinition data =
+                    (AggregationDefinition) record.getRecordData();
+                if (data != null)
+                    ids.add(data.getObjid());
+            }
+        }
+        assertTrue("Created AggregationDefinition missing in list",
+            ids.contains(createdAd.getObjid()));
+    }
+
+    /**
      * Creates a valid AD Object with only one table.
      * 
      * @return
@@ -246,16 +382,28 @@ public class AggregationDefinitionHandlerClientTest
         AggregationDefinition ad =
             new AggregationDefinition(name, new ScopeRef(scopeId), statData);
         AggregationTable at = new AggregationTable(tableName);
-        at.getFields()
-            .add(
-                new InfoField(FIELD_INFO_NAME, FEED, InfoFieldType.text,
-                    XPATH_INFO));
+
         at.getFields().add(
-            new TimeReductionField(FIELD_TIME_NAME, FEED,
-                TimeReductionFieldType.day));
+            new InfoField(FIELD_INFO_PAGE, FEED, InfoFieldType.text,
+                FIELD_INFO_PAGE_XPATH));
+
+        at.getFields().add(
+            new TimeReductionField(FIELD_TIME_MONTH, FEED,
+                TimeReductionFieldType.month));
+
+        at.getFields().add(
+            new TimeReductionField(FIELD_TIME_YEAR, FEED,
+                TimeReductionFieldType.year));
+
+        at.getFields().add(new CountCumulationField(FIELD_CUMUL_REQUESTS));
+
+        at.getFields().add(
+            new DifferenceCumulationField(FIELD_DIFF_SESSIONS, FEED,
+                FIELD_DIFF_SESSIONS_XPATH));
+
         at.getIndexes().add(
-            new Index(IDX_NAME, Arrays.asList(new String[] { FIELD_INFO_NAME,
-                FIELD_TIME_NAME })));
+            new Index(IDX_NAME, Arrays.asList(new String[] { FIELD_TIME_MONTH,
+                FIELD_TIME_YEAR })));
 
         ad.getAggregationTables().add(at);
         return ad;

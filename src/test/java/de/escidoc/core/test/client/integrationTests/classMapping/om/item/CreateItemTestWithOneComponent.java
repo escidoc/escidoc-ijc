@@ -56,7 +56,7 @@ public class CreateItemTestWithOneComponent
 
     private Authentication auth;
 
-    public CreateItemTestWithOneComponent(TransportProtocol transport) {
+    public CreateItemTestWithOneComponent(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -69,7 +69,8 @@ public class CreateItemTestWithOneComponent
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     @Test

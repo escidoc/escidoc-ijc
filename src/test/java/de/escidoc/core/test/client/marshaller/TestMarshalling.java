@@ -31,7 +31,7 @@ package de.escidoc.core.test.client.marshaller;
 import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
@@ -65,11 +65,9 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         String xml =
-            Factory
-                .getMarshallerFactory(transport).getItemMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
                 .marshalDocument(item);
-        Factory
-            .getMarshallerFactory(transport).getItemMarshaller()
+        MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
             .unmarshalDocument(xml);
     }
 
@@ -84,11 +82,9 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
 
         Container container = new Container();
         String xml =
-            Factory
-                .getMarshallerFactory(transport).getContainerMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
                 .marshalDocument(container);
-        Factory
-            .getMarshallerFactory(transport).getContainerMarshaller()
+        MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
             .unmarshalDocument(xml);
     }
 
@@ -105,11 +101,9 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
         StructMap structMap = new StructMap();
         container.setStructMap(structMap);
         String xml =
-            Factory
-                .getMarshallerFactory(transport).getContainerMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
                 .marshalDocument(container);
-        Factory
-            .getMarshallerFactory(transport).getContainerMarshaller()
+        MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
             .unmarshalDocument(xml);
     }
 
@@ -124,11 +118,9 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
 
         Context context = new Context();
         String xml =
-            Factory
-                .getMarshallerFactory(transport).getContextMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
                 .marshalDocument(context);
-        Factory
-            .getMarshallerFactory(transport).getContextMarshaller()
+        MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
             .unmarshalDocument(xml);
     }
 
@@ -143,11 +135,9 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
 
         Result result = new Result();
         String xml =
-            Factory
-                .getMarshallerFactory(transport).getResultMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Result.class)
                 .marshalDocument(result);
-        Factory
-            .getMarshallerFactory(transport).getResultMarshaller()
+        MarshallerFactory.getInstance(transport).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -162,11 +152,9 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
 
         TaskParam taskParam = new TaskParam();
         String xml =
-            Factory
-                .getMarshallerFactory(transport).getTaskParamMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
-        Factory
-            .getMarshallerFactory(transport).getTaskParamMarshaller()
+        MarshallerFactory.getInstance(transport).getMarshaller(TaskParam.class)
             .unmarshalDocument(xml);
     }
 
@@ -182,8 +170,8 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
     //
     // StructMap structMap = new StructMap();
     // String xml =
-    // Factory.getStructMapMarshaller().marshalDocument(structMap);
-    // Factory.getStructMapMarshaller().unmarshalDocument(xml);
+    // Factory.getMarshaller(StructMap.class).marshalDocument(structMap);
+    // Factory.getMarshaller(StructMap.class).unmarshalDocument(xml);
     // }
 
     // mapping of subresources currently not supported
@@ -198,9 +186,9 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
     //
     // MetadataRecords metadataRecords = new MetadataRecords();
     // String xml =
-    // Factory.getMetadataRecordsMarshaller().marshalDocument(
+    // Factory.getMarshaller(MetadataRecords.class).marshalDocument(
     // metadataRecords);
-    // Factory.getMetadataRecordsMarshaller().unmarshalDocument(xml);
+    // Factory.getMarshaller(MetadataRecords.class).unmarshalDocument(xml);
     // }
 
     // mapping of subresources currently not supported
@@ -215,8 +203,8 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
     //
     // Properties properties = new Properties();
     // String xml =
-    // Factory.getPropertiesMarshaller().marshalDocument(properties);
-    // Factory.getPropertiesMarshaller().unmarshalDocument(xml);
+    // Factory.getMarshaller(Properties.class).marshalDocument(properties);
+    // Factory.getMarshaller(Properties.class).unmarshalDocument(xml);
     // }
 
     /**
@@ -230,11 +218,9 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
 
         UserAccount userAccount = new UserAccount();
         String xml =
-            Factory
-                .getMarshallerFactory(transport).getUserAccountMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(UserAccount.class)
                 .marshalDocument(userAccount);
-        Factory
-            .getMarshallerFactory(transport).getUserAccountMarshaller()
+        MarshallerFactory.getInstance(transport).getMarshaller(UserAccount.class)
             .unmarshalDocument(xml);
     }
 
@@ -251,8 +237,8 @@ public class TestMarshalling extends AbstractParameterizedTestBase {
     // UserAccountProperties userAccountProperties =
     // new UserAccountProperties();
     // String xml =
-    // Factory.getUserAccountPropertiesMarshaller().marshalDocument(
+    // Factory.getMarshaller(UserAccountProperties.class).marshalDocument(
     // userAccountProperties);
-    // Factory.getUserAccountPropertiesMarshaller().unmarshalDocument(xml);
+    // Factory.getMarshaller(UserAccountProperties.class).unmarshalDocument(xml);
     // }
 }

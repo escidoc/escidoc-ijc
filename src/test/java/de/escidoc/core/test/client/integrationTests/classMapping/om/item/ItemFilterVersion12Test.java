@@ -51,7 +51,6 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
@@ -95,7 +94,8 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -175,7 +175,7 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
             new ArrayList<String>(response.getNumberOfResultingRecords());
         for (Record<?> record : response.getRecords()) {
             if (record instanceof ResourceRecord<?>
-                && ((ResourceRecord<?>) record).getDataType() == ResourceType.Item) {
+                && ((ResourceRecord<?>) record).getRecordDataType() == Item.class) {
 
                 Item data = (Item) record.getRecordData();
                 if (data != null)

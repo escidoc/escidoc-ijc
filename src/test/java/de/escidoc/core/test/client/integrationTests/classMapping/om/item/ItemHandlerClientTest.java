@@ -54,7 +54,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
@@ -79,7 +79,7 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
 
     private ItemHandlerClientInterface ihc;
 
-    public ItemHandlerClientTest(TransportProtocol transport) {
+    public ItemHandlerClientTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -95,7 +95,8 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -120,8 +121,7 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
     public void testRetrieve01() throws Exception {
 
         Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
-        Factory
-            .getMarshallerFactory(ihc.getTransport()).getItemMarshaller()
+        MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class)
             .marshalDocument(item);
     }
 
@@ -198,8 +198,7 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
 
         item2 = ihc.update(item2);
 
-        VersionHistory vh2 =
-            ihc.retrieveVersionHistory(((Item) item2).getObjid());
+        VersionHistory vh2 = ihc.retrieveVersionHistory((item2).getObjid());
 
     }
 

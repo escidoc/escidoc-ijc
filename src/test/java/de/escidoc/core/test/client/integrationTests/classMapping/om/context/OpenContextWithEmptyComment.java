@@ -36,13 +36,13 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
     private static final String EMPTY_PUBLIC_STATUS_COMMENT = "";
 
     private Authentication auth;
-    
+
     private ContextHandlerClientInterface cc;
-    
-    public OpenContextWithEmptyComment(TransportProtocol transport) {
+
+    public OpenContextWithEmptyComment(final TransportProtocol transport) {
         super(transport);
     }
-    
+
     @Before
     public void init() throws Exception {
         auth =
@@ -55,7 +55,8 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -124,7 +125,8 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private void openContext(Context context, String publicStatusComment)
+    private void openContext(
+        final Context context, final String publicStatusComment)
         throws EscidocException, InternalClientException, TransportException {
         final TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(context.getLastModificationDate());
@@ -138,7 +140,7 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
      * @return
      * @throws EscidocClientException
      */
-    private Context retrieveContext(Context context)
+    private Context retrieveContext(final Context context)
         throws EscidocClientException {
         return cc.retrieve(context.getObjid());
     }

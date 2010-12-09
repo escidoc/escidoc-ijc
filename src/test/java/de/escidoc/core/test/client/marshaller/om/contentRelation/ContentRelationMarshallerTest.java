@@ -35,7 +35,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -69,8 +69,7 @@ public class ContentRelationMarshallerTest
                 + "/om/content-relation/0.1/content-relation01.xml"));
 
         ContentRelation cr =
-            Factory
-                .getMarshallerFactory(transport).getContentRelationMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(ContentRelation.class)
                 .unmarshalDocument(crXml);
 
         assertEquals("Wrong objid", "escidoc:157531", cr.getObjid());
@@ -139,8 +138,7 @@ public class ContentRelationMarshallerTest
                 + "/om/content-relation/0.1/content-relation-locked01.xml"));
 
         ContentRelation cr =
-            Factory
-                .getMarshallerFactory(transport).getContentRelationMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(ContentRelation.class)
                 .unmarshalDocument(crXml);
 
         assertEquals("Wrong objid", "escidoc:157531", cr.getObjid());
@@ -219,8 +217,7 @@ public class ContentRelationMarshallerTest
                         + "/om/content-relation/0.1/content-relation-before-create.xml"));
 
         ContentRelation cr =
-            Factory
-                .getMarshallerFactory(transport).getContentRelationMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(ContentRelation.class)
                 .unmarshalDocument(crXml);
 
         assertNull("Wrong objid", cr.getObjid());

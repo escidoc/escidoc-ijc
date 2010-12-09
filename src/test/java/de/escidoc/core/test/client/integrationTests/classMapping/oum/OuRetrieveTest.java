@@ -57,7 +57,7 @@ public class OuRetrieveTest extends AbstractParameterizedTestBase {
 
     private OrganizationalUnitHandlerClientInterface ohc;
 
-    public OuRetrieveTest(TransportProtocol transport) {
+    public OuRetrieveTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -73,7 +73,8 @@ public class OuRetrieveTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -84,7 +85,8 @@ public class OuRetrieveTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveExampleOu01() throws Exception {
-        OrganizationalUnit ou = ohc.retrieve("escidoc:ex3");
+        OrganizationalUnit ou =
+            ohc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
 
         MetadataRecord mdRecord = ou.getMetadataRecords().get("escidoc");
         assertNotNull(ou.getMetadataRecords().get("escidoc"));

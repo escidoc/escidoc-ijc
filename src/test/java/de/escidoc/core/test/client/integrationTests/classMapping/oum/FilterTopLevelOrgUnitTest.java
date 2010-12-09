@@ -30,7 +30,6 @@ package de.escidoc.core.test.client.integrationTests.classMapping.oum;
  */
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -102,7 +101,8 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     @Test
@@ -181,7 +181,9 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
         final OrganizationalUnitList rootOrgUnitList) {
         for (final OrganizationalUnit organizationalUnit : rootOrgUnitList) {
             final Parents parents = organizationalUnit.getParents();
-            assertNull("Root org unit can not have parents.", parents);
+            assertNotNull("Parents object should exist.", parents);
+            assertTrue("Root org unit can not have parents.",
+                parents.size() == 0);
         }
     }
 

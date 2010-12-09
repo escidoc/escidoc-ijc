@@ -61,8 +61,8 @@ import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidation
 import de.escidoc.core.client.exceptions.application.missing.MissingMdRecordException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.StagingHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
@@ -109,7 +109,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -642,8 +643,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         item.setComponents(components);
 
         Marshaller<Item> m =
-            Factory
-                .getMarshallerFactory(ihc.getTransport()).getItemMarshaller();
+            MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
         m.marshalDocument(item);
 
         Item createdItem = ihc.create(item);
@@ -692,8 +692,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // only for debug
         Marshaller<Item> m =
-            Factory
-                .getMarshallerFactory(ihc.getTransport()).getItemMarshaller();
+            MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
         m.marshalDocument(item);
 
         Item createdItem = ihc.create(item);

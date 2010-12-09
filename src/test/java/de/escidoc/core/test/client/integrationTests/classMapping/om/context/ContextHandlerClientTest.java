@@ -49,8 +49,8 @@ import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
@@ -78,7 +78,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
 
     private ContextHandlerClientInterface cc;
 
-    public ContextHandlerClientTest(TransportProtocol transport) {
+    public ContextHandlerClientTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -94,7 +94,8 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -147,8 +148,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
         String objid = createdContext.getObjid();
         Context retrievedContext = cc.retrieve(objid);
 
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getContextMarshaller()
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Context.class)
             .marshalDocument(retrievedContext);
     }
 
@@ -195,8 +195,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
 
         // update
         cc.update(retrivedContext);
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getContextMarshaller()
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Context.class)
             .marshalDocument(retrivedContext);
     }
 
@@ -230,14 +229,13 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             me.getObjid(), null));
         filterParam.setFilters(filters);
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(TaskParam.class)
             .marshalDocument(filterParam);
 
         ContextList contextList = cc.retrieveContexts(filterParam);
 
-        assertTrue("result list is empty, try another filter", contextList
-            .getContexts().size() != 0);
+        assertTrue("result list is empty, try another filter",
+            contextList.size() != 0);
     }
 
     /**
@@ -264,13 +262,12 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
             me.getObjid(), null));
         filterParam.setFilters(filters);
 
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(TaskParam.class)
             .marshalDocument(filterParam);
 
         MemberList memberList = cc.retrieveMembers("escidoc:ex1", filterParam);
         Marshaller<MemberList> m =
-            Factory.getMarshallerFactory(transport).getMemberListMarshaller();
+            MarshallerFactory.getInstance(transport).getMarshaller(MemberList.class);
 
         m.marshalDocument(memberList);
 

@@ -61,7 +61,7 @@ public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
 
     private UserAccountHandlerClientInterface uahc;
 
-    public UserAccountAttributesTest(TransportProtocol transport) {
+    public UserAccountAttributesTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -77,7 +77,8 @@ public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**

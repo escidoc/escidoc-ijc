@@ -44,8 +44,8 @@ import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.notfound.ContainerNotFoundException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -72,7 +72,7 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
 
     private ContainerHandlerClientInterface cc;
 
-    public ContainerHandlerClientTest(TransportProtocol transport) {
+    public ContainerHandlerClientTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -88,7 +88,8 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -123,8 +124,7 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
         // retrieve the created Container
         Container container = cc.retrieve(objid);
 
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getContainerMarshaller()
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Container.class)
             .marshalDocument(container);
     }
 
@@ -155,14 +155,12 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
             "escidoc:user42", null));
         filterParam.setFilters(filters);
 
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(TaskParam.class)
             .marshalDocument(filterParam);
 
         ContainerList containerList = cc.retrieveContainers(filterParam);
         Marshaller<ContainerList> m =
-            Factory
-                .getMarshallerFactory(transport).getContainerListMarshaller();
+            MarshallerFactory.getInstance(transport).getMarshaller(ContainerList.class);
         String xml = m.marshalDocument(containerList);
 
         // FIXME check containerList
@@ -196,8 +194,7 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
         Container createdContainer = cc.create(containerNew);
         String objid = createdContainer.getObjid();
         Container container = cc.retrieve(objid);
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getContainerMarshaller()
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Container.class)
             .marshalDocument(container);
 
         TaskParam filterParam = new TaskParam();
@@ -207,13 +204,12 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         filterParam.setFilters(filters);
-        Factory
-            .getMarshallerFactory(cc.getTransport()).getTaskParamMarshaller()
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(TaskParam.class)
             .marshalDocument(filterParam);
 
         MemberList memberList = cc.retrieveMembers(objid, filterParam);
         Marshaller<MemberList> m =
-            Factory.getMarshallerFactory(transport).getMemberListMarshaller();
+            MarshallerFactory.getInstance(transport).getMarshaller(MemberList.class);
         String xml = m.marshalDocument(memberList);
 
         // FIXME check containerList
@@ -229,7 +225,7 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
      */
     // FIXME redundant method
     private Filter getFilter(
-        final String name, final String value, Collection<String> ids) {
+        final String name, final String value, final Collection<String> ids) {
 
         Filter filter = new Filter();
         filter.setName(name);

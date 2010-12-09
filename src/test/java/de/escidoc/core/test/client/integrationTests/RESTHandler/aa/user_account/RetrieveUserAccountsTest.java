@@ -13,8 +13,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.test.client.Constants;
@@ -50,9 +50,8 @@ public class RetrieveUserAccountsTest {
         final String createdUser = uahc.retrieve(objid);
 
         Marshaller<UserAccount> m =
-            Factory
-                .getMarshallerFactory(TransportProtocol.REST)
-                .getUserAccountMarshaller();
+            MarshallerFactory.getInstance(TransportProtocol.REST)
+                .getMarshaller(UserAccount.class);
         UserAccount user = m.unmarshalDocument(createdUser);
         assertNotNull("Object Id should not be null. ", user.getObjid());
     }
@@ -75,9 +74,8 @@ public class RetrieveUserAccountsTest {
         ua.setProperties(properties);
 
         Marshaller<UserAccount> m =
-            Factory
-                .getMarshallerFactory(TransportProtocol.REST)
-                .getUserAccountMarshaller();
+            MarshallerFactory.getInstance(TransportProtocol.REST)
+                .getMarshaller(UserAccount.class);
         String xml = m.marshalDocument(ua);
 
         xml = uahc.create(xml);

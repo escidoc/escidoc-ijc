@@ -17,8 +17,8 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 import de.escidoc.core.resources.common.reference.ScopeRef;
 import de.escidoc.core.resources.sm.report.Report;
@@ -99,11 +99,11 @@ public class ReportHandlerClientTest extends AbstractParameterizedTestBase {
             new ReportParameters(new ReportDefinitionRef(reportDefId));
 
         Marshaller<ReportParameters> m1 =
-            Factory.getMarshallerFactory(transport).getMarshaller(
+            MarshallerFactory.getInstance(transport).getMarshaller(
                 ReportParameters.class);
 
         Marshaller<Report> m2 =
-            Factory.getMarshallerFactory(transport).getMarshaller(Report.class);
+            MarshallerFactory.getInstance(transport).getMarshaller(Report.class);
 
         String xml = m1.marshalDocument(parameters);
         m1.unmarshalDocument(xml);

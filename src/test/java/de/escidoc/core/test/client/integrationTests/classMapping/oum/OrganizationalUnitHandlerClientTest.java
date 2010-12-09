@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
@@ -38,6 +39,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,7 +50,7 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -89,7 +91,8 @@ public class OrganizationalUnitHandlerClientTest
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -115,27 +118,29 @@ public class OrganizationalUnitHandlerClientTest
         OrganizationalUnit organizationUnit =
             ohc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
 
-        Factory
-            .getMarshallerFactory(ohc.getTransport())
-            .getOrganizationalUnitMarshaller()
+        MarshallerFactory.getInstance(ohc.getTransport())
+            .getMarshaller(OrganizationalUnit.class)
             .marshalDocument(organizationUnit);
     }
 
     /**
      * Test retrieving existing OrganizationUnit.
      * 
+     * TODO wichtig
+     * 
      * @throws Exception
      *             Thrown if retrieve and/or marshalling failed.
      */
+    @Ignore("INFR-1057")
     @Test
     public void testRetrieveUpdate() throws Exception {
-        OrganizationalUnit organizationUnit =
+        OrganizationalUnit ou =
             ohc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
-        ohc.update(organizationUnit);
-        Factory
-            .getMarshallerFactory(ohc.getTransport())
-            .getOrganizationalUnitMarshaller()
-            .marshalDocument(organizationUnit);
+
+        OrganizationalUnit updatedOU = ohc.update(ou);
+
+        assertEquals("", ou.getLastModificationDate(),
+            updatedOU.getLastModificationDate());
     }
 
     /**
@@ -192,8 +197,7 @@ public class OrganizationalUnitHandlerClientTest
             "http://escidoc.de/core/01/structural-relations/created-by",
             me.getObjid(), null));
         filterParam.setFilters(filters);
-        Factory
-            .getMarshallerFactory(ohc.getTransport()).getTaskParamMarshaller()
+        MarshallerFactory.getInstance(ohc.getTransport()).getMarshaller(TaskParam.class)
             .marshalDocument(filterParam);
 
         OrganizationalUnitHandlerClientInterface ic =

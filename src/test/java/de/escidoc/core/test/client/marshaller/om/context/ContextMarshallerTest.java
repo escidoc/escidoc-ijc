@@ -34,7 +34,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -67,8 +67,7 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/context/0.7/context01.xml"));
 
         Context context =
-            Factory
-                .getMarshallerFactory(transport).getContextMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
 
         assertEquals("Wrong objid", "escidoc:157546", context.getObjid());
@@ -118,8 +117,7 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/context/0.7/context02.xml"));
 
         Context context =
-            Factory
-                .getMarshallerFactory(transport).getContextMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
     }
 }

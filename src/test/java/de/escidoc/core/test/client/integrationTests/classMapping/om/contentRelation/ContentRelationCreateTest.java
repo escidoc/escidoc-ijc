@@ -69,7 +69,7 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
 
     private ContentRelationHandlerClientInterface cc;
 
-    public ContentRelationCreateTest(TransportProtocol transport) {
+    public ContentRelationCreateTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -85,7 +85,8 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**

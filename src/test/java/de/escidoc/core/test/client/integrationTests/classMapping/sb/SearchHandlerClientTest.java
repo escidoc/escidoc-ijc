@@ -37,43 +37,53 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.transform.TransformerException;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.SearchHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.SearchHandlerClientInterface;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.common.reference.ContainerRef;
+import de.escidoc.core.resources.common.reference.ItemRef;
+import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.scan.Term;
+import de.escidoc.core.resources.sb.search.SearchDescriptor;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
+import de.escidoc.core.resources.sb.search.records.resolver.RecordResolver;
+import de.escidoc.core.resources.sb.search.records.resolver.TagEntry;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 @RunWith(Parameterized.class)
 public class SearchHandlerClientTest {
 
-    private static final Logger LOG = LoggerFactory
+    private static final Logger LOG = Logger
         .getLogger(SearchHandlerClientTest.class);
 
     private static final StringBuilder out = new StringBuilder();
@@ -195,10 +205,7 @@ public class SearchHandlerClientTest {
         out.append(response.getNumberOfResultingRecords());
         out.append("\n");
 
-        for (Iterator<Record<?>> it = response.getRecords().iterator(); it
-            .hasNext();) {
-            Record<?> record = it.next();
-
+        for (Record<?> record : response.getRecords()) {
             assertTrue(record instanceof SearchResultRecordRecord);
 
             if (record instanceof SearchResultRecordRecord) {
@@ -270,7 +277,7 @@ public class SearchHandlerClientTest {
 
         for (Record<?> record : response.getRecords()) {
             if (record instanceof ResourceRecord<?>
-                && ((ResourceRecord<?>) record).getDataType() == ResourceType.Item) {
+                && ((ResourceRecord<?>) record).getRecordDataType() == Item.class) {
                 Item item = (Item) record.getRecordData();
                 out.append("Item: ID[" + item.getObjid() + "], Href["
                     + item.getXLinkHref() + "]\n");
@@ -349,6 +356,140 @@ public class SearchHandlerClientTest {
             out.append(" [");
             out.append(term.getNumberOfRecords());
             out.append("]");
+        }
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testUserdefindedSRWResult() throws Exception {
+        final String objid = "escidoc:264161";
+        final String srwResponse =
+            "<?xml version=\"1.0\" ?> "
+                + "<searchRetrieveResponse xmlns=\"http://www.loc.gov/zing/srw/\">"
+                + "\t<version>1.1</version>"
+                + "\t<numberOfRecords>1</numberOfRecords>"
+                + "\t<records xmlns:ns1=\"http://www.loc.gov/zing/srw/\">"
+                + "\t\t<record>"
+                + "\t\t\t<recordSchema>default</recordSchema>"
+                + "\t\t\t<recordPacking>xml</recordPacking>"
+                + "\t\t\t<recordData>"
+                + "\t\t\t\t<escidocItem:item xmlns:escidocItem=\"http://www.escidoc.de/schemas/item/0.9\">"
+                + objid + "</escidocItem:item>" + "\t\t\t</recordData>"
+                + "\t\t\t<recordPosition>1</recordPosition>" + "\t\t</record>"
+                + "\t</records>" + "</searchRetrieveResponse>";
+
+        // register new resolver
+        SearchDescriptor.registerResolver(new MyResolver());
+
+        // simulate request
+        SearchRetrieveResponse response =
+            MarshallerFactory.getInstance(transport)
+                .getMarshaller(MarshallerFactory.CLASS_SEARCH_RETRIEVE_RESPONSE)
+                .unmarshalDocument(srwResponse);
+
+        assertTrue(response.getNumberOfResultingRecords() == 1);
+
+        for (Record<?> record : response.getRecords()) {
+
+            assertTrue(record instanceof MyRefRecord);
+
+            Reference ref = (Reference) record.getRecordData();
+
+            assertEquals(ref.getObjid(), objid);
+            assertTrue(ref.getResourceType() == ResourceType.Item);
+        }
+    }
+
+    /**
+     * An implementation of RecordResolver for testing purposes.
+     * 
+     * @author MVO
+     * 
+     */
+    private class MyResolver extends RecordResolver<MyRefRecord, Class<?>> {
+
+        public MyResolver() {
+            getResolvableRecordDefinitions().put(new TagEntry("item", null),
+                ItemRef.class);
+            getResolvableRecordDefinitions().put(
+                new TagEntry("container", null), ContainerRef.class);
+            // ingore namespaces
+            setIgnoreNS(true);
+        }
+
+        @Override
+        public MyRefRecord getRecordInstance(
+            final Class<?> value, final RecordMetaData data) {
+            // we do not need to check for value, since we only return one
+            // record type but we could return different record types.
+            if (value == ItemRef.class) {
+                return new MyRefRecord(data);
+            }
+            else if (value == ContainerRef.class) {
+                return new MyRefRecord(data);
+            }
+            return null;
+        }
+    }
+
+    private class MyRefRecord extends Record<Reference> {
+
+        public MyRefRecord(final RecordMetaData data) {
+            super(data);
+        }
+
+        @Override
+        protected Reference parseFragmentDOM() {
+            Reference ref = null;
+            try {
+                ref = decode(getRecordDataDOMAsString());
+            }
+            catch (TransformerException e) {
+                // do something
+            }
+            return ref;
+        }
+
+        @Override
+        protected Reference parseFragmentText() {
+            return decode(getRecordDataText());
+        }
+
+        /**
+         * Some simple XML parsing here for test purposes.
+         * 
+         * @param xml
+         * @return
+         */
+        private Reference decode(final String xml) {
+            if (xml == null)
+                return null;
+
+            Pattern tagNameWithPrefix =
+                Pattern
+                    .compile("<(?:([^>^:^\\s]*):)?([^>^\\s]*?)(?:\\s[^<]*)?>");
+            Matcher m = tagNameWithPrefix.matcher(xml);
+            if (m.find()) {
+                String id =
+                    xml.substring(m.group(0).length(),
+                        xml.indexOf('<', m.group(0).length()));
+
+                if ("item".equals(m.group(2))) {
+                    return new ItemRef(id);
+                }
+                else if ("container".equals(m.group(2))) {
+                    return new ContainerRef(id);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected ItemRef getDefaultInstance() {
+            return null;
         }
     }
 }

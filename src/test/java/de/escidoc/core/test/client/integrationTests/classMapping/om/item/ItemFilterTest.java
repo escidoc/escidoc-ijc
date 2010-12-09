@@ -76,11 +76,11 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
     private Authentication auth;
 
     private ItemHandlerClientInterface ihc;
-    
-    public ItemFilterTest(TransportProtocol transport) {
+
+    public ItemFilterTest(final TransportProtocol transport) {
         super(transport);
     }
-    
+
     @Before
     public void init() throws Exception {
         auth =
@@ -93,7 +93,8 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -145,8 +146,7 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
 
         ItemList itemList = ihc.retrieveItems(filterParam);
 
-        assertEquals("Wrong number of elements in list", 0, itemList
-            .getItems().size());
+        assertEquals("Wrong number of elements in list", 0, itemList.size());
     }
 
     /**
@@ -196,12 +196,11 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
 
         ItemList itemList = ihc.retrieveItems(filterParam);
 
-        assertTrue("Wrong number of elements in list", itemList
-            .getItems().size() > 0);
+        assertTrue("Wrong number of elements in list", itemList.size() > 0);
 
         List<String> idList = new Vector<String>();
 
-        Iterator<Item> it = itemList.getItems().iterator();
+        Iterator<Item> it = itemList.iterator();
         while (it.hasNext()) {
             Item n = it.next();
             idList.add(n.getObjid());
@@ -225,7 +224,7 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
      * @return
      */
     private Filter getFilter(
-        final String name, final String value, Collection<String> ids) {
+        final String name, final String value, final Collection<String> ids) {
 
         Filter filter = new Filter();
         filter.setName(name);

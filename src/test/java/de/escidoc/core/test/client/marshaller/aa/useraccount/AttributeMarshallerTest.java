@@ -35,7 +35,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -68,8 +68,7 @@ public class AttributeMarshallerTest extends AbstractParameterizedTestBase {
                 + "/aa/useraccount/attribute_internal.xml"));
 
         Attribute attribute =
-            Factory
-                .getMarshallerFactory(transport).getAttributeMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Attribute.class)
                 .unmarshalDocument(attributeXml);
 
         assertEquals("Wrong objid", "escidoc:209775", attribute.getObjid());

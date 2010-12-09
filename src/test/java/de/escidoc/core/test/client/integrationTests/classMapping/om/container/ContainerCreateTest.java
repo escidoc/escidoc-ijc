@@ -54,9 +54,8 @@ import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.XmlUtility;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -65,7 +64,7 @@ import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
-import de.escidoc.core.resources.common.reference.Reference;
+import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.structmap.ContainerMemberRef;
 import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
@@ -88,7 +87,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
     private ContainerHandlerClientInterface cc;
 
-    public ContainerCreateTest(TransportProtocol transport) {
+    public ContainerCreateTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -104,7 +103,8 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -341,8 +341,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
             createdContainer.getMetadataRecords().get("escidoc");
 
         Marshaller<MetadataRecord> m2 =
-            Factory
-                .getMarshallerFactory(transport).getMetadataRecordMarshaller();
+            MarshallerFactory.getInstance(transport).getMarshaller(MetadataRecord.class);
         String xml2 = m2.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
@@ -369,8 +368,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
         Relation relation =
-            new Relation(new Reference(Constants.EXAMPLE_ITEM_ID,
-                ResourceType.Item));
+            new Relation(new ItemRef(Constants.EXAMPLE_ITEM_ID));
         relation
             .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
         relations.add(relation);

@@ -39,7 +39,7 @@ import org.w3c.dom.Document;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
@@ -81,8 +81,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/item/0.9/item_released01.xml"));
 
         Item item =
-            Factory
-                .getMarshallerFactory(transport).getItemMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
                 .unmarshalDocument(itemXml);
 
         assertEquals("Wrong objid", "escidoc:40011", item.getObjid());
@@ -218,8 +217,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/item/0.9/item_locked01.xml"));
 
         Item item =
-            Factory
-                .getMarshallerFactory(transport).getItemMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
                 .unmarshalDocument(itemXml);
 
         assertEquals("Wrong objid", "escidoc:40011", item.getObjid());
@@ -360,8 +358,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/item/0.9/item_one_component_inline_content.xml"));
 
         Item item =
-            Factory
-                .getMarshallerFactory(transport).getItemMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
                 .unmarshalDocument(itemXml);
 
         assertNull("Wrong objid", item.getObjid());
@@ -502,8 +499,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
         item.setComponents(components);
 
         String itemXml =
-            Factory
-                .getMarshallerFactory(transport).getItemMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
                 .marshalDocument(item);
 
         Document itemDoc = XmlUtility.getDocument(itemXml);
@@ -560,8 +556,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
         item.setComponents(components);
 
         String itemXml =
-            Factory
-                .getMarshallerFactory(transport).getItemMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
                 .marshalDocument(item);
 
     }

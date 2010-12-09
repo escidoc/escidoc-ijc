@@ -33,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -65,8 +65,7 @@ public class MemberListMarshallerTest extends AbstractParameterizedTestBase {
                 + transport.name().toLowerCase() + "/member-list.xml"));
 
         MemberList memberList =
-            Factory
-                .getMarshallerFactory(transport).getMemberListMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(MemberList.class)
                 .unmarshalDocument(contextXml);
 
         assertEquals("Wrong offset", 0, memberList.getOffset());

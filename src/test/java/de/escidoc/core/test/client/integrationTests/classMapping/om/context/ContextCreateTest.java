@@ -66,7 +66,7 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
 
     private ContextHandlerClientInterface cc;
 
-    public ContextCreateTest(TransportProtocol transport) {
+    public ContextCreateTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -82,7 +82,8 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**

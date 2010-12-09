@@ -33,7 +33,7 @@ import org.junit.Test;
 import de.escidoc.core.client.ActionHandlerClient;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -67,8 +67,8 @@ public class ActionHandlerClientTest {
 
         UnsecuredActions ua =
             ac.createUnsecuredActions("escidoc:persistent3", actions);
-        Factory.getMarshallerFactory(TransportProtocol.SOAP)
-        	.getUnsecuredActionsMarshaller().marshalDocument(
+        MarshallerFactory.getInstance(TransportProtocol.SOAP)
+        	.getMarshaller(UnsecuredActions.class).marshalDocument(
         			ac.retrieveUnsecuredActions("escidoc:persistent3"));
 
     }
@@ -124,13 +124,13 @@ public class ActionHandlerClientTest {
     // try {
     // logger
     // .debug("Call retrieves with filter "
-    // + Factory.getTaskParamMarshaller().marshalDocument(
+    // + Factory.getMarshaller(TaskParam.class).marshalDocument(
     // filterParam));
     // RoleHandlerClient rc = new RoleHandlerClient();
     // Roles roleList =
     // rc.retrieveRoles(filterParam);
     // logger.debug("------------------------ ");
-    // String xml = Factory.getRoleListMarshaller().marshalDocument(roleList);
+    // String xml = Factory.getMarshaller(RoleList.class).marshalDocument(roleList);
     // }
     // catch (Exception e) {
     // // TODO Auto-generated catch block
@@ -169,7 +169,7 @@ public class ActionHandlerClientTest {
     //
     // Role urole = m.unmarshalDocument(xml);
     // String roleXml =
-    // Factory.getRoleMarshaller().marshalDocument(
+    // Factory.getMarshaller(Role.class).marshalDocument(
     // urole);
     // return role;
     //

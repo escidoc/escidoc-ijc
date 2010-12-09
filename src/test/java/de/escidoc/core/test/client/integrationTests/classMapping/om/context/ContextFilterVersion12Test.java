@@ -73,11 +73,11 @@ public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
     private Authentication auth;
 
     private ContextHandlerClientInterface cc;
-    
-    public ContextFilterVersion12Test(TransportProtocol transport) {
+
+    public ContextFilterVersion12Test(final TransportProtocol transport) {
         super(transport);
     }
-    
+
     @Before
     public void init() throws Exception {
         auth =
@@ -90,9 +90,10 @@ public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
-    
+
     /**
      * Test retrieving Contexts through filter request (filter for version 1.2).
      * 

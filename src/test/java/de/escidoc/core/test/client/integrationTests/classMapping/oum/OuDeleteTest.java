@@ -66,7 +66,7 @@ public class OuDeleteTest extends AbstractParameterizedTestBase {
 
     private OrganizationalUnitHandlerClientInterface ohc;
 
-    public OuDeleteTest(TransportProtocol transport) {
+    public OuDeleteTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -82,7 +82,8 @@ public class OuDeleteTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**

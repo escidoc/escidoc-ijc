@@ -79,7 +79,7 @@ public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase 
 
     private ContainerHandlerClientInterface cc;
 
-    public ContainerFilterVersion12Test(TransportProtocol transport) {
+    public ContainerFilterVersion12Test(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -95,7 +95,8 @@ public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase 
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**

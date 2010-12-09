@@ -75,8 +75,8 @@ public class ContentRelationFilterVersion12Test
     private Authentication auth;
 
     private ContentRelationHandlerClientInterface cc;
-    
-    public ContentRelationFilterVersion12Test(TransportProtocol transport) {
+
+    public ContentRelationFilterVersion12Test(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -92,9 +92,10 @@ public class ContentRelationFilterVersion12Test
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
-    
+
     /**
      * Test retrieving Contexts through filter request (filter for version 1.2).
      * 

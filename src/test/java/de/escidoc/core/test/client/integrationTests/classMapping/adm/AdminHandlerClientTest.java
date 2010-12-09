@@ -183,6 +183,7 @@ public class AdminHandlerClientTest {
         // do a request every 5 seconds
         final Thread thread = new Thread() {
 
+            @Override
             public void run() {
                 MessagesStatus myStatus = status;
                 // log initial status
@@ -225,7 +226,7 @@ public class AdminHandlerClientTest {
         thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
             @Override
-            public void uncaughtException(Thread t, Throwable e) {
+            public void uncaughtException(final Thread t, final Throwable e) {
                 exceptionStatus.setException((Exception) e.getCause());
             }
 
@@ -264,6 +265,7 @@ public class AdminHandlerClientTest {
         // do a request every 5 seconds
         final Thread thread = new Thread() {
 
+            @Override
             public void run() {
                 MessagesStatus myStatus = status;
                 // log initial status
@@ -306,7 +308,7 @@ public class AdminHandlerClientTest {
         thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
             @Override
-            public void uncaughtException(Thread t, Throwable e) {
+            public void uncaughtException(final Thread t, final Throwable e) {
                 exceptionStatus.setException((Exception) e.getCause());
             }
 
@@ -373,6 +375,7 @@ public class AdminHandlerClientTest {
         // do a request every 5 seconds
         final Thread thread = new Thread() {
 
+            @Override
             public void run() {
                 MessagesStatus myStatus = status;
                 // log initial status
@@ -415,7 +418,7 @@ public class AdminHandlerClientTest {
         thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
             @Override
-            public void uncaughtException(Thread t, Throwable e) {
+            public void uncaughtException(final Thread t, final Throwable e) {
                 exceptionStatus.setException((Exception) e.getCause());
             }
 
@@ -438,15 +441,6 @@ public class AdminHandlerClientTest {
 
     /**
      * 
-     * @throws Exception
-     */
-    // @Test
-    public void testDecreaseReindexStatus() throws Exception {
-        // TODO What's the story of this function???
-    }
-
-    /**
-     * 
      * @param handler
      * @return
      * @throws EscidocException
@@ -454,7 +448,7 @@ public class AdminHandlerClientTest {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private String createItem(ItemHandlerClientInterface handler)
+    private String createItem(final ItemHandlerClientInterface handler)
         throws EscidocException, InternalClientException, TransportException,
         ParserConfigurationException {
         Item item = new Item();
@@ -484,7 +478,7 @@ public class AdminHandlerClientTest {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private String createContainer(ContainerHandlerClientInterface handler)
+    private String createContainer(final ContainerHandlerClientInterface handler)
         throws EscidocException, InternalClientException, TransportException,
         ParserConfigurationException {
 
@@ -517,7 +511,7 @@ public class AdminHandlerClientTest {
      * @throws ParserConfigurationException
      */
     private String createOrganizationalUnit(
-        OrganizationalUnitHandlerClientInterface handler)
+        final OrganizationalUnitHandlerClientInterface handler)
         throws EscidocException, InternalClientException, TransportException,
         ParserConfigurationException {
         final String ouName =
@@ -613,7 +607,7 @@ public class AdminHandlerClientTest {
      * 
      * @param status
      */
-    private void validateMessagesStatus(MessagesStatus status) {
+    private void validateMessagesStatus(final MessagesStatus status) {
         assertTrue(status.getStatusCode() != AdminStatus.STATUS_INVALID_RESULT);
 
         if (status.getStatusCode() == AdminStatus.STATUS_FINISHED) {
@@ -636,7 +630,7 @@ public class AdminHandlerClientTest {
     class ExceptionStatus {
         private Exception exception;
 
-        public void setException(Exception exception) {
+        public void setException(final Exception exception) {
             this.exception = exception;
         }
 

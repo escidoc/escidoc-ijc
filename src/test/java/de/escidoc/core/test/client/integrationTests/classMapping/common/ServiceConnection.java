@@ -63,7 +63,7 @@ public class ServiceConnection extends AbstractParameterizedTestBase {
 
     private Authentication auth;
 
-    public ServiceConnection(TransportProtocol transport) {
+    public ServiceConnection(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -76,7 +76,8 @@ public class ServiceConnection extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     private static final String ITEM_ID = "escidoc:ex5";

@@ -71,7 +71,7 @@ public class ItemUpdateTest extends AbstractParameterizedTestBase {
 
     private ItemHandlerClientInterface ihc;
 
-    public ItemUpdateTest(TransportProtocol transport) {
+    public ItemUpdateTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -87,7 +87,8 @@ public class ItemUpdateTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**

@@ -39,7 +39,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
@@ -73,7 +72,7 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
 
     private ItemHandlerClientInterface ihc;
 
-    public SurrogateItemCreateTest(TransportProtocol transport) {
+    public SurrogateItemCreateTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -89,7 +88,8 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**

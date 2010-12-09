@@ -48,8 +48,8 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.PolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.pdp.Decision;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Result;
@@ -71,7 +71,7 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
 
     private PolicyDecisionPointHandlerClientInterface pdpc;
 
-    public PdpHandlerClientTest(TransportProtocol transport) {
+    public PdpHandlerClientTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -87,7 +87,8 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     @Test
@@ -96,7 +97,8 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
             EscidocClientTestBase.getXmlFileAsString(Template.load(transport
                 .name().toLowerCase() + "/aa/pdp/requests.xml"));
         Marshaller<Requests> m =
-            Factory.getMarshallerFactory(transport).getPDPRequestsMarshaller();
+            MarshallerFactory.getInstance(transport).getMarshaller(
+                Requests.class);
 
         Requests requests = m.unmarshalDocument(xml);
         m.marshalDocument(requests);
@@ -186,12 +188,9 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
                     assertTrue(resultCtx.getDecision() == com.sun.xacml.ctx.Result.DECISION_PERMIT);
 
                     @SuppressWarnings("unchecked")
-                    Set<Attribute> resAttrs =
-                        (Set<Attribute>) requestCtx.getResource();
+                    Set<Attribute> resAttrs = requestCtx.getResource();
 
-                    for (Iterator<Attribute> itx = resAttrs.iterator(); itx
-                        .hasNext();) {
-                        Attribute attribute = itx.next();
+                    for (Attribute attribute : resAttrs) {
                         if (attribute
                             .getId()
                             .toString()
@@ -259,8 +258,7 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
         // Response
         Results results = pdpc.evaluate(requests);
 
-        for (Iterator<Result> it = results.iterator(); it.hasNext();) {
-            Result result = it.next();
+        for (Result result : results) {
             assertTrue(result.getInterpretedDecision() == Decision.deny);
         }
     }

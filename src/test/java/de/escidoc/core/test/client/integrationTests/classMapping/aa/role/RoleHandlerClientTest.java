@@ -54,8 +54,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.RoleNotFoundException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.RoleProperties;
 import de.escidoc.core.resources.aa.role.Roles;
@@ -79,7 +79,7 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
 
     private RoleHandlerClientInterface rc;
 
-    public RoleHandlerClientTest(TransportProtocol transport) {
+    public RoleHandlerClientTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -95,7 +95,8 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -111,8 +112,8 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
 
         String objId = createdRole.getObjid();
 
-        Factory
-            .getMarshallerFactory(rc.getTransport()).getRoleMarshaller()
+        MarshallerFactory
+            .getInstance(rc.getTransport()).getMarshaller(Role.class)
             .marshalDocument(rc.retrieve(objId));
 
     }
@@ -175,8 +176,8 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         filterParam.setFilters(filters);
 
         // serialize data
-        Factory
-            .getMarshallerFactory(transport).getTaskParamMarshaller()
+        MarshallerFactory
+            .getInstance(transport).getMarshaller(TaskParam.class)
             .marshalDocument(filterParam);
     }
 
@@ -199,8 +200,8 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         Roles roleList = rc.retrieveRoles(filterParam);
 
         // test deserialize Role XML
-        Factory
-            .getMarshallerFactory(rc.getTransport()).getRoleListMarshaller()
+        MarshallerFactory
+            .getInstance(rc.getTransport()).getMarshaller(Roles.class)
             .marshalDocument(roleList);
     }
 
@@ -261,7 +262,7 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
 
         // FIXME done without result handling
         Marshaller<Role> m =
-            Factory.getMarshallerFactory(transport).getRoleMarshaller();
+            MarshallerFactory.getInstance(transport).getMarshaller(Role.class);
 
         String xml = m.marshalDocument(role);
 

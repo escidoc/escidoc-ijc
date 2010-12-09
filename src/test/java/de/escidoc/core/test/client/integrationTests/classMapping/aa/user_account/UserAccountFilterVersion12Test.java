@@ -67,7 +67,7 @@ public class UserAccountFilterVersion12Test
 
     private UserAccountHandlerClientInterface uac;
 
-    public UserAccountFilterVersion12Test(TransportProtocol transport) {
+    public UserAccountFilterVersion12Test(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -83,7 +83,8 @@ public class UserAccountFilterVersion12Test
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**

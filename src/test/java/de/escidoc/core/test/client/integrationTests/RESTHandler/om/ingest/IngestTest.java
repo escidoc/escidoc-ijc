@@ -45,8 +45,8 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
@@ -95,9 +95,8 @@ public class IngestTest {
         ihc.setHandle(auth.getHandle());
 
         Marshaller<Item> m =
-            Factory
-                .getMarshallerFactory(TransportProtocol.REST)
-                .getItemMarshaller();
+            MarshallerFactory.getInstance(TransportProtocol.REST)
+                .getMarshaller(Item.class);
 
         Item item = new Item();
 
@@ -147,9 +146,8 @@ public class IngestTest {
         cc.setHandle(auth.getHandle());
 
         Marshaller<Container> m =
-            Factory
-                .getMarshallerFactory(TransportProtocol.REST)
-                .getContainerMarshaller();
+            MarshallerFactory.getInstance(TransportProtocol.REST)
+                .getMarshaller(Container.class);
 
         Container container = new Container();
 
@@ -208,9 +206,8 @@ public class IngestTest {
         cc.setHandle(auth.getHandle());
 
         Marshaller<Container> m =
-            Factory
-                .getMarshallerFactory(TransportProtocol.REST)
-                .getContainerMarshaller();
+            MarshallerFactory.getInstance(TransportProtocol.REST)
+                .getMarshaller(Container.class);
 
         Container container = new Container();
 

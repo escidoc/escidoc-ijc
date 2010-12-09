@@ -151,10 +151,6 @@ public class OuParentsTest extends AbstractParameterizedTestBase {
             createOU("OU C @ " + System.currentTimeMillis(),
                 "child description");
 
-        System.out.println(A.getObjid());
-        System.out.println(B.getObjid());
-        System.out.println(C.getObjid());
-
         Parents B2A = new Parents();
         B2A.add(new Parent(A.getObjid()));
 
@@ -205,10 +201,6 @@ public class OuParentsTest extends AbstractParameterizedTestBase {
         OrganizationalUnit C =
             createOU("OU C @ " + System.currentTimeMillis(),
                 "child description");
-
-        System.out.println(A.getObjid());
-        System.out.println(B.getObjid());
-        System.out.println(C.getObjid());
 
         Parents B2A = new Parents();
         B2A.add(new Parent(A.getObjid()));

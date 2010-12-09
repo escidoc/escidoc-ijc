@@ -35,7 +35,8 @@ import org.junit.Test;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.rest.RestContentModelHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -80,9 +81,9 @@ public class ContentModelTestRest {
         // create
         String crtdOuXML = rcmhc.create(ouXml);
 
-        Factory
-            .getMarshallerFactory(TransportProtocol.REST)
-            .getContentModelMarshaller().unmarshalDocument(crtdOuXML);
+        MarshallerFactory
+            .getInstance(TransportProtocol.REST)
+            .getMarshaller(ContentModel.class).unmarshalDocument(crtdOuXML);
     }
 
 }

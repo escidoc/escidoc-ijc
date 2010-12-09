@@ -43,7 +43,7 @@ import org.w3c.dom.NodeList;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.structmap.ContainerMemberRef;
@@ -82,8 +82,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/container/0.8/container01.xml"));
 
         Container container =
-            Factory
-                .getMarshallerFactory(transport).getContainerMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
                 .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:157513", container.getObjid());
@@ -176,8 +175,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/container/0.8/container_locked01.xml"));
 
         Container container =
-            Factory
-                .getMarshallerFactory(transport).getContainerMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
                 .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:157513", container.getObjid());
@@ -277,8 +275,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/container/0.8/container_with_container_member.xml"));
 
         Container container =
-            Factory
-                .getMarshallerFactory(transport).getContainerMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
                 .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:188602", container.getObjid());
@@ -383,8 +380,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
         container.setStructMap(structMap);
 
         String containerXml =
-            Factory
-                .getMarshallerFactory(transport).getContainerMarshaller()
+            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
                 .marshalDocument(container);
 
         Document containerDoc = XmlUtility.getDocument(containerXml);

@@ -55,8 +55,8 @@ import de.escidoc.core.client.RoleHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.RoleProperties;
 import de.escidoc.core.resources.aa.role.Scope;
@@ -81,7 +81,7 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
 
     private RoleHandlerClientInterface rc;
 
-    public RoleFilterVersion12Test(TransportProtocol transport) {
+    public RoleFilterVersion12Test(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -97,7 +97,8 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
 
     /**
@@ -210,7 +211,7 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
 
         // FIXME done without result handling
         Marshaller<Role> m =
-            Factory.getMarshallerFactory(transport).getRoleMarshaller();
+            MarshallerFactory.getInstance(transport).getMarshaller(Role.class);
 
         String xml = m.marshalDocument(role);
 

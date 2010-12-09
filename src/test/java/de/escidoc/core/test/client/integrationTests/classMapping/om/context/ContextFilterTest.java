@@ -58,8 +58,8 @@ public class ContextFilterTest extends AbstractParameterizedTestBase {
     private Authentication auth;
 
     private ContextHandlerClientInterface cc;
-    
-    public ContextFilterTest(TransportProtocol transport) {
+
+    public ContextFilterTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -75,9 +75,10 @@ public class ContextFilterTest extends AbstractParameterizedTestBase {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null)
+            auth.logout();
     }
-    
+
     /**
      * Test retrieving all Contexts through filter request.
      * 
@@ -93,8 +94,7 @@ public class ContextFilterTest extends AbstractParameterizedTestBase {
 
         ContextList contextList = cc.retrieveContexts(filterParam);
 
-        assertTrue("At least one Context should be there", contextList
-            .getContexts().size() > 0);
+        assertTrue("At least one Context should exist.", contextList.size() > 0);
     }
 
 }
