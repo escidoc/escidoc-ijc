@@ -1,6 +1,6 @@
 package de.escidoc.core.resources.sb.search.records.resolver;
 
-import de.escidoc.core.resources.sb.search.records.RecordMetaData;
+import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
 
 public class SearchResultRecordRecordResolver
