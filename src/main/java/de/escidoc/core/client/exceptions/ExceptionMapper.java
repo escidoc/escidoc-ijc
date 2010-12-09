@@ -2,12 +2,15 @@ package de.escidoc.core.client.exceptions;
 
 import java.lang.reflect.Constructor;
 import java.rmi.RemoteException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.common.jibx.binding.HttpStatusInfo;
+import de.escidoc.core.common.jibx.binding.RemoteExceptionWrapper;
 
 /**
  * Maps exceptions to an acceptable exception type.
@@ -23,19 +26,12 @@ public class ExceptionMapper extends Exception {
     private static final String PREFIX_REMOTE =
         "de.escidoc.core.common.exceptions.remote";
 
-    private static final String PREFIX_COMMON =
-        "de.escidoc.core.common.exceptions";
-
     /**
      * Common denominator of package names for exceptions inheriting from
      * {@link EscidocClientException}.
      */
     private static final String PREFIX_CLIENT =
         "de.escidoc.core.client.exceptions";
-
-    private static final Pattern P_CLASS = Pattern.compile(
-        "[^(<class>)].*<class><p>([^<]*)</p></class>.*", Pattern.DOTALL
-            + Pattern.MULTILINE);
 
     /**
      *
@@ -98,57 +94,33 @@ public class ExceptionMapper extends Exception {
      * @throws EscidocException
      */
     public static void constructEscidocException(
-        final int statusCode, final String statusLine,
-        final String redirectLocation, final String statusText)
-        throws SystemException, RemoteException {
+        final String exceptionXml, final int statusCode,
+        final String redirectLocation) throws SystemException, RemoteException {
 
-        RemoteException result = null;
-        String exceptionClassName = null;
-        String exceptionMessage = null;
-        String exceptionCause = null;
+        RemoteExceptionWrapper result = null;
 
-        int pos = statusText.indexOf("</class>");
-        String subString = statusText.substring(0, pos + 10);
         try {
-
-            exceptionClassName = obtainClassName(subString);
-            exceptionMessage = obtainExceptionMessage(subString);
-            exceptionCause = obtainExceptionCause(statusText);
-
-            Class<?> exClass = Class.forName(exceptionClassName);
-
-            /**
-             * SecurityExceptions do have a 4th parameter "redirectLocation",
-             * which is not included in the XML response of the infrastructure.
-             * In order to instantiate such exceptions, we have to pass null as
-             * a 4th parameter.
-             */
-            if (de.escidoc.core.common.exceptions.remote.application.security.SecurityException.class
-                .isAssignableFrom(exClass)) {
-                Constructor<?> constructor =
-                    exClass.getDeclaredConstructor(new Class[] { int.class,
-                        String.class, String.class, String.class });
-                result =
-                    (RemoteException) constructor.newInstance(statusCode,
-                        exceptionMessage, exceptionCause, redirectLocation);
-            }
-            else {
-                Constructor<?> constructor =
-                    exClass.getDeclaredConstructor(new Class[] { int.class,
-                        String.class, String.class });
-                result =
-                    (RemoteException) constructor.newInstance(statusCode,
-                        exceptionMessage, exceptionCause);
-            }
+            Marshaller<RemoteExceptionWrapper> m =
+                MarshallerFactory
+                    .getInstance(TransportProtocol.REST).getMarshaller(
+                        RemoteExceptionWrapper.class);
+            m.setUserContext(new HttpStatusInfo(statusCode, redirectLocation));
+            result = m.unmarshalDocument(exceptionXml);
         }
         catch (Exception e) {
-            String msg = "Unable to map exception: " + statusLine;
+            String msg = "Unable to map exception:\n" + exceptionXml;
             LOGGER.debug(msg, e);
             throw new SystemException(500, msg, e.getMessage());
         }
-        throw result;
+        throw result.getRemoteException();
     }
 
+    /**
+     * 
+     * @param commonE
+     * @throws InternalClientException
+     * @throws EscidocException
+     */
     private static void constructEscidocException(
         final de.escidoc.core.common.exceptions.remote.EscidocException commonE)
         throws InternalClientException, EscidocException {
@@ -167,6 +139,9 @@ public class ExceptionMapper extends Exception {
 
             String msg = commonE.getMessage();
             if (msg == null) {
+                msg = commonE.getHttpStatusLine();
+            }
+            if (msg == null) {
                 msg = commonE.getHttpStatusMsg();
             }
             result = (EscidocException) constructor.newInstance(msg, commonE);
@@ -178,45 +153,4 @@ public class ExceptionMapper extends Exception {
         }
         throw result;
     }
-
-    private static String obtainClassName(final String subString) {
-
-        String exceptionClassName = null;
-
-        Matcher m = P_CLASS.matcher(subString);
-        if (m.find()) {
-            exceptionClassName = m.group(1);
-            exceptionClassName =
-                exceptionClassName.replace(PREFIX_COMMON, PREFIX_REMOTE);
-        }
-
-        return exceptionClassName;
-    }
-
-    private static String obtainExceptionMessage(final String subString) {
-
-        String exceptionMessage = null;
-
-        Pattern pMessage =
-            Pattern.compile(".*<message><p>([^<]*)</p></message>.*",
-                Pattern.DOTALL + Pattern.MULTILINE);
-
-        Matcher m = pMessage.matcher(subString);
-        if (m.find()) {
-            exceptionMessage = m.group(1);
-        }
-        return exceptionMessage;
-    }
-
-    private static String obtainExceptionCause(final String text) {
-
-        String beginTag = "<stack-trace><p><![CDATA[";
-        String endTag = "]]></p></stack-trace>";
-        int begin = text.indexOf(beginTag);
-        int end = text.lastIndexOf(endTag);
-
-        return (begin >= 0 && end >= 0) ? text.substring(
-            begin + beginTag.length(), end) : text;
-    }
-
 }
