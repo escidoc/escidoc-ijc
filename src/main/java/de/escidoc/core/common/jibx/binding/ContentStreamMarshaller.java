@@ -14,7 +14,7 @@ import org.jibx.runtime.impl.UnmarshallingContext;
  * 
  * 
  */
-public class ContentStream extends MarshallingBase
+public class ContentStreamMarshaller extends MarshallingBase
     implements IMarshaller, IUnmarshaller, IAliasable {
 
     private static final String STORAGE_ATTRIBUTE_NAME = "storage";
@@ -27,7 +27,8 @@ public class ContentStream extends MarshallingBase
      * @param index
      * @param name
      */
-    public ContentStream(final String uri, final int index, final String name) {
+    public ContentStreamMarshaller(final String uri, final int index,
+        final String name) {
 
         super(uri, index, name);
     }
@@ -37,6 +38,7 @@ public class ContentStream extends MarshallingBase
      * 
      * @see org.jibx.runtime.IMarshaller#isExtension(java.lang.String)
      */
+    @Override
     public boolean isExtension(final String arg0) {
         return false;
     }
@@ -51,7 +53,8 @@ public class ContentStream extends MarshallingBase
      * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object,
      * org.jibx.runtime.IMarshallingContext)
      */
-    public void marshal(Object obj, IMarshallingContext ictx)
+    @Override
+    public void marshal(final Object obj, final IMarshallingContext ictx)
         throws JiBXException {
         if (!(obj instanceof de.escidoc.core.resources.common.ContentStream)) {
             throw new JiBXException("Invalid object type for marshaller");
@@ -67,23 +70,23 @@ public class ContentStream extends MarshallingBase
             ctx.startTagAttributes(getIndex(), getName()).attribute(0,
                 NAME_ATTRIBUTE_NAME, contentStream.getName());
             ctx
-                .attribute(0, STORAGE_ATTRIBUTE_NAME, contentStream
-                    .getStorage());
-            ctx.attribute(0, MIME_TYPE_ATTRIBUTE_NAME, contentStream
-                .getMimeType());
+                .attribute(0, STORAGE_ATTRIBUTE_NAME,
+                    contentStream.getStorage());
+            ctx.attribute(0, MIME_TYPE_ATTRIBUTE_NAME,
+                contentStream.getMimeType());
 
             if (contentStream.getXLinkType() != null) {
                 ctx.attribute(1, XLINK_TYPE_ATTRIBUTE_NAME, contentStream
                     .getXLinkType().toString());
             }
             if (contentStream.getXLinkTitle() != null) {
-                ctx.attribute(0, XLINK_TITLE_ATTRIBUTE_NAME, contentStream
-                    .getXLinkTitle());
+                ctx.attribute(0, XLINK_TITLE_ATTRIBUTE_NAME,
+                    contentStream.getXLinkTitle());
             }
 
             if (contentStream.getXLinkHref() != null) {
-                ctx.attribute(0, XLINK_HREF_ATTRIBUTE_NAME, contentStream
-                    .getXLinkHref());
+                ctx.attribute(0, XLINK_HREF_ATTRIBUTE_NAME,
+                    contentStream.getXLinkHref());
             }
             ctx.closeStartContent();
             ctx.content(contentStream.getContent());
@@ -98,7 +101,9 @@ public class ContentStream extends MarshallingBase
      * @seeorg.jibx.runtime.IUnmarshaller#isPresent(org.jibx.runtime.
      * IUnmarshallingContext)
      */
-    public boolean isPresent(IUnmarshallingContext ictx) throws JiBXException {
+    @Override
+    public boolean isPresent(final IUnmarshallingContext ictx)
+        throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -108,7 +113,8 @@ public class ContentStream extends MarshallingBase
      * @see org.jibx.runtime.IUnmarshaller#unmarshal(java.lang.Object,
      * org.jibx.runtime.IUnmarshallingContext)
      */
-    public Object unmarshal(Object arg0, IUnmarshallingContext ictx)
+    @Override
+    public Object unmarshal(final Object arg0, final IUnmarshallingContext ictx)
         throws JiBXException {
 
         de.escidoc.core.resources.common.ContentStream result =
@@ -120,18 +126,18 @@ public class ContentStream extends MarshallingBase
         }
         // TODO iterate all attributes and save them in a HashMap
         result.setName(ctx.attributeText(null,
-            ContentStream.NAME_ATTRIBUTE_NAME));
+            ContentStreamMarshaller.NAME_ATTRIBUTE_NAME));
         result.setStorage(ctx.attributeText(null,
-            ContentStream.STORAGE_ATTRIBUTE_NAME, null));
+            ContentStreamMarshaller.STORAGE_ATTRIBUTE_NAME, null));
         result.setMimeType(ctx.attributeText(null,
-            ContentStream.MIME_TYPE_ATTRIBUTE_NAME, null));
+            ContentStreamMarshaller.MIME_TYPE_ATTRIBUTE_NAME, null));
 
         result.setMimeType(ctx.attributeText(XLINK_NAMESPACE,
-            ContentStream.XLINK_HREF_ATTRIBUTE_NAME, null));
+            ContentStreamMarshaller.XLINK_HREF_ATTRIBUTE_NAME, null));
         result.setMimeType(ctx.attributeText(XLINK_NAMESPACE,
-            ContentStream.XLINK_TITLE_ATTRIBUTE_NAME, null));
+            ContentStreamMarshaller.XLINK_TITLE_ATTRIBUTE_NAME, null));
         result.setMimeType(ctx.attributeText(XLINK_NAMESPACE,
-            ContentStream.XLINK_TYPE_ATTRIBUTE_NAME, null));
+            ContentStreamMarshaller.XLINK_TYPE_ATTRIBUTE_NAME, null));
 
         ctx.parsePastStartTag(getUri(), getName());
         result.setContent(getContentOfElementAsXml(ctx, getName()));
