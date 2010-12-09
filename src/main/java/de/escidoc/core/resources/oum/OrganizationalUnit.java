@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.oum;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -40,22 +41,22 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
+@JiBX
 public class OrganizationalUnit extends GenericResource
     implements XLinkAutonomous {
 
-    private Properties properties = null;
+    private Properties properties;
 
-    private Parents parents = new Parents();
+    private Parents parents;
 
-    private MetadataRecords mdRecords = null;
+    private MetadataRecords mdRecords;
 
-    private Predecessors predecessors = new Predecessors();
+    private Predecessors predecessors;
 
     /**
      * 
      */
     public OrganizationalUnit() {
-        setResourceType(ResourceType.OrganizationalUnit);
     }
 
     /**
@@ -72,6 +73,65 @@ public class OrganizationalUnit extends GenericResource
     }
 
     /**
+     * See Interface for functional description.
+     * 
+     * @return
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getParents()
+     */
+    public Parents getParents() {
+        if (parents == null) {
+            parents = new Parents();
+        }
+        return parents;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @return
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getMetadataRecords()
+     */
+    public MetadataRecords getMetadataRecords() {
+        if (mdRecords == null) {
+            mdRecords = new MetadataRecords();
+        }
+        return mdRecords;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @return
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getPredecessors()
+     */
+    public Predecessors getPredecessors() {
+        if (predecessors == null) {
+            predecessors = new Predecessors();
+        }
+        return predecessors;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @param parents
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setParents(de.escidoc.core.resources.om.organizationalUnit.Parents)
+     */
+    public void setParents(final Parents parents) {
+        this.parents = parents;
+    }
+
+    /**
+     * See Interface for functional description.
+     * 
+     * @param mdRecords
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setMetadataRecords(de.escidoc.core.resources.common.MetadataRecords)
+     */
+    public void setMetadataRecords(final MetadataRecords metadataRecords) {
+        this.mdRecords = metadataRecords;
+    }
+
+    /**
      * Set Resource properties.
      * 
      * @param properties
@@ -84,66 +144,10 @@ public class OrganizationalUnit extends GenericResource
     /**
      * See Interface for functional description.
      * 
-     * @return
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getParents()
-     */
-    public Parents getParents() {
-
-        return parents;
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @return
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getMetadataRecords()
-     */
-    public MetadataRecords getMetadataRecords() {
-
-        return mdRecords;
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @return
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getPredecessors()
-     */
-    public Predecessors getPredecessors() {
-
-        return predecessors;
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param parents
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setParents(de.escidoc.core.resources.om.organizationalUnit.Parents)
-     */
-    public void setParents(final Parents parents) {
-
-        this.parents = parents;
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param mdRecords
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setMetadataRecords(de.escidoc.core.resources.common.MetadataRecords)
-     */
-    public void setMetadataRecords(final MetadataRecords metadataRecords) {
-
-        this.mdRecords = metadataRecords;
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
      * @param predecessors
      * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setPredecessors(de.escidoc.core.resources.om.organizationalUnit.Predecessors)
      */
     public void setPredecessors(final Predecessors predecessors) {
-
         this.predecessors = predecessors;
     }
 
@@ -201,5 +205,10 @@ public class OrganizationalUnit extends GenericResource
                 }
             }
         }
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.OrganizationalUnit;
     }
 }
