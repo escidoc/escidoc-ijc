@@ -51,15 +51,6 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
         InternalClientException, TransportException;
 
     /**
-     * @param taskParam
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public void decreaseReindexStatus(final String taskParam)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
      * @param clearCache
      * @return
      * @throws EscidocException
