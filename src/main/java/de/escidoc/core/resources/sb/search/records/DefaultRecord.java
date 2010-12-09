@@ -3,11 +3,9 @@
  */
 package de.escidoc.core.resources.sb.search.records;
 
-import org.w3c.dom.Element;
-
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.binding.SearchRetrieveResponseRecordMarshaller;
 import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.RecordMetaData;
 
 /**
  * @author MVO
@@ -23,11 +21,8 @@ public class DefaultRecord extends Record<String> {
      * @param recordDataText
      * @param protocol
      */
-    public DefaultRecord(final String recordSchema, final String recordPacking,
-        final int recordPosition, final Element recordDataDOM,
-        final String recordDataText, final TransportProtocol protocol) {
-        super(recordSchema, recordPacking, recordPosition, recordDataDOM,
-            recordDataText, protocol);
+    public DefaultRecord(final RecordMetaData data) {
+        super(data);
     }
 
     /**
@@ -35,7 +30,7 @@ public class DefaultRecord extends Record<String> {
      * recordData content.
      */
     @Override
-    protected String decodeFragmentXML() {
+    protected String parseFragmentDOM() {
         return null;
     }
 
@@ -44,7 +39,7 @@ public class DefaultRecord extends Record<String> {
      * recordData content.
      */
     @Override
-    protected String decodeFragmentString() {
+    protected String parseFragmentText() {
         return null;
     }
 
@@ -58,6 +53,6 @@ public class DefaultRecord extends Record<String> {
      */
     @Override
     protected String getDefaultInstance() {
-        return recordDataText;
+        return getRecordDataText();
     }
 }
