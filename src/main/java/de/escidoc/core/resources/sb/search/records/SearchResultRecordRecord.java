@@ -7,12 +7,12 @@ import gov.loc.www.zing.srw.RecordType;
 
 import javax.xml.transform.TransformerException;
 
-import org.w3c.dom.Element;
-
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.XmlUtility;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 
 /**
@@ -29,12 +29,8 @@ public class SearchResultRecordRecord extends Record<SearchResultRecord> {
      * @param recordDataText
      * @param protocol
      */
-    public SearchResultRecordRecord(final String recordSchema,
-        final String recordPacking, final int recordPosition,
-        final Element recordDataDOM, final String recordDataText,
-        final TransportProtocol protocol) {
-        super(recordSchema, recordPacking, recordPosition, recordDataDOM,
-            recordDataText, protocol);
+    public SearchResultRecordRecord(final RecordMetaData data) {
+        super(data);
     }
 
     /**
@@ -57,10 +53,10 @@ public class SearchResultRecordRecord extends Record<SearchResultRecord> {
      */
     final SearchResultRecord decodeXMLString(final String xml) {
         try {
-            return Factory
-                .getMarshallerFactory(TransportProtocol.SOAP)
+            return MarshallerFactory
+                .getInstance(TransportProtocol.SOAP)
                 .getMarshaller(SearchResultRecord.class)
-                .unmarshalDocument(xmlHeader + xml);
+                .unmarshalDocument(XmlUtility.XML_HEADER + xml);
         }
         catch (InternalClientException e) {
             LOG.debug("Unable to unmarshal recordData.", e);
@@ -69,7 +65,7 @@ public class SearchResultRecordRecord extends Record<SearchResultRecord> {
     }
 
     @Override
-    protected SearchResultRecord decodeFragmentXML() {
+    protected SearchResultRecord parseFragmentDOM() {
         try {
             return decodeXMLString(getRecordDataDOMAsString());
         }
@@ -80,8 +76,8 @@ public class SearchResultRecordRecord extends Record<SearchResultRecord> {
     }
 
     @Override
-    protected SearchResultRecord decodeFragmentString() {
-        return decodeXMLString(recordDataText);
+    protected SearchResultRecord parseFragmentText() {
+        return decodeXMLString(getRecordDataText());
     }
 
     @Override
