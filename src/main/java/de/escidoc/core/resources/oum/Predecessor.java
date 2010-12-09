@@ -28,9 +28,10 @@
  */
 package de.escidoc.core.resources.oum;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.client.exceptions.EscidocClientException;
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 
 /**
  * Organizational Unit as Predecessor reference.
@@ -38,15 +39,14 @@ import de.escidoc.core.resources.Resource;
  * @author SWA
  * 
  */
+@JiBX
 public class Predecessor extends Resource {
 
     private PredecessorForm form;
 
-    /**
-     * 
-     */
-    public Predecessor() {
-        this(null, null);
+    @JiBX
+    @SuppressWarnings("unused")
+    private Predecessor() {
     }
 
     /**
@@ -57,7 +57,11 @@ public class Predecessor extends Resource {
      *            The form of predecessor (a Spin-Off, a merge etc.)
      */
     public Predecessor(final String objid, final PredecessorForm form) {
-        super(objid, ResourceType.OrganizationalUnit);
+        super(objid);
+
+        if (form == null)
+            throw new IllegalArgumentException("form must not be null.");
+
         this.form = form;
     }
 
@@ -91,6 +95,11 @@ public class Predecessor extends Resource {
 
     public PredecessorForm getForm() {
         return form;
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.OrganizationalUnit;
     }
 
 }
