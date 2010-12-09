@@ -18,6 +18,7 @@
 	<appender name="R" class="org.apache.log4j.RollingFileAppender"> 
     <param name="file" value="clientlib.log"/>
     <param name="MaxFileSize" value="4MB"/>
+    <param name="Threshold" value="DEBUG" />
     <!-- Keep one backup file -->
     <param name="MaxBackupIndex" value="1"/>
     <layout class="org.apache.log4j.PatternLayout"> 
