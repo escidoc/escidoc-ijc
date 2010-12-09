@@ -3,9 +3,15 @@
  */
 package de.escidoc.core.common.jibx.binding;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.jibx.runtime.IAliasable;
 import org.jibx.runtime.IMarshaller;
 import org.jibx.runtime.IMarshallingContext;
@@ -14,20 +20,18 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.UnmarshallingContext;
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.aa.role.Role;
-import de.escidoc.core.resources.aa.useraccount.UserAccount;
-import de.escidoc.core.resources.om.container.Container;
-import de.escidoc.core.resources.om.contentRelation.ContentRelation;
-import de.escidoc.core.resources.om.context.Context;
-import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.oum.OrganizationalUnit;
+import de.escidoc.core.common.XmlUtility;
+import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
-import de.escidoc.core.resources.sb.search.records.ResourceRecord;
+import de.escidoc.core.resources.sb.search.SearchDescriptor;
 import de.escidoc.core.resources.sb.search.records.DefaultRecord;
-import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
+import de.escidoc.core.resources.sb.search.records.resolver.RecordResolver;
 
 /**
  * @author MVO
@@ -36,15 +40,20 @@ import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
 public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
     implements IMarshaller, IUnmarshaller, IAliasable {
 
+    private static final Logger LOG = Logger
+        .getLogger(SearchRetrieveResponseRecordMarshaller.class);
+
     /**
-     * Pattern to match the tag name and prefix into group 1.
+     * Pattern matches:<br/>
+     * <ul>
+     * <li>group 0: entire start tag</li>
+     * <li>group 1: prefix name</li>
+     * <li>group 2: tag name</li>
+     * <li>group 3: everything after tag name until closing tag entity</li>
+     * </ul>
      */
-    private static final Pattern tagNameNS = Pattern
-        .compile("^<([^>\\s]+)[^>]*?>");
-
-    private static final String TAG_SRW_RECORD = "search-result-record";
-
-    // private static final String NS_SRW_RECORD = "";
+    private static final Pattern tagNameWithPrefix = Pattern
+        .compile("<(?:([^>^:^\\s]*):)?([^>^\\s]*?)(?:\\s[^<]*)?>");
 
     /**
      * 
@@ -202,10 +211,13 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
                 }
             }
 
-            result =
-                getRecord(recordSchema, new Integer(recordPosition).intValue(),
-                    packing, dataText, dataDOM, TransportProtocol.valueOf(ctx
-                        .getFactory().getBindingName()));
+            RecordMetaData data =
+                new RecordMetaData(recordSchema, packing, new Integer(
+                    recordPosition).intValue(), dataDOM, dataText,
+                    TransportProtocol
+                        .valueOf(ctx.getFactory().getBindingName()));
+
+            result = getRecord(data);
 
         }
         catch (Exception e) {
@@ -217,86 +229,88 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
     }
 
     /**
-     * TODO: Maybe also use namespace to recognize the current tag.
+     * This method is calling the registered RecordResolvers in order to return
+     * an instance of the mapped object of the content of the recordData tag.
+     * The RecordResolvers are handled as a LIFO as described in
+     * {@link SearchDescriptor}. In case of any Exception no Exception will be
+     * thrown and a {@link DefaultRecord} will be returned. If no resolver is
+     * able to map the content to an object, a {@link DefaultRecord} will be
+     * returned as well.
      * 
-     * @param recordSchema
-     * @param recordPosition
-     * @param packing
-     * @param dataText
-     * @param dataDOM
+     * @param data
      * @return
      */
-    private Object getRecord(
-        final String recordSchema, final int recordPosition,
-        final String packing, final String dataText, final Element dataDOM,
-        final TransportProtocol transport) {
+    private Object getRecord(final RecordMetaData data) {
 
-        String tagName = null;
+        String tagname = null;
+        String namespace = null;
+        URI ns = null;
 
-        if (dataText != null) {
-            Matcher m = tagNameNS.matcher(dataText);
+        if (data.getDataText() != null) {
+            Matcher m = tagNameWithPrefix.matcher(data.getDataText());
             if (m.find()) {
-                tagName = m.group(1);
+                String startingXml = m.group(0).replaceAll(">$", "/>");
+                DOMParser parser = new DOMParser();
+                try {
+                    parser.parse(new InputSource(new StringReader(
+                        XmlUtility.XML_HEADER + startingXml)));
+
+                    Element element = parser.getDocument().getDocumentElement();
+                    tagname = element.getLocalName();
+                    namespace = element.getNamespaceURI();
+                }
+                catch (SAXException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(
+                            "Unable to parse start tag of recordData content.",
+                            e);
+                    }
+                }
+                catch (IOException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(
+                            "Unable to parse start tag of recordData content.",
+                            e);
+                    }
+                }
             }
         }
-        else if (dataDOM != null) {
+        else if (data.getDataDOM() != null) {
             /**
              * This case has become redundant since we are always mapping the
              * content of recordData to String.
              */
-            tagName = dataDOM.getNodeName();
+            tagname = data.getDataDOM().getLocalName();
+            namespace = data.getDataDOM().getNamespaceURI();
         }
 
-        // remove NS prefix if exists
-        tagName = tagName.substring(tagName.indexOf(':') + 1);
+        if (tagname != null) {
 
-        // non-resources
-        if (TAG_SRW_RECORD.equals(tagName))
-            return new SearchResultRecordRecord(recordSchema, packing,
-                recordPosition, dataDOM, dataText, transport);
+            if (namespace != null) {
+                try {
+                    ns = new URI(namespace);
+                }
+                catch (URISyntaxException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Invalid namespace.", e);
+                    }
+                }
+            }
 
-        // resources
-        else if (ResourceType.Item.getTagName().equals(tagName)) {
-            return ResourceRecord.createResourceRecord(Item.class,
-                recordSchema, packing, recordPosition, dataDOM, dataText,
-                transport);
-        }
-        else if (ResourceType.Container.getTagName().equals(tagName)) {
-            return ResourceRecord.createResourceRecord(Container.class,
-                recordSchema, packing, recordPosition, dataDOM, dataText,
-                transport);
-        }
-        else if (ResourceType.OrganizationalUnit.getTagName().equals(tagName)) {
-            return ResourceRecord.createResourceRecord(
-                OrganizationalUnit.class, recordSchema, packing,
-                recordPosition, dataDOM, dataText, transport);
-        }
-        else if (ResourceType.Context.getTagName().equals(tagName)) {
-            return ResourceRecord.createResourceRecord(Context.class,
-                recordSchema, packing, recordPosition, dataDOM, dataText,
-                transport);
-        }
-        else if (ResourceType.ContentRelation.getTagName().equals(tagName)) {
-            return ResourceRecord.createResourceRecord(ContentRelation.class,
-                recordSchema, packing, recordPosition, dataDOM, dataText,
-                transport);
-        }
-        else if (ResourceType.Role.getTagName().equals(tagName)) {
-            return ResourceRecord.createResourceRecord(Role.class,
-                recordSchema, packing, recordPosition, dataDOM, dataText,
-                transport);
-        }
-        else if (ResourceType.UserAccount.getTagName().equals(tagName)) {
-            return ResourceRecord.createResourceRecord(UserAccount.class,
-                recordSchema, packing, recordPosition, dataDOM, dataText,
-                transport);
+            for (Iterator<RecordResolver<?, ?>> it =
+                SearchDescriptor.getResolvers().descendingIterator(); it
+                .hasNext();) {
+
+                Object result = it.next().resolve(tagname, ns, data);
+                if (result != null)
+                    return result;
+            }
         }
 
         /**
-         * If we are unable to guess the type of the content return a default
-         * record.
+         * If we are unable to resolve the type of the content, return a default
+         * record. No Exception is thrown.
          */
-        return new DefaultRecord(recordSchema, packing, recordPosition,
-            dataDOM, dataText, transport);
+        return new DefaultRecord(data);
     }
 }
