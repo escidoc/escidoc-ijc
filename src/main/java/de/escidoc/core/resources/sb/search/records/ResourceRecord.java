@@ -3,19 +3,14 @@
  */
 package de.escidoc.core.resources.sb.search.records;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import javax.xml.transform.TransformerException;
 
-import org.w3c.dom.Element;
-
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.XmlUtility;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.Resource;
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.RecordMetaData;
 
 /**
  * @author MVO
@@ -23,7 +18,7 @@ import de.escidoc.core.resources.sb.Record;
  */
 public class ResourceRecord<T extends Resource> extends Record<T> {
 
-    private final Class<T> resource;
+    private final Class<T> recordDataType;
 
     /**
      * 
@@ -35,16 +30,13 @@ public class ResourceRecord<T extends Resource> extends Record<T> {
      * @param recordDataText
      * @param transport
      */
-    private ResourceRecord(final Class<T> resource, final String recordSchema,
-        final String recordPacking, final int recordPosition,
-        final Element recordDataDOM, final String recordDataText,
-        final TransportProtocol transport) {
-        super(recordSchema, recordPacking, recordPosition, recordDataDOM,
-            recordDataText, transport);
+    private ResourceRecord(final Class<T> recordDataType,
+        final RecordMetaData data) {
+        super(data);
 
-        if (resource == null)
+        if (recordDataType == null)
             throw new IllegalArgumentException("resource must not be null.");
-        this.resource = resource;
+        this.recordDataType = recordDataType;
     }
 
     /**
@@ -60,17 +52,13 @@ public class ResourceRecord<T extends Resource> extends Record<T> {
      * @return
      */
     public static final <T extends Resource> ResourceRecord<T> createResourceRecord(
-        final Class<T> clazz, final String recordSchema,
-        final String recordPacking, final int recordPosition,
-        final Element recordDataDOM, final String recordDataText,
-        final TransportProtocol transport) {
+        final Class<T> clazz, final RecordMetaData data) {
 
-        return new ResourceRecord<T>(clazz, recordSchema, recordPacking,
-            recordPosition, recordDataDOM, recordDataText, transport);
+        return new ResourceRecord<T>(clazz, data);
     }
 
     @Override
-    protected T decodeFragmentXML() {
+    protected T parseFragmentDOM() {
         try {
             return decodeXMLString(getRecordDataDOMAsString());
         }
@@ -83,8 +71,8 @@ public class ResourceRecord<T extends Resource> extends Record<T> {
     }
 
     @Override
-    protected T decodeFragmentString() {
-        return decodeXMLString(recordDataText);
+    protected T parseFragmentText() {
+        return decodeXMLString(getRecordDataText());
     }
 
     /**
@@ -94,9 +82,9 @@ public class ResourceRecord<T extends Resource> extends Record<T> {
      */
     private T decodeXMLString(final String xml) {
         try {
-            return Factory
-                .getMarshallerFactory(transport).getMarshaller(resource)
-                .unmarshalDocument(xmlHeader + xml);
+            return MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(recordDataType)
+                .unmarshalDocument(XmlUtility.XML_HEADER + xml);
         }
         catch (InternalClientException e) {
             if (LOG.isDebugEnabled()) {
@@ -107,61 +95,15 @@ public class ResourceRecord<T extends Resource> extends Record<T> {
     }
 
     /**
-     * Default instances
-     */
-    @Override
-    protected T getDefaultInstance() {
-        try {
-            return this.resource.newInstance();
-        }
-        catch (InstantiationException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to initialize resource.", e);
-            }
-        }
-        catch (IllegalAccessException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to initialize resource.", e);
-            }
-        }
-        return null;
-    }
-
-    /**
      * 
      * @return
      */
-    public ResourceType getDataType() {
-        try {
-            Method method = resource.getMethod("getResourceType");
-            T instance = getDefaultInstance();
-            return (ResourceType) method.invoke(instance);
-        }
-        catch (SecurityException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to get ResourceType.", e);
-            }
-        }
-        catch (NoSuchMethodException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to get ResourceType.", e);
-            }
-        }
-        catch (IllegalArgumentException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to get ResourceType.", e);
-            }
-        }
-        catch (IllegalAccessException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to get ResourceType.", e);
-            }
-        }
-        catch (InvocationTargetException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unable to get ResourceType.", e);
-            }
-        }
+    public Class<T> getRecordDataType() {
+        return recordDataType;
+    }
+
+    @Override
+    protected T getDefaultInstance() {
         return null;
     }
 }
