@@ -28,8 +28,8 @@
  */
 package de.escidoc.core.resources.aa.useraccount;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
@@ -41,14 +41,17 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author ROF, SWA
  * 
  */
+@JiBX
 public class UserAccount extends GenericResource
     implements XLinkAutonomous, Referenceable<UserAccountRef> {
 
-    public UserAccount() {
-        setResourceType(ResourceType.UserAccount);
-    }
-
     private UserAccountProperties properties;
+
+    /**
+     * 
+     */
+    public UserAccount() {
+    }
 
     /**
      * Get User Account Properties.
@@ -56,6 +59,9 @@ public class UserAccount extends GenericResource
      * @return Properties of User Account
      */
     public UserAccountProperties getProperties() {
+        if (properties == null) {
+            properties = new UserAccountProperties();
+        }
         return properties;
     }
 
@@ -74,12 +80,12 @@ public class UserAccount extends GenericResource
         final int prime = 31;
         int result = super.hashCode();
         result =
-            prime * result + ((properties == null) ? 0 : properties.hashCode());
+            prime * result + (properties == null ? 0 : properties.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -106,6 +112,7 @@ public class UserAccount extends GenericResource
      * 
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
+    @Override
     public void genXLink() {
         genOwnXLinkHref();
 
@@ -117,11 +124,19 @@ public class UserAccount extends GenericResource
         }
     }
 
-    
-    /* (non-Javadoc)
-     * @see de.escidoc.core.resources.common.reference.Referenceable#getReference()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Referenceable#getReference()
      */
+    @Override
     public UserAccountRef getReference() {
         return new UserAccountRef(getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.UserAccount;
     }
 }

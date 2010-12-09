@@ -23,7 +23,6 @@ public class Grant extends GenericResource
      * 
      */
     public Grant() {
-        setResourceType(ResourceType.Grant);
     }
 
     /**
@@ -32,6 +31,9 @@ public class Grant extends GenericResource
      * @return GrantProperties
      */
     public GrantProperties getGrantProperties() {
+        if (grantProperties == null) {
+            grantProperties = new GrantProperties();
+        }
         return grantProperties;
     }
 
@@ -91,5 +93,10 @@ public class Grant extends GenericResource
     @Override
     public GrantRef getReference() {
         return new GrantRef(getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Grant;
     }
 }
