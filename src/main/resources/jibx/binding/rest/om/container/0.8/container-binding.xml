@@ -15,22 +15,23 @@
 		Root attributes 
 		****************************************** -->
 	<mapping ns="http://www.escidoc.de/schemas/containerlist/0.8"
-		name="container-list"
-		class="de.escidoc.core.resources.om.container.ContainerList">
-		<namespace uri="http://www.escidoc.de/schemas/containerlist/0.8"
-			prefix="cl" />
-		<namespace uri="http://www.escidoc.de/schemas/container/0.8"
-			prefix="escidocContainer" />
-			
-		<collection field="containers"
-			factory="de.escidoc.core.resources.om.container.ContainerList.containersFactory">
-			<structure name="container"
-				ns="http://www.escidoc.de/schemas/container/0.8"
-				type="de.escidoc.core.resources.om.container.Container">
-				<structure map-as="abstract-container" />
-			</structure>
-		</collection>
-	</mapping>
+    name="container-list"
+    class="de.escidoc.core.resources.om.container.ContainerList">
+    
+    <namespace uri="http://www.escidoc.de/schemas/containerlist/0.8"
+      prefix="cl" />
+    <namespace uri="http://www.escidoc.de/schemas/container/0.8"
+      prefix="escidocContainer" default="elements"/>
+      
+    <collection create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.om.container.Container">
+      
+      <structure name="container">
+        <structure map-as="abstract-container" />
+      </structure>
+    </collection>
+    
+  </mapping>
 	<!-- end: binding of a container list -->
 
 	<!-- start: abstract binding of a single container -->
