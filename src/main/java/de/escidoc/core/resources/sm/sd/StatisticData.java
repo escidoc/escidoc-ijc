@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.ScopeRef;
 import de.escidoc.core.resources.sm.Parameter;
 
@@ -52,5 +53,10 @@ public class StatisticData extends Resource {
             parameters = new LinkedList<Parameter<?>>();
         }
         return parameters;
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return null;
     }
 }
