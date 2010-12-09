@@ -5,7 +5,7 @@ import gov.loc.www.zing.srw.RecordType;
 import javax.xml.transform.TransformerException;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.Record;
 
 /**
@@ -29,13 +29,13 @@ public class SearchRetrieveRecord extends Record<SearchResultRecord> {
      * @param type
      * @throws InternalClientException
      */
-    public SearchRetrieveRecord(RecordType axisRecord)
+    public SearchRetrieveRecord(final RecordType axisRecord)
         throws InternalClientException {
         super(axisRecord);
     }
 
     @Override
-    protected SearchResultRecord decodeFragmentXML() {
+    protected SearchResultRecord parseFragmentDOM() {
         if (this.resultData != null)
             return this.resultData;
         else {
@@ -44,9 +44,10 @@ public class SearchRetrieveRecord extends Record<SearchResultRecord> {
                     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                         + getRecordDataDOMAsString();
                 resultData =
-                    Factory
-                        .getMarshallerFactory(getProtocol())
-                        .getSearchResultMarshaller().unmarshalDocument(xml);
+                    MarshallerFactory
+                        .getInstance(getTransport())
+                        .getMarshaller(SearchResultRecord.class)
+                        .unmarshalDocument(xml);
                 return resultData;
 
             }
@@ -63,15 +64,15 @@ public class SearchRetrieveRecord extends Record<SearchResultRecord> {
     }
 
     @Override
-    protected SearchResultRecord decodeFragmentString() {
+    protected SearchResultRecord parseFragmentText() {
         if (resultData != null)
             return resultData;
         else {
             try {
                 resultData =
-                    Factory
-                        .getMarshallerFactory(getProtocol())
-                        .getSearchResultMarshaller()
+                    MarshallerFactory
+                        .getInstance(getTransport())
+                        .getMarshaller(SearchResultRecord.class)
                         .unmarshalDocument(getRecordDataText());
                 return resultData;
             }
