@@ -29,6 +29,9 @@ import org.xml.sax.SAXException;
  */
 public class XmlUtility {
 
+    public static final String XML_HEADER =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
     public static final String AMPERSAND = "&";
 
     public static final String ESC_AMPERSAND = "&amp;";
