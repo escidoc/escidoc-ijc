@@ -28,7 +28,9 @@
  */
 package de.escidoc.core.resources.common;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Reference;
 
 /**
@@ -37,26 +39,33 @@ import de.escidoc.core.resources.common.reference.Reference;
  * @author SWA
  * 
  */
+@JiBX
 public class Relation extends Resource {
-    
+
     private String predicate;
 
-    /**
-     * Create a new relation.
-     */
-    public Relation() {
+    private ResourceType type;
+
+    @SuppressWarnings("unused")
+    @JiBX
+    private Relation() {
     }
 
     /**
      * 
-     * @param id
+     * @param ref
      *            The resource reference.
      */
-    public Relation(final Reference id) {
-        setObjid(id.getObjid());
-        setResourceType(id.getResourceType());
-        setXLinkHref(id.getXLinkHref());
-        setXLinkTitle(id.getXLinkTitle());
+    public Relation(final Reference ref) {
+
+        if (ref == null)
+            throw new IllegalArgumentException("ref must not be null.");
+
+        setObjid(ref.getObjid());
+        setXLinkHref(ref.getXLinkHref());
+        setXLinkTitle(ref.getXLinkTitle());
+
+        this.type = ref.getResourceType();
     }
 
     /**
@@ -78,4 +87,8 @@ public class Relation extends Resource {
         this.predicate = predicate;
     }
 
+    @Override
+    public ResourceType getResourceType() {
+        return type;
+    }
 }

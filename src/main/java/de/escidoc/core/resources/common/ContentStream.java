@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.resources.common;
 
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.om.GenericResource;
 
 /**
@@ -65,7 +66,7 @@ public class ContentStream extends GenericResource {
      * @param mimeType
      *            the mimeType to set
      */
-    public void setMimeType(String mimeType) {
+    public void setMimeType(final String mimeType) {
         this.mimeType = mimeType;
     }
 
@@ -80,7 +81,7 @@ public class ContentStream extends GenericResource {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -95,7 +96,7 @@ public class ContentStream extends GenericResource {
      * @param storage
      *            the storage to set
      */
-    public void setStorage(String storage) {
+    public void setStorage(final String storage) {
         this.storage = storage;
     }
 
@@ -110,8 +111,13 @@ public class ContentStream extends GenericResource {
      * @param content
      *            the content to set
      */
-    public void setContent(String content) {
+    public void setContent(final String content) {
         this.content = content;
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return null;
     }
 
 }
