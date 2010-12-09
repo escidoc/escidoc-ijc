@@ -55,6 +55,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @deprecated Not yet supported.
      */
+    @Deprecated
     private String description = null;
 
     private UserAccountRef createdBy = null;
@@ -80,6 +81,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @deprecated Not yet supported.
      */
+    @Deprecated
     private String name = null;
 
     private Version version = null;
@@ -323,6 +325,7 @@ public class ItemProperties extends XLinkResource {
      * @return the description
      * @deprecated Not yet supported.
      */
+    @Deprecated
     public String getDescription() {
         return this.description;
     }
@@ -332,6 +335,7 @@ public class ItemProperties extends XLinkResource {
      *            the description to set
      * @deprecated Not yet supported.
      */
+    @Deprecated
     public void setDescription(final String description) {
         this.description = description;
     }
@@ -340,6 +344,7 @@ public class ItemProperties extends XLinkResource {
      * @return the name
      * @deprecated Not yet supported.
      */
+    @Deprecated
     public String getName() {
         return this.name;
     }
@@ -349,6 +354,7 @@ public class ItemProperties extends XLinkResource {
      *            the name to set
      * @deprecated Not yet supported.
      */
+    @Deprecated
     public void setName(final String name) {
         this.name = name;
     }
