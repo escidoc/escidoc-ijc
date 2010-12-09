@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 import de.escidoc.core.resources.common.reference.RoleRef;
@@ -96,5 +97,10 @@ public class ReportDefinition extends Resource
     @Override
     public ReportDefinitionRef getReference() {
         return new ReportDefinitionRef(this.getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.ReportDefinition;
     }
 }
