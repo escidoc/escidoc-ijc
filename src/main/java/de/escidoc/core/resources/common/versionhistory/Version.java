@@ -34,7 +34,15 @@ import java.util.LinkedList;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 
+/**
+ * Delete class ?
+ * 
+ * 
+ * @author ?
+ * 
+ */
 public class Version extends Resource {
 
     private String versionNumber;
@@ -62,7 +70,7 @@ public class Version extends Resource {
      * @param versionNumber
      *            the versionNumber to set
      */
-    public void setVersionNumber(String versionNumber) {
+    public void setVersionNumber(final String versionNumber) {
         this.versionNumber = versionNumber;
     }
 
@@ -92,7 +100,7 @@ public class Version extends Resource {
      * @param versionStatus
      *            the versionStatus to set
      */
-    public void setVersionStatus(String versionStatus) {
+    public void setVersionStatus(final String versionStatus) {
         this.versionStatus = versionStatus;
     }
 
@@ -107,7 +115,7 @@ public class Version extends Resource {
      * @param comment
      *            the comment to set
      */
-    public void setComment(String comment) {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
@@ -122,7 +130,13 @@ public class Version extends Resource {
      * @param events
      *            the events to set
      */
-    public void setEvents(Collection<Event> events) {
+    public void setEvents(final Collection<Event> events) {
         this.events = events;
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
