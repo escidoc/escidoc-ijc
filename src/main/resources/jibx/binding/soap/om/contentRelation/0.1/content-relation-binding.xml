@@ -16,7 +16,8 @@
 		post-set="genXLink">
 
 		<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1"
-			prefix="escidocContentRelation" />
+			prefix="escidocContentRelation" default="elements"/>
+			
 		<namespace uri="http://escidoc.de/core/01/properties/"
 			prefix="prop" />
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
@@ -34,17 +35,14 @@
 			usage="optional" />
 
 		<!-- Properties include -->
-		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
-			name="properties" field="properties" usage="optional">
+		<structure name="properties" field="properties" usage="optional">
 			<structure map-as="content-relation-properties" usage="optional" />
 		</structure>
 
 		<!--  content relation -->
-		<value ns="http://www.escidoc.de/schemas/content-relation/0.1"
-			name="type" field="type" usage="optional" />
+		<value name="type" field="type" usage="optional" />
 
-		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
-				name="subject" field="subject" usage="optional"
+		<structure name="subject" field="subject" usage="optional"
 				type="de.escidoc.core.resources.common.reference.Reference">
 				<value style="attribute" name="objid" usage="optional" 
 					get-method="getObjid" set-method="setObjid"/>
