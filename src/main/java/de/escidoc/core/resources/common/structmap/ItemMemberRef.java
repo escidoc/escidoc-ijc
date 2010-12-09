@@ -3,23 +3,32 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 
 /**
  * @author SWA, MVO
  * 
  */
+@JiBX
 public class ItemMemberRef extends MemberRef {
 
-    public ItemMemberRef() {
-        this(null, null);
+    @SuppressWarnings("unused")
+    @JiBX
+    private ItemMemberRef() {
+        this(null);
     }
 
-    public ItemMemberRef(String objid) {
-        this(objid, null);
+    public ItemMemberRef(final String objid) {
+        super(objid);
     }
 
-    public ItemMemberRef(String objid, String xLinkTitle) {
-        super(objid, ResourceType.Item, xLinkTitle);
+    public ItemMemberRef(final String xLinkHref, final String xLinkTitle) {
+        super(xLinkHref, xLinkTitle);
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Item;
     }
 }
