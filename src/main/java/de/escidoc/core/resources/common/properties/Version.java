@@ -28,18 +28,21 @@
  */
 package de.escidoc.core.resources.common.properties;
 
-import java.util.Collection;
-
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
 import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
 import de.escidoc.core.resources.interfaces.common.VersionInterface;
 
-public class Version extends Resource
+public class Version extends Reference
     implements LatestVersionInterface, LatestReleaseInterface, VersionInterface {
+
+    public Version() {
+        super();
+    }
 
     private String status = null;
 
@@ -53,37 +56,43 @@ public class Version extends Resource
 
     private String pid = null;
 
-    private Collection events = null;
-
+    @Override
     public DateTime getDate() {
         return this.date;
     }
 
+    @Override
     public void setDate(final DateTime date) {
         this.date = date;
     }
 
+    @Override
     public String getNumber() {
-        return (this.number);
+        return this.number;
     }
 
+    @Override
     public void setNumber(final String number) {
         this.number = number;
     }
 
+    @Override
     public String getStatus() {
         return this.status;
     }
 
+    @Override
     public void setStatus(final String status) {
         this.status = status;
     }
 
+    @Override
     public UserAccountRef getModifiedBy() {
 
-        return (this.modifiedBy);
+        return this.modifiedBy;
     }
 
+    @Override
     public void setModifiedBy(final UserAccountRef modifiedBy) {
 
         this.modifiedBy = modifiedBy;
@@ -95,23 +104,32 @@ public class Version extends Resource
      * @return
      * @see de.escidoc.core.resources.interfaces.common.LatestReleaseInterface#getPid()
      */
+    @Override
     public String getPid() {
 
         return this.pid;
     }
 
+    @Override
     public void setPid(final String pid) {
 
         this.pid = pid;
     }
 
+    @Override
     public String getComment() {
 
         return this.comment;
     }
 
+    @Override
     public void setComment(final String comment) {
 
         this.comment = comment;
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return null;
     }
 }
