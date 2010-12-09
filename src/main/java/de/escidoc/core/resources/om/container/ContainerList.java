@@ -28,45 +28,18 @@
  */
 package de.escidoc.core.resources.om.container;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
-
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
- * FIXME: extends LinkedList
  * 
  * @author ?
- *
+ * 
  */
-public class ContainerList extends GenericResource {
-
-    private Collection<Container> containers = new LinkedList<Container>();
-
-    public static List<Container> containersFactory() {
-        return new LinkedList<Container>();
-    }
+public class ContainerList extends LinkedList<Container> {
 
     /**
      * 
      */
-    public ContainerList() {
-    }
-
-    /**
-     * @return the items
-     */
-    public Collection<Container> getContainers() {
-        return containers;
-    }
-
-    /**
-     * @param items
-     *            the items to set
-     */
-    public void setContainers(Collection<Container> items) {
-        this.containers = items;
-    }
+    private static final long serialVersionUID = 2457823953237928646L;
 
 }

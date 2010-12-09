@@ -28,54 +28,19 @@
  */
 package de.escidoc.core.resources.om.contentRelation;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
-
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * Content Relation List
  * 
- * FIXME: extends LinkedList
  * 
  * @author SWA
  * 
  */
-public class ContentRelationList extends GenericResource {
-
-    private Collection<ContentRelation> contentRelations =
-        new LinkedList<ContentRelation>();
-
-    /**
-     * ContentRelationList Factory.
-     * 
-     * @return ContentRelationList
-     */
-    public static List<ContentRelation> contentRelationsFactory() {
-        return new LinkedList<ContentRelation>();
-    }
+public class ContentRelationList extends LinkedList<ContentRelation> {
 
     /**
      * 
      */
-    public ContentRelationList() {
-    }
-
-    /**
-     * @return the contentRelations
-     */
-    public Collection<ContentRelation> getContentRelations() {
-        return contentRelations;
-    }
-
-    /**
-     * @param contentRelations
-     *            the contentRelations to set
-     */
-    public void setContentRelations(
-        final Collection<ContentRelation> contentRelations) {
-        this.contentRelations = contentRelations;
-    }
-
+    private static final long serialVersionUID = 7802508651050949639L;
 }

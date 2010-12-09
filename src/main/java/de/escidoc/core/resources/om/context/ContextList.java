@@ -28,50 +28,18 @@
  */
 package de.escidoc.core.resources.om.context;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
-
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
- * FIXME: extends LinkedList
  * 
  * @author schenk
- *
+ * 
  */
-public class ContextList extends GenericResource {
-
-    private Collection<Context> contexts = new LinkedList<Context>();
-
-    /**
-     * ContextList Factory.
-     * 
-     * @return ContextList
-     */
-    public static List<Context> contextsFactory() {
-        return new LinkedList<Context>();
-    }
+public class ContextList extends LinkedList<Context> {
 
     /**
      * 
      */
-    public ContextList() {
-    }
-
-    /**
-     * @return the contexts
-     */
-    public Collection<Context> getContexts() {
-        return contexts;
-    }
-
-    /**
-     * @param contexts
-     *            the contexts to set
-     */
-    public void setContexts(final Collection<Context> contexts) {
-        this.contexts = contexts;
-    }
+    private static final long serialVersionUID = 3679038995843629409L;
 
 }

@@ -28,9 +28,7 @@
  */
 package de.escidoc.core.resources.om.item;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * List of Items.
@@ -39,38 +37,11 @@ import java.util.List;
  * 
  *         TODO support paging
  */
-public class ItemList {
-
-    private Collection<Item> items = new LinkedList<Item>();
-
-    /**
-     * ItemList Factory.
-     * 
-     * @return ItemList
-     */
-    public static List<Item> itemsFactory() {
-        return new LinkedList<Item>();
-    }
+public class ItemList extends LinkedList<Item> {
 
     /**
      * 
      */
-    public ItemList() {
-    }
-
-    /**
-     * @return the items
-     */
-    public Collection<Item> getItems() {
-        return items;
-    }
-
-    /**
-     * @param items
-     *            the items to set
-     */
-    public void setItems(final Collection<Item> items) {
-        this.items = items;
-    }
+    private static final long serialVersionUID = 3030485863112321714L;
 
 }
