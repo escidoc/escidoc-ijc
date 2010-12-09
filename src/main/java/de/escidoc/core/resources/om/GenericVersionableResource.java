@@ -36,7 +36,7 @@ import de.escidoc.core.resources.common.versionhistory.VersionHistory;
  * @author SWA
  * 
  */
-public class GenericVersionableResource extends GenericResource {
+public abstract class GenericVersionableResource extends GenericResource {
 
     private final VersionHistory versionHistory = null;
 
