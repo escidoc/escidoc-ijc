@@ -8,7 +8,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestReportHandlerClient;
 import de.escidoc.core.client.soap.SoapReportHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sm.report.Report;
 import de.escidoc.core.resources.sm.report.ReportParameters;
 
@@ -47,8 +47,7 @@ public class ReportHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml =
-            Factory
-                .getMarshallerFactory(getTransport())
+            MarshallerFactory.getInstance(getTransport())
                 .getMarshaller(ReportParameters.class)
                 .marshalDocument(reportParameters);
 
@@ -59,8 +58,7 @@ public class ReportHandlerClient
             xml = getRestHandlerClient().retrieve(xml);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getMarshaller(Report.class)
+        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Report.class)
             .unmarshalDocument(xml);
     }
 

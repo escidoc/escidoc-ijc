@@ -8,7 +8,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestStatisticDataHandlerClient;
 import de.escidoc.core.client.soap.SoapStatisticDataHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sm.sd.StatisticData;
 
 /**
@@ -48,8 +48,7 @@ public class StatisticDataHandlerClient
             throw new IllegalArgumentException("xml must not be null.");
 
         String xml =
-            Factory
-                .getMarshallerFactory(getTransport())
+            MarshallerFactory.getInstance(getTransport())
                 .getMarshaller(StatisticData.class)
                 .marshalDocument(statisticData);
 

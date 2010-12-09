@@ -37,7 +37,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface;
 import de.escidoc.core.client.rest.RestPolicyDecisionPointHandlerClient;
 import de.escidoc.core.client.soap.SoapPolicyDecisionPointHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Results;
 
@@ -60,7 +60,7 @@ public class PolicyDecisionPointHandlerClient
     public PolicyDecisionPointHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -68,7 +68,7 @@ public class PolicyDecisionPointHandlerClient
     public PolicyDecisionPointHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * See Interface for functional description.
      * 
@@ -77,26 +77,26 @@ public class PolicyDecisionPointHandlerClient
      * @throws EscidocClientException
      * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#create(de.escidoc.core.resources.interfaces.container.ContainerInterface)
      */
-    public Results evaluate(Requests requests) throws EscidocException,
+    @Override
+    public Results evaluate(final Requests requests) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
+        if (requests == null)
+            throw new IllegalArgumentException("requests must not be null.");
+
+        String xml =
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Requests.class)
+                .marshalDocument(requests);
+
         if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().evaluate(
-                    Factory
-                        .getMarshallerFactory(getTransport())
-                        .getPDPRequestsMarshaller().marshalDocument(requests));
+            xml = getSoapHandlerClient().evaluate(xml);
         }
         else {
-            xml =
-                getRestHandlerClient().evaluate(
-                    Factory
-                        .getMarshallerFactory(getTransport())
-                        .getPDPRequestsMarshaller().marshalDocument(requests));
+            xml = getRestHandlerClient().evaluate(xml);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getPDPResultsMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Results.class)
             .unmarshalDocument(xml);
     }
 

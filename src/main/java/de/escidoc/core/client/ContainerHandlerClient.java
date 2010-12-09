@@ -42,8 +42,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.client.soap.SoapContainerHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
@@ -105,8 +104,8 @@ public class ContainerHandlerClient
 
         String xml = null;
         String containerXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Container.class)
                 .marshalDocument(container);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().create(containerXml);
@@ -115,8 +114,8 @@ public class ContainerHandlerClient
             xml = getRestHandlerClient().create(containerXml);
 
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Container.class)
             .unmarshalDocument(xml);
     }
 
@@ -144,8 +143,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Container.class)
             .unmarshalDocument(xml);
     }
 
@@ -193,8 +192,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().retrieveVersionHistory(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getVersionHistoryMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(VersionHistory.class)
             .unmarshalDocument(xml);
     }
 
@@ -241,8 +240,8 @@ public class ContainerHandlerClient
 
         String xml = null;
         String containerXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Container.class)
                 .marshalDocument(container);
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
@@ -254,8 +253,8 @@ public class ContainerHandlerClient
                 getRestHandlerClient().update(container.getObjid(),
                     containerXml);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Container.class)
             .unmarshalDocument(xml);
     }
 
@@ -291,8 +290,8 @@ public class ContainerHandlerClient
             xml = getRestHandlerClient().submit(id, taskParamString);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -345,8 +344,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().release(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -399,8 +398,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().revise(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -453,8 +452,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().withdraw(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -507,8 +506,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().lock(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -539,8 +538,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().unlock(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -575,8 +574,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().assignVersionPid(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -607,8 +606,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().assignObjectPid(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -643,8 +642,8 @@ public class ContainerHandlerClient
                 getRestHandlerClient().addContentRelations(id, taskParamString);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Container.class)
             .unmarshalDocument(xml);
     }
 
@@ -680,8 +679,8 @@ public class ContainerHandlerClient
                 getRestHandlerClient().removeContentRelations(id,
                     taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Container.class)
             .unmarshalDocument(xml);
     }
 
@@ -712,8 +711,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().addMembers(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -744,8 +743,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().removeMembers(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -771,8 +770,8 @@ public class ContainerHandlerClient
 
         String xml = null;
         String itemString =
-            Factory
-                .getMarshallerFactory(getTransport()).getItemMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Item.class)
                 .marshalDocument(item);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().createItem(id, itemString);
@@ -780,8 +779,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().createItem(id, itemString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getItemMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Item.class)
             .unmarshalDocument(xml);
     }
 
@@ -807,8 +806,8 @@ public class ContainerHandlerClient
 
         String xml = null;
         String containerString =
-            Factory
-                .getMarshallerFactory(getTransport()).getContainerMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Container.class)
                 .marshalDocument(container);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().createContainer(id, containerString);
@@ -816,8 +815,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().createContainer(id, containerString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContainerMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Container.class)
             .unmarshalDocument(xml);
     }
 
@@ -845,8 +844,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().retrieveStructMap(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getStructMapMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(StructMap.class)
             .unmarshalDocument(xml);
     }
 
@@ -876,8 +875,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContainers(taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContainerListMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ContainerList.class)
             .unmarshalDocument(xml);
     }
 
@@ -906,9 +905,9 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContainers(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     @SuppressWarnings("rawtypes")
@@ -922,7 +921,7 @@ public class ContainerHandlerClient
 
         for (Record<?> record : response.getRecords()) {
             Container container =
-                getSRWResourceRecordData(record, ResourceType.Container);
+                getSRWResourceRecordData(record, Container.class);
             if (container != null) {
                 containers.add(container);
             }
@@ -954,9 +953,9 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContainers(filter);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getExplainResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -983,8 +982,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().retrieveRelations(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getRelationsMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Relations.class)
             .unmarshalDocument(xml);
 
     }
@@ -1018,8 +1017,8 @@ public class ContainerHandlerClient
         else {
             xml = getRestHandlerClient().retrieveMembers(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getMemberListMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(MemberList.class)
             .unmarshalDocument(xml);
 
     }
@@ -1055,9 +1054,9 @@ public class ContainerHandlerClient
                 getRestHandlerClient().retrieveMembers(container.getObjid(),
                     filter);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -1091,9 +1090,9 @@ public class ContainerHandlerClient
                 getRestHandlerClient().retrieveMembers(container.getObjid(),
                     filter);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getExplainResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**

@@ -8,9 +8,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestClientBase;
 import de.escidoc.core.client.soap.SoapClientBase;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.search.records.ResourceRecord;
@@ -82,8 +80,8 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
     protected String marshalTaskParam(final TaskParam taskParam)
         throws InternalClientException {
 
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_TASK_PARAM)
             .marshalDocument(taskParam);
     }
@@ -134,12 +132,12 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      */
     @SuppressWarnings("unchecked")
     public <T> T getSRWResourceRecordData(
-        final Record<?> record, final ResourceType type) {
+        final Record<?> record, final Class<T> resource) {
 
         if (record instanceof ResourceRecord<?>) {
             ResourceRecord<?> rRecord = (ResourceRecord<?>) record;
 
-            if (rRecord.getDataType() == type) {
+            if (rRecord.getRecordDataType() == resource) {
                 return (T) record.getRecordData();
             }
         }

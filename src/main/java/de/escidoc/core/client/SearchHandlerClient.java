@@ -43,7 +43,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.SearchHandlerClientInterface;
 import de.escidoc.core.client.rest.RestSearchHandlerClient;
 import de.escidoc.core.client.soap.SoapSearchHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
@@ -87,9 +87,8 @@ public class SearchHandlerClient
                 .explain(request, database));
         }
         else {
-            return Factory
-                .getMarshallerFactory(TransportProtocol.REST)
-                .getExplainResponseMarshaller()
+            return MarshallerFactory.getInstance(TransportProtocol.REST)
+                .getMarshaller(ExplainResponse.class)
                 .unmarshalDocument(
                     getRestHandlerClient().explain(request, database));
         }
@@ -162,9 +161,8 @@ public class SearchHandlerClient
         }
         else {
             String xml = getRestHandlerClient().search(request, database);
-            return Factory
-                .getMarshallerFactory(getTransport())
-                .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+            return MarshallerFactory.getInstance(getTransport())
+                .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
         }
     }
 
@@ -179,9 +177,8 @@ public class SearchHandlerClient
                 request, database));
         }
         else {
-            return Factory
-                .getMarshallerFactory(TransportProtocol.REST)
-                .getScanResponseMarshaller()
+            return MarshallerFactory.getInstance(TransportProtocol.REST)
+                .getMarshaller(ScanResponse.class)
                 .unmarshalDocument(
                     getRestHandlerClient().scan(request, database));
         }

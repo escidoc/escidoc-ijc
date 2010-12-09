@@ -43,10 +43,8 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.client.rest.RestOrganizationalUnitHandlerClient;
 import de.escidoc.core.client.soap.SoapOrganizationalUnitHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
@@ -236,7 +234,7 @@ public class OrganizationalUnitHandlerClient
         }
 
         Marshaller<Parents> m =
-            Factory.getMarshallerFactory(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance(getTransport()).getMarshaller(
                 MarshallerFactory.CLASS_PARENTS);
         String xml = m.marshalDocument(parents);
 
@@ -277,8 +275,7 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().open(id, xml);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -310,8 +307,7 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().close(id, xml);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -413,8 +409,7 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveParents(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_PARENTS)
             .unmarshalDocument(xml);
     }
@@ -440,8 +435,7 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveParentObjects(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT_LIST)
             .unmarshalDocument(xml);
     }
@@ -467,8 +461,7 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveChildObjects(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT_LIST)
             .unmarshalDocument(xml);
     }
@@ -478,7 +471,7 @@ public class OrganizationalUnitHandlerClient
      * 
      * @param taskParam
      *            Expression of Filter language.
-     * @return ContainerList
+     * @return OrganizationalUnitList
      * @throws EscidocException
      *             Thrown if an exception from framework is received.
      * @throws InternalClientException
@@ -502,8 +495,7 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveOrganizationalUnits(xml);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT_LIST)
             .unmarshalDocument(xml);
     }
@@ -536,8 +528,7 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveOrganizationalUnits(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_SEARCH_RETRIEVE_RESPONSE)
             .unmarshalDocument(xml);
     }
@@ -559,8 +550,7 @@ public class OrganizationalUnitHandlerClient
 
         for (Record<?> record : response.getRecords()) {
             OrganizationalUnit result =
-                getSRWResourceRecordData(record,
-                    ResourceType.OrganizationalUnit);
+                getSRWResourceRecordData(record, OrganizationalUnit.class);
             if (result != null) {
                 results.add(result);
             }
@@ -596,8 +586,7 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveOrganizationalUnits(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_EXPLAIN_RESPONSE)
             .unmarshalDocument(xml);
     }
@@ -627,7 +616,7 @@ public class OrganizationalUnitHandlerClient
      */
     private Marshaller<OrganizationalUnit> getMarshaller()
         throws InternalClientException {
-        return Factory.getMarshallerFactory(getTransport()).getMarshaller(
+        return MarshallerFactory.getInstance(getTransport()).getMarshaller(
             MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT);
     }
 }

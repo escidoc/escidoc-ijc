@@ -10,7 +10,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestScopeHandlerClient;
 import de.escidoc.core.client.soap.SoapScopeHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
@@ -67,7 +66,7 @@ public class ScopeHandlerClient
             throw new IllegalArgumentException("scope must not be null.");
 
         Marshaller<Scope> m =
-            Factory.getMarshallerFactory(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance(getTransport()).getMarshaller(
                 MarshallerFactory.CLASS_SCOPE);
         String xml = m.marshalDocument(scope);
 
@@ -95,7 +94,7 @@ public class ScopeHandlerClient
             throw new IllegalArgumentException("scope must not be null.");
 
         Marshaller<Scope> m =
-            Factory.getMarshallerFactory(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance(getTransport()).getMarshaller(
                 Scope.class);
         String xml = m.marshalDocument(scope);
         if (getTransport() == TransportProtocol.SOAP) {
@@ -127,8 +126,7 @@ public class ScopeHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getMarshaller(Scope.class)
+        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Scope.class)
             .unmarshalDocument(xml);
     }
 
@@ -153,8 +151,7 @@ public class ScopeHandlerClient
         else {
             xml = getRestHandlerClient().retrieveScopes(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
@@ -178,8 +175,7 @@ public class ScopeHandlerClient
         else {
             xml = getRestHandlerClient().retrieveScopes(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 

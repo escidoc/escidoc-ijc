@@ -13,8 +13,8 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestReportDefinitionHandlerClient;
 import de.escidoc.core.client.soap.SoapReportDefinitionHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sm.report.ReportDefinition;
@@ -79,7 +79,7 @@ public class ReportDefinitionHandlerClient
                 "reportDefinition must not be null.");
 
         Marshaller<ReportDefinition> m =
-            Factory.getMarshallerFactory(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance(getTransport()).getMarshaller(
                 ReportDefinition.class);
 
         String xml = m.marshalDocument(reportDefinition);
@@ -112,7 +112,7 @@ public class ReportDefinitionHandlerClient
                 "reportDefinition must not be null.");
 
         Marshaller<ReportDefinition> m =
-            Factory.getMarshallerFactory(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance(getTransport()).getMarshaller(
                 ReportDefinition.class);
 
         String xml = m.marshalDocument(reportDefinition);
@@ -146,8 +146,7 @@ public class ReportDefinitionHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(ReportDefinition.class).unmarshalDocument(xml);
     }
 
@@ -201,8 +200,7 @@ public class ReportDefinitionHandlerClient
         else {
             xml = getRestHandlerClient().retrieveReportDefinitions(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
@@ -225,8 +223,7 @@ public class ReportDefinitionHandlerClient
         else {
             xml = getRestHandlerClient().retrieveReportDefinitions(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory.getInstance(getTransport())
             .getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 

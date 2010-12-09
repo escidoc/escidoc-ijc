@@ -36,7 +36,8 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ActionHandlerClientInterface;
 import de.escidoc.core.client.soap.SoapActionHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 
 /**
@@ -99,20 +100,19 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * @throws EscidocClientException
      *             Thrown if an exception from framework is received.
      */
+    @Override
     public UnsecuredActions createUnsecuredActions(
         final String contextId, final UnsecuredActions actions)
         throws EscidocClientException {
 
+        Marshaller<UnsecuredActions> m =
+            MarshallerFactory
+                .getInstance(TransportProtocol.SOAP).getMarshaller(
+                    UnsecuredActions.class);
         String xml =
-            getSoapActionHandlerClient().createUnsecuredActions(
-                contextId,
-                Factory
-                    .getMarshallerFactory().getUnsecuredActionsMarshaller()
-                    .marshalDocument((UnsecuredActions) actions));
-        return Factory
-            .getMarshallerFactory(TransportProtocol.SOAP)
-            .getUnsecuredActionsMarshaller().unmarshalDocument(xml);
-
+            getSoapActionHandlerClient().createUnsecuredActions(contextId,
+                m.marshalDocument(actions));
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -125,13 +125,14 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * @throws EscidocClientException
      *             Thrown if an exception from framework is received.
      */
+    @Override
     public UnsecuredActions retrieveUnsecuredActions(final String contextId)
         throws EscidocClientException {
         String xml =
             getSoapActionHandlerClient().retrieveUnsecuredActions(contextId);
-        return Factory
-            .getMarshallerFactory(TransportProtocol.SOAP)
-            .getUnsecuredActionsMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(TransportProtocol.SOAP)
+            .getMarshaller(UnsecuredActions.class).unmarshalDocument(xml);
     }
 
     /**
@@ -143,6 +144,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * @throws EscidocClientException
      *             Thrown if an exception from framework is received.
      */
+    @Override
     public void deleteUnsecuredActions(final String contextId)
         throws EscidocClientException {
         getSoapActionHandlerClient().deleteUnsecuredActions(contextId);
@@ -218,15 +220,15 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
     public void setHandle(final String handle) {
         getSoapActionHandlerClient().setHandle(handle);
     }
-    
+
     /**
      * 
-     * @return The handle used for authentication by this client. 
+     * @return The handle used for authentication by this client.
      */
     public String getHandle() {
         return getSoapActionHandlerClient().getHandle();
     }
-    
+
     /**
      * 
      * @return The serviceAddress of this client.

@@ -43,8 +43,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
 import de.escidoc.core.client.rest.RestRoleHandlerClient;
 import de.escidoc.core.client.soap.SoapRoleHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.common.TaskParam;
@@ -93,8 +92,8 @@ public class RoleHandlerClient
 
         String xml = null;
         String roleString =
-            Factory
-                .getMarshallerFactory(getTransport()).getRoleMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Role.class)
                 .marshalDocument(role);
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -104,8 +103,8 @@ public class RoleHandlerClient
             xml = getRestHandlerClient().create(roleString);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getRoleMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Role.class)
             .unmarshalDocument(xml);
     }
 
@@ -128,8 +127,8 @@ public class RoleHandlerClient
         else {
             roleString = getRestHandlerClient().retrieve(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getRoleMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Role.class)
             .unmarshalDocument(roleString);
     }
 
@@ -166,8 +165,8 @@ public class RoleHandlerClient
 
         String xml = null;
         String roleString =
-            Factory
-                .getMarshallerFactory(getTransport()).getRoleMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Role.class)
                 .marshalDocument(role);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().update(role.getObjid(), roleString);
@@ -176,8 +175,8 @@ public class RoleHandlerClient
             xml = getRestHandlerClient().update(role.getObjid(), roleString);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getRoleMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Role.class)
             .unmarshalDocument(xml);
     }
 
@@ -201,8 +200,8 @@ public class RoleHandlerClient
         TransportException {
 
         String taskParamString =
-            Factory
-                .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         String xml = null;
 
@@ -212,8 +211,8 @@ public class RoleHandlerClient
         else {
             xml = getRestHandlerClient().retrieveRoles(taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getRoleListMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Roles.class)
             .unmarshalDocument(xml);
     }
 
@@ -245,9 +244,9 @@ public class RoleHandlerClient
         else {
             xml = getRestHandlerClient().retrieveRoles(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /*
@@ -265,7 +264,7 @@ public class RoleHandlerClient
         Collection<Role> results = new LinkedList<Role>();
 
         for (Record<?> record : response.getRecords()) {
-            Role role = getSRWResourceRecordData(record, ResourceType.Role);
+            Role role = getSRWResourceRecordData(record, Role.class);
             if (role != null) {
                 results.add(role);
             }
@@ -300,9 +299,9 @@ public class RoleHandlerClient
         else {
             xml = getRestHandlerClient().retrieveRoles(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getExplainResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**

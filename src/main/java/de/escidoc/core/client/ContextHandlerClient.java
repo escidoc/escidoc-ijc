@@ -42,8 +42,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContextHandlerClient;
 import de.escidoc.core.client.soap.SoapContextHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.Properties;
@@ -105,8 +104,8 @@ public class ContextHandlerClient
         InternalClientException, TransportException {
 
         String contextXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getContextMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Context.class)
                 .marshalDocument(context);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
@@ -115,8 +114,8 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().create(contextXml);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContextMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Context.class)
             .unmarshalDocument(xml);
     }
 
@@ -144,8 +143,8 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContextMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Context.class)
             .unmarshalDocument(xml);
     }
 
@@ -211,8 +210,8 @@ public class ContextHandlerClient
         InternalClientException, TransportException {
 
         String contextXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getContextMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Context.class)
                 .marshalDocument(context);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
@@ -221,8 +220,8 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().update(context.getObjid(), contextXml);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContextMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Context.class)
             .unmarshalDocument(xml);
     }
 
@@ -247,8 +246,8 @@ public class ContextHandlerClient
 
         String xml = null;
         String taskParamString =
-            Factory
-                .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().open(id, taskParamString);
@@ -256,8 +255,8 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().open(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -282,8 +281,8 @@ public class ContextHandlerClient
 
         String xml = null;
         String taskParamString =
-            Factory
-                .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().close(id, taskParamString);
@@ -291,8 +290,8 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().close(id, taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getResultMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -316,8 +315,8 @@ public class ContextHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         // String xml = getSoapHandlerClient().assignObjectPid(id,
-        // Factory.getTaskParamMarshaller().marshalDocument(taskParam));
-        // return Factory.getResultMarshaller().unmarshalDocument(xml);
+        // Factory.getMarshaller(TaskParam.class).marshalDocument(taskParam));
+        // return Factory.getMarshaller(Result.class).unmarshalDocument(xml);
         throw new InternalClientException(
             "Context does currently no PID assignment.");
     }
@@ -346,9 +345,9 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().retrieveAdminDescriptors(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getAdminDescriptorListMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(AdminDescriptors.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -378,9 +377,9 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().retrieveAdminDescriptor(id, name);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getAdminDescriptorMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(AdminDescriptor.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -402,8 +401,8 @@ public class ContextHandlerClient
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
         String taskParamString =
-            Factory
-                .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().retrieveContexts(taskParamString);
@@ -411,8 +410,8 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContexts(taskParamString);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getContextListMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ContextList.class)
             .unmarshalDocument(xml);
     }
 
@@ -441,9 +440,9 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContexts(filter);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     @SuppressWarnings("rawtypes")
@@ -455,8 +454,7 @@ public class ContextHandlerClient
         Collection<Context> results = new LinkedList<Context>();
 
         for (Record record : response.getRecords()) {
-            Context result =
-                getSRWResourceRecordData(record, ResourceType.Context);
+            Context result = getSRWResourceRecordData(record, Context.class);
             if (result != null) {
                 results.add(result);
             }
@@ -488,9 +486,9 @@ public class ContextHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContexts(filter);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getExplainResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -514,8 +512,8 @@ public class ContextHandlerClient
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
         String taskParamString =
-            Factory
-                .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().retrieveMembers(id, taskParamString);
@@ -524,8 +522,8 @@ public class ContextHandlerClient
             xml = getRestHandlerClient().retrieveMembers(id, taskParamString);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getMemberListMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(MemberList.class)
             .unmarshalDocument(xml);
     }
 
@@ -552,9 +550,9 @@ public class ContextHandlerClient
             xml = getRestHandlerClient().retrieveMembers(id, filter);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /**
@@ -614,9 +612,9 @@ public class ContextHandlerClient
             xml = getRestHandlerClient().retrieveMembers(id, filter);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getExplainResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**

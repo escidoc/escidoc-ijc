@@ -9,13 +9,14 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.AdminHandlerClientInterface;
 import de.escidoc.core.client.rest.RestAdminHandlerClient;
 import de.escidoc.core.client.soap.SoapAdminHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.adm.AdminStatus;
 import de.escidoc.core.resources.adm.LoadExamplesResult;
 import de.escidoc.core.resources.adm.LoadExamplesResult.Entry;
 import de.escidoc.core.resources.adm.MessagesStatus;
 import de.escidoc.core.resources.adm.RepositoryInfo;
 import de.escidoc.core.resources.common.MessagesResult;
+import de.escidoc.core.resources.common.Properties;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 
@@ -34,7 +35,7 @@ public class AdminHandlerClient
     public AdminHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -42,8 +43,7 @@ public class AdminHandlerClient
     public AdminHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
-    
+
     /**
      * 
      * @param taskParam
@@ -52,13 +52,11 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesStatus deleteObjects(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml =
-            Factory
-                .getMarshallerFactory(getTransport()).getTaskParamMarshaller()
-                .marshalDocument(taskParam);
+        String xml = marshalTaskParam(taskParam);
 
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().deleteObjects(xml);
@@ -67,8 +65,8 @@ public class AdminHandlerClient
             xml = getRestHandlerClient().deleteObjects(xml);
         }
         Result result =
-            Factory
-                .getMarshallerFactory(getTransport()).getResultMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
@@ -79,6 +77,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesStatus getPurgeStatus() throws EscidocException,
         InternalClientException, TransportException {
         String xml = null;
@@ -89,8 +88,8 @@ public class AdminHandlerClient
             xml = getRestHandlerClient().getPurgeStatus();
         }
         Result result =
-            Factory
-                .getMarshallerFactory(getTransport()).getResultMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result);
     }
@@ -101,6 +100,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesStatus getRecacheStatus() throws EscidocException,
         InternalClientException, TransportException {
         String xml = null;
@@ -111,8 +111,8 @@ public class AdminHandlerClient
             xml = getRestHandlerClient().getRecacheStatus();
         }
         Result result =
-            Factory
-                .getMarshallerFactory(getTransport()).getResultMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result);
     }
@@ -123,6 +123,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesStatus getReindexStatus() throws EscidocException,
         InternalClientException, TransportException {
         String xml = null;
@@ -133,26 +134,10 @@ public class AdminHandlerClient
             xml = getRestHandlerClient().getReindexStatus();
         }
         Result result =
-            Factory
-                .getMarshallerFactory(getTransport()).getResultMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result);
-    }
-
-    /**
-     * @param taskParam
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public void decreaseReindexStatus(final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().decreaseReindexStatus(taskParam);
-        }
-        else {
-            getRestHandlerClient().decreaseReindexStatus(taskParam);
-        }
     }
 
     /**
@@ -162,6 +147,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesStatus recache(final boolean clearCache)
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
@@ -172,8 +158,8 @@ public class AdminHandlerClient
             xml = getRestHandlerClient().recache(clearCache);
         }
         Result result =
-            Factory
-                .getMarshallerFactory(getTransport()).getResultMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
@@ -186,6 +172,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesStatus reindex(
         final boolean clearIndex, final String indexNamePrefix)
         throws EscidocException, InternalClientException, TransportException {
@@ -197,8 +184,8 @@ public class AdminHandlerClient
             xml = getRestHandlerClient().reindex(clearIndex, indexNamePrefix);
         }
         Result result =
-            Factory
-                .getMarshallerFactory(getTransport()).getResultMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
@@ -211,6 +198,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesStatus reindexAll(final boolean clearIndex)
         throws EscidocException, InternalClientException, TransportException {
         return reindex(clearIndex, "all");
@@ -222,6 +210,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public RepositoryInfo getRepositoryInfo() throws EscidocException,
         InternalClientException, TransportException {
         String xml = null;
@@ -231,9 +220,9 @@ public class AdminHandlerClient
         else {
             xml = getRestHandlerClient().getRepositoryInfo();
         }
-        return new RepositoryInfo(Factory
-            .getMarshallerFactory(getTransport())
-            .getCommonPropertiesMarshaller().unmarshalDocument(xml));
+        return new RepositoryInfo(MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Properties.class)
+            .unmarshalDocument(xml));
     }
 
     /**
@@ -243,6 +232,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesResult<Entry> loadExamples(final String exampleSet)
         throws EscidocException, InternalClientException, TransportException {
         String xml = null;
@@ -253,8 +243,8 @@ public class AdminHandlerClient
             xml = getRestHandlerClient().loadExamples(exampleSet);
         }
         Result result =
-            Factory
-                .getMarshallerFactory(getTransport()).getResultMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Result.class)
                 .unmarshalDocument(xml);
 
         return new LoadExamplesResult(result);
@@ -267,6 +257,7 @@ public class AdminHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public MessagesResult<Entry> loadExamples() throws EscidocException,
         InternalClientException, TransportException {
         return loadExamples(EXAMPLE_SET_COMMON);

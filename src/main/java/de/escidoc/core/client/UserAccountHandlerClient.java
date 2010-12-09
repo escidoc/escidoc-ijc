@@ -43,8 +43,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.client.soap.SoapUserAccountHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.resources.aa.useraccount.Grant;
@@ -104,9 +103,9 @@ public class UserAccountHandlerClient
 
         String xml = null;
         String userAccountString =
-            Factory
-                .getMarshallerFactory(getTransport())
-                .getUserAccountMarshaller().marshalDocument(userAccount);
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(UserAccount.class)
+                .marshalDocument(userAccount);
 
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().create(userAccountString);
@@ -115,8 +114,8 @@ public class UserAccountHandlerClient
             xml = getRestHandlerClient().create(userAccountString);
 
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getUserAccountMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(UserAccount.class)
             .unmarshalDocument(xml);
     }
 
@@ -143,8 +142,8 @@ public class UserAccountHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getUserAccountMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(UserAccount.class)
             .unmarshalDocument(xml);
     }
 
@@ -188,9 +187,9 @@ public class UserAccountHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String requestXML =
-            Factory
-                .getMarshallerFactory(getTransport())
-                .getUserAccountMarshaller().marshalDocument(userAccount);
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(UserAccount.class)
+                .marshalDocument(userAccount);
         String xml = null;
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -203,8 +202,8 @@ public class UserAccountHandlerClient
                 getRestHandlerClient().update(userAccount.getObjid(),
                     requestXML);
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getUserAccountMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(UserAccount.class)
             .unmarshalDocument(xml);
     }
 
@@ -309,8 +308,8 @@ public class UserAccountHandlerClient
         else {
             xml = getRestHandlerClient().retrieveCurrentUser();
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getUserAccountMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(UserAccount.class)
             .unmarshalDocument(xml);
     }
 
@@ -336,8 +335,8 @@ public class UserAccountHandlerClient
         TransportException {
 
         String grantXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getGrantMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Grant.class)
                 .marshalDocument(grant);
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -347,8 +346,8 @@ public class UserAccountHandlerClient
             grantXml = getRestHandlerClient().createGrant(userId, grantXml);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getGrantMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Grant.class)
             .unmarshalDocument(grantXml);
     }
 
@@ -404,8 +403,8 @@ public class UserAccountHandlerClient
         TransportException {
 
         String preferenceXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getPreferenceMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Preference.class)
                 .marshalDocument(preference);
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -417,8 +416,8 @@ public class UserAccountHandlerClient
                 getRestHandlerClient().createPreference(userId, preferenceXml);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getPreferenceMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Preference.class)
             .unmarshalDocument(preferenceXml);
     }
 
@@ -453,8 +452,8 @@ public class UserAccountHandlerClient
                 getRestHandlerClient().retrievePreference(userId, name);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getPreferenceMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Preference.class)
             .unmarshalDocument(preference);
     }
 
@@ -483,8 +482,8 @@ public class UserAccountHandlerClient
             preferences = getRestHandlerClient().retrievePreferences(userId);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getPreferencesMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Preferences.class)
             .unmarshalDocument(preferences);
     }
 
@@ -509,8 +508,8 @@ public class UserAccountHandlerClient
         TransportException {
 
         String preferenceXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getPreferenceMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Preference.class)
                 .marshalDocument(preference);
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -524,8 +523,8 @@ public class UserAccountHandlerClient
                     preference.getName(), preferenceXml);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getPreferenceMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Preference.class)
             .unmarshalDocument(preferenceXml);
     }
 
@@ -600,8 +599,8 @@ public class UserAccountHandlerClient
         TransportException {
 
         String attributeXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getAttributeMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Attribute.class)
                 .marshalDocument(attribute);
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -613,8 +612,8 @@ public class UserAccountHandlerClient
                 getRestHandlerClient().createAttribute(userId, attributeXml);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getAttributeMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Attribute.class)
             .unmarshalDocument(attributeXml);
     }
 
@@ -650,8 +649,8 @@ public class UserAccountHandlerClient
                 getRestHandlerClient().retrieveAttribute(userId, attributeId);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getAttributeMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Attribute.class)
             .unmarshalDocument(attribute);
     }
 
@@ -680,8 +679,8 @@ public class UserAccountHandlerClient
             attributes = getRestHandlerClient().retrieveAttributes(userId);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getAttributesMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Attributes.class)
             .unmarshalDocument(attributes);
     }
 
@@ -706,8 +705,8 @@ public class UserAccountHandlerClient
         TransportException {
 
         String attributeXml =
-            Factory
-                .getMarshallerFactory(getTransport()).getAttributeMarshaller()
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(Attribute.class)
                 .marshalDocument(attribute);
 
         if (getTransport() == TransportProtocol.SOAP) {
@@ -721,8 +720,8 @@ public class UserAccountHandlerClient
                     attribute.getObjid(), attributeXml);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getAttributeMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Attribute.class)
             .unmarshalDocument(attributeXml);
     }
 
@@ -800,8 +799,8 @@ public class UserAccountHandlerClient
             grantsXml = getRestHandlerClient().retrieveCurrentGrants(userId);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getGrantsMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Grants.class)
             .unmarshalDocument(grantsXml);
     }
 
@@ -835,8 +834,8 @@ public class UserAccountHandlerClient
             grantXml = getRestHandlerClient().retrieveGrant(userId, grantId);
         }
 
-        return Factory
-            .getMarshallerFactory(getTransport()).getGrantMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Grant.class)
             .unmarshalDocument(grantXml);
     }
 
@@ -870,9 +869,9 @@ public class UserAccountHandlerClient
                 getRestHandlerClient().retrieveUserAccounts(
                     marshalTaskParam(taskParam));
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getUserAccountListMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(UserAccounts.class)
+            .unmarshalDocument(xml);
 
     }
 
@@ -901,9 +900,9 @@ public class UserAccountHandlerClient
         else {
             xml = getRestHandlerClient().retrieveUserAccounts(filter);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -925,7 +924,7 @@ public class UserAccountHandlerClient
 
         for (Record record : res.getRecords()) {
             UserAccount result =
-                getSRWResourceRecordData(record, ResourceType.UserAccount);
+                getSRWResourceRecordData(record, UserAccount.class);
             if (result != null)
                 results.add(result);
         }
@@ -960,9 +959,9 @@ public class UserAccountHandlerClient
         else {
             xml = getRestHandlerClient().retrieveUserAccounts(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getExplainResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -996,8 +995,8 @@ public class UserAccountHandlerClient
                 getRestHandlerClient().retrieveGrants(
                     marshalTaskParam(taskParam));
         }
-        return Factory
-            .getMarshallerFactory(getTransport()).getGrantsMarshaller()
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Grants.class)
             .unmarshalDocument(xml);
     }
 
@@ -1026,9 +1025,9 @@ public class UserAccountHandlerClient
         else {
             xml = getRestHandlerClient().retrieveGrants(filter);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getSearchRetrieveResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -1055,9 +1054,9 @@ public class UserAccountHandlerClient
         else {
             xml = getRestHandlerClient().retrieveGrants(filter);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getExplainResponseMarshaller().unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**

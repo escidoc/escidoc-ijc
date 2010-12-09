@@ -10,8 +10,8 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestAggregationDefinitionHandlerClient;
 import de.escidoc.core.client.soap.SoapAggregationDefinitionHandlerClient;
-import de.escidoc.core.common.jibx.Factory;
 import de.escidoc.core.common.jibx.Marshaller;
+import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sm.ad.AggregationDefinition;
@@ -65,7 +65,7 @@ public class AggregationDefinitionHandlerClient
             throw new IllegalArgumentException("agDefinition must not be null.");
 
         Marshaller<AggregationDefinition> m =
-            Factory.getMarshallerFactory(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance(getTransport()).getMarshaller(
                 AggregationDefinition.class);
 
         String xml = m.marshalDocument(agDefinition);
@@ -126,8 +126,8 @@ public class AggregationDefinitionHandlerClient
             xml =
                 getRestHandlerClient().retrieveAggregationDefinitions(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
@@ -154,9 +154,9 @@ public class AggregationDefinitionHandlerClient
             xml =
                 getRestHandlerClient().retrieveAggregationDefinitions(request);
         }
-        return Factory
-            .getMarshallerFactory(getTransport())
-            .getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     @Override
