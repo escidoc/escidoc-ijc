@@ -50,6 +50,7 @@
   <include path="soap/sm/0.3/statistic-data-binding.xml" />
   <include path="soap/sm/0.3/report-binding.xml" />
   <include path="soap/sm/0.3/report-parameters-binding.xml" />
+  <include path="soap/sm/0.3/preprocessing-info-binding.xml" />
   
   <!-- FOR TESTS ONLY -->
 <!--  <include path="soap/test/root-binding.xml" />-->

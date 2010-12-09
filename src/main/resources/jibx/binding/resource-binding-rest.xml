@@ -15,6 +15,7 @@
 		/ -->
 	<!-- include path="rest/common/0.4/abstract-relations-binding.xml" / -->
 	<include path="rest/common/properties-binding.xml"/>
+	<include path="rest/common/exception-binding.xml"/>
 
 	<!-- CMM -->
 	<include path="rest/cmm/0.1/content-model-binding.xml" />
@@ -53,4 +54,5 @@
 	<include path="soap/sm/0.3/statistic-data-binding.xml" />
 	<include path="soap/sm/0.3/report-binding.xml" />
   <include path="soap/sm/0.3/report-parameters-binding.xml" />
+  <include path="soap/sm/0.3/preprocessing-info-binding.xml" />
 </binding>
