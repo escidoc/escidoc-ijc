@@ -2,6 +2,7 @@ package de.escidoc.core.resources.sm.report;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 
 /**
@@ -55,5 +56,10 @@ public class Report extends Resource {
      */
     public void setReportRecord(final ReportRecord reportRecord) {
         this.reportRecord = reportRecord;
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return null;
     }
 }
