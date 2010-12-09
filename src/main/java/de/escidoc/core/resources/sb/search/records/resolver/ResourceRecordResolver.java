@@ -13,7 +13,7 @@ import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.resources.sb.search.records.RecordMetaData;
+import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 import de.escidoc.core.resources.sm.ad.AggregationDefinition;
 import de.escidoc.core.resources.sm.report.ReportDefinition;
