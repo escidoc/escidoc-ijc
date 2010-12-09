@@ -33,8 +33,8 @@ import de.escidoc.core.resources.XLinkResourceList;
 /**
  * StructMap (Structure Map of Container).
  * 
- * The struct map could only directly altered for create. Each direct update
- * of struct map is discarded. To add member to an existing Container use the
+ * The struct map could only directly altered for create. Each direct update of
+ * struct map is discarded. To add member to an existing Container use the
  * addMembers() and removeMembers() methods.
  * 
  * @author
@@ -50,12 +50,11 @@ public class StructMap extends XLinkResourceList<MemberRef> {
     /**
      * StructMap.
      * 
-     * The struct map could only directly altered for create. Each direct
-     * update of struct map is discarded. To add member to an existing Container
-     * use the addMembers() and removeMembers() methods.
+     * The struct map could only directly altered for create. Each direct update
+     * of struct map is discarded. To add member to an existing Container use
+     * the addMembers() and removeMembers() methods.
      */
     public StructMap() {
 
     }
-
 }
