@@ -1,22 +1,31 @@
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 
 /**
  * @author MRO
  * 
  */
+@JiBX
 public class ReportDefinitionRef extends Reference {
 
-    public ReportDefinitionRef() {
-        this(null, null);
+    @SuppressWarnings("unused")
+    @JiBX
+    private ReportDefinitionRef() {
+        this(null);
     }
 
-    public ReportDefinitionRef(String objid) {
-        this(objid, null);
+    public ReportDefinitionRef(final String objid) {
+        super(objid);
     }
 
-    public ReportDefinitionRef(String objid, String xLinkTitle) {
-        super(objid, ResourceType.ReportDefinition, xLinkTitle);
+    public ReportDefinitionRef(final String xLinkHref, final String xLinkTitle) {
+        super(xLinkHref, xLinkTitle);
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.ReportDefinition;
     }
 }

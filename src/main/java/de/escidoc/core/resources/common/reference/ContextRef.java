@@ -3,24 +3,32 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
-
 
 /**
  * @author MVO
  * 
  */
+@JiBX
 public class ContextRef extends Reference {
 
-    public ContextRef() {
-        this(null, null);
+    @SuppressWarnings("unused")
+    @JiBX
+    private ContextRef() {
+        this(null);
     }
 
-    public ContextRef(String objid) {
-        this(objid, null);
+    public ContextRef(final String objid) {
+        super(objid);
     }
 
-    public ContextRef(String objid, String xLinkTitle) {
-        super(objid, ResourceType.Context, xLinkTitle);
+    public ContextRef(final String xLinkHref, final String xLinkTitle) {
+        super(xLinkHref, xLinkTitle);
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Context;
     }
 }

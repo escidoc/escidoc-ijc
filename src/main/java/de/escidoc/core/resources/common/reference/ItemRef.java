@@ -3,23 +3,32 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 
 /**
  * @author MVO
  * 
  */
+@JiBX
 public class ItemRef extends Reference {
 
-    public ItemRef() {
-        this(null, null);
+    @SuppressWarnings("unused")
+    @JiBX
+    private ItemRef() {
+        this(null);
     }
 
-    public ItemRef(String objid) {
-        this(objid, null);
+    public ItemRef(final String objid) {
+        super(objid);
     }
 
-    public ItemRef(String objid, String xLinkTitle) {
-        super(objid, ResourceType.Item, xLinkTitle);
+    public ItemRef(final String xLinkHref, final String xLinkTitle) {
+        super(xLinkHref, xLinkTitle);
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Item;
     }
 }

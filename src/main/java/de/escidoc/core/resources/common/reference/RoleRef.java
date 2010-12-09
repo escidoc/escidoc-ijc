@@ -3,23 +3,32 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 
 /**
  * @author MVO
  * 
  */
+@JiBX
 public class RoleRef extends Reference {
 
-    public RoleRef() {
-        this(null, null);
+    @SuppressWarnings("unused")
+    @JiBX
+    private RoleRef() {
+        this(null);
     }
 
-    public RoleRef(String objid) {
-        this(objid, null);
+    public RoleRef(final String objid) {
+        super(objid);
     }
 
-    public RoleRef(String objid, String xLinkTitle) {
-        super(objid, ResourceType.Role, xLinkTitle);
+    public RoleRef(final String xLinkHref, final String xLinkTitle) {
+        super(xLinkHref, xLinkTitle);
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Role;
     }
 }

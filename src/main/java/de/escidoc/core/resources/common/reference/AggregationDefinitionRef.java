@@ -3,23 +3,33 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 
 /**
  * @author MVO
  * 
  */
+@JiBX
 public class AggregationDefinitionRef extends Reference {
 
-    public AggregationDefinitionRef() {
-        this(null, null);
+    @JiBX
+    @SuppressWarnings("unused")
+    private AggregationDefinitionRef() {
+        this(null);
     }
 
     public AggregationDefinitionRef(final String objid) {
-        this(objid, null);
+        super(objid);
     }
 
-    public AggregationDefinitionRef(final String objid, final String xLinkTitle) {
-        super(objid, ResourceType.AggregationDefinition, xLinkTitle);
+    public AggregationDefinitionRef(final String xLinkHref,
+        final String xLinkTitle) {
+        super(xLinkHref, xLinkTitle);
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.AggregationDefinition;
     }
 }

@@ -3,23 +3,32 @@
  */
 package de.escidoc.core.resources.common.reference;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 
 /**
  * @author MVO
  * 
  */
+@JiBX
 public class UserAccountRef extends Reference {
 
-    public UserAccountRef() {
-        this(null, null);
+    @SuppressWarnings("unused")
+    @JiBX
+    private UserAccountRef() {
+        this(null);
     }
 
-    public UserAccountRef(String objid) {
-        this(objid, null);
+    public UserAccountRef(final String objid) {
+        super(objid);
     }
 
-    public UserAccountRef(String objid, String xLinkTitle) {
-        super(objid, ResourceType.UserAccount, xLinkTitle);
+    public UserAccountRef(final String xLinkHref, final String xLinkTitle) {
+        super(xLinkHref, xLinkTitle);
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.UserAccount;
     }
 }
