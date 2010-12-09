@@ -13,20 +13,21 @@
 
 	<!-- start: binding of an item list -->
 	<mapping ns="http://www.escidoc.de/schemas/itemlist/0.9"
-		name="item-list" class="de.escidoc.core.resources.om.item.ItemList">
-		<namespace uri="http://www.escidoc.de/schemas/itemlist/0.9"
-			prefix="il" />
-		<namespace uri="http://www.escidoc.de/schemas/item/0.9"
-			prefix="escidocItem" />
-		<collection field="items"
-			factory="de.escidoc.core.resources.om.item.ItemList.itemsFactory">
-			<structure name="item"
-				ns="http://www.escidoc.de/schemas/item/0.9"
-				type="de.escidoc.core.resources.om.item.Item">
-				<structure map-as="abstract-item" />
-			</structure>
-		</collection>
-	</mapping>
+    name="item-list" class="de.escidoc.core.resources.om.item.ItemList">
+    
+    <namespace uri="http://www.escidoc.de/schemas/itemlist/0.9"
+      prefix="il" />
+    <namespace uri="http://www.escidoc.de/schemas/item/0.9"
+      prefix="escidocItem" default="elements"/>
+      
+    <collection create-type="java.util.LinkedList" usage="optional"
+      item-type="de.escidoc.core.resources.om.item.Item">
+      <structure name="item">
+        <structure map-as="abstract-item" />
+      </structure>
+    </collection>
+    
+  </mapping>
 	<!-- end: binding of an item list -->
 
 	<!-- start: abstract binding of a single item -->
