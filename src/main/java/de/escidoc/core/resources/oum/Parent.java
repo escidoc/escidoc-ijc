@@ -28,8 +28,9 @@
  */
 package de.escidoc.core.resources.oum;
 
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 
 /**
  * Organizational Unit as Parent reference.
@@ -37,21 +38,25 @@ import de.escidoc.core.resources.Resource;
  * @author SWA
  * 
  */
+@JiBX
 public class Parent extends Resource {
 
-    /**
-     * Default constructor used by JiBX.
-     */
-    protected Parent() {
-        this(null);
+    @JiBX
+    @SuppressWarnings("unused")
+    private Parent() {
     }
-    
+
     /**
      * 
      * @param objid
      *            The objid of the parent Organizational Unit.
      */
     public Parent(final String objid) {
-        super(objid, ResourceType.OrganizationalUnit);
+        super(objid);
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.OrganizationalUnit;
     }
 }
