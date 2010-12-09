@@ -42,7 +42,8 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContainerHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContainerRestServiceLocator;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.om.item.Item;
 
 /**
  * REST Handler for Item.
@@ -717,7 +718,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory.getMarshallerFactory().getItemMarshaller()
+                (MarshallerFactory.getInstance().getMarshaller(Item.class)
                     .unmarshalDocument(getClient().retrieve(id)))
                     .getLastModificationDate();
         }

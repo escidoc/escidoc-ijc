@@ -110,22 +110,6 @@ public class RestAdminHandlerClient extends RestClientBase {
     }
 
     /**
-     * @param taskParam
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public void decreaseReindexStatus(final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
-        try {
-            getClient().decreaseReindexStatus(taskParam);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-    }
-
-    /**
      * @param clearCache
      * @return
      * @throws EscidocException
@@ -187,8 +171,8 @@ public class RestAdminHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String loadExamples(final String exampleSet) throws EscidocException,
-        InternalClientException, TransportException {
+    public String loadExamples(final String exampleSet)
+        throws EscidocException, InternalClientException, TransportException {
         try {
             return getClient().loadExamples(exampleSet);
         }
@@ -203,6 +187,7 @@ public class RestAdminHandlerClient extends RestClientBase {
      * 
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
+    @Override
     public AdminHandler getClient() throws InternalClientException {
         if (this.restClient == null) {
 
@@ -228,9 +213,10 @@ public class RestAdminHandlerClient extends RestClientBase {
      * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
      * )
      */
+    @Override
     @Deprecated
-    public DateTime getLastModificationDate(String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public DateTime getLastModificationDate(final String id)
+        throws EscidocException, InternalClientException, TransportException {
         return null;
     }
 

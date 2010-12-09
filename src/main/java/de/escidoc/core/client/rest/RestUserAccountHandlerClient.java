@@ -44,7 +44,8 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.UserAccountHandler;
 import de.escidoc.core.client.rest.serviceLocator.UserAccountRestServiceLocator;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 
 /**
  * REST Handler for User Account.
@@ -839,9 +840,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory
-                    .getMarshallerFactory(TransportProtocol.REST)
-                    .getUserAccountMarshaller().unmarshalDocument(getClient()
+                (MarshallerFactory.getInstance(TransportProtocol.REST)
+                    .getMarshaller(UserAccount.class).unmarshalDocument(getClient()
                     .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {

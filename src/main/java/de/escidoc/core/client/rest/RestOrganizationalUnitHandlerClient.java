@@ -43,7 +43,8 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandler;
 import de.escidoc.core.client.rest.serviceLocator.OrganizationalUnitRestServiceLocator;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.oum.OrganizationalUnit;
 
 /**
  * REST Handler for OrganizationalUnit.
@@ -574,9 +575,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                Factory
-                    .getMarshallerFactory(TransportProtocol.REST)
-                    .getOrganizationalUnitMarshaller()
+                MarshallerFactory.getInstance(TransportProtocol.REST)
+                    .getMarshaller(OrganizationalUnit.class)
                     .unmarshalDocument(getClient().retrieve(id))
                     .getLastModificationDate();
         }

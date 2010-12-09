@@ -43,7 +43,8 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContentRelationHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContentRelationRestServiceLocator;
-import de.escidoc.core.common.jibx.Factory;
+import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 
 /**
  * REST Handler for ContentRelation.
@@ -382,9 +383,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                (Factory
-                    .getMarshallerFactory(TransportProtocol.REST)
-                    .getContentRelationMarshaller()
+                (MarshallerFactory.getInstance(TransportProtocol.REST)
+                    .getMarshaller(ContentRelation.class)
                     .unmarshalDocument(getClient().retrieve(id)))
                     .getLastModificationDate();
         }
