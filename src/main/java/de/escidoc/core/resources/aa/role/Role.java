@@ -54,7 +54,6 @@ public class Role extends GenericResource
     private Element policyOrPolicySet;
 
     public Role() {
-        setResourceType(ResourceType.Role);
     }
 
     /**
@@ -101,6 +100,9 @@ public class Role extends GenericResource
      * @return role properties
      */
     public RoleProperties getProperties() {
+        if (properties == null) {
+            properties = new RoleProperties();
+        }
         return properties;
     }
 
@@ -140,5 +142,10 @@ public class Role extends GenericResource
     @Override
     public RoleRef getReference() {
         return new RoleRef(getObjid());
+    }
+
+    @Override
+    public ResourceType getResourceType() {
+        return ResourceType.Role;
     }
 }
