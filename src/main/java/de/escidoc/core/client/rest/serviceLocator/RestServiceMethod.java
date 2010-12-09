@@ -65,6 +65,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws MalformedURLException
      *             Thrown if the service address is not a valid URL.
      */
+    @Override
     public void setServiceAddress(final String address)
         throws MalformedURLException {
 
@@ -175,7 +176,7 @@ public abstract class RestServiceMethod implements RestService {
                     .setRequestHeader("Content-type",
                         "application/octet-stream");
                 int statusCode = getRestClient().executeMethod(put);
-                if ((statusCode / 100) != 2) {
+                if (statusCode / 100 != 2) {
                     throw new RemoteException("Upload failed. "
                         + put.getStatusText() + "; " + put.getResponseBody());
                 }
@@ -360,13 +361,8 @@ public abstract class RestServiceMethod implements RestService {
                 redirectLocation = header.getValue();
             }
 
-            /*
-             * TODO: ExceptionMapper does parse XML from response body to
-             * extract the Exception class, which is already given within the
-             * response header named as "eSciDocException".
-             */
-            ExceptionMapper.constructEscidocException(method.getStatusCode(),
-                method.getStatusLine().toString(), redirectLocation, body);
+            ExceptionMapper.constructEscidocException(body,
+                method.getStatusCode(), redirectLocation);
         }
 
     }
@@ -383,7 +379,8 @@ public abstract class RestServiceMethod implements RestService {
      * @param handler
      *            the handler to register.
      */
-    public void registerRestCallbackHandler(RestCallbackHandler handler) {
+    @Override
+    public void registerRestCallbackHandler(final RestCallbackHandler handler) {
         if (handler != null) {
             callbackHandlers.add(handler);
         }
@@ -475,7 +472,7 @@ public abstract class RestServiceMethod implements RestService {
             for (final String parameter : parameters.keySet()) {
                 final String[] values = parameters.get(parameter);
 
-                if ((values != null) && (values.length > 0)) {
+                if (values != null && values.length > 0) {
                     if (!isFirstParameter) {
                         result.append('&');
                     }
