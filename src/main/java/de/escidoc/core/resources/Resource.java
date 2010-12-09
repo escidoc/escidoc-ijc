@@ -66,8 +66,6 @@ public abstract class Resource extends XLinkResource {
 
     private String objid;
 
-    private ResourceType resourceType = null;
-
     /**
      * 
      */
@@ -82,29 +80,6 @@ public abstract class Resource extends XLinkResource {
      */
     public Resource(final String objid) {
         setObjid(objid);
-    }
-
-    /**
-     * 
-     * @param objid
-     * @param type
-     */
-    public Resource(final String objid, final ResourceType type) {
-        setObjid(objid);
-        setResourceType(type);
-    }
-
-    /**
-     * 
-     * @param objid
-     * @param type
-     */
-    public Resource(final String objid, final ResourceType type,
-        final String title) {
-        setObjid(objid);
-        setResourceType(type);
-
-        setXLinkTitle(title);
     }
 
     /**
@@ -131,25 +106,6 @@ public abstract class Resource extends XLinkResource {
     public Resource(final String objid, final String href, final String title) {
         setXLinkHref(href);
         setXLinkTitle(title);
-        this.objid = objid;
-    }
-
-    /**
-     * 
-     * @param objid
-     *            The objid of the resource.
-     * @param href
-     *            The href of the resource (for XML Xlink href attribute)
-     * @param title
-     *            The title of the resource (for XML Xlink title attribute)
-     * @param resourceType
-     *            The type of the resource.
-     */
-    public Resource(final String objid, final String href, final String title,
-        final ResourceType resourceType) {
-        setXLinkHref(href);
-        setXLinkTitle(title);
-        setResourceType(resourceType);
         this.objid = objid;
     }
 
@@ -185,23 +141,11 @@ public abstract class Resource extends XLinkResource {
     }
 
     /**
-     * Set the type of the resource for the reference.
-     * 
-     * @param resourceType
-     *            type of resource
-     */
-    public void setResourceType(final ResourceType resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    /**
      * Get the type of the resource.
      * 
      * @return Resource type
      */
-    public ResourceType getResourceType() {
-        return this.resourceType;
-    }
+    public abstract ResourceType getResourceType();
 
     /**
      * Method used by ResourceRef implementations to ensure a fully valid
@@ -210,7 +154,7 @@ public abstract class Resource extends XLinkResource {
      */
     protected void genOwnXLinkHref() {
         if (getXLinkHref() == null && getResourceType() != null
-            && getResourceType().isRootResource && getObjid() != null) {
+            && getResourceType().isRootResource() && getObjid() != null) {
             setXLinkHref(Resource.RESOURCE_URL_MAP.get(getResourceType()) + "/"
                 + getObjid());
         }
@@ -268,7 +212,6 @@ public abstract class Resource extends XLinkResource {
         if (resource != null && resource.getXLinkHref() == null) {
 
             if (type != null && resource.getObjid() != null) {
-                resource.setResourceType(type);
 
                 String URL = RESOURCE_URL_MAP.get(type);
                 if (URL != null) {
