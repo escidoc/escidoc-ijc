@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import de.escidoc.core.resources.sb.Record;
-import de.escidoc.core.resources.sb.search.records.RecordMetaData;
+import de.escidoc.core.resources.sb.RecordMetaData;
 
 /**
  * @author MVO
