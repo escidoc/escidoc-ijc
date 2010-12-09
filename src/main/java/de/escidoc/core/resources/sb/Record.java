@@ -53,9 +53,6 @@ public abstract class Record<T> {
 
     protected TransportProtocol transport;
 
-    protected static final String xmlHeader =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-
     @JiBX
     protected Record() {
         this.transport = TransportProtocol.REST;
@@ -69,19 +66,17 @@ public abstract class Record<T> {
      * @param recordDataText
      * @param transport
      */
-    protected Record(final String recordSchema, final String recordPacking,
-        final int recordPosition, final Element recordDataDOM,
-        final String recordDataText, final TransportProtocol transport) {
+    protected Record(final RecordMetaData data) {
 
-        if (transport == null)
-            throw new IllegalArgumentException("protocol must not be null.");
+        if (data == null)
+            throw new IllegalArgumentException("data must not be null.");
 
-        this.recordSchema = recordSchema;
-        this.recordPacking = recordPacking;
-        this.recordPosition = recordPosition;
-        this.recordDataDOM = recordDataDOM;
-        this.recordDataText = recordDataText;
-        this.transport = transport;
+        this.recordSchema = data.getRecordSchema();
+        this.recordPacking = data.getPacking();
+        this.recordPosition = data.getRecordPosition();
+        this.recordDataDOM = data.getDataDOM();
+        this.recordDataText = data.getDataText();
+        this.transport = data.getTransport();
     }
 
     /**
@@ -146,8 +141,8 @@ public abstract class Record<T> {
      */
     public boolean hasRecordDataText(final boolean ignoreWhitespaceCharacters) {
         if (ignoreWhitespaceCharacters) {
-            return (recordDataText == null) ? false : (recordDataText
-                .replaceAll("[\\s]", "").length() != 0);
+            return recordDataText == null ? false : recordDataText.replaceAll(
+                "[\\s]", "").length() != 0;
         }
         return recordDataText != null;
     }
@@ -155,7 +150,7 @@ public abstract class Record<T> {
     /**
      * @return the protocol
      */
-    public TransportProtocol getProtocol() {
+    public TransportProtocol getTransport() {
         return transport;
     }
 
@@ -188,20 +183,20 @@ public abstract class Record<T> {
         // XML structure exists
         if (hasRecordDataDOM()) {
 
-            T t = decodeFragmentXML();
-            return (t == null) ? getDefaultInstance() : t;
+            T t = parseFragmentDOM();
+            return t == null ? getDefaultInstance() : t;
         }
         else if (hasRecordDataText(true)) {
 
-            T t = decodeFragmentString();
-            return (t == null) ? getDefaultInstance() : t;
+            T t = parseFragmentText();
+            return t == null ? getDefaultInstance() : t;
         }
         return getDefaultInstance();
     }
 
-    protected abstract T decodeFragmentXML();
+    protected abstract T parseFragmentDOM();
 
-    protected abstract T decodeFragmentString();
+    protected abstract T parseFragmentText();
 
     protected abstract T getDefaultInstance();
 
