@@ -157,20 +157,21 @@
 	</mapping>
 
 	<!-- start: binding of a context unit list -->
-	<mapping ns="http://www.escidoc.de/schemas/contextlist/0.7"
-		name="context-list" class="de.escidoc.core.resources.om.context.ContextList">
-		<namespace uri="http://www.escidoc.de/schemas/contextlist/0.7"
-			prefix="context-list" />
-		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
-			prefix="context" />
-		<collection field="contexts"
-			factory="de.escidoc.core.resources.om.context.ContextList.contextsFactory">
-			<structure name="context" ns="http://www.escidoc.de/schemas/context/0.7"
-				type="de.escidoc.core.resources.om.context.Context">
-				<structure map-as="abstract-context" />
-			</structure>
-		</collection>
-	</mapping>
+	<mapping ns="http://www.escidoc.de/schemas/contextlist/0.7" 
+    name="context-list" class="de.escidoc.core.resources.om.context.ContextList">
+    
+    <namespace uri="http://www.escidoc.de/schemas/contextlist/0.7"
+      prefix="context-list" />
+    <namespace uri="http://www.escidoc.de/schemas/context/0.7"
+      prefix="context" default="elements"/>
+      
+    <collection create-type="java.util.LinkedList" usage="optional"
+      item-type="de.escidoc.core.resources.om.context.Context">
+      <structure name="context">
+        <structure map-as="abstract-context" />
+      </structure>
+    </collection>
+  </mapping>
 	<!-- end: binding of a context list -->
 
 </binding>
