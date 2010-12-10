@@ -55,6 +55,6 @@ public final class SearchDescriptor {
 
         if (resolver == null)
             throw new IllegalArgumentException("resolver must not be null.");
-        RESOLVERS.addLast(resolver);
+        RESOLVERS.push(resolver);
     }
 }

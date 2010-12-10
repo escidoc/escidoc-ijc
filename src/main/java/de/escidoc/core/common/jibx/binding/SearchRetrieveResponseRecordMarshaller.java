@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,8 +26,8 @@ import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
-import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
+import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.search.SearchDescriptor;
 import de.escidoc.core.resources.sb.search.records.DefaultRecord;
 import de.escidoc.core.resources.sb.search.records.resolver.RecordResolver;
@@ -297,11 +296,10 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
                 }
             }
 
-            for (Iterator<RecordResolver<?, ?>> it =
-                SearchDescriptor.getResolvers().descendingIterator(); it
-                .hasNext();) {
+            for (RecordResolver<?, ?> recordResolver : SearchDescriptor
+                .getResolvers()) {
 
-                Object result = it.next().resolve(tagname, ns, data);
+                Object result = recordResolver.resolve(tagname, ns, data);
                 if (result != null)
                     return result;
             }
