@@ -906,11 +906,10 @@ public class ContainerHandlerClient
             xml = getRestHandlerClient().retrieveContainers(request);
         }
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+            .getInstance(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public Collection<Container> retrieveContainersAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
@@ -1055,8 +1054,8 @@ public class ContainerHandlerClient
                     filter);
         }
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+            .getInstance(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /**
