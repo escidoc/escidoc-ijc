@@ -29,6 +29,7 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.om.context;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
@@ -107,6 +108,7 @@ public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
         ExplainData explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
+        assertNotNull("No index definitions found", explain.getIndexInfo());
         assertTrue("No index definitions found", explain
             .getIndexInfo().getIndexes().size() > 0);
     }
