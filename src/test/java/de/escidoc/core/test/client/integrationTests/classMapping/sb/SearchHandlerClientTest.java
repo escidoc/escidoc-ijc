@@ -64,8 +64,8 @@ import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
-import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
+import de.escidoc.core.resources.sb.RecordMetaData;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
@@ -386,9 +386,13 @@ public class SearchHandlerClientTest {
 
         // simulate request
         SearchRetrieveResponse response =
-            MarshallerFactory.getInstance(transport)
+            MarshallerFactory
+                .getInstance(transport)
                 .getMarshaller(MarshallerFactory.CLASS_SEARCH_RETRIEVE_RESPONSE)
                 .unmarshalDocument(srwResponse);
+
+        // remove registered resolver to avoid other tests to fail.
+        SearchDescriptor.getResolvers().pop();
 
         assertTrue(response.getNumberOfResultingRecords() == 1);
 
@@ -445,7 +449,7 @@ public class SearchHandlerClientTest {
         protected Reference parseFragmentDOM() {
             Reference ref = null;
             try {
-                ref = decode(getRecordDataDOMAsString());
+                ref = parse(getRecordDataDOMAsString());
             }
             catch (TransformerException e) {
                 // do something
@@ -455,7 +459,7 @@ public class SearchHandlerClientTest {
 
         @Override
         protected Reference parseFragmentText() {
-            return decode(getRecordDataText());
+            return parse(getRecordDataText());
         }
 
         /**
@@ -464,7 +468,7 @@ public class SearchHandlerClientTest {
          * @param xml
          * @return
          */
-        private Reference decode(final String xml) {
+        private Reference parse(final String xml) {
             if (xml == null)
                 return null;
 
