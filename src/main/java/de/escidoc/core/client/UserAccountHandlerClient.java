@@ -901,8 +901,8 @@ public class UserAccountHandlerClient
             xml = getRestHandlerClient().retrieveUserAccounts(filter);
         }
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+            .getInstance(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /**
@@ -1026,8 +1026,8 @@ public class UserAccountHandlerClient
             xml = getRestHandlerClient().retrieveGrants(filter);
         }
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+            .getInstance(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /**

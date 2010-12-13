@@ -58,7 +58,7 @@ public class ContentModelHandlerClient
     public ContentModelHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -66,7 +66,7 @@ public class ContentModelHandlerClient
     public ContentModelHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * Create ContentModel in Repository.
      * 
@@ -84,8 +84,9 @@ public class ContentModelHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String contentModelXml =
-            MarshallerFactory.getInstance(getTransport())
-                .getMarshaller(ContentModel.class).marshalDocument(contentModel);
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(ContentModel.class)
+                .marshalDocument(contentModel);
         contentModelXml =
             contentModelXml
                 .substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -97,7 +98,8 @@ public class ContentModelHandlerClient
         else {
             xml = getRestHandlerClient().create(contentModelXml);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(ContentModel.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ContentModel.class)
             .unmarshalDocument(xml);
     }
 
@@ -124,7 +126,8 @@ public class ContentModelHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(ContentModel.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ContentModel.class)
             .unmarshalDocument(xml);
     }
 
@@ -168,8 +171,9 @@ public class ContentModelHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String contentModelXml =
-            MarshallerFactory.getInstance(getTransport())
-                .getMarshaller(ContentModel.class).marshalDocument(contentModel);
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(ContentModel.class)
+                .marshalDocument(contentModel);
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml =
@@ -181,7 +185,8 @@ public class ContentModelHandlerClient
                 getRestHandlerClient().update(contentModel.getObjid(),
                     contentModelXml);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(ContentModel.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ContentModel.class)
             .unmarshalDocument(xml);
     }
 

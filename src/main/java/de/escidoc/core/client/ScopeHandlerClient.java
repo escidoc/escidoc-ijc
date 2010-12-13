@@ -126,7 +126,8 @@ public class ScopeHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Scope.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Scope.class)
             .unmarshalDocument(xml);
     }
 
@@ -151,7 +152,8 @@ public class ScopeHandlerClient
         else {
             xml = getRestHandlerClient().retrieveScopes(request);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
@@ -175,8 +177,9 @@ public class ScopeHandlerClient
         else {
             xml = getRestHandlerClient().retrieveScopes(request);
         }
-        return MarshallerFactory.getInstance(getTransport())
-            .getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     @Override

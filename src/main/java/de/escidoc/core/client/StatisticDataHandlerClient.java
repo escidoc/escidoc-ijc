@@ -48,8 +48,8 @@ public class StatisticDataHandlerClient
             throw new IllegalArgumentException("xml must not be null.");
 
         String xml =
-            MarshallerFactory.getInstance(getTransport())
-                .getMarshaller(StatisticData.class)
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(StatisticData.class)
                 .marshalDocument(statisticData);
 
         if (getTransport() == TransportProtocol.SOAP) {

@@ -55,7 +55,7 @@ public class StagingHandlerClient
     public StagingHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -63,7 +63,7 @@ public class StagingHandlerClient
     public StagingHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * Upload a resource to the Staging Service.
      * 

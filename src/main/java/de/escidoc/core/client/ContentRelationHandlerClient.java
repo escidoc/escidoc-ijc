@@ -45,8 +45,8 @@ import de.escidoc.core.client.soap.SoapContentRelationHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
@@ -97,7 +97,8 @@ public class ContentRelationHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String contentRelationXml =
-            MarshallerFactory.getInstance(getTransport())
+            MarshallerFactory
+                .getInstance(getTransport())
                 .getMarshaller(ContentRelation.class)
                 .marshalDocument(contentRelation);
 
@@ -108,8 +109,9 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().create(contentRelationXml);
         }
-        return MarshallerFactory.getInstance(getTransport())
-            .getMarshaller(ContentRelation.class).unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ContentRelation.class)
+            .unmarshalDocument(xml);
     }
 
     @Override
@@ -143,8 +145,9 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return MarshallerFactory.getInstance(getTransport())
-            .getMarshaller(ContentRelation.class).unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ContentRelation.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -161,7 +164,7 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Properties retrieveProperties(final String id)
+    public OrganizationalUnitProperties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
         throw new InternalClientException("method not yet supported");
@@ -209,7 +212,8 @@ public class ContentRelationHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String contentRelationXml =
-            MarshallerFactory.getInstance(getTransport())
+            MarshallerFactory
+                .getInstance(getTransport())
                 .getMarshaller(ContentRelation.class)
                 .marshalDocument(contentRelation);
         String xml = null;
@@ -223,8 +227,9 @@ public class ContentRelationHandlerClient
                 getRestHandlerClient().update(contentRelation.getObjid(),
                     contentRelationXml);
         }
-        return MarshallerFactory.getInstance(getTransport())
-            .getMarshaller(ContentRelation.class).unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ContentRelation.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -271,7 +276,8 @@ public class ContentRelationHandlerClient
 
         String xml = null;
         String taskParamString =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(TaskParam.class)
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().assignObjectPid(id, taskParamString);
@@ -279,7 +285,8 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().assignObjectPid(id, taskParamString);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -326,7 +333,8 @@ public class ContentRelationHandlerClient
 
         String xml = null;
         String taskParamString =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(TaskParam.class)
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().lock(id, taskParamString);
@@ -334,7 +342,8 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().lock(id, taskParamString);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -381,7 +390,8 @@ public class ContentRelationHandlerClient
 
         String xml = null;
         String taskParamString =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(TaskParam.class)
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().unlock(id, taskParamString);
@@ -389,7 +399,8 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().unlock(id, taskParamString);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -418,7 +429,8 @@ public class ContentRelationHandlerClient
 
         String xml = null;
         String taskParamString =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(TaskParam.class)
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().submit(id, taskParamString);
@@ -427,7 +439,8 @@ public class ContentRelationHandlerClient
             xml = getRestHandlerClient().submit(id, taskParamString);
         }
 
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -475,7 +488,8 @@ public class ContentRelationHandlerClient
 
         String xml = null;
         String taskParamString =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(TaskParam.class)
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().release(id, taskParamString);
@@ -483,7 +497,8 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().release(id, taskParamString);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -531,7 +546,8 @@ public class ContentRelationHandlerClient
 
         String xml = null;
         String taskParamString =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(TaskParam.class)
+            MarshallerFactory
+                .getInstance(getTransport()).getMarshaller(TaskParam.class)
                 .marshalDocument(taskParam);
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().revise(id, taskParamString);
@@ -539,7 +555,8 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().revise(id, taskParamString);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -591,7 +608,8 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContentRelations(filter);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
@@ -639,8 +657,9 @@ public class ContentRelationHandlerClient
         else {
             xml = getRestHandlerClient().retrieveContentRelations(filter);
         }
-        return MarshallerFactory.getInstance(getTransport())
-            .getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**

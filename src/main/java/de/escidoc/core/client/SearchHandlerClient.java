@@ -87,7 +87,8 @@ public class SearchHandlerClient
                 .explain(request, database));
         }
         else {
-            return MarshallerFactory.getInstance(TransportProtocol.REST)
+            return MarshallerFactory
+                .getInstance(TransportProtocol.REST)
                 .getMarshaller(ExplainResponse.class)
                 .unmarshalDocument(
                     getRestHandlerClient().explain(request, database));
@@ -99,7 +100,7 @@ public class SearchHandlerClient
         final String query, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        
+
         return search(query, null, null, null, null, null, database);
     }
 
@@ -109,7 +110,7 @@ public class SearchHandlerClient
         final Integer maximumRecords, final String sortKeys,
         final String database) throws EscidocClientException,
         InternalClientException, TransportException {
-        
+
         return search(query, startRecord, maximumRecords, sortKeys, null, null,
             database);
     }
@@ -121,7 +122,7 @@ public class SearchHandlerClient
         final String stylesheetURI, final String version, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        
+
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery((query == null) ? null : query);
         request.setVersion((version == null) ? "1.1" : version);
@@ -161,8 +162,10 @@ public class SearchHandlerClient
         }
         else {
             String xml = getRestHandlerClient().search(request, database);
-            return MarshallerFactory.getInstance(getTransport())
-                .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
+            return MarshallerFactory
+                .getInstance(getTransport())
+                .getMarshaller(SearchRetrieveResponse.class)
+                .unmarshalDocument(xml);
         }
     }
 
@@ -177,7 +180,8 @@ public class SearchHandlerClient
                 request, database));
         }
         else {
-            return MarshallerFactory.getInstance(TransportProtocol.REST)
+            return MarshallerFactory
+                .getInstance(TransportProtocol.REST)
                 .getMarshaller(ScanResponse.class)
                 .unmarshalDocument(
                     getRestHandlerClient().scan(request, database));

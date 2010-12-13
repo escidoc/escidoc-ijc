@@ -47,9 +47,9 @@ import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.PathList;
 import de.escidoc.core.resources.sb.Record;
@@ -275,7 +275,8 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().open(id, xml);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -307,7 +308,8 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().close(id, xml);
         }
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Result.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Result.class)
             .unmarshalDocument(xml);
     }
 
@@ -319,7 +321,7 @@ public class OrganizationalUnitHandlerClient
      * (java.lang.String)
      */
     @Override
-    public Properties retrieveProperties(final String id)
+    public OrganizationalUnitProperties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
         throw new InternalClientException("method not yet supported");
@@ -409,7 +411,8 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveParents(id);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_PARENTS)
             .unmarshalDocument(xml);
     }
@@ -435,7 +438,8 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveParentObjects(id);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT_LIST)
             .unmarshalDocument(xml);
     }
@@ -461,7 +465,8 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveChildObjects(id);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT_LIST)
             .unmarshalDocument(xml);
     }
@@ -495,7 +500,8 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveOrganizationalUnits(xml);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT_LIST)
             .unmarshalDocument(xml);
     }
@@ -528,7 +534,8 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveOrganizationalUnits(request);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_SEARCH_RETRIEVE_RESPONSE)
             .unmarshalDocument(xml);
     }
@@ -586,7 +593,8 @@ public class OrganizationalUnitHandlerClient
         else {
             xml = getRestHandlerClient().retrieveOrganizationalUnits(request);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(MarshallerFactory.CLASS_EXPLAIN_RESPONSE)
             .unmarshalDocument(xml);
     }

@@ -52,7 +52,7 @@ public class IngestHandlerClient
     public IngestHandlerClient() {
         super();
     }
-    
+
     /**
      * 
      * @param serviceAddress
@@ -60,7 +60,7 @@ public class IngestHandlerClient
     public IngestHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
-    
+
     /**
      * Returns the XML presentation of a resource.
      * 

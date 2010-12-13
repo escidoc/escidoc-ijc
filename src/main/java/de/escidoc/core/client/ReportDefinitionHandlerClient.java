@@ -146,8 +146,9 @@ public class ReportDefinitionHandlerClient
         else {
             xml = getRestHandlerClient().retrieve(id);
         }
-        return MarshallerFactory.getInstance(getTransport())
-            .getMarshaller(ReportDefinition.class).unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ReportDefinition.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -200,7 +201,8 @@ public class ReportDefinitionHandlerClient
         else {
             xml = getRestHandlerClient().retrieveReportDefinitions(request);
         }
-        return MarshallerFactory.getInstance(getTransport())
+        return MarshallerFactory
+            .getInstance(getTransport())
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
@@ -223,8 +225,9 @@ public class ReportDefinitionHandlerClient
         else {
             xml = getRestHandlerClient().retrieveReportDefinitions(request);
         }
-        return MarshallerFactory.getInstance(getTransport())
-            .getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /*

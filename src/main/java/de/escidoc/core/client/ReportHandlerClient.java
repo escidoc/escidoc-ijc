@@ -47,7 +47,8 @@ public class ReportHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         String xml =
-            MarshallerFactory.getInstance(getTransport())
+            MarshallerFactory
+                .getInstance(getTransport())
                 .getMarshaller(ReportParameters.class)
                 .marshalDocument(reportParameters);
 
@@ -58,7 +59,8 @@ public class ReportHandlerClient
             xml = getRestHandlerClient().retrieve(xml);
         }
 
-        return MarshallerFactory.getInstance(getTransport()).getMarshaller(Report.class)
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Report.class)
             .unmarshalDocument(xml);
     }
 

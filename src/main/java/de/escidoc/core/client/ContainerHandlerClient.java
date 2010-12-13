@@ -46,13 +46,13 @@ import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
@@ -162,7 +162,7 @@ public class ContainerHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Properties retrieveProperties(final String id)
+    public OrganizationalUnitProperties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
         throw new InternalClientException("method not yet supported");
