@@ -19,6 +19,7 @@ import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
@@ -114,11 +115,11 @@ public abstract class RestServiceMethod implements RestService {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(),
-                    e.toString());
+                throw new SystemException(e.getReasonCode(), null,
+                    e.getMessage());
             }
             catch (IOException e) {
-                throw new SystemException(500, e.getMessage(), e.toString());
+                throw new SystemException(500, null, e.getMessage());
             }
             decideStatusCode(put, result);
         }
@@ -202,11 +203,12 @@ public abstract class RestServiceMethod implements RestService {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(),
-                    e.toString());
+                throw new SystemException(e.getReasonCode(), null,
+                    e.getMessage());
             }
             catch (IOException e) {
-                throw new SystemException(500, e.getMessage(), e.toString());
+                throw new SystemException(
+                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
             decideStatusCode(put, result);
         }
@@ -247,11 +249,12 @@ public abstract class RestServiceMethod implements RestService {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(),
-                    e.toString());
+                throw new SystemException(e.getReasonCode(), null,
+                    e.getMessage());
             }
             catch (IOException e) {
-                throw new SystemException(500, e.getMessage(), e.toString());
+                throw new SystemException(
+                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
             decideStatusCode(post, result);
         }
@@ -283,11 +286,12 @@ public abstract class RestServiceMethod implements RestService {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(),
-                    e.toString());
+                throw new SystemException(e.getReasonCode(), null,
+                    e.getMessage());
             }
             catch (IOException e) {
-                throw new SystemException(500, e.getMessage(), e.toString());
+                throw new SystemException(
+                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
             decideStatusCode(get, result);
         }
@@ -346,11 +350,12 @@ public abstract class RestServiceMethod implements RestService {
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), e.getMessage(),
-                    e.toString());
+                throw new SystemException(e.getReasonCode(), null,
+                    e.getMessage());
             }
             catch (IOException e) {
-                throw new SystemException(500, e.getMessage(), e.toString());
+                throw new SystemException(
+                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
             decideStatusCode(del, result);
         }
@@ -416,6 +421,10 @@ public abstract class RestServiceMethod implements RestService {
         }
     }
 
+    /**
+     * 
+     * @return
+     */
     private synchronized HttpClient getRestClient() {
 
         if (this.client == null) {
@@ -424,6 +433,10 @@ public abstract class RestServiceMethod implements RestService {
         return this.client;
     }
 
+    /**
+     * 
+     * @return
+     */
     private synchronized MultiThreadedHttpConnectionManager getConnectionManager() {
         if (this.connectionManager == null) {
             this.connectionManager = new MultiThreadedHttpConnectionManager();
@@ -454,14 +467,14 @@ public abstract class RestServiceMethod implements RestService {
             }
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LOG.debug("An error occured while reading from stream.", e);
         }
         finally {
             try {
                 is.close();
             }
             catch (IOException e) {
-                e.printStackTrace();
+                LOG.debug("Unable to close InputStream.");
             }
         }
 
@@ -487,16 +500,15 @@ public abstract class RestServiceMethod implements RestService {
 
             boolean isFirstParameter = true;
 
-            for (final String parameter : parameters.keySet()) {
-                final String[] values = parameters.get(parameter);
+            for (final Entry<String, String[]> entry : parameters.entrySet()) {
 
-                if (values != null && values.length > 0) {
+                if (entry.getValue() != null && entry.getValue().length > 0) {
                     if (!isFirstParameter) {
                         result.append('&');
                     }
-                    result.append(parameter);
+                    result.append(entry.getKey());
                     result.append('=');
-                    result.append(values[0]);
+                    result.append(entry.getValue()[0]);
                 }
                 isFirstParameter = false;
             }
