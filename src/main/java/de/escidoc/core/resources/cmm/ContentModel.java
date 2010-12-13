@@ -31,7 +31,7 @@ package de.escidoc.core.resources.cmm;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
-import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.om.GenericResource;
@@ -133,9 +133,9 @@ public class ContentModel extends GenericResource
                 null);
             genXLinkHref(properties.getLockOwner(), ResourceType.UserAccount,
                 null);
-            genVersionHref((Version) properties.getVersion());
-            genVersionHref((Version) properties.getLatestVersion());
-            genVersionHref((Version) properties.getLatestRelease());
+            genVersionHref((VersionImpl) properties.getVersion());
+            genVersionHref((VersionImpl) properties.getLatestVersion());
+            genVersionHref((VersionImpl) properties.getLatestRelease());
         }
         if (metadataRecordDefinitions != null && getXLinkHref() != null) {
             for (MetadataRecordDefinition def : metadataRecordDefinitions) {
@@ -164,7 +164,7 @@ public class ContentModel extends GenericResource
      * 
      * @param version
      */
-    protected void genVersionHref(final Version version) {
+    protected void genVersionHref(final VersionImpl version) {
         if (version != null && version.getXLinkHref() == null) {
             version.setXLinkHref(Resource.RESOURCE_URL_MAP
                 .get(ResourceType.Item)

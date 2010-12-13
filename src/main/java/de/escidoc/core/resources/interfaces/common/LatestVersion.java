@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
  * @author SWA
  * 
  */
-public interface LatestVersionInterface {
+public interface LatestVersion {
 
     /**
      * @return Get the number of this version.

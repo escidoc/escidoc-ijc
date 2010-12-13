@@ -222,7 +222,8 @@
 		abstract="true" type-name="item-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
-			prefix="prop" />
+			prefix="prop" default="elements"/>
+			
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 		<namespace uri="http://escidoc.de/core/01/properties/version/"
@@ -230,9 +231,8 @@
 		<namespace uri="http://escidoc.de/core/01/properties/release/"
 			prefix="release" />
 
-		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
-			name="creation-date" set-method="setCreationDate"
-			get-method="getCreationDate" usage="optional" />
+		<value name="creation-date" type="org.joda.time.DateTime"
+			set-method="setCreationDate" get-method="getCreationDate" usage="optional" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="created-by" field="createdBy" usage="optional">
@@ -241,15 +241,10 @@
 				get-method="getObjid" usage="optional" />
 		</structure>
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status" field="publicStatus" usage="optional" />
+		<value name="public-status" field="publicStatus" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status-comment" field="publicStatusComment"
+		<value name="public-status-comment" field="publicStatusComment"
 			usage="optional" />
-
-		<value ns="http://escidoc.de/core/01/properties/" name="name"
-			field="name" usage="optional" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="context" field="context" usage="optional">
@@ -271,25 +266,21 @@
 		</structure>
 
 		<!-- lock (status, date, owner) -->
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="lock-status" field="lockStatus" usage="optional" />
-		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
-				name="lock-date" set-method="setLockDate"
-				get-method="getLockDate" usage="optional" />
+		<value name="lock-status" field="lockStatus" usage="optional" />
+		<value name="lock-date" type="org.joda.time.DateTime"
+				set-method="setLockDate" get-method="getLockDate" usage="optional" />
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="lock-owner" field="lockOwner" usage="optional">
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />
 		</structure>
 
-		<value ns="http://escidoc.de/core/01/properties/" name="pid"
-			set-method="setPid" get-method="getPid" usage="optional" />
+		<value name="pid" set-method="setPid" get-method="getPid" usage="optional" />
 
 		<!-- *****************************************
 			Version 
 			****************************************** -->
-		<structure ns="http://escidoc.de/core/01/properties/"
-			name="version" field="version" usage="optional">
+		<structure name="version" field="version" usage="optional">
 
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />
@@ -298,66 +289,60 @@
 				name="number" get-method="getNumber" set-method="setNumber"
 				usage="optional" />
 
-			<value ns="http://escidoc.de/core/01/properties/version/" type="org.joda.time.DateTime"
-				name="date" set-method="setDate"
-				get-method="getDate" usage="optional" />
-			<value ns="http://escidoc.de/core/01/properties/version/"
-				name="status" set-method="setStatus" get-method="getStatus"
+			<value name="date" ns="http://escidoc.de/core/01/properties/version/" 
+        type="org.joda.time.DateTime"
+				set-method="setDate" get-method="getDate" usage="optional" />
+			<value name="status" ns="http://escidoc.de/core/01/properties/version/"
+				set-method="setStatus" get-method="getStatus"
 				usage="optional" />
 
-			<structure
+			<structure name="modified-by"
 				ns="http://escidoc.de/core/01/structural-relations/"
-				name="modified-by" set-method="setModifiedBy"
-				get-method="getModifiedBy" usage="optional">
+				set-method="setModifiedBy" get-method="getModifiedBy" usage="optional">
 
 				<value name="objid" style="attribute"
 					set-method="setObjid" get-method="getObjid" usage="optional" />
 			</structure>
 
-			<value ns="http://escidoc.de/core/01/properties/version/"
-				name="comment" set-method="setComment" get-method="getComment"
-				usage="optional" />
+			<value name="comment" ns="http://escidoc.de/core/01/properties/version/"
+				set-method="setComment" get-method="getComment" usage="optional" />
 
-			<value ns="http://escidoc.de/core/01/properties/version/"
-				name="pid" set-method="setPid" get-method="getPid" usage="optional" />
+			<value name="pid" ns="http://escidoc.de/core/01/properties/version/"
+				set-method="setPid" get-method="getPid" usage="optional" />
 		</structure>
 
 		<!-- *****************************************
 			Latest-Version 
 			****************************************** -->
-		<structure ns="http://escidoc.de/core/01/properties/"
-			name="latest-version" field="latestVersion" usage="optional">
+		<structure name="latest-version" field="latestVersion" usage="optional">
 
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />
 
-			<value ns="http://escidoc.de/core/01/properties/version/"
-				name="number" get-method="getNumber" set-method="setNumber"
-				usage="optional" />
-			<value ns="http://escidoc.de/core/01/properties/version/" type="org.joda.time.DateTime"
-				name="date" set-method="setDate"
-				get-method="getDate" usage="optional" />
-			<value ns="http://escidoc.de/core/01/properties/release/"
-				name="pid" set-method="setPid" get-method="getPid" usage="optional" />
+			<value name="number" ns="http://escidoc.de/core/01/properties/version/"
+				get-method="getNumber" set-method="setNumber" usage="optional" />
+			<value name="date" ns="http://escidoc.de/core/01/properties/version/" 
+			  type="org.joda.time.DateTime"
+				set-method="setDate" get-method="getDate" usage="optional" />
+			<value name="pid" ns="http://escidoc.de/core/01/properties/release/"
+				set-method="setPid" get-method="getPid" usage="optional" />
 		</structure>
 
 		<!-- *****************************************
 			Latest-Release 
 			****************************************** -->
-		<structure ns="http://escidoc.de/core/01/properties/"
-			name="latest-release" field="latestRelease" usage="optional">
+		<structure name="latest-release" field="latestRelease" usage="optional">
 
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />
 
-			<value ns="http://escidoc.de/core/01/properties/release/"
-				name="number" get-method="getNumber" set-method="setNumber"
-				usage="optional" />
-			<value ns="http://escidoc.de/core/01/properties/release/" type="org.joda.time.DateTime"
-				name="date" set-method="setDate"
-				get-method="getDate" usage="optional" />
-			<value ns="http://escidoc.de/core/01/properties/release/"
-				name="pid" set-method="setPid" get-method="getPid" usage="optional" />
+			<value name="number" ns="http://escidoc.de/core/01/properties/release/"
+				get-method="getNumber" set-method="setNumber" usage="optional" />
+			<value name="date" ns="http://escidoc.de/core/01/properties/release/"
+        type="org.joda.time.DateTime" 
+        set-method="setDate" get-method="getDate" usage="optional" />
+			<value name="pid" ns="http://escidoc.de/core/01/properties/release/"
+				set-method="setPid" get-method="getPid" usage="optional" />
 		</structure>
 
 		<!-- *****************************************
@@ -365,16 +350,12 @@
 			****************************************** -->
 		<structure name="content-model-specific"
 			field="contentModelSpecific"
-			ns="http://escidoc.de/core/01/properties/"
 			type="de.escidoc.core.resources.common.properties.ContentModelSpecific"
 			usage="optional">
 			<structure field="content" type="java.util.List"
 				marshaller="org.jibx.extras.DomListMapper"
 				unmarshaller="org.jibx.extras.DomListMapper" usage="optional" />
 		</structure>
-		
-		
 	</mapping>
 	
 </binding>
-

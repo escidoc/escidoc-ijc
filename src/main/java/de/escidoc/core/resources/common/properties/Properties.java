@@ -34,10 +34,10 @@ import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
-import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
-import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
+import de.escidoc.core.resources.interfaces.common.LatestRelease;
+import de.escidoc.core.resources.interfaces.common.LatestVersion;
 import de.escidoc.core.resources.interfaces.common.PropertiesInterface;
-import de.escidoc.core.resources.interfaces.common.VersionInterface;
+import de.escidoc.core.resources.interfaces.common.Version;
 
 /**
  * Properties of the eSciDoc resources. (I'm afraid this structure is close to
@@ -74,11 +74,11 @@ public class Properties extends XLinkResource implements PropertiesInterface {
 
     protected String name = null;
 
-    private Version version;
+    private VersionImpl version;
 
-    private Version latestVersion;
+    private VersionImpl latestVersion;
 
-    private Version latestRelease;
+    private VersionImpl latestRelease;
 
     private ContentModelSpecific contentModelSpecific =
         new ContentModelSpecific();
@@ -212,7 +212,7 @@ public class Properties extends XLinkResource implements PropertiesInterface {
     /**
      * @return the version
      */
-    public VersionInterface getVersion() {
+    public Version getVersion() {
         return version;
     }
 
@@ -220,14 +220,14 @@ public class Properties extends XLinkResource implements PropertiesInterface {
      * @param version
      *            the version to set
      */
-    public void setVersion(final VersionInterface version) {
-        this.version = (Version) version;
+    public void setVersion(final Version version) {
+        this.version = (VersionImpl) version;
     }
 
     /**
      * @return the latestVersion
      */
-    public LatestVersionInterface getLatestVersion() {
+    public LatestVersion getLatestVersion() {
         return latestVersion;
     }
 
@@ -235,14 +235,14 @@ public class Properties extends XLinkResource implements PropertiesInterface {
      * @param latestVersion
      *            the latestVersion to set
      */
-    public void setLatestVersion(final LatestVersionInterface latestVersion) {
-        this.latestVersion = (Version) latestVersion;
+    public void setLatestVersion(final LatestVersion latestVersion) {
+        this.latestVersion = (VersionImpl) latestVersion;
     }
 
     /**
      * @return the latestRelease
      */
-    public LatestReleaseInterface getLatestRelease() {
+    public LatestRelease getLatestRelease() {
         return latestRelease;
     }
 
@@ -250,8 +250,8 @@ public class Properties extends XLinkResource implements PropertiesInterface {
      * @param latestRelease
      *            the latestRelease to set
      */
-    public void setLatestRelease(final LatestReleaseInterface latestRelease) {
-        this.latestRelease = (Version) latestRelease;
+    public void setLatestRelease(final LatestRelease latestRelease) {
+        this.latestRelease = (VersionImpl) latestRelease;
     }
 
     /**

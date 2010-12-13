@@ -1,6 +1,6 @@
 package de.escidoc.core.resources.interfaces.common;
 
-public interface LatestReleaseInterface extends LatestVersionInterface {
+public interface LatestRelease extends LatestVersion {
 
     /**
      * @return The release pid.

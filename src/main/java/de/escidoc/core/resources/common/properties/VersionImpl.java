@@ -33,14 +33,14 @@ import org.joda.time.DateTime;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
-import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
-import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
-import de.escidoc.core.resources.interfaces.common.VersionInterface;
+import de.escidoc.core.resources.interfaces.common.LatestRelease;
+import de.escidoc.core.resources.interfaces.common.LatestVersion;
+import de.escidoc.core.resources.interfaces.common.Version;
 
-public class Version extends Reference
-    implements LatestVersionInterface, LatestReleaseInterface, VersionInterface {
+public class VersionImpl extends Reference
+    implements LatestVersion, LatestRelease, Version {
 
-    public Version() {
+    public VersionImpl() {
         super();
     }
 
@@ -102,7 +102,7 @@ public class Version extends Reference
      * See Interface for functional description.
      * 
      * @return
-     * @see de.escidoc.core.resources.interfaces.common.LatestReleaseInterface#getPid()
+     * @see de.escidoc.core.resources.interfaces.common.LatestRelease#getPid()
      */
     @Override
     public String getPid() {

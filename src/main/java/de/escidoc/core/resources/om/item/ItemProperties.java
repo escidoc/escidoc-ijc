@@ -32,18 +32,16 @@ import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
-import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
-import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
-import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
-import de.escidoc.core.resources.interfaces.common.VersionInterface;
+import de.escidoc.core.resources.interfaces.common.LatestRelease;
+import de.escidoc.core.resources.interfaces.common.LatestVersion;
+import de.escidoc.core.resources.interfaces.common.Version;
 
 /**
- * Properties of the eSciDoc resources. (I'm afraid this structure is close to
- * versioned resource properties.)
  * 
  * @author SWA
  * 
@@ -52,10 +50,6 @@ public class ItemProperties extends XLinkResource {
 
     private DateTime creationDate = null;
 
-    /**
-     * @deprecated Not yet supported.
-     */
-    @Deprecated
     private String description = null;
 
     private UserAccountRef createdBy = null;
@@ -78,37 +72,13 @@ public class ItemProperties extends XLinkResource {
 
     private String pid = null;
 
-    /**
-     * @deprecated Not yet supported.
-     */
-    @Deprecated
-    private String name = null;
+    private VersionImpl version = null;
 
-    private Version version = null;
+    private VersionImpl latestVersion = null;
 
-    private Version latestVersion = null;
-
-    private Version latestRelease = null;
+    private VersionImpl latestRelease = null;
 
     private ContentModelSpecific contentModelSpecific = null;
-
-    // Component properties
-    private final String validStatus = null;
-
-    private final String visibility = null;
-
-    private final String contentCategory = null;
-
-    private final String fileName = null;
-
-    private final String mimeType = null;
-
-    /**
-     * 
-     */
-    public ItemProperties() {
-
-    }
 
     /**
      * @return the creationDate
@@ -203,7 +173,7 @@ public class ItemProperties extends XLinkResource {
     /**
      * @return the version
      */
-    public VersionInterface getVersion() {
+    public Version getVersion() {
         return version;
     }
 
@@ -211,14 +181,14 @@ public class ItemProperties extends XLinkResource {
      * @param version
      *            the version to set
      */
-    public void setVersion(final VersionInterface version) {
-        this.version = (Version) version;
+    public void setVersion(final Version version) {
+        this.version = (VersionImpl) version;
     }
 
     /**
      * @return the latestVersion
      */
-    public LatestVersionInterface getLatestVersion() {
+    public LatestVersion getLatestVersion() {
         return latestVersion;
     }
 
@@ -226,14 +196,14 @@ public class ItemProperties extends XLinkResource {
      * @param latestVersion
      *            the latestVersion to set
      */
-    public void setLatestVersion(final LatestVersionInterface latestVersion) {
-        this.latestVersion = (Version) latestVersion;
+    public void setLatestVersion(final LatestVersion latestVersion) {
+        this.latestVersion = (VersionImpl) latestVersion;
     }
 
     /**
      * @return the latestRelease
      */
-    public LatestReleaseInterface getLatestRelease() {
+    public LatestRelease getLatestRelease() {
         return latestRelease;
     }
 
@@ -241,8 +211,8 @@ public class ItemProperties extends XLinkResource {
      * @param latestRelease
      *            the latestRelease to set
      */
-    public void setLatestRelease(final LatestReleaseInterface latestRelease) {
-        this.latestRelease = (Version) latestRelease;
+    public void setLatestRelease(final LatestRelease latestRelease) {
+        this.latestRelease = (VersionImpl) latestRelease;
     }
 
     /**
@@ -323,9 +293,7 @@ public class ItemProperties extends XLinkResource {
 
     /**
      * @return the description
-     * @deprecated Not yet supported.
      */
-    @Deprecated
     public String getDescription() {
         return this.description;
     }
@@ -333,65 +301,9 @@ public class ItemProperties extends XLinkResource {
     /**
      * @param description
      *            the description to set
-     * @deprecated Not yet supported.
      */
-    @Deprecated
     public void setDescription(final String description) {
         this.description = description;
-    }
-
-    /**
-     * @return the name
-     * @deprecated Not yet supported.
-     */
-    @Deprecated
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     * @deprecated Not yet supported.
-     */
-    @Deprecated
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the validStatus
-     */
-    public String getValidStatus() {
-        return validStatus;
-    }
-
-    /**
-     * @return the visibility
-     */
-    public String getVisibility() {
-        return visibility;
-    }
-
-    /**
-     * @return the contentCategory
-     */
-    public String getContentCategory() {
-        return contentCategory;
-    }
-
-    /**
-     * @return the mimeType
-     */
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    /**
-     * @return the fileName
-     */
-    public String getFileName() {
-        return fileName;
     }
 
     /**

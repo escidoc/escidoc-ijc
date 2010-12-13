@@ -35,7 +35,7 @@ import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
-import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.om.GenericVersionableResource;
@@ -187,9 +187,9 @@ public class Item extends GenericVersionableResource
             genXLinkHref(properties.getOrigin(), ResourceType.Item, null);
             genXLinkHref(properties.getLockOwner(), ResourceType.UserAccount,
                 null);
-            genVersionHref((Version) properties.getVersion());
-            genVersionHref((Version) properties.getLatestVersion());
-            genVersionHref((Version) properties.getLatestRelease());
+            genVersionHref((VersionImpl) properties.getVersion());
+            genVersionHref((VersionImpl) properties.getLatestVersion());
+            genVersionHref((VersionImpl) properties.getLatestRelease());
         }
         if (components != null) {
             if (components.getXLinkHref() == null && getXLinkHref() != null) {
@@ -268,7 +268,7 @@ public class Item extends GenericVersionableResource
      * 
      * @param version
      */
-    protected void genVersionHref(final Version version) {
+    protected void genVersionHref(final VersionImpl version) {
         if (version != null && version.getXLinkHref() == null) {
             version.setXLinkHref(Resource.RESOURCE_URL_MAP
                 .get(ResourceType.Item)

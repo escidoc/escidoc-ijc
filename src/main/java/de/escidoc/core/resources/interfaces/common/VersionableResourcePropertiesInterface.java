@@ -180,7 +180,7 @@ public interface VersionableResourcePropertiesInterface
      * 
      * @return The version properties.
      */
-    VersionInterface getVersion();
+    Version getVersion();
 
     /**
      * Set the version properties.
@@ -188,14 +188,14 @@ public interface VersionableResourcePropertiesInterface
      * @param version
      *            The new version properties.
      */
-    void setVersion(VersionInterface version);
+    void setVersion(Version version);
 
     /**
      * Get information about the latest version.
      * 
      * @return The latest version properties.
      */
-    LatestVersionInterface getLatestVersion();
+    LatestVersion getLatestVersion();
 
     /**
      * Set the latest version properties.
@@ -203,14 +203,14 @@ public interface VersionableResourcePropertiesInterface
      * @param latestVersion
      *            The new latest version properties.
      */
-    void setLatestVersion(LatestVersionInterface latestVersion);
+    void setLatestVersion(LatestVersion latestVersion);
 
     /**
      * Get information about the latest release.
      * 
      * @return The latest release properties.
      */
-    LatestReleaseInterface getLatestRelease();
+    LatestRelease getLatestRelease();
 
     /**
      * Set the latest release properties.
@@ -218,7 +218,7 @@ public interface VersionableResourcePropertiesInterface
      * @param latestRelease
      *            The new latest release properties.
      */
-    void setLatestRelease(LatestReleaseInterface latestRelease);
+    void setLatestRelease(LatestRelease latestRelease);
 
     /**
      * @return Get content model specific properties.

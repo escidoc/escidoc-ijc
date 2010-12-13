@@ -33,9 +33,9 @@ import org.joda.time.DateTime;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
-import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
-import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
-import de.escidoc.core.resources.interfaces.common.VersionInterface;
+import de.escidoc.core.resources.interfaces.common.LatestRelease;
+import de.escidoc.core.resources.interfaces.common.LatestVersion;
+import de.escidoc.core.resources.interfaces.common.Version;
 import de.escidoc.core.resources.interfaces.common.VersionableResourcePropertiesInterface;
 
 /**
@@ -73,11 +73,11 @@ public class PropertiesVersioned extends Properties
 
     protected String name = null;
 
-    private Version version;
+    private VersionImpl version;
 
-    private Version latestVersion;
+    private VersionImpl latestVersion;
 
-    private Version latestRelease;
+    private VersionImpl latestRelease;
 
     private ContentModelSpecific contentModelSpecific =
         new ContentModelSpecific();
@@ -208,7 +208,7 @@ public class PropertiesVersioned extends Properties
     /**
      * @return the version
      */
-    public VersionInterface getVersion() {
+    public Version getVersion() {
         return version;
     }
 
@@ -216,14 +216,14 @@ public class PropertiesVersioned extends Properties
      * @param version
      *            the version to set
      */
-    public void setVersion(final VersionInterface version) {
-        this.version = (Version) version;
+    public void setVersion(final Version version) {
+        this.version = (VersionImpl) version;
     }
 
     /**
      * @return the latestVersion
      */
-    public LatestVersionInterface getLatestVersion() {
+    public LatestVersion getLatestVersion() {
         return latestVersion;
     }
 
@@ -231,14 +231,14 @@ public class PropertiesVersioned extends Properties
      * @param latestVersion
      *            the latestVersion to set
      */
-    public void setLatestVersion(final LatestVersionInterface latestVersion) {
-        this.latestVersion = (Version) latestVersion;
+    public void setLatestVersion(final LatestVersion latestVersion) {
+        this.latestVersion = (VersionImpl) latestVersion;
     }
 
     /**
      * @return the latestRelease
      */
-    public LatestReleaseInterface getLatestRelease() {
+    public LatestRelease getLatestRelease() {
         return latestRelease;
     }
 
@@ -246,8 +246,8 @@ public class PropertiesVersioned extends Properties
      * @param latestRelease
      *            the latestRelease to set
      */
-    public void setLatestRelease(final LatestReleaseInterface latestRelease) {
-        this.latestRelease = (Version) latestRelease;
+    public void setLatestRelease(final LatestRelease latestRelease) {
+        this.latestRelease = (VersionImpl) latestRelease;
     }
 
     /**

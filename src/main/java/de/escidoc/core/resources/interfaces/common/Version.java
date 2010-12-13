@@ -2,7 +2,7 @@ package de.escidoc.core.resources.interfaces.common;
 
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 
-public interface VersionInterface extends LatestReleaseInterface {
+public interface Version extends LatestRelease {
     /**
      * @return The status.
      */

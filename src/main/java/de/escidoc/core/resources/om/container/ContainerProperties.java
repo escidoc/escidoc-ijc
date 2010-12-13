@@ -30,15 +30,16 @@ package de.escidoc.core.resources.om.container;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
-import de.escidoc.core.resources.common.properties.Version;
+import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
-import de.escidoc.core.resources.interfaces.common.LatestReleaseInterface;
-import de.escidoc.core.resources.interfaces.common.LatestVersionInterface;
-import de.escidoc.core.resources.interfaces.common.VersionInterface;
+import de.escidoc.core.resources.interfaces.common.LatestRelease;
+import de.escidoc.core.resources.interfaces.common.LatestVersion;
+import de.escidoc.core.resources.interfaces.common.Version;
 
 /**
  * Properties of the eSciDoc Container.
@@ -46,6 +47,7 @@ import de.escidoc.core.resources.interfaces.common.VersionInterface;
  * @author SWA
  * 
  */
+@JiBX
 public class ContainerProperties extends XLinkResource {
 
     private DateTime creationDate = null;
@@ -72,18 +74,13 @@ public class ContainerProperties extends XLinkResource {
 
     private String name = null;
 
-    private Version version = null;
+    private VersionImpl version = null;
 
-    private Version latestVersion = null;
+    private VersionImpl latestVersion = null;
 
-    private Version latestRelease = null;
+    private VersionImpl latestRelease = null;
 
     private ContentModelSpecific contentModelSpecific = null;
-
-    // Component properties
-    private final String validStatus = null;
-
-    private final String visibility = null;
 
     /**
      * 
@@ -195,7 +192,7 @@ public class ContainerProperties extends XLinkResource {
     /**
      * @return the version
      */
-    public VersionInterface getVersion() {
+    public Version getVersion() {
         return this.version;
     }
 
@@ -203,14 +200,14 @@ public class ContainerProperties extends XLinkResource {
      * @param version
      *            the version to set
      */
-    public void setVersion(final VersionInterface version) {
-        this.version = (Version) version;
+    public void setVersion(final Version version) {
+        this.version = (VersionImpl) version;
     }
 
     /**
      * @return the latestVersion
      */
-    public LatestVersionInterface getLatestVersion() {
+    public LatestVersion getLatestVersion() {
         return this.latestVersion;
     }
 
@@ -218,14 +215,14 @@ public class ContainerProperties extends XLinkResource {
      * @param latestVersion
      *            the latestVersion to set
      */
-    public void setLatestVersion(final LatestVersionInterface latestVersion) {
-        this.latestVersion = (Version) latestVersion;
+    public void setLatestVersion(final LatestVersion latestVersion) {
+        this.latestVersion = (VersionImpl) latestVersion;
     }
 
     /**
      * @return the latestRelease
      */
-    public LatestReleaseInterface getLatestRelease() {
+    public LatestRelease getLatestRelease() {
         return this.latestRelease;
     }
 
@@ -233,8 +230,8 @@ public class ContainerProperties extends XLinkResource {
      * @param latestRelease
      *            the latestRelease to set
      */
-    public void setLatestRelease(final LatestReleaseInterface latestRelease) {
-        this.latestRelease = (Version) latestRelease;
+    public void setLatestRelease(final LatestRelease latestRelease) {
+        this.latestRelease = (VersionImpl) latestRelease;
     }
 
     /**
@@ -342,19 +339,4 @@ public class ContainerProperties extends XLinkResource {
     public void setName(final String name) {
         this.name = name;
     }
-
-    /**
-     * @return the validStatus
-     */
-    public String getValidStatus() {
-        return this.validStatus;
-    }
-
-    /**
-     * @return the visibility
-     */
-    public String getVisibility() {
-        return this.visibility;
-    }
-
 }
