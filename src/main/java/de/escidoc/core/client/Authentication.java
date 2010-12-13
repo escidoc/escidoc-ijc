@@ -35,6 +35,8 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -49,6 +51,8 @@ import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
  * 
  */
 public class Authentication {
+
+    private static final Logger LOG = Logger.getLogger(Authentication.class);
 
     private String handle;
 
@@ -140,6 +144,7 @@ public class Authentication {
         HttpURLConnection restrictedConn = null;
         HttpURLConnection authConn = null;
         HttpURLConnection redirectConn = null;
+        OutputStreamWriter writer = null;
 
         try {
             URL loginUrl = new URL(this.serviceAddress + "aa/login?target=");
@@ -163,10 +168,9 @@ public class Authentication {
             String params =
                 "j_username=" + username + "&j_password=" + password;
 
-            OutputStreamWriter w =
-                new OutputStreamWriter(authConn.getOutputStream());
-            w.write(params);
-            w.close();
+            writer = new OutputStreamWriter(authConn.getOutputStream());
+            writer.write(params);
+            writer.close();
 
             authConn.connect();
             List<String> cookieList =
@@ -203,6 +207,13 @@ public class Authentication {
                 authConn.disconnect();
             if (redirectConn != null)
                 redirectConn.disconnect();
+            if (writer != null)
+                try {
+                    writer.close();
+                }
+                catch (IOException e) {
+                    LOG.debug("Unable to close OutputStream.", e);
+                }
         }
 
         return handle;
