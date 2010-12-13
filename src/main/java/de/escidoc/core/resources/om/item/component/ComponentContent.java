@@ -62,21 +62,37 @@ public class ComponentContent extends Content {
      * Encode binary content.
      * 
      * @param inlineContent
-     * @return base64 encoded content
+     * @return base64 encoded content as String
      */
-    public String encodeBinaryContent(final byte[] inlineContent) {
+    public String encodeBinaryContent(final String inlineContent) {
+        return Base64.encodeBase64String(inlineContent.getBytes());
+    }
 
-        return new Base64().encode(inlineContent).toString();
+    /**
+     * 
+     * @param inlineContent
+     * @return base64 encoded content as String
+     */
+    public byte[] encodeBinaryContent(final byte[] inlineContent) {
+        return Base64.encodeBase64(inlineContent);
     }
 
     /**
      * Decode binary content.
      * 
      * @param base64EncodedContent
-     * @return base64 decoded content
+     * @return base64 decoded content as String
      */
-    public byte[] decodeBinaryContent(final String base64EncodedContent) {
+    public String decodeBinaryContent(final String base64EncodedContent) {
+        return new String(Base64.decodeBase64(base64EncodedContent.getBytes()));
+    }
 
-        return new Base64().decode(base64EncodedContent.getBytes());
+    /**
+     * 
+     * @param base64EncodedContent
+     * @return base64 decoded content as byte[]
+     */
+    public byte[] decodeBinaryContent(final byte[] base64EncodedContent) {
+        return Base64.decodeBase64(base64EncodedContent);
     }
 }
