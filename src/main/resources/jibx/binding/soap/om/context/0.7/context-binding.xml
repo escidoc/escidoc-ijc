@@ -56,7 +56,7 @@
 	Properties binding definition 
 		****************************************** -->
 	<mapping ns="http://escidoc.de/core/01/properties/" 
-    class="de.escidoc.core.resources.om.context.Properties"
+    class="de.escidoc.core.resources.om.context.ContextProperties"
 		abstract="true" type-name="context-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"

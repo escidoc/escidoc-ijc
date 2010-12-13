@@ -104,8 +104,8 @@
 		Properties binding definition
 		****************************************** -->
 	<mapping ns="http://escidoc.de/core/01/properties/"
-		class="de.escidoc.core.resources.oum.Properties" abstract="true"
-		type-name="organizational-unit-properties">
+		class="de.escidoc.core.resources.oum.OrganizationalUnitProperties" 
+		abstract="true" type-name="organizational-unit-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
 			prefix="prop" />
