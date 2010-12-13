@@ -33,22 +33,19 @@ import java.util.LinkedList;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.annotations.JiBX;
+
+/**
+ * 
+ * @author ?, MVO
+ * 
+ */
+@JiBX
 public class VersionHistory {
 
-    private DateTime lastModificationDate = null;
+    private DateTime lastModificationDate;
 
-    private Collection<Version> versions = new LinkedList<Version>();
-
-    /**
-     * 
-     */
-    public VersionHistory() {
-
-    }
-
-    public static LinkedList<Version> versionsFactory() {
-        return new LinkedList<Version>();
-    }
+    private Collection<Version> versions;
 
     /**
      * @return the lastModificationDate
@@ -58,25 +55,12 @@ public class VersionHistory {
     }
 
     /**
-     * @param lastModificationDate
-     *            the lastModificationDate to set
-     */
-    public void setLastModificationDate(final DateTime lastModificationDate) {
-        this.lastModificationDate = lastModificationDate;
-    }
-
-    /**
      * @return the versions
      */
     public Collection<Version> getVersions() {
+        if (versions == null) {
+            versions = new LinkedList<Version>();
+        }
         return versions;
-    }
-
-    /**
-     * @param versions
-     *            the versions to set
-     */
-    public void setVersions(final Collection<Version> versions) {
-        this.versions = versions;
     }
 }

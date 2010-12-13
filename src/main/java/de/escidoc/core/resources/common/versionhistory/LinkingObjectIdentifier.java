@@ -1,10 +1,18 @@
 package de.escidoc.core.resources.common.versionhistory;
 
+import de.escidoc.core.annotations.JiBX;
+
+/**
+ * 
+ * @author ?, MVO
+ * 
+ */
+@JiBX
 public class LinkingObjectIdentifier {
 
-    private String linkingObjectIdentifierType = null;
+    private String linkingObjectIdentifierType;
 
-    private String linkingObjectIdentifierValue = null;
+    private String linkingObjectIdentifierValue;
 
     /**
      * @return the linkingObjectIdentifierType
@@ -14,28 +22,9 @@ public class LinkingObjectIdentifier {
     }
 
     /**
-     * @param linkingObjectIdentifierType
-     *            the linkingObjectIdentifierType to set
-     */
-    public void setLinkingObjectIdentifierType(
-        String linkingObjectIdentifierType) {
-        this.linkingObjectIdentifierType = linkingObjectIdentifierType;
-    }
-
-    /**
      * @return the linkingObjectIdentifierValue
      */
     public String getLinkingObjectIdentifierValue() {
         return linkingObjectIdentifierValue;
     }
-
-    /**
-     * @param linkingObjectIdentifierValue
-     *            the linkingObjectIdentifierValue to set
-     */
-    public void setLinkingObjectIdentifierValue(
-        String linkingObjectIdentifierValue) {
-        this.linkingObjectIdentifierValue = linkingObjectIdentifierValue;
-    }
-
 }

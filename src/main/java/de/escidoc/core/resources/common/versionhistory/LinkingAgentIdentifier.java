@@ -1,32 +1,24 @@
 package de.escidoc.core.resources.common.versionhistory;
 
-import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.annotations.JiBX;
 
 /**
- * TODO: Not extending from ResourceRef?
  * 
- * @author ?
- *
+ * @author ?, MVO
+ * 
  */
-public class LinkingAgentIdentifier extends XLinkResource {
-	
-    private String linkingAgentIdentifierType = null;
+@JiBX
+public class LinkingAgentIdentifier {
 
-    private String linkingAgentIdentifierValue = null;
+    private String linkingAgentIdentifierType;
 
-	/**
+    private String linkingAgentIdentifierValue;
+
+    /**
      * @return the linkingAgentIdentifierType
      */
     public String getLinkingAgentIdentifierType() {
         return linkingAgentIdentifierType;
-    }
-
-    /**
-     * @param linkingAgentIdentifierType
-     *            the linkingAgentIdentifierType to set
-     */
-    public void setLinkingAgentIdentifierType(String linkingAgentIdentifierType) {
-        this.linkingAgentIdentifierType = linkingAgentIdentifierType;
     }
 
     /**
@@ -35,14 +27,4 @@ public class LinkingAgentIdentifier extends XLinkResource {
     public String getLinkingAgentIdentifierValue() {
         return linkingAgentIdentifierValue;
     }
-
-    /**
-     * @param linkingAgentIdentifierValue
-     *            the linkingAgentIdentifierValue to set
-     */
-    public void setLinkingAgentIdentifierValue(
-        String linkingAgentIdentifierValue) {
-        this.linkingAgentIdentifierValue = linkingAgentIdentifierValue;
-    }
-
 }

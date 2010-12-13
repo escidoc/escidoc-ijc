@@ -1,34 +1,34 @@
 package de.escidoc.core.resources.common.versionhistory;
 
+import de.escidoc.core.annotations.JiBX;
+
+/**
+ * 
+ * @author ?, MVO
+ * 
+ */
+@JiBX
 public class Event {
 
-    private String xmlID = null;
+    private String xmlID;
 
-    private EventIdentifier eventIdentifier = null;
+    private EventIdentifier eventIdentifier;
 
-    private String eventType = null;
+    private String eventType;
 
-    private String eventDateTime = null;
+    private String eventDateTime;
 
-    private String eventDetail = null;
+    private String eventDetail;
 
-    private LinkingAgentIdentifier linkingAgentIdentifier = null;
+    private LinkingAgentIdentifier linkingAgentIdentifier;
 
-    private LinkingObjectIdentifier linkingObjectIdentifier = null;
+    private LinkingObjectIdentifier linkingObjectIdentifier;
 
     /**
      * @return the xmlID
      */
     public String getXmlID() {
         return xmlID;
-    }
-
-    /**
-     * @param xmlID
-     *            the xmlID to set
-     */
-    public void setXmlID(String xmlID) {
-        this.xmlID = xmlID;
     }
 
     /**
@@ -39,26 +39,10 @@ public class Event {
     }
 
     /**
-     * @param eventIdentifier
-     *            the eventIdentifier to set
-     */
-    public void setEventIdentifier(EventIdentifier eventIdentifier) {
-        this.eventIdentifier = eventIdentifier;
-    }
-
-    /**
      * @return the eventType
      */
     public String getEventType() {
         return eventType;
-    }
-
-    /**
-     * @param eventType
-     *            the eventType to set
-     */
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
     }
 
     /**
@@ -69,26 +53,10 @@ public class Event {
     }
 
     /**
-     * @param eventDateTime
-     *            the eventDateTime to set
-     */
-    public void setEventDateTime(String eventDateTime) {
-        this.eventDateTime = eventDateTime;
-    }
-
-    /**
      * @return the eventDetail
      */
     public String getEventDetail() {
         return eventDetail;
-    }
-
-    /**
-     * @param eventDetail
-     *            the eventDetail to set
-     */
-    public void setEventDetail(String eventDetail) {
-        this.eventDetail = eventDetail;
     }
 
     /**
@@ -99,28 +67,9 @@ public class Event {
     }
 
     /**
-     * @param linkingAgentIdentifier
-     *            the linkingAgentIdentifier to set
-     */
-    public void setLinkingAgentIdentifier(
-        LinkingAgentIdentifier linkingAgentIdentifier) {
-        this.linkingAgentIdentifier = linkingAgentIdentifier;
-    }
-
-    /**
      * @return the linkingObjectIdentifier
      */
     public LinkingObjectIdentifier getLinkingObjectIdentifier() {
         return linkingObjectIdentifier;
     }
-
-    /**
-     * @param linkingObjectIdentifier
-     *            the linkingObjectIdentifier to set
-     */
-    public void setLinkingObjectIdentifier(
-        LinkingObjectIdentifier linkingObjectIdentifier) {
-        this.linkingObjectIdentifier = linkingObjectIdentifier;
-    }
-
 }

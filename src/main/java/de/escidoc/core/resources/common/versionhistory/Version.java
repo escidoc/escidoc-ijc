@@ -33,17 +33,17 @@ import java.util.LinkedList;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.Resource;
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.common.reference.Reference;
 
 /**
- * Delete class ?
  * 
- * 
- * @author ?
+ * @author ?, MVO
  * 
  */
-public class Version extends Resource {
+@JiBX
+public class Version extends Reference {
 
     private String versionNumber;
 
@@ -55,23 +55,11 @@ public class Version extends Resource {
 
     private Collection<Event> events;
 
-    public static LinkedList<Event> eventsFactory() {
-        return new LinkedList<Event>();
-    }
-
     /**
      * @return the versionNumber
      */
     public String getVersionNumber() {
         return versionNumber;
-    }
-
-    /**
-     * @param versionNumber
-     *            the versionNumber to set
-     */
-    public void setVersionNumber(final String versionNumber) {
-        this.versionNumber = versionNumber;
     }
 
     /**
@@ -82,26 +70,10 @@ public class Version extends Resource {
     }
 
     /**
-     * @param timestamp
-     *            the timestamp to set
-     */
-    public void setTimestamp(final DateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    /**
      * @return the versionStatus
      */
     public String getVersionStatus() {
         return versionStatus;
-    }
-
-    /**
-     * @param versionStatus
-     *            the versionStatus to set
-     */
-    public void setVersionStatus(final String versionStatus) {
-        this.versionStatus = versionStatus;
     }
 
     /**
@@ -112,31 +84,17 @@ public class Version extends Resource {
     }
 
     /**
-     * @param comment
-     *            the comment to set
-     */
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
-
-    /**
      * @return the events
      */
     public Collection<Event> getEvents() {
+        if (events == null) {
+            events = new LinkedList<Event>();
+        }
         return events;
-    }
-
-    /**
-     * @param events
-     *            the events to set
-     */
-    public void setEvents(final Collection<Event> events) {
-        this.events = events;
     }
 
     @Override
     public ResourceType getResourceType() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

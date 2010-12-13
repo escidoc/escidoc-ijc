@@ -1,10 +1,18 @@
 package de.escidoc.core.resources.common.versionhistory;
 
+import de.escidoc.core.annotations.JiBX;
+
+/**
+ * 
+ * @author ?, MVO
+ * 
+ */
+@JiBX
 public class EventIdentifier {
 
-    private String eventIdentifierType = null;
+    private String eventIdentifierType;
 
-    private String eventIdentifierValue = null;
+    private String eventIdentifierValue;
 
     /**
      * @return the eventIdentifierType
@@ -14,25 +22,9 @@ public class EventIdentifier {
     }
 
     /**
-     * @param eventIdentifierType
-     *            the eventIdentifierType to set
-     */
-    public void setEventIdentifierType(String eventIdentifierType) {
-        this.eventIdentifierType = eventIdentifierType;
-    }
-
-    /**
      * @return the eventIdentifierValue
      */
     public String getEventIdentifierValue() {
         return eventIdentifierValue;
-    }
-
-    /**
-     * @param eventIdentifierValue
-     *            the eventIdentifierValue to set
-     */
-    public void setEventIdentifierValue(String eventIdentifierValue) {
-        this.eventIdentifierValue = eventIdentifierValue;
     }
 }

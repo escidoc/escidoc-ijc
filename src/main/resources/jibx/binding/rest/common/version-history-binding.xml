@@ -1,124 +1,92 @@
 <binding>
     <!-- start: binding of a version history -->
-	<mapping ns="http://www.escidoc.de/schemas/versionhistory/0.3"
-		name="version-history"
-		class="de.escidoc.core.resources.common.versionhistory.VersionHistory">
-		<namespace
-			uri="http://www.escidoc.de/schemas/versionhistory/0.3"
-			prefix="escidocVersions" />
-		<namespace uri="http://www.loc.gov/standards/premis/v1"
-			prefix="premis" />
-		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
-		
-		<!-- *****************************************
-			Root attributes 
-			****************************************** -->
-		<value name="last-modification-date" style="attribute"
-			set-method="setLastModificationDate"
-			get-method="getLastModificationDate" />
+  <mapping ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+    name="version-history"
+    class="de.escidoc.core.resources.common.versionhistory.VersionHistory">
+    
+    <namespace
+      uri="http://www.escidoc.de/schemas/versionhistory/0.3"
+      prefix="escidocVersions" default="elements"/>
+    <namespace uri="http://www.loc.gov/standards/premis/v1"
+      prefix="premis" />
+    <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+    
+    <!-- *****************************************
+      Root attributes 
+      ****************************************** -->
+    <value name="last-modification-date" style="attribute"
+      field="lastModificationDate"/>
 
-		<!-- *****************************************
-			Versions
-			****************************************** -->
-		<collection
-			ns="http://www.escidoc.de/schemas/versionhistory/0.3"
-			field="versions"
-			factory="de.escidoc.core.resources.common.versionhistory.VersionHistory.versionsFactory">
-			<structure
-				ns="http://www.escidoc.de/schemas/versionhistory/0.3" name="version"
-				type="de.escidoc.core.resources.common.versionhistory.Version">
+    <!-- *****************************************
+      Versions
+      ****************************************** -->
+    <collection field="versions" create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.common.versionhistory.Version">
+      
+      <structure name="version">
+      
+        <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+          set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+        <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+          set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+        <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+          set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+        
+        <value name="version-number" field="versionNumber" />
+        <value name="timestamp" field="timestamp"/>
+        <value name="version-status" field="versionStatus" />
+        <value name="comment" field="comment" />
 
-				<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
-					set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-					
-				<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-					set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-					
-				<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-					set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
-					
-				<value name="timestamp" style="attribute"
-					set-method="setTimestamp" get-method="getTimestamp" />
-				<value
-					ns="http://www.escidoc.de/schemas/versionhistory/0.3"
-					name="version-number" set-method="setVersionNumber"
-					get-method="getVersionNumber" />
-				<value
-					ns="http://www.escidoc.de/schemas/versionhistory/0.3"
-					name="timestamp" set-method="setTimestamp"
-					get-method="getTimestamp" />
-				<value
-					ns="http://www.escidoc.de/schemas/versionhistory/0.3"
-					name="version-status" set-method="setVersionStatus"
-					get-method="getVersionStatus" />
-				<value
-					ns="http://www.escidoc.de/schemas/versionhistory/0.3"
-					name="comment" set-method="setComment" get-method="getComment" />
+        <!-- *****************************************
+          Events
+          ****************************************** -->
+        <collection name="events" field="events"
+          create-type="java.util.LinkedList"
+          item-type="de.escidoc.core.resources.common.versionhistory.Event">
+                    
+          <structure ns="http://www.loc.gov/standards/premis/v1" name="event">
+          
+            <value name="xmlID" style="attribute" field="xmlID"/>
+              
+            <structure ns="http://www.loc.gov/standards/premis/v1"
+              name="eventIdentifier" field="eventIdentifier">
+              
+              <value ns="http://www.loc.gov/standards/premis/v1" name="eventIdentifierType"
+                field="eventIdentifierType"/>
+              <value ns="http://www.loc.gov/standards/premis/v1" name="eventIdentifierValue"
+                field="eventIdentifierValue"/>
+            </structure>
+            
+            <value ns="http://www.loc.gov/standards/premis/v1" name="eventType"
+              field="eventType"/>
+            <value ns="http://www.loc.gov/standards/premis/v1" name="eventDateTime"
+              field="eventDateTime"/>
+            <value ns="http://www.loc.gov/standards/premis/v1" name="eventDetail"
+              field="eventDetail"/>
+              
+            <structure ns="http://www.loc.gov/standards/premis/v1"
+              name="linkingAgentIdentifier"
+              field="linkingAgentIdentifier">
+                
+              <value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierType"
+                field="linkingAgentIdentifierType"/>
+              <value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierValue"
+                field="linkingAgentIdentifierValue"/>
+            </structure>
 
-				<!-- *****************************************
-					Events
-					****************************************** -->
-				<collection
-					ns="http://www.escidoc.de/schemas/versionhistory/0.3" name="events"
-					field="events"
-					factory="de.escidoc.core.resources.common.versionhistory.Version.eventsFactory">					
-					<structure
-						ns="http://www.loc.gov/standards/premis/v1" name="event"
-						type="de.escidoc.core.resources.common.versionhistory.Event">
-						<value name="xmlID" style="attribute"
-							set-method="setXmlID" get-method="getXmlID" />
-						<structure
-							ns="http://www.loc.gov/standards/premis/v1"
-							name="eventIdentifier" set-method="setEventIdentifier"
-							get-method="getEventIdentifier">
-							<value ns="http://www.loc.gov/standards/premis/v1" name="eventIdentifierType"
-								set-method="setEventIdentifierType"
-								get-method="getEventIdentifierType" />
-							<value ns="http://www.loc.gov/standards/premis/v1" name="eventIdentifierValue"
-								set-method="setEventIdentifierValue"
-								get-method="getEventIdentifierValue" />
-						</structure>
-						<value ns="http://www.loc.gov/standards/premis/v1" name="eventType"
-							set-method="setEventType" get-method="getEventType" />
-						<value ns="http://www.loc.gov/standards/premis/v1" name="eventDateTime"
-							set-method="setEventDateTime" get-method="getEventDateTime" />
-						<value ns="http://www.loc.gov/standards/premis/v1" name="eventDetail"
-							set-method="setEventDetail" get-method="getEventDetail" />
-						<structure
-							ns="http://www.loc.gov/standards/premis/v1"
-							name="linkingAgentIdentifier"
-							set-method="setLinkingAgentIdentifier"
-							get-method="getLinkingAgentIdentifier">
-							<value ns="http://www.w3.org/1999/xlink"
-								name="href" style="attribute" set-method="setXLinkHref"
-								get-method="getXLinkHref" />
-							<value ns="http://www.w3.org/1999/xlink"
-								name="title" style="attribute" set-method="setXLinkTitle"
-								get-method="getXLinkTitle" />
-							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierType"
-								set-method="setLinkingAgentIdentifierType"
-								get-method="getLinkingAgentIdentifierType" />
-							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierValue"
-								set-method="setLinkingAgentIdentifierValue"
-								get-method="getLinkingAgentIdentifierValue" />
-						</structure>
-
-						<structure
-							ns="http://www.loc.gov/standards/premis/v1"
-							name="linkingObjectIdentifier"
-							set-method="setLinkingObjectIdentifier"
-							get-method="getLinkingObjectIdentifier">
-							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingObjectIdentifierType"
-								set-method="setLinkingObjectIdentifierType"
-								get-method="getLinkingObjectIdentifierType" />
-							<value ns="http://www.loc.gov/standards/premis/v1" name="linkingObjectIdentifierValue"
-								set-method="setLinkingObjectIdentifierValue"
-								get-method="getLinkingObjectIdentifierValue" />
-						</structure>
-					</structure>
-				</collection>
-			</structure>
-		</collection>
-	</mapping>
-	<!-- end: binding of a version history -->
+            <structure ns="http://www.loc.gov/standards/premis/v1"
+              name="linkingObjectIdentifier"
+              field="linkingObjectIdentifier">
+              
+              <value ns="http://www.loc.gov/standards/premis/v1" name="linkingObjectIdentifierType"
+                field="linkingObjectIdentifierType"/>
+              <value ns="http://www.loc.gov/standards/premis/v1" name="linkingObjectIdentifierValue"
+                field="linkingObjectIdentifierValue"/>
+            </structure>
+          </structure>
+        </collection>
+      </structure>
+    </collection>
+  </mapping>
+  <!-- end: binding of a version history -->
 </binding>
