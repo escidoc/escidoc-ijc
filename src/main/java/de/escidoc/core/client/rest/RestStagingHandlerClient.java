@@ -60,8 +60,8 @@ import de.escidoc.core.client.rest.serviceLocator.StagingRestServiceLocator;
  */
 public class RestStagingHandlerClient extends RestClientBase {
 
-    private final Logger logger = Logger
-        .getLogger(RestStagingHandlerClient.class.getName());
+    private final static Logger LOG = Logger
+        .getLogger(RestStagingHandlerClient.class);
 
     private StagingHandler restClient = null;
 
@@ -95,29 +95,20 @@ public class RestStagingHandlerClient extends RestClientBase {
             result = getClient().upload(f);
         }
         catch (Exception e) {
-            logger.debug(e);
+            LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
 
-        // extract URL from response
-        URL url;
-        try {
-            url = extractStagingUrl(result);
-        }
-        catch (MalformedURLException e) {
-            throw new InternalClientException(e);
-        }
-        catch (ParserConfigurationException e) {
-            throw new InternalClientException(e);
-        }
-        catch (SAXException e) {
-            throw new InternalClientException(e);
-        }
-        catch (IOException e) {
-            throw new InternalClientException(e);
-        }
+        if (result == null)
+            return null;
 
-        return url;
+        // extract URL from response
+        try {
+            return extractStagingUrl(result);
+        }
+        catch (Exception e) {
+            throw new InternalClientException(e);
+        }
     }
 
     /**
@@ -132,29 +123,20 @@ public class RestStagingHandlerClient extends RestClientBase {
             result = getClient().upload(ins);
         }
         catch (Exception e) {
-            logger.debug(e);
+            LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
 
-        // extract URL from response
-        URL url;
-        try {
-            url = extractStagingUrl(result);
-        }
-        catch (MalformedURLException e) {
-            throw new InternalClientException(e);
-        }
-        catch (ParserConfigurationException e) {
-            throw new InternalClientException(e);
-        }
-        catch (SAXException e) {
-            throw new InternalClientException(e);
-        }
-        catch (IOException e) {
-            throw new InternalClientException(e);
-        }
+        if (result == null)
+            return null;
 
-        return url;
+        // extract URL from response
+        try {
+            return extractStagingUrl(result);
+        }
+        catch (Exception e) {
+            throw new InternalClientException(e);
+        }
     }
 
     @Override
