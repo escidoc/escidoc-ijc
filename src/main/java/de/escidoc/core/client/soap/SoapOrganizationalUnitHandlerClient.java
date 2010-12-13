@@ -589,7 +589,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         DateTime result = null;
         try {
             result =
-                MarshallerFactory.getInstance(TransportProtocol.SOAP)
+                MarshallerFactory
+                    .getInstance(TransportProtocol.SOAP)
                     .getMarshaller(OrganizationalUnit.class)
                     .unmarshalDocument(getClient().retrieve(id))
                     .getLastModificationDate();

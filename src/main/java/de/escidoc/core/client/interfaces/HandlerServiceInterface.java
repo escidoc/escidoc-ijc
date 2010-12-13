@@ -8,7 +8,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 
 /**
  * @author MVO
- *
+ * 
  */
 public interface HandlerServiceInterface {
 
@@ -44,12 +44,11 @@ public interface HandlerServiceInterface {
      *            The Enum containing the TransportProtocol to be used).
      */
     void setTransport(final TransportProtocol tp);
-    
+
     /**
      * Get the Transport Protocol.
      * 
-     * @return
-     *          The Enum containing the TransportProtocol to be used).
+     * @return The Enum containing the TransportProtocol to be used).
      */
     TransportProtocol getTransport();
 }

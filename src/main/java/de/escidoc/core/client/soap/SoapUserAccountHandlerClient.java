@@ -804,8 +804,9 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         DateTime result = null;
         try {
             result =
-                (MarshallerFactory.getInstance(TransportProtocol.SOAP)
-                    .getMarshaller(UserAccount.class).unmarshalDocument(getClient()
+                (MarshallerFactory
+                    .getInstance(TransportProtocol.SOAP).getMarshaller(
+                        UserAccount.class).unmarshalDocument(getClient()
                     .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {

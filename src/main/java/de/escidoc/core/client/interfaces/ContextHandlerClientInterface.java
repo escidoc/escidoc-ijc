@@ -148,19 +148,19 @@ public interface ContextHandlerClientInterface
      *             Thrown if in case of failure on transport level.
      */
     SearchRetrieveResponse retrieveContexts(
-            final SearchRetrieveRequestType filter) throws EscidocException,
-            InternalClientException, TransportException;
-    
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
+
     /**
      * This is a convenience method to retrieve the resulting objects as a list.
-     * Since it could happen, that binding of an object fails, this list
-     * will not contain all objects, which could not be bounded.
-     * In case you wish to have complete control over the results, you may use
-     * the method {@link #retrieveContexts(SearchRetrieveRequestType)},
-     * since you can still work with the resulting DOM.
+     * Since it could happen, that binding of an object fails, this list will
+     * not contain all objects, which could not be bounded. In case you wish to
+     * have complete control over the results, you may use the method
+     * {@link #retrieveContexts(SearchRetrieveRequestType)}, since you can still
+     * work with the resulting DOM.
      * 
-     * Usually binding of an object fails, if the server returns
-     * unexpected record data.
+     * Usually binding of an object fails, if the server returns unexpected
+     * record data.
      * 
      * @param filter
      * @return
@@ -169,9 +169,9 @@ public interface ContextHandlerClientInterface
      * @throws TransportException
      */
     Collection<Context> retrieveContextsAsList(
-            final SearchRetrieveRequestType filter) throws EscidocException,
-            InternalClientException, TransportException;
-    
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
+
     /**
      * 
      * @param filter
@@ -180,9 +180,9 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveContexts(final ExplainRequestType filter) 
-    	throws EscidocException, InternalClientException, TransportException;
-    
+    ExplainResponse retrieveContexts(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
     /**
      * 
      * @param id
@@ -192,10 +192,10 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveMembers(final String id, 
-    		final SearchRetrieveRequestType filter)
-	    throws EscidocException, InternalClientException, TransportException;
-    
+    SearchRetrieveResponse retrieveMembers(
+        final String id, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
     /**
      * 
      * @param taskParam
@@ -206,18 +206,18 @@ public interface ContextHandlerClientInterface
      */
     @Deprecated
     ContextList retrieveContexts(final TaskParam taskParam)
-    	throws EscidocException, InternalClientException, TransportException;
-    
+        throws EscidocException, InternalClientException, TransportException;
+
     /**
      * This is a convenience method to retrieve the resulting objects as a list.
-     * Since it could happen, that binding of an object fails, this list
-     * will not contain all objects, which could not be bounded.
-     * In case you wish to have complete control over the results, you may use
-     * the method {@link #retrieveMembers(SearchRetrieveRequestType)},
-     * since you can still work with the resulting DOM.
+     * Since it could happen, that binding of an object fails, this list will
+     * not contain all objects, which could not be bounded. In case you wish to
+     * have complete control over the results, you may use the method
+     * {@link #retrieveMembers(SearchRetrieveRequestType)}, since you can still
+     * work with the resulting DOM.
      * 
-     * Usually binding of an object fails, if the server returns
-     * unexpected record data.
+     * Usually binding of an object fails, if the server returns unexpected
+     * record data.
      * 
      * @param id
      * @param filter
@@ -227,9 +227,9 @@ public interface ContextHandlerClientInterface
      * @throws TransportException
      */
     Collection<GenericVersionableResource> retrieveMembersAsList(
-    		final String id, final SearchRetrieveRequestType filter)
-	    throws EscidocException, InternalClientException, TransportException;
-    
+        final String id, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
     /**
      * 
      * @param id
@@ -239,7 +239,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveMembers(final String id, 
-    		final ExplainRequestType filter)
-	    throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveMembers(
+        final String id, final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
 }

@@ -45,7 +45,7 @@ import de.escidoc.core.resources.om.GenericResource;
 public class OrganizationalUnit extends GenericResource
     implements XLinkAutonomous {
 
-    private Properties properties;
+    private OrganizationalUnitProperties properties;
 
     private Parents parents;
 
@@ -64,10 +64,10 @@ public class OrganizationalUnit extends GenericResource
      * 
      * @return properties
      */
-    public Properties getProperties() {
+    public OrganizationalUnitProperties getProperties() {
 
         if (this.properties == null) {
-            this.properties = new Properties();
+            this.properties = new OrganizationalUnitProperties();
         }
         return this.properties;
     }
@@ -137,7 +137,7 @@ public class OrganizationalUnit extends GenericResource
      * @param properties
      *            The new ContextProperties.
      */
-    public void setProperties(final Properties properties) {
+    public void setProperties(final OrganizationalUnitProperties properties) {
         this.properties = properties;
     }
 

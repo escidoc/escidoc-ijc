@@ -34,6 +34,7 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import de.escidoc.core.client.interfaces.ContentRelationHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
@@ -63,7 +64,6 @@ import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyEle
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
-import de.escidoc.core.client.interfaces.ContentRelationHandler;
 
 /**
  * REST Service Connector.

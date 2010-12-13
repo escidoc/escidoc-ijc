@@ -114,7 +114,7 @@ public interface ContainerHandlerClientInterface
     ContainerList retrieveContainers(final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
-    
+
     /**
      * 
      * @param filter
@@ -124,19 +124,19 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      */
     SearchRetrieveResponse retrieveContainers(
-    		final SearchRetrieveRequestType filter)
-		throws EscidocException, InternalClientException, TransportException;
-	
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
+
     /**
      * This is a convenience method to retrieve the resulting objects as a list.
-     * Since it could happen, that binding of an object fails, this list
-     * will not contain all objects, which could not be bounded.
-     * In case you wish to have complete control over the results, you may use
-     * the method {@link #retrieveContainers(SearchRetrieveRequestType)},
-     * since you can still work with the resulting DOM.
+     * Since it could happen, that binding of an object fails, this list will
+     * not contain all objects, which could not be bounded. In case you wish to
+     * have complete control over the results, you may use the method
+     * {@link #retrieveContainers(SearchRetrieveRequestType)}, since you can
+     * still work with the resulting DOM.
      * 
-     * Usually binding of an object fails, if the server returns
-     * unexpected record data.
+     * Usually binding of an object fails, if the server returns unexpected
+     * record data.
      * 
      * @param filter
      * @return
@@ -144,29 +144,29 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-	Collection<Container> retrieveContainersAsList(
-			final SearchRetrieveRequestType filter)
-		throws EscidocException, InternalClientException, TransportException;
-	
-	/**
-	 * 
-	 * @param filter
-	 * @return
-	 * @throws EscidocException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
-	ExplainResponse retrieveContainers(final ExplainRequestType filter)
-    	throws EscidocException, InternalClientException, TransportException;
-	
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 * @throws EscidocClientException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
+    Collection<Container> retrieveContainersAsList(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ExplainResponse retrieveContainers(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     Relations retrieveRelations(final String id) throws EscidocClientException,
         InternalClientException, TransportException;
 
@@ -185,10 +185,10 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    SearchRetrieveResponse retrieveMembers(final Container container, 
-    		final SearchRetrieveRequestType filter)
+    SearchRetrieveResponse retrieveMembers(
+        final Container container, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
-    
+
     /**
      * Retrieve Members (Filter for Members).
      * 
@@ -204,10 +204,10 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    ExplainResponse retrieveMembers(final Container container, 
-    		final ExplainRequestType filter)
+    ExplainResponse retrieveMembers(
+        final Container container, final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
-    
+
     /**
      * 
      * @param id

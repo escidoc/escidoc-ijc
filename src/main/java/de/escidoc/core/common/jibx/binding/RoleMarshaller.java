@@ -1,23 +1,5 @@
 package de.escidoc.core.common.jibx.binding;
 
-import java.io.IOException;
-
-import javax.swing.JButton;
-
-import org.apache.axis.wsdl.toJava.JavaBindingWriter;
-import org.jibx.runtime.IAliasable;
-import org.jibx.runtime.IMarshallable;
-import org.jibx.runtime.IMarshaller;
-import org.jibx.runtime.IMarshallingContext;
-import org.jibx.runtime.IUnmarshaller;
-import org.jibx.runtime.IUnmarshallingContext;
-import org.jibx.runtime.JiBXException;
-import org.jibx.runtime.impl.MarshallingContext;
-import org.jibx.runtime.impl.UnmarshallingContext;
-
-import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.resources.aa.role.RoleProperties;
-import de.escidoc.core.resources.aa.role.Scope;
 
 /**
  * Role Marshaller.
@@ -148,4 +130,4 @@ import de.escidoc.core.resources.aa.role.Scope;
 ////        return result;
 ////    }
 //
-//}
+// }

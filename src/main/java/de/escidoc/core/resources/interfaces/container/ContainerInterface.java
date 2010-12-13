@@ -30,8 +30,8 @@ package de.escidoc.core.resources.interfaces.container;
 
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.interfaces.GenericResourceInterface;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 
 /**
  * @author SWA
@@ -42,7 +42,7 @@ public interface ContainerInterface extends GenericResourceInterface {
     /**
      * @return The container properties.
      */
-    Properties getProperties();
+    OrganizationalUnitProperties getProperties();
 
     /**
      * Set the container properties.
@@ -50,7 +50,7 @@ public interface ContainerInterface extends GenericResourceInterface {
      * @param properties
      *            The new container properties.
      */
-    void setProperties(Properties properties);
+    void setProperties(OrganizationalUnitProperties properties);
 
     /**
      * @return The md records.

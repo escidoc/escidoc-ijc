@@ -606,7 +606,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(filter, true);
-        
+
         String result = null;
         try {
             result = getClient().retrieveContainers(filter);

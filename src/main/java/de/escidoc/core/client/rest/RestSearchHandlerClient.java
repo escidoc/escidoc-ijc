@@ -64,7 +64,7 @@ public class RestSearchHandlerClient extends RestClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request);
-        
+
         String result = null;
         try {
             result = getRestClient(database).explain(request);
@@ -90,7 +90,7 @@ public class RestSearchHandlerClient extends RestClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request, false);
-        
+
         String result = null;
         try {
             result = getRestClient(database).search(request);
@@ -115,7 +115,7 @@ public class RestSearchHandlerClient extends RestClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request, false);
-        
+
         String result = null;
         try {
             result = getRestClient(database).scan(request);
@@ -147,14 +147,14 @@ public class RestSearchHandlerClient extends RestClientBase {
             catch (MalformedURLException e) {
                 throw new InternalClientException(e);
             }
-            
+
             String db = database;
             if (db == null) {
                 db =
                     ConfigurationProvider.getInstance().getProperty(
                         ConfigurationProvider.PROP_SEARCH_DATABASE);
             }
-            
+
             serviceLocator.setDatabase(db);
             serviceLocator.registerRestCallbackHandler(this);
             restClient = serviceLocator;

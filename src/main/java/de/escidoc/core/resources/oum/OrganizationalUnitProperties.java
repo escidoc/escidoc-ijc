@@ -26,22 +26,20 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.resources.om.context;
+package de.escidoc.core.resources.oum;
 
 import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
-import de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface;
 
 /**
- * Properties for eSciDoc Context (non-versioned resource).
+ * Properties for eSciDoc OrganizationalUnit (non-versioned resource).
  * 
  * @author SWA
  * 
  */
-public class Properties extends XLinkResource
-    implements ContextPropertiesInterface {
+public class OrganizationalUnitProperties extends XLinkResource {
 
     private DateTime creationDate = null;
 
@@ -57,9 +55,9 @@ public class Properties extends XLinkResource
 
     private String description = null;
 
-    private String type = null;
+    private String externalIds = null;
 
-    private OrganizationalUnitRefs organizationalUnitRefs = null;
+    private Boolean hasChildren = false;
 
     /**
      * @return The creation date.
@@ -116,7 +114,7 @@ public class Properties extends XLinkResource
      * See Interface for functional description.
      * 
      * @return
-     * @see de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface#getName()
+     * @see de.escidoc.core.resources.interfaces.common.OrganizationalUnitPropertiesInterface#getName()
      */
     public String getName() {
         return this.name;
@@ -126,7 +124,7 @@ public class Properties extends XLinkResource
      * See Interface for functional description.
      * 
      * @param name
-     * @see de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface#setName(java.lang.String)
+     * @see de.escidoc.core.resources.interfaces.common.OrganizationalUnitPropertiesInterface#setName(java.lang.String)
      */
     public void setName(final String name) {
         this.name = name;
@@ -171,7 +169,7 @@ public class Properties extends XLinkResource
     }
 
     /**
-     * Get description of Context.
+     * Get description of OrganizationalUnit.
      * 
      * @return description
      */
@@ -180,7 +178,7 @@ public class Properties extends XLinkResource
     }
 
     /**
-     * Set description of Context.
+     * Set description of OrganizationalUnit.
      * 
      * @param description
      *            The new description.
@@ -190,42 +188,59 @@ public class Properties extends XLinkResource
     }
 
     /**
-     * Get type of Context.
+     * Get externalIds of OrganizationalUnit.
      * 
-     * @return type
+     * @return externalIds
      */
-    public String getType() {
-        return this.type;
+    public String getExternalIds() {
+        return this.externalIds;
     }
 
     /**
-     * Set type of Context.
+     * Set externalIds of OrganizationalUnit.
      * 
-     * @param type
-     *            The new type.
+     * @param externalIds
+     *            The new externalIds.
      */
-    public void setType(final String type) {
-        this.type = type;
+    public void setExternalIds(final String externalIds) {
+        this.externalIds = externalIds;
     }
 
     /**
-     * Get the OrganizationalUnits of Context.
+     * Get hasChildren of OrganizationalUnit.
      * 
-     * @return OrganizationalUnits
+     * @return hasChildren
      */
-    public OrganizationalUnitRefs getOrganizationalUnitRefs() {
-        return this.organizationalUnitRefs;
+    public Boolean getHasChildren() {
+        return this.hasChildren;
     }
 
     /**
-     * Set the OrganizationalUnits of Context.
+     * Get hasChildren of OrganizationalUnit.
      * 
-     * @param organizationalUnitRefs
-     *            The new OrganizationalUnitRefs (resource references) of
-     *            Context.
+     * @return hasChildren
      */
-    public void setOrganizationalUnitRefs(
-        final OrganizationalUnitRefs organizationalUnitRefs) {
-        this.organizationalUnitRefs = organizationalUnitRefs;
+    public String getHasChildrenAsString() {
+        return this.hasChildren.toString();
+    }
+
+    /**
+     * Set hasChildren of OrganizationalUnit.
+     * 
+     * @param hasChildren
+     *            The new hasChildren.
+     */
+    public void setHasChildren(final Boolean hasChildren) {
+        this.hasChildren = hasChildren;
+    }
+
+    /**
+     * Set hasChildren of OrganizationalUnit.
+     * 
+     * @param value
+     *            The String representation of the new hasChildren value.
+     */
+    public void setHasChildrenAsString(final String value) {
+        this.hasChildren = Boolean.valueOf(value);
     }
 }

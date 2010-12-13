@@ -30,9 +30,9 @@ package de.escidoc.core.resources.interfaces.item;
 
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.interfaces.GenericResourceInterface;
 import de.escidoc.core.resources.om.item.component.Components;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 
 /**
  * @author SWA
@@ -43,7 +43,7 @@ public interface ItemInterface extends GenericResourceInterface {
     /**
      * @return The item properties.
      */
-    Properties getProperties();
+    OrganizationalUnitProperties getProperties();
 
     /**
      * Set the item properties.
@@ -51,7 +51,7 @@ public interface ItemInterface extends GenericResourceInterface {
      * @param properties
      *            The new item properties.
      */
-    void setProperties(Properties properties);
+    void setProperties(OrganizationalUnitProperties properties);
 
     /**
      * @return The md records.

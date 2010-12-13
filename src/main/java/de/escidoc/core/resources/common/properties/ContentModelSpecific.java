@@ -33,8 +33,6 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
-
-
 /**
  * Content Model Specific
  * 
@@ -45,7 +43,7 @@ import org.w3c.dom.Element;
 public class ContentModelSpecific {
 
     List<Element> content = new LinkedList<Element>();
-    
+
     @Deprecated
     public ContentModelSpecific() {
     }
@@ -57,7 +55,5 @@ public class ContentModelSpecific {
     public void setContent(List<Element> content) {
         this.content = content;
     }
-
-  
 
 }

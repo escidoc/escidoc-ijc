@@ -47,7 +47,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  * <li>client.properties</li>
  * <li>{username}.properties</li>
  * </ul>
- *
+ * 
  * <p>
  * <b>client.default.properties</b> is mandatory. If this file is not present,
  * this class will throw an InternalClientException.
@@ -60,21 +60,21 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  * executed under. If the username is "myname" then this property resolves to
  * myname.properties. This file is also optional.
  * </p>
- *
- *
+ * 
+ * 
  * @author MSC
  */
 public final class ConfigurationProvider {
 
-    private final Logger logger =
-        Logger.getLogger(ConfigurationProvider.class.getName());
+    private final Logger logger = Logger.getLogger(ConfigurationProvider.class
+        .getName());
 
     public static final String PROP_SERVER_NAME = "server.name";
 
     public static final String PROP_SERVER_PORT = "server.port";
 
     public static final String PROP_SERVICE_PROTOCOL = "service_protocol";
-    
+
     public static final String PROP_SEARCH_DATABASE = "search.database";
 
     private static ConfigurationProvider instance = null;
@@ -90,7 +90,7 @@ public final class ConfigurationProvider {
     /**
      * Create a new instance of this class. This constructor is private in order
      * to allow a safe initialization as a singleton.
-     *
+     * 
      * @throws InternalClientException
      */
     private ConfigurationProvider() throws InternalClientException {
@@ -111,9 +111,9 @@ public final class ConfigurationProvider {
 
     /**
      * Create if necessary, and return an instance of this class.
-     *
+     * 
      * @return the ConfigurationProvider instance
-     *
+     * 
      * @throws InternalClientException
      */
     public static synchronized ConfigurationProvider getInstance()
@@ -127,7 +127,7 @@ public final class ConfigurationProvider {
     /**
      * Returns the property with the given name or null if property was not
      * found.
-     *
+     * 
      * @param name
      *            The name of the Property.
      * @return Value of the given Property as String.
@@ -141,7 +141,7 @@ public final class ConfigurationProvider {
     /**
      * Returns the property with the given name or the second parameter as
      * default value if property was not found.
-     *
+     * 
      * @param name
      *            The name of the Property.
      * @param defaultValue
@@ -156,7 +156,7 @@ public final class ConfigurationProvider {
 
     /**
      * Initialize the instance upon creation
-     *
+     * 
      * @throws InternalClientException
      */
     private void init() throws InternalClientException {
@@ -188,14 +188,14 @@ public final class ConfigurationProvider {
      * the default properties. If any key is included in default and specific
      * properties, the value of the specific property will overwrite the default
      * property.
-     *
+     * 
      * @param file
      *            The nameof the file.
      * @return The properties
      * @throws InternalClientException
      *             If the loading of the default properties (file
      *             escidoc-core.default.properties) fails.
-     *
+     * 
      * @common
      */
     private Properties loadProperties(final String file)
@@ -233,7 +233,7 @@ public final class ConfigurationProvider {
 
     /**
      * Load resource from classpath using the current class loader.
-     *
+     * 
      * @param path
      *            the String defining a path to the resource
      * @param filename
@@ -258,7 +258,7 @@ public final class ConfigurationProvider {
      * Concatenates the two given path segments and returns a valid path, i.e.
      * the method takes care that there is only one path separator between the
      * path segments.
-     *
+     * 
      * @param path
      *            The path.
      * @param appendix
@@ -292,7 +292,7 @@ public final class ConfigurationProvider {
 
     /**
      * Add configuration files.
-     *
+     * 
      * @param name
      *            The file name.
      * @param mandatory

@@ -330,7 +330,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
         InternalClientException, TransportException {
 
         evalRequest(filter, true);
-        
+
         String result = null;
         try {
             result = getClient().retrieveContentRelations(filter);
@@ -383,10 +383,10 @@ public class RestContentRelationHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                (MarshallerFactory.getInstance(TransportProtocol.REST)
-                    .getMarshaller(ContentRelation.class)
-                    .unmarshalDocument(getClient().retrieve(id)))
-                    .getLastModificationDate();
+                (MarshallerFactory
+                    .getInstance(TransportProtocol.REST).getMarshaller(
+                        ContentRelation.class).unmarshalDocument(getClient()
+                    .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

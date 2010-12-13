@@ -38,7 +38,7 @@ import de.escidoc.core.resources.XLinkResourceList;
  */
 public class Relations extends XLinkResourceList<Relation> {
 
-	/**
+    /**
      * 
      */
     private static final long serialVersionUID = 5665063093642931041L;

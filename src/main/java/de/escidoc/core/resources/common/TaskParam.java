@@ -28,7 +28,7 @@ public class TaskParam {
     private Collection<Filter> filters = new LinkedList<Filter>();
 
     private Collection<String> ids = new LinkedList<String>();
-    
+
     private boolean keepInSync = false;
 
     /**
@@ -165,7 +165,8 @@ public class TaskParam {
     }
 
     /**
-     * @param keepInSync the keepInSync to set
+     * @param keepInSync
+     *            the keepInSync to set
      */
     public void setKeepInSync(boolean keepInSync) {
         this.keepInSync = keepInSync;

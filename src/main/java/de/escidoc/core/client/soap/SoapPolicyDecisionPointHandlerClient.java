@@ -56,7 +56,8 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
      * 
      * @throws InternalClientException
      */
-    public SoapPolicyDecisionPointHandlerClient() throws InternalClientException {
+    public SoapPolicyDecisionPointHandlerClient()
+        throws InternalClientException {
         super();
     }
 

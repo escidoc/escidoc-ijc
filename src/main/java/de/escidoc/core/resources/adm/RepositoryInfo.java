@@ -51,7 +51,7 @@ public class RepositoryInfo extends Properties {
         "escidoc-core.repository-name";
 
     public static final String KEY_GSEARCH_URL = "gsearch.url";
-    
+
     /**
      * 
      * @param properties

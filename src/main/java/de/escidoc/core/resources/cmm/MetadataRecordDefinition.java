@@ -88,12 +88,12 @@ public class MetadataRecordDefinition extends XLinkResource {
     }
 
     @Override
-	public String getXLinkHref() {
-		return CustomConverter.serializeURI(getSchema());
-	}
+    public String getXLinkHref() {
+        return CustomConverter.serializeURI(getSchema());
+    }
 
-	@Override
-	public void setXLinkHref(String href) {
-		setSchema(CustomConverter.deserializeURI(href));
-	}
+    @Override
+    public void setXLinkHref(String href) {
+        setSchema(CustomConverter.deserializeURI(href));
+    }
 }

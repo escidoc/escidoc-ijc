@@ -35,8 +35,8 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * 
      * @see de.escidoc.core.sm.ScopeHandler#delete(java.lang.String)
      */
-    public void delete(final String id) throws RemoteException, SystemException,
-        AuthorizationException, ScopeNotFoundException,
+    public void delete(final String id) throws RemoteException,
+        SystemException, AuthorizationException, ScopeNotFoundException,
         AuthenticationException, MissingMethodParameterException {
 
         if (id == null)
@@ -67,9 +67,9 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ScopeHandler#update(java.lang.String,
      * java.lang.String)
      */
-    public String update(final String id, final String xml) throws RemoteException,
-        XmlSchemaValidationException, SystemException, XmlCorruptedException,
-        AuthorizationException, ScopeNotFoundException,
+    public String update(final String id, final String xml)
+        throws RemoteException, XmlSchemaValidationException, SystemException,
+        XmlCorruptedException, AuthorizationException, ScopeNotFoundException,
         AuthenticationException, MissingMethodParameterException {
 
         if (id == null)
@@ -85,8 +85,8 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * 
      * @see de.escidoc.core.sm.ScopeHandler#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws RemoteException, SystemException,
-        AuthorizationException, ScopeNotFoundException,
+    public String retrieve(final String id) throws RemoteException,
+        SystemException, AuthorizationException, ScopeNotFoundException,
         AuthenticationException, MissingMethodParameterException {
 
         if (id == null)
@@ -117,11 +117,11 @@ public class ScopeRestServiceLocator extends RestServiceMethod
     public String retrieveScopes(final HashMap filter) throws RemoteException,
         SystemException, InvalidSearchQueryException, AuthorizationException,
         AuthenticationException, MissingMethodParameterException {
-        
+
         if (filter == null)
             throw new IllegalArgumentException("filter must not be null.");
-        
-        return get(PATH_SCOPE + "s", (Map<String, String[]>)filter);
+
+        return get(PATH_SCOPE + "s", (Map<String, String[]>) filter);
     }
 
     /*
@@ -135,10 +135,10 @@ public class ScopeRestServiceLocator extends RestServiceMethod
         throws RemoteException, SystemException, AuthorizationException,
         AuthenticationException, InvalidXmlException,
         MissingMethodParameterException {
-        
+
         if (request == null)
             throw new IllegalArgumentException("request must not be null.");
-        
+
         return get(PATH_SCOPE + "s" + getEscidoc12Filter(request));
     }
 
@@ -156,7 +156,7 @@ public class ScopeRestServiceLocator extends RestServiceMethod
 
         if (request == null)
             throw new IllegalArgumentException("request must not be null.");
-        
+
         return get(PATH_SCOPE + "s" + getEscidoc12Filter(request));
     }
 }

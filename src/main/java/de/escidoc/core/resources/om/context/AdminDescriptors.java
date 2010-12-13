@@ -40,7 +40,7 @@ import de.escidoc.core.resources.XLinkResourceList;
  */
 public class AdminDescriptors extends XLinkResourceList<AdminDescriptor> {
 
-	/**
+    /**
      * 
      */
     private static final long serialVersionUID = 8873813166227493199L;
@@ -71,7 +71,7 @@ public class AdminDescriptors extends XLinkResourceList<AdminDescriptor> {
         }
         return result;
     }
-    
+
     /**
      * 
      * @param name

@@ -575,7 +575,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                MarshallerFactory.getInstance(TransportProtocol.REST)
+                MarshallerFactory
+                    .getInstance(TransportProtocol.REST)
                     .getMarshaller(OrganizationalUnit.class)
                     .unmarshalDocument(getClient().retrieve(id))
                     .getLastModificationDate();

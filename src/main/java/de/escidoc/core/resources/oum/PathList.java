@@ -35,8 +35,8 @@ package de.escidoc.core.resources.oum;
  */
 public class PathList {
 
-	public PathList() {
+    public PathList() {
 
-	}
+    }
 
 }

@@ -290,7 +290,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(filter);
-        
+
         String result = null;
         try {
             result = getClient().retrieveUserAccounts(filter);
@@ -840,8 +840,9 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                (MarshallerFactory.getInstance(TransportProtocol.REST)
-                    .getMarshaller(UserAccount.class).unmarshalDocument(getClient()
+                (MarshallerFactory
+                    .getInstance(TransportProtocol.REST).getMarshaller(
+                        UserAccount.class).unmarshalDocument(getClient()
                     .retrieve(id))).getLastModificationDate();
         }
         catch (Exception e) {

@@ -48,8 +48,9 @@ import de.escidoc.core.resources.cmm.ContentModel;
 public interface ContentModelHandlerClientInterface
     extends CrudHandlerInterface<ContentModel> {
 
-	/**
-     * Returns the last modification date for the specified {@link ContentModel}.
+    /**
+     * Returns the last modification date for the specified {@link ContentModel}
+     * .
      * 
      * @param id
      *            Id of ContentModel.
@@ -62,6 +63,6 @@ public interface ContentModelHandlerClientInterface
      *             Thrown if in case of failure on transport level.
      */
     @Deprecated
-	DateTime getLastModificationDate(final String id)
-		throws EscidocException, InternalClientException, TransportException;
+    DateTime getLastModificationDate(final String id) throws EscidocException,
+        InternalClientException, TransportException;
 }

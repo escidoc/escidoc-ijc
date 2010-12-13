@@ -48,13 +48,14 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public interface SearchHandlerClientInterface extends HandlerServiceInterface {
-    
+
     /**
      * 
      * @param request
-     * @param database The database to perform the search on. If database is 
-     * null, the default value will be determined from 
-     * {@link ConfigurationProvider}.
+     * @param database
+     *            The database to perform the search on. If database is null,
+     *            the default value will be determined from
+     *            {@link ConfigurationProvider}.
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException
@@ -64,73 +65,86 @@ public interface SearchHandlerClientInterface extends HandlerServiceInterface {
         final ExplainRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException;
-    
+
     /**
      * 
-     * @param query The query to perform.
-     * @param database The database to perform the search on. If database is
-	 * null, the default value will be determined from
-	 * {@link ConfigurationProvider}.
+     * @param query
+     *            The query to perform.
+     * @param database
+     *            The database to perform the search on. If database is null,
+     *            the default value will be determined from
+     *            {@link ConfigurationProvider}.
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException
      * @throws TransportException
      */
     SearchRetrieveResponse search(final String query, final String database)
-    	throws EscidocClientException, InternalClientException,
-    		TransportException;
-    
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
     /**
      * 
-     * @param query The query to perform.
-     * @param startRecord A positive integer. {1, 2, ...}
-     * @param maximumRecords A non negative integer. {0, 1, ...} 
-     * @param sortKeys The keys to be used to sort the results. See explain 
-     * plan for available sortKeys.
-     * @param database The database to perform the search on. If database is 
-     * null, the default value will be determined from 
-     * {@link ConfigurationProvider}.
+     * @param query
+     *            The query to perform.
+     * @param startRecord
+     *            A positive integer. {1, 2, ...}
+     * @param maximumRecords
+     *            A non negative integer. {0, 1, ...}
+     * @param sortKeys
+     *            The keys to be used to sort the results. See explain plan for
+     *            available sortKeys.
+     * @param database
+     *            The database to perform the search on. If database is null,
+     *            the default value will be determined from
+     *            {@link ConfigurationProvider}.
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse search(final String query, 
-    		final Integer startRecord, final Integer maximumRecords,
-			final String sortKeys, final String database)
-    	throws EscidocClientException, InternalClientException,
-    		TransportException;
-    
+    SearchRetrieveResponse search(
+        final String query, final Integer startRecord,
+        final Integer maximumRecords, final String sortKeys,
+        final String database) throws EscidocClientException,
+        InternalClientException, TransportException;
+
     /**
      * 
-     * @param query The query to perform.
-     * @param startRecord A positive integer. {1, 2, ...}
-     * @param maximumRecords A non negative integer. {0, 1, ...} 
-     * @param sortKeys The keys to be used to sort the results. See explain 
-     * plan for available sortKeys.
-     * @param stylesheetURI The stylesheet URI, which will be used for the 
-     * result.
+     * @param query
+     *            The query to perform.
+     * @param startRecord
+     *            A positive integer. {1, 2, ...}
+     * @param maximumRecords
+     *            A non negative integer. {0, 1, ...}
+     * @param sortKeys
+     *            The keys to be used to sort the results. See explain plan for
+     *            available sortKeys.
+     * @param stylesheetURI
+     *            The stylesheet URI, which will be used for the result.
      * @param version
-     * @param database The database to perform the search on. If database is 
-     * null, the default value will be determined from 
-     * {@link ConfigurationProvider}.
+     * @param database
+     *            The database to perform the search on. If database is null,
+     *            the default value will be determined from
+     *            {@link ConfigurationProvider}.
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse search(final String query, 
-    		final Integer startRecord, final Integer maximumRecords,
-			final String sortKeys, final String stylesheetURI,
-			final String version, final String database)
-    	throws EscidocClientException, InternalClientException,
-    		TransportException;
-    
+    SearchRetrieveResponse search(
+        final String query, final Integer startRecord,
+        final Integer maximumRecords, final String sortKeys,
+        final String stylesheetURI, final String version, final String database)
+        throws EscidocClientException, InternalClientException,
+        TransportException;
+
     /**
      * @param request
-     * @param database The database to perform the search on. If database is 
-     * null, the default value will be determined from 
-     * {@link ConfigurationProvider}.
+     * @param database
+     *            The database to perform the search on. If database is null,
+     *            the default value will be determined from
+     *            {@link ConfigurationProvider}.
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException
@@ -143,9 +157,10 @@ public interface SearchHandlerClientInterface extends HandlerServiceInterface {
 
     /**
      * @param request
-     * @param database The database to perform the search on. If database is 
-     * null, the default value will be determined from 
-     * {@link ConfigurationProvider}.
+     * @param database
+     *            The database to perform the search on. If database is null,
+     *            the default value will be determined from
+     *            {@link ConfigurationProvider}.
      * @return
      * @throws EscidocClientException
      * @throws InternalClientException

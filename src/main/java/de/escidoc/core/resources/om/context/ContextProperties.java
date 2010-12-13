@@ -26,7 +26,7 @@
  * Gesellschaft zur Foerderung der Wissenschaft e.V.  
  * All rights reserved.  Use is subject to license terms.
  */
-package de.escidoc.core.resources.oum;
+package de.escidoc.core.resources.om.context;
 
 import org.joda.time.DateTime;
 
@@ -34,30 +34,30 @@ import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
- * Properties for eSciDoc OrganizationalUnit (non-versioned resource).
+ * Properties for eSciDoc Context (non-versioned resource).
  * 
  * @author SWA
  * 
  */
-public class Properties extends XLinkResource {
+public class ContextProperties extends XLinkResource {
 
-    private DateTime creationDate = null;
+    private DateTime creationDate;
 
-    private UserAccountRef createdBy = null;
+    private UserAccountRef createdBy;
 
-    private UserAccountRef modifiedBy = null;
+    private UserAccountRef modifiedBy;
 
-    private String name = null;
+    private String name;
 
-    private String publicStatus = null;
+    private String publicStatus;
 
-    private String publicStatusComment = null;
+    private String publicStatusComment;
 
-    private String description = null;
+    private String description;
 
-    private String externalIds = null;
+    private String type;
 
-    private Boolean hasChildren = false;
+    private OrganizationalUnitRefs organizationalUnitRefs;
 
     /**
      * @return The creation date.
@@ -114,7 +114,7 @@ public class Properties extends XLinkResource {
      * See Interface for functional description.
      * 
      * @return
-     * @see de.escidoc.core.resources.interfaces.common.OrganizationalUnitPropertiesInterface#getName()
+     * @see de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface#getName()
      */
     public String getName() {
         return this.name;
@@ -124,7 +124,7 @@ public class Properties extends XLinkResource {
      * See Interface for functional description.
      * 
      * @param name
-     * @see de.escidoc.core.resources.interfaces.common.OrganizationalUnitPropertiesInterface#setName(java.lang.String)
+     * @see de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface#setName(java.lang.String)
      */
     public void setName(final String name) {
         this.name = name;
@@ -169,7 +169,7 @@ public class Properties extends XLinkResource {
     }
 
     /**
-     * Get description of OrganizationalUnit.
+     * Get description of Context.
      * 
      * @return description
      */
@@ -178,7 +178,7 @@ public class Properties extends XLinkResource {
     }
 
     /**
-     * Set description of OrganizationalUnit.
+     * Set description of Context.
      * 
      * @param description
      *            The new description.
@@ -188,59 +188,42 @@ public class Properties extends XLinkResource {
     }
 
     /**
-     * Get externalIds of OrganizationalUnit.
+     * Get type of Context.
      * 
-     * @return externalIds
+     * @return type
      */
-    public String getExternalIds() {
-        return this.externalIds;
+    public String getType() {
+        return this.type;
     }
 
     /**
-     * Set externalIds of OrganizationalUnit.
+     * Set type of Context.
      * 
-     * @param externalIds
-     *            The new externalIds.
+     * @param type
+     *            The new type.
      */
-    public void setExternalIds(final String externalIds) {
-        this.externalIds = externalIds;
+    public void setType(final String type) {
+        this.type = type;
     }
 
     /**
-     * Get hasChildren of OrganizationalUnit.
+     * Get the OrganizationalUnits of Context.
      * 
-     * @return hasChildren
+     * @return OrganizationalUnits
      */
-    public Boolean getHasChildren() {
-        return this.hasChildren;
+    public OrganizationalUnitRefs getOrganizationalUnitRefs() {
+        return this.organizationalUnitRefs;
     }
 
     /**
-     * Get hasChildren of OrganizationalUnit.
+     * Set the OrganizationalUnits of Context.
      * 
-     * @return hasChildren
+     * @param organizationalUnitRefs
+     *            The new OrganizationalUnitRefs (resource references) of
+     *            Context.
      */
-    public String getHasChildrenAsString() {
-        return this.hasChildren.toString();
-    }
-
-    /**
-     * Set hasChildren of OrganizationalUnit.
-     * 
-     * @param hasChildren
-     *            The new hasChildren.
-     */
-    public void setHasChildren(final Boolean hasChildren) {
-        this.hasChildren = hasChildren;
-    }
-
-    /**
-     * Set hasChildren of OrganizationalUnit.
-     * 
-     * @param value
-     *            The String representation of the new hasChildren value.
-     */
-    public void setHasChildrenAsString(final String value) {
-        this.hasChildren = Boolean.valueOf(value);
+    public void setOrganizationalUnitRefs(
+        final OrganizationalUnitRefs organizationalUnitRefs) {
+        this.organizationalUnitRefs = organizationalUnitRefs;
     }
 }

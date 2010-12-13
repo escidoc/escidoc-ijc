@@ -40,7 +40,7 @@ import de.escidoc.core.resources.XLinkResourceList;
  */
 public class MetadataRecords extends XLinkResourceList<MetadataRecord> {
 
-	private static final long serialVersionUID = -90749979126226984L;
+    private static final long serialVersionUID = -90749979126226984L;
 
     /**
      * Constructor MetadataRecords.
@@ -78,7 +78,7 @@ public class MetadataRecords extends XLinkResourceList<MetadataRecord> {
     public void del(final String name) {
 
         Iterator<MetadataRecord> mdRecordIter = this.iterator();
-        for (int i=0; mdRecordIter.hasNext(); i++) {
+        for (int i = 0; mdRecordIter.hasNext(); i++) {
             MetadataRecord next = mdRecordIter.next();
             if (next.getName().equals(name)) {
                 this.remove(i);

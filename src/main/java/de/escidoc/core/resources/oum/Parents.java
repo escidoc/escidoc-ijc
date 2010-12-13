@@ -30,8 +30,8 @@ package de.escidoc.core.resources.oum;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.XLinkResourceList;
 import de.escidoc.core.resources.interfaces.OptimisticLocking;

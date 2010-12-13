@@ -120,7 +120,7 @@ public class UserAccountProperties {
     public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
     }
-    
+
     /**
      * 
      * @param createdBy

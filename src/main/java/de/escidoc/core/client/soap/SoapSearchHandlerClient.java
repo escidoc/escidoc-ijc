@@ -99,7 +99,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         TransportException {
 
         evalRequest(request);
-        
+
         ExplainResponseType result = null;
         try {
             result = getExplainClient(database).explainOperation(request);
@@ -126,11 +126,11 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         final SearchRetrieveRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        
+
         evalRequest(request, false);
 
         SearchRetrieveResponseType result = null;
-        
+
         try {
             result = getSearchClient(database).searchRetrieveOperation(request);
         }
@@ -155,7 +155,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         final ScanRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        
+
         evalRequest(request, false);
 
         ScanResponseType result = null;
@@ -224,8 +224,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
                     searchSoapClient = service.getSRW();
                 }
                 else {
-                    URL url =
-                        getHandlerServiceURL(service.getSRWAddress(), db);
+                    URL url = getHandlerServiceURL(service.getSRWAddress(), db);
                     searchSoapClient = service.getSRW(url);
                 }
             }

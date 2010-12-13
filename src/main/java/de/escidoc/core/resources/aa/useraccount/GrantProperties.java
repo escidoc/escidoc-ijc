@@ -42,7 +42,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  */
 public class GrantProperties {
 
-    private DateTime creationDate = null;
+    private DateTime creationDate;
 
     private UserAccountRef createdBy;
 
@@ -50,7 +50,7 @@ public class GrantProperties {
 
     private GrantedTo grantedTo;
 
-    private String revocationDate;
+    private DateTime revocationDate;
 
     private UserAccountRef revokedBy;
 
@@ -137,8 +137,7 @@ public class GrantProperties {
      * 
      * @return revocation date
      */
-    // FIXME use DateTime
-    public String getRevocationDate() {
+    public DateTime getRevocationDate() {
         return revocationDate;
     }
 
@@ -148,7 +147,7 @@ public class GrantProperties {
      * @param revocationDate
      *            Revocation date as String
      */
-    public void setRevocationDate(final String revocationDate) {
+    public void setRevocationDate(final DateTime revocationDate) {
         this.revocationDate = revocationDate;
     }
 

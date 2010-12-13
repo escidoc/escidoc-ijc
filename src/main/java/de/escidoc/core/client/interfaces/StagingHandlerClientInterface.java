@@ -52,8 +52,8 @@ public interface StagingHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    URL upload(final File f) throws EscidocException,
-        InternalClientException, TransportException;
+    URL upload(final File f) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * Upload a resource.

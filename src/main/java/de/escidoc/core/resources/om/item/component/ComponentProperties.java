@@ -32,7 +32,6 @@ import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.XLinkResource;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
-import de.escidoc.core.resources.interfaces.item.ComponentPropertiesInterface;
 
 /**
  * Properties for eSciDoc Component (non-versioned resource).
@@ -40,8 +39,7 @@ import de.escidoc.core.resources.interfaces.item.ComponentPropertiesInterface;
  * @author SWA
  * 
  */
-public class ComponentProperties extends XLinkResource
-    implements ComponentPropertiesInterface {
+public class ComponentProperties extends XLinkResource {
 
     private DateTime creationDate;
 

@@ -46,7 +46,7 @@ public class RoleProperties {
 
     private UserAccountRef modifiedBy;
 
-    protected DateTime creationDate = null;
+    protected DateTime creationDate;
 
     protected String name;
 

@@ -43,7 +43,8 @@ import de.escidoc.core.resources.aa.actions.UnsecuredActions;
  */
 public interface ActionHandlerClientInterface {
 
-    UnsecuredActions createUnsecuredActions(final String contextId, final UnsecuredActions actions)
+    UnsecuredActions createUnsecuredActions(
+        final String contextId, final UnsecuredActions actions)
         throws EscidocClientException, InternalClientException,
         TransportException;
 

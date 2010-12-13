@@ -28,10 +28,11 @@
  */
 package de.escidoc.core.client.interfaces;
 
-import java.util.Collection;
-
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.Collection;
+
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -261,7 +262,7 @@ public interface ContentRelationHandlerClientInterface
     Result submit(final ContentRelation resource, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException;
-    
+
     /**
      * Retrieve ContentRelation.
      * 
@@ -278,7 +279,7 @@ public interface ContentRelationHandlerClientInterface
      */
     ContentRelation retrieve(final ContentRelation contentRelation)
         throws EscidocException, InternalClientException, TransportException;
-    
+
     /**
      * Retrieve ContentRelations (Filter for ContentRelations).
      * 
@@ -295,17 +296,17 @@ public interface ContentRelationHandlerClientInterface
     SearchRetrieveResponse retrieveContentRelations(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException;
-    
+
     /**
      * This is a convenience method to retrieve the resulting objects as a list.
-     * Since it could happen, that binding of an object fails, this list
-     * will not contain all objects, which could not be bounded.
-     * In case you wish to have complete control over the results, you may use
-     * the method {@link #retrieveContentRelations(SearchRetrieveRequestType)},
-     * since you can still work with the resulting DOM.
+     * Since it could happen, that binding of an object fails, this list will
+     * not contain all objects, which could not be bounded. In case you wish to
+     * have complete control over the results, you may use the method
+     * {@link #retrieveContentRelations(SearchRetrieveRequestType)}, since you
+     * can still work with the resulting DOM.
      * 
-     * Usually binding of an object fails, if the server returns
-     * unexpected record data.
+     * Usually binding of an object fails, if the server returns unexpected
+     * record data.
      * 
      * @param filter
      * @return
@@ -314,9 +315,9 @@ public interface ContentRelationHandlerClientInterface
      * @throws TransportException
      */
     Collection<ContentRelation> retrieveContentRelationsAsList(
-            final SearchRetrieveRequestType filter) throws EscidocException,
-            InternalClientException, TransportException;
-    
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
+
     /**
      * Retrieve ContentRelations (Filter for ContentRelations).
      * 
@@ -330,10 +331,9 @@ public interface ContentRelationHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    ExplainResponse retrieveContentRelations(
-        final ExplainRequestType filter) throws EscidocException,
-        InternalClientException, TransportException;
-    
+    ExplainResponse retrieveContentRelations(final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
     /**
      * Assign Persistent Identifier for ContentRelation (object).
      * 
@@ -349,7 +349,6 @@ public interface ContentRelationHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    Result assignObjectPid(final ContentRelation cr, 
-    		final TaskParam taskParam)
+    Result assignObjectPid(final ContentRelation cr, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 }

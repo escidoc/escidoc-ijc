@@ -1,14 +1,5 @@
 package de.escidoc.core.common.jibx.binding;
 
-import org.jibx.runtime.IAliasable;
-import org.jibx.runtime.IMarshaller;
-import org.jibx.runtime.IMarshallingContext;
-import org.jibx.runtime.IUnmarshaller;
-import org.jibx.runtime.IUnmarshallingContext;
-import org.jibx.runtime.JiBXException;
-import org.jibx.runtime.impl.MarshallingContext;
-import org.jibx.runtime.impl.UnmarshallingContext;
-
 
 //public class ContentModelSpecific extends MarshallingBase
 //    implements IMarshaller, IUnmarshaller, IAliasable {
@@ -63,4 +54,4 @@ import org.jibx.runtime.impl.UnmarshallingContext;
 //        return result;
 //    }
 //
-//}
+// }

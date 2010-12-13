@@ -28,13 +28,12 @@
  */
 package de.escidoc.core.client.interfaces;
 
-
 /**
  * 
  * @author SWA
  * 
  */
-public interface TocHandlerClientInterface<Toc> extends
-		VersionableResourceHandlerInterface<Toc> {
+public interface TocHandlerClientInterface<Toc>
+    extends VersionableResourceHandlerInterface<Toc> {
 
 }

@@ -32,8 +32,6 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.resources.XLinkResource;
 
-
-
 /**
  * MetadataRecord.
  * 
@@ -42,7 +40,7 @@ import de.escidoc.core.resources.XLinkResource;
  */
 public class MetadataRecord extends XLinkResource {
 
-	private String name = null;
+    private String name = null;
 
     private String mdType = null;
 

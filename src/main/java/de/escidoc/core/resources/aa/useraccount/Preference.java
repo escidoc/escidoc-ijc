@@ -15,7 +15,7 @@ public class Preference {
     private String value;
 
     private DateTime lastModificationDate = null;
-    
+
     /**
      * User Account Preference.
      */

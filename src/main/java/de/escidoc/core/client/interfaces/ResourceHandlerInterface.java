@@ -35,7 +35,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.Properties;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 
 /**
  * Generic Interface for eSciDoc resources.
@@ -79,7 +79,7 @@ interface ResourceHandlerInterface<T> extends CrudHandlerInterface<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
-    Properties retrieveProperties(final String id)
+    OrganizationalUnitProperties retrieveProperties(final String id)
         throws EscidocClientException, InternalClientException,
         TransportException;
 

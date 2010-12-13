@@ -401,7 +401,7 @@ public class RestItemHandlerClient extends RestClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(filter, true);
-        
+
         String result = null;
         try {
             result = getClient().retrieveItems(filter);
@@ -542,9 +542,10 @@ public class RestItemHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                (MarshallerFactory.getInstance(TransportProtocol.REST)
-                    .getMarshaller(Item.class).unmarshalDocument(getClient()
-                    .retrieve(id))).getLastModificationDate();
+                (MarshallerFactory
+                    .getInstance(TransportProtocol.REST).getMarshaller(
+                        Item.class).unmarshalDocument(getClient().retrieve(id)))
+                    .getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

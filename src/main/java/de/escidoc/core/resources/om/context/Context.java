@@ -48,7 +48,7 @@ public class Context extends GenericResource
 
     private AdminDescriptors adminDescriptors = null;
 
-    private Properties properties = null;
+    private ContextProperties properties = null;
 
     /**
      */
@@ -60,7 +60,7 @@ public class Context extends GenericResource
      * 
      * @return properties
      */
-    public Properties getProperties() {
+    public ContextProperties getProperties() {
 
         return this.properties;
     }
@@ -71,7 +71,7 @@ public class Context extends GenericResource
      * @param properties
      *            The new ContextProperties.
      */
-    public void setProperties(final Properties properties) {
+    public void setProperties(final ContextProperties properties) {
         this.properties = properties;
     }
 

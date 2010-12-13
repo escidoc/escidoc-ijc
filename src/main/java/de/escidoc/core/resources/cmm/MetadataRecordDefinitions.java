@@ -37,13 +37,14 @@ import java.util.LinkedList;
  * @author SWA
  * 
  */
-public class MetadataRecordDefinitions extends LinkedList<MetadataRecordDefinition> {
+public class MetadataRecordDefinitions
+    extends LinkedList<MetadataRecordDefinition> {
 
     /**
      * 
      */
     private static final long serialVersionUID = -8654732333823767086L;
-    
+
     /**
      * 
      */

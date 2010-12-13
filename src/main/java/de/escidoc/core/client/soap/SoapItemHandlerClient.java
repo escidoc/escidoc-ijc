@@ -371,7 +371,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(filter, true);
-        
+
         return filterItems(getEscidoc12Filter(filter));
     }
 
@@ -504,9 +504,10 @@ public class SoapItemHandlerClient extends SoapClientBase {
         DateTime result = null;
         try {
             result =
-                (MarshallerFactory.getInstance(TransportProtocol.SOAP)
-                    .getMarshaller(Item.class).unmarshalDocument(getClient()
-                    .retrieve(id))).getLastModificationDate();
+                (MarshallerFactory
+                    .getInstance(TransportProtocol.SOAP).getMarshaller(
+                        Item.class).unmarshalDocument(getClient().retrieve(id)))
+                    .getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

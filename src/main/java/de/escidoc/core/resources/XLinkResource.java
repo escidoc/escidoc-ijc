@@ -3,8 +3,6 @@
  */
 package de.escidoc.core.resources;
 
-
-
 /**
  * @author MVO
  * 

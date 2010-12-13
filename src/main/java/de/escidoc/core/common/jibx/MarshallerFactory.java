@@ -23,10 +23,10 @@ import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.Properties;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.common.properties.Properties;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.MemberList;
@@ -40,7 +40,6 @@ import de.escidoc.core.resources.om.context.ContextList;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.component.Component;
-import de.escidoc.core.resources.om.toc.Toc;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.Parents;
@@ -54,7 +53,6 @@ import de.escidoc.core.resources.sm.scope.Scope;
 /**
  * Marshaller Factory.
  * 
- * TODO: Remove comments and/or old code after review if accepted.
  */
 public class MarshallerFactory {
 
@@ -108,8 +106,6 @@ public class MarshallerFactory {
 
     public static final Class<ContentRelation> CLASS_CONTENT_RELATION =
         ContentRelation.class;
-
-    public static final Class<Toc> CLASS_TOC = Toc.class;
 
     public static final Class<ItemList> CLASS_ITEM_LIST = ItemList.class;
 

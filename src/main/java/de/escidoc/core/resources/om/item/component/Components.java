@@ -40,7 +40,7 @@ import de.escidoc.core.resources.XLinkResourceList;
  */
 public class Components extends XLinkResourceList<Component> {
 
-	/**
+    /**
      * 
      */
     private static final long serialVersionUID = 4368909050450367931L;
@@ -52,7 +52,7 @@ public class Components extends XLinkResourceList<Component> {
 
     }
 
-   	/**
+    /**
      * Get the id of a Component selected by objid of Component.
      * 
      * @param componentId
@@ -79,13 +79,13 @@ public class Components extends XLinkResourceList<Component> {
      */
     public void del(final String componentId) {
 
-            Iterator<Component> componentIter = this.iterator();
-            while (componentIter.hasNext()) {
-                Component next = componentIter.next();
-                if (!componentId.equals(next.getObjid())) {
-                   remove(next);
-                }
+        Iterator<Component> componentIter = this.iterator();
+        while (componentIter.hasNext()) {
+            Component next = componentIter.next();
+            if (!componentId.equals(next.getObjid())) {
+                remove(next);
             }
+        }
     }
 
 }

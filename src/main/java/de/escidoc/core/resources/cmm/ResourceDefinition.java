@@ -46,7 +46,6 @@ public class ResourceDefinition extends XLinkResource {
     private URI xslt;
 
     private String mdRecordName;
-    
 
     /**
      * 
@@ -109,13 +108,13 @@ public class ResourceDefinition extends XLinkResource {
         return mdRecordName;
     }
 
-	@Override
-	public String getXLinkHref() {
-		return CustomConverter.serializeURI(getXslt());
-	}
+    @Override
+    public String getXLinkHref() {
+        return CustomConverter.serializeURI(getXslt());
+    }
 
-	@Override
-	public void setXLinkHref(String href) {
-		setXslt(CustomConverter.deserializeURI(href));
-	}
+    @Override
+    public void setXLinkHref(String href) {
+        setXslt(CustomConverter.deserializeURI(href));
+    }
 }

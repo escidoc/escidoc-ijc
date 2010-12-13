@@ -146,8 +146,7 @@ public abstract class RestServiceMethod implements RestService {
         FileInputStream fin = null;
         try {
             fin = new FileInputStream(f);
-            put(path, fin);
-            fin.close();
+            result = put(path, fin);
         }
         catch (IOException e) {
             throw e;

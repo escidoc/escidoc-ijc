@@ -43,7 +43,7 @@ public class MessagesStatus extends AdminStatus {
             statusCode = STATUS_IN_PROGRESS;
         }
     }
-    
+
     /**
      * 
      * @param result
