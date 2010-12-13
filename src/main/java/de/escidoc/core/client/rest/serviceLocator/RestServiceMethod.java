@@ -33,6 +33,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -47,6 +48,8 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * 
  */
 public abstract class RestServiceMethod implements RestService {
+
+    private static final Logger LOG = Logger.getLogger(RestServiceMethod.class);
 
     private String serviceAddress;
 
@@ -138,10 +141,25 @@ public abstract class RestServiceMethod implements RestService {
      */
     public String put(final String path, final File f) throws IOException {
 
-        FileInputStream fin = new FileInputStream(f);
-
-        String result = put(path, fin);
-        fin.close();
+        String result = null;
+        FileInputStream fin = null;
+        try {
+            fin = new FileInputStream(f);
+            put(path, fin);
+            fin.close();
+        }
+        catch (IOException e) {
+            throw e;
+        }
+        finally {
+            if (fin != null)
+                try {
+                    fin.close();
+                }
+                catch (IOException e) {
+                    LOG.debug("Unable to close FileInputStream.", e);
+                }
+        }
 
         return result;
 
