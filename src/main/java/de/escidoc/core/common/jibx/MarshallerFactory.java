@@ -184,7 +184,7 @@ public class MarshallerFactory {
     private static final Map<TransportProtocol, MarshallerFactory> marshallerFactoryMap =
         new HashMap<TransportProtocol, MarshallerFactory>();
 
-    private static TransportProtocol defaultTransport = null;
+    private static volatile TransportProtocol defaultTransport = null;
 
     /**
      * The TransportProtocol used for this MarshallerFactory instance.
