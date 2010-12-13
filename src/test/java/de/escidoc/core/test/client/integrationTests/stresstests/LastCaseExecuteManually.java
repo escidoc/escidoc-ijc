@@ -1,4 +1,4 @@
-package de.escidoc.core.test.client.integrationTests;
+package de.escidoc.core.test.client.integrationTests.stresstests;
 
 import static org.junit.Assert.fail;
 
@@ -26,7 +26,8 @@ public class LastCaseExecuteManually {
 
     private Exception firstException;
 
-    private static final Logger LOG = Logger.getLogger(LastCaseExecuteManually.class);
+    private static final Logger LOG = Logger
+        .getLogger(LastCaseExecuteManually.class);
 
     @Before
     public void init() {
@@ -42,7 +43,6 @@ public class LastCaseExecuteManually {
             failed = false;
             exceptionCount = 0;
             firstException = null;
-            throw new Exception("foo");
         }
         catch (Exception e) {
             failed = true;
@@ -53,10 +53,10 @@ public class LastCaseExecuteManually {
     @After
     public void post() throws Exception {
         LOG.debug("Test result: "
-            + ((!failed) ? "Test successful" : "Test failed!\n"
+            + (!failed ? "Test successful" : "Test failed!\n"
                 + exceptionCount
                 + " Exceptions thrown\nFirst Exception:\n"
-                + ((firstException != null) ? firstException.getMessage()
+                + (firstException != null ? firstException.getMessage()
                     : "null")));
         auth.logout();
     }
@@ -66,7 +66,7 @@ public class LastCaseExecuteManually {
      * @throws Exception
      */
     @Test
-    public void testFoo1() throws Exception {
+    public void testRetrieves1() throws Exception {
         for (int i = 0; i < 500; i++) {
             try {
                 cc.retrieve(Constants.EXAMPLE_CONTENT_MODEL_ID);
@@ -89,7 +89,7 @@ public class LastCaseExecuteManually {
      * @throws Exception
      */
     @Test
-    public void testFoo2() throws Exception {
+    public void testRetrieves2() throws Exception {
         for (int i = 0; i < 500; i++) {
             try {
                 cc.retrieve(Constants.EXAMPLE_CONTENT_MODEL_ID);
@@ -112,7 +112,7 @@ public class LastCaseExecuteManually {
      * @throws Exception
      */
     @Test
-    public void testFoo3() throws Exception {
+    public void testRetrieves3() throws Exception {
         for (int i = 0; i < 500; i++) {
             try {
                 cc.retrieve(Constants.EXAMPLE_CONTENT_MODEL_ID);

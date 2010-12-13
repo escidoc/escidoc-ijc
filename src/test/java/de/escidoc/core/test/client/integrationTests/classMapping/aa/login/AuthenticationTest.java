@@ -57,7 +57,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -177,7 +177,7 @@ public class AuthenticationTest extends AbstractParameterizedTestBase {
         cc.setTransport(TransportProtocol.REST);
 
         final Context context = new Context();
-        final Properties properties = new Properties();
+        final ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus("opened");

@@ -55,7 +55,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
@@ -149,7 +149,7 @@ public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
      */
     private Context createContext() throws ParserConfigurationException {
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus("opened");

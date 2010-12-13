@@ -49,7 +49,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -109,7 +109,7 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext02() throws Exception {
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         context.setProperties(properties);
 
         cc.create(context);
@@ -125,7 +125,7 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext03() throws Exception {
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         context.setProperties(properties);
         AdminDescriptors adminDescriptors = new AdminDescriptors();
         context.setAdminDescriptors(adminDescriptors);
@@ -143,7 +143,7 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext04() throws Exception {
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         context.setProperties(properties);
         AdminDescriptors adminDescriptors = new AdminDescriptors();
         AdminDescriptor adminDescriptor = new AdminDescriptor();
@@ -171,7 +171,7 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContext08() throws Exception {
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName");
         properties.setPublicStatus("opened");
@@ -209,7 +209,7 @@ public class ContextCreateTest extends AbstractParameterizedTestBase {
     @Test
     public void testCreateContext09() throws Exception {
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus("opened");

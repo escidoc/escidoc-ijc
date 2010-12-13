@@ -62,7 +62,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextList;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -119,7 +119,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
     @Test
     public void testRetrieve01() throws Exception {
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus("opened");
@@ -161,7 +161,7 @@ public class ContextHandlerClientTest extends AbstractParameterizedTestBase {
     @Test
     public void testRetrieveUpdate() throws Exception {
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus("opened");

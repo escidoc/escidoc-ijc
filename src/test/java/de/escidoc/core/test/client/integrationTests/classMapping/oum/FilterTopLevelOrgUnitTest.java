@@ -62,7 +62,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.Parents;
-import de.escidoc.core.resources.oum.Properties;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -130,7 +130,7 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
         final String ouName = "Generic Organizational Unit";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        Properties properties = new Properties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();

@@ -21,7 +21,7 @@ import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.resources.om.context.Properties;
+import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 
 /**
@@ -52,7 +52,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         final String adminDescriptorName = "AdminDescriptorDemoName";
 
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus("opened");
@@ -139,7 +139,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         final String adminDescriptorName = "AdminDescriptorDemoName";
 
         Context context = new Context();
-        Properties properties = new Properties();
+        ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus("opened");
