@@ -7,28 +7,52 @@
 
 package de.escidoc.core.client.exceptions.application.security;
 
-import java.lang.reflect.Field; public class AuthenticationException  extends de.escidoc.core.client.exceptions.application.security.SecurityException  implements java.io.Serializable { public AuthenticationException(String message, Throwable cause) {super(message, cause);try {Class te = AuthenticationException.class;Class cE =Class.forName(te.getName().replace("de.escidoc.core.client.exceptions","de.escidoc.core.common.exceptions.remote"));Field[] tF = te.getDeclaredFields();Field[] cF = cE.getDeclaredFields();for (int i = 0; i < tF.length; ++i) {tF[i].setAccessible(true);cF[i].setAccessible(true);tF[i].set(this, cF[i].get(cause));}} catch (Exception e) { throw new RuntimeException(e);}}
+import java.lang.reflect.Field;
+
+public class AuthenticationException
+    extends
+    de.escidoc.core.client.exceptions.application.security.SecurityException
+    implements java.io.Serializable {
+    public AuthenticationException(String message, Throwable cause) {
+        super(message, cause);
+        try {
+            Class te = AuthenticationException.class;
+            Class cE =
+                Class.forName(te.getName().replace(
+                    "de.escidoc.core.client.exceptions",
+                    "de.escidoc.core.common.exceptions.remote"));
+            Field[] tF = te.getDeclaredFields();
+            Field[] cF = cE.getDeclaredFields();
+            for (int i = 0; i < tF.length; ++i) {
+                tF[i].setAccessible(true);
+                cF[i].setAccessible(true);
+                tF[i].set(this, cF[i].get(cause));
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public AuthenticationException() {
     }
 
-    public AuthenticationException(
-           int httpStatusCode,
-           java.lang.String httpStatusLine,
-           java.lang.String httpStatusMsg,
-           java.lang.String redirectLocation) {
-        super(
-            httpStatusCode,
-            httpStatusLine,
-            httpStatusMsg,
-            redirectLocation);
+    public AuthenticationException(int httpStatusCode,
+        java.lang.String httpStatusLine, java.lang.String httpStatusMsg,
+        java.lang.String redirectLocation) {
+        super(httpStatusCode, httpStatusLine, httpStatusMsg, redirectLocation);
     }
 
     private java.lang.Object __equalsCalc = null;
+
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof AuthenticationException)) return false;
+        if (!(obj instanceof AuthenticationException))
+            return false;
         AuthenticationException other = (AuthenticationException) obj;
-        if (obj == null) return false;
-        if (this == obj) return true;
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
         if (__equalsCalc != null) {
             return (__equalsCalc == obj);
         }
@@ -40,6 +64,7 @@ import java.lang.reflect.Field; public class AuthenticationException  extends de
     }
 
     private boolean __hashCodeCalc = false;
+
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
             return 0;
@@ -52,10 +77,13 @@ import java.lang.reflect.Field; public class AuthenticationException  extends de
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(AuthenticationException.class, true);
+        new org.apache.axis.description.TypeDesc(AuthenticationException.class,
+            true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://security.application.exceptions.common.core.escidoc.de", "AuthenticationException"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName(
+            "http://security.application.exceptions.common.core.escidoc.de",
+            "AuthenticationException"));
     }
 
     /**
@@ -69,31 +97,29 @@ import java.lang.reflect.Field; public class AuthenticationException  extends de
      * Get Custom Serializer
      */
     public static org.apache.axis.encoding.Serializer getSerializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanSerializer(
-            _javaType, _xmlType, typeDesc);
+        java.lang.String mechType, java.lang.Class _javaType,
+        javax.xml.namespace.QName _xmlType) {
+        return new org.apache.axis.encoding.ser.BeanSerializer(_javaType,
+            _xmlType, typeDesc);
     }
 
     /**
      * Get Custom Deserializer
      */
     public static org.apache.axis.encoding.Deserializer getDeserializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanDeserializer(
-            _javaType, _xmlType, typeDesc);
+        java.lang.String mechType, java.lang.Class _javaType,
+        javax.xml.namespace.QName _xmlType) {
+        return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType,
+            _xmlType, typeDesc);
     }
-
 
     /**
      * Writes the exception data to the faultDetails
      */
-    public void writeDetails(javax.xml.namespace.QName qname, org.apache.axis.encoding.SerializationContext context) throws java.io.IOException {
+    public void writeDetails(
+        javax.xml.namespace.QName qname,
+        org.apache.axis.encoding.SerializationContext context)
+        throws java.io.IOException {
         context.serialize(qname, null, this);
     }
 }

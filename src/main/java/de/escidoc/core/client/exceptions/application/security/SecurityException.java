@@ -7,24 +7,43 @@
 
 package de.escidoc.core.client.exceptions.application.security;
 
-import java.lang.reflect.Field; public class SecurityException  extends de.escidoc.core.client.exceptions.EscidocException  implements java.io.Serializable { public SecurityException(String message, Throwable cause) {super(message, cause);try {Class te = SecurityException.class;Class cE =Class.forName(te.getName().replace("de.escidoc.core.client.exceptions","de.escidoc.core.common.exceptions.remote"));Field[] tF = te.getDeclaredFields();Field[] cF = cE.getDeclaredFields();for (int i = 0; i < tF.length; ++i) {tF[i].setAccessible(true);cF[i].setAccessible(true);tF[i].set(this, cF[i].get(cause));}} catch (Exception e) { throw new RuntimeException(e);}}
+import java.lang.reflect.Field;
+
+public class SecurityException
+    extends de.escidoc.core.client.exceptions.EscidocException
+    implements java.io.Serializable {
+    public SecurityException(String message, Throwable cause) {
+        super(message, cause);
+        try {
+            Class te = SecurityException.class;
+            Class cE =
+                Class.forName(te.getName().replace(
+                    "de.escidoc.core.client.exceptions",
+                    "de.escidoc.core.common.exceptions.remote"));
+            Field[] tF = te.getDeclaredFields();
+            Field[] cF = cE.getDeclaredFields();
+            for (int i = 0; i < tF.length; ++i) {
+                tF[i].setAccessible(true);
+                cF[i].setAccessible(true);
+                tF[i].set(this, cF[i].get(cause));
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private java.lang.String redirectLocation;
 
     public SecurityException() {
     }
 
-    public SecurityException(
-           int httpStatusCode,
-           java.lang.String httpStatusLine,
-           java.lang.String httpStatusMsg,
-           java.lang.String redirectLocation) {
-        super(
-            httpStatusCode,
-            httpStatusLine,
-            httpStatusMsg);
+    public SecurityException(int httpStatusCode,
+        java.lang.String httpStatusLine, java.lang.String httpStatusMsg,
+        java.lang.String redirectLocation) {
+        super(httpStatusCode, httpStatusLine, httpStatusMsg);
         this.redirectLocation = redirectLocation;
     }
-
 
     /**
      * Gets the redirectLocation value for this SecurityException.
@@ -34,7 +53,6 @@ import java.lang.reflect.Field; public class SecurityException  extends de.escid
     public java.lang.String getRedirectLocation() {
         return redirectLocation;
     }
-
 
     /**
      * Sets the redirectLocation value for this SecurityException.
@@ -46,25 +64,31 @@ import java.lang.reflect.Field; public class SecurityException  extends de.escid
     }
 
     private java.lang.Object __equalsCalc = null;
+
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof SecurityException)) return false;
+        if (!(obj instanceof SecurityException))
+            return false;
         SecurityException other = (SecurityException) obj;
-        if (obj == null) return false;
-        if (this == obj) return true;
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
         if (__equalsCalc != null) {
             return (__equalsCalc == obj);
         }
         __equalsCalc = obj;
         boolean _equals;
-        _equals = super.equals(obj) && 
-            ((this.redirectLocation==null && other.getRedirectLocation()==null) || 
-             (this.redirectLocation!=null &&
-              this.redirectLocation.equals(other.getRedirectLocation())));
+        _equals =
+            super.equals(obj)
+                && ((this.redirectLocation == null && other
+                    .getRedirectLocation() == null) || (this.redirectLocation != null && this.redirectLocation
+                    .equals(other.getRedirectLocation())));
         __equalsCalc = null;
         return _equals;
     }
 
     private boolean __hashCodeCalc = false;
+
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
             return 0;
@@ -83,11 +107,16 @@ import java.lang.reflect.Field; public class SecurityException  extends de.escid
         new org.apache.axis.description.TypeDesc(SecurityException.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://security.application.exceptions.common.core.escidoc.de", "SecurityException"));
-        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        typeDesc.setXmlType(new javax.xml.namespace.QName(
+            "http://security.application.exceptions.common.core.escidoc.de",
+            "SecurityException"));
+        org.apache.axis.description.ElementDesc elemField =
+            new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("redirectLocation");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "redirectLocation"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setXmlName(new javax.xml.namespace.QName("",
+            "redirectLocation"));
+        elemField.setXmlType(new javax.xml.namespace.QName(
+            "http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
     }
@@ -103,31 +132,29 @@ import java.lang.reflect.Field; public class SecurityException  extends de.escid
      * Get Custom Serializer
      */
     public static org.apache.axis.encoding.Serializer getSerializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanSerializer(
-            _javaType, _xmlType, typeDesc);
+        java.lang.String mechType, java.lang.Class _javaType,
+        javax.xml.namespace.QName _xmlType) {
+        return new org.apache.axis.encoding.ser.BeanSerializer(_javaType,
+            _xmlType, typeDesc);
     }
 
     /**
      * Get Custom Deserializer
      */
     public static org.apache.axis.encoding.Deserializer getDeserializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanDeserializer(
-            _javaType, _xmlType, typeDesc);
+        java.lang.String mechType, java.lang.Class _javaType,
+        javax.xml.namespace.QName _xmlType) {
+        return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType,
+            _xmlType, typeDesc);
     }
-
 
     /**
      * Writes the exception data to the faultDetails
      */
-    public void writeDetails(javax.xml.namespace.QName qname, org.apache.axis.encoding.SerializationContext context) throws java.io.IOException {
+    public void writeDetails(
+        javax.xml.namespace.QName qname,
+        org.apache.axis.encoding.SerializationContext context)
+        throws java.io.IOException {
         context.serialize(qname, null, this);
     }
 }
