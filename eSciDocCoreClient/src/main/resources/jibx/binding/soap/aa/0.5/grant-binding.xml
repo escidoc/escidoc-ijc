@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+
+	<!-- start: binding of a single grant -->
+	<mapping ns="http://www.escidoc.de/schemas/grants/0.5" name="grant"
+		class="de.escidoc.core.resources.aa.useraccount.Grant">
+		<namespace uri="http://www.escidoc.de/schemas/grants/0.5"
+			prefix="grants" />
+
+		<structure map-as="abstract-grant" />
+
+	</mapping>
+	<!-- end: binding of a single grant -->
+
+
+	<!-- start: binding of a grant list -->
+	<mapping ns="http://www.escidoc.de/schemas/grants/0.5" name="current-grants"
+		class="de.escidoc.core.resources.aa.useraccount.Grants">
+		
+		<namespace uri="http://www.escidoc.de/schemas/grants/0.5"
+			prefix="grants" />
+
+		<collection field="grants" create-type="java.util.LinkedList">
+			<structure name="grant" ns="http://www.escidoc.de/schemas/grants/0.5"
+				type="de.escidoc.core.resources.aa.useraccount.Grant">
+				<structure map-as="abstract-grant" />
+			</structure>
+		</collection>
+	</mapping>
+	<!-- end: binding of a grant list -->
+
+	<!-- start: abstract binding of a single grant -->
+	<mapping ns="http://www.escidoc.de/schemas/grants/0.5" 
+	   class="de.escidoc.core.resources.aa.useraccount.Grant"
+	   abstract="true" type-name="abstract-grant"
+	   post-set="genXLink">
+	   
+		<namespace uri="http://www.escidoc.de/schemas/grants/0.5"
+			prefix="grants" />
+		<namespace uri="http://escidoc.de/core/01/properties/"
+			prefix="prop" />
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+
+
+		<!-- ***************************************** Root attributes ****************************************** -->
+		<value name="objid" style="attribute" set-method="setObjid"
+			get-method="getObjid" usage="optional" />
+
+		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+			set-method="setLastModificationDate" get-method="getLastModificationDate"
+			usage="optional" />
+
+
+		<!-- ***************************************** Properties ****************************************** -->
+		<structure ns="http://www.escidoc.de/schemas/grants/0.5"
+			name="properties" field="grantProperties" usage="optional">
+			<structure map-as="abstract-grant-properties" usage="optional" />
+		</structure>
+	</mapping>
+
+
+	<!-- start: abstract binding of properties of grant -->
+	<mapping ns="http://escidoc.de/core/01/properties/"
+		class="de.escidoc.core.resources.aa.useraccount.GrantProperties"
+		abstract="true" type-name="abstract-grant-properties">
+
+		<namespace uri="http://escidoc.de/core/01/properties/"
+			prefix="prop" />
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="granted-to" field="grantedTo" usage="optional">
+
+			<value name="resource" set-method="setResource" get-method="getResource"
+				style="attribute" />
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+
+		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" type="org.joda.time.DateTime"
+			set-method="setCreationDate" get-method="getCreationDate"
+			usage="optional" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="created-by" field="createdBy" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+
+
+		<value ns="http://escidoc.de/core/01/properties/" name="revocation-date"
+			field="revocationDate" usage="optional" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="revoked-by" field="revokedBy" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+		<value ns="http://escidoc.de/core/01/properties/" name="grant-remark"
+			field="grantRemark" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="revocation-remark"
+			field="revocationRemark" usage="optional" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="role" field="role">
+			<value name="objid" set-method="setObjid" get-method="getObjid"
+				style="attribute" usage="optional" />
+		</structure>
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="assigned-on" field="assignedOn" usage="optional">
+			<value name="objid" set-method="setObjid" get-method="getObjid"
+				style="attribute" usage="optional" />
+		</structure>
+
+	</mapping>
+	<!-- end: abstract binding of properties of grant -->
+
+</binding>

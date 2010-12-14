@@ -1,0 +1,12 @@
+<binding>
+	<!-- start: abstract binding of struct-map resource -->
+	<mapping ns="http://www.escidoc.de/schemas/structmap/0.4"
+		class="de.escidoc.core.resources.common.structmap.StructMap"
+		name="struct-map">
+
+		<structure 
+			map-as="abstract-struct-map" usage="optional" />
+
+	</mapping>
+	<!-- end: abstract binding of struct-map resource -->
+</binding>

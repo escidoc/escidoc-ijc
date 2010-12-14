@@ -1,0 +1,184 @@
+<binding>
+	<!--  REST Binding -->
+	<!-- start: binding of a single content relation -->
+	<mapping name="content-relation" 
+		ns="http://www.escidoc.de/schemas/content-relation/0.1" 
+		class="de.escidoc.core.resources.om.contentRelation.ContentRelation">
+		<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1"
+			prefix="escidocContentRelation" />
+		<structure map-as="abstract-content-relation" />
+	</mapping>
+	<!-- end: binding of a single content relation -->
+
+	<!-- start: abstract binding of a single content relation -->
+	<mapping ns="http://www.escidoc.de/schemas/content-relation/0.1"
+		class="de.escidoc.core.resources.om.contentRelation.ContentRelation"
+		abstract="true" type-name="abstract-content-relation"
+		pre-get="genXLink">
+
+		<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1"
+			prefix="escidocContentRelation" />
+		<namespace uri="http://escidoc.de/core/01/properties/"
+			prefix="prop" />
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+		<namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
+			prefix="escidocMetadataRecords" />
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+		<!-- Root attributes -->
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+
+		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+			set-method="setLastModificationDate" get-method="getLastModificationDate"
+			usage="optional" />
+
+		<!-- Properties include -->
+		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
+			name="properties" field="properties" usage="optional">
+			<structure map-as="content-relation-properties" usage="optional" />
+		</structure>
+
+		<!--  content relation -->
+		<value ns="http://www.escidoc.de/schemas/content-relation/0.1"
+			name="type" field="type" usage="optional" />
+
+		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
+			name="subject" field="subject" usage="optional"
+			type="de.escidoc.core.resources.common.reference.Reference">
+			
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+		</structure>
+
+		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
+			name="object" field="object" usage="optional"
+			type="de.escidoc.core.resources.common.reference.Reference">
+			
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+		</structure>
+		<!--
+			*******************************************************************
+			MD-Records
+			*******************************************************************
+		-->
+		<structure ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
+			name="md-records" type="de.escidoc.core.resources.common.MetadataRecords"
+			field="mdRecords" usage="optional">
+			<structure map-as="abstract-md-records" usage="optional" />
+		</structure>
+		
+		<!-- Resources include (REST only) -->
+ 		<structure ns="http://www.escidoc.de/schemas/content-relation/0.1"
+			name="resources" usage="optional">
+		</structure>
+	</mapping>
+	<!-- end: abstract binding of a single content relation -->
+
+
+	<!--
+		***********************************************************************
+		Properties binding definition
+		***********************************************************************
+	-->
+	<mapping ns="http://escidoc.de/core/01/properties/"
+		class="de.escidoc.core.resources.om.contentRelation.ContentRelationProperties"
+		abstract="true" type-name="content-relation-properties">
+
+		<namespace uri="http://escidoc.de/core/01/properties/"
+			prefix="prop" />
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+		<namespace uri="http://escidoc.de/core/01/properties/version/"
+			prefix="version" />
+		<namespace uri="http://escidoc.de/core/01/properties/release/"
+			prefix="release" />
+			
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" 
+			type="org.joda.time.DateTime" set-method="setCreationDate" 
+			get-method="getCreationDate" usage="optional" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="created-by" field="createdBy" usage="optional">
+
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+		</structure>
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="modified-by" field="modifiedBy" usage="optional">
+
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+		</structure>
+
+		<value ns="http://escidoc.de/core/01/properties/" name="description"
+			field="description" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="public-status"
+			field="publicStatus" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="public-status-comment"
+			field="publicStatusComment" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="name"
+			field="name" usage="optional" />
+
+		<!-- lock (status, date, owner) -->
+		<value ns="http://escidoc.de/core/01/properties/" name="lock-status" 
+			field="lockStatus" usage="optional" />
+		<value ns="http://escidoc.de/core/01/properties/" name="lock-date" 
+			set-method="setLockDate" get-method="getLockDate"
+			type="org.joda.time.DateTime" usage="optional" />
+				
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="lock-owner" field="lockOwner" usage="optional">
+
+			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+		</structure>
+
+		<value ns="http://escidoc.de/core/01/properties/" name="pid"
+			set-method="setPid" get-method="getPid" usage="optional" />
+
+	</mapping>
+
+</binding>
+

@@ -1,0 +1,13 @@
+<binding>
+	<!-- start: binding of an unsecured actions -->
+	<mapping name="unsecured-actions"
+		class="de.escidoc.core.resources.aa.actions.UnsecuredActions">
+
+		<collection field="actions"
+			create-type="java.util.LinkedList">
+			<value name="unsecured-action" usage="optional" style="element"
+				type="java.lang.String" />
+		</collection>
+	</mapping>
+
+</binding>

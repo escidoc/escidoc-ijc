@@ -1,0 +1,104 @@
+<binding>
+
+	<!-- Type mapping for RecordData class -->
+	<mapping name="explain" class="de.escidoc.core.resources.sb.explain.ExplainData">
+		<value name="authoritative" field="authoritative" style="attribute" usage="optional"/>
+		
+		<structure name="serverInfo" field="serverInfo"
+			type="de.escidoc.core.resources.sb.explain.ServerInfo" usage="optional">
+			
+			<value name="protocol" field="protocol" style="attribute" usage="optional"/>
+			<value name="version" field="version" style="attribute" usage="optional"/>
+			<value name="method" field="method" style="attribute" usage="optional"/>
+			<value name="host" field="host" usage="optional"/>
+			<value name="port" field="port" usage="optional"/>
+			<value name="database" field="database" usage="optional"/>
+		</structure>
+		
+		<structure field="databaseInfo" name="databaseInfo"
+			type="de.escidoc.core.resources.sb.explain.DatabaseInfo" usage="optional">
+		
+			<collection field="titles" create-type="java.util.LinkedList" usage="optional">
+				<structure name="title" map-as="de.escidoc.core.resources.sb.explain.DatabaseInfoText"
+					usage="optional"/>
+			</collection>
+			
+			<collection field="descriptions"  create-type="java.util.LinkedList" usage="optional">
+				<structure name="description" map-as="de.escidoc.core.resources.sb.explain.DatabaseInfoText"
+					usage="optional"/>
+			</collection>
+			
+			<value name="contact" field="contact" usage="optional"/>
+			
+			<structure name="implementation" field="implementation"
+				type="de.escidoc.core.resources.sb.explain.Implementation" usage="optional">
+				
+				<value name="version" field="version" style="attribute" usage="optional"/>
+				<value name="title" field="title" usage="optional"/>
+			</structure>
+		</structure>
+		
+		<structure field="indexInfo" name="indexInfo"
+			type="de.escidoc.core.resources.sb.explain.IndexInfo" usage="optional">
+			
+			<collection field="sets"  create-type="java.util.LinkedList" usage="optional">
+				<structure name="set" type="de.escidoc.core.resources.sb.explain.MySet" usage="optional">
+					<value name="identifier" field="identifier" style="attribute" usage="optional"/>
+					<value name="name" field="name" style="attribute" usage="optional"/>
+				</structure>
+			</collection>
+			
+			<collection field="indexes" create-type="java.util.LinkedList" usage="optional">
+				<structure name="index" type="de.escidoc.core.resources.sb.explain.Index" usage="optional">
+					<value name="title" field="title" usage="optional"/>
+					
+					<structure name="map" usage="optional">
+						<collection field="indexNameList" create-type="java.util.LinkedList" usage="optional">
+							<structure name="name" type="de.escidoc.core.resources.sb.explain.IndexName" usage="optional">
+							
+								<value name="set" field="set" style="attribute" usage="optional"/>
+								<value field="name" style="text" usage="optional"/>
+								
+							</structure>
+						</collection>
+					</structure>
+				</structure>
+			</collection>
+			
+			<collection field="sortKeyWords" create-type="java.util.LinkedList" usage="optional">
+				<value name="sortKeyword" style="element" type="java.lang.String" usage="optional"/>
+			</collection>
+		</structure>
+		
+		<structure name="schemaInfo" usage="optional">
+			<structure name="schema" field="schema" type="de.escidoc.core.resources.sb.explain.Schema" usage="optional">
+				<value name="sort" field="sort"	style="attribute" usage="optional" />
+				<value name="retrieve" field="retrieve"	style="attribute" usage="optional" />
+				<value name="name" field="name"	style="attribute" usage="optional" />
+				<value name="identifier" field="identifier" style="attribute" usage="optional" />
+				<value name="location" field="location" style="attribute" usage="optional" />
+				<value name="title" field="title" usage="optional" />
+			</structure>
+		</structure>
+		
+		<structure field="configInfo" name="configInfo"
+			type="de.escidoc.core.resources.sb.explain.ConfigInfo" usage="optional">
+			
+			<collection field="defaultSettings" create-type="java.util.LinkedList" usage="optional">
+				<structure name="default" type="de.escidoc.core.resources.sb.explain.DefaultSetting"
+					usage="optional">
+					<value name="type" field="type" style="attribute" usage="optional"/>
+					<value field="value" style="text" usage="optional"/>	
+				</structure>
+			</collection>
+		</structure>
+	</mapping>
+	
+	<!-- Abstract mapping for DatabaseInfoText to be used for different tag-names with the same type. -->
+	<mapping class="de.escidoc.core.resources.sb.explain.DatabaseInfoText" abstract="true">
+		
+		<value name="lang" field="lang" style="attribute" usage="optional"/>
+		<value name="primary" field="isPrimary" style="attribute" usage="optional"/>
+		<value field="value" style="text" usage="optional"/>
+	</mapping>
+</binding>

@@ -1,0 +1,26 @@
+<binding>
+
+  <mapping name="report-parameters"
+    class="de.escidoc.core.resources.sm.report.ReportParameters"
+    ns="http://www.escidoc.de/schemas/reportparameters/0.3">
+    
+    <namespace uri="http://www.escidoc.de/schemas/reportparameters/0.3"
+      prefix="report" default="elements"/>
+      
+    <structure name="report-definition" field="reportDefinition" 
+      type="de.escidoc.core.resources.common.reference.ReportDefinitionRef">
+      <value name="objid" style="attribute" set-method="setObjid" 
+        get-method="getObjid"/> 
+    </structure>
+    
+    <collection field="parameters" create-type="java.util.LinkedList" 
+      item-type="de.escidoc.core.resources.sm.Parameter"
+      usage="optional">
+      <structure name="parameter" 
+        marshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"
+        unmarshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"/>  
+    </collection>
+    
+  </mapping>
+
+</binding>

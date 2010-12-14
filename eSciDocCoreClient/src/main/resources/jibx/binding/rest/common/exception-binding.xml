@@ -1,0 +1,7 @@
+<binding>
+
+  <mapping name="exception" class="de.escidoc.core.common.jibx.binding.RemoteExceptionWrapper"
+    marshaller="de.escidoc.core.common.jibx.binding.ExceptionMarshaller"
+    unmarshaller="de.escidoc.core.common.jibx.binding.ExceptionMarshaller"/>
+
+</binding>

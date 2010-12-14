@@ -1,0 +1,56 @@
+<binding>
+
+	<!-- start: abstract binding of list of md-record elements -->
+	<mapping ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
+		class="de.escidoc.core.resources.common.MetadataRecords" abstract="true"
+		type-name="abstract-md-records">
+		
+		<namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
+			prefix="escidocMetadataRecords" />
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+		
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+
+		<collection ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
+			 create-type="de.escidoc.core.resources.common.MetadataRecords">
+
+			<structure ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
+				type="de.escidoc.core.resources.common.MetadataRecord" usage="optional" />
+		</collection>
+	</mapping>
+	<!-- end: abstract binding of list of md-record elements -->
+
+	<!-- MD Record Mapping -->
+	<mapping name="md-record" class="de.escidoc.core.resources.common.MetadataRecord"
+		ns="http://www.escidoc.de/schemas/metadatarecords/0.5">
+
+		<namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
+			prefix="escidocMetadataRecords" />
+			
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+		
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+
+		<value name="name" set-method="setName" get-method="getName"
+			style="attribute" usage="optional" />
+		<value name="type" set-method="setMdType" get-method="getMdType"
+			style="attribute" usage="optional" />
+		<value name="schema" set-method="setSchema" get-method="getSchema"
+			style="attribute" usage="optional" />
+		<structure field="content" type="org.w3c.dom.Element"
+			marshaller="org.jibx.extras.DomElementMapper" 
+			unmarshaller="org.jibx.extras.DomElementMapper"
+			usage="optional" />
+	</mapping>
+
+</binding>

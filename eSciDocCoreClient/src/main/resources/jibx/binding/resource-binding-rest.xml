@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding name="REST">
+
+	<!-- common -->
+	<include path="rest/common/task-param-binding.xml" />
+	<include path="rest/common/version-history-binding.xml" />
+	<include path="rest/common/0.1/result-binding.xml" />
+	<include path="rest/common/0.5/md-records-binding.xml" />
+	<include path="rest/common/0.4/abstract-struct-map-binding.xml" />
+	<include path="rest/common/0.3/relations-binding.xml" />
+	<include path="rest/common/0.9/member-list-binding.xml" />
+	<!-- include path="rest/common/0.6/toc-binding.xml" / -->
+	<!-- include path="rest/common/0.4/properties-no-versioned-binding.xml" 
+		/ -->
+	<!-- include path="rest/common/0.4/abstract-relations-binding.xml" / -->
+	<include path="rest/common/properties-binding.xml"/>
+	<include path="rest/common/exception-binding.xml"/>
+
+	<!-- CMM -->
+	<include path="rest/cmm/0.1/content-model-binding.xml" />
+
+	<!-- OUM -->
+	<include path="rest/oum/0.8/organizational-unit-binding.xml" />
+
+	<!-- OM -->
+	<include path="rest/om/container/0.8/container-binding.xml" />
+	<include path="rest/om/context/0.7/context-binding.xml" />
+	<include path="rest/om/item/0.9/item-binding.xml" />
+	<include path="rest/om/contentRelation/0.1/content-relation-binding.xml" />
+
+	<!-- AA -->
+	<include path="rest/aa/0.7/user-account-binding.xml" />
+	<include path="rest/aa/0.5/grant-binding.xml" />
+	<include path="rest/aa/0.4/role-binding.xml" />
+	<include path="rest/aa/0.3/requests-binding.xml" />
+	<include path="rest/aa/0.3/results-binding.xml" />
+	<include path="rest/aa/0.4/unsecured-actions-binding.xml" />
+	<include path="rest/aa/0.1/preference-binding.xml" />
+	<include path="rest/aa/0.1/attribute-binding.xml" />
+
+	<!-- SB -->
+	<include path="rest/sb/explain-response-binding.xml" />
+	<include path="rest/sb/explain-data-binding.xml" />
+	<include path="rest/sb/srw-response-binding.xml" />
+	<include path="rest/sb/0.8/search-result-record-binding.xml" />
+	
+	<!-- SM -->
+	<!-- Use SOAP bindings because the infrastructure does not support REST as 
+       for version 1.2 - 1.3 -->
+	<include path="soap/sm/0.3/scope-binding.xml" />
+	<include path="soap/sm/0.3/aggregation-definition-binding.xml" />
+	<include path="soap/sm/0.3/report-definition-binding.xml" />
+	<include path="soap/sm/0.3/statistic-data-binding.xml" />
+	<include path="soap/sm/0.3/report-binding.xml" />
+  <include path="soap/sm/0.3/report-parameters-binding.xml" />
+  <include path="soap/sm/0.3/preprocessing-info-binding.xml" />
+</binding>

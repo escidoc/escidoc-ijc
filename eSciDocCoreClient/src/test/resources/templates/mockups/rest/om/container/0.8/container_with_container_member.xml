@@ -1,0 +1,69 @@
+<container:container xmlns:struct-map="http://www.escidoc.de/schemas/structmap/0.4"
+	xmlns:relations="http://www.escidoc.de/schemas/relations/0.3"
+	xmlns:escidocMetadataRecords="http://www.escidoc.de/schemas/metadatarecords/0.5"
+	xmlns:version="http://escidoc.de/core/01/properties/version/"
+	xmlns:release="http://escidoc.de/core/01/properties/release/"
+	xmlns:container="http://www.escidoc.de/schemas/container/0.8"
+	xmlns:prop="http://escidoc.de/core/01/properties/" 
+	xmlns:srel="http://escidoc.de/core/01/structural-relations/"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xlink:type="simple" xlink:href="/ir/container/escidoc:188602"
+	last-modification-date="2010-07-08T14:22:25.199Z">
+	<container:properties>
+		<prop:creation-date>2010-07-08T14:22:25.199Z</prop:creation-date>
+		<srel:created-by xlink:type="simple"
+			xlink:href="/aa/user-account/escidoc:exuser1" />
+		<prop:public-status>pending</prop:public-status>
+		<prop:public-status-comment>Object escidoc:188602 created.</prop:public-status-comment>
+		<prop:name>Container escidoc:188602</prop:name>
+		<srel:context xlink:type="simple" xlink:href="/ir/context/escidoc:ex1" />
+		<srel:content-model xlink:type="simple"
+			xlink:href="/ir/content-model/escidoc:ex4" />
+		<prop:lock-status>unlocked</prop:lock-status>
+
+		<prop:version xlink:type="simple" xlink:href="/ir/container/escidoc:188602:1">
+			<version:number>1</version:number>
+			<version:date>2010-07-08T14:22:25.199Z</version:date>
+			<version:status>pending</version:status>
+
+			<srel:modified-by xlink:type="simple"
+				xlink:href="/aa/user-account/escidoc:exuser1" />
+			<version:comment>Object escidoc:188602 created.</version:comment>
+		</prop:version>
+		<prop:latest-version xlink:type="simple"
+			xlink:href="/ir/container/escidoc:188602:1">
+			<version:number>1</version:number>
+			<version:date>2010-07-08T14:22:25.199Z</version:date>
+		</prop:latest-version>
+
+	</container:properties>
+	<escidocMetadataRecords:md-records>
+		<escidocMetadataRecords:md-record
+			name="md-record2">
+			<myMdRecord>
+				33333333333333333333
+				<some-other-stuff></some-other-stuff>
+			</myMdRecord>
+		</escidocMetadataRecords:md-record>
+
+		<escidocMetadataRecords:md-record
+			name="md-record3">
+			<myMdRecord></myMdRecord>
+		</escidocMetadataRecords:md-record>
+
+		<escidocMetadataRecords:md-record
+			name="escidoc">
+			<myMdRecord></myMdRecord>
+		</escidocMetadataRecords:md-record>
+
+
+	</escidocMetadataRecords:md-records>
+	<struct-map:struct-map>
+		<srel:item xlink:type="simple" xlink:href="/ir/item/escidoc:198576" />
+		<srel:container xlink:type="simple"
+			xlink:href="/ir/container/escidoc:188601" />
+		<srel:item xlink:type="simple" xlink:href="/ir/item/escidoc:198577" />
+	</struct-map:struct-map>
+	<relations:relations>
+	</relations:relations>
+</container:container>
