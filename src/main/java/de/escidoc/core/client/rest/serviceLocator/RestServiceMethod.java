@@ -196,7 +196,8 @@ public abstract class RestServiceMethod implements RestService {
                 int statusCode = getRestClient().executeMethod(put);
                 if (statusCode / 100 != 2) {
                     throw new RemoteException("Upload failed. "
-                        + put.getStatusText() + "; " + put.getResponseBody());
+                        + put.getStatusText() + "; "
+                        + new String(put.getResponseBody()));
                 }
                 InputStream in = put.getResponseBodyAsStream();
                 result = convertStreamToString(in);
