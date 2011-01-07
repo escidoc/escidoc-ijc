@@ -23,17 +23,23 @@ import java.util.Map.Entry;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethodBase;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.methods.DeleteMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -49,12 +55,13 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * 
  */
 public abstract class RestServiceMethod implements RestService {
-
+	
     private static final Logger LOG = Logger.getLogger(RestServiceMethod.class);
 
     private String serviceAddress;
 
-    private MultiThreadedHttpConnectionManager connectionManager;
+    //private MultiThreadedHttpConnectionManager connectionManager;
+    private ThreadSafeClientConnManager connectionManager;
 
     private HttpClient client;
 
@@ -93,38 +100,36 @@ public abstract class RestServiceMethod implements RestService {
         throws SystemException, RemoteException {
 
         String result = null;
-        PutMethod put = new PutMethod(this.serviceAddress + path);
+        HttpPut put = new HttpPut(this.serviceAddress + path);
 
         invokeCallbackHandlers(put);
 
         if (content != null) {
-            RequestEntity entity;
+            StringEntity entity;
             try {
-                entity = new StringRequestEntity(content, "text/xml", "UTF-8");
+                entity = new StringEntity(content, "UTF-8");
+                entity.setContentType("text/xml");
             }
             catch (UnsupportedEncodingException e1) {
                 throw new SystemException(500, e1.getMessage(), "");
             }
-            put.setRequestEntity(entity);
+            put.setEntity(entity);
         }
 
+        HttpResponse response;
         try {
             try {
-                getRestClient().executeMethod(put);
-                InputStream in = put.getResponseBodyAsStream();
+                response = getRestClient().execute(put);
+                InputStream in = response.getEntity().getContent();
                 result = convertStreamToString(in);
-            }
-            catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), null,
-                    e.getMessage());
             }
             catch (IOException e) {
                 throw new SystemException(500, null, e.getMessage());
             }
-            decideStatusCode(put, result);
+            decideStatusCode(response, result);
         }
         finally {
-            put.releaseConnection();
+            put.abort();
         }
         return result;
     }
@@ -182,37 +187,35 @@ public abstract class RestServiceMethod implements RestService {
         throws SystemException, RemoteException, FileNotFoundException {
 
         String result = null;
-        PutMethod put = new PutMethod(this.serviceAddress + path);
+        HttpPut put = new HttpPut(this.serviceAddress + path);
         invokeCallbackHandlers(put);
 
-        put.setRequestBody(ins);
+        InputStreamEntity entity = new InputStreamEntity(ins, -1);
+        put.setEntity(entity);
 
+        HttpResponse response;
         try {
             try {
-
                 put
-                    .setRequestHeader("Content-type",
+                    .addHeader("Content-type",
                         "application/octet-stream");
-                int statusCode = getRestClient().executeMethod(put);
+                response = getRestClient().execute(put);
+                int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode / 100 != 2) {
                     throw new RemoteException("Upload failed. "
-                        + put.getStatusText() + "; " + put.getResponseBody());
+                        + response.getStatusLine().getReasonPhrase());
                 }
-                InputStream in = put.getResponseBodyAsStream();
+                InputStream in = response.getEntity().getContent();
                 result = convertStreamToString(in);
-            }
-            catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), null,
-                    e.getMessage());
             }
             catch (IOException e) {
                 throw new SystemException(
                     HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
-            decideStatusCode(put, result);
+            decideStatusCode(response, result);
         }
         finally {
-            put.releaseConnection();
+            put.abort();
         }
         return result;
     }
@@ -230,35 +233,33 @@ public abstract class RestServiceMethod implements RestService {
         throws SystemException, RemoteException {
 
         String result = null;
-        PostMethod post = new PostMethod(this.serviceAddress + path);
+        HttpPost post = new HttpPost(this.serviceAddress + path);
         invokeCallbackHandlers(post);
-        RequestEntity entity;
+        StringEntity entity;
         try {
-            entity = new StringRequestEntity(content, "text/xml", "UTF-8");
+            entity = new StringEntity(content, "UTF-8");
+            entity.setContentType("text/xml");
         }
         catch (UnsupportedEncodingException e1) {
             throw new SystemException(500, e1.getMessage(), "");
         }
-        post.setRequestEntity(entity);
+        post.setEntity(entity);
 
+        HttpResponse response;
         try {
             try {
-                getRestClient().executeMethod(post);
-                InputStream in = post.getResponseBodyAsStream();
+                response = getRestClient().execute(post);
+                InputStream in = response.getEntity().getContent();
                 result = convertStreamToString(in);
-            }
-            catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), null,
-                    e.getMessage());
             }
             catch (IOException e) {
                 throw new SystemException(
                     HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
-            decideStatusCode(post, result);
+            decideStatusCode(response, result);
         }
         finally {
-            post.releaseConnection();
+            post.abort();
         }
         return result;
     }
@@ -275,27 +276,24 @@ public abstract class RestServiceMethod implements RestService {
         RemoteException {
 
         String result = null;
-        GetMethod get = new GetMethod(this.serviceAddress + path);
+        HttpGet get = new HttpGet(this.serviceAddress + path);
         invokeCallbackHandlers(get);
 
+        HttpResponse response;
         try {
             try {
-                getRestClient().executeMethod(get);
-                InputStream in = get.getResponseBodyAsStream();
+                response = getRestClient().execute(get);
+                InputStream in = response.getEntity().getContent();
                 result = convertStreamToString(in);
-            }
-            catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), null,
-                    e.getMessage());
             }
             catch (IOException e) {
                 throw new SystemException(
                     HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
-            decideStatusCode(get, result);
+            decideStatusCode(response, result);
         }
         finally {
-            get.releaseConnection();
+            get.abort();
         }
         return result;
     }
@@ -339,27 +337,24 @@ public abstract class RestServiceMethod implements RestService {
         RemoteException {
 
         String result = null;
-        DeleteMethod del = new DeleteMethod(this.serviceAddress + path);
+        HttpDelete del = new HttpDelete(this.serviceAddress + path);
         invokeCallbackHandlers(del);
 
+        HttpResponse response;
         try {
             try {
-                getRestClient().executeMethod(del);
-                InputStream in = del.getResponseBodyAsStream();
+                response = getRestClient().execute(del);
+                InputStream in = response.getEntity().getContent();
                 result = convertStreamToString(in);
-            }
-            catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), null,
-                    e.getMessage());
             }
             catch (IOException e) {
                 throw new SystemException(
                     HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
-            decideStatusCode(del, result);
+            decideStatusCode(response, result);
         }
         finally {
-            del.releaseConnection();
+            del.abort();
         }
         return result;
     }
@@ -369,22 +364,22 @@ public abstract class RestServiceMethod implements RestService {
      * throw a SystemException with the respective status code, status line and
      * status text.
      * 
-     * @param method
+     * @param response
      *            the HttpMethodBase which is being executed.
      * @throws SystemException
      */
-    public void decideStatusCode(final HttpMethodBase method, final String body)
+    public void decideStatusCode(final HttpResponse response, final String body)
         throws SystemException, RemoteException {
 
-        if (method.getStatusCode() / 100 != 2) {
-            Header header = method.getResponseHeader("Location");
+        if (response.getStatusLine().getStatusCode() / 100 != 2) {
+            Header header = response.getFirstHeader("Location");
             String redirectLocation = null;
             if (header != null) {
                 redirectLocation = header.getValue();
             }
 
             ExceptionMapper.constructEscidocException(body,
-                method.getStatusCode(), redirectLocation);
+                response.getStatusLine().getStatusCode(), redirectLocation);
         }
 
     }
@@ -414,7 +409,7 @@ public abstract class RestServiceMethod implements RestService {
      * 
      * @param method
      */
-    private void invokeCallbackHandlers(final HttpMethodBase method) {
+    private void invokeCallbackHandlers(final HttpRequestBase method) {
         for (RestCallbackHandler handler : callbackHandlers) {
             handler.handleHttpMethod(method);
         }
@@ -427,7 +422,8 @@ public abstract class RestServiceMethod implements RestService {
     private synchronized HttpClient getRestClient() {
 
         if (this.client == null) {
-            this.client = new HttpClient(getConnectionManager());
+        	HttpParams params = new BasicHttpParams();        	
+            this.client = new DefaultHttpClient(getConnectionManager(params), params);
         }
         return this.client;
     }
@@ -436,9 +432,13 @@ public abstract class RestServiceMethod implements RestService {
      * 
      * @return
      */
-    private synchronized MultiThreadedHttpConnectionManager getConnectionManager() {
+    private synchronized ThreadSafeClientConnManager getConnectionManager(HttpParams params) {
         if (this.connectionManager == null) {
-            this.connectionManager = new MultiThreadedHttpConnectionManager();
+        	SchemeRegistry schemeRegistry = new SchemeRegistry();
+        	schemeRegistry.register(
+        	        new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        	        	
+            this.connectionManager = new ThreadSafeClientConnManager(params, schemeRegistry);
         }
         return this.connectionManager;
     }

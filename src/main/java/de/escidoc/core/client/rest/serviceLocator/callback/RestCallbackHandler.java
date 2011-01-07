@@ -3,7 +3,7 @@
  */
 package de.escidoc.core.client.rest.serviceLocator.callback;
 
-import org.apache.commons.httpclient.HttpMethod;
+import org.apache.http.client.methods.HttpRequestBase;
 
 import de.escidoc.core.client.rest.serviceLocator.RestServiceMethod;
 
@@ -26,5 +26,5 @@ public interface RestCallbackHandler {
      * @param method
      *            The HTTP method object to add the cookie to.
      */
-    void handleHttpMethod(final HttpMethod method);
+    void handleHttpMethod(final HttpRequestBase method);
 }

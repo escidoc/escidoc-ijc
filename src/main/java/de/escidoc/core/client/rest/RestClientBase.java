@@ -3,8 +3,10 @@
  */
 package de.escidoc.core.client.rest;
 
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.cookie.CookiePolicy;
+import java.net.CookiePolicy;
+
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.params.ClientPNames;
 
 import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -52,14 +54,20 @@ public abstract class RestClientBase extends ClientBase
      *            The http method object to add the cookie to.
      */
     @Override
-    public void handleHttpMethod(final HttpMethod method) {
+    public void handleHttpMethod(final HttpRequestBase method) {
 
         if (getHandle() == null || "".equals(getHandle())) {
             return;
         }
-        method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-        method.setRequestHeader("Cookie", ESCIDOC_COOKIE_ENTRY + "="
+        
+        //method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
+        method.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.ACCEPT_NONE);
+
+        method.addHeader("Cookie", ESCIDOC_COOKIE_ENTRY + "="
             + getHandle());
-        method.setFollowRedirects(false);
+        
+        //method.setFollowRedirects(false);
+        method.getParams().setParameter("http.protocol.handle-redirects", false);
+
     }
 }

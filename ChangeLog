@@ -1,3 +1,10 @@
+07.01.2011 - MRO
+* Updated HttpClient to version 4.0.3
+* Lots of parameters can be adjusted, see
+  http://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs/index.html
+  http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d4e629
+* Did not commit changed .pom file
+
 16.07.2010 - SWA
 * fixed struct-map binding for Container: the finding failed with an unordered
   list of members
