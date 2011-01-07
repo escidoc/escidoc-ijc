@@ -542,9 +542,10 @@ public class RestItemHandlerClient extends RestClientBase {
         DateTime result = null;
         try {
             result =
-                (MarshallerFactory
-                    .getInstance(TransportProtocol.REST).getMarshaller(
-                        Item.class).unmarshalDocument(getClient().retrieve(id)))
+                MarshallerFactory
+                    .getInstance(TransportProtocol.REST)
+                    .getMarshaller(Item.class)
+                    .unmarshalDocument(getClient().retrieve(id))
                     .getLastModificationDate();
         }
         catch (Exception e) {

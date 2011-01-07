@@ -32,9 +32,9 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.MalformedURLException;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -42,8 +42,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContainerHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContainerRestServiceLocator;
-import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.om.item.Item;
 
 /**
  * REST Handler for Item.
@@ -54,9 +52,9 @@ import de.escidoc.core.resources.om.item.Item;
 public class RestContainerHandlerClient extends RestClientBase {
 
     private final Logger logger = Logger
-        .getLogger(RestContainerHandlerClient.class.getName());
+        .getLogger(RestContainerHandlerClient.class);
 
-    private ContainerHandler restClient = null;
+    private ContainerHandler restClient;
 
     /**
      * 
@@ -402,6 +400,14 @@ public class RestContainerHandlerClient extends RestClientBase {
         return result;
     }
 
+    /**
+     * @param id
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String removeContentRelations(final String id, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -415,6 +421,14 @@ public class RestContainerHandlerClient extends RestClientBase {
         return result;
     }
 
+    /**
+     * @param id
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String addMembers(final String id, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -428,6 +442,14 @@ public class RestContainerHandlerClient extends RestClientBase {
         return result;
     }
 
+    /**
+     * @param id
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String removeMembers(final String id, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -441,6 +463,14 @@ public class RestContainerHandlerClient extends RestClientBase {
         return result;
     }
 
+    /**
+     * @param id
+     * @param itemXml
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String createItem(final String id, final String itemXml)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -502,28 +532,6 @@ public class RestContainerHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @param id
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String retrieveMembers(final String id, final String filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveMembers(id, filter);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
-     * 
      * @param filter
      * @return
      * @throws EscidocException
@@ -567,26 +575,21 @@ public class RestContainerHandlerClient extends RestClientBase {
     }
 
     /**
-     * Filter for Containers.
      * 
-     * @param taskParam
-     *            Filter parameter
-     * @return XMl representation that match the filter
+     * @param filter
+     * @return
      * @throws EscidocException
-     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
-     *             Thrown in case of client internal errors.
      * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#retrieveItems(java.lang.String)
      */
-    @Deprecated
-    public String retrieveContainers(final String taskParam)
+    public String retrieveContainers(final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
+
+        evalRequest(filter, true);
 
         String result = null;
         try {
-            result = getClient().retrieveContainers(taskParam);
+            result = getClient().retrieveContainers(filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -602,10 +605,9 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContainers(final SearchRetrieveRequestType filter)
+    @Deprecated
+    public String retrieveContainers(final HashMap<String, String[]> filter)
         throws EscidocException, InternalClientException, TransportException {
-
-        evalRequest(filter, true);
 
         String result = null;
         try {
@@ -666,61 +668,18 @@ public class RestContainerHandlerClient extends RestClientBase {
     }
 
     /**
-     * Retrieve TOC list via REST.
-     * 
-     * @param id
-     *            object id of Container.
-     * @param filter
-     *            XML filter
-     * 
-     * @return XML representation of TOC list.
+     * @param containerId
+     * @return
      * @throws EscidocException
-     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
-     *             Thrown in case of client internal errors.
      * @throws TransportException
-     *             Thrown if in case of failure on transport level.
      */
-    public String retrieveTocs(final String id, final String filter)
+    public String retrieveParents(final String containerId)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().retrieveTocs(id, filter);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
-     * Get the last-modification timestamp of the item.
-     * 
-     * @param id
-     *            The id of the item.
-     * @return The timestamp of the last modification of the item.
-     * @param id
-     * @return
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
-        try {
-            result =
-                (MarshallerFactory.getInstance().getMarshaller(Item.class)
-                    .unmarshalDocument(getClient().retrieve(id)))
-                    .getLastModificationDate();
+            result = getClient().retrieveParents(containerId);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

@@ -34,17 +34,13 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.net.MalformedURLException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContentRelationHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContentRelationRestServiceLocator;
-import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 
 /**
  * REST Handler for ContentRelation.
@@ -363,30 +359,19 @@ public class RestContentRelationHandlerClient extends RestClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the contentRelation.
      * 
-     * @param id
-     *            The id of the contentRelation.
-     * @return The timestamp of the last modification of the contentRelation.
-     * @param id
+     * @param contentRelationId
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
      */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
+    public String retrieveResources(final String contentRelationId)
         throws EscidocException, InternalClientException, TransportException {
 
-        DateTime result = null;
+        String result = null;
         try {
-            result =
-                (MarshallerFactory
-                    .getInstance(TransportProtocol.REST).getMarshaller(
-                        ContentRelation.class).unmarshalDocument(getClient()
-                    .retrieve(id))).getLastModificationDate();
+            result = getClient().retrieveResources(contentRelationId);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

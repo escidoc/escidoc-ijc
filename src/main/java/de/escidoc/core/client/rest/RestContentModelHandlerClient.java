@@ -28,19 +28,20 @@
  */
 package de.escidoc.core.client.rest;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.MalformedURLException;
+import java.rmi.RemoteException;
+import java.util.HashMap;
 
-import org.joda.time.DateTime;
-
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ContentModelHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContentModelRestServiceLocator;
-import de.escidoc.core.cmm.ContentModelHandler;
-import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.om.context.Context;
+import de.escidoc.core.common.exceptions.remote.system.SystemException;
 
 /**
  * REST Handler for Content Model.
@@ -50,7 +51,7 @@ import de.escidoc.core.resources.om.context.Context;
  */
 public class RestContentModelHandlerClient extends RestClientBase {
 
-    private ContentModelHandler restClient = null;
+    private ContentModelHandler restClient;
 
     /**
      * 
@@ -158,31 +159,59 @@ public class RestContentModelHandlerClient extends RestClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the contentModel.
      * 
-     * @param id
-     *            The id of the contentModel.
-     * @return The timestamp of the last modification of the contentModel.
-     * @param id
+     * @param parameterMap
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
      */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
+    public String retrieveContentModels(final HashMap<String, String[]> filter)
         throws EscidocException, InternalClientException, TransportException {
 
-        DateTime result = null;
+        String result = null;
         try {
-            result =
-                MarshallerFactory
-                    .getInstance(TransportProtocol.REST)
-                    .getMarshaller(Context.class)
-                    .unmarshalDocument(getClient().retrieve(id))
-                    .getLastModificationDate();
+            result = getClient().retrieveContentModels(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws SystemException
+     * @throws RemoteException
+     */
+    public String retrieveContentModels(final SearchRetrieveRequestType request)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentModels(request);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws SystemException
+     * @throws RemoteException
+     */
+    public String retrieveContentModels(final ExplainRequestType request)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentModels(request);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

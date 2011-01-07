@@ -28,10 +28,16 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
-import java.rmi.RemoteException;
+import static de.escidoc.core.common.Precondition.checkNotNull;
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import de.escidoc.core.cmm.ContentModelHandler;
+import java.rmi.RemoteException;
+import java.util.HashMap;
+
+import de.escidoc.core.client.interfaces.ContentModelHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
+import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
 import de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException;
@@ -85,6 +91,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @throws AuthorizationException
      * @see de.escidoc.core.om.ContentModelHandler#delete(String)
      */
+    @Override
     public void delete(final String contentModelId) throws RemoteException,
         SystemException, LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
@@ -120,6 +127,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @throws MissingElementValueException
      * @see de.escidoc.core.om.ContentModelHandler#create(String)
      */
+    @Override
     public String create(final String contentModelXml) throws RemoteException,
         SystemException, MissingAttributeValueException,
         MissingContentException, MissingMdRecordException,
@@ -166,6 +174,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @throws InvalidXmlException
      * @see de.escidoc.core.om.ContentModelHandler#update(String, String)
      */
+    @Override
     public String update(
         final String contentModelId, final String contentModelXml)
         throws RemoteException, SystemException, MissingLicenceException,
@@ -194,6 +203,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @throws ContentModelNotFoundException
      * @throws AuthorizationException
      */
+    @Override
     public String retrieve(final String contentModelId) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, ContentModelNotFoundException,
@@ -202,6 +212,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTENT_MODEL + "/" + contentModelId);
     }
 
+    @Override
     public String retrieveContentStream(final String in0, final String in1)
         throws RemoteException, SystemException,
         ContentStreamNotFoundException, MissingMethodParameterException,
@@ -211,6 +222,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
+    @Override
     public String retrieveContentStreams(final String in0)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -219,6 +231,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         throw new SystemException(500, "Method not yet supported", "");
     }
 
+    @Override
     public String retrieveProperties(final String contentModelId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -227,14 +240,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTENT_MODEL + "/" + contentModelId + "/properties");
     }
 
-    public java.lang.String retrieveResources(final String contentModelId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, ContentModelNotFoundException,
-        AuthenticationException, AuthorizationException {
-
-        return get(PATH_CONTENT_MODEL + "/" + contentModelId + "/resources");
-    }
-
+    @Override
     public String retrieveVersionHistory(final String contentModelId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -242,5 +248,48 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
 
         return get(PATH_CONTENT_MODEL + "/" + contentModelId
             + "/version-history");
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    @Deprecated
+    public String retrieveContentModels(final HashMap parameterMap)
+        throws RemoteException, SystemException, InvalidSearchQueryException {
+
+        return get(PATH_CONTENT_MODEL + "s", parameterMap);
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws SystemException
+     * @throws RemoteException
+     */
+    @Override
+    public String retrieveContentModels(final SearchRetrieveRequestType request)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        checkNotNull(request);
+        return get(PATH_CONTENT_MODEL + "s" + getEscidoc12Filter(request));
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws SystemException
+     * @throws RemoteException
+     */
+    @Override
+    public String retrieveContentModels(final ExplainRequestType request)
+        throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
+
+        checkNotNull(request);
+        return get(PATH_CONTENT_MODEL + "s" + getEscidoc12Filter(request));
     }
 }

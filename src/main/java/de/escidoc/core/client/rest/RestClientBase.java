@@ -7,9 +7,12 @@ import java.net.CookiePolicy;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.ClientPNames;
+import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 
 /**
@@ -69,5 +72,12 @@ public abstract class RestClientBase extends ClientBase
         //method.setFollowRedirects(false);
         method.getParams().setParameter("http.protocol.handle-redirects", false);
 
+    }
+
+    @Override
+    @Deprecated
+    public DateTime getLastModificationDate(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        throw new UnsupportedOperationException("Method no longer supported.");
     }
 }

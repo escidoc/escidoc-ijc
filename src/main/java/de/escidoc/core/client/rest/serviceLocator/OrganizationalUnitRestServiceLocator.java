@@ -146,19 +146,6 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         return get(PATH_OU + "/" + ouId + "/resources/path-list");
     }
 
-    @Deprecated
-    @Override
-    public String retrieveOrganizationalUnits(final String filterXml)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
-
-        if (filterXml == null)
-            throw new IllegalArgumentException("filterXml must not be null.");
-
-        return post("/oum/organizational-units/filter", filterXml);
-    }
-
     @SuppressWarnings("rawtypes")
     @Override
     @Deprecated

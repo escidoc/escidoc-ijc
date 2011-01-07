@@ -86,47 +86,10 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getRecacheStatus() throws EscidocException,
-        InternalClientException, TransportException {
-        try {
-            return getClient().getRecacheStatus();
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return null;
-    }
-
-    /**
-     * 
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
     public String getReindexStatus() throws EscidocException,
         InternalClientException, TransportException {
         try {
             return getClient().getReindexStatus();
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return null;
-    }
-
-    /**
-     * 
-     * @param clearCache
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String recache(final boolean clearCache) throws EscidocException,
-        InternalClientException, TransportException {
-        try {
-            return getClient().recache(clearCache ? "true" : "false");
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -185,6 +148,24 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         throws EscidocException, InternalClientException, TransportException {
         try {
             return getClient().loadExamples(exampleSet);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return null;
+    }
+
+    /**
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String getIndexConfiguration() throws EscidocException,
+        InternalClientException, TransportException {
+        try {
+            return getClient().getIndexConfiguration();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
