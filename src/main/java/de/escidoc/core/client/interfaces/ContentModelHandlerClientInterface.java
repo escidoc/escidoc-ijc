@@ -28,41 +28,71 @@
  */
 package de.escidoc.core.client.interfaces;
 
-import org.joda.time.DateTime;
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.List;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.ContentStreamService;
+import de.escidoc.core.client.interfaces.base.CrudService;
+import de.escidoc.core.client.interfaces.base.HandlerService;
+import de.escidoc.core.client.interfaces.base.PropertiesService;
+import de.escidoc.core.client.interfaces.base.VersionableResourceService;
 import de.escidoc.core.resources.cmm.ContentModel;
+import de.escidoc.core.resources.cmm.ContentModelProperties;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * This class defines the signatures for the client handler wrapper classes
  * where the transport specific exceptions are mapped to internal client
  * internal exception.
  * 
- * @param <ContentModel>
- *            ContentModel
  * @author SWA
  * 
  */
 public interface ContentModelHandlerClientInterface
-    extends CrudHandlerInterface<ContentModel> {
+    extends HandlerService, CrudService<ContentModel>,
+    PropertiesService<ContentModel, ContentModelProperties>,
+    VersionableResourceService<ContentModel>,
+    ContentStreamService<ContentModel> {
 
     /**
-     * Returns the last modification date for the specified {@link ContentModel}
-     * .
      * 
-     * @param id
-     *            Id of ContentModel.
-     * @return LastModificationDate of this ContentModel.
+     * @param request
+     * @return
      * @throws EscidocException
-     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
-     *             Thrown in case of client internal errors.
      * @throws TransportException
-     *             Thrown if in case of failure on transport level.
      */
-    @Deprecated
-    DateTime getLastModificationDate(final String id) throws EscidocException,
+    SearchRetrieveResponse retrieveContentModels(
+        SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ExplainResponse retrieveContentModels(ExplainRequestType request)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    List<ContentModel> retrieveContentModelsAsList(
+        SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
+
 }

@@ -31,6 +31,7 @@ package de.escidoc.core.client.interfaces;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.HandlerService;
 
 /**
  * Marker interface for ingest handlers
@@ -38,7 +39,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  * @author KST
  * 
  */
-public interface IngestHandlerInterface extends HandlerServiceInterface {
+public interface IngestHandlerClientInterface extends HandlerService {
 
     /**
      * Ingest a resource.
@@ -51,5 +52,4 @@ public interface IngestHandlerInterface extends HandlerServiceInterface {
      */
     String ingest(final String resourceXml) throws EscidocException,
         InternalClientException, TransportException;
-
 }

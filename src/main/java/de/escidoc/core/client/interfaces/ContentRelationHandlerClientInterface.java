@@ -31,15 +31,21 @@ package de.escidoc.core.client.interfaces;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
+import java.util.List;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.resources.common.Result;
-import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.client.interfaces.base.CrudService;
+import de.escidoc.core.client.interfaces.base.HandlerService;
+import de.escidoc.core.client.interfaces.base.LockingService;
+import de.escidoc.core.client.interfaces.base.ObjectPidService;
+import de.escidoc.core.client.interfaces.base.PropertiesService;
+import de.escidoc.core.client.interfaces.base.Releasable;
+import de.escidoc.core.client.interfaces.base.Revisable;
+import de.escidoc.core.client.interfaces.base.Submittable;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
+import de.escidoc.core.resources.om.contentRelation.ContentRelationProperties;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -48,307 +54,48 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * where the transport specific exceptions are mapped to internal client
  * internal exception.
  * 
- * @param <ContentRelation>
- *            ContentRelation
  * @author SWA
  * 
  */
 public interface ContentRelationHandlerClientInterface
-    extends ResourceHandlerInterface<ContentRelation> {
+    extends HandlerService, CrudService<ContentRelation>,
+    LockingService<ContentRelation>, Releasable<ContentRelation>,
+    Revisable<ContentRelation>, Submittable<ContentRelation>,
+    PropertiesService<ContentRelation, ContentRelationProperties>,
+    ObjectPidService<ContentRelation> {
 
     /**
-     * Lock resource.
      * 
-     * @param id
-     *            objid of resource
-     * @param taskParam
-     *            task param to lock
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result lock(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Lock resource.
-     * 
-     * @param contentRelation
-     *            resource
-     * @param taskParam
-     *            task param to lock
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result lock(final ContentRelation contentRelation, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Unlock resource.
-     * 
-     * @param id
-     *            objid of resource
-     * @param taskParam
-     *            task param to unlock
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result unlock(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Lock resource.
-     * 
-     * @param contentRelation
-     *            resource
-     * @param taskParam
-     *            task param to lock
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result unlock(
-        final ContentRelation contentRelation, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /*
-     * Status methods (ResourceStatusHandlerInterface could not be used, because
-     * ContentRelation does not support withdraw)
-     */
-
-    /**
-     * Release the Resource.
-     * 
-     * @param id
-     *            objid of the resource.
-     * @param taskParam
-     *            TaskParam for Release.
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result release(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Release the Resource.
-     * 
-     * @param contentRelation
-     *            resource
-     * @param taskParam
-     *            TaskParam for Release.
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result release(final ContentRelation resource, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Revise the Resource.
-     * 
-     * @param id
-     *            objid of the resource.
-     * @param taskParam
-     *            TaskParam for Release.
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result revise(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Revise the Resource.
-     * 
-     * @param contentRelation
-     *            resource.
-     * @param taskParam
-     *            TaskParam for Release.
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result revise(
-        final ContentRelation contentRelation, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Submit the Resource.
-     * 
-     * @param id
-     *            objid of resource.
-     * @param taskParam
-     *            TaskParam for Release.
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result submit(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Submit the Resource.
-     * 
-     * @param contentRelation
-     *            resource.
-     * @param taskParam
-     *            TaskParam for Release.
-     * @return Result (contains important resource parameter)
-     * 
-     * @throws EscidocClientException
-     *             Thrown in case of errors from framework.
-     * @throws InternalClientException
-     *             Thrown in case of client library internal errors.
-     * @throws TransportException
-     *             Thrown in case of transport errors.
-     */
-    Result submit(final ContentRelation resource, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
-     * Retrieve ContentRelation.
-     * 
-     * @param contentRelation
-     *            ContentRelation class with values which ContentRelation is to
-     *            retrieve (obji of ContentRelation is important factor).
-     * @return ContentRelation
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    ContentRelation retrieve(final ContentRelation contentRelation)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * Retrieve ContentRelations (Filter for ContentRelations).
-     * 
-     * @param filter
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    SearchRetrieveResponse retrieveContentRelations(
-        final SearchRetrieveRequestType filter) throws EscidocException,
-        InternalClientException, TransportException;
-
-    /**
-     * This is a convenience method to retrieve the resulting objects as a list.
-     * Since it could happen, that binding of an object fails, this list will
-     * not contain all objects, which could not be bounded. In case you wish to
-     * have complete control over the results, you may use the method
-     * {@link #retrieveContentRelations(SearchRetrieveRequestType)}, since you
-     * can still work with the resulting DOM.
-     * 
-     * Usually binding of an object fails, if the server returns unexpected
-     * record data.
-     * 
-     * @param filter
+     * @param request
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    Collection<ContentRelation> retrieveContentRelationsAsList(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+    SearchRetrieveResponse retrieveContentRelations(
+        SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
-     * Retrieve ContentRelations (Filter for ContentRelations).
      * 
-     * @param filter
-     *            Filter parameter
-     * @return ExplainRecord
+     * @param request
+     * @return
      * @throws EscidocException
-     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
-     *             Thrown in case of client internal errors.
      * @throws TransportException
-     *             Thrown if in case of failure on transport level.
      */
-    ExplainResponse retrieveContentRelations(final ExplainRequestType filter)
+    ExplainResponse retrieveContentRelations(ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
-     * Assign Persistent Identifier for ContentRelation (object).
      * 
-     * @param cr
-     *            ContentRelation
-     * @param taskParam
-     *            Task parameter to provide PID parameter.
-     * @return The updated ContentRelation.
+     * @param request
+     * @return
      * @throws EscidocException
-     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
-     *             Thrown in case of client internal errors.
      * @throws TransportException
-     *             Thrown if in case of failure on transport level.
      */
-    Result assignObjectPid(final ContentRelation cr, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    List<ContentRelation> retrieveContentRelationsAsList(
+        SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 }

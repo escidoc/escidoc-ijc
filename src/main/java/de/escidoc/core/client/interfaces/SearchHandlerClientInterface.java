@@ -34,6 +34,7 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.HandlerService;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
@@ -47,7 +48,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA, MVO
  * 
  */
-public interface SearchHandlerClientInterface extends HandlerServiceInterface {
+public interface SearchHandlerClientInterface extends HandlerService {
 
     /**
      * 

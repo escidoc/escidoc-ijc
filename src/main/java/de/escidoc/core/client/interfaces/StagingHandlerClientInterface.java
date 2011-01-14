@@ -35,6 +35,7 @@ import java.net.URL;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.HandlerService;
 
 /**
  * Interface for Staging Service.
@@ -42,7 +43,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  * @author SWA
  * 
  */
-public interface StagingHandlerClientInterface extends HandlerServiceInterface {
+public interface StagingHandlerClientInterface extends HandlerService {
 
     /**
      * Upload a resource.

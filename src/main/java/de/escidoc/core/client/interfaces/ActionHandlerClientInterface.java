@@ -29,31 +29,54 @@
 package de.escidoc.core.client.interfaces;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.HandlerService;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 
 /**
- * This class defines the signatures for the client handler wrapper classes
+ * This interface defines the signatures for the client handler wrapper classes
  * where the transport specific exceptions are mapped to internal client
- * internal exception.
+ * exception.
  * 
  * @author SWA
  * 
  */
-public interface ActionHandlerClientInterface {
+public interface ActionHandlerClientInterface extends HandlerService {
 
-    UnsecuredActions createUnsecuredActions(
+    /**
+     * 
+     * @param contextId
+     * @param actions
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    UnsecuredActions create(
         final String contextId, final UnsecuredActions actions)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
-    UnsecuredActions retrieveUnsecuredActions(final String contextId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    /**
+     * 
+     * @param contextId
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    UnsecuredActions retrieve(final String contextId) throws EscidocException,
+        InternalClientException, TransportException;
 
-    void deleteUnsecuredActions(final String contextId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    /**
+     * 
+     * @param contextId
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    void delete(final String contextId) throws EscidocException,
+        TransportException, InternalClientException;
 
 }

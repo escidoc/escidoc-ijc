@@ -31,6 +31,7 @@ package de.escidoc.core.client.interfaces;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.HandlerService;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Results;
 
@@ -43,9 +44,16 @@ import de.escidoc.core.resources.aa.pdp.Results;
  * 
  */
 public interface PolicyDecisionPointHandlerClientInterface
-    extends HandlerServiceInterface {
+    extends HandlerService {
 
+    /**
+     * 
+     * @param requests
+     * @return
+     * @throws EscidocClientException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     Results evaluate(final Requests requests) throws EscidocClientException,
         InternalClientException, TransportException;
-
 }

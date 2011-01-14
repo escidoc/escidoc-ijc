@@ -31,17 +31,31 @@ package de.escidoc.core.client.interfaces;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
+import java.io.InputStream;
+import java.util.List;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.ContentStreamService;
+import de.escidoc.core.client.interfaces.base.CrudService;
+import de.escidoc.core.client.interfaces.base.HandlerService;
+import de.escidoc.core.client.interfaces.base.LockingService;
+import de.escidoc.core.client.interfaces.base.MdRecordService;
+import de.escidoc.core.client.interfaces.base.PropertiesService;
+import de.escidoc.core.client.interfaces.base.ResourceStatusService;
+import de.escidoc.core.client.interfaces.base.VersionPidService;
+import de.escidoc.core.client.interfaces.base.VersionableResourceService;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.om.item.ItemList;
+import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.resources.om.item.component.Component;
+import de.escidoc.core.resources.om.item.component.ComponentProperties;
+import de.escidoc.core.resources.om.item.component.Components;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -51,97 +65,375 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * internal exception.
  * 
  * @author SWA
- * @param <Item>
  */
 public interface ItemHandlerClientInterface
-    extends VersionableResourceHandlerInterface<Item> {
-
-    /*
-     * lock methods
-     */
-
-    Result lock(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
-
-    Result lock(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
-
-    Result unlock(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
-
-    Result unlock(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
-
-    Item retrieve(final Item item) throws EscidocException,
-        InternalClientException, TransportException;
-
-    @Deprecated
-    ItemList retrieveItems(final TaskParam taskParam) throws EscidocException,
-        InternalClientException, TransportException;
+    extends HandlerService, CrudService<Item>,
+    VersionableResourceService<Item>, ResourceStatusService<Item>,
+    LockingService<Item>, VersionPidService<Item>,
+    PropertiesService<Item, ItemProperties>, MdRecordService<Item>,
+    ContentStreamService<Item> {
 
     /**
      * 
-     * @param filter
+     * @param request
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveItems(final SearchRetrieveRequestType filter)
+    SearchRetrieveResponse retrieveItems(SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
-     * This is a convenience method to retrieve the resulting objects as a list.
-     * Since it could happen, that binding of an object fails, this list will
-     * not contain all objects, which could not be bounded. In case you wish to
-     * have complete control over the results, you may use the method
-     * {@link #retrieveItems(SearchRetrieveRequestType)}, since you can still
-     * work with the resulting DOM.
      * 
-     * Usually binding of an object fails, if the server returns unexpected
-     * record data.
-     * 
-     * @param filter
+     * @param request
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    Collection<Item> retrieveItemsAsList(final SearchRetrieveRequestType filter)
+    ExplainResponse retrieveItems(ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException;
 
-    ExplainResponse retrieveItems(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /*
-     * Assign PID methods
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
      */
-    Result assignObjectPid(final Item item, final TaskParam taskParam)
+    List<Item> retrieveItemsAsList(SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException;
 
-    Result assignContentPid(
-        final String id, final String componentId, final TaskParam taskParam)
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Relations retrieveRelations(final String id) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Relations retrieveRelations(final Item item) throws EscidocException,
+        InternalClientException, TransportException;
+
+    // TODO
+    // String retrieveParents(final String itemId)
+
+    /**
+     * @param id
+     * @param param
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Item moveToContext(final String id, final TaskParam param)
         throws EscidocException, InternalClientException, TransportException;
 
-    Result assignContentPid(
-        final Item item, final String componentId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
-
-    Result assignVersionPid(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
-
-    Result assignVersionPid(final Item item, final TaskParam taskParam)
+    /**
+     * 
+     * @param item
+     * @param param
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Item moveToContext(final Item item, final TaskParam param)
         throws EscidocException, InternalClientException, TransportException;
 
     /*
-     * sub-resources (comming later)
+     * COMPONENTS
+     */
+
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Components retrieveComponents(final String id) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Components retrieveComponents(final Item item) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param id
+     * @param component
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
      */
     Component createComponent(final String id, Component component)
         throws EscidocException, InternalClientException, TransportException;
 
+    /**
+     * 
+     * @param item
+     * @param component
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     Component createComponent(final Item item, final Component component)
         throws EscidocException, InternalClientException, TransportException;
 
-    Relations retrieveRelations(final String id) throws EscidocException,
+    /**
+     * 
+     * @param itemId
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Component retrieveComponent(final String itemId, final String componentId)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Component retrieveComponent(final Item item, final String componentId)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param itemId
+     * @param componentId
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    void deleteComponent(final String itemId, final String componentId)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param componentId
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    void deleteComponent(final Item item, final String componentId)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param id
+     * @param componentId
+     * @param xmlData
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Component updateComponent(
+        final String id, final String componentId, final String xmlData)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param componentId
+     * @param xmlData
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Component updateComponent(
+        final Item item, final String componentId, final String xmlData)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param itemId
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ComponentProperties retrieveComponentProperties(
+        final String itemId, final String componentId) throws EscidocException,
         InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ComponentProperties retrieveComponentProperties(
+        final Item item, final String componentId) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param itemId
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    MetadataRecords retrieveComponentMdRecords(
+        final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    MetadataRecords retrieveComponentMdRecords(
+        final Item item, final String componentId) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param id
+     * @param componentId
+     * @param mdRecordId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    MetadataRecord retrieveComponentMdRecord(
+        final String id, final String componentId, final String mdRecordId)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /*
+     * CONTENT
+     */
+
+    /**
+     * 
+     * @param id
+     * @param contentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    InputStream retrieveContent(final String id, final String contentId)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param contentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    InputStream retrieveContent(final Item item, final String contentId)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param id
+     * @param contentId
+     * @param transformer
+     * @param param
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    InputStream retrieveContent(
+        final String id, final String contentId, final String transformer,
+        final TaskParam param) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param contentId
+     * @param transformer
+     * @param param
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    InputStream retrieveContent(
+        final Item item, final String contentId, final String transformer,
+        final TaskParam param) throws EscidocException,
+        InternalClientException, TransportException;
+
+    // TODO
+    // redirectContentService(
+    // final String id, final String componentId, final String transformer,
+    // final String clientService)
+
+    /**
+     * 
+     * @param id
+     * @param componentId
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Result assignContentPid(
+        final String id, final String componentId, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param componentId
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Result assignContentPid(
+        final Item item, final String componentId, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException;
 }

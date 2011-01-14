@@ -28,12 +28,15 @@
  */
 package de.escidoc.core.client.interfaces;
 
+import de.escidoc.core.client.interfaces.base.HandlerService;
+import de.escidoc.core.client.interfaces.base.VersionableResourceService;
+
 /**
  * 
  * @author SWA
  * 
  */
 public interface TocHandlerClientInterface<Toc>
-    extends VersionableResourceHandlerInterface<Toc> {
+    extends HandlerService, VersionableResourceService<Toc> {
 
 }

@@ -31,15 +31,14 @@ package de.escidoc.core.client.interfaces;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
+import java.util.List;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.CrudService;
+import de.escidoc.core.client.interfaces.base.HandlerService;
 import de.escidoc.core.resources.aa.role.Role;
-import de.escidoc.core.resources.aa.role.Roles;
-import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -48,19 +47,8 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA
  * 
  */
-public interface RoleHandlerClientInterface extends CrudHandlerInterface<Role> {
-
-    /**
-     * 
-     * @param taskParam
-     * @return
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    @Deprecated
-    Roles retrieveRoles(TaskParam taskParam) throws EscidocClientException,
-        InternalClientException, TransportException;
+public interface RoleHandlerClientInterface
+    extends HandlerService, CrudService<Role> {
 
     /**
      * 
@@ -81,9 +69,17 @@ public interface RoleHandlerClientInterface extends CrudHandlerInterface<Role> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Collection<Role> retrieveRolesAsList(SearchRetrieveRequestType filter)
+    List<Role> retrieveRolesAsList(SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
+    /**
+     * 
+     * @param explain
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     ExplainResponse retrieveRoles(final ExplainRequestType explain)
         throws EscidocException, InternalClientException, TransportException;
 }

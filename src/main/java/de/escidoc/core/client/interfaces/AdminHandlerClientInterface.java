@@ -6,6 +6,7 @@ package de.escidoc.core.client.interfaces;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.base.HandlerService;
 import de.escidoc.core.resources.adm.LoadExamplesResult.Entry;
 import de.escidoc.core.resources.adm.MessagesStatus;
 import de.escidoc.core.resources.adm.RepositoryInfo;
@@ -16,7 +17,7 @@ import de.escidoc.core.resources.common.TaskParam;
  * @author MVO
  * 
  */
-public interface AdminHandlerClientInterface extends HandlerServiceInterface {
+public interface AdminHandlerClientInterface extends HandlerService {
 
     public static final String EXAMPLE_SET_COMMON = "common";
 
@@ -38,27 +39,18 @@ public interface AdminHandlerClientInterface extends HandlerServiceInterface {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public MessagesStatus getRecacheStatus() throws EscidocException,
-        InternalClientException, TransportException;
-
-    /**
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
     public MessagesStatus getReindexStatus() throws EscidocException,
         InternalClientException, TransportException;
 
     /**
-     * @param clearCache
+     * 
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    public MessagesStatus recache(final boolean clearCache)
-        throws EscidocException, InternalClientException, TransportException;
+    public String getIndexConfiguration() throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param clearIndex
