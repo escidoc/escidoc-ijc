@@ -1,58 +1,72 @@
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
-import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.RestClientBase;
 import de.escidoc.core.client.soap.SoapClientBase;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 
 public abstract class AbstractHandlerClient<soapType extends SoapClientBase, restType extends RestClientBase> {
 
-    private static final Logger LOGGER = Logger
+    private static final Logger LOG = Logger
         .getLogger(AbstractHandlerClient.class);
-
-    //
-    private TransportProtocol transport = TransportProtocol.SOAP;
 
     private String handle;
 
-    private String serviceAddress;
+    private URL serviceAddress;
 
     protected soapType soapHandlerClient;
 
     protected restType restHandlerClient;
 
     /**
-     * TODO put default transport loading into a static variable somewhere as a
-     * constant value.
+     * 
      */
     public AbstractHandlerClient() {
-        try {
-            this.transport =
-                TransportProtocol.valueOf(ConfigurationProvider
-                    .getInstance().getProperty(
-                        ConfigurationProvider.PROP_SERVICE_PROTOCOL));
-        }
-        catch (InternalClientException e) {
-            LOGGER.debug("Unable to get the default transport protocol from "
-                + "configuration. Using SOAP protocol instead.", e);
-        }
+
     }
 
     /**
      * 
      * @param serviceAddress
      */
-    public AbstractHandlerClient(final String serviceAddress) {
+    public AbstractHandlerClient(final URL serviceAddress) {
         this();
         this.serviceAddress = serviceAddress;
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use {@link AbstractHandlerClient#AbstractHandlerClient(URL)}
+     *             instead. If the specified serviceAddress is an invalid URL,
+     *             the Exception will be logged and not thrown, because this
+     *             would cause compilation errors for CLIB users.
+     */
+    @Deprecated
+    public AbstractHandlerClient(final String serviceAddress) {
+        this();
+        try {
+            this.serviceAddress = new URL(serviceAddress);
+        }
+        catch (MalformedURLException e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Invalid serviceAddress.", e);
+            }
+        }
     }
 
     /**
@@ -60,15 +74,19 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      * @return
      */
     public TransportProtocol getTransport() {
-        return this.transport;
+        return ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL;
     }
 
     /**
      * 
      * @param transport
+     * @deprecated The main handler clients will use the REST transport protocol
+     *             only since eSciDoc infrastructure 1.3. Therefore this method
+     *             will not do anything.
      */
+    @Deprecated
     public void setTransport(final TransportProtocol transport) {
-        this.transport = transport;
+        // do nothing
     }
 
     /**
@@ -112,7 +130,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
     /**
      * @return the serviceAddress
      */
-    public final String getServiceAddress() {
+    public final URL getServiceAddress() {
         return serviceAddress;
     }
 
@@ -131,7 +149,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      *         specified as type T.
      */
     @SuppressWarnings("unchecked")
-    public <T> T getSRWResourceRecordData(
+    protected <T> T getSRWResourceRecordData(
         final Record<?> record, final Class<T> resource) {
 
         if (record instanceof ResourceRecord<?>) {
@@ -142,6 +160,30 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
             }
         }
         return null;
+    }
+
+    /**
+     * 
+     * @param <T>
+     * @param resource
+     * @param response
+     * @return
+     */
+    protected <T> List<T> getSearchRetrieveResponseAsList(
+        final Class<T> resource, final SearchRetrieveResponse response) {
+
+        checkNotNull(resource);
+        checkNotNull(response);
+
+        List<T> results = new LinkedList<T>();
+
+        for (Record<?> record : response.getRecords()) {
+            T element = getSRWResourceRecordData(record, resource);
+            if (element != null) {
+                results.add(element);
+            }
+        }
+        return results;
     }
 
     /**
@@ -176,41 +218,6 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
                 restHandlerClient.setHandle(handle);
         }
         return restHandlerClient;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.CrudHandlerInterface#login(java.lang
-     * .String, java.lang.String, java.lang.String)
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().login(serviceAddress, username,
-                password);
-        }
-        else {
-            return getRestHandlerClient().login(serviceAddress, username,
-                password);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#logout()
-     */
-    @Deprecated
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
-
-        setHandle("");
     }
 
     /**

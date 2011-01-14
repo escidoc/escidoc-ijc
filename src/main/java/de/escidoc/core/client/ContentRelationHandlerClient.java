@@ -31,10 +31,8 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
-import org.joda.time.DateTime;
+import java.net.URL;
+import java.util.List;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -46,8 +44,7 @@ import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
-import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
-import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.om.contentRelation.ContentRelationProperties;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -75,8 +72,20 @@ public class ContentRelationHandlerClient
      * 
      * @param serviceAddress
      */
-    public ContentRelationHandlerClient(final String serviceAddress) {
+    public ContentRelationHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
+    }
+
+    @Override
+    protected SoapContentRelationHandlerClient getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return new SoapContentRelationHandlerClient(getServiceAddress());
+    }
+
+    @Override
+    protected RestContentRelationHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestContentRelationHandlerClient(getServiceAddress());
     }
 
     /**
@@ -114,7 +123,17 @@ public class ContentRelationHandlerClient
             .unmarshalDocument(xml);
     }
 
-    @Override
+    /**
+     * @param contentRelation
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     * @deprecated Signature convention: Use
+     *             {@link ContentRelationHandlerClient#retrieve(String)}
+     *             instead.
+     */
+    @Deprecated
     public ContentRelation retrieve(final ContentRelation contentRelation)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -163,12 +182,12 @@ public class ContentRelationHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    @Override
-    public OrganizationalUnitProperties retrieveProperties(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new InternalClientException("method not yet supported");
-    }
+    // @Override
+    // public OrganizationalUnitProperties retrieveProperties(final String id)
+    // throws EscidocException, InternalClientException, TransportException {
+    //
+    // throw new InternalClientException("method not yet supported");
+    // }
 
     /**
      * Delete ContentRelation from Repository.
@@ -613,23 +632,21 @@ public class ContentRelationHandlerClient
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
-    @SuppressWarnings("rawtypes")
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface
+     * #retrieveContentRelationsAsList
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
-    public Collection<ContentRelation> retrieveContentRelationsAsList(
+    public List<ContentRelation> retrieveContentRelationsAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        SearchRetrieveResponse response = retrieveContentRelations(filter);
-        Collection<ContentRelation> results = new LinkedList<ContentRelation>();
-
-        for (Record record : response.getRecords()) {
-            ContentRelation contentRelation =
-                getSRWResourceRecordData(record, ContentRelation.class);
-            if (contentRelation != null) {
-                results.add(contentRelation);
-            }
-        }
-        return results;
+        return getSearchRetrieveResponseAsList(ContentRelation.class,
+            retrieveContentRelations(filter));
     }
 
     /**
@@ -662,36 +679,18 @@ public class ContentRelationHandlerClient
             .unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
-     * 
-     * @param id
-     *            Id of ContentRelation.
-     * @return LastModificationDate of this ContentRelation.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
     @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
+    public ContentRelationProperties retrieveProperties(final String id)
         throws EscidocException, InternalClientException, TransportException {
-
-        return getSoapHandlerClient().getLastModificationDate(id);
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
-    protected SoapContentRelationHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapContentRelationHandlerClient(getServiceAddress());
-    }
-
-    @Override
-    protected RestContentRelationHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
-        return new RestContentRelationHandlerClient(getServiceAddress());
+    public ContentRelationProperties retrieveProperties(
+        final ContentRelation resource) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

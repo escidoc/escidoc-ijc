@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.client;
 
+import java.net.URL;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -65,7 +67,7 @@ public class PolicyDecisionPointHandlerClient
      * 
      * @param serviceAddress
      */
-    public PolicyDecisionPointHandlerClient(final String serviceAddress) {
+    public PolicyDecisionPointHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 

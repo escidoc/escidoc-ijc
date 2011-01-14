@@ -28,10 +28,12 @@
  */
 package de.escidoc.core.client;
 
+import java.net.URL;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.IngestHandlerInterface;
+import de.escidoc.core.client.interfaces.IngestHandlerClientInterface;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
 import de.escidoc.core.client.soap.SoapIngestHandlerClient;
 
@@ -44,7 +46,7 @@ import de.escidoc.core.client.soap.SoapIngestHandlerClient;
 public class IngestHandlerClient
     extends
     AbstractHandlerClient<SoapIngestHandlerClient, RestIngestHandlerClient>
-    implements IngestHandlerInterface {
+    implements IngestHandlerClientInterface {
 
     /**
      * 
@@ -57,7 +59,7 @@ public class IngestHandlerClient
      * 
      * @param serviceAddress
      */
-    public IngestHandlerClient(final String serviceAddress) {
+    public IngestHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -74,6 +76,7 @@ public class IngestHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public String ingest(final String resourceXml) throws EscidocException,
         InternalClientException, TransportException {
 

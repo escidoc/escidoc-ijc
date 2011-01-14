@@ -39,7 +39,6 @@ import java.util.HashMap;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -53,10 +52,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public abstract class ClientBase {
 
-    private String serviceAddress;
-
-    @Deprecated
-    private Authentication auth = null;
+    private URL serviceAddress;
 
     private String handle;
 
@@ -78,9 +74,27 @@ public abstract class ClientBase {
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
      */
+    public ClientBase(final URL serviceAddress) throws InternalClientException {
+        setServiceAddress(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use {@link ClientBase#ClientBase(URL)} instead.
+     */
+    @Deprecated
     public ClientBase(final String serviceAddress)
         throws InternalClientException {
-        setServiceAddress(serviceAddress);
+        URL url;
+        try {
+            url = new URL(serviceAddress);
+        }
+        catch (MalformedURLException e) {
+            throw new InternalClientException(e);
+        }
+        setServiceAddress(url);
     }
 
     /**
@@ -88,7 +102,7 @@ public abstract class ClientBase {
      * 
      * @return address of service endpoint.
      */
-    public String getServiceAddress() {
+    public URL getServiceAddress() {
         return this.serviceAddress;
     }
 
@@ -100,25 +114,28 @@ public abstract class ClientBase {
      * @throws InternalClientException
      *             Thrown if address is not a valid URL.
      */
-    private void setServiceAddress(final String address)
+    private void setServiceAddress(final URL address)
         throws InternalClientException {
+
         if (address == null) {
-            this.serviceAddress =
+            String serviceAddress =
                 "http://"
                     + getConfiguration().getProperty(
                         ConfigurationProvider.PROP_SERVER_NAME)
                     + ":"
                     + getConfiguration().getProperty(
                         ConfigurationProvider.PROP_SERVER_PORT);
-        }
-        else {
+
             try {
-                URL url = new URL(address);
-                this.serviceAddress = url.toString();
+                this.serviceAddress = new URL(serviceAddress);
             }
             catch (MalformedURLException e) {
-                throw new InternalClientException(e);
+                throw new InternalClientException(
+                    "Invalid service endpoint in configuration file.", e);
             }
+        }
+        else {
+            this.serviceAddress = address;
         }
     }
 
@@ -159,8 +176,10 @@ public abstract class ClientBase {
      *             Thrown if in case of failure on transport level.
      */
     @Deprecated
-    public abstract DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException;
+    public DateTime getLastModificationDate(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        throw new UnsupportedOperationException("Method no longer supported.");
+    }
 
     /**
      * Get Authentication Handle.
@@ -181,46 +200,6 @@ public abstract class ClientBase {
     public void setHandle(final String handle) {
 
         this.handle = handle;
-    }
-
-    /**
-     * Get eSciDoc Authentication Handle.
-     * 
-     * @param serviceUrl
-     *            URL of framework (login).
-     * @param username
-     *            Username
-     * @param password
-     *            Password.
-     * @return eSciDoc Authentication handle
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public String login(
-        final String serviceUrl, final String username, final String password)
-        throws EscidocException, InternalClientException, TransportException {
-
-        setServiceAddress(serviceUrl);
-
-        if (this.auth == null) {
-            try {
-                auth = new Authentication(serviceUrl, username, password);
-            }
-            catch (EscidocClientException e) {
-                throw new InternalClientException("Login failed.", e);
-            }
-        }
-
-        String handle = this.auth.getHandle();
-        setHandle(handle);
-
-        return handle;
     }
 
     /**

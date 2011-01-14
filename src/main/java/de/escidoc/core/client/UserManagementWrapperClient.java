@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.client;
 
+import java.net.URL;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -59,7 +61,7 @@ public class UserManagementWrapperClient
      * 
      * @param serviceAddress
      */
-    public UserManagementWrapperClient(final String serviceAddress) {
+    public UserManagementWrapperClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -70,6 +72,7 @@ public class UserManagementWrapperClient
      * de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface
      * #logout()
      */
+    @Override
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
 

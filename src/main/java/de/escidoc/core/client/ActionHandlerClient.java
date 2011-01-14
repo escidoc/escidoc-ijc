@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.client;
 
+import java.net.URL;
+
 import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -41,11 +43,7 @@ import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 
 /**
- * This is the generic ContainerSoapContainerHandlerClient which binds the
- * transport specific classes. The transport specification is done via
- * properties configuration of the eSciDoc client.
  * 
- * FIXME: Documentation invalid. TODO: SOAP only?
  * 
  * @author SWA
  * 
@@ -55,8 +53,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
     private SoapActionHandlerClient soapActionHandlerClient = null;
 
     /**
-     * Create ActionHandlerClient instance. The service protocol (REST/SOAP/..)
-     * selected from the configuration. Default is SOAP.
+     * Creates an ActionHandlerClient instance.
      * 
      * @throws EscidocException
      *             Thrown if an exception from framework is received.
@@ -64,26 +61,44 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      *             Thrown in case of client internal errors.
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
+     * @deprecated Use {@link HandlerClientFactory#getActionHandlerClient()}
+     *             instead.
      */
-    public ActionHandlerClient() throws EscidocException,
-        InternalClientException, TransportException {
+    @Deprecated
+    public ActionHandlerClient() throws InternalClientException {
         this.soapActionHandlerClient = new SoapActionHandlerClient();
     }
 
     /**
-     * Create ActionHandlerClient instance. The service protocol (REST/SOAP/..)
-     * selected from the configuration. Default is SOAP.
+     * Creates an ActionHandlerClient instance.
      * 
      * @param serviceAddress
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @deprecated Use {@link HandlerClientFactory#getActionHandlerClient(URL)}
+     *             instead.
      */
+    @Deprecated
+    public ActionHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+
+        this.soapActionHandlerClient =
+            new SoapActionHandlerClient(serviceAddress);
+    }
+
+    /**
+     * Creates an ActionHandlerClient instance.
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @deprecated Use {@link HandlerClientFactory#getActionHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public ActionHandlerClient(final String serviceAddress)
-        throws EscidocException, InternalClientException, TransportException {
+        throws InternalClientException {
+
         this.soapActionHandlerClient =
             new SoapActionHandlerClient(serviceAddress);
     }
@@ -97,22 +112,19 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      *            UnsecuredActions
      * @return UnsecuredActions
      * 
-     * @throws EscidocClientException
-     *             Thrown if an exception from framework is received.
+     * @throws EscidocException
+     * @throws TransportException
+     * @throws InternalClientException
+     * 
+     * @deprecated Naming convention: Use
+     *             {@link ActionHandlerClient#create(String, UnsecuredActions)}
      */
-    @Override
+    @Deprecated
     public UnsecuredActions createUnsecuredActions(
         final String contextId, final UnsecuredActions actions)
-        throws EscidocClientException {
+        throws EscidocException, InternalClientException, TransportException {
 
-        Marshaller<UnsecuredActions> m =
-            MarshallerFactory
-                .getInstance(TransportProtocol.SOAP).getMarshaller(
-                    UnsecuredActions.class);
-        String xml =
-            getSoapActionHandlerClient().createUnsecuredActions(contextId,
-                m.marshalDocument(actions));
-        return m.unmarshalDocument(xml);
+        return create(contextId, actions);
     }
 
     /**
@@ -121,18 +133,17 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * @param contextId
      *            Objid of Context.
      * @return UnsecuredActions
-     * 
-     * @throws EscidocClientException
-     *             Thrown if an exception from framework is received.
+     * @throws TransportException
+     * @throws InternalClientException
+     * @throws EscidocException
+     * @deprecated Naming convention: Use
+     *             {@link ActionHandlerClient#retrieve(String)} instead.
      */
-    @Override
+    @Deprecated
     public UnsecuredActions retrieveUnsecuredActions(final String contextId)
-        throws EscidocClientException {
-        String xml =
-            getSoapActionHandlerClient().retrieveUnsecuredActions(contextId);
-        return MarshallerFactory
-            .getInstance(TransportProtocol.SOAP)
-            .getMarshaller(UnsecuredActions.class).unmarshalDocument(xml);
+        throws EscidocException, InternalClientException, TransportException {
+
+        return retrieve(contextId);
     }
 
     /**
@@ -140,14 +151,17 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * 
      * @param contextId
      *            Objid of Context.
-     * 
-     * @throws EscidocClientException
-     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     * @throws TransportException
+     * @throws EscidocException
+     * @deprecated Naming convention: Use
+     *             {@link ActionHandlerClient#delete(String)} instead.
      */
-    @Override
+    @Deprecated
     public void deleteUnsecuredActions(final String contextId)
-        throws EscidocClientException {
-        getSoapActionHandlerClient().deleteUnsecuredActions(contextId);
+        throws EscidocException, TransportException, InternalClientException {
+
+        delete(contextId);
     }
 
     /**
@@ -168,55 +182,12 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
     }
 
     /**
-     * Login.
-     * 
-     * @param serviceAddress
-     *            URL of framework
-     * @param username
-     *            Username/ID
-     * @param password
-     *            Password
-     * @return Login-Handle.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public String login(
-        final String serviceAddress, final String username,
-        final String password) throws EscidocException,
-        InternalClientException, TransportException {
-
-        return getSoapActionHandlerClient().login(serviceAddress, username,
-            password);
-    }
-
-    /**
-     * Logout.
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
-
-        setHandle("");
-    }
-
-    /**
      * Set Login-Handle.
      * 
      * @param handle
      *            Login-Handle
      */
+    @Override
     public void setHandle(final String handle) {
         getSoapActionHandlerClient().setHandle(handle);
     }
@@ -225,6 +196,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * 
      * @return The handle used for authentication by this client.
      */
+    @Override
     public String getHandle() {
         return getSoapActionHandlerClient().getHandle();
     }
@@ -233,7 +205,8 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * 
      * @return The serviceAddress of this client.
      */
-    public String getServiceAddress() {
+    @Override
+    public URL getServiceAddress() {
         return getSoapActionHandlerClient().getServiceAddress();
     }
 
@@ -246,4 +219,70 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
         return soapActionHandlerClient;
     }
 
+    /**
+     * @param tp
+     */
+    @Override
+    public void setTransport(final TransportProtocol tp) {
+        // ignore
+
+    }
+
+    @Override
+    public TransportProtocol getTransport() {
+        return TransportProtocol.SOAP;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ActionHandlerClientInterface#create
+     * (java.lang.String, de.escidoc.core.resources.aa.actions.UnsecuredActions)
+     */
+    @Override
+    public UnsecuredActions create(
+        final String contextId, final UnsecuredActions actions)
+        throws EscidocException, InternalClientException, TransportException {
+
+        Marshaller<UnsecuredActions> m =
+            MarshallerFactory
+                .getInstance(TransportProtocol.SOAP).getMarshaller(
+                    UnsecuredActions.class);
+        String xml =
+            getSoapActionHandlerClient().createUnsecuredActions(contextId,
+                m.marshalDocument(actions));
+        return m.unmarshalDocument(xml);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ActionHandlerClientInterface#retrieve
+     * (java.lang.String)
+     */
+    @Override
+    public UnsecuredActions retrieve(final String contextId)
+        throws EscidocException, InternalClientException, TransportException {
+        String xml =
+            getSoapActionHandlerClient().retrieveUnsecuredActions(contextId);
+        return MarshallerFactory
+            .getInstance(TransportProtocol.SOAP)
+            .getMarshaller(UnsecuredActions.class).unmarshalDocument(xml);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ActionHandlerClientInterface#delete
+     * (java.lang.String)
+     */
+    @Override
+    public void delete(final String contextId) throws EscidocException,
+        TransportException, InternalClientException {
+
+        getSoapActionHandlerClient().deleteUnsecuredActions(contextId);
+    }
 }

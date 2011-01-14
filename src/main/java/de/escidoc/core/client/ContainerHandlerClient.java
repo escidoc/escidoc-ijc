@@ -31,11 +31,10 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.net.URL;
+import java.util.List;
 
-import org.joda.time.DateTime;
-
+import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -48,12 +47,8 @@ import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
-import de.escidoc.core.resources.om.MemberList;
 import de.escidoc.core.resources.om.container.Container;
-import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
-import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -81,7 +76,7 @@ public class ContainerHandlerClient
      * 
      * @param serviceAddress
      */
-    public ContainerHandlerClient(final String serviceAddress) {
+    public ContainerHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -161,12 +156,12 @@ public class ContainerHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    @Override
-    public OrganizationalUnitProperties retrieveProperties(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new InternalClientException("method not yet supported");
-    }
+    // @Override
+    // public OrganizationalUnitProperties retrieveProperties(final String id)
+    // throws EscidocException, InternalClientException, TransportException {
+    //
+    // throw new InternalClientException("method not yet supported");
+    // }
 
     /**
      * Get Version History from Container.
@@ -221,18 +216,12 @@ public class ContainerHandlerClient
         }
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param container
-     *            The Container which is to store within Repository.
-     * @return Updated Container
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.CrudService#update(java.lang.Object
+     * )
      */
     @Override
     public Container update(final Container container) throws EscidocException,
@@ -850,37 +839,6 @@ public class ContainerHandlerClient
     }
 
     /**
-     * Retrieve Containers via filter from framework.
-     * 
-     * @param taskParam
-     *            Expression of Filter language.
-     * @return ContainerList
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Override
-    @Deprecated
-    public ContainerList retrieveContainers(final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String taskParamString = marshalTaskParam(taskParam);
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveContainers(taskParamString);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveContainers(taskParamString);
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ContainerList.class)
-            .unmarshalDocument(xml);
-    }
-
-    /**
      * Retrieve Containers (Filter for Containers).
      * 
      * @param filter
@@ -910,36 +868,26 @@ public class ContainerHandlerClient
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#
+     * retrieveContainersAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
-    public Collection<Container> retrieveContainersAsList(
+    public List<Container> retrieveContainersAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        SearchRetrieveResponse response = retrieveContainers(filter);
-        Collection<Container> containers = new LinkedList<Container>();
-
-        for (Record<?> record : response.getRecords()) {
-            Container container =
-                getSRWResourceRecordData(record, Container.class);
-            if (container != null) {
-                containers.add(container);
-            }
-        }
-        return containers;
+        return getSearchRetrieveResponseAsList(Container.class,
+            retrieveContainers(filter));
     }
 
-    /**
-     * Retrieve Containers (Filter for Containers).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return ExplainRecord
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#
+     * retrieveContainers(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveContainers(final ExplainRequestType filter)
@@ -957,18 +905,11 @@ public class ContainerHandlerClient
             .unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve relations.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Id of Container.
-     * @return Relations of the Container.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#
+     * retrieveRelations(java.lang.String)
      */
     @Override
     public Relations retrieveRelations(final String id)
@@ -984,58 +925,14 @@ public class ContainerHandlerClient
         return MarshallerFactory
             .getInstance(getTransport()).getMarshaller(Relations.class)
             .unmarshalDocument(xml);
-
     }
 
-    /**
-     * Retrieve Members.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Id of Container.
-     * @param taskParam
-     *            filter
-     * @return Members of the Container.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Override
-    @Deprecated
-    public MemberList retrieveMembers(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String xml = null;
-        String taskParamString = marshalTaskParam(taskParam);
-        if (getTransport() == TransportProtocol.SOAP) {
-
-            xml = getSoapHandlerClient().retrieveMembers(id, taskParamString);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveMembers(id, taskParamString);
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(MemberList.class)
-            .unmarshalDocument(xml);
-
-    }
-
-    /**
-     * Retrieve Members (Filter for Members).
-     * 
-     * @param id
-     *            The Container where the filter should operate on
-     * @param filter
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#
+     * retrieveMembers(de.escidoc.core.resources.om.container.Container,
+     * gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public SearchRetrieveResponse retrieveMembers(
@@ -1058,20 +955,12 @@ public class ContainerHandlerClient
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Members (Filter for Members).
+    /*
+     * (non-Javadoc)
      * 
-     * @param container
-     *            The Container where the filter should operate on
-     * @param filter
-     *            Filter parameter
-     * @return ExplainRecord
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#
+     * retrieveMembers(de.escidoc.core.resources.om.container.Container,
+     * gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveMembers(
@@ -1094,33 +983,120 @@ public class ContainerHandlerClient
             .unmarshalDocument(xml);
     }
 
-    /**
-     * Get last-modification-date of Container.
-     * 
-     * @param id
-     *            Objid
-     * @return last-modification-date of resource.
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
     @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public VersionHistory retrieveVersionHistory(final Container resource)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-        DateTime lmd = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            lmd = getSoapHandlerClient().getLastModificationDate(id);
-        }
-        else {
-            lmd = getRestHandlerClient().getLastModificationDate(id);
-        }
-        return lmd;
+    @Override
+    public Result lock(final Container obj, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Result unlock(final Container obj, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Result assignVersionPid(
+        final Container resource, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Result assignObjectPid(
+        final Container resource, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public StructMap retrieveStructMap(final Container container)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Container createContainer(
+        final Container container, final Container subContainer)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Item createItem(final Container container, final Item item)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Container addContentRelations(
+        final Container container, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Container removeContentRelations(
+        final Container container, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Result addMembers(
+        final Container container, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Result removeMembers(
+        final Container container, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Relations retrieveRelations(final Container container)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public SearchRetrieveResponse retrieveMembers(
+        final String id, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ExplainResponse retrieveMembers(
+        final String id, final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

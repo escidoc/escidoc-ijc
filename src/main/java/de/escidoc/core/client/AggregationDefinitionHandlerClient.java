@@ -5,9 +5,14 @@ package de.escidoc.core.client;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.net.URL;
+import java.util.List;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.AggregationDefinitionHandlerClientInterface;
 import de.escidoc.core.client.rest.RestAggregationDefinitionHandlerClient;
 import de.escidoc.core.client.soap.SoapAggregationDefinitionHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
@@ -22,13 +27,21 @@ import de.escidoc.core.resources.sm.ad.AggregationDefinition;
  */
 public class AggregationDefinitionHandlerClient
     extends
-    AbstractHandlerClient<SoapAggregationDefinitionHandlerClient, RestAggregationDefinitionHandlerClient> {
+    AbstractHandlerClient<SoapAggregationDefinitionHandlerClient, RestAggregationDefinitionHandlerClient>
+    implements AggregationDefinitionHandlerClientInterface {
+
+    /**
+     * 
+     */
+    public AggregationDefinitionHandlerClient() {
+        super();
+    }
 
     /**
      * 
      * @param serviceAddress
      */
-    public AggregationDefinitionHandlerClient(final String serviceAddress) {
+    public AggregationDefinitionHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -38,6 +51,7 @@ public class AggregationDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
         if (id == null)
@@ -58,6 +72,7 @@ public class AggregationDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public AggregationDefinition create(final AggregationDefinition agDefinition)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -86,6 +101,7 @@ public class AggregationDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public AggregationDefinition retrieve(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -110,6 +126,7 @@ public class AggregationDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public SearchRetrieveResponse retrieveAggregationDefinitions(
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
@@ -131,6 +148,23 @@ public class AggregationDefinitionHandlerClient
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.AggregationDefinitionHandlerClientInterface
+     * #retrieveAggregationDefinitionsAsList(gov.loc.www.zing.srw.
+     * SearchRetrieveRequestType)
+     */
+    @Override
+    public List<AggregationDefinition> retrieveAggregationDefinitionsAsList(
+        final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
+
+        return getSearchRetrieveResponseAsList(AggregationDefinition.class,
+            retrieveAggregationDefinitions(request));
+    }
+
     /**
      * @param request
      * @return
@@ -138,6 +172,7 @@ public class AggregationDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public ExplainResponse retrieveAggregationDefinitions(
         final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
@@ -170,5 +205,4 @@ public class AggregationDefinitionHandlerClient
         throws InternalClientException {
         return new RestAggregationDefinitionHandlerClient(getServiceAddress());
     }
-
 }

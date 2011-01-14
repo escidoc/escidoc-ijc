@@ -43,6 +43,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
 import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
+import de.escidoc.core.common.URLUtility;
 
 /**
  * Authenticate against eSciDoc framework.
@@ -56,7 +57,7 @@ public class Authentication {
 
     private String handle;
 
-    private String serviceAddress;
+    private URL serviceAddress;
 
     private String username;
 
@@ -78,7 +79,7 @@ public class Authentication {
      * @throws IOException
      *             Thrown if Authentication failed.
      */
-    public Authentication(final String serviceAddress, final String username,
+    public Authentication(final URL serviceAddress, final String username,
         final String password) throws AuthenticationException,
         TransportException {
 
@@ -108,7 +109,7 @@ public class Authentication {
      * 
      * @return Service Address
      */
-    public String getServiceAddress() {
+    public URL getServiceAddress() {
         return this.serviceAddress;
     }
 
@@ -129,10 +130,10 @@ public class Authentication {
      *             Thrown if Authentication failed.
      */
     public String login(
-        final String serviceUrl, final String username, final String password)
+        final URL serviceUrl, final String username, final String password)
         throws TransportException, AuthenticationException {
 
-        this.serviceAddress = unifyAddress(serviceUrl);
+        this.serviceAddress = URLUtility.unifyAddress(serviceUrl);
         this.username = username;
 
         /*
@@ -230,7 +231,8 @@ public class Authentication {
         TransportException {
 
         if (userManagement == null) {
-            userManagement = new UserManagementWrapperClient(serviceAddress);
+            userManagement =
+                new UserManagementWrapperClient(serviceAddress);
             /*
              * The serviceAddress and handle do not change within an instance of
              * this class.
@@ -263,22 +265,5 @@ public class Authentication {
             }
         }
         return cHandle;
-    }
-
-    /**
-     * Unify URL (with trailing slash).
-     * 
-     * @param address
-     *            The address (URL)
-     * @return address with slash at the end.
-     */
-    private String unifyAddress(final String address) {
-
-        String tmpServUrl = address;
-        if (!tmpServUrl.endsWith("/")) {
-            tmpServUrl += "/";
-        }
-
-        return tmpServUrl;
     }
 }

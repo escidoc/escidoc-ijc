@@ -31,10 +31,9 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
-import org.joda.time.DateTime;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.List;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -43,15 +42,19 @@ import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.client.soap.SoapItemHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.ContentStream;
+import de.escidoc.core.resources.common.ContentStreams;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.om.item.ItemList;
+import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.resources.om.item.component.Component;
-import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
-import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.om.item.component.ComponentProperties;
+import de.escidoc.core.resources.om.item.component.Components;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -78,7 +81,7 @@ public class ItemHandlerClient
      * 
      * @param serviceAddress
      */
-    public ItemHandlerClient(final String serviceAddress) {
+    public ItemHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -228,8 +231,10 @@ public class ItemHandlerClient
      *             Thrown in case of client internal errors.
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
+     * @deprecated Signature convention: Use
+     *             {@link ItemHandlerClient#retrieve(String)} instead.
      */
-    @Override
+    @Deprecated
     public Item retrieve(final Item item) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -250,57 +255,22 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level. FIXME
      *             implement this method
      */
-    @Override
-    public OrganizationalUnitProperties retrieveProperties(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        // String properties = null;
-        // if (getTransport() == TransportProtocol.SOAP) {
-        // properties = getSoapHandlerClient().retrieveProperties(id);
-        // }
-        // else {
-        // properties = getRestHandlerClient().retrieveProperties(id);
-        // }
-        // return
-        // Factory.getMarshaller(Properties.class).unmarshalDocument(properties);
-
-        throw new InternalClientException("Method not yet supported.");
-    }
-
-    /**
-     * Retrieve Items (Filter for Items).
-     * 
-     * @param taskParam
-     *            Filter parameter
-     * @return ItemmList
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Override
-    @Deprecated
-    public ItemList retrieveItems(final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String taskParamString =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(TaskParam.class)
-                .marshalDocument(taskParam);
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveItems(taskParamString);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveItems(taskParamString);
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ItemList.class)
-            .unmarshalDocument(xml);
-    }
-
+    // @Override
+    // public OrganizationalUnitProperties retrieveProperties(final String id)
+    // throws EscidocException, InternalClientException, TransportException {
+    //
+    // // String properties = null;
+    // // if (getTransport() == TransportProtocol.SOAP) {
+    // // properties = getSoapHandlerClient().retrieveProperties(id);
+    // // }
+    // // else {
+    // // properties = getRestHandlerClient().retrieveProperties(id);
+    // // }
+    // // return
+    // // Factory.getMarshaller(Properties.class).unmarshalDocument(properties);
+    //
+    // throw new InternalClientException("Method not yet supported.");
+    // }
     /**
      * Retrieve Items (Filter for Items).
      * 
@@ -334,22 +304,18 @@ public class ItemHandlerClient
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
-    @SuppressWarnings("rawtypes")
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.ItemHandlerClientInterface#
+     * retrieveItemsAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
-    public Collection<Item> retrieveItemsAsList(
-        final SearchRetrieveRequestType filter) throws EscidocException,
-        InternalClientException, TransportException {
+    public List<Item> retrieveItemsAsList(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
 
-        SearchRetrieveResponse response = retrieveItems(filter);
-        Collection<Item> items = new LinkedList<Item>();
-
-        for (Record record : response.getRecords()) {
-            Item item = getSRWResourceRecordData(record, Item.class);
-            if (item != null) {
-                items.add(item);
-            }
-        }
-        return items;
+        return getSearchRetrieveResponseAsList(Item.class,
+            retrieveItems(filter));
     }
 
     /**
@@ -453,6 +419,7 @@ public class ItemHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public VersionHistory retrieveVersionHistory(final Item item)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -1049,33 +1016,6 @@ public class ItemHandlerClient
         return assignContentPid(item.getObjid(), componentId, taskParam);
     }
 
-    /**
-     * Get last-modification-date of Item.
-     * 
-     * @param id
-     *            Objid
-     * @return last-modification-date of resource.
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().getLastModificationDate(id);
-        }
-        else {
-            return getRestHandlerClient().getLastModificationDate(id);
-        }
-    }
-
     @Override
     protected SoapItemHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
@@ -1086,5 +1026,247 @@ public class ItemHandlerClient
     protected RestItemHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
         return new RestItemHandlerClient(getServiceAddress());
+    }
+
+    @Override
+    public ItemProperties retrieveProperties(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ItemProperties retrieveProperties(final Item resource)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecords retrieveMdRecords(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecords retrieveMdRecords(final Item resource)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecord retrieveMdRecord(
+        final String id, final String mdRecordId) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecord retrieveMdRecord(
+        final Item resource, final String mdRecordId) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentStreams retrieveContentStreams(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentStreams retrieveContentStreams(final Item resource)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentStream retrieveContentStream(
+        final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentStream retrieveContentStream(
+        final Item resource, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InputStream retrieveContentStreamContent(
+        final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InputStream retrieveContentStreamContent(
+        final Item resource, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Relations retrieveRelations(final Item item)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Item moveToContext(final String id, final TaskParam param)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Item moveToContext(final Item item, final TaskParam param)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Components retrieveComponents(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Components retrieveComponents(final Item item)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Component retrieveComponent(
+        final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Component retrieveComponent(final Item item, final String componentId)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void deleteComponent(final String itemId, final String componentId)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deleteComponent(final Item item, final String componentId)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Component updateComponent(
+        final String id, final String componentId, final String xmlData)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Component updateComponent(
+        final Item item, final String componentId, final String xmlData)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ComponentProperties retrieveComponentProperties(
+        final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ComponentProperties retrieveComponentProperties(
+        final Item item, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecords retrieveComponentMdRecords(
+        final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecords retrieveComponentMdRecords(
+        final Item item, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecord retrieveComponentMdRecord(
+        final String id, final String componentId, final String mdRecordId)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InputStream retrieveContent(final String id, final String contentId)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InputStream retrieveContent(final Item item, final String contentId)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InputStream retrieveContent(
+        final String id, final String contentId, final String transformer,
+        final TaskParam param) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InputStream retrieveContent(
+        final Item item, final String contentId, final String transformer,
+        final TaskParam param) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

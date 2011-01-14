@@ -3,9 +3,12 @@
  */
 package de.escidoc.core.client;
 
+import java.net.URL;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.PreprocessingHandlerClientInterface;
 import de.escidoc.core.client.rest.RestPreprocessingHandlerClient;
 import de.escidoc.core.client.soap.SoapPreprocessingHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
@@ -18,7 +21,8 @@ import de.escidoc.core.resources.sm.preprocess.PreprocessingInformation;
  */
 public class PreprocessingHandlerClient
     extends
-    AbstractHandlerClient<SoapPreprocessingHandlerClient, RestPreprocessingHandlerClient> {
+    AbstractHandlerClient<SoapPreprocessingHandlerClient, RestPreprocessingHandlerClient>
+    implements PreprocessingHandlerClientInterface {
 
     /**
      * 
@@ -31,7 +35,7 @@ public class PreprocessingHandlerClient
      * 
      * @param serviceAddress
      */
-    public PreprocessingHandlerClient(final String serviceAddress) {
+    public PreprocessingHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 

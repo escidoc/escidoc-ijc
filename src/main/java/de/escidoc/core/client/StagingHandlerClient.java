@@ -60,7 +60,7 @@ public class StagingHandlerClient
      * 
      * @param serviceAddress
      */
-    public StagingHandlerClient(final String serviceAddress) {
+    public StagingHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -77,6 +77,7 @@ public class StagingHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public URL upload(final File f) throws EscidocException,
         InternalClientException, TransportException {
         return getRestHandlerClient().upload(f);
@@ -95,6 +96,7 @@ public class StagingHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public URL upload(final InputStream ins) throws EscidocException,
         InternalClientException, TransportException {
         return getRestHandlerClient().upload(ins);
@@ -116,7 +118,7 @@ public class StagingHandlerClient
     }
 
     @Override
-    public void setTransport(TransportProtocol transport) {
+    public void setTransport(final TransportProtocol transport) {
         // ignore specified TransportProtocol
         super.setTransport(TransportProtocol.REST);
     }

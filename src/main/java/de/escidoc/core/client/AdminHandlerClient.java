@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.client;
 
+import java.net.URL;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -30,8 +32,10 @@ public class AdminHandlerClient
     implements AdminHandlerClientInterface {
 
     /**
-     * 
+     * @deprecated Use {@link HandlerClientFactory#getAdminHandlerClient()}
+     *             instead.
      */
+    @Deprecated
     public AdminHandlerClient() {
         super();
     }
@@ -39,7 +43,21 @@ public class AdminHandlerClient
     /**
      * 
      * @param serviceAddress
+     * @deprecated Use {@link HandlerClientFactory#getAdminHandlerClient(URL)}
+     *             instead.
      */
+    @Deprecated
+    public AdminHandlerClient(final URL serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use {@link HandlerClientFactory#getAdminHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public AdminHandlerClient(final String serviceAddress) {
         super(serviceAddress);
     }
@@ -101,29 +119,6 @@ public class AdminHandlerClient
      * @throws TransportException
      */
     @Override
-    public MessagesStatus getRecacheStatus() throws EscidocException,
-        InternalClientException, TransportException {
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().getRecacheStatus();
-        }
-        else {
-            xml = getRestHandlerClient().getRecacheStatus();
-        }
-        Result result =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Result.class)
-                .unmarshalDocument(xml);
-        return new MessagesStatus(result);
-    }
-
-    /**
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    @Override
     public MessagesStatus getReindexStatus() throws EscidocException,
         InternalClientException, TransportException {
         String xml = null;
@@ -138,30 +133,6 @@ public class AdminHandlerClient
                 .getInstance(getTransport()).getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result);
-    }
-
-    /**
-     * @param clearCache
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    @Override
-    public MessagesStatus recache(final boolean clearCache)
-        throws EscidocException, InternalClientException, TransportException {
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().recache(clearCache);
-        }
-        else {
-            xml = getRestHandlerClient().recache(clearCache);
-        }
-        Result result =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Result.class)
-                .unmarshalDocument(xml);
-        return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
 
     /**
@@ -258,6 +229,29 @@ public class AdminHandlerClient
      * @throws TransportException
      */
     @Override
+    public String getIndexConfiguration() throws EscidocException,
+        InternalClientException, TransportException {
+
+        String xml;
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapHandlerClient().getIndexConfiguration();
+        }
+        else {
+            xml = getRestHandlerClient().getIndexConfiguration();
+        }
+
+        return xml;
+    }
+
+    /**
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    @Override
     public MessagesResult<Entry> loadExamples() throws EscidocException,
         InternalClientException, TransportException {
         return loadExamples(EXAMPLE_SET_COMMON);
@@ -274,5 +268,4 @@ public class AdminHandlerClient
         throws InternalClientException {
         return new RestAdminHandlerClient(getServiceAddress());
     }
-
 }

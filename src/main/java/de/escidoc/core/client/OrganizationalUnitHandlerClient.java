@@ -31,10 +31,8 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
-import org.joda.time.DateTime;
+import java.net.URL;
+import java.util.List;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -45,6 +43,8 @@ import de.escidoc.core.client.rest.RestOrganizationalUnitHandlerClient;
 import de.escidoc.core.client.soap.SoapOrganizationalUnitHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
@@ -52,7 +52,6 @@ import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.PathList;
-import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -80,7 +79,7 @@ public class OrganizationalUnitHandlerClient
      * 
      * @param serviceAddress
      */
-    public OrganizationalUnitHandlerClient(final String serviceAddress) {
+    public OrganizationalUnitHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -143,7 +142,7 @@ public class OrganizationalUnitHandlerClient
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#update(java.lang.Object)
+     * @see de.escidoc.core.client.interfaces.client.base.CRUDService#update(java.lang.Object)
      */
     @Override
     public OrganizationalUnit update(final OrganizationalUnit organizationalUnit)
@@ -320,12 +319,12 @@ public class OrganizationalUnitHandlerClient
      * de.escidoc.core.client.interfaces.ResourceHandlerInterface#retrieveProperties
      * (java.lang.String)
      */
-    @Override
-    public OrganizationalUnitProperties retrieveProperties(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new InternalClientException("method not yet supported");
-    }
+    // @Override
+    // public OrganizationalUnitProperties retrieveProperties(final String id)
+    // throws EscidocException, InternalClientException, TransportException {
+    //
+    // throw new InternalClientException("method not yet supported");
+    // }
 
     /**
      * See Interface for functional description.
@@ -347,46 +346,6 @@ public class OrganizationalUnitHandlerClient
         else {
             getRestHandlerClient().delete(id);
         }
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().getLastModificationDate(id);
-        }
-        else {
-            return getRestHandlerClient().getLastModificationDate(id);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.ResourceHandlerInterface#assignObjectPid
-     * (java.lang.String, de.escidoc.core.resources.common.TaskParam)
-     */
-    @Override
-    public Result assignObjectPid(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new InternalClientException("Method not yet supported.");
     }
 
     /**
@@ -472,41 +431,6 @@ public class OrganizationalUnitHandlerClient
     }
 
     /**
-     * Retrieve Organizational Units via filter from framework.
-     * 
-     * @param taskParam
-     *            Expression of Filter language.
-     * @return OrganizationalUnitList
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Override
-    @Deprecated
-    public OrganizationalUnitList retrieveOrganizationalUnits(
-        final TaskParam taskParam) throws EscidocException,
-        InternalClientException, TransportException {
-
-        if (taskParam == null)
-            throw new IllegalArgumentException("taskParam must not be null.");
-
-        String xml = marshalTaskParam(taskParam);
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveOrganizationalUnits(xml);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveOrganizationalUnits(xml);
-        }
-        return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT_LIST)
-            .unmarshalDocument(xml);
-    }
-
-    /**
      * Retrieve Organizational Units (Filter for Organizational Units).
      * 
      * @param filter
@@ -540,29 +464,21 @@ public class OrganizationalUnitHandlerClient
             .unmarshalDocument(xml);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #retrieveOrganizationalUnitsAsList(gov.loc.www.zing.srw.
+     * SearchRetrieveRequestType)
      */
     @Override
-    public Collection<OrganizationalUnit> retrieveOrganizationalUnitsAsList(
+    public List<OrganizationalUnit> retrieveOrganizationalUnitsAsList(
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("filter must not be null.");
-
-        SearchRetrieveResponse response = retrieveOrganizationalUnits(request);
-        Collection<OrganizationalUnit> results =
-            new LinkedList<OrganizationalUnit>();
-
-        for (Record<?> record : response.getRecords()) {
-            OrganizationalUnit result =
-                getSRWResourceRecordData(record, OrganizationalUnit.class);
-            if (result != null) {
-                results.add(result);
-            }
-        }
-        return results;
+        return getSearchRetrieveResponseAsList(OrganizationalUnit.class,
+            retrieveOrganizationalUnits(request));
     }
 
     /**
@@ -626,5 +542,117 @@ public class OrganizationalUnitHandlerClient
         throws InternalClientException {
         return MarshallerFactory.getInstance(getTransport()).getMarshaller(
             MarshallerFactory.CLASS_ORGANIZATIONAL_UNIT);
+    }
+
+    @Override
+    public Result open(
+        final OrganizationalUnit resource, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Result close(
+        final OrganizationalUnit resource, final TaskParam taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public OrganizationalUnitProperties retrieveProperties(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public OrganizationalUnitProperties retrieveProperties(
+        final OrganizationalUnit resource) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecords retrieveMdRecords(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecords retrieveMdRecords(final OrganizationalUnit resource)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecord retrieveMdRecord(
+        final String id, final String mdRecordId) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MetadataRecord retrieveMdRecord(
+        final OrganizationalUnit resource, final String mdRecordId)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public OrganizationalUnitList retrieveParentObjects(
+        final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public OrganizationalUnitList retrieveSuccessors(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public OrganizationalUnitList retrieveSuccessors(final OrganizationalUnit ou)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public OrganizationalUnitList retrieveChildObjects(
+        final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public PathList retrievePathList(final OrganizationalUnit ou)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Parents updateParents(final String id, final Parents parents)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Parents retrieveParents(final OrganizationalUnit ou)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

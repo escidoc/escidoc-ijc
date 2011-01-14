@@ -3,9 +3,12 @@
  */
 package de.escidoc.core.client;
 
+import java.net.URL;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ReportHandlerClientInterface;
 import de.escidoc.core.client.rest.RestReportHandlerClient;
 import de.escidoc.core.client.soap.SoapReportHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
@@ -18,7 +21,8 @@ import de.escidoc.core.resources.sm.report.ReportParameters;
  */
 public class ReportHandlerClient
     extends
-    AbstractHandlerClient<SoapReportHandlerClient, RestReportHandlerClient> {
+    AbstractHandlerClient<SoapReportHandlerClient, RestReportHandlerClient>
+    implements ReportHandlerClientInterface {
 
     /**
      * 
@@ -31,7 +35,7 @@ public class ReportHandlerClient
      * 
      * @param serviceAddress
      */
-    public ReportHandlerClient(final String serviceAddress) {
+    public ReportHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -43,6 +47,7 @@ public class ReportHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public Report retrieve(final ReportParameters reportParameters)
         throws EscidocException, InternalClientException, TransportException {
 

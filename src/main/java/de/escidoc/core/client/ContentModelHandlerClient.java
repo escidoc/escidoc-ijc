@@ -28,8 +28,14 @@
  */
 package de.escidoc.core.client;
 
-import org.joda.time.DateTime;
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.util.List;
+
+import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -38,6 +44,12 @@ import de.escidoc.core.client.rest.RestContentModelHandlerClient;
 import de.escidoc.core.client.soap.SoapContentModelHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.cmm.ContentModel;
+import de.escidoc.core.resources.cmm.ContentModelProperties;
+import de.escidoc.core.resources.common.ContentStream;
+import de.escidoc.core.resources.common.ContentStreams;
+import de.escidoc.core.resources.common.versionhistory.VersionHistory;
+import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
  * This is the generic ContentModelSoapContentModelHandlerClient which binds the
@@ -63,7 +75,7 @@ public class ContentModelHandlerClient
      * 
      * @param serviceAddress
      */
-    public ContentModelHandlerClient(final String serviceAddress) {
+    public ContentModelHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -80,6 +92,7 @@ public class ContentModelHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ContentModel create(final ContentModel contentModel)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -87,10 +100,13 @@ public class ContentModelHandlerClient
             MarshallerFactory
                 .getInstance(getTransport()).getMarshaller(ContentModel.class)
                 .marshalDocument(contentModel);
-        contentModelXml =
-            contentModelXml
-                .substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                    .length());
+
+        // TODO
+        // contentModelXml =
+        // contentModelXml
+        // .substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        // .length());
+
         String xml = null;
         if (getTransport() == TransportProtocol.SOAP) {
             xml = getSoapHandlerClient().create(contentModelXml);
@@ -116,6 +132,7 @@ public class ContentModelHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ContentModel retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -143,6 +160,7 @@ public class ContentModelHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -167,6 +185,7 @@ public class ContentModelHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public ContentModel update(final ContentModel contentModel)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -190,27 +209,38 @@ public class ContentModelHandlerClient
             .unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
-     * 
-     * @param id
-     *            Id of ContentModel.
-     * @return LastModificationDate of this ContentModel.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    @Override
+    public ExplainResponse retrieveContentModels(
+        final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP)
-            return getSoapHandlerClient().getLastModificationDate(id);
-        else
-            return getRestHandlerClient().getLastModificationDate(id);
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapHandlerClient().retrieveContentModels(request);
+        }
+        else {
+            xml = getRestHandlerClient().retrieveContentModels(request);
+        }
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
+    }
+
+    @Override
+    public SearchRetrieveResponse retrieveContentModels(
+        final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String xml = null;
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml = getSoapHandlerClient().retrieveContentModels(request);
+        }
+        else {
+            xml = getRestHandlerClient().retrieveContentModels(request);
+        }
+        return MarshallerFactory
+            .getInstance(getTransport())
+            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     @Override
@@ -225,4 +255,87 @@ public class ContentModelHandlerClient
         return new RestContentModelHandlerClient(getServiceAddress());
     }
 
+    @Override
+    public ContentModelProperties retrieveProperties(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentModelProperties retrieveProperties(final ContentModel obj)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public VersionHistory retrieveVersionHistory(final String id)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public VersionHistory retrieveVersionHistory(final ContentModel resource)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentStreams retrieveContentStreams(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentStreams retrieveContentStreams(final ContentModel resource)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentStream retrieveContentStream(
+        final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ContentStream retrieveContentStream(
+        final ContentModel resource, final String name)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InputStream retrieveContentStreamContent(
+        final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InputStream retrieveContentStreamContent(
+        final ContentModel resource, final String name)
+        throws EscidocException, InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<ContentModel> retrieveContentModelsAsList(
+        final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

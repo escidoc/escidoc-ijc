@@ -6,11 +6,14 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ReportDefinitionHandlerClientInterface;
 import de.escidoc.core.client.rest.RestReportDefinitionHandlerClient;
 import de.escidoc.core.client.soap.SoapReportDefinitionHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
@@ -25,7 +28,8 @@ import de.escidoc.core.resources.sm.report.ReportDefinition;
  */
 public class ReportDefinitionHandlerClient
     extends
-    AbstractHandlerClient<SoapReportDefinitionHandlerClient, RestReportDefinitionHandlerClient> {
+    AbstractHandlerClient<SoapReportDefinitionHandlerClient, RestReportDefinitionHandlerClient>
+    implements ReportDefinitionHandlerClientInterface {
 
     /**
      * 
@@ -38,7 +42,7 @@ public class ReportDefinitionHandlerClient
      * 
      * @param serviceAddress
      */
-    public ReportDefinitionHandlerClient(final String serviceAddress) {
+    public ReportDefinitionHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -49,6 +53,7 @@ public class ReportDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -71,6 +76,7 @@ public class ReportDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public ReportDefinition create(final ReportDefinition reportDefinition)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -101,12 +107,10 @@ public class ReportDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
-    public ReportDefinition update(
-        final String id, final ReportDefinition reportDefinition)
+    @Override
+    public ReportDefinition update(final ReportDefinition reportDefinition)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
         if (reportDefinition == null)
             throw new IllegalArgumentException(
                 "reportDefinition must not be null.");
@@ -117,10 +121,12 @@ public class ReportDefinitionHandlerClient
 
         String xml = m.marshalDocument(reportDefinition);
         if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().update(id, xml);
+            xml =
+                getSoapHandlerClient().update(reportDefinition.getObjid(), xml);
         }
         else {
-            xml = getRestHandlerClient().update(id, xml);
+            xml =
+                getRestHandlerClient().update(reportDefinition.getObjid(), xml);
         }
         return m.unmarshalDocument(xml);
     }
@@ -133,6 +139,7 @@ public class ReportDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public ReportDefinition retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -187,6 +194,7 @@ public class ReportDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public SearchRetrieveResponse retrieveReportDefinitions(
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
@@ -206,6 +214,15 @@ public class ReportDefinitionHandlerClient
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
+    @Override
+    public List<ReportDefinition> retrieveReportDefinitionsAsList(
+        final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
+
+        return getSearchRetrieveResponseAsList(ReportDefinition.class,
+            retrieveReportDefinitions(request));
+    }
+
     /**
      * 
      * @param request
@@ -214,6 +231,7 @@ public class ReportDefinitionHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public ExplainResponse retrieveReportDefinitions(
         final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
@@ -255,5 +273,4 @@ public class ReportDefinitionHandlerClient
         throws InternalClientException {
         return new RestReportDefinitionHandlerClient(getServiceAddress());
     }
-
 }

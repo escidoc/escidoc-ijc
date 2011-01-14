@@ -3,9 +3,12 @@
  */
 package de.escidoc.core.client;
 
+import java.net.URL;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.StatisticDataHandlerClientInterface;
 import de.escidoc.core.client.rest.RestStatisticDataHandlerClient;
 import de.escidoc.core.client.soap.SoapStatisticDataHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
@@ -17,7 +20,8 @@ import de.escidoc.core.resources.sm.sd.StatisticData;
  */
 public class StatisticDataHandlerClient
     extends
-    AbstractHandlerClient<SoapStatisticDataHandlerClient, RestStatisticDataHandlerClient> {
+    AbstractHandlerClient<SoapStatisticDataHandlerClient, RestStatisticDataHandlerClient>
+    implements StatisticDataHandlerClientInterface {
 
     /**
      * 
@@ -30,7 +34,7 @@ public class StatisticDataHandlerClient
      * 
      * @param serviceAddress
      */
-    public StatisticDataHandlerClient(final String serviceAddress) {
+    public StatisticDataHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -41,6 +45,7 @@ public class StatisticDataHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public void create(final StatisticData statisticData)
         throws EscidocException, InternalClientException, TransportException {
 

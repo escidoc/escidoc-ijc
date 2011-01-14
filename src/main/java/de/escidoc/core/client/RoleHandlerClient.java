@@ -31,8 +31,8 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.net.URL;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -45,9 +45,6 @@ import de.escidoc.core.client.rest.RestRoleHandlerClient;
 import de.escidoc.core.client.soap.SoapRoleHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.role.Role;
-import de.escidoc.core.resources.aa.role.Roles;
-import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -74,7 +71,7 @@ public class RoleHandlerClient
      * 
      * @param serviceAddress
      */
-    public RoleHandlerClient(final String serviceAddress) {
+    public RoleHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -183,42 +180,6 @@ public class RoleHandlerClient
     /**
      * Retrieve Roles (Filter for Roles).
      * 
-     * @param taskParam
-     *            Filter parameter
-     * @return Roles
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Override
-    @Deprecated
-    public Roles retrieveRoles(final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-
-        String taskParamString =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(TaskParam.class)
-                .marshalDocument(taskParam);
-        String xml = null;
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveRoles(taskParamString);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveRoles(taskParamString);
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Roles.class)
-            .unmarshalDocument(xml);
-    }
-
-    /**
-     * Retrieve Roles (Filter for Roles).
-     * 
      * @param request
      *            Filter parameter
      * @return SearchRetrieveResponseType
@@ -256,20 +217,12 @@ public class RoleHandlerClient
      * retrieveRolesAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public Collection<Role> retrieveRolesAsList(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+    public List<Role> retrieveRolesAsList(
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        SearchRetrieveResponse response = retrieveRoles(filter);
-        Collection<Role> results = new LinkedList<Role>();
-
-        for (Record<?> record : response.getRecords()) {
-            Role role = getSRWResourceRecordData(record, Role.class);
-            if (role != null) {
-                results.add(role);
-            }
-        }
-        return results;
+        return getSearchRetrieveResponseAsList(Role.class,
+            retrieveRoles(request));
     }
 
     /**

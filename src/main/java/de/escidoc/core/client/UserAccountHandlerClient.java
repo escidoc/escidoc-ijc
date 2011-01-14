@@ -31,8 +31,8 @@ package de.escidoc.core.client;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.net.URL;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -51,9 +51,7 @@ import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.Preference;
 import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
-import de.escidoc.core.resources.aa.useraccount.UserAccounts;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
@@ -81,7 +79,7 @@ public class UserAccountHandlerClient
      * 
      * @param serviceAddress
      */
-    public UserAccountHandlerClient(final String serviceAddress) {
+    public UserAccountHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -542,8 +540,13 @@ public class UserAccountHandlerClient
      *             Thrown in case of client internal errors.
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
+     * @deprecated Signature convention: Use
+     *             {@link UserAccountHandlerClient#deletePreference(String, String)}
+     *             or
+     *             {@link UserAccountHandlerClient#deletePreference(UserAccount, String)}
+     *             instead.
      */
-    @Override
+    @Deprecated
     public void deletePreference(
         final String userId, final Preference preference)
         throws EscidocClientException, InternalClientException,
@@ -840,42 +843,6 @@ public class UserAccountHandlerClient
     }
 
     /**
-     * Retrieve User Accounts (Filter for User Accounts).
-     * 
-     * @param taskParam
-     *            Filter parameter
-     * @return UserAccounts
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Override
-    @Deprecated
-    public UserAccounts retrieveUserAccounts(final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().retrieveUserAccounts(
-                    marshalTaskParam(taskParam));
-        }
-        else {
-            xml =
-                getRestHandlerClient().retrieveUserAccounts(
-                    marshalTaskParam(taskParam));
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(UserAccounts.class)
-            .unmarshalDocument(xml);
-
-    }
-
-    /**
      * Retrieve UserAccounts (Filter for UserAccounts).
      * 
      * @param filter
@@ -905,31 +872,20 @@ public class UserAccountHandlerClient
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveUserAccountsAsList
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    @SuppressWarnings("rawtypes")
-    public Collection<UserAccount> retrieveUserAccountsAsList(
+    public List<UserAccount> retrieveUserAccountsAsList(
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        SearchRetrieveResponse res = retrieveUserAccounts(filter);
-        Collection<UserAccount> results = new LinkedList<UserAccount>();
-
-        for (Record record : res.getRecords()) {
-            UserAccount result =
-                getSRWResourceRecordData(record, UserAccount.class);
-            if (result != null)
-                results.add(result);
-        }
-
-        return results;
+        return getSearchRetrieveResponseAsList(UserAccount.class,
+            retrieveUserAccounts(filter));
     }
 
     /**
@@ -961,42 +917,6 @@ public class UserAccountHandlerClient
         }
         return MarshallerFactory
             .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
-            .unmarshalDocument(xml);
-    }
-
-    /**
-     * Retrieve Grants (Filter for Grants).
-     * 
-     * @param taskParam
-     *            Filter parameter
-     * @return Grants
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Deprecated
-    public Grants retrieveGrants(final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-
-        String xml = null;
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().retrieveGrants(
-                    marshalTaskParam(taskParam));
-        }
-        else {
-            xml =
-                getRestHandlerClient().retrieveGrants(
-                    marshalTaskParam(taskParam));
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Grants.class)
             .unmarshalDocument(xml);
     }
 
@@ -1090,6 +1010,157 @@ public class UserAccountHandlerClient
     protected RestUserAccountHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
         return new RestUserAccountHandlerClient(getServiceAddress());
+    }
+
+    @Override
+    public void updatePassword(final UserAccount user, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void activate(final UserAccount user, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deactivate(final UserAccount user, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Grants retrieveCurrentGrants(final UserAccount user)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Grant createGrant(final UserAccount user, final Grant grant)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void revokeGrant(
+        final UserAccount user, final String grantId, final TaskParam taskParam)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Grant retrieveGrant(final UserAccount user, final String grantId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Grant> retrieveGrantsAsList(
+        final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Attribute createAttribute(
+        final UserAccount user, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Attribute retrieveAttribute(
+        final UserAccount user, final String attributeId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Attributes retrieveAttributes(final UserAccount user)
+        throws EscidocClientException, InternalClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Attribute updateAttribute(
+        final UserAccount user, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void deleteAttribute(
+        final UserAccount user, final Attribute attribute)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Preference createPreference(
+        final UserAccount user, final Preference preference)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Preference retrievePreference(
+        final UserAccount user, final String name)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Preferences retrievePreferences(final UserAccount user)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Preference updatePreference(
+        final UserAccount user, final Preference preference)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void deletePreference(final UserAccount user, final String name)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+        // TODO Auto-generated method stub
+
     }
 
 }

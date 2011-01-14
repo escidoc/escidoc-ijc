@@ -32,6 +32,8 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.net.URL;
+
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.axis.types.PositiveInteger;
 import org.apache.axis.types.URI;
@@ -72,7 +74,7 @@ public class SearchHandlerClient
      * 
      * @param serviceAddress
      */
-    public SearchHandlerClient(final String serviceAddress) {
+    public SearchHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -124,8 +126,8 @@ public class SearchHandlerClient
         TransportException {
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request.setQuery((query == null) ? null : query);
-        request.setVersion((version == null) ? "1.1" : version);
+        request.setQuery(query == null ? null : query);
+        request.setVersion(version == null ? "1.1" : version);
         request.setRecordPacking("string");
         request.setSortKeys(sortKeys);
 

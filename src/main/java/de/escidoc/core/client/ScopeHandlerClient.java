@@ -5,9 +5,14 @@ package de.escidoc.core.client;
 
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.net.URL;
+import java.util.List;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.ScopeHandlerClientInterface;
 import de.escidoc.core.client.rest.RestScopeHandlerClient;
 import de.escidoc.core.client.soap.SoapScopeHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
@@ -22,13 +27,21 @@ import de.escidoc.core.resources.sm.scope.Scope;
  */
 public class ScopeHandlerClient
     extends
-    AbstractHandlerClient<SoapScopeHandlerClient, RestScopeHandlerClient> {
+    AbstractHandlerClient<SoapScopeHandlerClient, RestScopeHandlerClient>
+    implements ScopeHandlerClientInterface {
+
+    /**
+     * 
+     */
+    public ScopeHandlerClient() {
+        super();
+    }
 
     /**
      * 
      * @param serviceAddress
      */
-    public ScopeHandlerClient(final String serviceAddress) {
+    public ScopeHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
 
@@ -38,6 +51,7 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -59,6 +73,7 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public Scope create(final Scope scope) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -87,6 +102,7 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public Scope update(final Scope scope) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -113,6 +129,7 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public Scope retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
@@ -138,6 +155,7 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public SearchRetrieveResponse retrieveScopes(
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
@@ -157,6 +175,15 @@ public class ScopeHandlerClient
             .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
+    @Override
+    public List<Scope> retrieveScopesAsList(
+        final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
+
+        return getSearchRetrieveResponseAsList(Scope.class,
+            retrieveScopes(request));
+    }
+
     /**
      * @param request
      * @return
@@ -164,6 +191,7 @@ public class ScopeHandlerClient
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Override
     public ExplainResponse retrieveScopes(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -193,5 +221,4 @@ public class ScopeHandlerClient
         throws InternalClientException {
         return new RestScopeHandlerClient(getServiceAddress());
     }
-
 }
