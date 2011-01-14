@@ -37,6 +37,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 
 /**
@@ -73,7 +74,16 @@ public final class ConfigurationProvider {
 
     public static final String PROP_SERVER_PORT = "server.port";
 
+    /**
+     * @deprecated Configuration of the transport protocol is no longer
+     *             supported. REST transport protocol will be used for the main
+     *             handler clients.
+     */
+    @Deprecated
     public static final String PROP_SERVICE_PROTOCOL = "service_protocol";
+
+    public static final TransportProtocol DEFAULT_TRANSPORT_PROTOCOL =
+        TransportProtocol.REST;
 
     public static final String PROP_SEARCH_DATABASE = "search.database";
 
