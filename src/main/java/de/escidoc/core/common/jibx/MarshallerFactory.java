@@ -180,8 +180,6 @@ public class MarshallerFactory {
     private static final Map<TransportProtocol, MarshallerFactory> marshallerFactoryMap =
         new HashMap<TransportProtocol, MarshallerFactory>();
 
-    private static volatile TransportProtocol defaultTransport = null;
-
     /**
      * The TransportProtocol used for this MarshallerFactory instance.
      */
@@ -212,22 +210,21 @@ public class MarshallerFactory {
     public static final MarshallerFactory getInstance()
         throws InternalClientException {
 
-        if (defaultTransport == null) {
-            defaultTransport =
-                TransportProtocol.valueOf(ConfigurationProvider
-                    .getInstance().getProperty(
-                        ConfigurationProvider.PROP_SERVICE_PROTOCOL));
-        }
-        if (defaultTransport == null)
-            throw new InternalClientException(
-                "Unable to load default transport protocol from configuration.");
-        if (marshallerFactoryMap.get(defaultTransport) == null) {
+        if (marshallerFactoryMap
+            .get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL) == null) {
+
             MarshallerFactory resultFactory =
-                new MarshallerFactory(defaultTransport);
-            marshallerFactoryMap.put(defaultTransport, resultFactory);
+                new MarshallerFactory(
+                    ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
+
+            marshallerFactoryMap
+                .put(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL,
+                    resultFactory);
+
             return resultFactory;
         }
-        return marshallerFactoryMap.get(defaultTransport);
+        return marshallerFactoryMap
+            .get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
     }
 
     /**
