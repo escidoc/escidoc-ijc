@@ -5,10 +5,8 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import java.util.Map;
 
 import de.escidoc.core.client.interfaces.UserAccountHandler;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
@@ -42,6 +40,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
 
     private static final String PATH_USER_ACCOUNT = "/aa/user-account";
 
+    @Override
     public void delete(final String accountId) throws RemoteException,
         UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -50,6 +49,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         del(PATH_USER_ACCOUNT + "/" + accountId);
     }
 
+    @Override
     public String create(final String userAccountXml) throws RemoteException,
         UniqueConstraintViolationException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
@@ -59,6 +59,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return put(PATH_USER_ACCOUNT, userAccountXml);
     }
 
+    @Override
     public String update(final String accountId, final String userAccountXml)
         throws RemoteException, UserAccountNotFoundException,
         UniqueConstraintViolationException, OptimisticLockingException,
@@ -70,6 +71,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return put(PATH_USER_ACCOUNT + "/" + accountId, userAccountXml);
     }
 
+    @Override
     public String retrieve(final String accountId) throws RemoteException,
         UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -78,6 +80,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return get(PATH_USER_ACCOUNT + "/" + accountId);
     }
 
+    @Override
     public void activate(final String accountId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, SystemException, AlreadyActiveException,
@@ -87,6 +90,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         post(PATH_USER_ACCOUNT + "/" + accountId + "/activate", taskParam);
     }
 
+    @Override
     public void deactivate(final String accountId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, SystemException,
@@ -97,6 +101,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         post(PATH_USER_ACCOUNT + "/" + accountId + "/deactivate", taskParam);
     }
 
+    @Override
     public void updatePassword(final String accountId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, SystemException,
@@ -107,6 +112,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             taskParam);
     }
 
+    @Override
     public String retrieveCurrentGrants(final String accountId)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -116,6 +122,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/current-grants");
     }
 
+    @Override
     public String retrieveGrant(final String accountId, final String grantId)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, GrantNotFoundException,
@@ -125,6 +132,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/grants/grant/" + grantId);
     }
 
+    @Override
     public String createGrant(final String objid, final String userAccountXml)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         RoleNotFoundException, MissingMethodParameterException,
@@ -135,6 +143,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             userAccountXml);
     }
 
+    @Override
     public void revokeGrant(
         final String accountId, final String grantId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException, SystemException,
@@ -146,6 +155,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + grantId + "/revoke-grant", taskParam);
     }
 
+    @Override
     public void revokeGrants(final String accountId, final String taskParam)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingAttributeValueException, MissingMethodParameterException,
@@ -156,14 +166,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/grants/revoke-grants", taskParam);
     }
 
-    public String retrieveGrants(final String filter) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException,
-        InvalidContentException {
-
-        return post("/aa/grants/filter", filter);
-    }
-
+    @Override
     public String retrieveGrants(final SearchRetrieveRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -172,6 +175,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return get("/aa/grants" + getEscidoc12Filter(filter));
     }
 
+    @Override
     public String retrieveGrants(final ExplainRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -180,14 +184,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return get("/aa/grants" + getEscidoc12Filter(filter));
     }
 
-    public String retrieveUserAccounts(final String filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException, InvalidContentException {
-
-        return post(PATH_USER_ACCOUNT + "s/filter", filter);
-    }
-
+    @Override
     public String retrievePreferences(final String accountId)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -197,6 +194,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/preferences");
     }
 
+    @Override
     public String createPreference(final String accountId, final String body)
         throws RemoteException, UserAccountNotFoundException,
         PreferenceNotFoundException, SystemException,
@@ -207,6 +205,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/preferences/preference", body);
     }
 
+    @Override
     public String updatePreferences(final String accountId, final String body)
         throws RemoteException, UserAccountNotFoundException,
         OptimisticLockingException, SystemException,
@@ -217,6 +216,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/preferences", body);
     }
 
+    @Override
     public String updatePreference(
         final String accountId, final String prefName, final String body)
         throws RemoteException, UserAccountNotFoundException,
@@ -229,6 +229,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/preferences/preference/" + prefName, body);
     }
 
+    @Override
     public String retrievePreference(
         final String accountId, final String prefName) throws RemoteException,
         UserAccountNotFoundException, PreferenceNotFoundException,
@@ -239,6 +240,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/preferences/preference/" + prefName);
     }
 
+    @Override
     public void deletePreference(final String accountId, final String prefName)
         throws RemoteException, UserAccountNotFoundException,
         PreferenceNotFoundException, SystemException,
@@ -249,6 +251,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/preferences/preference/" + prefName);
     }
 
+    @Override
     public String createAttribute(final String accountId, final String body)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AlreadyExistsException,
@@ -258,6 +261,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes/attribute", body);
     }
 
+    @Override
     public void deleteAttribute(final String accountId, final String attId)
         throws RemoteException, UserAccountNotFoundException,
         UserAttributeNotFoundException, SystemException,
@@ -268,6 +272,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes/attribute/" + attId);
     }
 
+    @Override
     public String retrieveAttribute(final String accountId, final String attId)
         throws RemoteException, UserAccountNotFoundException,
         UserAttributeNotFoundException, SystemException,
@@ -278,6 +283,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes/attribute/" + attId);
     }
 
+    @Override
     public String retrieveAttributes(final String accountId)
         throws RemoteException, UserAccountNotFoundException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -287,15 +293,17 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes");
     }
 
+    @Override
     @Deprecated
     public String retrieveGrants(final HashMap filter) throws RemoteException,
         SystemException, MissingMethodParameterException,
         InvalidSearchQueryException, AuthenticationException,
         AuthorizationException {
 
-        return get("/aa/grants/filter", (Map<String, String[]>) filter);
+        return get("/aa/grants/filter", filter);
     }
 
+    @Override
     public String retrieveNamedAttributes(
         final String accountId, final String attName) throws RemoteException,
         UserAccountNotFoundException, UserAttributeNotFoundException,
@@ -306,16 +314,18 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes/" + attName);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
     @Deprecated
     public String retrieveUserAccounts(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, InvalidSearchQueryException,
         AuthenticationException, AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "s/filter",
-            (Map<String, String[]>) filter);
+        return get(PATH_USER_ACCOUNT + "s/filter", filter);
     }
 
+    @Override
     public String retrieveUserAccounts(final SearchRetrieveRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -324,6 +334,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return get(PATH_USER_ACCOUNT + "s" + getEscidoc12Filter(filter));
     }
 
+    @Override
     public String retrieveUserAccounts(final ExplainRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -332,6 +343,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return get(PATH_USER_ACCOUNT + "s" + getEscidoc12Filter(filter));
     }
 
+    @Override
     public String updateAttribute(
         final String accountId, final String attId, final String body)
         throws RemoteException, UserAccountNotFoundException,
@@ -344,11 +356,21 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes/attribute/" + attId, body);
     }
 
+    @Override
     public String retrieveCurrentUser() throws RemoteException,
         UserAccountNotFoundException, SystemException, AuthenticationException,
         AuthorizationException {
 
-        return get("/aa/user-account/current");
+        return get(PATH_USER_ACCOUNT + "/current");
+    }
+
+    @Override
+    public String retrievePermissionFilterQuery(final HashMap parameters)
+        throws RemoteException, SystemException, InvalidSearchQueryException,
+        AuthorizationException, AuthenticationException {
+
+        return get(PATH_USER_ACCOUNT + "/retrievePermissionFilterQuery",
+            parameters);
     }
 
 }

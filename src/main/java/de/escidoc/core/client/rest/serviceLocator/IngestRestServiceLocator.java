@@ -1,5 +1,7 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.rmi.RemoteException;
 
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
@@ -25,12 +27,15 @@ public class IngestRestServiceLocator extends RestServiceMethod
 
     private static final String PATH_CONTEXT = "/ir/ingest";
 
+    @Override
     public String ingest(final String resourceXml) throws RemoteException,
         OptimisticLockingException, SystemException,
         MissingMethodParameterException, LockingException,
         InvalidStatusException, AuthenticationException,
         StreamNotFoundException, AuthorizationException,
         ResourceNotFoundException, InvalidXmlException {
+
+        checkNotNull(resourceXml);
 
         return put(PATH_CONTEXT, resourceXml);
     }

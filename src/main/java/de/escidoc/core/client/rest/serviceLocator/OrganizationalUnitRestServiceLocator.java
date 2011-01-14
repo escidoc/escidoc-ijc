@@ -1,5 +1,6 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -59,10 +60,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         InvalidStatusException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
-        if (taskParam == null)
-            throw new IllegalArgumentException("taskParam must not be null.");
+        checkNotNull(ouId);
 
         return post(PATH_OU + "/" + ouId + "/close", taskParam);
     }
@@ -74,10 +72,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         InvalidStatusException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
-        if (taskParam == null)
-            throw new IllegalArgumentException("taskParam must not be null.");
+        checkNotNull(ouId);
 
         return post(PATH_OU + "/" + ouId + "/open", taskParam);
     }
@@ -90,10 +85,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         AuthenticationException, AuthorizationException, InvalidXmlException,
         OrganizationalUnitNameNotUniqueException, MissingElementValueException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
-        if (xmlOfParents == null)
-            throw new IllegalArgumentException("xmlOfParents must not be null.");
+        checkNotNull(ouId);
+        checkNotNull(xmlOfParents);
 
         return put(PATH_OU + "/" + ouId + "/parents", xmlOfParents);
     }
@@ -104,8 +97,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         return get(PATH_OU + "/" + ouId + "/parents");
     }
@@ -116,8 +108,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         return get(PATH_OU + "/" + ouId + "/resources/parent-objects");
     }
@@ -128,8 +119,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         return get(PATH_OU + "/" + ouId + "/resources/child-objects");
     }
@@ -140,22 +130,18 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         return get(PATH_OU + "/" + ouId + "/resources/path-list");
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @Deprecated
     public String retrieveOrganizationalUnits(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
-
-        if (filter == null)
-            throw new IllegalArgumentException("filter must not be null.");
 
         return get(PATH_OU + "s", filter);
     }
@@ -166,8 +152,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        if (request == null)
-            throw new IllegalArgumentException("filter must not be null.");
+        checkNotNull(request);
 
         return get(PATH_OU + "s" + getEscidoc12Filter(request));
     }
@@ -178,8 +163,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
         return get(PATH_OU + "s" + getEscidoc12Filter(request));
     }
@@ -191,8 +175,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         OrganizationalUnitNotFoundException, AlreadyPublishedException,
         AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         del(PATH_OU + "/" + ouId);
     }
@@ -236,9 +219,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         ReadonlyElementViolationException, ContentModelNotFoundException,
         InvalidXmlException, MissingElementValueException {
 
-        if (organizationalUnitXml == null)
-            throw new IllegalArgumentException(
-                "organizationalUnitXml must not be null.");
+        checkNotNull(organizationalUnitXml);
 
         return put(PATH_OU, organizationalUnitXml);
     }
@@ -289,9 +270,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         NotPublishedException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
 
-        if (organizationalUnitXml == null)
-            throw new IllegalArgumentException(
-                "organizationalUnitXml must not be null.");
+        checkNotNull(ouId);
+        checkNotNull(organizationalUnitXml);
 
         return put(PATH_OU + "/" + ouId, organizationalUnitXml);
     }
@@ -305,10 +285,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException, InvalidContentException, InvalidXmlException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
-        if (userId == null)
-            throw new IllegalArgumentException("userId must not be null.");
+        checkNotNull(ouId);
+        checkNotNull(userId);
 
         return post(PATH_OU + "/" + ouId + "/lock", userId);
     }
@@ -322,10 +300,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException, InvalidXmlException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
-        if (userId == null)
-            throw new IllegalArgumentException("userId must not be null.");
+        checkNotNull(ouId);
+        checkNotNull(userId);
 
         return post(PATH_OU + "/" + ouId + "/unlock", userId);
     }
@@ -343,8 +319,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         return get(PATH_OU + "/" + ouId);
     }
@@ -362,8 +337,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         return get(PATH_OU + "/" + ouId + "/resources/successors");
     };
@@ -375,10 +349,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
         AuthorizationException, InvalidXmlException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
-        if (mdRecordXml == null)
-            throw new IllegalArgumentException("mdRecordXml must not be null.");
+        checkNotNull(ouId);
+        checkNotNull(mdRecordXml);
 
         return put(PATH_OU + "/" + ouId + "/md-records/md-record", mdRecordXml);
     }
@@ -390,10 +362,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         OrganizationalUnitNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
-        if (mdRecordId == null)
-            throw new IllegalArgumentException("mdRecordId must not be null.");
+        checkNotNull(ouId);
+        checkNotNull(mdRecordId);
 
         return get(PATH_OU + "/" + ouId + "/md-records/md-record/" + mdRecordId);
     }
@@ -408,10 +378,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         AuthenticationException, AuthorizationException, InvalidXmlException,
         OrganizationalUnitNameNotUniqueException, MissingElementValueException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
-        if (mdRecordsXml == null)
-            throw new IllegalArgumentException("mdRecordsXml must not be null.");
+        checkNotNull(ouId);
+        checkNotNull(mdRecordsXml);
 
         return put(PATH_OU + "/" + ouId + "/md-records", mdRecordsXml);
     }
@@ -422,8 +390,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         return get(PATH_OU + "/" + ouId + "/md-records");
     }
@@ -434,10 +401,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
 
-        if (ouId == null)
-            throw new IllegalArgumentException("ouId must not be null.");
+        checkNotNull(ouId);
 
         return get(PATH_OU + "/" + ouId + "/properties");
     }
-
 }

@@ -98,6 +98,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         ContentModelNotFoundException, AlreadyPublishedException,
         AuthorizationException {
 
+        checkNotNull(contentModelId);
+
         del(PATH_CONTENT_MODEL + "/" + contentModelId);
     }
 
@@ -138,6 +140,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidStatusException,
         ReadonlyElementViolationException, ContentModelNotFoundException,
         InvalidXmlException, MissingElementValueException {
+
+        checkNotNull(contentModelXml);
 
         return put(PATH_CONTENT_MODEL, contentModelXml);
     }
@@ -189,6 +193,9 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         NotPublishedException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
 
+        checkNotNull(contentModelId);
+        checkNotNull(contentModelXml);
+
         return put(PATH_CONTENT_MODEL + "/" + contentModelId, contentModelXml);
     }
 
@@ -208,6 +215,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         SystemException, MissingMethodParameterException,
         AuthenticationException, ContentModelNotFoundException,
         AuthorizationException {
+
+        checkNotNull(contentModelId);
 
         return get(PATH_CONTENT_MODEL + "/" + contentModelId);
     }
@@ -237,6 +246,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ContentModelNotFoundException, AuthorizationException {
 
+        checkNotNull(contentModelId);
+
         return get(PATH_CONTENT_MODEL + "/" + contentModelId + "/properties");
     }
 
@@ -245,6 +256,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ContentModelNotFoundException, AuthorizationException {
+
+        checkNotNull(contentModelId);
 
         return get(PATH_CONTENT_MODEL + "/" + contentModelId
             + "/version-history");

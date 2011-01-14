@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.rmi.RemoteException;
 
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
@@ -79,6 +81,10 @@ public class AdminRestServiceLocator extends RestServiceMethod
     public String reindex(final String clearIndex, final String indexNamePrefix)
         throws RemoteException, SystemException, InvalidSearchQueryException,
         AuthorizationException, AuthenticationException {
+
+        checkNotNull(clearIndex);
+        checkNotNull(indexNamePrefix);
+
         return post(PATH_CONTEXT + "/reindex/" + clearIndex + "/"
             + indexNamePrefix, "");
     }
@@ -103,6 +109,9 @@ public class AdminRestServiceLocator extends RestServiceMethod
     public String loadExamples(final String exampleSet) throws RemoteException,
         SystemException, InvalidSearchQueryException, AuthorizationException,
         AuthenticationException {
+
+        checkNotNull(exampleSet);
+
         return get(PATH_CONTEXT + "/load-examples/" + exampleSet);
     }
 

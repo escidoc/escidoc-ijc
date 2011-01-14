@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.rmi.RemoteException;
 
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSqlException;
@@ -34,10 +36,8 @@ public class ReportRestServiceLocator extends RestServiceMethod
         AuthenticationException, ReportDefinitionNotFoundException,
         InvalidXmlException, MissingMethodParameterException {
 
-        if (xml == null)
-            throw new IllegalArgumentException("xml must not be null.");
+        checkNotNull(xml);
 
         return post(PATH, xml);
     }
-
 }

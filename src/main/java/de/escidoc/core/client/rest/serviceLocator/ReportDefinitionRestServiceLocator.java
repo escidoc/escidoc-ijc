@@ -3,12 +3,12 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import java.util.Map;
 
 import de.escidoc.core.client.interfaces.ReportDefinitionHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
@@ -38,12 +38,12 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * 
      * @see de.escidoc.core.sm.ReportDefinitionHandler#delete(java.lang.String)
      */
+    @Override
     public void delete(final String id) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException,
         ReportDefinitionNotFoundException, MissingMethodParameterException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
         del(PATH + "/" + id);
     }
@@ -53,14 +53,14 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * 
      * @see de.escidoc.core.sm.ReportDefinitionHandler#create(java.lang.String)
      */
+    @Override
     public String create(final String xml) throws RemoteException,
         XmlSchemaValidationException, SystemException, XmlCorruptedException,
         InvalidSqlException, AuthorizationException, ScopeNotFoundException,
         AuthenticationException, ScopeContextViolationException,
         MissingMethodParameterException {
 
-        if (xml == null)
-            throw new IllegalArgumentException("xml must not be null.");
+        checkNotNull(xml);
 
         return put(PATH, xml);
     }
@@ -71,6 +71,7 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ReportDefinitionHandler#update(java.lang.String,
      * java.lang.String)
      */
+    @Override
     public String update(final String id, final String xml)
         throws RemoteException, XmlSchemaValidationException, SystemException,
         XmlCorruptedException, InvalidSqlException, AuthorizationException,
@@ -78,10 +79,8 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
         ReportDefinitionNotFoundException, ScopeContextViolationException,
         MissingMethodParameterException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
-        if (xml == null)
-            throw new IllegalArgumentException("xml must not be null.");
+        checkNotNull(id);
+        checkNotNull(xml);
 
         return put(PATH + "/" + id, xml);
     }
@@ -92,12 +91,12 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * @see
      * de.escidoc.core.sm.ReportDefinitionHandler#retrieve(java.lang.String)
      */
+    @Override
     public String retrieve(final String id) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException,
         ReportDefinitionNotFoundException, MissingMethodParameterException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
         return get(PATH + "/" + id);
     }
@@ -109,16 +108,15 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.sm.ReportDefinitionHandler#retrieveReportDefinitions(
      * java.util.HashMap)
      */
+    @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Deprecated
     public String retrieveReportDefinitions(final HashMap filter)
         throws RemoteException, SystemException, InvalidSearchQueryException,
         AuthorizationException, AuthenticationException,
         MissingMethodParameterException {
 
-        if (filter == null)
-            throw new IllegalArgumentException("filter must not be null.");
-
-        return get(PATH + "s", (Map<String, String[]>) filter);
+        return get(PATH + "s", filter);
     }
 
     /*
@@ -127,13 +125,13 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.client.interfaces.ReportDefinitionHandler#
      * retrieveReportDefinitions(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
+    @Override
     public String retrieveReportDefinitions(
         final SearchRetrieveRequestType request) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException,
         InvalidXmlException, MissingMethodParameterException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
         return get(PATH + "s" + getEscidoc12Filter(request));
     }
@@ -144,15 +142,14 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.client.interfaces.ReportDefinitionHandler#
      * retrieveReportDefinitions(gov.loc.www.zing.srw.ExplainRequestType)
      */
+    @Override
     public String retrieveReportDefinitions(final ExplainRequestType request)
         throws RemoteException, SystemException, AuthorizationException,
         AuthenticationException, InvalidXmlException,
         MissingMethodParameterException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
         return get(PATH + "s" + getEscidoc12Filter(request));
     }
-
 }

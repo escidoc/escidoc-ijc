@@ -1,5 +1,7 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,15 +23,21 @@ public class StagingRestServiceLocator extends RestServiceMethod
 
     private static final String PATH_STAGING = "/st/staging-file";
 
+    @Override
     public String upload(final File f) throws RemoteException,
         AuthenticationException, AuthorizationException, FileNotFoundException,
         IOException {
 
+        checkNotNull(f);
+
         return put(PATH_STAGING, f);
     }
 
+    @Override
     public String upload(final InputStream ins) throws RemoteException,
         AuthenticationException, AuthorizationException, FileNotFoundException {
+
+        checkNotNull(ins);
 
         return put(PATH_STAGING, ins);
     }

@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.rmi.RemoteException;
 
 import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
@@ -25,12 +27,12 @@ public class StatisticDataRestServiceLocator extends RestServiceMethod
      * 
      * @see de.escidoc.core.sm.StatisticDataHandler#create(java.lang.String)
      */
-    public void create(String xml) throws RemoteException, SystemException,
-        AuthorizationException, AuthenticationException,
+    @Override
+    public void create(final String xml) throws RemoteException,
+        SystemException, AuthorizationException, AuthenticationException,
         MissingMethodParameterException {
 
-        if (xml == null)
-            throw new IllegalArgumentException("xml must not be null.");
+        checkNotNull(xml);
 
         put(PATH, xml);
     }

@@ -240,7 +240,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_CONTENT_RELATION + "s/filter", filter);
+        return get(PATH_CONTENT_RELATION + "s", filter);
     }
 
     @Override

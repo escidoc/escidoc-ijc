@@ -172,17 +172,6 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         return get(PATH_CONTAINER + "/" + containerId + "/struct-map");
     }
 
-    public String retrieveMembers(final String containerId, final String filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, ContainerNotFoundException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
-
-        checkNotNull(containerId);
-
-        return post(PATH_CONTAINER + "/" + containerId + "/members/filter",
-            filter);
-    }
-
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @Deprecated
@@ -296,6 +285,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         ReadonlyViolationException, InvalidXmlException {
 
         checkNotNull(containerId);
+        checkNotNull(containerXml);
 
         return put(PATH_CONTAINER + "/" + containerId, containerXml);
     }
@@ -521,7 +511,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_CONTAINER + "s/filter", filter);
+        return get(PATH_CONTAINER + "s", filter);
     }
 
     @Override

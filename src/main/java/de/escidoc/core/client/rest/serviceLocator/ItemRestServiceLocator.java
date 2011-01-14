@@ -1,5 +1,6 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -75,6 +76,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         InvalidStatusException, AuthenticationException, ItemNotFoundException,
         AlreadyPublishedException, AuthorizationException {
 
+        checkNotNull(itemId);
+
         del(PATH_ITEM + "/" + itemId);
     }
 
@@ -115,6 +118,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidStatusException,
         ReadonlyElementViolationException, ContentModelNotFoundException,
         InvalidXmlException, MissingElementValueException {
+
+        checkNotNull(itemXml);
 
         return put(PATH_ITEM, itemXml);
     }
@@ -165,6 +170,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, NotPublishedException,
         InvalidStatusException, ReadonlyViolationException, InvalidXmlException {
 
+        checkNotNull(itemId);
+        checkNotNull(itemXml);
+
         return put(PATH_ITEM + "/" + itemId, itemXml);
     }
 
@@ -175,6 +183,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         AuthenticationException, ItemNotFoundException, AuthorizationException,
         InvalidContentException, InvalidXmlException {
 
+        checkNotNull(itemId);
+
         return post(PATH_ITEM + "/" + itemId + "/lock", userId);
     }
 
@@ -184,6 +194,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         LockingException, MissingMethodParameterException,
         AuthenticationException, ItemNotFoundException, AuthorizationException,
         InvalidXmlException {
+
+        checkNotNull(itemId);
+        checkNotNull(userId);
 
         return post(PATH_ITEM + "/" + itemId + "/unlock", userId);
     }
@@ -196,6 +209,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         ReadonlyViolationException, AuthenticationException,
         ItemNotFoundException, AuthorizationException, InvalidXmlException {
 
+        checkNotNull(itemId);
+
         return post(PATH_ITEM + "/" + itemId + "/release", param);
     }
 
@@ -203,6 +218,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
     public String retrieve(final String itemId) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
 
         return get(PATH_ITEM + "/" + itemId);
     }
@@ -215,11 +232,13 @@ public class ItemRestServiceLocator extends RestServiceMethod
         ReadonlyViolationException, AuthenticationException,
         ItemNotFoundException, AuthorizationException, InvalidXmlException {
 
+        checkNotNull(itemId);
+
         return post(PATH_ITEM + "/" + itemId + "/submit", param);
     }
 
     @Override
-    public String createComponent(final String itemId, final String component)
+    public String createComponent(final String itemId, final String componentXml)
         throws RemoteException, SystemException,
         MissingAttributeValueException, MissingContentException,
         LockingException, AuthenticationException, ItemNotFoundException,
@@ -229,8 +248,11 @@ public class ItemRestServiceLocator extends RestServiceMethod
         ReadonlyViolationException, InvalidXmlException,
         MissingElementValueException {
 
+        checkNotNull(itemId);
+        checkNotNull(componentXml);
+
         return put(PATH_ITEM + "/" + itemId + "/components/component",
-            component);
+            componentXml);
     }
 
     @Override
@@ -239,6 +261,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         SystemException, ComponentNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
+        checkNotNull(componentId);
 
         return get(PATH_ITEM + "/" + itemId + "/components/component"
             + componentId);
@@ -251,6 +276,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
+        checkNotNull(itemId);
+        checkNotNull(componentId);
+
         return get(PATH_ITEM + "/" + itemId + "/components/component/"
             + componentId + "/md-records");
     }
@@ -262,6 +290,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
+
+        checkNotNull(itemId);
+        checkNotNull(componentId);
+        checkNotNull(mdRecordId);
 
         return get(PATH_ITEM + "/" + itemId + "/components/component/"
             + componentId + "/md-records/md-record/" + mdRecordId);
@@ -278,6 +310,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
 
+        checkNotNull(itemId);
+        checkNotNull(componentId);
+        checkNotNull(componentXml);
+
         return put(PATH_ITEM + "/" + itemId + "/components/component/"
             + componentId, componentXml);
     }
@@ -288,6 +324,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
+        checkNotNull(itemId);
+
         return get(PATH_ITEM + "/" + itemId + "/components");
     }
 
@@ -297,6 +335,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         SystemException, ComponentNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
+        checkNotNull(componentId);
 
         return get(PATH_ITEM + "/" + itemId + "/components/component/"
             + componentId + "/properties");
@@ -329,6 +370,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         AuthenticationException, XmlSchemaNotFoundException,
         ItemNotFoundException, AuthorizationException, InvalidXmlException {
 
+        checkNotNull(itemId);
+        checkNotNull(mdRecordXml);
+
         return createMdRecord(itemId, mdRecordXml);
     }
 
@@ -340,6 +384,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         XmlSchemaNotFoundException, ItemNotFoundException,
         AuthorizationException, InvalidXmlException {
 
+        checkNotNull(itemId);
+
         return put(PATH_ITEM + "/" + itemId + "/md-records/md-record",
             mdRecordXml);
     }
@@ -350,6 +396,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
+
+        checkNotNull(itemId);
+        checkNotNull(mdRecordId);
 
         return get(PATH_ITEM + "/" + itemId + "/md-records/md-record/"
             + mdRecordId);
@@ -365,6 +414,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
         InvalidStatusException, ReadonlyViolationException,
         MdRecordNotFoundException, InvalidXmlException {
 
+        checkNotNull(itemId);
+        checkNotNull(mdRecordId);
+        checkNotNull(mdRecordXml);
+
         return post(PATH_ITEM + "/" + itemId + "/md-records/md-record/"
             + mdRecordId, mdRecordXml);
     }
@@ -375,6 +428,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
+        checkNotNull(itemId);
+
         return get(PATH_ITEM + "/" + itemId + "/md-records");
     }
 
@@ -383,6 +438,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
 
         return get(PATH_ITEM + "/" + itemId + "/content-streams");
     }
@@ -394,6 +451,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         ContentStreamNotFoundException, MissingMethodParameterException,
         AuthenticationException, ItemNotFoundException, AuthorizationException {
 
+        checkNotNull(itemId);
+        checkNotNull(contentStreamId);
+
         return get(PATH_ITEM + "/" + itemId
             + "/content-streams/content-stream/" + contentStreamId);
     }
@@ -404,6 +464,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
+        checkNotNull(itemId);
+
         return get(PATH_ITEM + "/" + itemId + "/properties");
     }
 
@@ -413,6 +475,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
+        checkNotNull(itemId);
+
         return get(PATH_ITEM + "/" + itemId + "/resources/version-history");
     }
 
@@ -421,6 +485,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
 
         return get(PATH_ITEM + "/" + itemId + "/relations");
     }
@@ -434,6 +500,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         AuthorizationException, ItemNotFoundException, InvalidContentException,
         InvalidXmlException {
 
+        checkNotNull(itemId);
+
         return post(PATH_ITEM + "/" + itemId + "/revise", taskParam);
     }
 
@@ -446,6 +514,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         NotPublishedException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
 
+        checkNotNull(itemId);
+
         return post(PATH_ITEM + "/" + itemId + "/withdraw", taskParam);
     }
 
@@ -455,6 +525,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException, ItemNotFoundException,
         AuthorizationException {
+
+        checkNotNull(itemId);
+        checkNotNull(componentId);
 
         del(PATH_ITEM + "/" + itemId + "/components/component/" + componentId);
     }
@@ -476,7 +549,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return get(PATH_ITEM + "s/", filter);
+        return get(PATH_ITEM + "s", filter);
     }
 
     @Override
@@ -484,6 +557,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
+
+        checkNotNull(filter);
 
         return get(PATH_ITEM + "s" + getEscidoc12Filter(filter));
     }
@@ -493,6 +568,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
+
+        checkNotNull(filter);
 
         return get(PATH_ITEM + "s" + getEscidoc12Filter(filter));
     }
@@ -504,6 +581,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         InvalidStatusException, AuthenticationException, ItemNotFoundException,
         AuthorizationException, InvalidXmlException {
 
+        checkNotNull(itemId);
+
         return post(PATH_ITEM + "/" + itemId + "/assign-version-pid", taskParam);
     }
 
@@ -513,6 +592,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException, ItemNotFoundException,
         AuthorizationException, InvalidXmlException {
+
+        checkNotNull(itemId);
 
         return post(PATH_ITEM + "/" + itemId + "/assign-object-pid", taskParam);
     }
@@ -525,6 +606,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         ComponentNotFoundException, InvalidStatusException,
         AuthenticationException, ItemNotFoundException, AuthorizationException,
         InvalidXmlException {
+
+        checkNotNull(itemId);
+        checkNotNull(componentId);
 
         return post(PATH_ITEM + "/" + itemId + "/components/component/"
             + componentId + "/assign-content-pid", taskParam);
@@ -542,6 +626,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         InvalidStatusException, ReadonlyViolationException,
         MissingElementValueException, InvalidXmlException {
 
+        checkNotNull(itemId);
+
         return post(PATH_ITEM + "/" + itemId + "/content-relations/add",
             taskParam);
     }
@@ -557,15 +643,19 @@ public class ItemRestServiceLocator extends RestServiceMethod
         AlreadyDeletedException, InvalidXmlException,
         MissingElementValueException {
 
-        return PATH_ITEM + "/" + itemId + "/content-relations/remove";
+        checkNotNull(itemId);
+
+        return post(PATH_ITEM + "/" + itemId + "/content-relations/remove",
+            taskParam);
     }
 
     @Override
-    public String retrieveParents(final String id) throws RemoteException,
+    public String retrieveParents(final String itemId) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException,
         ItemNotFoundException, MissingMethodParameterException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
+        checkNotNull(itemId);
+
+        return get(PATH_ITEM + "/" + itemId + "/resources/parents");
+    }
 }

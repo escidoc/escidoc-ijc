@@ -28,12 +28,12 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import java.util.Map;
 
 import de.escidoc.core.client.interfaces.ContextHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
@@ -78,6 +78,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
     private static final String PATH_CONTEXT = "/ir/context";
 
+    @Override
     public String close(final String contextId, final String taskParam)
         throws RemoteException, OptimisticLockingException, SystemException,
         MissingMethodParameterException, LockingException,
@@ -85,15 +86,20 @@ public class ContextRestServiceLocator extends RestServiceMethod
         StreamNotFoundException, AuthorizationException,
         ContextNotFoundException, InvalidXmlException {
 
+        checkNotNull(contextId);
+
         return post(PATH_CONTEXT + "/" + contextId + "/close", taskParam);
     }
 
+    @Override
     public String open(final String contextId, final String taskParam)
         throws java.rmi.RemoteException, OptimisticLockingException,
         SystemException, MissingMethodParameterException, LockingException,
         InvalidStatusException, AuthenticationException,
         StreamNotFoundException, AuthorizationException,
         ContextNotFoundException, InvalidXmlException {
+
+        checkNotNull(contextId);
 
         return post(PATH_CONTEXT + "/" + contextId + "/open", taskParam);
     }
@@ -103,67 +109,87 @@ public class ContextRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, ContextNotFoundException, InvalidXmlException {
 
+        checkNotNull(contextId);
+
         return post(PATH_CONTEXT + "/" + contextId
             + "/resources/members/filter", filter);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
     @Deprecated
     public String retrieveMembers(final String contextId, final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, ContextNotFoundException, InvalidXmlException {
 
+        checkNotNull(contextId);
+
         return get(PATH_CONTEXT + "/" + contextId + "/resources/members",
-            (Map<String, String[]>) filter);
+            filter);
     }
 
+    @Override
     public String retrieveMembers(
         final String contextId, final SearchRetrieveRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
+        checkNotNull(contextId);
+        checkNotNull(filter);
+
         return get(PATH_CONTEXT + "/" + contextId + "/resources/members"
             + getEscidoc12Filter(filter));
     }
 
+    @Override
     public String retrieveMembers(
         final String contextId, final ExplainRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
+        checkNotNull(contextId);
+        checkNotNull(filter);
+
         return get(PATH_CONTEXT + "/" + contextId + "/resources/members"
             + getEscidoc12Filter(filter));
     }
 
+    @Override
     public String retrieveAdminDescriptor(
         final String contextId, final String admId) throws RemoteException,
         SystemException, AdminDescriptorNotFoundException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, ContextNotFoundException {
 
+        checkNotNull(contextId);
+        checkNotNull(admId);
+
         return get(PATH_CONTEXT + "/" + contextId
             + "/admin-descriptors/admin-descriptor/" + admId);
     }
 
+    @Override
     public String retrieveAdminDescriptors(final String contextId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, ContextNotFoundException {
 
+        checkNotNull(contextId);
+
         return get(PATH_CONTEXT + "/" + contextId + "/admin-descriptors");
     }
 
-    public String updateAdminDescriptor(
-        final String contextId, final String adminDescriptorId)
+    @Override
+    public String updateAdminDescriptor(final String id, final String xmlData)
         throws RemoteException, OptimisticLockingException, SystemException,
         AdminDescriptorNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException,
         ContextNotFoundException, InvalidXmlException {
 
-        return put(PATH_CONTEXT + "/" + contextId
-            + "/admin-descriptors/admin-descriptor/" + adminDescriptorId, "");
+        throw new UnsupportedOperationException("Method not yet implemented.");
     }
 
     /**
@@ -181,11 +207,14 @@ public class ContextRestServiceLocator extends RestServiceMethod
      * @throws AuthorizationException
      * @see de.escidoc.core.om.ContextHandler#delete(String)
      */
+    @Override
     public void delete(final String contextId) throws RemoteException,
         SystemException, LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException,
         ContextNotFoundException, AlreadyPublishedException,
         AuthorizationException {
+
+        checkNotNull(contextId);
 
         del(PATH_CONTEXT + "/" + contextId);
     }
@@ -216,6 +245,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
      * @throws MissingElementValueException
      * @see de.escidoc.core.om.ContextHandler#create(String)
      */
+    @Override
     public String create(final String contextXml) throws RemoteException,
         SystemException, MissingAttributeValueException,
         MissingContentException, MissingMdRecordException,
@@ -226,6 +256,8 @@ public class ContextRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidStatusException,
         ReadonlyElementViolationException, ContentModelNotFoundException,
         InvalidXmlException, MissingElementValueException {
+
+        checkNotNull(contextXml);
 
         return put(PATH_CONTEXT, contextXml);
     }
@@ -262,6 +294,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
      * @throws InvalidXmlException
      * @see de.escidoc.core.om.ContextHandler#update(String, String)
      */
+    @Override
     public String update(final String contextId, final String contextXml)
         throws RemoteException, SystemException, MissingLicenceException,
         ReadonlyVersionException, LockingException, ComponentNotFoundException,
@@ -275,53 +308,63 @@ public class ContextRestServiceLocator extends RestServiceMethod
         NotPublishedException, InvalidStatusException,
         ReadonlyViolationException, InvalidXmlException {
 
+        checkNotNull(contextId);
+        checkNotNull(contextXml);
+
         return put(PATH_CONTEXT + "/" + contextId, contextXml);
     }
 
+    @Override
     public String retrieve(final String contextId) throws RemoteException,
         SystemException, MissingMethodParameterException,
         AuthenticationException, ContextNotFoundException,
         AuthorizationException {
 
+        checkNotNull(contextId);
+
         return get(PATH_CONTEXT + "/" + contextId);
     }
 
+    @Override
     public String retrieveProperties(final String contextId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ContextNotFoundException, AuthorizationException {
 
+        checkNotNull(contextId);
+
         return get(PATH_CONTEXT + "/" + contextId + "/properties");
     }
 
-    public String retrieveContexts(final String filter) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
-
-        return post(PATH_CONTEXT + "s/filter", filter);
-    }
-
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
     @Deprecated
     public String retrieveContexts(final HashMap filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_CONTEXT + "s/filter", filter);
+        return get(PATH_CONTEXT + "s", filter);
     }
 
+    @Override
     public String retrieveContexts(final SearchRetrieveRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
+        checkNotNull(filter);
+
         return get(PATH_CONTEXT + "s" + getEscidoc12Filter(filter));
     }
 
+    @Override
     public String retrieveContexts(final ExplainRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
+
+        checkNotNull(filter);
 
         return get(PATH_CONTEXT + "s" + getEscidoc12Filter(filter));
     }

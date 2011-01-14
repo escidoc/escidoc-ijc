@@ -1,5 +1,7 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.rmi.RemoteException;
 
 import de.escidoc.core.common.exceptions.remote.application.invalid.XmlCorruptedException;
@@ -22,11 +24,8 @@ public class PreprocessingRestServiceLocator extends RestServiceMethod
         XmlCorruptedException, AuthorizationException, AuthenticationException,
         MissingMethodParameterException {
 
-        if (aggregationDefinitionId == null)
-            throw new IllegalArgumentException(
-                "aggregationDefinitionId must not be null.");
-        if (xmlData == null)
-            throw new IllegalArgumentException("xmlData must not be null.");
+        checkNotNull(aggregationDefinitionId);
+        checkNotNull(xmlData);
 
         post(PATH + "/" + aggregationDefinitionId, xmlData);
     }

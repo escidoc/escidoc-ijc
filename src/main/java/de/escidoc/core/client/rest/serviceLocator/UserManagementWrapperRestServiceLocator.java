@@ -21,6 +21,7 @@ public class UserManagementWrapperRestServiceLocator extends RestServiceMethod
      * 
      * @see de.escidoc.core.aa.UserManagementWrapper#logout()
      */
+    @Override
     public void logout() throws RemoteException, SystemException,
         AuthenticationException {
         get("/aa/logout");
@@ -33,8 +34,11 @@ public class UserManagementWrapperRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.aa.UserManagementWrapper#initHandleExpiryTimestamp(java
      * .lang.String)
      */
-    public void initHandleExpiryTimestamp(String in0) throws RemoteException,
-        SystemException, AuthenticationException {
-        // TODO
+    @Override
+    public void initHandleExpiryTimestamp(final String handle)
+        throws RemoteException, SystemException, AuthenticationException {
+
+        throw new UnsupportedOperationException(
+            "Method should not be supported for client applications.");
     }
 }

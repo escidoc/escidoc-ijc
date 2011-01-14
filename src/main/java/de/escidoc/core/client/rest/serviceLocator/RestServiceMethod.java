@@ -46,6 +46,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.rest.RestService;
 import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
+import de.escidoc.core.common.URLUtility;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
 
 /**
@@ -55,12 +56,12 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * 
  */
 public abstract class RestServiceMethod implements RestService {
-	
+
     private static final Logger LOG = Logger.getLogger(RestServiceMethod.class);
 
-    private String serviceAddress;
+    private URL serviceAddress;
 
-    //private MultiThreadedHttpConnectionManager connectionManager;
+    // private MultiThreadedHttpConnectionManager connectionManager;
     private ThreadSafeClientConnManager connectionManager;
 
     private HttpClient client;
@@ -77,11 +78,8 @@ public abstract class RestServiceMethod implements RestService {
      *             Thrown if the service address is not a valid URL.
      */
     @Override
-    public void setServiceAddress(final String address)
-        throws MalformedURLException {
-
-        URL url = new URL(address);
-        this.serviceAddress = unifyAddress(url.toString());
+    public void setServiceAddress(final URL address) {
+        this.serviceAddress = URLUtility.unifyAddress(address);
     }
 
     /**
@@ -196,9 +194,7 @@ public abstract class RestServiceMethod implements RestService {
         HttpResponse response;
         try {
             try {
-                put
-                    .addHeader("Content-type",
-                        "application/octet-stream");
+                put.addHeader("Content-type", "application/octet-stream");
                 response = getRestClient().execute(put);
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode / 100 != 2) {
@@ -378,8 +374,8 @@ public abstract class RestServiceMethod implements RestService {
                 redirectLocation = header.getValue();
             }
 
-            ExceptionMapper.constructEscidocException(body,
-                response.getStatusLine().getStatusCode(), redirectLocation);
+            ExceptionMapper.constructEscidocException(body, response
+                .getStatusLine().getStatusCode(), redirectLocation);
         }
 
     }
@@ -422,8 +418,9 @@ public abstract class RestServiceMethod implements RestService {
     private synchronized HttpClient getRestClient() {
 
         if (this.client == null) {
-        	HttpParams params = new BasicHttpParams();        	
-            this.client = new DefaultHttpClient(getConnectionManager(params), params);
+            HttpParams params = new BasicHttpParams();
+            this.client =
+                new DefaultHttpClient(getConnectionManager(params), params);
         }
         return this.client;
     }
@@ -432,13 +429,15 @@ public abstract class RestServiceMethod implements RestService {
      * 
      * @return
      */
-    private synchronized ThreadSafeClientConnManager getConnectionManager(HttpParams params) {
+    private synchronized ThreadSafeClientConnManager getConnectionManager(
+        final HttpParams params) {
         if (this.connectionManager == null) {
-        	SchemeRegistry schemeRegistry = new SchemeRegistry();
-        	schemeRegistry.register(
-        	        new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-        	        	
-            this.connectionManager = new ThreadSafeClientConnManager(params, schemeRegistry);
+            SchemeRegistry schemeRegistry = new SchemeRegistry();
+            schemeRegistry.register(new Scheme("http", PlainSocketFactory
+                .getSocketFactory(), 80));
+
+            this.connectionManager =
+                new ThreadSafeClientConnManager(params, schemeRegistry);
         }
         return this.connectionManager;
     }
@@ -572,22 +571,5 @@ public abstract class RestServiceMethod implements RestService {
         }
 
         return filter12;
-    }
-
-    /**
-     * Unify URL (with trailing slash).
-     * 
-     * @param address
-     *            The address (URL)
-     * @return address with slash at the end.
-     */
-    private String unifyAddress(final String address) {
-
-        String tmpServUrl = address;
-        if (tmpServUrl.endsWith("/")) {
-            tmpServUrl = tmpServUrl.substring(0, tmpServUrl.length() - 1);
-        }
-
-        return tmpServUrl;
     }
 }

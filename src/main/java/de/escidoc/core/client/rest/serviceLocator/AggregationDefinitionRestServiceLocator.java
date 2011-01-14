@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -36,13 +37,13 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * @see
      * de.escidoc.core.sm.AggregationDefinitionHandler#delete(java.lang.String)
      */
+    @Override
     public void delete(final String id) throws RemoteException,
         SystemException, AuthorizationException,
         AggregationDefinitionNotFoundException, AuthenticationException,
         MissingMethodParameterException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
         del(PATH_AD + "/" + id);
     }
@@ -53,13 +54,13 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * @see
      * de.escidoc.core.sm.AggregationDefinitionHandler#create(java.lang.String)
      */
+    @Override
     public String create(final String xml) throws RemoteException,
         XmlSchemaValidationException, SystemException, XmlCorruptedException,
         AuthorizationException, ScopeNotFoundException,
         AuthenticationException, MissingMethodParameterException {
 
-        if (xml == null)
-            throw new IllegalArgumentException("xml must not be null.");
+        checkNotNull(xml);
 
         return put(PATH_AD, xml);
     }
@@ -71,13 +72,13 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.sm.AggregationDefinitionHandler#retrieve(java.lang.String
      * )
      */
+    @Override
     public String retrieve(final String id) throws RemoteException,
         SystemException, AuthorizationException,
         AggregationDefinitionNotFoundException, AuthenticationException,
         MissingMethodParameterException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
         return get(PATH_AD + "/" + id);
     }
@@ -86,32 +87,17 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * (non-Javadoc)
      * 
      * @see de.escidoc.core.sm.AggregationDefinitionHandler#
-     * retrieveAggregationDefinitions(java.lang.String)
-     */
-    public String retrieveAggregationDefinitions(final String cqlQuery)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException {
-
-        throw new UnsupportedOperationException(
-            "This method is no longer supported.");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.sm.AggregationDefinitionHandler#
      * retrieveAggregationDefinitions(java.util.HashMap)
      */
-    @SuppressWarnings("rawtypes")
+    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Deprecated
     public String retrieveAggregationDefinitions(final HashMap filter)
         throws RemoteException, SystemException, InvalidSearchQueryException,
         AuthorizationException, AuthenticationException,
         MissingMethodParameterException {
 
-        throw new UnsupportedOperationException(
-            "This method is no longer supported.");
+        return get(PATH_AD + "s", filter);
     }
 
     /*
@@ -121,13 +107,13 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * retrieveAggregationDefinitions
      * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
+    @Override
     public String retrieveAggregationDefinitions(
         final SearchRetrieveRequestType request) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException,
         InvalidXmlException, MissingMethodParameterException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
         return get(PATH_AD + "s" + getEscidoc12Filter(request));
     }
@@ -138,15 +124,14 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.client.interfaces.AggregationDefinitionHandler#
      * retrieveAggregationDefinitions(gov.loc.www.zing.srw.ExplainRequestType)
      */
+    @Override
     public String retrieveAggregationDefinitions(
         final ExplainRequestType request) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException,
         InvalidXmlException, MissingMethodParameterException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
         return get(PATH_AD + "s" + getEscidoc12Filter(request));
     }
-
 }

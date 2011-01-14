@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.rmi.RemoteException;
 
 import de.escidoc.core.aa.PolicyDecisionPoint;
@@ -25,6 +27,8 @@ public class PolicyDecisionPointRestServiceLocator extends RestServiceMethod
         SystemException, AuthorizationException, AuthenticationException,
         ResourceNotFoundException, InvalidXmlException,
         MissingMethodParameterException {
+
+        checkNotNull(requestsXml);
 
         return put("/aa/pdp", requestsXml);
     }
