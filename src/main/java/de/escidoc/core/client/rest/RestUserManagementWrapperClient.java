@@ -3,9 +3,7 @@
  */
 package de.escidoc.core.client.rest;
 
-import java.net.MalformedURLException;
-
-import org.joda.time.DateTime;
+import java.net.URL;
 
 import de.escidoc.core.aa.UserManagementWrapper;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -35,6 +33,20 @@ public class RestUserManagementWrapperClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestUserManagementWrapperClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestUserManagementWrapperClient#RestUserManagementWrapperClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestUserManagementWrapperClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -68,30 +80,9 @@ public class RestUserManagementWrapperClient extends RestClientBase {
             UserManagementWrapperRestServiceLocator serviceLocator =
                 new UserManagementWrapperRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
-
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;
         }
         return restClient;
-    }
-
-    /**
-     * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        return null;
     }
 }

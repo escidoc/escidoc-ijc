@@ -32,7 +32,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -40,7 +39,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -78,6 +76,20 @@ public class RestStagingHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestStagingHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestStagingHandlerClient#RestStagingHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestStagingHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -139,14 +151,6 @@ public class RestStagingHandlerClient extends RestClientBase {
         }
     }
 
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new InternalClientException("Not supported");
-    }
-
     /**
      * @return Returns the restClient.
      * @throws InternalClientException
@@ -160,13 +164,7 @@ public class RestStagingHandlerClient extends RestClientBase {
             StagingRestServiceLocator serviceLocator =
                 new StagingRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
-
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;
         }
         return this.restClient;

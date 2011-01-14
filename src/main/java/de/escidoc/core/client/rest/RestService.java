@@ -3,7 +3,7 @@
  */
 package de.escidoc.core.client.rest;
 
-import java.net.MalformedURLException;
+import java.net.URL;
 
 import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 
@@ -18,11 +18,8 @@ public interface RestService {
      * 
      * @param address
      *            The URL to the service (http://localhost:8080)
-     * @throws MalformedURLException
-     *             Thrown if the service address is not a valid URL.
      */
-    public void setServiceAddress(final String address)
-        throws MalformedURLException;
+    public void setServiceAddress(final URL address);
 
     /**
      * Registers an implementation of the {@link RestCallbackHandler} interface

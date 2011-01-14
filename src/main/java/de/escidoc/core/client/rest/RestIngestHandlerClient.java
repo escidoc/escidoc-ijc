@@ -28,10 +28,9 @@
  */
 package de.escidoc.core.client.rest;
 
-import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -66,6 +65,20 @@ public class RestIngestHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestIngestHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestIngestHandlerClient#RestIngestHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestIngestHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -100,28 +113,6 @@ public class RestIngestHandlerClient extends RestClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the ingest.
-     * 
-     * @param id
-     *            The id of the ingest.
-     * @return The timestamp of the last modification of the ingest.
-     * @throws EscidocException
-     *             Thrown in case of eSciDoc framework failures.
-     * @throws InternalClientException
-     *             Thrown in case of client internal failures.
-     * @throws TransportException
-     *             Thrown in case of failures on transport level.
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
-        return result;
-    }
-
-    /**
      * Get REST client for ingest.
      * 
      * @return Returns the restClient.
@@ -134,13 +125,7 @@ public class RestIngestHandlerClient extends RestClientBase {
             IngestRestServiceLocator serviceLocator =
                 new IngestRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
-
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;
         }
         return this.restClient;

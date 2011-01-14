@@ -3,9 +3,7 @@
  */
 package de.escidoc.core.client.rest;
 
-import java.net.MalformedURLException;
-
-import org.joda.time.DateTime;
+import java.net.URL;
 
 import de.escidoc.core.adm.AdminHandler;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -35,6 +33,20 @@ public class RestAdminHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestAdminHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestAdminHandlerClient#RestAdminHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestAdminHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -177,30 +189,9 @@ public class RestAdminHandlerClient extends RestClientBase {
             AdminRestServiceLocator serviceLocator =
                 new AdminRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
-
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             this.restClient = serviceLocator;
         }
         return this.restClient;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        return null;
-    }
-
 }

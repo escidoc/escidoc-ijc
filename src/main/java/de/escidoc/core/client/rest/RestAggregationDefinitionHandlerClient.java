@@ -6,10 +6,9 @@ package de.escidoc.core.client.rest;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -43,6 +42,20 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestAggregationDefinitionHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestAggregationDefinitionHandlerClient#RestAggregationDefinitionHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestAggregationDefinitionHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -184,29 +197,10 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
 
             AggregationDefinitionRestServiceLocator serviceLocator =
                 new AggregationDefinitionRestServiceLocator();
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;
         }
         return this.client;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        return null;
     }
 }

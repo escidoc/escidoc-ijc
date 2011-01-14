@@ -4,15 +4,13 @@
 package de.escidoc.core.client.rest;
 
 import java.net.CookiePolicy;
+import java.net.URL;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.ClientPNames;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.ClientBase;
-import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 
 /**
@@ -42,6 +40,18 @@ public abstract class RestClientBase extends ClientBase
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
      */
+    public RestClientBase(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use {@link RestClientBase#RestClientBase(URL)} instead.
+     */
+    @Deprecated
     public RestClientBase(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -62,22 +72,15 @@ public abstract class RestClientBase extends ClientBase
         if (getHandle() == null || "".equals(getHandle())) {
             return;
         }
-        
-        //method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-        method.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.ACCEPT_NONE);
 
-        method.addHeader("Cookie", ESCIDOC_COOKIE_ENTRY + "="
-            + getHandle());
-        
-        //method.setFollowRedirects(false);
-        method.getParams().setParameter("http.protocol.handle-redirects", false);
+        // method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
+        method.getParams().setParameter(ClientPNames.COOKIE_POLICY,
+            CookiePolicy.ACCEPT_NONE);
 
-    }
+        method.addHeader("Cookie", ESCIDOC_COOKIE_ENTRY + "=" + getHandle());
 
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        throw new UnsupportedOperationException("Method no longer supported.");
+        // method.setFollowRedirects(false);
+        method
+            .getParams().setParameter("http.protocol.handle-redirects", false);
     }
 }

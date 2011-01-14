@@ -31,12 +31,11 @@ package de.escidoc.core.client.rest;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -44,8 +43,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ItemHandler;
 import de.escidoc.core.client.rest.serviceLocator.ItemRestServiceLocator;
-import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.om.item.Item;
 
 /**
  * REST Handler for Item.
@@ -73,6 +70,19 @@ public class RestItemHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestItemHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use {@link RestItemHandlerClient#RestItemHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestItemHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -376,7 +386,7 @@ public class RestItemHandlerClient extends RestClientBase {
      *             Thrown in case of failures on transport level.
      */
     @Deprecated
-    public String retrieveItems(final String taskParam)
+    public String retrieveItems(final HashMap<String, String[]> taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
@@ -522,39 +532,6 @@ public class RestItemHandlerClient extends RestClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the item.
-     * 
-     * @param id
-     *            The id of the item.
-     * @return The timestamp of the last modification of the item.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
-        try {
-            result =
-                MarshallerFactory
-                    .getInstance(TransportProtocol.REST)
-                    .getMarshaller(Item.class)
-                    .unmarshalDocument(getClient().retrieve(id))
-                    .getLastModificationDate();
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
      * @return Returns the restClient.
      * @throws InternalClientException
      * @see de.escidoc.core.client.ClientBase#getClient()
@@ -567,16 +544,9 @@ public class RestItemHandlerClient extends RestClientBase {
             ItemRestServiceLocator serviceLocator =
                 new ItemRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
-
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;
         }
         return this.restClient;
     }
-
 }

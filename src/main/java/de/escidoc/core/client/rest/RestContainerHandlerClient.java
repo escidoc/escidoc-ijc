@@ -31,7 +31,7 @@ package de.escidoc.core.client.rest;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -69,6 +69,20 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestContainerHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestContainerHandlerClient#RestContainerHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestContainerHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -701,13 +715,7 @@ public class RestContainerHandlerClient extends RestClientBase {
             ContainerRestServiceLocator serviceLocator =
                 new ContainerRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
-
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             this.restClient = serviceLocator;
         }
         return this.restClient;

@@ -31,7 +31,8 @@ package de.escidoc.core.client.rest;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
@@ -68,6 +69,20 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestContentRelationHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestContentRelationHandlerClient#RestContentRelationHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestContentRelationHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -360,6 +375,28 @@ public class RestContentRelationHandlerClient extends RestClientBase {
 
     /**
      * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentRelations(
+        final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentRelations(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
+    }
+
+    /**
+     * 
      * @param contentRelationId
      * @return
      * @throws EscidocException
@@ -392,13 +429,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             ContentRelationRestServiceLocator serviceLocator =
                 new ContentRelationRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
-
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;
         }
         return this.restClient;

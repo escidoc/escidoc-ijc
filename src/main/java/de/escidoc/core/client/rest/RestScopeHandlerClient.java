@@ -6,10 +6,10 @@ package de.escidoc.core.client.rest;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -42,6 +42,20 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestScopeHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestScopeHandlerClient#RestScopeHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestScopeHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -178,6 +192,29 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
+    @Deprecated
+    public String retrieveScopes(final HashMap<String, String[]> request)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String resultXml = null;
+        try {
+            resultXml = getClient().retrieveScopes(request);
+        }
+        catch (Exception e) {
+            if (LOG.isDebugEnabled())
+                LOG.debug(e.getMessage(), e);
+            ExceptionMapper.map(e);
+        }
+        return resultXml;
+    }
+
+    /**
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public String retrieveScopes(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
@@ -206,31 +243,10 @@ public class RestScopeHandlerClient extends RestClientBase {
 
             ScopeRestServiceLocator serviceLocator =
                 new ScopeRestServiceLocator();
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;
         }
         return this.client;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new UnsupportedOperationException("Method no longer supported.");
-    }
-
 }

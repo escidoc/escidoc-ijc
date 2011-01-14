@@ -3,10 +3,9 @@
  */
 package de.escidoc.core.client.rest;
 
-import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -39,11 +38,33 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestPreprocessingHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestPreprocessingHandlerClient#RestPreprocessingHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestPreprocessingHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
     }
 
+    /**
+     * 
+     * @param aggregationDefinitionId
+     * @param xmlData
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     public void preprocess(
         final String aggregationDefinitionId, final String xmlData)
         throws EscidocException, InternalClientException, TransportException {
@@ -75,30 +96,10 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
 
             PreprocessingRestServiceLocator serviceLocator =
                 new PreprocessingRestServiceLocator();
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;
         }
         return this.client;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        return null;
-    }
-
 }

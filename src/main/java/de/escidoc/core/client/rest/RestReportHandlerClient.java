@@ -3,10 +3,9 @@
  */
 package de.escidoc.core.client.rest;
 
-import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -37,6 +36,19 @@ public class RestReportHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestReportHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestReportHandlerClient#RestReportHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestReportHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -78,29 +90,10 @@ public class RestReportHandlerClient extends RestClientBase {
 
             ReportRestServiceLocator serviceLocator =
                 new ReportRestServiceLocator();
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;
         }
         return this.client;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        throw new UnsupportedOperationException("Method not supported.");
-    }
-
 }

@@ -6,11 +6,10 @@ package de.escidoc.core.client.rest;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -43,6 +42,20 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestReportDefinitionHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestReportDefinitionHandlerClient#RestReportDefinitionHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestReportDefinitionHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -160,12 +173,10 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    @SuppressWarnings("rawtypes")
-    public String retrieveReportDefinitions(final HashMap filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (filter == null)
-            throw new IllegalArgumentException("filter must not be null.");
+    @Deprecated
+    public String retrieveReportDefinitions(
+        final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String xml = null;
         try {
@@ -233,21 +244,6 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Deprecated
-    @Override
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new UnsupportedOperationException("Method no longer supported.");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override
@@ -256,12 +252,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
 
             ReportDefinitionRestServiceLocator serviceLocator =
                 new ReportDefinitionRestServiceLocator();
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;
         }

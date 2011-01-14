@@ -3,10 +3,9 @@
  */
 package de.escidoc.core.client.rest;
 
-import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -39,6 +38,20 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public RestStatisticDataHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestStatisticDataHandlerClient#RestStatisticDataHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public RestStatisticDataHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -78,29 +91,10 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
 
             StatisticDataRestServiceLocator serviceLocator =
                 new StatisticDataRestServiceLocator();
-            try {
-                serviceLocator.setServiceAddress(getServiceAddress());
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException(e);
-            }
+            serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;
         }
         return this.client;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        throw new UnsupportedOperationException("Method not supported.");
-    }
-
 }
