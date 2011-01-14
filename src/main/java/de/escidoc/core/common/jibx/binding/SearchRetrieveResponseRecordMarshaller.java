@@ -10,6 +10,10 @@ import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.log4j.Logger;
 import org.jibx.runtime.IAliasable;
 import org.jibx.runtime.IMarshaller;
@@ -18,11 +22,10 @@ import org.jibx.runtime.IUnmarshaller;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.UnmarshallingContext;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
@@ -249,12 +252,16 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
             Matcher m = tagNameWithPrefix.matcher(data.getDataText());
             if (m.find()) {
                 String startingXml = m.group(0).replaceAll(">$", "/>");
-                DOMParser parser = new DOMParser();
-                try {
-                    parser.parse(new InputSource(new StringReader(
-                        XmlUtility.XML_HEADER + startingXml)));
+                DocumentBuilderFactory factory =
+                    DocumentBuilderFactory.newInstance();
 
-                    Element element = parser.getDocument().getDocumentElement();
+                try {
+                    DocumentBuilder builder = factory.newDocumentBuilder();
+                    Document doc =
+                        builder.parse(new InputSource(new StringReader(
+                            XmlUtility.XML_HEADER + startingXml)));
+
+                    Element element = doc.getDocumentElement();
                     tagname = element.getLocalName();
                     namespace = element.getNamespaceURI();
                 }
@@ -266,6 +273,13 @@ public class SearchRetrieveResponseRecordMarshaller extends MarshallingBase
                     }
                 }
                 catch (IOException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(
+                            "Unable to parse start tag of recordData content.",
+                            e);
+                    }
+                }
+                catch (ParserConfigurationException e) {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug(
                             "Unable to parse start tag of recordData content.",
