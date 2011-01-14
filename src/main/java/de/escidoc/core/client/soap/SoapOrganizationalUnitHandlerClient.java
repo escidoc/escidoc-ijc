@@ -37,17 +37,13 @@ import java.util.HashMap;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.oum.OrganizationalUnitHandler;
 import de.escidoc.core.oum.OrganizationalUnitHandlerServiceLocator;
-import de.escidoc.core.resources.oum.OrganizationalUnit;
 
 /**
  * SOAP Handler for Organizational Unit.
@@ -72,8 +68,23 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapOrganizationalUnitHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapOrganizationalUnitHandlerClient#SoapOrganizationalUnitHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapOrganizationalUnitHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -296,35 +307,6 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @param taskParam
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveOrganizationalUnits(java.lang.String)
-     */
-    @Deprecated
-    public String retrieveOrganizationalUnits(final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (taskParam == null)
-            throw new IllegalArgumentException("taskParam must not be null.");
-
-        String result = null;
-        try {
-            result = getClient().retrieveOrganizationalUnits(taskParam);
-        }
-        catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
-     * 
      * @param filter
      * @return
      * @throws EscidocException
@@ -336,7 +318,29 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         InternalClientException, TransportException {
 
         evalRequest(filter, true);
-        return filterOrganizationalUnits(getEscidoc12Filter(filter));
+        return retrieveOrganizationalUnits(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveOrganizationalUnits(
+        final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveOrganizationalUnits(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
     }
 
     /**
@@ -351,7 +355,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(filter);
-        return filterOrganizationalUnits(getEscidoc12Filter(filter));
+        return retrieveOrganizationalUnits(getEscidoc12Filter(filter));
     }
 
     /**
@@ -560,69 +564,6 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
-     * Get the last-modification timestamp of the organizationalUnit.
-     * 
-     * @param id
-     *            The id of the organizationalUnit.
-     * @return The timestamp of the last modification of the organizationalUnit.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
-
-        DateTime result = null;
-        try {
-            result =
-                MarshallerFactory
-                    .getInstance(TransportProtocol.SOAP)
-                    .getMarshaller(OrganizationalUnit.class)
-                    .unmarshalDocument(getClient().retrieve(id))
-                    .getLastModificationDate();
-        }
-        catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
-     * generic filter method request.
-     * 
-     * @param escidoc12Filter
-     *            data structure for eSciDoc 1.2 filter
-     * @return filter response
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    private String filterOrganizationalUnits(
-        final HashMap<String, String[]> escidoc12Filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveOrganizationalUnits(escidoc12Filter);
-        }
-        catch (Exception e) {
             ExceptionMapper.map(e);
         }
         return result;

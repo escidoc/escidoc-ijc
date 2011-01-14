@@ -32,8 +32,6 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.aa.PolicyDecisionPoint;
 import de.escidoc.core.aa.PolicyDecisionPointServiceLocator;
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -63,8 +61,23 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapPolicyDecisionPointHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapPolicyDecisionPointHandlerClient#SoapPolicyDecisionPointHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapPolicyDecisionPointHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -87,29 +100,6 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
         catch (Exception e) {
             ExceptionMapper.map(e);
         }
-        return result;
-    }
-
-    /**
-     * Place holder method.
-     * 
-     * @param id
-     *            The id of the context.
-     * @return The timestamp of the last modification of the context.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
-
         return result;
     }
 

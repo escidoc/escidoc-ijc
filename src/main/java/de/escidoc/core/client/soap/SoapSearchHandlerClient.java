@@ -44,10 +44,7 @@ import java.rmi.Remote;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.client.exceptions.EscidocClientException;
-import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -75,8 +72,23 @@ public class SoapSearchHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapSearchHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapSearchHandlerClient#SoapSearchHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapSearchHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -273,23 +285,9 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      * 
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
+    @Override
     public Remote getClient() throws InternalClientException {
 
         throw new InternalClientException("The method is not supported");
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new InternalClientException("The method is not supported");
-    }
-
 }

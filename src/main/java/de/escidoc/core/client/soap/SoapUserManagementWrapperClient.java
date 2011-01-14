@@ -32,8 +32,6 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.aa.UserManagementWrapper;
 import de.escidoc.core.aa.UserManagementWrapperServiceLocator;
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -62,8 +60,23 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapUserManagementWrapperClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapUserManagementWrapperClient#SoapUserManagementWrapperClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapUserManagementWrapperClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -85,29 +98,12 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
         }
     }
 
-    /**
-     * TODO ?
-     * 
-     * @param in0
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public void initHandleExpiryTimestamp(String in0) throws EscidocException,
-        InternalClientException, TransportException {
-        try {
-            getClient().initHandleExpiryTimestamp(in0);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-    }
-
     /*
      * (non-Javadoc)
      * 
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
+    @Override
     public UserManagementWrapper getClient() throws InternalClientException {
 
         try {
@@ -127,19 +123,4 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
         }
         return soapClient;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        return null;
-    }
-
 }

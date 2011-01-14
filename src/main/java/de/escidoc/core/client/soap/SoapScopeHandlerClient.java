@@ -12,7 +12,6 @@ import java.util.HashMap;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -45,6 +44,20 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapScopeHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapScopeHandlerClient#SoapScopeHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapScopeHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -161,7 +174,29 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request, true);
-        return filterScopes(getEscidoc12Filter(request));
+        return retrieveScopes(getEscidoc12Filter(request));
+    }
+
+    /**
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveScopes(final HashMap<String, String[]> filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String resultXml = null;
+        try {
+            resultXml = getClient().retrieveScopes(filter);
+        }
+        catch (Exception e) {
+            if (LOG.isDebugEnabled())
+                LOG.debug(e.getMessage(), e);
+            ExceptionMapper.map(e);
+        }
+        return resultXml;
     }
 
     /**
@@ -175,31 +210,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request);
-        return filterScopes(getEscidoc12Filter(request));
-    }
-
-    /**
-     * Converts the RequestType into the HashMap representation in order to be
-     * able to use the SOAP interface.
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    private String filterScopes(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
-        String resultXml = null;
-        try {
-            resultXml = getClient().retrieveScopes(filter);
-        }
-        catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
-        }
-        return resultXml;
+        return retrieveScopes(getEscidoc12Filter(request));
     }
 
     /*
@@ -226,20 +237,4 @@ public class SoapScopeHandlerClient extends SoapClientBase {
 
         return client;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        throw new UnsupportedOperationException("Method not supported.");
-    }
-
 }

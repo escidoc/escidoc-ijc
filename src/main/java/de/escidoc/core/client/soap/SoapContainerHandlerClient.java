@@ -36,17 +36,12 @@ import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.om.ContainerHandler;
 import de.escidoc.core.om.ContainerHandlerServiceLocator;
-import de.escidoc.core.resources.om.container.Container;
 
 /**
  * SOAP Handler for Container.
@@ -68,8 +63,23 @@ public class SoapContainerHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapContainerHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapContainerHandlerClient#SoapContainerHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapContainerHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -524,29 +534,6 @@ public class SoapContainerHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @param taskParam
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#retrieveItems(java.lang.String)
-     */
-    @Deprecated
-    public String retrieveContainers(final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveContainers(taskParam);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
-     * 
      * @param filter
      * @return
      * @throws EscidocException
@@ -557,7 +544,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request, true);
-        return filterContainers(getEscidoc12Filter(request));
+        return retrieveContainers(getEscidoc12Filter(request));
     }
 
     /**
@@ -572,7 +559,31 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request);
-        return filterContainers(getEscidoc12Filter(request));
+        return retrieveContainers(getEscidoc12Filter(request));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContainers(final HashMap<String, String[]> filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        if (filter == null)
+            throw new IllegalArgumentException("filter must not be null.");
+
+        String result = null;
+        try {
+            result = getClient().retrieveContainers(filter);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e);
+        }
+        return result;
     }
 
     /**
@@ -604,80 +615,50 @@ public class SoapContainerHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @param id
      * @param filter
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    @Deprecated
-    public String retrieveMembers(final String id, final String filter)
+    public String retrieveMembers(
+        final String contextId, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return retrieveMembers(contextId, getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMembers(
+        final String contextId, final ExplainRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return retrieveMembers(contextId, getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param contextId
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMembers(
+        final String contextId, final HashMap<String, String[]> filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().retrieveMembers(id, filter);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String retrieveMembers(
-        final String id, final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        return filterMembers(id, getEscidoc12Filter(filter));
-    }
-
-    /**
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String retrieveMembers(
-        final String id, final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        return filterMembers(id, getEscidoc12Filter(filter));
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
-        try {
-            result =
-                MarshallerFactory
-                    .getInstance(TransportProtocol.SOAP)
-                    .getMarshaller(Container.class)
-                    .unmarshalDocument(getClient().retrieve(id))
-                    .getLastModificationDate();
+            result = getClient().retrieveMembers(contextId, filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -711,61 +692,4 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         }
         return soapClient;
     }
-
-    /**
-     * generic filter method request.
-     * 
-     * @param escidoc12Filter
-     *            data structure for eSciDoc 1.2 filter
-     * @return filter response
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    private String filterContainers(
-        final HashMap<String, String[]> escidoc12Filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (escidoc12Filter == null)
-            throw new IllegalArgumentException(
-                "Escidoc12Filter must not be null.");
-
-        String result = null;
-        try {
-            result = getClient().retrieveContainers(escidoc12Filter);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-
-    }
-
-    /**
-     * generic filter method request.
-     * 
-     * @param contextId
-     *            the objid of the Context
-     * @param escidoc12Filter
-     *            data structure for eSciDoc 1.2 filter
-     * @return filter response
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    private String filterMembers(
-        final String contextId, final HashMap<String, String[]> escidoc12Filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveMembers(contextId, escidoc12Filter);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-
-    }
-
 }

@@ -7,8 +7,6 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.adm.AdminHandler;
 import de.escidoc.core.adm.AdminHandlerServiceLocator;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -37,6 +35,20 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @param serviceAdress
      * @throws InternalClientException
      */
+    public SoapAdminHandlerClient(final URL serviceAdress)
+        throws InternalClientException {
+        super(serviceAdress);
+    }
+
+    /**
+     * 
+     * @param serviceAdress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapAdminHandlerClient#SoapAdminHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapAdminHandlerClient(final String serviceAdress)
         throws InternalClientException {
         super(serviceAdress);
@@ -196,19 +208,4 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         }
         return soapClient;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        return null;
-    }
-
 }

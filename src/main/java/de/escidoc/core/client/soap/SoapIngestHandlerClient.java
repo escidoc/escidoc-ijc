@@ -32,8 +32,6 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -61,8 +59,23 @@ public class SoapIngestHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapIngestHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapIngestHandlerClient#SoapIngestHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapIngestHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -76,7 +89,7 @@ public class SoapIngestHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String ingest(String resourceXml) throws EscidocException,
+    public String ingest(final String resourceXml) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -86,29 +99,6 @@ public class SoapIngestHandlerClient extends SoapClientBase {
         catch (Exception e) {
             ExceptionMapper.map(e);
         }
-        return result;
-
-    }
-
-    /**
-     * Get the last-modification timestamp of the item.
-     * 
-     * @param id
-     *            The id of the item.
-     * @return The timestamp of the last modification of the item.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
         return result;
     }
 

@@ -36,17 +36,12 @@ import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.om.ContentRelationHandler;
 import de.escidoc.core.om.ContentRelationHandlerServiceLocator;
-import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 
 /**
  * Content Relation SOAP handler.
@@ -68,8 +63,23 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapContentRelationHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapContentModelHandlerClient#SoapContentModelHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapContentRelationHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -309,11 +319,12 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws TransportException
      */
     public String retrieveContentRelations(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        evalRequest(filter, true);
-        return filterContentRelations(getEscidoc12Filter(filter));
+        evalRequest(request, true);
+
+        return retrieveContentRelations(getEscidoc12Filter(request));
     }
 
     /**
@@ -324,38 +335,29 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentRelations(final ExplainRequestType filter)
+    public String retrieveContentRelations(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        return filterContentRelations(getEscidoc12Filter(filter));
+        evalRequest(request);
+
+        return retrieveContentRelations(getEscidoc12Filter(request));
     }
 
     /**
-     * Get the last-modification timestamp of the context.
      * 
-     * @param id
-     *            The id of the context.
-     * @return The timestamp of the last modification of the context.
-     * @param id
+     * @param filter
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
      */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentRelations(
+        final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
-        DateTime result = null;
+        String result = null;
         try {
-            result =
-                MarshallerFactory
-                    .getInstance(TransportProtocol.SOAP)
-                    .getMarshaller(ContentRelation.class)
-                    .unmarshalDocument(getClient().retrieve(id))
-                    .getLastModificationDate();
+            result = getClient().retrieveContentRelations(filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -387,30 +389,5 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;
-    }
-
-    /**
-     * generic filter method request.
-     * 
-     * @param escidoc12Filter
-     *            data structure for eSciDoc 1.2 filter
-     * @return filter response
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    private String filterContentRelations(
-        final HashMap<String, String[]> escidoc12Filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveContentRelations(escidoc12Filter);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-
     }
 }

@@ -28,21 +28,20 @@
  */
 package de.escidoc.core.client.soap;
 
+import gov.loc.www.zing.srw.ExplainRequestType;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.cmm.ContentModelHandler;
 import de.escidoc.core.cmm.ContentModelHandlerServiceLocator;
-import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.cmm.ContentModel;
 
 /**
  * 
@@ -63,8 +62,23 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapContentModelHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapContentModelHandlerClient#SoapContentModelHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapContentModelHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -158,31 +172,50 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the contentModel.
      * 
-     * @param id
-     *            The id of the contentModel.
-     * @return The timestamp of the last modification of the contentModel.
-     * @param id
+     * @param request
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
      */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
+    public String retrieveContentModels(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        DateTime result = null;
+        evalRequest(request);
+
+        return retrieveContentModels(getEscidoc12Filter(request));
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentModels(final SearchRetrieveRequestType request)
+        throws EscidocException, InternalClientException, TransportException {
+
+        evalRequest(request, true);
+
+        return retrieveContentModels(getEscidoc12Filter(request));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentModels(final HashMap<String, String[]> filter)
+        throws EscidocException, InternalClientException, TransportException {
+        String result = null;
         try {
-            result =
-                MarshallerFactory
-                    .getInstance(TransportProtocol.SOAP)
-                    .getMarshaller(ContentModel.class)
-                    .unmarshalDocument(getClient().retrieve(id))
-                    .getLastModificationDate();
+            result = getClient().retrieveContentModels(filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);

@@ -12,7 +12,6 @@ import java.util.HashMap;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -44,6 +43,19 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapAggregationDefinitionHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapAggregationDefinitionHandlerClient#SoapAggregationDefinitionHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapAggregationDefinitionHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -135,7 +147,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         InternalClientException, TransportException {
 
         evalRequest(request, true);
-        return filterAggregationDefinitions(getEscidoc12Filter(request));
+        return retrieveAggregationDefinitions(getEscidoc12Filter(request));
     }
 
     /**
@@ -150,22 +162,20 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         InternalClientException, TransportException {
 
         evalRequest(request);
-        return filterAggregationDefinitions(getEscidoc12Filter(request));
+        return retrieveAggregationDefinitions(getEscidoc12Filter(request));
     }
 
     /**
-     * Converts the RequestType into the HashMap representation in order to be
-     * able to use the SOAP interface.
-     * 
      * @param filter
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String filterAggregationDefinitions(
+    public String retrieveAggregationDefinitions(
         final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
+
         String resultXml = null;
         try {
             resultXml = getClient().retrieveAggregationDefinitions(filter);
@@ -205,20 +215,4 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
 
         return client;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        throw new UnsupportedOperationException(
-            "This method is no longer supported.");
-    }
-
 }

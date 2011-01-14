@@ -8,7 +8,6 @@ import java.net.URL;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -41,6 +40,20 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapPreprocessingHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapPreprocessingHandlerClient#SoapPreprocessingHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapPreprocessingHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -91,12 +104,4 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
         }
         return client;
     }
-
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        return null;
-    }
-
 }

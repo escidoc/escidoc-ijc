@@ -36,17 +36,12 @@ import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.aa.RoleHandler;
 import de.escidoc.core.aa.RoleHandlerServiceLocator;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.om.context.Context;
 
 /**
  * SOAP Handler for Roles.
@@ -68,8 +63,22 @@ public class SoapRoleHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapRoleHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use {@link SoapRoleHandlerClient#SoapRoleHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapRoleHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -131,20 +140,33 @@ public class SoapRoleHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @param id
+     * @param filter
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#retrieve(java.lang.String)
      */
-    @Deprecated
-    public String retrieveRoles(final String taskParam)
+    public String retrieveRoles(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
+
+        evalRequest(filter, true);
+        return retrieveRoles(getEscidoc12Filter(filter));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveRoles(final HashMap<String, String[]> filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().retrieveRoles(taskParam);
+            result = getClient().retrieveRoles(filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -160,26 +182,11 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveRoles(final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        evalRequest(filter, true);
-        return filterRoles(getEscidoc12Filter(filter));
-    }
-
-    /**
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
     public String retrieveRoles(final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(filter);
-        return filterRoles(getEscidoc12Filter(filter));
+        return retrieveRoles(getEscidoc12Filter(filter));
     }
 
     /**
@@ -199,39 +206,6 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         String result = null;
         try {
             result = getClient().update(id, context);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
-     * Get the last-modification timestamp of the context.
-     * 
-     * @param id
-     *            The id of the context.
-     * @return The timestamp of the last modification of the context.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
-        try {
-            result =
-                MarshallerFactory
-                    .getInstance(TransportProtocol.SOAP)
-                    .getMarshaller(Context.class)
-                    .unmarshalDocument(getClient().retrieve(id))
-                    .getLastModificationDate();
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -262,28 +236,4 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         }
         return soapClient;
     }
-
-    /**
-     * generic filter method request.
-     * 
-     * @param escidoc12Filter
-     *            data structure for eSciDoc 1.2 filter
-     * @return filter response
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    private String filterRoles(final HashMap<String, String[]> escidoc12Filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveRoles(escidoc12Filter);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
 }

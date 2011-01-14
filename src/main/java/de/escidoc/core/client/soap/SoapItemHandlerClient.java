@@ -37,17 +37,13 @@ import java.util.HashMap;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.om.ItemHandler;
 import de.escidoc.core.om.ItemHandlerServiceLocator;
-import de.escidoc.core.resources.om.item.Item;
 
 /**
  * SOAP Handler for Item.
@@ -72,8 +68,22 @@ public class SoapItemHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapItemHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use {@link SoapItemHandlerClient#SoapItemHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapItemHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -333,25 +343,35 @@ public class SoapItemHandlerClient extends SoapClientBase {
     }
 
     /**
-     * Get Items by filter. This filter language is described as taskParam
-     * filter for eSciDoc core version 1.1. Version 1.2 of eSciDoc core supports
-     * this filters, but they are marked as deprecated.
      * 
-     * @param taskParam
-     *            Filter (eSciDoc XML filter language)
-     * @return List of Items
+     * @param request
+     * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#retrieveItems(java.lang.String)
      */
-    @Deprecated
-    public String retrieveItems(final String taskParam)
+    public String retrieveItems(final SearchRetrieveRequestType request)
+        throws EscidocException, InternalClientException, TransportException {
+
+        evalRequest(request, true);
+
+        return retrieveItems(getEscidoc12Filter(request));
+    }
+
+    /**
+     * 
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveItems(final HashMap<String, String[]> filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result = getClient().retrieveItems(taskParam);
+            result = getClient().retrieveItems(filter);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
@@ -361,32 +381,18 @@ public class SoapItemHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @param filter
+     * @param request
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveItems(final SearchRetrieveRequestType filter)
+    public String retrieveItems(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        evalRequest(filter, true);
+        evalRequest(request);
 
-        return filterItems(getEscidoc12Filter(filter));
-    }
-
-    /**
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String retrieveItems(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        return filterItems(getEscidoc12Filter(filter));
+        return retrieveItems(getEscidoc12Filter(request));
     }
 
     /**
@@ -484,38 +490,6 @@ public class SoapItemHandlerClient extends SoapClientBase {
     }
 
     /**
-     * Get the last-modification timestamp of the item.
-     * 
-     * @param id
-     *            The id of the item.
-     * @return The timestamp of the last modification of the item.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
-        try {
-            result =
-                (MarshallerFactory
-                    .getInstance(TransportProtocol.SOAP).getMarshaller(
-                        Item.class).unmarshalDocument(getClient().retrieve(id)))
-                    .getLastModificationDate();
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-    }
-
-    /**
      * @return Returns the soapClient.
      * @throws InternalClientException
      * @see de.escidoc.core.client.ClientBase#getClient()
@@ -538,29 +512,5 @@ public class SoapItemHandlerClient extends SoapClientBase {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;
-    }
-
-    /**
-     * generic filter method request.
-     * 
-     * @param escidoc12Filter
-     *            data structure for eSciDoc 1.2 filter
-     * @return filter response
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    private String filterItems(final HashMap<String, String[]> escidoc12Filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveItems(escidoc12Filter);
-        }
-        catch (Exception e) {
-            ExceptionMapper.map(e);
-        }
-        return result;
-
     }
 }

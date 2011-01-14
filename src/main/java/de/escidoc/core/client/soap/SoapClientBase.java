@@ -58,6 +58,18 @@ public abstract class SoapClientBase extends ClientBase
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
      */
+    public SoapClientBase(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use {@link SoapClientBase#SoapClientBase(URL)} instead.
+     */
+    @Deprecated
     public SoapClientBase(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);

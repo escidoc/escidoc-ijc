@@ -32,8 +32,6 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.aa.ActionHandler;
 import de.escidoc.core.aa.ActionHandlerServiceLocator;
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -62,8 +60,23 @@ public class SoapActionHandlerClient extends SoapClientBase {
 
     /**
      * 
+     * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapActionHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapActionHandlerClient#SoapActionHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapActionHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -79,9 +92,9 @@ public class SoapActionHandlerClient extends SoapClientBase {
      * @throws TransportException
      */
     public String createUnsecuredActions(
-        final String contextId, final String actions)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        final String contextId, final String actions) throws EscidocException,
+        InternalClientException, TransportException {
+
         String result = null;
         try {
             result = getClient().createUnsecuredActions(contextId, actions);
@@ -101,8 +114,7 @@ public class SoapActionHandlerClient extends SoapClientBase {
      * @throws TransportException
      */
     public String retrieveUnsecuredActions(final String contextId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
         String result = null;
         try {
             result = getClient().retrieveUnsecuredActions(contextId);
@@ -121,37 +133,13 @@ public class SoapActionHandlerClient extends SoapClientBase {
      * @throws TransportException
      */
     public void deleteUnsecuredActions(final String contextId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
         try {
             getClient().deleteUnsecuredActions(contextId);
         }
         catch (Exception e) {
             ExceptionMapper.map(e);
         }
-    }
-
-    /**
-     * Place holder method.
-     * 
-     * @param id
-     *            The id of the context.
-     * @return The timestamp of the last modification of the context.
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String)
-     */
-    @Override
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        DateTime result = null;
-
-        return result;
     }
 
     /**
@@ -178,5 +166,4 @@ public class SoapActionHandlerClient extends SoapClientBase {
         }
         return soapClient;
     }
-
 }

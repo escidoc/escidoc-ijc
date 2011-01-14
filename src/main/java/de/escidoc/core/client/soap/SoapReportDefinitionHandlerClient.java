@@ -45,6 +45,20 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapReportDefinitionHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapReportDefinitionHandlerClient#SoapReportDefinitionHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapReportDefinitionHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -162,23 +176,20 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    @SuppressWarnings("rawtypes")
-    public String retrieveReportDefinitions(final HashMap filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveReportDefinitions(
+        final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
-        if (filter == null)
-            throw new IllegalArgumentException("filter must not be null.");
-
-        String xml = null;
+        String result = null;
         try {
-            xml = getClient().retrieveReportDefinitions(filter);
+            result = getClient().retrieveReportDefinitions(filter);
         }
         catch (Exception e) {
             if (LOG.isDebugEnabled())
                 LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
-        return xml;
+        return result;
     }
 
     /**
@@ -194,7 +205,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         InternalClientException, TransportException {
 
         evalRequest(request, true);
-        return filterRoles(getEscidoc12Filter(request));
+        return retrieveReportDefinitions(getEscidoc12Filter(request));
     }
 
     /**
@@ -209,32 +220,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         throws EscidocException, InternalClientException, TransportException {
 
         evalRequest(request);
-        return filterRoles(getEscidoc12Filter(request));
-    }
-
-    /**
-     * generic filter method request.
-     * 
-     * @param escidoc12Filter
-     *            data structure for eSciDoc 1.2 filter
-     * @return filter response
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    private String filterRoles(final HashMap<String, String[]> escidoc12Filter)
-        throws EscidocException, InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveReportDefinitions(escidoc12Filter);
-        }
-        catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
-        }
-        return result;
+        return retrieveReportDefinitions(getEscidoc12Filter(request));
     }
 
     /*

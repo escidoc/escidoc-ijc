@@ -8,7 +8,6 @@ import java.net.URL;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -39,6 +38,19 @@ public class SoapReportHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
+    public SoapReportHandlerClient(final URL serviceAddress)
+        throws InternalClientException {
+        super(serviceAddress);
+    }
+
+    /**
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link SoapReportHandlerClient#SoapReportHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
     public SoapReportHandlerClient(final String serviceAddress)
         throws InternalClientException {
         super(serviceAddress);
@@ -92,18 +104,4 @@ public class SoapReportHandlerClient extends SoapClientBase {
         }
         return client;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.ClientBase#getLastModificationDate(java.lang.String
-     * )
-     */
-    @Override
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        throw new UnsupportedOperationException("Method not supported.");
-    }
-
 }
