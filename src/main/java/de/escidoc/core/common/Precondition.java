@@ -29,6 +29,7 @@ public class Precondition {
             throw new IllegalArgumentException(
                 "CheckNotNull failed: The specified argument must not be null.");
         }
+
         return param;
     }
 
