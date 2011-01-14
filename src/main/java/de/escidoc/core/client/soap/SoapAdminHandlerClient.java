@@ -7,6 +7,8 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.log4j.Logger;
+
 import de.escidoc.core.adm.AdminHandler;
 import de.escidoc.core.adm.AdminHandlerServiceLocator;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -19,6 +21,9 @@ import de.escidoc.core.client.exceptions.TransportException;
  * 
  */
 public class SoapAdminHandlerClient extends SoapClientBase {
+
+	private static final Logger log = Logger
+			.getLogger(SoapAdminHandlerClient.class);
 
     private AdminHandler soapClient = null;
 
@@ -68,7 +73,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
             return getClient().deleteObjects(taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return null;
     }
@@ -86,7 +91,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
             return getClient().getPurgeStatus();
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return null;
     }
@@ -104,7 +109,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
             return getClient().getReindexStatus();
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return null;
     }
@@ -125,7 +130,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
                 indexNamePrefix);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return null;
     }
@@ -143,7 +148,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
             return getClient().getRepositoryInfo();
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return null;
     }
@@ -162,7 +167,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
             return getClient().loadExamples(exampleSet);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return null;
     }
@@ -180,7 +185,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
             return getClient().getIndexConfiguration();
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return null;
     }

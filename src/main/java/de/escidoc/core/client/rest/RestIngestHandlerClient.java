@@ -106,8 +106,7 @@ public class RestIngestHandlerClient extends RestClientBase {
             result = getClient().ingest(resourceXml);
         }
         catch (Exception e) {
-            logger.debug(e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }

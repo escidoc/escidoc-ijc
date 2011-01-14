@@ -77,9 +77,7 @@ public class RestScopeHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -101,9 +99,7 @@ public class RestScopeHandlerClient extends RestClientBase {
             result = getClient().create(xml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -129,9 +125,7 @@ public class RestScopeHandlerClient extends RestClientBase {
             result = getClient().update(id, xml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -154,9 +148,7 @@ public class RestScopeHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -178,9 +170,7 @@ public class RestScopeHandlerClient extends RestClientBase {
             resultXml = getClient().retrieveScopes(request);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }
@@ -201,9 +191,7 @@ public class RestScopeHandlerClient extends RestClientBase {
             resultXml = getClient().retrieveScopes(request);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }
@@ -225,9 +213,7 @@ public class RestScopeHandlerClient extends RestClientBase {
             resultXml = getClient().retrieveScopes(request);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }

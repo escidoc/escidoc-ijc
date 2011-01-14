@@ -108,7 +108,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().assignObjectPid(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -130,8 +130,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().create(contentRelation);
         }
         catch (Exception e) {
-            logger.debug(e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -151,7 +150,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
     }
 
@@ -172,7 +171,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -196,7 +195,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().update(id, contentRelation);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -219,7 +218,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().lock(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -242,7 +241,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().unlock(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -270,7 +269,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().release(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -298,7 +297,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().revise(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -323,7 +322,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().submit(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -347,7 +346,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().retrieveContentRelations(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -368,7 +367,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().retrieveContentRelations(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -390,7 +389,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().retrieveContentRelations(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -411,7 +410,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
             result = getClient().retrieveResources(contentRelationId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }

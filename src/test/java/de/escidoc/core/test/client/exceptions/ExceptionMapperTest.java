@@ -5,6 +5,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.apache.log4j.Logger;
 import org.apache.ws.security.WSSecurityException;
 import org.junit.Test;
 
@@ -13,6 +14,7 @@ import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.invalid.ContextNotEmptyException;
+import de.escidoc.core.client.soap.SoapActionHandlerClient;
 
 /**
  * Test mapping of Exceptions.
@@ -21,6 +23,9 @@ import de.escidoc.core.client.exceptions.application.invalid.ContextNotEmptyExce
  */
 public class ExceptionMapperTest {
 
+	private static final Logger log = Logger
+			.getLogger(ExceptionMapperTest.class);
+
     /**
      * 
      */
@@ -28,7 +33,7 @@ public class ExceptionMapperTest {
     public void testMapInternalClientException() {
         InternalClientException ice = new InternalClientException();
         try {
-            ExceptionMapper.map(ice);
+            ExceptionMapper.map(ice, log);
             fail("expected exception");
         }
         catch (EscidocException e) {
@@ -53,7 +58,7 @@ public class ExceptionMapperTest {
         Exception cause = new IndexOutOfBoundsException("foo != bar");
         cne.detail = cause;
         try {
-            ExceptionMapper.map(cne);
+            ExceptionMapper.map(cne, log);
             fail("expected exception");
         }
         catch (EscidocException e) {
@@ -79,7 +84,7 @@ public class ExceptionMapperTest {
         de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException cne =
             null;
         try {
-            ExceptionMapper.map(cne);
+            ExceptionMapper.map(cne, log);
             fail("expected exception");
         }
         catch (EscidocException e) {
@@ -102,7 +107,7 @@ public class ExceptionMapperTest {
         Exception cause = new IndexOutOfBoundsException("foo != bar");
         WSSecurityException wse = new WSSecurityException("foo message", cause);
         try {
-            ExceptionMapper.map(wse);
+            ExceptionMapper.map(wse, log);
             fail("expected exception");
         }
         catch (EscidocException e) {
@@ -126,7 +131,7 @@ public class ExceptionMapperTest {
     public void testOtherException() {
         Exception ex = new IndexOutOfBoundsException("foo != bar");
         try {
-            ExceptionMapper.map(ex);
+            ExceptionMapper.map(ex, log);
             fail("expected exception");
         }
         catch (EscidocException e) {

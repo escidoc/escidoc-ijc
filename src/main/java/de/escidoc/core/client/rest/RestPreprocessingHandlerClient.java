@@ -21,7 +21,7 @@ import de.escidoc.core.sm.PreprocessingHandler;
 public class RestPreprocessingHandlerClient extends RestClientBase {
 
     private static final Logger LOG = Logger
-        .getLogger(RestReportDefinitionHandlerClient.class);
+        .getLogger(RestPreprocessingHandlerClient.class);
 
     private PreprocessingHandler client;
 
@@ -79,9 +79,7 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
             getClient().preprocess(aggregationDefinitionId, xmlData);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 

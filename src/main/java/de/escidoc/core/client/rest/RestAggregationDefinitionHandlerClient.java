@@ -78,9 +78,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -103,9 +101,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
             resultXml = getClient().create(xml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }
@@ -128,9 +124,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
             resultXml = getClient().retrieve(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }
@@ -153,9 +147,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
             resultXml = getClient().retrieveAggregationDefinitions(request);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }
@@ -178,9 +170,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
             resultXml = getClient().retrieveAggregationDefinitions(request);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }

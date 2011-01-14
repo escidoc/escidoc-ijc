@@ -109,10 +109,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().create(organizationalUnit);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -136,10 +133,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -164,10 +158,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -198,10 +189,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().update(id, ouXml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -237,10 +225,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().updateParents(ouId, xmlOfParents);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -300,10 +285,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().retrieveChildObjects(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -327,10 +309,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -354,10 +333,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -381,10 +357,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -418,10 +391,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().retrieveParentObjects(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -455,10 +425,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().retrieveParents(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -495,10 +462,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().retrievePathList(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -525,7 +489,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().open(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -552,10 +516,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
             result = getClient().close(id, taskParam);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

@@ -32,6 +32,8 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.log4j.Logger;
+
 import de.escidoc.core.aa.UserManagementWrapper;
 import de.escidoc.core.aa.UserManagementWrapperServiceLocator;
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -47,6 +49,9 @@ import de.escidoc.core.client.exceptions.TransportException;
  * 
  */
 public class SoapUserManagementWrapperClient extends SoapClientBase {
+
+	private static final Logger log = Logger
+			.getLogger(SoapUserManagementWrapperClient.class);
 
     private UserManagementWrapper soapClient = null;
 
@@ -94,7 +99,7 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
             getClient().logout();
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
     }
 

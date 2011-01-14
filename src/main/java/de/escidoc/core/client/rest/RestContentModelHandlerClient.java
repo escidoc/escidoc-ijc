@@ -35,6 +35,8 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -50,6 +52,9 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * 
  */
 public class RestContentModelHandlerClient extends RestClientBase {
+
+	private static final Logger log = Logger
+			.getLogger(RestContentModelHandlerClient.class);
 
     private ContentModelHandler restClient;
 
@@ -102,7 +107,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().create(contentModel);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -122,7 +127,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
     }
 
@@ -143,7 +148,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -167,7 +172,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().update(id, contentModel);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -188,7 +193,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().retrieveContentModels(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -208,7 +213,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().retrieveContentModels(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -228,7 +233,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().retrieveContentModels(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }

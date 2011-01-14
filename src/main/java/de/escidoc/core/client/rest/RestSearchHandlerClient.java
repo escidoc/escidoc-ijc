@@ -83,8 +83,7 @@ public class RestSearchHandlerClient extends RestClientBase {
             result = getRestClient(database).explain(request);
         }
         catch (Exception e) {
-            logger.debug(e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -109,8 +108,7 @@ public class RestSearchHandlerClient extends RestClientBase {
             result = getRestClient(database).search(request);
         }
         catch (Exception e) {
-            logger.debug(e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -134,8 +132,7 @@ public class RestSearchHandlerClient extends RestClientBase {
             result = getRestClient(database).scan(request);
         }
         catch (Exception e) {
-            logger.debug(e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }

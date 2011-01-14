@@ -80,9 +80,7 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
             getClient().preprocess(aggregationDefinitionId, xmlData);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 

@@ -111,10 +111,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().create(organizationalUnit);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -137,10 +134,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -164,10 +158,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -195,10 +186,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().update(id, organizationalUnit);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -234,10 +222,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().updateParents(ouId, xmlOfParents);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -297,10 +282,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().retrieveChildObjects(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -338,7 +320,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -387,10 +369,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().retrieveParentObjects(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -424,10 +403,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().retrieveParents(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -464,10 +440,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().retrievePathList(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -501,10 +474,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().retrieveSuccessors(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -531,10 +501,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().open(id, taskParam);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -561,10 +528,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
             result = getClient().close(id, taskParam);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

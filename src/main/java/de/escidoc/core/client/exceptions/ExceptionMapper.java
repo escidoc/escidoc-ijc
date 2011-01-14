@@ -66,9 +66,13 @@ public class ExceptionMapper extends Exception {
      *             de.escidoc.core.common.exceptions.remote.EscidocException
      *             couldn't be mapped
      */
-    public static void map(final Exception exception) throws EscidocException,
+    public static void map(final Exception exception, Logger log) throws EscidocException,
         InternalClientException, TransportException {
 
+    	if (log.isDebugEnabled()) {
+    		log.debug(exception.getMessage(), exception);
+    	}
+    	
         if (exception instanceof InternalClientException) {
             throw (InternalClientException) exception;
         }

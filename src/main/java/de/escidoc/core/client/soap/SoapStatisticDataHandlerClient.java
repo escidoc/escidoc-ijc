@@ -76,9 +76,7 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
             getClient().create(xml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 

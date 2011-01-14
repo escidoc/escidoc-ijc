@@ -108,8 +108,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().create(role);
         }
         catch (Exception e) {
-            logger.debug(e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -133,7 +132,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
     }
 
@@ -158,7 +157,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -186,7 +185,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().update(id, roleXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -211,7 +210,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().retrieveRoles(taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -234,7 +233,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().retrieveRoles(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -257,7 +256,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().retrieveRoles(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }

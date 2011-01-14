@@ -78,9 +78,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -103,9 +101,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
             resultXml = getClient().create(xml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }
@@ -128,9 +124,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
             resultXml = getClient().retrieve(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }
@@ -181,9 +175,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
             resultXml = getClient().retrieveAggregationDefinitions(filter);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }

@@ -74,9 +74,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
             getClient().create(xml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 

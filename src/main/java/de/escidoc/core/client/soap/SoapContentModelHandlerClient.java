@@ -36,6 +36,8 @@ import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.log4j.Logger;
+
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -49,6 +51,9 @@ import de.escidoc.core.cmm.ContentModelHandlerServiceLocator;
  * 
  */
 public class SoapContentModelHandlerClient extends SoapClientBase {
+
+	private static final Logger log = Logger
+			.getLogger(SoapContentModelHandlerClient.class);
 
     private ContentModelHandler soapClient = null;
 
@@ -101,7 +106,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             result = getClient().create(contentModel);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -121,7 +126,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
     }
 
@@ -142,7 +147,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -166,7 +171,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             result = getClient().update(id, contentModel);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -218,7 +223,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             result = getClient().retrieveContentModels(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }

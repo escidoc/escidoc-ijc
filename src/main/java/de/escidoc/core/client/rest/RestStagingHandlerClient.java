@@ -107,8 +107,7 @@ public class RestStagingHandlerClient extends RestClientBase {
             result = getClient().upload(f);
         }
         catch (Exception e) {
-            LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
 
         if (result == null)
@@ -135,8 +134,7 @@ public class RestStagingHandlerClient extends RestClientBase {
             result = getClient().upload(ins);
         }
         catch (Exception e) {
-            LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
 
         if (result == null)

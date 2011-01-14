@@ -105,8 +105,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().create(context);
         }
         catch (Exception e) {
-            logger.debug(e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -126,7 +125,7 @@ public class RestContextHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
     }
 
@@ -147,7 +146,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -171,7 +170,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().update(id, context);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -193,7 +192,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().open(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -206,7 +205,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().retrieveAdminDescriptors(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -228,7 +227,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().retrieveMembers(contextId, filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -250,7 +249,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().retrieveMembers(contextId, filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -263,7 +262,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().retrieveAdminDescriptor(id, admId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -285,7 +284,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().close(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -308,7 +307,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().retrieveContexts(taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -330,7 +329,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().retrieveContexts(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -351,7 +350,7 @@ public class RestContextHandlerClient extends RestClientBase {
             result = getClient().retrieveContexts(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }

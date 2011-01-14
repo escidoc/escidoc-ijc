@@ -79,9 +79,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -103,9 +101,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
             result = getClient().create(xml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -131,9 +127,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
             result = getClient().update(id, xml);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -156,9 +150,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -192,9 +184,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
             resultXml = getClient().retrieveScopes(filter);
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled())
-                LOG.debug(e.getMessage(), e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, LOG);
         }
         return resultXml;
     }

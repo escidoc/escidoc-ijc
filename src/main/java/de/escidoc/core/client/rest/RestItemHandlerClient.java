@@ -109,8 +109,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().create(item);
         }
         catch (Exception e) {
-            logger.debug(e);
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -134,7 +133,7 @@ public class RestItemHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
     }
 
@@ -159,7 +158,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -187,7 +186,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().update(id, item);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -215,7 +214,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().release(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -243,7 +242,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().revise(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -268,7 +267,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().submit(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -293,7 +292,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().withdraw(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -317,7 +316,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().assignVersionPid(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -342,7 +341,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().assignObjectPid(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -369,7 +368,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().assignContentPid(id, componentId, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -394,7 +393,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveItems(taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -417,7 +416,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveItems(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -438,7 +437,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveItems(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -458,7 +457,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveRelations(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -480,7 +479,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveVersionHistory(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -503,7 +502,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().lock(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }
@@ -526,7 +525,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().unlock(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, logger);
         }
         return result;
     }

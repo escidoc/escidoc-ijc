@@ -32,6 +32,8 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.log4j.Logger;
+
 import de.escidoc.core.aa.ActionHandler;
 import de.escidoc.core.aa.ActionHandlerServiceLocator;
 import de.escidoc.core.client.exceptions.EscidocClientException;
@@ -39,6 +41,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.rest.RestAdminHandlerClient;
 
 /**
  * SOAP Handler for Action.
@@ -47,6 +50,9 @@ import de.escidoc.core.client.exceptions.TransportException;
  * 
  */
 public class SoapActionHandlerClient extends SoapClientBase {
+
+	private static final Logger log = Logger
+			.getLogger(SoapActionHandlerClient.class);
 
     private ActionHandler soapClient = null;
 
@@ -100,7 +106,7 @@ public class SoapActionHandlerClient extends SoapClientBase {
             result = getClient().createUnsecuredActions(contextId, actions);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -120,7 +126,7 @@ public class SoapActionHandlerClient extends SoapClientBase {
             result = getClient().retrieveUnsecuredActions(contextId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
         return result;
     }
@@ -138,7 +144,7 @@ public class SoapActionHandlerClient extends SoapClientBase {
             getClient().deleteUnsecuredActions(contextId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e);
+            ExceptionMapper.map(e, log);
         }
     }
 
