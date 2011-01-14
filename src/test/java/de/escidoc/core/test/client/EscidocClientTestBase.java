@@ -47,7 +47,6 @@ import org.w3c.dom.Document;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 /**
  * Utility methods for Tests.
@@ -76,7 +75,8 @@ public final class EscidocClientTestBase {
     private static final Pattern PATTERN_LMD_ATTRIBUTE = Pattern
         .compile("last-modification-date=\"([^\"]*)\"");
 
-    private static TransportProtocol defaultTransportProtocol;
+    private static final TransportProtocol defaultTransportProtocol =
+        TransportProtocol.REST;
 
     private EscidocClientTestBase() {
     }
@@ -214,12 +214,7 @@ public final class EscidocClientTestBase {
      */
     public static final TransportProtocol getDefaultTransportProtocol()
         throws InternalClientException {
-        if (defaultTransportProtocol == null) {
-            defaultTransportProtocol =
-                TransportProtocol.valueOf(ConfigurationProvider
-                    .getInstance().getProperty(
-                        ConfigurationProvider.PROP_SERVICE_PROTOCOL));
-        }
+
         return defaultTransportProtocol;
     }
 
@@ -231,7 +226,7 @@ public final class EscidocClientTestBase {
      * @throws DOMException
      */
     public static final String obtainObjidByXPath(
-        String xPathToElement, Document doc) throws DOMException,
+        final String xPathToElement, final Document doc) throws DOMException,
         TransformerException {
         String objidOrHref =
             XPathAPI
