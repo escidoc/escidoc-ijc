@@ -24,7 +24,9 @@ import java.util.Map.Entry;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.http.Header;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -44,9 +46,11 @@ import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
+import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.rest.RestService;
 import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 import de.escidoc.core.common.URLUtility;
+import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
 
 /**
@@ -418,7 +422,271 @@ public abstract class RestServiceMethod implements RestService {
     private synchronized HttpClient getRestClient() {
 
         if (this.client == null) {
-            HttpParams params = new BasicHttpParams();
+        	HttpParams params = new BasicHttpParams();
+        	
+        	try {
+        		ConfigurationProvider cp = ConfigurationProvider.getInstance();
+	        	
+        		/* problems:
+        		 * http.socket.linger: currently converted to String. Ok?
+        		 * http.routes.local-address: how to pass InetAddress?
+        		 * http.route.forced-route: how to pass HttpRoute?
+        		 * http.conn-manager.max-per-route: how to pass ConnPerRoute?
+        		 * http.protocol.cookie-patterns: how to pass a Collection of Strings adhering to SimpleDateFormat?
+        		 * http.default-headers: how to pass a collection of Header objects?
+        		 */
+        		
+	        	// custom format for ProtocolVersion <protocol>/<major>.<minor>
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION);
+	        		try {
+	        			String protocol = data.substring(0, data.indexOf("/"));
+	        			int major = Integer.valueOf(data.substring(data.indexOf("/"), data.indexOf(".")));
+	        			int minor = Integer.valueOf(data.substring(data.indexOf("."), data.length()));
+	        			ProtocolVersion pv = new ProtocolVersion(protocol, major, minor);
+	        			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_VERSION, pv);
+	        		}
+	        		catch (IndexOutOfBoundsException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	
+	        	// custom format for HttpHost <host>[:<port>]
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY);
+	        		HttpHost httpHost;
+	        		String hostname;
+	        		int port;
+	        		
+	        		if (!data.contains(":")) {
+	        			httpHost = new HttpHost(data);
+	        			params.setParameter(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY, httpHost);
+	        		}
+	        		else {
+	        			try {
+	        				hostname = data.substring(0, data.indexOf(":"));
+	        				port = Integer.valueOf(data.substring(data.indexOf(":"), data.length()));
+	        				httpHost = new HttpHost(hostname, port);
+	        				params.setParameter(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY, httpHost);
+	        			}
+	        			catch (NumberFormatException e) {
+	        				// TODO: proper exception handling
+	        			}
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_VIRTUAL_HOST) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_VIRTUAL_HOST);
+	        		HttpHost httpHost;
+	        		String hostname;
+	        		int port;
+	        		
+	        		if (!data.contains(":")) {
+	        			httpHost = new HttpHost(data);
+	        			params.setParameter(ConfigurationProvider.HTTP_VIRTUAL_HOST, httpHost);
+	        		}
+	        		else {
+	        			try {
+	        				hostname = data.substring(0, data.indexOf(":"));
+	        				port = Integer.valueOf(data.substring(data.indexOf(":"), data.length()));
+	        				httpHost = new HttpHost(hostname, port);
+	        				params.setParameter(ConfigurationProvider.HTTP_VIRTUAL_HOST, httpHost);
+	        			}
+	        			catch (NumberFormatException e) {
+	        				// TODO: proper exception handling
+	        			}
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HOST) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HOST);
+	        		HttpHost httpHost;
+	        		String hostname;
+	        		int port;
+	        		
+	        		if (!data.contains(":")) {
+	        			httpHost = new HttpHost(data);
+	        			params.setParameter(ConfigurationProvider.HTTP_DEFAULT_HOST, httpHost);
+	        		}
+	        		else {
+	        			try {
+	        				hostname = data.substring(0, data.indexOf(":"));
+	        				port = Integer.valueOf(data.substring(data.indexOf(":"), data.length()));
+	        				httpHost = new HttpHost(hostname, port);
+	        				params.setParameter(ConfigurationProvider.HTTP_DEFAULT_HOST, httpHost);
+	        			}
+	        			catch (NumberFormatException e) {
+	        				// TODO: proper exception handling
+	        			}
+	        		}
+	        	}
+	        	
+	        	
+	        	// string
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_ELEMENT_CHARSET) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_ELEMENT_CHARSET, cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_ELEMENT_CHARSET));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_CONTENT_CHARSET) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_CONTENT_CHARSET, cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_CONTENT_CHARSET));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_USERAGENT) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_USERAGENT, cp.getProperty(ConfigurationProvider.HTTP_USERAGENT));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_STRICT_TRANSFER_ENCODING) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_STRICT_TRANSFER_ENCODING, cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_STRICT_TRANSFER_ENCODING));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_EXPECT_CONTINUE) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_EXPECT_CONTINUE, cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_EXPECT_CONTINUE));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_WAIT_FOR_CONTINUE) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_WAIT_FOR_CONTINUE, cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_WAIT_FOR_CONTINUE));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_SOCKET_LINGER) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_SOCKET_LINGER, cp.getProperty(ConfigurationProvider.HTTP_SOCKET_LINGER));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_POLICY) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_POLICY, cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_POLICY));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_AUTH_CREDENTIAL_CHARSET) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_AUTH_CREDENTIAL_CHARSET, cp.getProperty(ConfigurationProvider.HTTP_AUTH_CREDENTIAL_CHARSET));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MANAGER_FACTORY_CLASS_NAME) != null) {
+	        		params.setParameter(ConfigurationProvider.HTTP_CONNECTION_MANAGER_FACTORY_CLASS_NAME, cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MANAGER_FACTORY_CLASS_NAME));
+	        	}
+	        	
+	        	
+	        	// int
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_SOCKET_TIMEOUT) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_SOCKET_TIMEOUT, Integer.valueOf(cp.getProperty(ConfigurationProvider.HTTP_SOCKET_TIMEOUT)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_SOCKET_BUFFER_SIZE) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_SOCKET_BUFFER_SIZE, Integer.valueOf(cp.getProperty(ConfigurationProvider.HTTP_SOCKET_BUFFER_SIZE)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_TIMEOUT) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_CONNECTION_TIMEOUT, Integer.valueOf(cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_TIMEOUT)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MAX_LINE_LENGTH) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_CONNECTION_MAX_LINE_LENGTH, Integer.valueOf(cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MAX_LINE_LENGTH)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MAX_HEADER_COUNT) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_CONNECTION_MAX_HEADER_COUNT, Integer.valueOf(cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MAX_HEADER_COUNT)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MAX_STATUS_LINE_GARBAGE) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_CONNECTION_MAX_STATUS_LINE_GARBAGE, Integer.valueOf(cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MAX_STATUS_LINE_GARBAGE)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_MAX_TOTAL) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_CONN_MANAGER_MAX_TOTAL, Integer.valueOf(cp.getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_MAX_TOTAL)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOKOL_MAX_REDIRECTS) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_PROTOKOL_MAX_REDIRECTS, Integer.valueOf(cp.getProperty(ConfigurationProvider.HTTP_PROTOKOL_MAX_REDIRECTS)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	
+	        	// long
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_TIMEOUT) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_CONN_MANAGER_TIMEOUT, Long.valueOf(cp.getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_TIMEOUT)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	
+	        	// boolean
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_TCP_NODELAY) != null) {
+	       			params.setParameter(ConfigurationProvider.HTTP_TCP_NODELAY, Boolean.valueOf(cp.getProperty(ConfigurationProvider.HTTP_TCP_NODELAY)));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_STALECHECK) != null) {
+	       			params.setParameter(ConfigurationProvider.HTTP_CONNECTION_STALECHECK, Boolean.valueOf(cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_STALECHECK)));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_SINGLE_COOKIE_HEADER) != null) {
+	       			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_SINGLE_COOKIE_HEADER, Boolean.valueOf(cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_SINGLE_COOKIE_HEADER)));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_HANDLE_AUTHENTICATION) != null) {
+	       			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_HANDLE_AUTHENTICATION, Boolean.valueOf(cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_HANDLE_AUTHENTICATION)));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_HANDLE_REDIRECTS) != null) {
+	       			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_HANDLE_REDIRECTS, Boolean.valueOf(cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_HANDLE_REDIRECTS)));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_REJECT_RELATIVE_REDIRECT) != null) {
+	       			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_REJECT_RELATIVE_REDIRECT, Boolean.valueOf(cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_REJECT_RELATIVE_REDIRECT)));
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_ALLOW_CIRCULAR_REDIRECTS) != null) {
+	       			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_ALLOW_CIRCULAR_REDIRECTS, Boolean.valueOf(cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_ALLOW_CIRCULAR_REDIRECTS)));
+	        	}
+        	}
+        	catch (InternalClientException e) {
+        		// Error during ConfigurationProvider.getInstance()
+        		// TODO: proper exception handling
+        	}
+            
             this.client =
                 new DefaultHttpClient(getConnectionManager(params), params);
         }

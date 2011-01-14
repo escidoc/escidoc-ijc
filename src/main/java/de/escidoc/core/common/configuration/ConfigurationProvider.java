@@ -30,11 +30,13 @@ package de.escidoc.core.common.configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.http.ProtocolVersion;
 import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.TransportProtocol;
@@ -73,6 +75,44 @@ public final class ConfigurationProvider {
     public static final String PROP_SERVER_NAME = "server.name";
 
     public static final String PROP_SERVER_PORT = "server.port";
+    
+    // Parameters for HttpClient
+    public static final String HTTP_PROTOCOL_VERSION = "http.protocol.version";
+    public static final String HTTP_PROTOCOL_ELEMENT_CHARSET = "http.protocol.element-charset";
+    public static final String HTTP_PROTOCOL_CONTENT_CHARSET = "http.protocol.content-charset";
+    public static final String HTTP_USERAGENT = "http.useragent";
+    public static final String HTTP_PROTOCOL_STRICT_TRANSFER_ENCODING = "http.protocol.strict-transfer-encoding";
+    public static final String HTTP_PROTOCOL_EXPECT_CONTINUE = "http.protocol.expect-continue";
+    public static final String HTTP_PROTOCOL_WAIT_FOR_CONTINUE = "http.protocol.wait-for-continue";
+    public static final String HTTP_SOCKET_TIMEOUT = "http.socket.timeout";
+    public static final String HTTP_TCP_NODELAY = "http.tcp.nodelay";
+    public static final String HTTP_SOCKET_BUFFER_SIZE = "http.socket.buffer-size";
+    public static final String HTTP_SOCKET_LINGER = "http.socket.linger";
+    public static final String HTTP_CONNECTION_TIMEOUT = "http.socket.timeout";
+    public static final String HTTP_CONNECTION_STALECHECK = "http.connection.stalecheck";
+    public static final String HTTP_CONNECTION_MAX_LINE_LENGTH = "http.connection.max-line-length";
+    public static final String HTTP_CONNECTION_MAX_HEADER_COUNT = "http.connection.max-header-count";
+    public static final String HTTP_CONNECTION_MAX_STATUS_LINE_GARBAGE = "http.connection.max-status-line-garbage";
+    public static final String HTTP_ROUTE_DEFAULT_PROXY = "http.route.default-proxy";
+    public static final String HTTP_ROUTE_LOCAL_ADDRESS = "http.route.local-address";
+    public static final String HTTP_ROUTE_FORCED_ROUTE = "http.route.forced-route";
+    public static final String HTTP_CONN_MANAGER_TIMEOUT = "http.conn-manager.timeout";
+    public static final String HTTP_CONN_MANAGER_MAX_PER_ROUTE = "http.conn-manager.max-per-route";
+    public static final String HTTP_CONN_MANAGER_MAX_TOTAL = "http.connmanager.max-total";
+    public static final String HTTP_PROTOCOL_COOKIE_DATEPATTERNS = "http.cookie.date-patterns";
+    public static final String HTTP_PROTOCOL_SINGLE_COOKIE_HEADER = "http.protocol.single-cookie-header";
+    public static final String HTTP_PROTOCOL_COOKIE_POLICY = "http.protocol.cookie-policy";
+    public static final String HTTP_PROTOCOL_HANDLE_AUTHENTICATION = "http.protocol.handle-authentication";
+    public static final String HTTP_AUTH_CREDENTIAL_CHARSET = "http.auth.credential-charset";
+    public static final String HTTP_PROTOCOL_HANDLE_REDIRECTS = "http.protocol.handle-redirects";
+    public static final String HTTP_PROTOCOL_REJECT_RELATIVE_REDIRECT = "http.protocol.reject.relative.redirect";
+    public static final String HTTP_PROTOKOL_MAX_REDIRECTS = "http.protocol.max-redirects";
+    public static final String HTTP_PROTOCOL_ALLOW_CIRCULAR_REDIRECTS = "http.protocol.allow-circular-redirects";
+    public static final String HTTP_CONNECTION_MANAGER_FACTORY_CLASS_NAME = "http.connection-manager.factory-class-name";
+    public static final String HTTP_VIRTUAL_HOST = "http.virtual-host";
+    public static final String HTTP_DEFAULT_HEADERS = "http.default-headers";
+    public static final String HTTP_DEFAULT_HOST = "http.default-host";
+    
 
     /**
      * @deprecated Configuration of the transport protocol is no longer
