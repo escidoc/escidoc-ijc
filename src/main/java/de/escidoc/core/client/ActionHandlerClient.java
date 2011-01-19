@@ -61,10 +61,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      *             Thrown in case of client internal errors.
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
-     * @deprecated Use {@link HandlerClientFactory#getActionHandlerClient()}
-     *             instead.
      */
-    @Deprecated
     public ActionHandlerClient() throws InternalClientException {
         this.soapActionHandlerClient = new SoapActionHandlerClient();
     }
@@ -75,10 +72,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * @param serviceAddress
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
-     * @deprecated Use {@link HandlerClientFactory#getActionHandlerClient(URL)}
-     *             instead.
      */
-    @Deprecated
     public ActionHandlerClient(final URL serviceAddress)
         throws InternalClientException {
 
@@ -92,7 +86,7 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
      * @param serviceAddress
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
-     * @deprecated Use {@link HandlerClientFactory#getActionHandlerClient(URL)}
+     * @deprecated Use {@link ActionHandlerClient#ActionHandlerClient(URL)}
      *             instead.
      */
     @Deprecated

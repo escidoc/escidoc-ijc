@@ -235,7 +235,6 @@ public class MarshallerFactory {
      * @return
      * @throws InternalClientException
      */
-    @Deprecated
     public static final MarshallerFactory getInstance(
         final TransportProtocol transport) throws InternalClientException {
 

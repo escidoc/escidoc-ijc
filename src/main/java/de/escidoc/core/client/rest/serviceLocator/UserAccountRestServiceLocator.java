@@ -293,6 +293,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
             + "/resources/attributes");
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @Deprecated
     public String retrieveGrants(final HashMap filter) throws RemoteException,
@@ -364,6 +365,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return get(PATH_USER_ACCOUNT + "/current");
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public String retrievePermissionFilterQuery(final HashMap parameters)
         throws RemoteException, SystemException, InvalidSearchQueryException,
@@ -372,5 +374,4 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         return get(PATH_USER_ACCOUNT + "/retrievePermissionFilterQuery",
             parameters);
     }
-
 }

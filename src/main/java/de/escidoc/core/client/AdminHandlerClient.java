@@ -34,10 +34,7 @@ public class AdminHandlerClient
     implements AdminHandlerClientInterface {
 
     /**
-     * @deprecated Use {@link HandlerClientFactory#getAdminHandlerClient()}
-     *             instead.
      */
-    @Deprecated
     public AdminHandlerClient() {
         super();
     }
@@ -45,10 +42,7 @@ public class AdminHandlerClient
     /**
      * 
      * @param serviceAddress
-     * @deprecated Use {@link HandlerClientFactory#getAdminHandlerClient(URL)}
-     *             instead.
      */
-    @Deprecated
     public AdminHandlerClient(final URL serviceAddress) {
         super(serviceAddress);
     }
@@ -56,7 +50,7 @@ public class AdminHandlerClient
     /**
      * 
      * @param serviceAddress
-     * @deprecated Use {@link HandlerClientFactory#getAdminHandlerClient(URL)}
+     * @deprecated Use {@link AdminHandlerClient#AdminHandlerClient(URL)}
      *             instead.
      */
     @Deprecated

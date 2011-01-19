@@ -41,7 +41,6 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.rest.RestAdminHandlerClient;
 
 /**
  * SOAP Handler for Action.
@@ -51,8 +50,8 @@ import de.escidoc.core.client.rest.RestAdminHandlerClient;
  */
 public class SoapActionHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapActionHandlerClient.class);
+    private static final Logger LOG = Logger
+        .getLogger(SoapActionHandlerClient.class);
 
     private ActionHandler soapClient = null;
 

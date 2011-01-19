@@ -42,7 +42,6 @@ public final class HandlerClientFactory {
      * @return
      * @throws InternalClientException
      */
-    @SuppressWarnings("deprecation")
     public static final ActionHandlerClientInterface getActionHandlerClient()
         throws InternalClientException {
         return new ActionHandlerClient();
@@ -54,7 +53,6 @@ public final class HandlerClientFactory {
      * @return
      * @throws InternalClientException
      */
-    @SuppressWarnings("deprecation")
     public static final ActionHandlerClientInterface getActionHandlerClient(
         final URL serviceAddress) throws InternalClientException {
         return new ActionHandlerClient(serviceAddress);
