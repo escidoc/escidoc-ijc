@@ -35,7 +35,6 @@ import de.escidoc.core.common.exceptions.remote.application.violated.LockingExce
 import de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException;
 import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException;
 import de.escidoc.core.common.exceptions.remote.application.violated.OrganizationalUnitHierarchyViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OrganizationalUnitNameNotUniqueException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
@@ -83,7 +82,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         OrganizationalUnitHierarchyViolationException, InvalidStatusException,
         AuthenticationException, AuthorizationException, InvalidXmlException,
-        OrganizationalUnitNameNotUniqueException, MissingElementValueException {
+        MissingElementValueException {
 
         checkNotNull(ouId);
         checkNotNull(xmlOfParents);
@@ -376,7 +375,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         throws RemoteException, OptimisticLockingException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException,
-        OrganizationalUnitNameNotUniqueException, MissingElementValueException {
+        MissingElementValueException {
 
         checkNotNull(ouId);
         checkNotNull(mdRecordsXml);
