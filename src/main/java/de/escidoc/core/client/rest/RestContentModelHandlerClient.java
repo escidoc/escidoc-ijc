@@ -44,6 +44,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContentModelHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContentModelRestServiceLocator;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.resources.HttpInputStream;
 
 /**
  * REST Handler for Content Model.
@@ -53,8 +54,8 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  */
 public class RestContentModelHandlerClient extends RestClientBase {
 
-	private static final Logger log = Logger
-			.getLogger(RestContentModelHandlerClient.class);
+    private static final Logger LOG = Logger
+        .getLogger(RestContentModelHandlerClient.class);
 
     private ContentModelHandler restClient;
 
@@ -107,7 +108,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().create(contentModel);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -127,7 +128,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -148,7 +149,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -172,7 +173,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().update(id, contentModel);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -193,7 +194,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().retrieveContentModels(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -213,7 +214,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().retrieveContentModels(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -233,7 +234,116 @@ public class RestContentModelHandlerClient extends RestClientBase {
             result = getClient().retrieveContentModels(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param contentModelId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveProperties(final String contentModelId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveProperties(contentModelId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param contentModelId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveVersionHistory(final String contentModelId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveVersionHistory(contentModelId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param contentModelId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentStreams(final String contentModelId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentStreams(contentModelId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param contentModelId
+     * @param in1
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentStream(
+        final String contentModelId, final String contentStreamName)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result =
+                getClient().retrieveContentStream(contentModelId,
+                    contentStreamName);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param contentModelId
+     * @param contentStreamName
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public HttpInputStream retrieveContentStreamContent(
+        final String contentModelId, final String contentStreamName)
+        throws EscidocException, InternalClientException, TransportException {
+
+        HttpInputStream result = null;
+        try {
+            result =
+                getClient().retrieveContentStreamContent(contentModelId,
+                    contentStreamName);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

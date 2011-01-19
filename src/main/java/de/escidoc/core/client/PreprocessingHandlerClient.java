@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.net.URL;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -41,23 +43,34 @@ public class PreprocessingHandlerClient
 
     /**
      * 
-     * @param aggregationDefinitionId
-     * @param xmlData
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @param serviceAddress
+     * @deprecated Use
+     *             {@link PreprocessingHandlerClient#PreprocessingHandlerClient(URL)}
+     *             instead.
      */
+    @Deprecated
+    public PreprocessingHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.PreprocessingHandlerClientInterface
+     * #preprocess(java.lang.String,
+     * de.escidoc.core.resources.sm.preprocess.PreprocessingInformation)
+     */
+    @Override
     public void preprocess(
         final String aggregationDefinitionId,
         final PreprocessingInformation info) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (aggregationDefinitionId == null)
-            throw new IllegalArgumentException(
-                "aggregationDefinitionId must not be null.");
+        checkNotNull(aggregationDefinitionId);
 
         Marshaller<PreprocessingInformation> m =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance().getMarshaller(
                 PreprocessingInformation.class);
 
         String xml;
@@ -68,12 +81,7 @@ public class PreprocessingHandlerClient
             xml = m.marshalDocument(info);
         }
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().preprocess(aggregationDefinitionId, xml);
-        }
-        else {
-            getRestHandlerClient().preprocess(aggregationDefinitionId, xml);
-        }
+        getRestHandlerClient().preprocess(aggregationDefinitionId, xml);
     }
 
     @Override
@@ -87,5 +95,4 @@ public class PreprocessingHandlerClient
         throws InternalClientException {
         return new RestPreprocessingHandlerClient(getServiceAddress());
     }
-
 }

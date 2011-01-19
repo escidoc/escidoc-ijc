@@ -28,13 +28,12 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
 import java.util.List;
-
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -43,6 +42,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
 import de.escidoc.core.client.rest.RestRoleHandlerClient;
 import de.escidoc.core.client.soap.SoapRoleHandlerClient;
+import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
@@ -76,6 +76,16 @@ public class RoleHandlerClient
     }
 
     /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use {@link RoleHandlerClient#RoleHandlerClient(URL)} instead.
+     */
+    @Deprecated
+    public RoleHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
      * Create a role.
      * 
      * @param role
@@ -87,22 +97,14 @@ public class RoleHandlerClient
     public Role create(final Role role) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        String roleString =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Role.class)
-                .marshalDocument(role);
+        checkNotNull(role);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().create(roleString);
-        }
-        else {
-            xml = getRestHandlerClient().create(roleString);
-        }
+        Marshaller<Role> m =
+            MarshallerFactory.getInstance().getMarshaller(Role.class);
 
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Role.class)
-            .unmarshalDocument(xml);
+        String xml = getRestHandlerClient().create(m.marshalDocument(role));
+
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -117,16 +119,12 @@ public class RoleHandlerClient
     public Role retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        String roleString = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            roleString = getSoapHandlerClient().retrieve(id);
-        }
-        else {
-            roleString = getRestHandlerClient().retrieve(id);
-        }
+        checkNotNull(id);
+
+        String xml = getRestHandlerClient().retrieve(id);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Role.class)
-            .unmarshalDocument(roleString);
+            .getInstance().getMarshaller(Role.class).unmarshalDocument(xml);
     }
 
     /**
@@ -140,12 +138,10 @@ public class RoleHandlerClient
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().delete(id);
-        }
-        else {
-            getRestHandlerClient().delete(id);
-        }
+        checkNotNull(id);
+
+        getRestHandlerClient().delete(id);
+
     }
 
     /**
@@ -160,21 +156,14 @@ public class RoleHandlerClient
     public Role update(final Role role) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        String roleString =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Role.class)
-                .marshalDocument(role);
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().update(role.getObjid(), roleString);
-        }
-        else {
-            xml = getRestHandlerClient().update(role.getObjid(), roleString);
-        }
+        Marshaller<Role> m =
+            MarshallerFactory.getInstance().getMarshaller(Role.class);
 
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Role.class)
-            .unmarshalDocument(xml);
+        String xml =
+            getRestHandlerClient().update(role.getObjid(),
+                m.marshalDocument(role));
+
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -195,19 +184,13 @@ public class RoleHandlerClient
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveRoles(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveRoles(request);
-        }
+        String xml = getRestHandlerClient().retrieveRoles(request);
+
         return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /*
@@ -242,41 +225,13 @@ public class RoleHandlerClient
     public ExplainResponse retrieveRoles(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveRoles(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveRoles(request);
-        }
+        String xml = getRestHandlerClient().retrieveRoles(request);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#getLastModificationDate(java.lang.String)
-     */
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().getLastModificationDate(id);
-        }
-        else {
-            return getRestHandlerClient().getLastModificationDate(id);
-        }
     }
 
     @Override

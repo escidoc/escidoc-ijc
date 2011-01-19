@@ -28,11 +28,10 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.net.URL;
 
-import org.joda.time.DateTime;
-
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -72,56 +71,39 @@ public class PolicyDecisionPointHandlerClient
     }
 
     /**
-     * See Interface for functional description.
      * 
-     * @param container
-     * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#create(de.escidoc.core.resources.interfaces.container.ContainerInterface)
+     * @param serviceAddress
+     * @deprecated Use
+     *             {@link PolicyDecisionPointHandlerClient#PolicyDecisionPointHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public PolicyDecisionPointHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface
+     * #evaluate(de.escidoc.core.resources.aa.pdp.Requests)
      */
     @Override
     public Results evaluate(final Requests requests) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (requests == null)
-            throw new IllegalArgumentException("requests must not be null.");
+        checkNotNull(requests);
 
         String xml =
             MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Requests.class)
+                .getInstance().getMarshaller(Requests.class)
                 .marshalDocument(requests);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().evaluate(xml);
-        }
-        else {
-            xml = getRestHandlerClient().evaluate(xml);
-        }
+        xml = getRestHandlerClient().evaluate(xml);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Results.class)
-            .unmarshalDocument(xml);
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#getLastModificationDate(java.lang.String)
-     */
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().getLastModificationDate(id);
-        }
-        else {
-            return getRestHandlerClient().getLastModificationDate(id);
-        }
+            .getInstance().getMarshaller(Results.class).unmarshalDocument(xml);
     }
 
     @Override

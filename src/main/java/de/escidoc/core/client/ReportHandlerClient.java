@@ -41,6 +41,17 @@ public class ReportHandlerClient
 
     /**
      * 
+     * @param serviceAddress
+     * @deprecated Use {@link ReportHandlerClient#ReportHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public ReportHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
      * @param xml
      * @return
      * @throws EscidocException
@@ -53,20 +64,13 @@ public class ReportHandlerClient
 
         String xml =
             MarshallerFactory
-                .getInstance(getTransport())
-                .getMarshaller(ReportParameters.class)
+                .getInstance().getMarshaller(ReportParameters.class)
                 .marshalDocument(reportParameters);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieve(xml);
-        }
-        else {
-            xml = getRestHandlerClient().retrieve(xml);
-        }
+        xml = getRestHandlerClient().retrieve(xml);
 
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Report.class)
-            .unmarshalDocument(xml);
+            .getInstance().getMarshaller(Report.class).unmarshalDocument(xml);
     }
 
     @Override
@@ -80,5 +84,4 @@ public class ReportHandlerClient
         throws InternalClientException {
         return new RestReportHandlerClient(getServiceAddress());
     }
-
 }

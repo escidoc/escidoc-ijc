@@ -57,8 +57,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 public interface ContentModelHandlerClientInterface
     extends HandlerService, CrudService<ContentModel>,
     PropertiesService<ContentModel, ContentModelProperties>,
-    VersionableResourceService<ContentModel>,
-    ContentStreamService<ContentModel> {
+    VersionableResourceService<ContentModel>, ContentStreamService {
 
     /**
      * 

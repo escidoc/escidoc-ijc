@@ -53,7 +53,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapRoleHandlerClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapRoleHandlerClient.class);
 
     private RoleHandler soapClient = null;
@@ -106,7 +106,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
             result = getClient().create(context);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -126,7 +126,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -138,7 +138,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -174,7 +174,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
             result = getClient().retrieveRoles(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -213,7 +213,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
             result = getClient().update(id, context);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

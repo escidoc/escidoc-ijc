@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -21,6 +22,7 @@ import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sm.report.ReportDefinition;
+import de.escidoc.core.resources.sm.report.ReportDefinitionList;
 
 /**
  * @author MVO
@@ -48,6 +50,18 @@ public class ReportDefinitionHandlerClient
 
     /**
      * 
+     * @param serviceAddress
+     * @deprecated Use
+     *             {@link ReportDefinitionHandlerClient#ReportDefinitionHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public ReportDefinitionHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
      * @param id
      * @throws EscidocException
      * @throws InternalClientException
@@ -57,15 +71,9 @@ public class ReportDefinitionHandlerClient
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().delete(id);
-        }
-        else {
-            getRestHandlerClient().delete(id);
-        }
+        getRestHandlerClient().delete(id);
     }
 
     /**
@@ -80,21 +88,15 @@ public class ReportDefinitionHandlerClient
     public ReportDefinition create(final ReportDefinition reportDefinition)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (reportDefinition == null)
-            throw new IllegalArgumentException(
-                "reportDefinition must not be null.");
+        checkNotNull(reportDefinition);
 
         Marshaller<ReportDefinition> m =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance().getMarshaller(
                 ReportDefinition.class);
 
-        String xml = m.marshalDocument(reportDefinition);
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().create(xml);
-        }
-        else {
-            xml = getRestHandlerClient().create(xml);
-        }
+        String xml =
+            getRestHandlerClient().create(m.marshalDocument(reportDefinition));
+
         return m.unmarshalDocument(xml);
     }
 
@@ -111,23 +113,16 @@ public class ReportDefinitionHandlerClient
     public ReportDefinition update(final ReportDefinition reportDefinition)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (reportDefinition == null)
-            throw new IllegalArgumentException(
-                "reportDefinition must not be null.");
+        checkNotNull(reportDefinition);
 
         Marshaller<ReportDefinition> m =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(
+            MarshallerFactory.getInstance().getMarshaller(
                 ReportDefinition.class);
 
-        String xml = m.marshalDocument(reportDefinition);
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().update(reportDefinition.getObjid(), xml);
-        }
-        else {
-            xml =
-                getRestHandlerClient().update(reportDefinition.getObjid(), xml);
-        }
+        String xml =
+            getRestHandlerClient().update(reportDefinition.getObjid(),
+                m.marshalDocument(reportDefinition));
+
         return m.unmarshalDocument(xml);
     }
 
@@ -143,47 +138,40 @@ public class ReportDefinitionHandlerClient
     public ReportDefinition retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieve(id);
-        }
-        else {
-            xml = getRestHandlerClient().retrieve(id);
-        }
+        String xml = getRestHandlerClient().retrieve(id);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ReportDefinition.class)
+            .getInstance().getMarshaller(ReportDefinition.class)
             .unmarshalDocument(xml);
     }
 
     /**
-     * FIXME: implement
      * 
      * @param filter
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
+     * 
+     * @deprecated Use
+     *             {@link ReportDefinitionHandlerClient#retrieveReportDefinitions(SearchRetrieveRequestType)}
+     *             instead.
      */
-    @SuppressWarnings("rawtypes")
-    public String retrieveReportDefinitions(final HashMap filter)
+    @Override
+    @Deprecated
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public ReportDefinitionList retrieveReportDefinitions(final HashMap filter)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (filter == null)
-            throw new IllegalArgumentException("filter must not be null.");
+        checkNotNull(filter);
 
-        String resultXml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            resultXml =
-                getSoapHandlerClient().retrieveReportDefinitions(filter);
-        }
-        else {
-            resultXml =
-                getRestHandlerClient().retrieveReportDefinitions(filter);
-        }
-        return resultXml;
+        String xml = getRestHandlerClient().retrieveReportDefinitions(filter);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(ReportDefinitionList.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -199,19 +187,13 @@ public class ReportDefinitionHandlerClient
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveReportDefinitions(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveReportDefinitions(request);
-        }
+        String xml = getRestHandlerClient().retrieveReportDefinitions(request);
+
         return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     @Override
@@ -236,15 +218,12 @@ public class ReportDefinitionHandlerClient
         final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveReportDefinitions(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveReportDefinitions(request);
-        }
+        checkNotNull(request);
+
+        String xml = getRestHandlerClient().retrieveReportDefinitions(request);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
     }
 

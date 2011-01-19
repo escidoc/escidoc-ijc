@@ -20,7 +20,7 @@ import de.escidoc.core.client.rest.serviceLocator.PolicyDecisionPointRestService
  */
 public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(RestPolicyDecisionPointHandlerClient.class);
 
     private PolicyDecisionPoint restClient;
@@ -73,7 +73,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
             return getClient().evaluate(requestsXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return null;
     }

@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.net.URL;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -64,6 +66,17 @@ public class IngestHandlerClient
     }
 
     /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use {@link IngestHandlerClient#IngestHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public IngestHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
      * Returns the XML presentation of a resource.
      * 
      * @param resourceXml
@@ -80,12 +93,9 @@ public class IngestHandlerClient
     public String ingest(final String resourceXml) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().ingest(resourceXml);
-        }
-        else {
-            return getRestHandlerClient().ingest(resourceXml);
-        }
+        checkNotNull(resourceXml);
+
+        return getRestHandlerClient().ingest(resourceXml);
     }
 
     @Override

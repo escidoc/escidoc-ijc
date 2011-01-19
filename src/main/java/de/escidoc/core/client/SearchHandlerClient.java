@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
@@ -78,25 +79,47 @@ public class SearchHandlerClient
         super(serviceAddress);
     }
 
+    /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use {@link SearchHandlerClient#SearchHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public SearchHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#explain
+     * (gov.loc.www.zing.srw.ExplainRequestType, java.lang.String)
+     */
     @Override
     public ExplainResponse explain(
         final ExplainRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            return ExplainResponse.createExplainResponse(getSoapHandlerClient()
-                .explain(request, database));
-        }
-        else {
-            return MarshallerFactory
-                .getInstance(TransportProtocol.REST)
-                .getMarshaller(ExplainResponse.class)
-                .unmarshalDocument(
-                    getRestHandlerClient().explain(request, database));
-        }
+        checkNotNull(request);
+
+        String xml = getRestHandlerClient().explain(request, database);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(ExplainResponse.class)
+            .unmarshalDocument(xml);
+
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#search
+     * (java.lang.String, java.lang.String)
+     */
     @Override
     public SearchRetrieveResponse search(
         final String query, final String database)
@@ -106,6 +129,14 @@ public class SearchHandlerClient
         return search(query, null, null, null, null, null, database);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#search
+     * (java.lang.String, java.lang.Integer, java.lang.Integer,
+     * java.lang.String, java.lang.String)
+     */
     @Override
     public SearchRetrieveResponse search(
         final String query, final Integer startRecord,
@@ -117,6 +148,14 @@ public class SearchHandlerClient
             database);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#search
+     * (java.lang.String, java.lang.Integer, java.lang.Integer,
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
     @Override
     public SearchRetrieveResponse search(
         final String query, final Integer startRecord,
@@ -126,6 +165,7 @@ public class SearchHandlerClient
         TransportException {
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+
         request.setQuery(query == null ? null : query);
         request.setVersion(version == null ? "1.1" : version);
         request.setRecordPacking("string");
@@ -151,43 +191,48 @@ public class SearchHandlerClient
         return search(request, database);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#search
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType, java.lang.String)
+     */
     @Override
     public SearchRetrieveResponse search(
         final SearchRetrieveRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            return SearchRetrieveResponse
-                .createSearchRetrieveResponse(getSoapHandlerClient().search(
-                    request, database));
-        }
-        else {
-            String xml = getRestHandlerClient().search(request, database);
-            return MarshallerFactory
-                .getInstance(getTransport())
-                .getMarshaller(SearchRetrieveResponse.class)
-                .unmarshalDocument(xml);
-        }
+        checkNotNull(request);
+
+        String xml = getRestHandlerClient().search(request, database);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
+
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.SearchHandlerClientInterface#scan(gov
+     * .loc.www.zing.srw.ScanRequestType, java.lang.String)
+     */
     @Override
     public ScanResponse scan(
         final ScanRequestType request, final String database)
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            return ScanResponse.createScanResponse(getSoapHandlerClient().scan(
-                request, database));
-        }
-        else {
-            return MarshallerFactory
-                .getInstance(TransportProtocol.REST)
-                .getMarshaller(ScanResponse.class)
-                .unmarshalDocument(
-                    getRestHandlerClient().scan(request, database));
-        }
+        checkNotNull(request);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(ScanResponse.class)
+            .unmarshalDocument(getRestHandlerClient().scan(request, database));
+
     }
 
     @Override

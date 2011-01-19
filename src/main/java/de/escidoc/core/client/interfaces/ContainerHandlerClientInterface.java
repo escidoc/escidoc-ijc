@@ -33,20 +33,20 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.List;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.base.CrudService;
 import de.escidoc.core.client.interfaces.base.HandlerService;
 import de.escidoc.core.client.interfaces.base.LockingService;
+import de.escidoc.core.client.interfaces.base.RelationsService;
 import de.escidoc.core.client.interfaces.base.ResourceStatusService;
 import de.escidoc.core.client.interfaces.base.VersionPidService;
 import de.escidoc.core.client.interfaces.base.VersionableResourceService;
-import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.structmap.StructMap;
+import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
@@ -63,7 +63,8 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 public interface ContainerHandlerClientInterface
     extends HandlerService, CrudService<Container>,
     VersionableResourceService<Container>, LockingService<Container>,
-    VersionPidService<Container>, ResourceStatusService<Container> {
+    VersionPidService<Container>, ResourceStatusService<Container>,
+    RelationsService {
 
     /**
      * 
@@ -272,29 +273,6 @@ public interface ContainerHandlerClientInterface
         throws EscidocException, InternalClientException, TransportException;
 
     /**
-     * 
-     * @param id
-     * @return
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    Relations retrieveRelations(final String id) throws EscidocClientException,
-        InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param container
-     * @return
-     * @throws EscidocClientException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    Relations retrieveRelations(final Container container)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
-
-    /**
      * Retrieve Members (Filter for Members).
      * 
      * @param id
@@ -311,6 +289,30 @@ public interface ContainerHandlerClientInterface
      */
     SearchRetrieveResponse retrieveMembers(
         final String id, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * @param id
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    List<GenericVersionableResource> retrieveMembersAsList(
+        final String id, final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * @param container
+     * @param filter
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    List<GenericVersionableResource> retrieveMembersAsList(
+        final Container container, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
     /**

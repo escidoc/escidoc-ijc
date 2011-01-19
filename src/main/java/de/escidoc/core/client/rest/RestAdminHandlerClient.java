@@ -20,7 +20,7 @@ import de.escidoc.core.client.rest.serviceLocator.AdminRestServiceLocator;
  */
 public class RestAdminHandlerClient extends RestClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(RestAdminHandlerClient.class);
 
 	private AdminHandler restClient;
@@ -70,7 +70,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 		try {
 			return getClient().deleteObjects(taskParam);
 		} catch (Exception e) {
-			ExceptionMapper.map(e, log);
+			ExceptionMapper.map(e, LOG);
 		}
 		return null;
 	}
@@ -86,7 +86,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 		try {
 			return getClient().getPurgeStatus();
 		} catch (Exception e) {
-			ExceptionMapper.map(e, log);
+			ExceptionMapper.map(e, LOG);
 		}
 		return null;
 	}
@@ -102,7 +102,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 		try {
 			return getClient().getReindexStatus();
 		} catch (Exception e) {
-			ExceptionMapper.map(e, log);
+			ExceptionMapper.map(e, LOG);
 		}
 		return null;
 	}
@@ -122,7 +122,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 			return getClient().reindex(clearIndex ? "true" : "false",
 					indexNamePrefix);
 		} catch (Exception e) {
-			ExceptionMapper.map(e, log);
+			ExceptionMapper.map(e, LOG);
 		}
 		return null;
 	}
@@ -138,7 +138,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 		try {
 			return getClient().getRepositoryInfo();
 		} catch (Exception e) {
-			ExceptionMapper.map(e, log);
+			ExceptionMapper.map(e, LOG);
 		}
 		return null;
 	}
@@ -156,7 +156,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 		try {
 			return getClient().loadExamples(exampleSet);
 		} catch (Exception e) {
-			ExceptionMapper.map(e, log);
+			ExceptionMapper.map(e, LOG);
 		}
 		return null;
 	}
@@ -173,7 +173,7 @@ public class RestAdminHandlerClient extends RestClientBase {
 		try {
 			return getClient().getIndexConfiguration();
 		} catch (Exception e) {
-			ExceptionMapper.map(e, log);
+			ExceptionMapper.map(e, LOG);
 		}
 		return null;
 	}

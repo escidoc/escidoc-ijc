@@ -65,6 +65,18 @@ public class UserManagementWrapperClient
         super(serviceAddress);
     }
 
+    /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use
+     *             {@link UserManagementWrapperClient#UserManagementWrapperClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public UserManagementWrapperClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -76,12 +88,8 @@ public class UserManagementWrapperClient
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().logout();
-        }
-        else {
-            getRestHandlerClient().logout();
-        }
+        getRestHandlerClient().logout();
+
     }
 
     @Override
@@ -95,5 +103,4 @@ public class UserManagementWrapperClient
         throws InternalClientException {
         return new RestUserManagementWrapperClient(getServiceAddress());
     }
-
 }

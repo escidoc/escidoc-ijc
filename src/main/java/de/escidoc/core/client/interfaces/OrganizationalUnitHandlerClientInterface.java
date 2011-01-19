@@ -59,7 +59,7 @@ public interface OrganizationalUnitHandlerClientInterface
     extends HandlerService, CrudService<OrganizationalUnit>,
     OpenCloseService<OrganizationalUnit>,
     PropertiesService<OrganizationalUnit, OrganizationalUnitProperties>,
-    MdRecordService<OrganizationalUnit> {
+    MdRecordService {
 
     /**
      * 
@@ -220,9 +220,36 @@ public interface OrganizationalUnitHandlerClientInterface
      * <li>The Organizational Unit must exist.</li>
      * <li>The public-status is "opened".</li>
      * </ul>
+     * <br/>
+     * <br/>
+     * The supplied Parents object must have a last modification date
+     * definition. This method does the following routine:<br/>
+     * <br/>
+     * <ul>
+     * <li>If the last modification date exists in <code>parents</code>
+     * <ul>
+     * <li>keep this value</li>
+     * </ul>
+     * </li>
+     * <li>Otherwise
+     * <ul>
+     * <li>If the Parents object of the <code>ou</code> has no last modification
+     * date
+     * <ul>
+     * <li>Use the last modification date from the <code>ou</code></li>
+     * </ul>
+     * </li>
+     * <li>Otherwise
+     * <ul>
+     * <li>Use the last modification date from the Parents object</li>
+     * </ul>
+     * </li>
+     * </ul>
+     * </li>
+     * </ul>
      * 
-     * @param ou
-     *            The Organizational Unit.
+     * @param id
+     *            The identifier of the Organizational Unit.
      * @param parents
      *            The Parents object of the corresponding Organizational Unit.
      * @return The updated Parents object of the Organizational Unit.

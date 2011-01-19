@@ -60,7 +60,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public class SoapSearchHandlerClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapSearchHandlerClient.class);
 
     private SRWPort searchSoapClient = null;
@@ -123,7 +123,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
 
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -152,7 +152,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
             result = getSearchClient(database).searchRetrieveOperation(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -180,7 +180,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
             result = getSearchClient(database).scanOperation(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

@@ -62,12 +62,19 @@ public interface UserAccountHandlerClientInterface
     extends HandlerService, CrudService<UserAccount> {
 
     /**
+     * Update password for User Account. Be aware that update password works
+     * only for the users managed within the eSciDoc infrastructure internal
+     * database. Update for Shibboleth provided user is impossible.
      * 
      * @param userId
      * @param taskParam
-     * @throws EscidocClientException
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     void updatePassword(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
@@ -425,7 +432,7 @@ public interface UserAccountHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    void deleteAttribute(final String userId, final Attribute attribute)
+    void deleteAttribute(final String userId, final String attributeId)
         throws EscidocClientException, InternalClientException,
         TransportException;
 
@@ -437,7 +444,7 @@ public interface UserAccountHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    void deleteAttribute(final UserAccount user, final Attribute attribute)
+    void deleteAttribute(final UserAccount user, final String attributeId)
         throws EscidocClientException, InternalClientException,
         TransportException;
 

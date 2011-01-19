@@ -6,6 +6,7 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.Map;
 
 import de.escidoc.core.client.interfaces.ItemHandler;
 import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
@@ -43,6 +44,7 @@ import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyEle
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.resources.HttpInputStream;
 
 /**
  * REST Service Connector.
@@ -459,6 +461,53 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
+    public HttpInputStream retrieveContentStreamContent(
+        final String itemId, final String contentStreamId)
+        throws RemoteException, SystemException,
+        ContentStreamNotFoundException, MissingMethodParameterException,
+        AuthenticationException, ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
+        checkNotNull(contentStreamId);
+
+        return getStream(PATH_ITEM + "/" + itemId
+            + "/content-streams/content-stream/" + contentStreamId + "/content");
+    }
+
+    @Override
+    public HttpInputStream retrieveContent(
+        final String itemId, final String componentId) throws RemoteException,
+        SystemException, ComponentNotFoundException,
+        MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
+        checkNotNull(componentId);
+
+        return getStream(PATH_ITEM + "/" + itemId + "/components/component/"
+            + componentId + "/content");
+    }
+
+    @Override
+    public HttpInputStream retrieveContent(
+        final String itemId, final String componentId,
+        final String transformer, final Map<String, String[]> transParams)
+        throws RemoteException, SystemException, ComponentNotFoundException,
+        MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
+        checkNotNull(componentId);
+        checkNotNull(transformer);
+
+        String params = getGetParams(transParams);
+        params = params == null ? "" : "?" + params;
+
+        return getStream(PATH_ITEM + "/" + itemId + "/components/component/"
+            + componentId + "/content/" + transformer + params);
+    }
+
+    @Override
     public String retrieveProperties(final String itemId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
@@ -533,13 +582,16 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String moveToContext(final String in0, final String in1)
+    public String moveToContext(final String id, final String taskParam)
         throws RemoteException, SystemException, LockingException,
         MissingMethodParameterException, InvalidStatusException,
         AuthenticationException, ItemNotFoundException, AuthorizationException,
         ContextNotFoundException, InvalidContentException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        checkNotNull(id);
+        checkNotNull(taskParam);
+
+        return post(PATH_ITEM + "/" + id + "/move-to-context", taskParam);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

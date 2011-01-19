@@ -52,7 +52,7 @@ import de.escidoc.core.cmm.ContentModelHandlerServiceLocator;
  */
 public class SoapContentModelHandlerClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapContentModelHandlerClient.class);
 
     private ContentModelHandler soapClient = null;
@@ -106,7 +106,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             result = getClient().create(contentModel);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -126,7 +126,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -147,7 +147,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -171,7 +171,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             result = getClient().update(id, contentModel);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -223,7 +223,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             result = getClient().retrieveContentModels(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

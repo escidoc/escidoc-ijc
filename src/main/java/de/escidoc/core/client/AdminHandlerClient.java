@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.net.URL;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -74,17 +76,14 @@ public class AdminHandlerClient
     public MessagesStatus deleteObjects(final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml = marshalTaskParam(taskParam);
+        checkNotNull(taskParam);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().deleteObjects(xml);
-        }
-        else {
-            xml = getRestHandlerClient().deleteObjects(xml);
-        }
+        String xml =
+            getRestHandlerClient().deleteObjects(marshalTaskParam(taskParam));
+
         Result result =
             MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Result.class)
+                .getInstance().getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
@@ -98,16 +97,10 @@ public class AdminHandlerClient
     @Override
     public MessagesStatus getPurgeStatus() throws EscidocException,
         InternalClientException, TransportException {
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().getPurgeStatus();
-        }
-        else {
-            xml = getRestHandlerClient().getPurgeStatus();
-        }
+        String xml = getRestHandlerClient().getPurgeStatus();
         Result result =
             MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Result.class)
+                .getInstance().getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result);
     }
@@ -121,16 +114,10 @@ public class AdminHandlerClient
     @Override
     public MessagesStatus getReindexStatus() throws EscidocException,
         InternalClientException, TransportException {
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().getReindexStatus();
-        }
-        else {
-            xml = getRestHandlerClient().getReindexStatus();
-        }
+        String xml = getRestHandlerClient().getReindexStatus();
         Result result =
             MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Result.class)
+                .getInstance().getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result);
     }
@@ -147,16 +134,14 @@ public class AdminHandlerClient
     public MessagesStatus reindex(
         final boolean clearIndex, final String indexNamePrefix)
         throws EscidocException, InternalClientException, TransportException {
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().reindex(clearIndex, indexNamePrefix);
-        }
-        else {
-            xml = getRestHandlerClient().reindex(clearIndex, indexNamePrefix);
-        }
+
+        checkNotNull(indexNamePrefix);
+
+        String xml =
+            getRestHandlerClient().reindex(clearIndex, indexNamePrefix);
         Result result =
             MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Result.class)
+                .getInstance().getMarshaller(Result.class)
                 .unmarshalDocument(xml);
         return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
@@ -184,15 +169,9 @@ public class AdminHandlerClient
     @Override
     public RepositoryInfo getRepositoryInfo() throws EscidocException,
         InternalClientException, TransportException {
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().getRepositoryInfo();
-        }
-        else {
-            xml = getRestHandlerClient().getRepositoryInfo();
-        }
+        String xml = getRestHandlerClient().getRepositoryInfo();
         return new RepositoryInfo(MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Properties.class)
+            .getInstance().getMarshaller(Properties.class)
             .unmarshalDocument(xml));
     }
 
@@ -206,16 +185,13 @@ public class AdminHandlerClient
     @Override
     public MessagesResult<Entry> loadExamples(final String exampleSet)
         throws EscidocException, InternalClientException, TransportException {
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().loadExamples(exampleSet);
-        }
-        else {
-            xml = getRestHandlerClient().loadExamples(exampleSet);
-        }
+
+        checkNotNull(exampleSet);
+
+        String xml = getRestHandlerClient().loadExamples(exampleSet);
         Result result =
             MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Result.class)
+                .getInstance().getMarshaller(Result.class)
                 .unmarshalDocument(xml);
 
         return new LoadExamplesResult(result);
@@ -232,16 +208,7 @@ public class AdminHandlerClient
     public String getIndexConfiguration() throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml;
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().getIndexConfiguration();
-        }
-        else {
-            xml = getRestHandlerClient().getIndexConfiguration();
-        }
-
-        return xml;
+        return getRestHandlerClient().getIndexConfiguration();
     }
 
     /**

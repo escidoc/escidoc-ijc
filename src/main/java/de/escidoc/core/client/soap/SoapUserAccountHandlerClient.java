@@ -54,7 +54,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapUserAccountHandlerClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapUserAccountHandlerClient.class);
 
     private UserAccountHandler soapClient = null;
@@ -108,7 +108,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().create(userAccount);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -128,7 +128,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -149,7 +149,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -173,7 +173,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().update(id, userAccount);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -196,7 +196,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             getClient().updatePassword(userId, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -216,7 +216,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             getClient().activate(userId, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -236,7 +236,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             getClient().deactivate(userId, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -256,7 +256,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieveCurrentUser();
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -280,7 +280,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieveCurrentGrants(userId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -304,7 +304,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieveGrant(userId, grantId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -330,7 +330,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().createPreference(id, preferenceXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -354,7 +354,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrievePreferences(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -380,7 +380,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrievePreference(id, key);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -409,7 +409,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().updatePreference(id, key, value);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -435,7 +435,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().updatePreferences(id, preferencesXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -460,7 +460,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             getClient().deletePreference(id, key);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -485,7 +485,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().createAttribute(id, attributeXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -509,7 +509,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieveAttributes(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -535,7 +535,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieveAttribute(id, attributeId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -564,7 +564,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().updateAttribute(id, attributeId, value);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -612,7 +612,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             getClient().deleteAttribute(id, attributeId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -639,7 +639,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieveNamedAttributes(id, attributeName);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -676,7 +676,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieveUserAccounts(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -717,7 +717,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().createGrant(id, grantXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -742,7 +742,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             getClient().revokeGrant(id, grantId, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -794,7 +794,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
             result = getClient().retrieveGrants(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

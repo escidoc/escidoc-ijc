@@ -64,6 +64,7 @@ import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyEle
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
 import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.resources.HttpInputStream;
 
 /**
  * REST Service Connector.
@@ -222,22 +223,59 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveContentStream(final String in0, final String in1)
+    public String retrieveContentStream(
+        final String contentModelId, final String contentStreamName)
         throws RemoteException, SystemException,
         ContentStreamNotFoundException, MissingMethodParameterException,
         AuthenticationException, ContentModelNotFoundException,
         AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        checkNotNull(contentModelId);
+        checkNotNull(contentStreamName);
+
+        return get(PATH_CONTENT_MODEL + "/" + contentModelId
+            + "/content-streams/content-stream/" + contentStreamName);
+    }
+
+    /**
+     * 
+     * @param contentModelId
+     * @param contentStreamName
+     * @return
+     * @throws RemoteException
+     * @throws ContentModelNotFoundException
+     * @throws SystemException
+     * @throws AuthenticationException
+     * @throws AuthorizationException
+     * @throws MissingMethodParameterException
+     * @throws ContentStreamNotFoundException
+     * @throws InvalidStatusException
+     */
+    @Override
+    public HttpInputStream retrieveContentStreamContent(
+        final String contentModelId, final String contentStreamName)
+        throws RemoteException, ContentModelNotFoundException, SystemException,
+        AuthenticationException, AuthorizationException,
+        MissingMethodParameterException, ContentStreamNotFoundException,
+        InvalidStatusException {
+
+        checkNotNull(contentModelId);
+        checkNotNull(contentStreamName);
+
+        return getStream(PATH_CONTENT_MODEL + "/" + contentModelId
+            + "/content-streams/content-stream/" + contentStreamName);
     }
 
     @Override
-    public String retrieveContentStreams(final String in0)
+    public String retrieveContentStreams(final String contentModelId)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         ContentModelNotFoundException, AuthorizationException {
 
-        throw new SystemException(500, "Method not yet supported", "");
+        checkNotNull(contentModelId);
+
+        return get(PATH_CONTENT_MODEL + "/" + contentModelId
+            + "/content-streams");
     }
 
     @Override

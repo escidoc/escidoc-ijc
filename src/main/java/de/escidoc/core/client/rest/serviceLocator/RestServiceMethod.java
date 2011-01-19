@@ -52,6 +52,7 @@ import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 import de.escidoc.core.common.URLUtility;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.resources.HttpInputStream;
 
 /**
  * HTTP Methods for REST.
@@ -118,7 +119,7 @@ public abstract class RestServiceMethod implements RestService {
             put.setEntity(entity);
         }
 
-        HttpResponse response;
+        HttpResponse response = null;
         try {
             try {
                 response = getRestClient().execute(put);
@@ -131,7 +132,7 @@ public abstract class RestServiceMethod implements RestService {
             decideStatusCode(response, result);
         }
         finally {
-            put.abort();
+            closeConnection(put, response);
         }
         return result;
     }
@@ -195,7 +196,7 @@ public abstract class RestServiceMethod implements RestService {
         InputStreamEntity entity = new InputStreamEntity(ins, -1);
         put.setEntity(entity);
 
-        HttpResponse response;
+        HttpResponse response = null;
         try {
             try {
                 put.addHeader("Content-type", "application/octet-stream");
@@ -215,7 +216,7 @@ public abstract class RestServiceMethod implements RestService {
             decideStatusCode(response, result);
         }
         finally {
-            put.abort();
+            closeConnection(put, response);
         }
         return result;
     }
@@ -245,7 +246,7 @@ public abstract class RestServiceMethod implements RestService {
         }
         post.setEntity(entity);
 
-        HttpResponse response;
+        HttpResponse response = null;
         try {
             try {
                 response = getRestClient().execute(post);
@@ -259,7 +260,7 @@ public abstract class RestServiceMethod implements RestService {
             decideStatusCode(response, result);
         }
         finally {
-            post.abort();
+            closeConnection(post, response);
         }
         return result;
     }
@@ -279,7 +280,7 @@ public abstract class RestServiceMethod implements RestService {
         HttpGet get = new HttpGet(this.serviceAddress + path);
         invokeCallbackHandlers(get);
 
-        HttpResponse response;
+        HttpResponse response = null;
         try {
             try {
                 response = getRestClient().execute(get);
@@ -293,9 +294,33 @@ public abstract class RestServiceMethod implements RestService {
             decideStatusCode(response, result);
         }
         finally {
-            get.abort();
+            closeConnection(get, response);
         }
         return result;
+    }
+
+    /**
+     * @param path
+     * @return
+     * @throws SystemException
+     * @throws RemoteException
+     */
+    public HttpInputStream getStream(final String path) throws SystemException,
+        RemoteException {
+
+        HttpGet get = new HttpGet(this.serviceAddress + path);
+        invokeCallbackHandlers(get);
+
+        HttpResponse response = null;
+
+        try {
+            response = getRestClient().execute(get);
+            return new HttpInputStream(get, response);
+        }
+        catch (IOException e) {
+            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR,
+                null, e.getMessage());
+        }
     }
 
     /**
@@ -340,7 +365,7 @@ public abstract class RestServiceMethod implements RestService {
         HttpDelete del = new HttpDelete(this.serviceAddress + path);
         invokeCallbackHandlers(del);
 
-        HttpResponse response;
+        HttpResponse response = null;
         try {
             try {
                 response = getRestClient().execute(del);
@@ -354,7 +379,7 @@ public abstract class RestServiceMethod implements RestService {
             decideStatusCode(response, result);
         }
         finally {
-            del.abort();
+            closeConnection(del, response);
         }
         return result;
     }
@@ -839,5 +864,52 @@ public abstract class RestServiceMethod implements RestService {
         }
 
         return filter12;
+    }
+
+    /**
+     * @param params
+     * @return
+     */
+    protected String getGetParams(final Map<String, String[]> params) {
+
+        if (params == null)
+            return null;
+
+        StringBuilder result = new StringBuilder();
+
+        for (Entry<String, String[]> entry : params.entrySet()) {
+            for (int i = 0; i < entry.getValue().length; i++) {
+                result.append("&");
+                result.append(entry.getKey());
+                result.append("=");
+                result.append(entry.getValue()[i]);
+            }
+        }
+
+        if (result.length() > 0)
+            return result.substring(1);
+
+        return null;
+    }
+
+    /**
+     * 
+     * @param request
+     * @param response
+     */
+    private final void closeConnection(
+        final HttpRequestBase request, final HttpResponse response) {
+        if (response != null && response.getEntity() != null) {
+            try {
+                response.getEntity().consumeContent();
+            }
+            catch (IOException e) {
+                if (LOG.isDebugEnabled())
+                    LOG.debug("Unable to close HttpResponse.");
+            }
+        }
+        else if (request != null) {
+            request.abort();
+        }
     }
 }

@@ -99,8 +99,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
         throws InternalClientException {
 
         return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(MarshallerFactory.CLASS_TASK_PARAM)
+            .getInstance().getMarshaller(TaskParam.class)
             .marshalDocument(taskParam);
     }
 

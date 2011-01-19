@@ -49,7 +49,7 @@ import de.escidoc.core.om.IngestHandlerServiceLocator;
  */
 public class SoapIngestHandlerClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapIngestHandlerClient.class);
 
     private IngestHandler soapClient = null;
@@ -102,7 +102,7 @@ public class SoapIngestHandlerClient extends SoapClientBase {
             result = getClient().ingest(resourceXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

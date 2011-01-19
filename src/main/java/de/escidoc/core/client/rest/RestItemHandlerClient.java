@@ -33,6 +33,7 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -43,6 +44,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ItemHandler;
 import de.escidoc.core.client.rest.serviceLocator.ItemRestServiceLocator;
+import de.escidoc.core.resources.HttpInputStream;
 
 /**
  * REST Handler for Item.
@@ -52,8 +54,8 @@ import de.escidoc.core.client.rest.serviceLocator.ItemRestServiceLocator;
  */
 public class RestItemHandlerClient extends RestClientBase {
 
-    private final Logger logger = Logger.getLogger(RestItemHandlerClient.class
-        .getName());
+    private static final Logger LOG = Logger
+        .getLogger(RestItemHandlerClient.class.getName());
 
     private ItemHandler restClient = null;
 
@@ -109,7 +111,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().create(item);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -133,7 +135,7 @@ public class RestItemHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -158,7 +160,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -186,7 +188,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().update(id, item);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -214,7 +216,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().release(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -242,7 +244,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().revise(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -267,7 +269,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().submit(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -292,7 +294,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().withdraw(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -316,7 +318,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().assignVersionPid(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -341,7 +343,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().assignObjectPid(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -368,7 +370,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().assignContentPid(id, componentId, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -393,7 +395,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveItems(taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -416,7 +418,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveItems(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -437,7 +439,166 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveItems(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveComponents(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveComponents(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveComponent(final String id, final String componentId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveComponent(id, componentId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveComponentProperties(
+        final String id, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveComponentProperties(id, componentId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveComponentMdRecords(
+        final String id, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveComponentMdRecords(id, componentId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param componentId
+     * @param mdRecordId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveComponentMdRecord(
+        final String id, final String componentId, final String mdRecordId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result =
+                getClient().retrieveComponentMdRecord(id, componentId,
+                    mdRecordId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param itemId
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public HttpInputStream retrieveContent(
+        final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+
+        HttpInputStream result = null;
+        try {
+            result = getClient().retrieveContent(itemId, componentId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param itemId
+     * @param componentId
+     * @param transformer
+     * @param transParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public HttpInputStream retrieveContent(
+        final String itemId, final String componentId,
+        final String transformer, final Map<String, String[]> transParams)
+        throws EscidocException, InternalClientException, TransportException {
+
+        HttpInputStream result = null;
+        try {
+            result =
+                getClient().retrieveContent(itemId, componentId, transformer,
+                    transParams);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -457,7 +618,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveRelations(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -479,7 +640,28 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().retrieveVersionHistory(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String moveToContext(final String id, final String taskParam)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().moveToContext(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -502,7 +684,7 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().lock(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -525,9 +707,134 @@ public class RestItemHandlerClient extends RestClientBase {
             result = getClient().unlock(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
+    }
+
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveProperties(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveProperties(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMdRecords(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveMdRecords(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param mdRecordId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMdRecord(final String id, final String mdRecordId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveMdRecord(id, mdRecordId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentStreams(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentStreams(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param name
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveContentStream(final String id, final String name)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveContentStream(id, name);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param name
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public HttpInputStream retrieveContentStreamContent(
+        final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+
+        HttpInputStream stream = null;
+        try {
+            stream = getClient().retrieveContentStreamContent(id, name);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return stream;
     }
 
     /**

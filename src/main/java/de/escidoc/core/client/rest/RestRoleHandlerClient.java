@@ -51,8 +51,8 @@ import de.escidoc.core.client.rest.serviceLocator.RoleRestServiceLocator;
  */
 public class RestRoleHandlerClient extends RestClientBase {
 
-    private final Logger logger = Logger.getLogger(RestRoleHandlerClient.class
-        .getName());
+    private static final Logger LOG = Logger
+        .getLogger(RestRoleHandlerClient.class.getName());
 
     private RoleHandler restClient = null;
 
@@ -108,7 +108,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().create(role);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -132,7 +132,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -157,7 +157,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -185,7 +185,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().update(id, roleXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -210,7 +210,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().retrieveRoles(taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -233,7 +233,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().retrieveRoles(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -256,7 +256,7 @@ public class RestRoleHandlerClient extends RestClientBase {
             result = getClient().retrieveRoles(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

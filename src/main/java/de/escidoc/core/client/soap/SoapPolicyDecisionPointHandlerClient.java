@@ -50,7 +50,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapPolicyDecisionPointHandlerClient.class);
 
     private PolicyDecisionPoint soapClient = null;
@@ -103,7 +103,7 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
             result = getClient().evaluate(requestsXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

@@ -51,7 +51,7 @@ import de.escidoc.core.client.rest.RestAdminHandlerClient;
  */
 public class SoapActionHandlerClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapActionHandlerClient.class);
 
     private ActionHandler soapClient = null;
@@ -106,7 +106,7 @@ public class SoapActionHandlerClient extends SoapClientBase {
             result = getClient().createUnsecuredActions(contextId, actions);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -126,7 +126,7 @@ public class SoapActionHandlerClient extends SoapClientBase {
             result = getClient().retrieveUnsecuredActions(contextId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -144,7 +144,7 @@ public class SoapActionHandlerClient extends SoapClientBase {
             getClient().deleteUnsecuredActions(contextId);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 

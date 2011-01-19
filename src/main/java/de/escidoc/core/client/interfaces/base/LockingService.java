@@ -36,7 +36,7 @@ public interface LockingService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result lock(final T obj, final TaskParam taskParam)
+    Result lock(final T resource, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -60,6 +60,6 @@ public interface LockingService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result unlock(final T obj, final TaskParam taskParam)
+    Result unlock(final T resource, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 }

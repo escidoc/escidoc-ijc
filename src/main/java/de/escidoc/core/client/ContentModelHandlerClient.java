@@ -28,10 +28,10 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -42,7 +42,9 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContentModelHandlerClient;
 import de.escidoc.core.client.soap.SoapContentModelHandlerClient;
+import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.HttpInputStream;
 import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.cmm.ContentModelProperties;
 import de.escidoc.core.resources.common.ContentStream;
@@ -80,6 +82,30 @@ public class ContentModelHandlerClient
     }
 
     /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use
+     *             {@link ContentModelHandlerClient#ContentModelHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public ContentModelHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    @Override
+    protected SoapContentModelHandlerClient getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return new SoapContentModelHandlerClient(getServiceAddress());
+    }
+
+    @Override
+    protected RestContentModelHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestContentModelHandlerClient(getServiceAddress());
+    }
+
+    /**
      * Create ContentModel in Repository.
      * 
      * @param contentModel
@@ -96,27 +122,15 @@ public class ContentModelHandlerClient
     public ContentModel create(final ContentModel contentModel)
         throws EscidocException, InternalClientException, TransportException {
 
-        String contentModelXml =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(ContentModel.class)
-                .marshalDocument(contentModel);
+        checkNotNull(contentModel);
 
-        // TODO
-        // contentModelXml =
-        // contentModelXml
-        // .substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        // .length());
+        Marshaller<ContentModel> m =
+            MarshallerFactory.getInstance().getMarshaller(ContentModel.class);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().create(contentModelXml);
-        }
-        else {
-            xml = getRestHandlerClient().create(contentModelXml);
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ContentModel.class)
-            .unmarshalDocument(xml);
+        String xml =
+            getRestHandlerClient().create(m.marshalDocument(contentModel));
+
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -136,15 +150,12 @@ public class ContentModelHandlerClient
     public ContentModel retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieve(id);
-        }
-        else {
-            xml = getRestHandlerClient().retrieve(id);
-        }
+        checkNotNull(id);
+
+        String xml = getRestHandlerClient().retrieve(id);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ContentModel.class)
+            .getInstance().getMarshaller(ContentModel.class)
             .unmarshalDocument(xml);
     }
 
@@ -164,12 +175,9 @@ public class ContentModelHandlerClient
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().delete(id);
-        }
-        else {
-            getRestHandlerClient().delete(id);
-        }
+        checkNotNull(id);
+
+        getRestHandlerClient().delete(id);
     }
 
     /**
@@ -189,24 +197,16 @@ public class ContentModelHandlerClient
     public ContentModel update(final ContentModel contentModel)
         throws EscidocException, InternalClientException, TransportException {
 
-        String contentModelXml =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(ContentModel.class)
-                .marshalDocument(contentModel);
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().update(contentModel.getObjid(),
-                    contentModelXml);
-        }
-        else {
-            xml =
-                getRestHandlerClient().update(contentModel.getObjid(),
-                    contentModelXml);
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ContentModel.class)
-            .unmarshalDocument(xml);
+        checkNotNull(contentModel);
+
+        Marshaller<ContentModel> m =
+            MarshallerFactory.getInstance().getMarshaller(ContentModel.class);
+
+        String xml =
+            getRestHandlerClient().update(contentModel.getObjid(),
+                m.marshalDocument(contentModel));
+
+        return m.unmarshalDocument(xml);
     }
 
     @Override
@@ -214,15 +214,10 @@ public class ContentModelHandlerClient
         final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveContentModels(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveContentModels(request);
-        }
+        String xml = getRestHandlerClient().retrieveContentModels(request);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
     }
 
@@ -231,111 +226,95 @@ public class ContentModelHandlerClient
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveContentModels(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveContentModels(request);
-        }
+        String xml = getRestHandlerClient().retrieveContentModels(request);
+
         return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
-    }
-
-    @Override
-    protected SoapContentModelHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapContentModelHandlerClient(getServiceAddress());
-    }
-
-    @Override
-    protected RestContentModelHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
-        return new RestContentModelHandlerClient(getServiceAddress());
-    }
-
-    @Override
-    public ContentModelProperties retrieveProperties(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ContentModelProperties retrieveProperties(final ContentModel obj)
-        throws EscidocException, InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public VersionHistory retrieveVersionHistory(final String id)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public VersionHistory retrieveVersionHistory(final ContentModel resource)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ContentStreams retrieveContentStreams(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ContentStreams retrieveContentStreams(final ContentModel resource)
-        throws EscidocException, InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ContentStream retrieveContentStream(
-        final String id, final String name) throws EscidocException,
-        InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ContentStream retrieveContentStream(
-        final ContentModel resource, final String name)
-        throws EscidocException, InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public InputStream retrieveContentStreamContent(
-        final String id, final String name) throws EscidocException,
-        InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public InputStream retrieveContentStreamContent(
-        final ContentModel resource, final String name)
-        throws EscidocException, InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     @Override
     public List<ContentModel> retrieveContentModelsAsList(
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        return getSearchRetrieveResponseAsList(ContentModel.class,
+            retrieveContentModels(request));
+    }
+
+    @Override
+    public ContentModelProperties retrieveProperties(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+
+        checkNotNull(id);
+
+        String xml = getRestHandlerClient().retrieveProperties(id);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(ContentModelProperties.class)
+            .unmarshalDocument(xml);
+    }
+
+    @Override
+    public VersionHistory retrieveVersionHistory(final String id)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        checkNotNull(id);
+
+        String xml = getRestHandlerClient().retrieveVersionHistory(id);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(VersionHistory.class)
+            .unmarshalDocument(xml);
+    }
+
+    @Override
+    public VersionHistory retrieveVersionHistory(final ContentModel resource)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        checkNotNull(resource);
+
+        return retrieveVersionHistory(resource.getObjid());
+    }
+
+    @Override
+    public ContentStreams retrieveContentStreams(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+
+        checkNotNull(id);
+
+        String xml = getRestHandlerClient().retrieveContentStreams(id);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(ContentStreams.class)
+            .unmarshalDocument(xml);
+    }
+
+    @Override
+    public ContentStream retrieveContentStream(
+        final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(name);
+
+        String xml = getRestHandlerClient().retrieveContentStream(id, name);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(ContentStream.class)
+            .unmarshalDocument(xml);
+    }
+
+    @Override
+    public HttpInputStream retrieveContentStreamContent(
+        final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(name);
+
+        return getRestHandlerClient().retrieveContentStreamContent(id, name);
     }
 }

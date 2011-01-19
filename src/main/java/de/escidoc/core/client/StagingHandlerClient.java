@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
@@ -65,6 +67,17 @@ public class StagingHandlerClient
     }
 
     /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use {@link StagingHandlerClient#StagingHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public StagingHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
      * Upload a resource to the Staging Service.
      * 
      * @param in
@@ -80,6 +93,9 @@ public class StagingHandlerClient
     @Override
     public URL upload(final File f) throws EscidocException,
         InternalClientException, TransportException {
+
+        checkNotNull(f);
+
         return getRestHandlerClient().upload(f);
     }
 
@@ -99,6 +115,9 @@ public class StagingHandlerClient
     @Override
     public URL upload(final InputStream ins) throws EscidocException,
         InternalClientException, TransportException {
+
+        checkNotNull(ins);
+
         return getRestHandlerClient().upload(ins);
     }
 
@@ -115,16 +134,5 @@ public class StagingHandlerClient
     protected RestStagingHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
         return new RestStagingHandlerClient(getServiceAddress());
-    }
-
-    @Override
-    public void setTransport(final TransportProtocol transport) {
-        // ignore specified TransportProtocol
-        super.setTransport(TransportProtocol.REST);
-    }
-
-    @Override
-    public TransportProtocol getTransport() {
-        return TransportProtocol.REST;
     }
 }

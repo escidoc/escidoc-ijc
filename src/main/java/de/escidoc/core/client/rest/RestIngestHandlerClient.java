@@ -47,7 +47,7 @@ import de.escidoc.core.om.IngestHandler;
  */
 public class RestIngestHandlerClient extends RestClientBase {
 
-    private final Logger logger = Logger
+    private static final Logger LOG = Logger
         .getLogger(RestIngestHandlerClient.class.getName());
 
     private IngestHandler restClient = null;
@@ -106,7 +106,7 @@ public class RestIngestHandlerClient extends RestClientBase {
             result = getClient().ingest(resourceXml);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

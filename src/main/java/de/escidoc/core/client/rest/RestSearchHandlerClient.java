@@ -26,7 +26,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public class RestSearchHandlerClient extends RestClientBase {
 
-    private final Logger logger = Logger
+    private static final Logger LOG = Logger
         .getLogger(RestSearchHandlerClient.class.getName());
 
     private SearchHandler restClient = null;
@@ -83,7 +83,7 @@ public class RestSearchHandlerClient extends RestClientBase {
             result = getRestClient(database).explain(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -108,7 +108,7 @@ public class RestSearchHandlerClient extends RestClientBase {
             result = getRestClient(database).search(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -132,7 +132,7 @@ public class RestSearchHandlerClient extends RestClientBase {
             result = getRestClient(database).scan(request);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, logger);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

@@ -20,7 +20,7 @@ import de.escidoc.core.client.rest.serviceLocator.UserManagementWrapperRestServi
  */
 public class RestUserManagementWrapperClient extends RestClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(RestUserManagementWrapperClient.class);
 
     private UserManagementWrapper restClient = null;
@@ -69,7 +69,7 @@ public class RestUserManagementWrapperClient extends RestClientBase {
             getClient().logout();
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 

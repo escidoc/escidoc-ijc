@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -46,6 +47,17 @@ public class ScopeHandlerClient
     }
 
     /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use {@link ScopeHandlerClient#ScopeHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public ScopeHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
      * @param id
      * @throws EscidocException
      * @throws InternalClientException
@@ -55,15 +67,10 @@ public class ScopeHandlerClient
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().delete(id);
-        }
-        else {
-            getRestHandlerClient().delete(id);
-        }
+        getRestHandlerClient().delete(id);
+
     }
 
     /**
@@ -77,20 +84,13 @@ public class ScopeHandlerClient
     public Scope create(final Scope scope) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (scope == null)
-            throw new IllegalArgumentException("scope must not be null.");
+        checkNotNull(scope);
 
         Marshaller<Scope> m =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(
-                MarshallerFactory.CLASS_SCOPE);
-        String xml = m.marshalDocument(scope);
+            MarshallerFactory.getInstance().getMarshaller(Scope.class);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().create(xml);
-        }
-        else {
-            xml = getRestHandlerClient().create(xml);
-        }
+        String xml = getRestHandlerClient().create(m.marshalDocument(scope));
+
         return m.unmarshalDocument(xml);
     }
 
@@ -106,19 +106,15 @@ public class ScopeHandlerClient
     public Scope update(final Scope scope) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (scope == null)
-            throw new IllegalArgumentException("scope must not be null.");
+        checkNotNull(scope);
 
         Marshaller<Scope> m =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(
-                Scope.class);
-        String xml = m.marshalDocument(scope);
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().update(scope.getObjid(), xml);
-        }
-        else {
-            xml = getRestHandlerClient().update(scope.getObjid(), xml);
-        }
+            MarshallerFactory.getInstance().getMarshaller(Scope.class);
+
+        String xml =
+            getRestHandlerClient().update(scope.getObjid(),
+                m.marshalDocument(scope));
+
         return m.unmarshalDocument(xml);
     }
 
@@ -133,19 +129,12 @@ public class ScopeHandlerClient
     public Scope retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieve(id);
-        }
-        else {
-            xml = getRestHandlerClient().retrieve(id);
-        }
+        String xml = getRestHandlerClient().retrieve(id);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Scope.class)
-            .unmarshalDocument(xml);
+            .getInstance().getMarshaller(Scope.class).unmarshalDocument(xml);
     }
 
     /**
@@ -160,21 +149,21 @@ public class ScopeHandlerClient
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveScopes(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveScopes(request);
-        }
+        String xml = getRestHandlerClient().retrieveScopes(request);
+
         return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.ScopeHandlerClientInterface#
+     * retrieveScopesAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
     public List<Scope> retrieveScopesAsList(
         final SearchRetrieveRequestType request) throws EscidocException,
@@ -195,18 +184,12 @@ public class ScopeHandlerClient
     public ExplainResponse retrieveScopes(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveScopes(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveScopes(request);
-        }
+        String xml = getRestHandlerClient().retrieveScopes(request);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
     }
 

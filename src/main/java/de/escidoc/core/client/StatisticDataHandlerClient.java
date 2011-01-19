@@ -3,6 +3,8 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.net.URL;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -40,6 +42,18 @@ public class StatisticDataHandlerClient
 
     /**
      * 
+     * @param serviceAddress
+     * @deprecated Use
+     *             {@link StatisticDataHandlerClient#StatisticDataHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public StatisticDataHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
+     * 
      * @param xml
      * @throws EscidocException
      * @throws InternalClientException
@@ -49,20 +63,15 @@ public class StatisticDataHandlerClient
     public void create(final StatisticData statisticData)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (statisticData == null)
-            throw new IllegalArgumentException("xml must not be null.");
+        checkNotNull(statisticData);
 
         String xml =
             MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(StatisticData.class)
+                .getInstance().getMarshaller(StatisticData.class)
                 .marshalDocument(statisticData);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().create(xml);
-        }
-        else {
-            getRestHandlerClient().create(xml);
-        }
+        getRestHandlerClient().create(xml);
+
     }
 
     /*
@@ -90,5 +99,4 @@ public class StatisticDataHandlerClient
         throws InternalClientException {
         return new RestStatisticDataHandlerClient(getServiceAddress());
     }
-
 }

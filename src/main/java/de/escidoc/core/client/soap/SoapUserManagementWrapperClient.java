@@ -50,7 +50,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapUserManagementWrapperClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapUserManagementWrapperClient.class);
 
     private UserManagementWrapper soapClient = null;
@@ -99,7 +99,7 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
             getClient().logout();
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 

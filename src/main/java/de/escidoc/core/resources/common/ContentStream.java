@@ -45,6 +45,9 @@ public class ContentStream extends GenericResource {
 
     private String storage = null;
 
+    /**
+     * FIXME this should be a reference to the binary content only
+     */
     private String content = null;
 
     //

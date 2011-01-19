@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.client.rest;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -51,7 +52,7 @@ import de.escidoc.core.client.rest.serviceLocator.OrganizationalUnitRestServiceL
  */
 public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
-    private final Logger LOG = Logger
+    private static final Logger LOG = Logger
         .getLogger(RestOrganizationalUnitHandlerClient.class);
 
     private OrganizationalUnitHandler restClient = null;
@@ -229,32 +230,6 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         }
         return result;
     }
-
-    // /**
-    // * Update the md-records of an Organizational Unit.
-    // *
-    // * @param ouId
-    // * The identifier of the Organizational Unit.
-    // * @param mdRecordsXml
-    // * The XML representation of the md-records.
-    // * @return The XML representation of the updated md-records.
-    // * @throws EscidocException
-    // * @throws InternalClientException
-    // * @throws TransportException
-    // */
-    // public String updateMdRecords(final String ouId, final String
-    // mdRecordsXml)
-    // throws EscidocException, InternalClientException, TransportException {
-    //
-    // String result = null;
-    // try {
-    // result = getClient().updateMdRecords(ouId, mdRecordsXml);
-    // }
-    // catch (Exception e) {
-    // ExceptionMapper.map(e);
-    // }
-    // return result;
-    // }
 
     /**
      * Retrieve the OrganizationalUnits that are subordinated to this
@@ -514,6 +489,98 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         String result = null;
         try {
             result = getClient().close(id, taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveProperties(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
+        String result = null;
+        try {
+            result = getClient().retrieveProperties(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMdRecords(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null.");
+
+        String result = null;
+        try {
+            result = getClient().retrieveMdRecords(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @param mdRecordId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveMdRecord(final String id, final String mdRecordId)
+        throws EscidocException, InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(mdRecordId);
+
+        String result = null;
+        try {
+            result = getClient().retrieveMdRecord(id, mdRecordId);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveSuccessors(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(id);
+
+        String result = null;
+        try {
+            result = getClient().retrieveSuccessors(id);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);

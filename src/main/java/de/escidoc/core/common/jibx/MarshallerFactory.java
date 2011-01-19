@@ -122,7 +122,6 @@ public class MarshallerFactory {
     public static final Class<OrganizationalUnitList> CLASS_ORGANIZATIONAL_UNIT_LIST =
         OrganizationalUnitList.class;
 
-    // FIXME: Not implemented?
     public static final Class<PathList> CLASS_PATH_LIST = PathList.class;
 
     public static final Class<Parents> CLASS_PARENTS = Parents.class;
@@ -204,7 +203,8 @@ public class MarshallerFactory {
 
     /**
      * 
-     * @return
+     * @return The default instance of the MarshallerFactory using the default
+     *         transport protocol REST since CLIB 1.3.
      * @throws InternalClientException
      */
     public static final MarshallerFactory getInstance()
@@ -229,10 +229,13 @@ public class MarshallerFactory {
 
     /**
      * 
+     * TODO Undo deprecation.
+     * 
      * @param transport
      * @return
      * @throws InternalClientException
      */
+    @Deprecated
     public static final MarshallerFactory getInstance(
         final TransportProtocol transport) throws InternalClientException {
 

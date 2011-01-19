@@ -53,7 +53,7 @@ import de.escidoc.core.om.ContentRelationHandlerServiceLocator;
  */
 public class SoapContentRelationHandlerClient extends SoapClientBase {
 
-	private static final Logger log = Logger
+	private static final Logger LOG = Logger
 			.getLogger(SoapContentRelationHandlerClient.class);
 
     private ContentRelationHandler soapClient = null;
@@ -109,7 +109,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().assignObjectPid(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -131,7 +131,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().create(contentRelation);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -151,7 +151,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             getClient().delete(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
     }
 
@@ -172,7 +172,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().retrieve(id);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -196,7 +196,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().update(id, context);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -219,7 +219,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().lock(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -242,7 +242,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().unlock(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -265,7 +265,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().release(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -287,7 +287,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().revise(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -310,7 +310,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().submit(id, taskParam);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }
@@ -365,7 +365,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             result = getClient().retrieveContentRelations(filter);
         }
         catch (Exception e) {
-            ExceptionMapper.map(e, log);
+            ExceptionMapper.map(e, LOG);
         }
         return result;
     }

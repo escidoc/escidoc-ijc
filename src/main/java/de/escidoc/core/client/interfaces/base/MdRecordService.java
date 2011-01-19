@@ -12,7 +12,7 @@ import de.escidoc.core.resources.common.MetadataRecords;
  * 
  * @param <T>
  */
-public interface MdRecordService<T> {
+public interface MdRecordService {
 
     /**
      * 
@@ -27,17 +27,6 @@ public interface MdRecordService<T> {
 
     /**
      * 
-     * @param resource
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    MetadataRecords retrieveMdRecords(final T resource)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
      * @param id
      * @param mdRecordId
      * @return
@@ -48,15 +37,4 @@ public interface MdRecordService<T> {
     MetadataRecord retrieveMdRecord(final String id, final String mdRecordId)
         throws EscidocException, InternalClientException, TransportException;
 
-    /**
-     * 
-     * @param resource
-     * @param mdRecordId
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    MetadataRecord retrieveMdRecord(final T resource, final String mdRecordId)
-        throws EscidocException, InternalClientException, TransportException;
 }

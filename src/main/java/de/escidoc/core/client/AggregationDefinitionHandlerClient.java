@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
@@ -46,6 +47,18 @@ public class AggregationDefinitionHandlerClient
     }
 
     /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use
+     *             {@link AggregationDefinitionHandlerClient#AggregationDefinitionHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public AggregationDefinitionHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    /**
      * @param id
      * @throws EscidocException
      * @throws InternalClientException
@@ -54,15 +67,10 @@ public class AggregationDefinitionHandlerClient
     @Override
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().delete(id);
-        }
-        else {
-            getRestHandlerClient().delete(id);
-        }
+        checkNotNull(id);
+
+        getRestHandlerClient().delete(id);
     }
 
     /**
@@ -76,21 +84,14 @@ public class AggregationDefinitionHandlerClient
     public AggregationDefinition create(final AggregationDefinition agDefinition)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (agDefinition == null)
-            throw new IllegalArgumentException("agDefinition must not be null.");
+        checkNotNull(agDefinition);
 
         Marshaller<AggregationDefinition> m =
             MarshallerFactory.getInstance(getTransport()).getMarshaller(
                 AggregationDefinition.class);
 
-        String xml = m.marshalDocument(agDefinition);
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().create(xml);
-        }
-        else {
-            xml = getRestHandlerClient().create(xml);
-        }
+        String xml =
+            getRestHandlerClient().create(m.marshalDocument(agDefinition));
         return m.unmarshalDocument(xml);
     }
 
@@ -105,18 +106,12 @@ public class AggregationDefinitionHandlerClient
     public AggregationDefinition retrieve(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (id == null)
-            throw new IllegalArgumentException("id must not be null.");
+        checkNotNull(id);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieve(id);
-        }
-        else {
-            xml = getRestHandlerClient().retrieve(id);
-        }
-        return Marshaller
-            .getMarshaller(AggregationDefinition.class).unmarshalDocument(xml);
+        String xml = getRestHandlerClient().retrieve(id);
+        return MarshallerFactory
+            .getInstance().getMarshaller(AggregationDefinition.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -131,21 +126,11 @@ public class AggregationDefinitionHandlerClient
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
-
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().retrieveAggregationDefinitions(request);
-        }
-        else {
-            xml =
-                getRestHandlerClient().retrieveAggregationDefinitions(request);
-        }
+        String xml =
+            getRestHandlerClient().retrieveAggregationDefinitions(request);
         return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /*
@@ -177,20 +162,10 @@ public class AggregationDefinitionHandlerClient
         final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
-
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().retrieveAggregationDefinitions(request);
-        }
-        else {
-            xml =
-                getRestHandlerClient().retrieveAggregationDefinitions(request);
-        }
+        String xml =
+            getRestHandlerClient().retrieveAggregationDefinitions(request);
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
     }
 

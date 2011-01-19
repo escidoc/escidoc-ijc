@@ -28,13 +28,12 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
 import java.util.List;
-
-import org.joda.time.DateTime;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -43,6 +42,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.client.soap.SoapUserAccountHandlerClient;
+import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.resources.aa.useraccount.Attributes;
@@ -84,6 +84,30 @@ public class UserAccountHandlerClient
     }
 
     /**
+     * 
+     * @param serviceAddress
+     * @deprecated Use
+     *             {@link UserAccountHandlerClient#UserAccountHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public UserAccountHandlerClient(final String serviceAddress) {
+        super(serviceAddress);
+    }
+
+    @Override
+    protected SoapUserAccountHandlerClient getSoapHandlerClientInstance()
+        throws InternalClientException {
+        return new SoapUserAccountHandlerClient(getServiceAddress());
+    }
+
+    @Override
+    protected RestUserAccountHandlerClient getRestHandlerClientInstance()
+        throws InternalClientException {
+        return new RestUserAccountHandlerClient(getServiceAddress());
+    }
+
+    /**
      * See Interface for functional description.
      * 
      * @param userAccount
@@ -99,22 +123,15 @@ public class UserAccountHandlerClient
     public UserAccount create(final UserAccount userAccount)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml = null;
-        String userAccountString =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(UserAccount.class)
-                .marshalDocument(userAccount);
+        checkNotNull(userAccount);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().create(userAccountString);
-        }
-        else {
-            xml = getRestHandlerClient().create(userAccountString);
+        Marshaller<UserAccount> m =
+            MarshallerFactory.getInstance().getMarshaller(UserAccount.class);
 
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(UserAccount.class)
-            .unmarshalDocument(xml);
+        String xml =
+            getRestHandlerClient().create(m.marshalDocument(userAccount));
+
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -133,15 +150,12 @@ public class UserAccountHandlerClient
     public UserAccount retrieve(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieve(id);
-        }
-        else {
-            xml = getRestHandlerClient().retrieve(id);
-        }
+        checkNotNull(id);
+
+        String xml = getRestHandlerClient().retrieve(id);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(UserAccount.class)
+            .getInstance().getMarshaller(UserAccount.class)
             .unmarshalDocument(xml);
     }
 
@@ -160,12 +174,10 @@ public class UserAccountHandlerClient
     public void delete(final String id) throws EscidocException,
         InternalClientException, TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().delete(id);
-        }
-        else {
-            getRestHandlerClient().delete(id);
-        }
+        checkNotNull(id);
+
+        getRestHandlerClient().delete(id);
+
     }
 
     /**
@@ -184,55 +196,36 @@ public class UserAccountHandlerClient
     public UserAccount update(final UserAccount userAccount)
         throws EscidocException, InternalClientException, TransportException {
 
-        String requestXML =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(UserAccount.class)
-                .marshalDocument(userAccount);
-        String xml = null;
+        checkNotNull(userAccount);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml =
-                getSoapHandlerClient().update(userAccount.getObjid(),
-                    requestXML);
-        }
-        else {
-            xml =
-                getRestHandlerClient().update(userAccount.getObjid(),
-                    requestXML);
-        }
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(UserAccount.class)
-            .unmarshalDocument(xml);
+        Marshaller<UserAccount> m =
+            MarshallerFactory.getInstance().getMarshaller(UserAccount.class);
+
+        String xml =
+            getRestHandlerClient().update(userAccount.getObjid(),
+                m.marshalDocument(userAccount));
+
+        return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Update password for User Account. Be aware that update password works
-     * only for the users managed within the eSciDoc infrastructure internal
-     * database. Update for Shibboleth provided user is impossible.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     * @param taskParam
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * updatePassword(java.lang.String,
+     * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public void updatePassword(final String userId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String param = marshalTaskParam(taskParam);
+        checkNotNull(userId);
+        checkNotNull(taskParam);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().updatePassword(userId, param);
-        }
-        else {
-            getRestHandlerClient().updatePassword(userId, param);
-        }
+        getRestHandlerClient().updatePassword(userId,
+            marshalTaskParam(taskParam));
+
     }
 
     /**
@@ -250,14 +243,11 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String param = marshalTaskParam(taskParam);
+        checkNotNull(userId);
+        checkNotNull(taskParam);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().activate(userId, param);
-        }
-        else {
-            getRestHandlerClient().activate(userId, param);
-        }
+        getRestHandlerClient().activate(userId, marshalTaskParam(taskParam));
+
     }
 
     /**
@@ -275,14 +265,11 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String param = marshalTaskParam(taskParam);
+        checkNotNull(userId);
+        checkNotNull(taskParam);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().deactivate(userId, param);
-        }
-        else {
-            getRestHandlerClient().deactivate(userId, param);
-        }
+        getRestHandlerClient().deactivate(userId, marshalTaskParam(taskParam));
+
     }
 
     /**
@@ -299,15 +286,10 @@ public class UserAccountHandlerClient
     public UserAccount retrieveCurrentUser() throws EscidocClientException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveCurrentUser();
-        }
-        else {
-            xml = getRestHandlerClient().retrieveCurrentUser();
-        }
+        String xml = getRestHandlerClient().retrieveCurrentUser();
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(UserAccount.class)
+            .getInstance().getMarshaller(UserAccount.class)
             .unmarshalDocument(xml);
     }
 
@@ -332,21 +314,17 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String grantXml =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Grant.class)
-                .marshalDocument(grant);
+        checkNotNull(userId);
+        checkNotNull(grant);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            grantXml = getSoapHandlerClient().createGrant(userId, grantXml);
-        }
-        else {
-            grantXml = getRestHandlerClient().createGrant(userId, grantXml);
-        }
+        Marshaller<Grant> m =
+            MarshallerFactory.getInstance().getMarshaller(Grant.class);
 
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Grant.class)
-            .unmarshalDocument(grantXml);
+        String xml =
+            getRestHandlerClient()
+                .createGrant(userId, m.marshalDocument(grant));
+
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -372,14 +350,13 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String taskParamXml = marshalTaskParam(taskParam);
+        checkNotNull(userId);
+        checkNotNull(grantId);
+        checkNotNull(taskParam);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().revokeGrant(userId, grantId, taskParamXml);
-        }
-        else {
-            getRestHandlerClient().revokeGrant(userId, grantId, taskParamXml);
-        }
+        getRestHandlerClient().revokeGrant(userId, grantId,
+            marshalTaskParam(taskParam));
+
     }
 
     /**
@@ -400,23 +377,17 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String preferenceXml =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Preference.class)
-                .marshalDocument(preference);
+        checkNotNull(userId);
+        checkNotNull(preference);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            preferenceXml =
-                getSoapHandlerClient().createPreference(userId, preferenceXml);
-        }
-        else {
-            preferenceXml =
-                getRestHandlerClient().createPreference(userId, preferenceXml);
-        }
+        Marshaller<Preference> m =
+            MarshallerFactory.getInstance().getMarshaller(Preference.class);
 
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Preference.class)
-            .unmarshalDocument(preferenceXml);
+        String xml =
+            getRestHandlerClient().createPreference(userId,
+                m.marshalDocument(preference));
+
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -440,19 +411,14 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String preference;
-        if (getTransport() == TransportProtocol.SOAP) {
-            preference =
-                getSoapHandlerClient().retrievePreference(userId, name);
-        }
-        else {
-            preference =
-                getRestHandlerClient().retrievePreference(userId, name);
-        }
+        checkNotNull(userId);
+        checkNotNull(name);
+
+        String xml = getRestHandlerClient().retrievePreference(userId, name);
 
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Preference.class)
-            .unmarshalDocument(preference);
+            .getInstance().getMarshaller(Preference.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -472,17 +438,13 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String preferences;
-        if (getTransport() == TransportProtocol.SOAP) {
-            preferences = getSoapHandlerClient().retrievePreferences(userId);
-        }
-        else {
-            preferences = getRestHandlerClient().retrievePreferences(userId);
-        }
+        checkNotNull(userId);
+
+        String xml = getRestHandlerClient().retrievePreferences(userId);
 
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Preferences.class)
-            .unmarshalDocument(preferences);
+            .getInstance().getMarshaller(Preferences.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -505,25 +467,17 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String preferenceXml =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Preference.class)
-                .marshalDocument(preference);
+        checkNotNull(userId);
+        checkNotNull(preference);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            preferenceXml =
-                getSoapHandlerClient().updatePreference(userId,
-                    preference.getName(), preferenceXml);
-        }
-        else {
-            preferenceXml =
-                getRestHandlerClient().updatePreference(userId,
-                    preference.getName(), preferenceXml);
-        }
+        Marshaller<Preference> m =
+            MarshallerFactory.getInstance().getMarshaller(Preference.class);
 
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Preference.class)
-            .unmarshalDocument(preferenceXml);
+        String xml =
+            getRestHandlerClient().updatePreference(userId,
+                preference.getName(), m.marshalDocument(preference));
+
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -575,12 +529,11 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().deletePreference(userId, name);
-        }
-        else {
-            getRestHandlerClient().deletePreference(userId, name);
-        }
+        checkNotNull(userId);
+        checkNotNull(name);
+
+        getRestHandlerClient().deletePreference(userId, name);
+
     }
 
     /**
@@ -601,23 +554,17 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String attributeXml =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Attribute.class)
-                .marshalDocument(attribute);
+        checkNotNull(userId);
+        checkNotNull(attribute);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            attributeXml =
-                getSoapHandlerClient().createAttribute(userId, attributeXml);
-        }
-        else {
-            attributeXml =
-                getRestHandlerClient().createAttribute(userId, attributeXml);
-        }
+        Marshaller<Attribute> m =
+            MarshallerFactory.getInstance().getMarshaller(Attribute.class);
 
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Attribute.class)
-            .unmarshalDocument(attributeXml);
+        String xml =
+            getRestHandlerClient().createAttribute(userId,
+                m.marshalDocument(attribute));
+
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -642,19 +589,15 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String attribute;
-        if (getTransport() == TransportProtocol.SOAP) {
-            attribute =
-                getSoapHandlerClient().retrieveAttribute(userId, attributeId);
-        }
-        else {
-            attribute =
-                getRestHandlerClient().retrieveAttribute(userId, attributeId);
-        }
+        checkNotNull(userId);
+        checkNotNull(attributeId);
+
+        String xml =
+            getRestHandlerClient().retrieveAttribute(userId, attributeId);
 
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Attribute.class)
-            .unmarshalDocument(attribute);
+            .getInstance().getMarshaller(Attribute.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -674,17 +617,13 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String attributes;
-        if (getTransport() == TransportProtocol.SOAP) {
-            attributes = getSoapHandlerClient().retrieveAttributes(userId);
-        }
-        else {
-            attributes = getRestHandlerClient().retrieveAttributes(userId);
-        }
+        checkNotNull(userId);
+
+        String xml = getRestHandlerClient().retrieveAttributes(userId);
 
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Attributes.class)
-            .unmarshalDocument(attributes);
+            .getInstance().getMarshaller(Attributes.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -707,48 +646,17 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String attributeXml =
-            MarshallerFactory
-                .getInstance(getTransport()).getMarshaller(Attribute.class)
-                .marshalDocument(attribute);
+        checkNotNull(userId);
+        checkNotNull(attribute);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            attributeXml =
-                getSoapHandlerClient().updateAttribute(userId,
-                    attribute.getObjid(), attributeXml);
-        }
-        else {
-            attributeXml =
-                getRestHandlerClient().updateAttribute(userId,
-                    attribute.getObjid(), attributeXml);
-        }
+        Marshaller<Attribute> m =
+            MarshallerFactory.getInstance().getMarshaller(Attribute.class);
 
-        return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Attribute.class)
-            .unmarshalDocument(attributeXml);
-    }
+        String xml =
+            getRestHandlerClient().updateAttribute(userId,
+                attribute.getObjid(), m.marshalDocument(attribute));
 
-    /**
-     * Delete Attribute of User Account.
-     * 
-     * @param userId
-     *            The objid of the user
-     * @param attribute
-     *            The attribute (where at least the name has to be set)
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
-     */
-    @Override
-    public void deleteAttribute(final String userId, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-
-        deleteAttribute(userId, attribute.getObjid());
+        return m.unmarshalDocument(xml);
     }
 
     /**
@@ -766,16 +674,15 @@ public class UserAccountHandlerClient
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
+    @Override
     public void deleteAttribute(final String userId, final String attributeId)
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            getSoapHandlerClient().deleteAttribute(userId, attributeId);
-        }
-        else {
-            getRestHandlerClient().deleteAttribute(userId, attributeId);
-        }
+        checkNotNull(userId);
+        checkNotNull(attributeId);
+
+        getRestHandlerClient().deleteAttribute(userId, attributeId);
     }
 
     /**
@@ -793,18 +700,12 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String grantsXml = null;
+        checkNotNull(userId);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            grantsXml = getSoapHandlerClient().retrieveCurrentGrants(userId);
-        }
-        else {
-            grantsXml = getRestHandlerClient().retrieveCurrentGrants(userId);
-        }
+        String xml = getRestHandlerClient().retrieveCurrentGrants(userId);
 
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Grants.class)
-            .unmarshalDocument(grantsXml);
+            .getInstance().getMarshaller(Grants.class).unmarshalDocument(xml);
     }
 
     /**
@@ -828,18 +729,13 @@ public class UserAccountHandlerClient
         throws EscidocClientException, InternalClientException,
         TransportException {
 
-        String grantXml = null;
+        checkNotNull(userId);
+        checkNotNull(grantId);
 
-        if (getTransport() == TransportProtocol.SOAP) {
-            grantXml = getSoapHandlerClient().retrieveGrant(userId, grantId);
-        }
-        else {
-            grantXml = getRestHandlerClient().retrieveGrant(userId, grantId);
-        }
+        String xml = getRestHandlerClient().retrieveGrant(userId, grantId);
 
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(Grant.class)
-            .unmarshalDocument(grantXml);
+            .getInstance().getMarshaller(Grant.class).unmarshalDocument(xml);
     }
 
     /**
@@ -857,19 +753,16 @@ public class UserAccountHandlerClient
      */
     @Override
     public SearchRetrieveResponse retrieveUserAccounts(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveUserAccounts(filter);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveUserAccounts(filter);
-        }
+        checkNotNull(request);
+
+        String xml = getRestHandlerClient().retrieveUserAccounts(request);
+
         return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /*
@@ -881,11 +774,11 @@ public class UserAccountHandlerClient
      */
     @Override
     public List<UserAccount> retrieveUserAccountsAsList(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         return getSearchRetrieveResponseAsList(UserAccount.class,
-            retrieveUserAccounts(filter));
+            retrieveUserAccounts(request));
     }
 
     /**
@@ -905,18 +798,12 @@ public class UserAccountHandlerClient
     public ExplainResponse retrieveUserAccounts(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        if (request == null)
-            throw new IllegalArgumentException("request must not be null.");
+        checkNotNull(request);
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveUserAccounts(request);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveUserAccounts(request);
-        }
+        String xml = getRestHandlerClient().retrieveUserAccounts(request);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
     }
 
@@ -935,19 +822,16 @@ public class UserAccountHandlerClient
      */
     @Override
     public SearchRetrieveResponse retrieveGrants(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveGrants(filter);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveGrants(filter);
-        }
+        checkNotNull(request);
+
+        String xml = getRestHandlerClient().retrieveGrants(request);
+
         return MarshallerFactory
-            .getInstance(getTransport())
-            .getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
+            .unmarshalDocument(xml);
     }
 
     /**
@@ -964,203 +848,325 @@ public class UserAccountHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public ExplainResponse retrieveGrants(final ExplainRequestType filter)
+    public ExplainResponse retrieveGrants(final ExplainRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml = null;
-        if (getTransport() == TransportProtocol.SOAP) {
-            xml = getSoapHandlerClient().retrieveGrants(filter);
-        }
-        else {
-            xml = getRestHandlerClient().retrieveGrants(filter);
-        }
+        checkNotNull(request);
+
+        String xml = getRestHandlerClient().retrieveGrants(request);
+
         return MarshallerFactory
-            .getInstance(getTransport()).getMarshaller(ExplainResponse.class)
+            .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * updatePassword(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.common.TaskParam)
      */
-    @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
-
-        if (getTransport() == TransportProtocol.SOAP) {
-            return getSoapHandlerClient().getLastModificationDate(id);
-        }
-        else {
-            return getRestHandlerClient().getLastModificationDate(id);
-        }
-    }
-
-    @Override
-    protected SoapUserAccountHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapUserAccountHandlerClient(getServiceAddress());
-    }
-
-    @Override
-    protected RestUserAccountHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
-        return new RestUserAccountHandlerClient(getServiceAddress());
-    }
-
     @Override
     public void updatePassword(final UserAccount user, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
 
+        checkNotNull(user);
+
+        updatePassword(user.getObjid(), taskParam);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#activate
+     * (de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.common.TaskParam)
+     */
     @Override
     public void activate(final UserAccount user, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
 
+        checkNotNull(user);
+
+        activate(user.getObjid(), taskParam);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * deactivate(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.common.TaskParam)
+     */
     @Override
     public void deactivate(final UserAccount user, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
 
+        checkNotNull(user);
+
+        deactivate(user.getObjid(), taskParam);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveCurrentGrants
+     * (de.escidoc.core.resources.aa.useraccount.UserAccount)
+     */
     @Override
     public Grants retrieveCurrentGrants(final UserAccount user)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return retrieveCurrentGrants(user.getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * createGrant(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.aa.useraccount.Grant)
+     */
     @Override
     public Grant createGrant(final UserAccount user, final Grant grant)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return createGrant(user.getObjid(), grant);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * revokeGrant(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * java.lang.String, de.escidoc.core.resources.common.TaskParam)
+     */
     @Override
     public void revokeGrant(
         final UserAccount user, final String grantId, final TaskParam taskParam)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
+
+        checkNotNull(user);
+
+        revokeGrant(user.getObjid(), grantId, taskParam);
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveGrant(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * java.lang.String)
+     */
     @Override
     public Grant retrieveGrant(final UserAccount user, final String grantId)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return retrieveGrant(user.getObjid(), grantId);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveGrantsAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
     public List<Grant> retrieveGrantsAsList(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+        final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        return getSearchRetrieveResponseAsList(Grant.class,
+            retrieveGrants(request));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * createAttribute(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.aa.useraccount.Attribute)
+     */
     @Override
     public Attribute createAttribute(
         final UserAccount user, final Attribute attribute)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return createAttribute(user.getObjid(), attribute);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveAttribute(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * java.lang.String)
+     */
     @Override
     public Attribute retrieveAttribute(
         final UserAccount user, final String attributeId)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return retrieveAttribute(user.getObjid(), attributeId);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveAttributes(de.escidoc.core.resources.aa.useraccount.UserAccount)
+     */
     @Override
     public Attributes retrieveAttributes(final UserAccount user)
         throws EscidocClientException, InternalClientException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return retrieveAttributes(user.getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * updateAttribute(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.aa.useraccount.Attribute)
+     */
     @Override
     public Attribute updateAttribute(
         final UserAccount user, final Attribute attribute)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return updateAttribute(user.getObjid(), attribute);
     }
 
-    @Override
-    public void deleteAttribute(
-        final UserAccount user, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
-        // TODO Auto-generated method stub
-
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * createPreference(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.aa.useraccount.Preference)
+     */
     @Override
     public Preference createPreference(
         final UserAccount user, final Preference preference)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return createPreference(user.getObjid(), preference);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrievePreference(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * java.lang.String)
+     */
     @Override
     public Preference retrievePreference(
         final UserAccount user, final String name)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return retrievePreference(user.getObjid(), name);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrievePreferences(de.escidoc.core.resources.aa.useraccount.UserAccount)
+     */
     @Override
     public Preferences retrievePreferences(final UserAccount user)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return retrievePreferences(user.getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * updatePreference(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.aa.useraccount.Preference)
+     */
     @Override
     public Preference updatePreference(
         final UserAccount user, final Preference preference)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(user);
+
+        return updatePreference(user.getObjid(), preference);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * deletePreference(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * java.lang.String)
+     */
     @Override
     public void deletePreference(final UserAccount user, final String name)
         throws EscidocClientException, InternalClientException,
         TransportException {
-        // TODO Auto-generated method stub
 
+        checkNotNull(user);
+
+        deletePreference(user.getObjid(), name);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * deleteAttribute(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * java.lang.String)
+     */
+    @Override
+    public void deleteAttribute(final UserAccount user, final String attributeId)
+        throws EscidocClientException, InternalClientException,
+        TransportException {
+
+        checkNotNull(user);
+
+        deleteAttribute(user.getObjid(), attributeId);
+    }
 }
