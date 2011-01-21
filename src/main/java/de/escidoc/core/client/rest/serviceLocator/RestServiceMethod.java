@@ -445,7 +445,7 @@ public abstract class RestServiceMethod implements RestService {
             handler.handleHttpMethod(method);
         }
     }
-
+    
     /**
      * 
      * @return
@@ -457,138 +457,20 @@ public abstract class RestServiceMethod implements RestService {
         	
         	try {
         		ConfigurationProvider cp = ConfigurationProvider.getInstance();
-	        	
         		/* questions:
-         		 * http.protocol.cookie-patterns: how to pass a Collection of Strings adhering to SimpleDateFormat?! Ok?
-        		 * http.socket.linger: currently converted to String. Ok?
-        		 * http.routes.local-address: how to pass InetAddress?! expecting ip address. Ok?
-        		 * http.route.forced-route: how to pass HttpRoute?! expecting HttpHost. Ok?
-        		 * http.conn-manager.max-per-route: how to pass ConnPerRoute?! expecting int as defaultMaxPerRoute. Ok?
-        		 * http.default-headers: how to pass a collection of Header objects!? Ok?
+        		 * http.route.forced-route: 
+        		 * How to pass HttpRoute? Expecting HttpHost for now.
+        		 * 
+        		 * http.conn-manager.max-per-route:
+        		 * How to pass ConnPerRoute?
+        		 * Expecting int as defaultMaxPerRoute for now.
         		 */
         		
         		
-        		// custom format for Collection of Strings adhering to SimpleDateFormat
-        		// <SimpleDateFormatCompliantString1>[&<SimpleDateFormatCompliantStringX]
-        		if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS) != null) {
-        			String data = cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS);
-        			LinkedList<String> datePatterns = new LinkedList<String>();
-        			
-    				String[] patterns = data.split("&");
-    				for (String s : patterns) {
-						try {
-							new SimpleDateFormat(s);
-							datePatterns.add(s);
-						}
-						catch (IllegalArgumentException e) {
-							// Pattern does not comply to SimeplDateFormat
-							// TODO: proper exception handling
-						}
-					}
-    				params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS, datePatterns);
-        		}
-        		
-        		
-        		// custom format for Collection of Header
-        		// <header1Name>:<header1Value>[&<headerXName>:<headerXValue>]
-        		if (cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HEADERS) != null) {
-        			String data = cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HEADERS);
-        			LinkedList<BasicHeader> defaultHeaders = new LinkedList<BasicHeader>();
-        			
-        			try {
-	        			String[] headers = data.split("&");
-	        			for (String s : headers) {
-	        				String[] tmp = s.split(":");
-							defaultHeaders.add(new BasicHeader(tmp[0], tmp[1]));
-						}
-	        			params.setParameter(ConfigurationProvider.HTTP_DEFAULT_HEADERS, defaultHeaders);
-        			}
-        			catch (IndexOutOfBoundsException e) {
-        				// TODO: proper exception handling
-        			}
-        			
-        		}
-        		
-        		// custom format for InetAddress <IP_ADDRESS>
-        		if (cp.getProperty(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS) != null) {
-	        		String data = cp.getProperty(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS);
-	        		InetAddress inetAddress;
-	        		String[] tmp;
-	        		Byte[] ipaddr;
-	        		
-	        		try {
-		        		tmp = data.split(".");
-		        		ipaddr = new Byte[tmp.length];
-		        		for (int i = 0; i < tmp.length; i++) {
-		        			ipaddr[i] = Byte.parseByte(tmp[i]);
-		        		}
-		        		
-						inetAddress = InetAddress.getByAddress(data.getBytes());
-						params.setParameter(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS, inetAddress);
-					}
-	        		catch (UnknownHostException e) {
-						// TODO: proper exception handling
-					}
-	        		catch (NumberFormatException e) {
-	        			// TODO: proper exception handling
-	        		}
-        		}
-        		
-        		
-	        	// custom format for ProtocolVersion <protocol>/<major>.<minor>
-	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION) != null) {
-	        		String data = cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION);
-	        		try {
-	        			String protocol = data.substring(0, data.indexOf("/"));
-	        			int major = Integer.parseInt(data.substring(data.indexOf("/") + 1, data.indexOf(".")));
-	        			int minor = Integer.parseInt(data.substring(data.indexOf(".") + 1, data.length()));
-	        			ProtocolVersion pv = new ProtocolVersion(protocol, major, minor);
-	        			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_VERSION, pv);
-	        		}
-	        		catch (IndexOutOfBoundsException e) {
-	        			// TODO: proper exception handling
-	        		}
-	        		catch (NumberFormatException e) {
-	        			// TODO: proper exception handling
-	        		}
-	        	}
-	        	
-	        	
-	        	// custom format for HttpHost <host>[:<port>]
-	        	if (cp.getProperty(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY) != null) {
-	        		String data = cp.getProperty(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY);
-	        		try {
-	        			params.setParameter(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY, getHttpHostFromString(data));
-	        		}
-	        		catch (NumberFormatException e) {
-	        			// TODO: proper exception handling
-	        		}
-	        	
-	        	}
-	        	
-	        	if (cp.getProperty(ConfigurationProvider.HTTP_VIRTUAL_HOST) != null) {
-	        		String data = cp.getProperty(ConfigurationProvider.HTTP_VIRTUAL_HOST);
-	        		try {
-	        			params.setParameter(ConfigurationProvider.HTTP_VIRTUAL_HOST, getHttpHostFromString(data));
-	        		}
-	        		catch (NumberFormatException e) {
-	        			// TODO: proper exception handling
-	        		}
-	        	}
-	        	
-	        	if (cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HOST) != null) {
-	        		String data = cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HOST);
-	        		try {
-	        			params.setParameter(ConfigurationProvider.HTTP_DEFAULT_HOST, getHttpHostFromString(data));
-	        		}
-        			catch (NumberFormatException e) {
-	        			// TODO: proper exception handling
-	        		}
-	        	}
-	        	
 	        	// custom custom... HttpRoute can be constructed from HttpHost...
 	        	if (cp.getProperty(ConfigurationProvider.HTTP_ROUTE_FORCED_ROUTE) != null) {
 	        		String data = cp.getProperty(ConfigurationProvider.HTTP_ROUTE_FORCED_ROUTE);
+	        		
 	        		try {
 	        			HttpRoute httpRoute = new HttpRoute(getHttpHostFromString(data));
 	        			params.setParameter(ConfigurationProvider.HTTP_ROUTE_FORCED_ROUTE, httpRoute);
@@ -610,6 +492,130 @@ public abstract class RestServiceMethod implements RestService {
 	        		}
 	        	}
 	        	
+        		// Collection of Strings adhering to SimpleDateFormat
+        		// consecutively numbered properties
+        		// <SimpleDateFormatCompliantString>
+        		int i = 0;
+        		LinkedList<String> datePatterns = new LinkedList<String>();
+        		while (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS + i) != null) {
+        			String data = cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS + i);
+        			try {
+						new SimpleDateFormat(data);
+						datePatterns.add(data);
+					}
+					catch (IllegalArgumentException e) {
+						// Pattern does not comply to SimpleDateFormat
+						// TODO: proper exception handling
+					}
+					i++;
+        		}
+        		if (datePatterns.size() > 0) {
+        			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS, datePatterns);
+        		}
+        		
+        		// Collection of Header-Objects
+        		// consecutively numbered properties
+        		// <headerName>:<headerValue>
+        		int j = 0;
+        		LinkedList<BasicHeader> defaultHeaders = new LinkedList<BasicHeader>();
+        		
+        		while (cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HEADERS + j) != null) {
+        			String data = cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HEADERS + j);
+       				String[] tmp = data.split(":");
+       				try {
+       					defaultHeaders.add(new BasicHeader(tmp[0], tmp[1]));
+       				}
+           			catch (IndexOutOfBoundsException e) {
+           				// TODO: proper exception handling
+           			}
+           			j++;
+				}
+        		if (defaultHeaders.size() > 0) {
+        			params.setParameter(ConfigurationProvider.HTTP_DEFAULT_HEADERS, defaultHeaders);
+        		}
+
+        		// custom format for InetAddress [<hostname>/]<ipAddress>
+        		if (cp.getProperty(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS);
+
+	        		String hostname = "";
+	        		String[] tmp = data.split("/");
+	        		try {
+		        		if (tmp.length > 1) {
+		        			hostname = tmp[0];
+		        			tmp[0] = tmp[1];
+		        		}
+		        		tmp = tmp[0].split("\\.");
+		        		byte[] ipaddr = new byte[tmp.length];
+	        			for (int k = 0; k < tmp.length; k++) {
+		        			ipaddr[k] = Byte.parseByte(tmp[k]);
+		        		}
+		        		InetAddress inetAddress = InetAddress.getByAddress(hostname, ipaddr);
+						params.setParameter(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS, inetAddress);
+					}
+	        		catch (UnknownHostException e) {
+						// TODO: proper exception handling
+					}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        		catch (IndexOutOfBoundsException e) {
+	        			// TODO: proper exception handling
+	        		}
+        		}
+        		
+	        	// custom format for ProtocolVersion <protocol>/<major>.<minor>
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION);
+	        		
+	        		try {
+	        			String protocol = data.substring(0, data.indexOf("/"));
+	        			int major = Integer.parseInt(data.substring(data.indexOf("/") + 1, data.indexOf(".")));
+	        			int minor = Integer.parseInt(data.substring(data.indexOf(".") + 1, data.length()));
+	        			ProtocolVersion pv = new ProtocolVersion(protocol, major, minor);
+	        			params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_VERSION, pv);
+	        		}
+	        		catch (IndexOutOfBoundsException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	// custom format for HttpHost [<scheme>://]<host>[:<port>]
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY);
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_ROUTE_DEFAULT_PROXY, getHttpHostFromString(data));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_VIRTUAL_HOST) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_VIRTUAL_HOST);
+	        		
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_VIRTUAL_HOST, getHttpHostFromString(data));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HOST) != null) {
+	        		String data = cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HOST);
+	        		
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_DEFAULT_HOST, getHttpHostFromString(data));
+	        		}
+        			catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
 	        	
 	        	// string parameters
 	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_ELEMENT_CHARSET) != null) {
@@ -636,10 +642,6 @@ public abstract class RestServiceMethod implements RestService {
 	        		params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_WAIT_FOR_CONTINUE, cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_WAIT_FOR_CONTINUE));
 	        	}
 	        	
-	        	if (cp.getProperty(ConfigurationProvider.HTTP_SOCKET_LINGER) != null) {
-	        		params.setParameter(ConfigurationProvider.HTTP_SOCKET_LINGER, cp.getProperty(ConfigurationProvider.HTTP_SOCKET_LINGER));
-	        	}
-	        	
 	        	if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_POLICY) != null) {
 	        		params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_POLICY, cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_POLICY));
 	        	}
@@ -652,11 +654,19 @@ public abstract class RestServiceMethod implements RestService {
 	        		params.setParameter(ConfigurationProvider.HTTP_CONNECTION_MANAGER_FACTORY_CLASS_NAME, cp.getProperty(ConfigurationProvider.HTTP_CONNECTION_MANAGER_FACTORY_CLASS_NAME));
 	        	}
 	        	
-	        	
 	        	// int parameters
 	        	if (cp.getProperty(ConfigurationProvider.HTTP_SOCKET_TIMEOUT) != null) {
 	        		try {
 	        			params.setParameter(ConfigurationProvider.HTTP_SOCKET_TIMEOUT, Integer.parseInt(cp.getProperty(ConfigurationProvider.HTTP_SOCKET_TIMEOUT)));
+	        		}
+	        		catch (NumberFormatException e) {
+	        			// TODO: proper exception handling
+	        		}
+	        	}
+	        	
+	        	if (cp.getProperty(ConfigurationProvider.HTTP_SOCKET_LINGER) != null) {
+	        		try {
+	        			params.setParameter(ConfigurationProvider.HTTP_SOCKET_LINGER, Integer.parseInt(cp.getProperty(ConfigurationProvider.HTTP_SOCKET_LINGER)));
 	        		}
 	        		catch (NumberFormatException e) {
 	        			// TODO: proper exception handling
@@ -726,7 +736,6 @@ public abstract class RestServiceMethod implements RestService {
 	        		}
 	        	}
 	        	
-	        	
 	        	// long parameters
 	        	if (cp.getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_TIMEOUT) != null) {
 	        		try {
@@ -736,7 +745,6 @@ public abstract class RestServiceMethod implements RestService {
 	        			// TODO: proper exception handling
 	        		}
 	        	}
-	        	
 	        	
 	        	// boolean parameters
 	        	if (cp.getProperty(ConfigurationProvider.HTTP_TCP_NODELAY) != null) {
@@ -779,19 +787,24 @@ public abstract class RestServiceMethod implements RestService {
     }
     
     private HttpHost getHttpHostFromString(String input) throws NumberFormatException {
-    	HttpHost httpHost;
+    	String scheme = null;
     	String hostname;
-		int port;
+		int port = -1;
 		
-		if (!input.contains(":")) {
-			httpHost = new HttpHost(input);
+		String[] tmp = input.split("://");
+		if (tmp.length > 1) {
+			scheme = tmp[0];
+			tmp[0] = tmp[1];
 		}
-		else {
-			hostname = input.substring(0, input.indexOf(":"));
-			port = Integer.parseInt(input.substring(input.indexOf(":") + 1, input.length()));
-			httpHost = new HttpHost(hostname, port);
-		}    	
-    	return httpHost;
+
+		tmp = tmp[0].split(":");
+		hostname = tmp[0];
+		
+		if (tmp.length > 1) {
+			port = Integer.parseInt(tmp[1]);
+		}
+		
+		return new HttpHost(hostname, port, scheme);
     }
 
     /**
