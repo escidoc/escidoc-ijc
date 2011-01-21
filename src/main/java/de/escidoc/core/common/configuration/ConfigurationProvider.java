@@ -106,7 +106,7 @@ public final class ConfigurationProvider {
     public static final String HTTP_AUTH_CREDENTIAL_CHARSET = "http.auth.credential-charset";
     public static final String HTTP_PROTOCOL_HANDLE_REDIRECTS = "http.protocol.handle-redirects";
     public static final String HTTP_PROTOCOL_REJECT_RELATIVE_REDIRECT = "http.protocol.reject.relative.redirect";
-    public static final String HTTP_PROTOKOL_MAX_REDIRECTS = "http.protocol.max-redirects";
+    public static final String HTTP_PROTOCOL_MAX_REDIRECTS = "http.protocol.max-redirects";
     public static final String HTTP_PROTOCOL_ALLOW_CIRCULAR_REDIRECTS = "http.protocol.allow-circular-redirects";
     public static final String HTTP_CONNECTION_MANAGER_FACTORY_CLASS_NAME = "http.connection-manager.factory-class-name";
     public static final String HTTP_VIRTUAL_HOST = "http.virtual-host";
