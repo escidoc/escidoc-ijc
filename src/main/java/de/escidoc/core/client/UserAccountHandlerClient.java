@@ -1092,4 +1092,27 @@ public class UserAccountHandlerClient
         return new RestUserAccountHandlerClient(getServiceAddress());
     }
 
+    @Override
+    public Attributes retrieveNamedAttributes(
+        final String userId, final String attrName) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String xml;
+
+        if (getTransport() == TransportProtocol.SOAP) {
+            xml =
+                getSoapHandlerClient()
+                    .retrieveNamedAttributes(userId, attrName);
+        }
+        else {
+            xml =
+                getRestHandlerClient()
+                    .retrieveNamedAttributes(userId, attrName);
+        }
+
+        return MarshallerFactory
+            .getInstance(getTransport()).getMarshaller(Attributes.class)
+            .unmarshalDocument(xml);
+    }
+
 }

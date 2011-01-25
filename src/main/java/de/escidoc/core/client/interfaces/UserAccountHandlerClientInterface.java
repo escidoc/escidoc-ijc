@@ -141,6 +141,9 @@ public interface UserAccountHandlerClientInterface
     Attributes retrieveAttributes(final String userId)
         throws EscidocClientException, InternalClientException;
 
+    Attributes retrieveNamedAttributes(final String userId, String attrName)
+        throws EscidocException, InternalClientException, TransportException;
+
     Attribute updateAttribute(final String userId, final Attribute attribute)
         throws EscidocClientException, InternalClientException,
         TransportException;
