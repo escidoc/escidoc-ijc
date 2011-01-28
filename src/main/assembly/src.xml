@@ -15,7 +15,7 @@
         <include>ChangeLog*</include>
         <include>README*</include>
         <include>TODO*</include>
-        <include>license/*</include>
+        <include>LICENSE*</include>
       </includes>
     </fileSet>
     <fileSet>
@@ -26,8 +26,18 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>${project.build.directory}/site</directory>
-      <outputDirectory>docs</outputDirectory>
+      <directory>${project.reporting.outputDirectory}/apidocs</directory>
+      <outputDirectory>/doc/api</outputDirectory>
+      <includes>
+        <include>/**</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${pdf.dir}</directory>
+      <outputDirectory>/doc/pdf</outputDirectory>
+      <includes>
+        <include>${doc.name}.pdf</include>
+      </includes>
     </fileSet>
   </fileSets>
   <dependencySets>
