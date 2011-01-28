@@ -33,7 +33,6 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.List;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -77,77 +76,71 @@ public interface UserAccountHandlerClientInterface
      *             Thrown if in case of failure on transport level.
      */
     void updatePassword(final String userId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param user
      * @param taskParam
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void updatePassword(final UserAccount user, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param userId
      * @param taskParam
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void activate(final String userId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param user
      * @param taskParam
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void activate(final UserAccount user, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param userId
      * @param taskParam
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void deactivate(final String userId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param user
      * @param taskParam
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void deactivate(final UserAccount user, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    UserAccount retrieveCurrentUser() throws EscidocClientException,
+    UserAccount retrieveCurrentUser() throws EscidocException,
         InternalClientException, TransportException;
 
     /*
@@ -193,24 +186,22 @@ public interface UserAccountHandlerClientInterface
     /**
      * @param userId
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    Grants retrieveCurrentGrants(final String userId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    Grants retrieveCurrentGrants(final String userId) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param user
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Grants retrieveCurrentGrants(final UserAccount user)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /*
      * Subresource grants
@@ -220,77 +211,71 @@ public interface UserAccountHandlerClientInterface
      * @param userId
      * @param grant
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Grant createGrant(final String userId, final Grant grant)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param user
      * @param grant
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Grant createGrant(final UserAccount user, final Grant grant)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param userId
      * @param grantId
      * @param taskParam
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void revokeGrant(
         final String userId, final String grantId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param user
      * @param grantId
      * @param taskParam
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void revokeGrant(
         final UserAccount user, final String grantId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param userId
      * @param grantId
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Grant retrieveGrant(final String userId, final String grantId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param user
      * @param grantId
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Grant retrieveGrant(final UserAccount user, final String grantId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
@@ -333,120 +318,112 @@ public interface UserAccountHandlerClientInterface
      * @param userId
      * @param attribute
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Attribute createAttribute(final String userId, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param user
      * @param attribute
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Attribute createAttribute(final UserAccount user, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param userId
      * @param attributeId
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Attribute retrieveAttribute(final String userId, final String attributeId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param user
      * @param attributeId
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Attribute retrieveAttribute(final UserAccount user, final String attributeId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param userId
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      */
-    Attributes retrieveAttributes(final String userId)
-        throws EscidocClientException, InternalClientException;
+    Attributes retrieveAttributes(final String userId) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
      * @param user
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      */
     Attributes retrieveAttributes(final UserAccount user)
-        throws EscidocClientException, InternalClientException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param userId
      * @param attribute
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Attribute updateAttribute(final String userId, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param user
      * @param attribute
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Attribute updateAttribute(final UserAccount user, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param userId
      * @param attribute
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void deleteAttribute(final String userId, final String attributeId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
      * @param user
      * @param attribute
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void deleteAttribute(final UserAccount user, final String attributeId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /*
      * Preferences
@@ -456,117 +433,118 @@ public interface UserAccountHandlerClientInterface
      * @param userId
      * @param preference
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Preference createPreference(final String userId, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param user
      * @param preference
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Preference createPreference(
         final UserAccount user, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param userId
      * @param name
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Preference retrievePreference(final String userId, final String name)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param user
      * @param name
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Preference retrievePreference(final UserAccount user, final String name)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param userId
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Preferences retrievePreferences(final String userId)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param user
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Preferences retrievePreferences(final UserAccount user)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param userId
      * @param preference
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Preference updatePreference(final String userId, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param user
      * @param preference
      * @return
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     Preference updatePreference(
         final UserAccount user, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param userId
      * @param name
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void deletePreference(final String userId, final String name)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param user
      * @param name
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     void deletePreference(final UserAccount user, final String name)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * @param userId
+     * @param attrName
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Attributes retrieveNamedAttributes(String userId, String attrName)
+        throws EscidocException, InternalClientException, TransportException;
 }

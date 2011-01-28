@@ -35,7 +35,6 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.net.URL;
 import java.util.List;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -217,8 +216,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void updatePassword(final String userId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(taskParam);
@@ -240,8 +238,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void activate(final String userId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(taskParam);
@@ -262,8 +259,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void deactivate(final String userId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(taskParam);
@@ -283,7 +279,7 @@ public class UserAccountHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public UserAccount retrieveCurrentUser() throws EscidocClientException,
+    public UserAccount retrieveCurrentUser() throws EscidocException,
         InternalClientException, TransportException {
 
         String xml = getRestHandlerClient().retrieveCurrentUser();
@@ -311,8 +307,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Grant createGrant(final String userId, final Grant grant)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(grant);
@@ -347,8 +342,7 @@ public class UserAccountHandlerClient
     @Override
     public void revokeGrant(
         final String userId, final String grantId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(grantId);
@@ -374,8 +368,7 @@ public class UserAccountHandlerClient
     @Override
     public Preference createPreference(
         final String userId, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(preference);
@@ -408,8 +401,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Preference retrievePreference(final String userId, final String name)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(name);
@@ -435,8 +427,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Preferences retrievePreferences(final String userId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
 
@@ -464,8 +455,7 @@ public class UserAccountHandlerClient
     @Override
     public Preference updatePreference(
         final String userId, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(preference);
@@ -503,8 +493,7 @@ public class UserAccountHandlerClient
     @Deprecated
     public void deletePreference(
         final String userId, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         deletePreference(userId, preference.getName());
     }
@@ -526,8 +515,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void deletePreference(final String userId, final String name)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(name);
@@ -551,8 +539,7 @@ public class UserAccountHandlerClient
     @Override
     public Attribute createAttribute(
         final String userId, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(attribute);
@@ -585,9 +572,8 @@ public class UserAccountHandlerClient
      */
     @Override
     public Attribute retrieveAttribute(
-        final String userId, final String attributeId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        final String userId, final String attributeId) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(attributeId);
@@ -614,8 +600,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Attributes retrieveAttributes(final String userId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
 
@@ -643,8 +628,7 @@ public class UserAccountHandlerClient
     @Override
     public Attribute updateAttribute(
         final String userId, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(attribute);
@@ -676,8 +660,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void deleteAttribute(final String userId, final String attributeId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(attributeId);
@@ -697,8 +680,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Grants retrieveCurrentGrants(final String userId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
 
@@ -726,8 +708,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Grant retrieveGrant(final String userId, final String grantId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
         checkNotNull(grantId);
@@ -869,8 +850,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void updatePassword(final UserAccount user, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -887,8 +867,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void activate(final UserAccount user, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -904,8 +883,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void deactivate(final UserAccount user, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -921,8 +899,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Grants retrieveCurrentGrants(final UserAccount user)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -938,8 +915,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Grant createGrant(final UserAccount user, final Grant grant)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -956,8 +932,7 @@ public class UserAccountHandlerClient
     @Override
     public void revokeGrant(
         final UserAccount user, final String grantId, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -974,8 +949,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Grant retrieveGrant(final UserAccount user, final String grantId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1007,8 +981,7 @@ public class UserAccountHandlerClient
     @Override
     public Attribute createAttribute(
         final UserAccount user, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1025,8 +998,7 @@ public class UserAccountHandlerClient
     @Override
     public Attribute retrieveAttribute(
         final UserAccount user, final String attributeId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1041,7 +1013,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Attributes retrieveAttributes(final UserAccount user)
-        throws EscidocClientException, InternalClientException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1058,8 +1030,7 @@ public class UserAccountHandlerClient
     @Override
     public Attribute updateAttribute(
         final UserAccount user, final Attribute attribute)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1076,8 +1047,7 @@ public class UserAccountHandlerClient
     @Override
     public Preference createPreference(
         final UserAccount user, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1093,9 +1063,8 @@ public class UserAccountHandlerClient
      */
     @Override
     public Preference retrievePreference(
-        final UserAccount user, final String name)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        final UserAccount user, final String name) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1110,8 +1079,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public Preferences retrievePreferences(final UserAccount user)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1128,8 +1096,7 @@ public class UserAccountHandlerClient
     @Override
     public Preference updatePreference(
         final UserAccount user, final Preference preference)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1145,8 +1112,7 @@ public class UserAccountHandlerClient
      */
     @Override
     public void deletePreference(final UserAccount user, final String name)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
@@ -1162,11 +1128,32 @@ public class UserAccountHandlerClient
      */
     @Override
     public void deleteAttribute(final UserAccount user, final String attributeId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
 
         deleteAttribute(user.getObjid(), attributeId);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveNamedAttributes(java.lang.String, java.lang.String)
+     */
+    @Override
+    public Attributes retrieveNamedAttributes(
+        final String userId, final String attrName) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(userId);
+        checkNotNull(attrName);
+
+        String xml =
+            getRestHandlerClient().retrieveNamedAttributes(userId, attrName);
+
+        return MarshallerFactory
+            .getInstance().getMarshaller(Attributes.class)
+            .unmarshalDocument(xml);
     }
 }

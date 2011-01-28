@@ -35,7 +35,6 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -93,13 +92,12 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * 
      * @param userId
      * @param taskParam
-     * @throws EscidocClientException
+     * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
     public void activate(final String userId, final String taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
         try {
             getClient().activate(userId, taskParam);
         }
@@ -713,8 +711,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     public String retrieveCurrentGrants(final String userId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -740,8 +737,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     public String retrieveGrant(final String userId, final String grantId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
