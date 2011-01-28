@@ -6,19 +6,25 @@
 	<version>0.1-SNAPSHOT</version>
 	<name>eSciDocCoreClientLib</name>
 	<description>Java client library for eSciDoc infrastructure</description>
+
 	<ciManagement>
 		<system>Hudson</system>
 		<url>http://escidev2:8104/eSciDocCoreClient-1.2</url>
 	</ciManagement>
-	
+
+	<issueManagement>
+		<system>Jira</system>
+		<url>https://www.escidoc.org/jira/</url>
+	</issueManagement>
+
 	<distributionManagement>
-    <snapshotRepository>
-        <id>escidoc.org</id>
-        <name>escidoc.org-snapshots</name>
-        <url>https://www.escidoc.org/artifactory/libs-snapshots-local</url>
-    </snapshotRepository>
-  </distributionManagement>
-  
+		<snapshotRepository>
+			<id>escidoc.org</id>
+			<name>escidoc.org-snapshots</name>
+			<url>https://www.escidoc.org/artifactory/libs-snapshots-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<organization>
 		<name>FIZ Karlsruhe</name>
 		<url>http://www.fiz-kalrsruhe.de</url>
@@ -28,6 +34,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.6.1</slf4j.version>
+		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+		<docbook.gen.dir.name>gen-docbook</docbook.gen.dir.name>
+		<docbook.gen.dir>${project.reporting.outputDirectory}/${docbook.gen.dir.name}</docbook.gen.dir>
+		<docbook.src.xml>src/site/xml</docbook.src.xml>
+		<docbook.src.xsl>src/site/xsl</docbook.src.xsl>
+		<docbook.api.chapter.title>Api Reference for eSciDocCore Infrastructure Service Clients and Resources</docbook.api.chapter.title>
+		<docbook.bookinfo.title>eSciDoc Infrastructure Java Client Library</docbook.bookinfo.title>
+		<docbook.bookinfo.subtitle>For eSciDocCore Infrastructure Version 1.3</docbook.bookinfo.subtitle>
+		<dbdoclet.document>api.xml</dbdoclet.document>
+		<dbdoclet.document.path>${docbook.gen.dir}/${dbdoclet.document}</dbdoclet.document.path>
+		<pdf.dir.name>pdf</pdf.dir.name>
+		<pdf.dir>${project.reporting.outputDirectory}/${pdf.dir.name}</pdf.dir>
+		<doc.name>Client_api_reference</doc.name>
 	</properties>
 
 	<repositories>
@@ -56,8 +75,62 @@
 		</repository>
 	</repositories>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+				<reportSets>
+					<reportSet>
+						<id>html</id>
+						<configuration>
+							<show>public</show>
+							<doctitle>eSciDocCore infrastructure client project</doctitle>
+							<nodeprecated>false</nodeprecated>
+							<nodeprecatedlist>false</nodeprecatedlist>
+							<noindex>false</noindex>
+							<nonavbar>false</nonavbar>
+							<notree>false</notree>
+							<excludePackageNames>java.lang.*:org.*:de.escidoc.core.aa:de.escidoc.core.adm:de.escidoc.core.cmm:de.escidoc.core.common.exceptions:de.escidoc.core.oai:de.escidoc.core.om:de.escidoc.core.oum:de.escidoc.core.sm:de.escidoc.core.tme:gov.*</excludePackageNames>
+							<source>1.5</source>
+							<splitindex>true</splitindex>
+							<use>true</use>
+							<version>true</version>
+						</configuration>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+					<reportSet>
+            <id>dbdoclet</id>
+            <configuration>
+              <doclet>org.dbdoclet.doclet.docbook.DocBookDoclet</doclet>
+              <docletArtifact>
+                <groupId>org.dbdoclet.doclet</groupId>
+						    <artifactId>docbook</artifactId>
+						    <version>jdk1_5</version>
+              </docletArtifact>
+              <excludePackageNames>java.lang.*:org.*:de.escidoc.core.aa:de.escidoc.core.adm:de.escidoc.core.cmm:de.escidoc.core.common.exceptions:de.escidoc.core.oai:de.escidoc.core.om:de.escidoc.core.oum:de.escidoc.core.sm:de.escidoc.core.tme:gov.*</excludePackageNames>
+              <additionalparam>
+                    -f ${dbdoclet.document} -booktype book -id numbered -nostatistics -part
+              </additionalparam>
+              <destDir>${docbook.gen.dir.name}</destDir>
+              <!-- For the project-reports page-->
+              <name>DocBookDoclet</name>
+              <description>DocBookDoclet documentation.</description>              
+            </configuration>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
 	<build>
-		<pluginManagement>
+    <pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -439,50 +512,166 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <outputDirectory>target</outputDirectory>
-          <finalName>${artifactId}-${version}</finalName>
-          <attach>true</attach>
-        </configuration>
-      </plugin>
-			
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>target</outputDirectory>
+					<finalName>${artifactId}-${version}</finalName>
+					<attach>true</attach>
+				</configuration>
+			</plugin>
+
 			<plugin>
-        <!-- NOTE: We don't need a groupId specification because the group is
-                   org.apache.maven.plugins ...which is assumed by default.-->
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/src.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>  <!-- this is used for inheritance merges --> 
-            <phase>package</phase>  <!-- append to the packaging phase. --> 
-            <goals>
-              <goal>single</goal>  <!-- goals == mojos --> 
-            </goals>
-          </execution>
-        </executions>
+				<!-- NOTE: We don't need a groupId specification because the group is 
+					org.apache.maven.plugins ...which is assumed by default. -->
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/src.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>  <!-- this is used for inheritance merges -->
+						<phase>package</phase>  <!-- append to the packaging phase. -->
+						<goals>
+							<goal>single</goal>  <!-- goals == mojos -->
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			
+			<plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
+        
+        <dependencies>
+          <dependency>
+						<groupId>saxon</groupId>
+						<artifactId>saxon</artifactId>
+						<version>6.5.5</version>
+					</dependency>
+					<dependency>
+				    <groupId>saxon</groupId>
+				    <artifactId>saxon-xml-apis</artifactId>
+				    <version>6.5.5</version>
+					</dependency>
+					<dependency>
+				    <groupId>saxon</groupId>
+				    <artifactId>saxon-jdom</artifactId>
+				    <version>6.5.5</version>
+					</dependency>
+					<dependency>
+				    <groupId>org.apache.xmlgraphics</groupId>
+				    <artifactId>fop</artifactId>
+				    <version>0.93</version>
+					</dependency>
+        </dependencies>
+        
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <configuration>
+              <target>
+                <!-- replace content -->
+                <replace file="${dbdoclet.document.path}" token="&lt;?xml version='1.0' encoding='UTF-8'?>" value=" " />
+						    <replace file="${dbdoclet.document.path}" token="&lt;!DOCTYPE" value="sdf" />
+						    
+						    <replace file="${dbdoclet.document.path}" token="&lt;chapter" value="&lt;section" />
+						    <replace file="${dbdoclet.document.path}" token="&lt;/chapter" value="&lt;/section" />
+						    <replace file="${dbdoclet.document.path}" token="part" value="chapter" />
+						
+						    <replace file="${dbdoclet.document.path}" token="&lt;title>Reference Handbook&lt;/title>" value="&lt;title>${docbook.api.chapter.title}&lt;/title>" />
+						    <replace file="${dbdoclet.document.path}" token="chapter lang" value="chapter id='API-REFERENCE' lang" />
+						    
+						    <replace file="${dbdoclet.document.path}" token="&lt;abstract>" value=" " />
+						    <replace file="${dbdoclet.document.path}" token="&lt;para>&lt;/para>" value=" " />
+						    <replace file="${dbdoclet.document.path}" token="&lt;/abstract>" value=" " />
+						    <replace file="${dbdoclet.document.path}" token="&lt;index/>" value=" " />
+						    
+						    <copy todir="${docbook.gen.dir}" overwrite="true">
+						      <fileset dir="${docbook.src.xml}" />
+						    </copy>
+						    
+						    <copy todir="${project.reporting.outputDirectory}/tmp">
+						      <fileset dir="${docbook.src.xsl}"/>
+						    </copy>
+						    
+                <!-- create fo -->
+                <echo level="info">
+					        Generating ${docbook.gen.dir}/${doc.name}.fo
+					      </echo>
+					      
+					      <property name="saxon_classpath" refid="maven.plugin.classpath"/>
+					      <property name="doctype_dtd_loc" value="../tmp/docbook-xml-4.5/docbookx.dtd"/>
+					      <property name="bookinfo_title" value="${docbook.bookinfo.title}"/>
+					      <property name="bookinfo_subtitle" value="${docbook.bookinfo.subtitle}"/>
+					      <property name="image_loc" value="."/>
+
+                <replace file="${docbook.gen.dir}/${doc.name}.xml" token="{DOCTYPE_DTD_LOC}" value="${doctype_dtd_loc}"/>
+                <replace file="${docbook.gen.dir}/${doc.name}.xml" token="{IMAGE_LOC}" value="${image_loc}"/>
+                <replace file="${docbook.gen.dir}/${doc.name}.xml" token="{TITLE}" value="${bookinfo_title}"/>
+                <replace file="${docbook.gen.dir}/${doc.name}.xml" token="{SUBTITLE}" value="${bookinfo_subtitle}"/>
+					      
+					      <!-- TODO change style back to docbook.src.xsl eventually -->
+							  <java classname="com.icl.saxon.StyleSheet" output="${docbook.gen.dir}/${doc.name}-create-fo.log"
+                      fork="true" dir="${docbook.gen.dir}/..">
+                  <classpath>
+                    <pathelement path="${saxon_classpath}"/>
+                  </classpath>
+                  <jvmarg line="-Xmx512M -Xms64m" />
+                  <jvmarg line="-Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration" />
+                  <arg value="-o" />
+                  <arg value="${docbook.gen.dir}/${doc.name}.fo" />
+                  <arg value="${docbook.gen.dir}/${doc.name}.xml" />
+                  <arg value="${project.reporting.outputDirectory}/tmp/EscidocDocbook.xsl" />
+                </java>
+							  
+							  <replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.VERSION}" value="${project.artifactId}-${project.version}" />
+							  <replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.DATE}" value="${maven.build.timestamp}" />						    
+						    
+						    <echo level="info">
+					        Generating ${pdf.dir}/${doc.name}.pdf
+					      </echo>
+					      
+					      <mkdir dir="${pdf.dir}"/>
+					      
+					      <replace />
+					      
+							  <java classname="org.apache.fop.cli.Main" output="${pdf.dir}/${doc.name}-create-pdf.log"
+                      fork="true" dir="${pdf.dir}/..">
+                  <classpath>
+                    <pathelement path="${saxon_classpath}"/>
+                  </classpath>
+                  <jvmarg line="-Xmx1024M -Xms128m" />
+                  <arg line='-fo "${docbook.gen.dir}/${doc.name}.fo" -pdf "${pdf.dir}/${doc.name}.pdf"'/>
+                </java>
+						    
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+			
+			
 		</plugins>
-		
+
 		<testResources>
 			<testResource>
 				<directory>src/test/resources</directory>
@@ -737,9 +926,7 @@
 										<!-- the initialize phase allows no filtering. Furthermore is creating 
 											database part of the test phase. That's why here should only be these tables 
 											are generated where hibernate depends on. -->
-	<!-- 
-										<srcFile>src/test/data/sql/postgres/test/test.aa.init.roles.sql</srcFile>
- -->										
+										<!-- <srcFile>src/test/data/sql/postgres/test/test.aa.init.roles.sql</srcFile> -->
 										<srcFile>src/test/data/sql/postgres/test/test.aa.init.users.sql</srcFile>
 										<srcFile>src/test/data/sql/postgres/test/test.aa.init.groups.sql</srcFile>
 										<srcFile>src/test/data/sql/postgres/test/test.sm.create.sql</srcFile>
@@ -814,7 +1001,7 @@
 										<type>ear</type>
 										<pingURL>http://localhost:8080/adm/admin/get-repository-info</pingURL>
 									</deployable>
-									<!--  deploy fedora -->
+									<!-- deploy fedora -->
 									<!-- <deployable> <groupId>org.escidoc</groupId> <artifactId>fcrepo</artifactId> 
 										<type>war</type> </deployable> -->
 								</deployables>
@@ -967,7 +1154,7 @@
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>
 			<version>0.2</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
