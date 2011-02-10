@@ -84,13 +84,12 @@ public class OrganizationalUnitHandlerClient
         super(serviceAddress);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param organizationalUnit
-     * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#create(de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface)
+     * @see
+     * de.escidoc.core.client.interfaces.CrudHandlerInterface#create(java.lang
+     * .Object)
      */
     @Override
     public OrganizationalUnit create(final OrganizationalUnit organizationalUnit)
@@ -110,13 +109,12 @@ public class OrganizationalUnitHandlerClient
         return getMarshaller().unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#retrieve(java.lang.String)
+     * @see
+     * de.escidoc.core.client.interfaces.CrudHandlerInterface#retrieve(java.
+     * lang.String)
      */
     @Override
     public OrganizationalUnit retrieve(final String id)
@@ -135,15 +133,12 @@ public class OrganizationalUnitHandlerClient
         return getMarshaller().unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param organizationalUnit
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.CrudHandlerInterface#update(java.lang.Object)
+     * @see
+     * de.escidoc.core.client.interfaces.CrudHandlerInterface#update(java.lang
+     * .Object)
      */
     @Override
     public OrganizationalUnit update(final OrganizationalUnit organizationalUnit)
