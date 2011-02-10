@@ -23,10 +23,10 @@ public class LoadExamplesResult
 
     private static final Map<String, ResourceType> nameMap =
         new HashMap<String, ResourceType>();
-    {
+    static {
         nameMap.put("container", ResourceType.Container);
         nameMap.put("content-model", ResourceType.ContentModel);
-        nameMap.put("contex", ResourceType.Context);
+        nameMap.put("context", ResourceType.Context);
         nameMap.put("item", ResourceType.Item);
         nameMap.put("organizational-unit", ResourceType.OrganizationalUnit);
     }
