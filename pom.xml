@@ -12,11 +12,17 @@
 	</ciManagement>
 	
 	<distributionManagement>
+    <repository>
+        <id>escidoc.org</id>
+        <name>escidoc.org-releases</name>
+        <url>https://www.escidoc.org/artifactory/libs-releases-local</url>
+    </repository>
     <snapshotRepository>
         <id>escidoc.org</id>
         <name>escidoc.org-snapshots</name>
         <url>https://www.escidoc.org/artifactory/libs-snapshots-local</url>
     </snapshotRepository>
+    
   </distributionManagement>
   
 	<organization>
@@ -28,6 +34,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.6.1</slf4j.version>
+		<escidoc.host.protocol>http</escidoc.host.protocol>
+		<escidoc.host.name>localhost</escidoc.host.name>
+		<escidoc.host.port>8080</escidoc.host.port>
+		<escidoc.host>${escidoc.host.protocol}://${escidoc.host.name}:${escidoc.host.port}</escidoc.host>
+		<wsdl.location>/axis/services</wsdl.location>
+		<wsdl.host>${escidoc.host}${wsdl.location}</wsdl.host>
 	</properties>
 
 	<repositories>
@@ -122,72 +134,72 @@
 					<outputDirectory>${project.build.directory}/generated-sources/</outputDirectory>
 					<urls>
 						<!-- AA -->
-						<url>http://localhost:8080/axis/services/ActionHandlerService?wsdl
+						<url>${wsdl.host}/ActionHandlerService?wsdl
 						</url>
 						<!-- wasn't there in 1.2 -->
-						<url>http://localhost:8080/axis/services/AdminService?wsdl</url>
-						<url>http://localhost:8080/axis/services/AdminHandlerService?wsdl
+						<url>${wsdl.host}/AdminService?wsdl</url>
+						<url>${wsdl.host}/AdminHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/PolicyDecisionPointService?wsdl
+						<url>${wsdl.host}/PolicyDecisionPointService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/RoleHandlerService?wsdl
+						<url>${wsdl.host}/RoleHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/UserAccountHandlerService?wsdl
+						<url>${wsdl.host}/UserAccountHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/UserGroupHandlerService?wsdl
+						<url>${wsdl.host}/UserGroupHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/UserManagementWrapperService?wsdl
+						<url>${wsdl.host}/UserManagementWrapperService?wsdl
 						</url>
 
 						<!-- common -->
-						<url>http://localhost:8080/axis/services/SoapExceptionGenerationService?wsdl
+						<url>${wsdl.host}/SoapExceptionGenerationService?wsdl
 						</url>
 
 						<!-- CMM -->
-						<url>http://localhost:8080/axis/services/ContentModelHandlerService?wsdl
+						<url>${wsdl.host}/ContentModelHandlerService?wsdl
 						</url>
 
 						<!-- OM -->
-						<url>http://localhost:8080/axis/services/ContainerHandlerService?wsdl
+						<url>${wsdl.host}/ContainerHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/ContentRelationHandlerService?wsdl
+						<url>${wsdl.host}/ContentRelationHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/ContextHandlerService?wsdl
+						<url>${wsdl.host}/ContextHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/ItemHandlerService?wsdl
+						<url>${wsdl.host}/ItemHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/IngestHandlerService?wsdl
+						<url>${wsdl.host}/IngestHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/SemanticStoreHandlerService?wsdl
+						<url>${wsdl.host}/SemanticStoreHandlerService?wsdl
 						</url>
 
 						<!-- OUM -->
-						<url>http://localhost:8080/axis/services/OrganizationalUnitHandlerService?wsdl
+						<url>${wsdl.host}/OrganizationalUnitHandlerService?wsdl
 						</url>
 
 						<!-- OAI -->
-						<url>http://localhost:8080/axis/services/SetDefinitionHandlerService?wsdl
+						<url>${wsdl.host}/SetDefinitionHandlerService?wsdl
 						</url>
 
 						<!-- SB -->
-						<url>http://localhost:8080/srw/search?wsdl</url>
+						<url>${escidoc.host}/srw/search?wsdl</url>
 
 						<!-- SM -->
-						<url>http://localhost:8080/axis/services/AggregationDefinitionHandlerService?wsdl
+						<url>${wsdl.host}/AggregationDefinitionHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/PreprocessingHandlerService?wsdl
+						<url>${wsdl.host}/PreprocessingHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/ReportDefinitionHandlerService?wsdl
+						<url>${wsdl.host}/ReportDefinitionHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/ReportHandlerService?wsdl
+						<url>${wsdl.host}/ReportHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/ScopeHandlerService?wsdl
+						<url>${wsdl.host}/ScopeHandlerService?wsdl
 						</url>
-						<url>http://localhost:8080/axis/services/StatisticDataHandlerService?wsdl
+						<url>${wsdl.host}/StatisticDataHandlerService?wsdl
 						</url>
 
 						<!-- TME -->
-						<url>http://localhost:8080/axis/services/JhoveHandlerService?wsdl
+						<url>${wsdl.host}/JhoveHandlerService?wsdl
 						</url>
 					</urls>
 					<mappings>
@@ -775,10 +787,10 @@
 								<type>standalone</type>
 								<home>${project.build.directory}/jboss42x/container</home>
 								<properties>
-									<cargo.hostname>localhost</cargo.hostname>
-									<cargo.protocol>http</cargo.protocol>
+									<cargo.hostname>${escidoc.host.name}</cargo.hostname>
+									<cargo.protocol>${escidoc.host.protocol}</cargo.protocol>
 
-									<cargo.servlet.port>8080</cargo.servlet.port>
+									<cargo.servlet.port>${escidoc.host.port}</cargo.servlet.port>
 									<cargo.rmi.port>1099</cargo.rmi.port>
 									<cargo.logging>medium</cargo.logging>
 									<cargo.jvmargs>-Dhttp.proxyHost=proxy.fiz-karlsruhe.de
@@ -790,7 +802,7 @@
 										<groupId>org.escidoc</groupId>
 										<artifactId>escidoc-core</artifactId>
 										<type>ear</type>
-										<pingURL>http://localhost:8080/adm/admin/get-repository-info</pingURL>
+										<pingURL>${escidoc.host}/adm/admin/get-repository-info</pingURL>
 									</deployable>
 									<!--  deploy fedora -->
 									<!-- <deployable> <groupId>org.escidoc</groupId> <artifactId>fcrepo</artifactId> 
