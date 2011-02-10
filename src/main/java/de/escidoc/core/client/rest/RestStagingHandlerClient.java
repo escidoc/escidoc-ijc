@@ -99,9 +99,6 @@ public class RestStagingHandlerClient extends RestClientBase {
             ExceptionMapper.map(e);
         }
 
-        if (result == null)
-            return null;
-
         // extract URL from response
         try {
             return extractStagingUrl(result);
@@ -126,9 +123,6 @@ public class RestStagingHandlerClient extends RestClientBase {
             LOG.debug(e.getMessage(), e);
             ExceptionMapper.map(e);
         }
-
-        if (result == null)
-            return null;
 
         // extract URL from response
         try {
@@ -182,6 +176,9 @@ public class RestStagingHandlerClient extends RestClientBase {
      */
     public static URL extractStagingUrl(final String xml)
         throws ParserConfigurationException, SAXException, IOException {
+
+        if (xml == null)
+            return null;
 
         String stagingHref;
         Element rootElement;
