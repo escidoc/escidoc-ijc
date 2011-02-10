@@ -5,7 +5,6 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,12 +23,15 @@ import java.util.Map.Entry;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.DeleteMethod;
+import org.apache.commons.httpclient.methods.FileRequestEntity;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
@@ -82,87 +84,56 @@ public abstract class RestServiceMethod implements RestService {
      * 
      * @param path
      *            path of resource
-     * @param content
+     * @param xmlContent
      *            Content (which is to send as request body)
      * @return Response body as String
      * @throws SystemException
      *             Thrown if request failed.
      * @throws EscidocException
      */
-    public String put(final String path, final String content)
-        throws SystemException, RemoteException {
+    public String put(final String path, final String xmlContent)
+        throws RemoteException {
 
-        String result = null;
+        if (xmlContent == null)
+            throw new IllegalArgumentException(
+                "Specified xmlContent must not be null.");
+
         PutMethod put = new PutMethod(this.serviceAddress + path);
 
         invokeCallbackHandlers(put);
 
-        if (content != null) {
-            RequestEntity entity;
-            try {
-                entity = new StringRequestEntity(content, "text/xml", "UTF-8");
-            }
-            catch (UnsupportedEncodingException e1) {
-                throw new SystemException(500, e1.getMessage(), "");
-            }
-            put.setRequestEntity(entity);
+        try {
+            put.setRequestEntity(new StringRequestEntity(xmlContent,
+                "text/xml", "UTF-8"));
+        }
+        catch (UnsupportedEncodingException e1) {
+            throw new SystemException(500, e1.getMessage(), "");
         }
 
-        try {
-            try {
-                getRestClient().executeMethod(put);
-                InputStream in = put.getResponseBodyAsStream();
-                result = convertStreamToString(in);
-            }
-            catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), null,
-                    e.getMessage());
-            }
-            catch (IOException e) {
-                throw new SystemException(500, null, e.getMessage());
-            }
-            decideStatusCode(put, result);
-        }
-        finally {
-            put.releaseConnection();
-        }
-        return result;
+        return executePut(put);
     }
 
     /**
-     * Call HTTP PUT method.
-     * 
      * @param path
-     *            path of resource
-     * @param ins
-     *            InputStream of content
-     * @return Response body as String
-     * @throws IOException
-     * @throws EscidocException
+     * @param f
+     * @return
+     * @throws RemoteException
      */
-    public String put(final String path, final File f) throws IOException {
+    public String put(final String path, final File file)
+        throws RemoteException {
 
-        String result = null;
-        FileInputStream fin = null;
-        try {
-            fin = new FileInputStream(f);
-            result = put(path, fin);
-        }
-        catch (IOException e) {
-            throw e;
-        }
-        finally {
-            if (fin != null)
-                try {
-                    fin.close();
-                }
-                catch (IOException e) {
-                    LOG.debug("Unable to close FileInputStream.", e);
-                }
-        }
+        if (file == null)
+            throw new IllegalArgumentException(
+                "Specified file must not be null.");
 
-        return result;
+        PutMethod put = new PutMethod(this.serviceAddress + path);
 
+        invokeCallbackHandlers(put);
+
+        put.setRequestEntity(new FileRequestEntity(file,
+            "application/octet-stream"));
+
+        return executePut(put);
     }
 
     /**
@@ -179,32 +150,45 @@ public abstract class RestServiceMethod implements RestService {
      * @throws EscidocException
      */
     public String put(final String path, final InputStream ins)
-        throws SystemException, RemoteException, FileNotFoundException {
+        throws RemoteException {
 
-        String result = null;
+        if (ins == null)
+            throw new IllegalArgumentException(
+                "Specified InputStream must not be null.");
+
         PutMethod put = new PutMethod(this.serviceAddress + path);
         invokeCallbackHandlers(put);
 
-        put.setRequestBody(ins);
+        put.setRequestEntity(new InputStreamRequestEntity(ins,
+            "application/octet-stream"));
+
+        return executePut(put);
+    }
+
+    /**
+     * @param put
+     * @return
+     * @throws RemoteException
+     */
+    private String executePut(final PutMethod put) throws RemoteException {
+        String result = null;
+        int statusCode = -1;
 
         try {
             try {
-
-                put
-                    .setRequestHeader("Content-type",
-                        "application/octet-stream");
-                int statusCode = getRestClient().executeMethod(put);
-                if (statusCode / 100 != 2) {
-                    throw new RemoteException("Upload failed. "
-                        + put.getStatusText() + "; "
-                        + new String(put.getResponseBody()));
-                }
+                statusCode = getRestClient().executeMethod(put);
+                // TODO do we need this here
+                // if (statusCode / 100 != 2) {
+                // throw new RemoteException("Upload failed. "
+                // + put.getStatusText() + "; "
+                // + new String(put.getResponseBody()));
+                // }
                 InputStream in = put.getResponseBodyAsStream();
                 result = convertStreamToString(in);
             }
             catch (HttpException e) {
-                throw new SystemException(e.getReasonCode(), null,
-                    e.getMessage());
+                statusCode = statusCode == -1 ? e.getReasonCode() : statusCode;
+                throw new SystemException(statusCode, null, e.getMessage());
             }
             catch (IOException e) {
                 throw new SystemException(
@@ -429,6 +413,15 @@ public abstract class RestServiceMethod implements RestService {
 
         if (this.client == null) {
             this.client = new HttpClient(getConnectionManager());
+
+            String host = System.getProperty("http.proxyHost");
+
+            if (host != null) {
+                HostConfiguration hostConfiguration = new HostConfiguration();
+                hostConfiguration.setProxy(host, Integer.parseInt(System
+                    .getProperty("http.proxyPort", "80")));
+                client.setHostConfiguration(hostConfiguration);
+            }
         }
         return this.client;
     }
