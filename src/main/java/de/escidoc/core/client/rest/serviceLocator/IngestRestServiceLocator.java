@@ -25,6 +25,7 @@ public class IngestRestServiceLocator extends RestServiceMethod
 
     private static final String PATH_CONTEXT = "/ir/ingest";
 
+    @Override
     public String ingest(final String resourceXml) throws RemoteException,
         OptimisticLockingException, SystemException,
         MissingMethodParameterException, LockingException,
