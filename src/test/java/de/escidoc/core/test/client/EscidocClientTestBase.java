@@ -231,7 +231,7 @@ public final class EscidocClientTestBase {
      * @throws DOMException
      */
     public static final String obtainObjidByXPath(
-        String xPathToElement, Document doc) throws DOMException,
+        final String xPathToElement, final Document doc) throws DOMException,
         TransformerException {
         String objidOrHref =
             XPathAPI

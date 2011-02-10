@@ -40,7 +40,7 @@ import java.util.Collection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.joda.time.DateTimeZone;
+import org.apache.axis.types.NonNegativeInteger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -156,10 +156,12 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
         // now check if at least this Item is in the list
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/last-modification-date\"=\""
-            + createdItem
-                .getLastModificationDate().withZone(DateTimeZone.UTC)
-                .toString() + "\"");
+        // srwFilter.setQuery("\"/last-modification-date\"=\""
+        // + createdItem
+        // .getLastModificationDate().withZone(DateTimeZone.UTC)
+        // .toString() + "\"");
+        srwFilter.setQuery("\"/properties/content-model/id\"=escidoc:ex4");
+        srwFilter.setMaximumRecords(new NonNegativeInteger("0"));
 
         SearchRetrieveResponse response = ihc.retrieveItems(srwFilter);
 

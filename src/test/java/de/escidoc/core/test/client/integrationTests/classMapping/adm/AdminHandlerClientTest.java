@@ -173,7 +173,7 @@ public class AdminHandlerClientTest {
      * 
      * @throws Exception
      */
-    // @Test
+    @Test
     public void testRecache() throws Exception {
         // start recaching
         final MessagesStatus status = ahc.recache(true);
@@ -519,7 +519,8 @@ public class AdminHandlerClientTest {
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
