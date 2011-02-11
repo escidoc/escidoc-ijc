@@ -54,8 +54,8 @@ import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
-import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.ContextProperties;
+import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.sb.explain.ExplainData;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
@@ -103,10 +103,17 @@ public class ContextFilterVersion12Test extends AbstractParameterizedTestBase {
      */
     @Test
     public void testExplain() throws Exception {
+        cc.create(createContext());
+
         ExplainResponse response =
             cc.retrieveContexts(new ExplainRequestType());
+
+        assertNotNull(response);
+        assertNotNull(response.getRecord());
+
         ExplainData explain = response.getRecord().getRecordData();
 
+        assertNotNull(explain);
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertNotNull("No index definitions found", explain.getIndexInfo());
         assertTrue("No index definitions found", explain
