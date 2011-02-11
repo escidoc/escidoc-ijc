@@ -19,15 +19,19 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.FileRequestEntity;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -414,16 +418,68 @@ public abstract class RestServiceMethod implements RestService {
         if (this.client == null) {
             this.client = new HttpClient(getConnectionManager());
 
-            String host = System.getProperty("http.proxyHost");
+            if (isProxyRequired()) {
 
-            if (host != null) {
-                HostConfiguration hostConfiguration = new HostConfiguration();
-                hostConfiguration.setProxy(host, Integer.parseInt(System
-                    .getProperty("http.proxyPort", "80")));
-                client.setHostConfiguration(hostConfiguration);
+                String host = System.getProperty("http.proxyHost");
+                Integer port =
+                    Integer
+                        .parseInt(System.getProperty("http.proxyPort", "80"));
+
+                if (host != null) {
+                    client.getHostConfiguration().setProxy(host, port);
+
+                    String user = System.getProperty("http.proxyUser");
+                    String pass = System.getProperty("http.proxyPassword");
+
+                    if (user != null && pass != null) {
+                        HttpState state = new HttpState();
+                        state.setProxyCredentials(new AuthScope(host, port),
+                            new UsernamePasswordCredentials(user, pass));
+                        client.setState(state);
+                    }
+                }
             }
         }
         return this.client;
+    }
+
+    private boolean isProxyRequired() {
+
+        String nonProxyHosts = System.getProperty("http.nonProxyHosts");
+        if (nonProxyHosts != null && !nonProxyHosts.trim().equals("")) {
+            nonProxyHosts = nonProxyHosts.replaceAll("\\.", "\\\\.");
+            nonProxyHosts = nonProxyHosts.replaceAll("\\?", "\\\\?");
+            nonProxyHosts = nonProxyHosts.replaceAll("\\*", "\\.\\*\\?");
+
+            Pattern p = Pattern.compile(nonProxyHosts);
+            Matcher m = p.matcher(serviceAddress);
+            if (m.find()) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    public static void main(final String[] args) {
+        String nonProxyHosts =
+            "localhost|127.0.0.1|www.*.escidoc.org|*.escidoc.de|*.fiz-karlsruhe.de|escidev1|escidev2|escidev3|escidev4|escidev5|escidev6|procom1";
+        System.out.println(nonProxyHosts);
+        String serviceAddress = "http://www.test.escidoc.org:8080";
+        if (nonProxyHosts != null && !nonProxyHosts.trim().equals("")) {
+            nonProxyHosts = nonProxyHosts.replaceAll("\\.", "\\\\.");
+            nonProxyHosts = nonProxyHosts.replaceAll("\\?", "\\\\?");
+            nonProxyHosts = nonProxyHosts.replaceAll("\\*", "\\.\\*\\?");
+
+            System.out.println(nonProxyHosts);
+
+            Pattern p = Pattern.compile(nonProxyHosts);
+            Matcher m = p.matcher(serviceAddress);
+            if (m.find()) {
+                System.out.println("found " + m.group() + "!");
+            }
+        }
     }
 
     /**
