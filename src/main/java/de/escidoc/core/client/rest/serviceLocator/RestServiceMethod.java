@@ -457,29 +457,7 @@ public abstract class RestServiceMethod implements RestService {
                 return true;
             }
         }
-
         return false;
-
-    }
-
-    public static void main(final String[] args) {
-        String nonProxyHosts =
-            "localhost|127.0.0.1|www.*.escidoc.org|*.escidoc.de|*.fiz-karlsruhe.de|escidev1|escidev2|escidev3|escidev4|escidev5|escidev6|procom1";
-        System.out.println(nonProxyHosts);
-        String serviceAddress = "http://www.test.escidoc.org:8080";
-        if (nonProxyHosts != null && !nonProxyHosts.trim().equals("")) {
-            nonProxyHosts = nonProxyHosts.replaceAll("\\.", "\\\\.");
-            nonProxyHosts = nonProxyHosts.replaceAll("\\?", "\\\\?");
-            nonProxyHosts = nonProxyHosts.replaceAll("\\*", "\\.\\*\\?");
-
-            System.out.println(nonProxyHosts);
-
-            Pattern p = Pattern.compile(nonProxyHosts);
-            Matcher m = p.matcher(serviceAddress);
-            if (m.find()) {
-                System.out.println("found " + m.group() + "!");
-            }
-        }
     }
 
     /**
