@@ -443,6 +443,10 @@ public abstract class RestServiceMethod implements RestService {
         return this.client;
     }
 
+    /**
+     * @return true if and only if the serviceAddress does not match the
+     *         nonProxyHosts setting.
+     */
     private boolean isProxyRequired() {
 
         String nonProxyHosts = System.getProperty("http.nonProxyHosts");
@@ -454,10 +458,10 @@ public abstract class RestServiceMethod implements RestService {
             Pattern p = Pattern.compile(nonProxyHosts);
             Matcher m = p.matcher(serviceAddress);
             if (m.find()) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
