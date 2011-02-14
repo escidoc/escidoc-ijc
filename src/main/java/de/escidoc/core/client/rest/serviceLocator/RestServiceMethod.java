@@ -426,6 +426,11 @@ public abstract class RestServiceMethod implements RestService {
                         .parseInt(System.getProperty("http.proxyPort", "80"));
 
                 if (host != null) {
+
+                    LOG.debug("Using proxy for service: " + serviceAddress);
+                    LOG.debug("http.proxyHost: " + host);
+                    LOG.debug("http.proxyPort: " + port);
+
                     client.getHostConfiguration().setProxy(host, port);
 
                     String user = System.getProperty("http.proxyUser");
@@ -451,6 +456,7 @@ public abstract class RestServiceMethod implements RestService {
 
         String nonProxyHosts = System.getProperty("http.nonProxyHosts");
         if (nonProxyHosts != null && !nonProxyHosts.trim().equals("")) {
+
             nonProxyHosts = nonProxyHosts.replaceAll("\\.", "\\\\.");
             nonProxyHosts = nonProxyHosts.replaceAll("\\?", "\\\\?");
             nonProxyHosts = nonProxyHosts.replaceAll("\\*", "\\.\\*\\?");
