@@ -1,11 +1,11 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +31,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.log4j.Logger;
@@ -88,39 +90,25 @@ public abstract class RestServiceMethod implements RestService {
     public String put(final String path, final String content)
         throws SystemException, RemoteException {
 
-        String result = null;
-        HttpPut put = new HttpPut(this.serviceAddress + path);
+        checkNotNull(content);
+
+        String checkedPath = checkPath(path);
+
+        HttpPut put = new HttpPut(this.serviceAddress + checkedPath);
 
         invokeCallbackHandlers(put);
 
-        if (content != null) {
-            StringEntity entity;
-            try {
-                entity = new StringEntity(content, "UTF-8");
-                entity.setContentType("text/xml");
-            }
-            catch (UnsupportedEncodingException e1) {
-                throw new SystemException(500, e1.getMessage(), "");
-            }
-            put.setEntity(entity);
-        }
-
-        HttpResponse response = null;
+        StringEntity entity;
         try {
-            try {
-                response = getRestClient().execute(put);
-                InputStream in = response.getEntity().getContent();
-                result = convertStreamToString(in);
-            }
-            catch (IOException e) {
-                throw new SystemException(500, null, e.getMessage());
-            }
-            decideStatusCode(response, result);
+            entity = new StringEntity(content, "UTF-8");
+            entity.setContentType("text/xml");
         }
-        finally {
-            closeConnection(put, response);
+        catch (UnsupportedEncodingException e1) {
+            throw new SystemException(500, e1.getMessage(), "");
         }
-        return result;
+        put.setEntity(entity);
+
+        return executeRequest(put);
     }
 
     /**
@@ -136,27 +124,16 @@ public abstract class RestServiceMethod implements RestService {
      */
     public String put(final String path, final File f) throws IOException {
 
-        String result = null;
-        FileInputStream fin = null;
-        try {
-            fin = new FileInputStream(f);
-            result = put(path, fin);
-        }
-        catch (IOException e) {
-            throw e;
-        }
-        finally {
-            if (fin != null)
-                try {
-                    fin.close();
-                }
-                catch (IOException e) {
-                    LOG.debug("Unable to close FileInputStream.", e);
-                }
-        }
+        checkNotNull(f);
+        String checkedPath = checkPath(path);
 
-        return result;
+        HttpPut put = new HttpPut(this.serviceAddress + checkedPath);
 
+        invokeCallbackHandlers(put);
+
+        put.setEntity(new FileEntity(f, "application/octet-stream"));
+
+        return executeRequest(put);
     }
 
     /**
@@ -175,36 +152,15 @@ public abstract class RestServiceMethod implements RestService {
     public String put(final String path, final InputStream ins)
         throws SystemException, RemoteException, FileNotFoundException {
 
-        String result = null;
-        HttpPut put = new HttpPut(this.serviceAddress + path);
+        String checkedPath = checkPath(path);
+
+        HttpPut put = new HttpPut(this.serviceAddress + checkedPath);
         invokeCallbackHandlers(put);
 
-        InputStreamEntity entity = new InputStreamEntity(ins, -1);
-        put.setEntity(entity);
+        put.setEntity(new InputStreamEntity(ins, -1));
+        put.addHeader("Content-type", "application/octet-stream");
 
-        HttpResponse response = null;
-        try {
-            try {
-                put.addHeader("Content-type", "application/octet-stream");
-                response = getRestClient().execute(put);
-                int statusCode = response.getStatusLine().getStatusCode();
-                if (statusCode / 100 != 2) {
-                    throw new RemoteException("Upload failed. "
-                        + response.getStatusLine().getReasonPhrase());
-                }
-                InputStream in = response.getEntity().getContent();
-                result = convertStreamToString(in);
-            }
-            catch (IOException e) {
-                throw new SystemException(
-                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
-            }
-            decideStatusCode(response, result);
-        }
-        finally {
-            closeConnection(put, response);
-        }
-        return result;
+        return executeRequest(put);
     }
 
     /**
@@ -219,8 +175,9 @@ public abstract class RestServiceMethod implements RestService {
     public String post(final String path, final String content)
         throws SystemException, RemoteException {
 
-        String result = null;
-        HttpPost post = new HttpPost(this.serviceAddress + path);
+        String checkedPath = checkPath(path);
+
+        HttpPost post = new HttpPost(this.serviceAddress + checkedPath);
         invokeCallbackHandlers(post);
         StringEntity entity;
         try {
@@ -231,24 +188,7 @@ public abstract class RestServiceMethod implements RestService {
             throw new SystemException(500, e1.getMessage(), "");
         }
         post.setEntity(entity);
-
-        HttpResponse response = null;
-        try {
-            try {
-                response = getRestClient().execute(post);
-                InputStream in = response.getEntity().getContent();
-                result = convertStreamToString(in);
-            }
-            catch (IOException e) {
-                throw new SystemException(
-                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
-            }
-            decideStatusCode(response, result);
-        }
-        finally {
-            closeConnection(post, response);
-        }
-        return result;
+        return executeRequest(post);
     }
 
     /**
@@ -262,27 +202,12 @@ public abstract class RestServiceMethod implements RestService {
     public String get(final String path) throws SystemException,
         RemoteException {
 
-        String result = null;
-        HttpGet get = new HttpGet(this.serviceAddress + path);
+        String checkedPath = checkPath(path);
+
+        HttpGet get = new HttpGet(this.serviceAddress + checkedPath);
         invokeCallbackHandlers(get);
 
-        HttpResponse response = null;
-        try {
-            try {
-                response = getRestClient().execute(get);
-                InputStream in = response.getEntity().getContent();
-                result = convertStreamToString(in);
-            }
-            catch (IOException e) {
-                throw new SystemException(
-                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
-            }
-            decideStatusCode(response, result);
-        }
-        finally {
-            closeConnection(get, response);
-        }
-        return result;
+        return executeRequest(get);
     }
 
     /**
@@ -294,7 +219,9 @@ public abstract class RestServiceMethod implements RestService {
     public HttpInputStream getStream(final String path) throws SystemException,
         RemoteException {
 
-        HttpGet get = new HttpGet(this.serviceAddress + path);
+        String checkedPath = checkPath(path);
+
+        HttpGet get = new HttpGet(this.serviceAddress + checkedPath);
         invokeCallbackHandlers(get);
 
         HttpResponse response = null;
@@ -347,27 +274,12 @@ public abstract class RestServiceMethod implements RestService {
     public String del(final String path) throws SystemException,
         RemoteException {
 
-        String result = null;
-        HttpDelete del = new HttpDelete(this.serviceAddress + path);
+        String checkedPath = checkPath(path);
+
+        HttpDelete del = new HttpDelete(this.serviceAddress + checkedPath);
         invokeCallbackHandlers(del);
 
-        HttpResponse response = null;
-        try {
-            try {
-                response = getRestClient().execute(del);
-                InputStream in = response.getEntity().getContent();
-                result = convertStreamToString(in);
-            }
-            catch (IOException e) {
-                throw new SystemException(
-                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
-            }
-            decideStatusCode(response, result);
-        }
-        finally {
-            closeConnection(del, response);
-        }
-        return result;
+        return executeRequest(del);
     }
 
     /**
@@ -425,49 +337,55 @@ public abstract class RestServiceMethod implements RestService {
             handler.handleHttpMethod(method);
         }
     }
-    
+
     /**
      * 
      * @return
      */
     private synchronized HttpClient getRestClient() {
         if (this.client == null) {
-        	this.client = HttpClientFactory.getHttpClient();
+            this.client = HttpClientFactory.getHttpClient();
         }
         return this.client;
     }
-    
+
     /**
      * Convert inputstream into String.
      * 
      * @param is
      *            InputStream
      * @return String
+     * @throws IOException
      */
-    private String convertStreamToString(final InputStream is) {
+    private String convertStreamToString(
+        final InputStream is, final Header contentEncoding) throws IOException {
 
         if (is == null) {
             return null;
         }
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
+        String encoding = "UTF-8";
+        if (contentEncoding != null) {
+            encoding = contentEncoding.getValue();
+        }
 
+        StringBuilder sb = new StringBuilder();
         String line = null;
+
         try {
+            BufferedReader reader =
+                new BufferedReader(new InputStreamReader(is, encoding));
+
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
             }
-        }
-        catch (IOException e) {
-            LOG.debug("An error occured while reading from stream.", e);
         }
         finally {
             try {
                 is.close();
             }
             catch (IOException e) {
-                LOG.debug("Unable to close InputStream.");
+                LOG.debug("Unable to close InputStream: " + e.getMessage(), e);
             }
         }
 
@@ -486,7 +404,11 @@ public abstract class RestServiceMethod implements RestService {
     private String prepareUrl(
         final String path, final Map<String, String[]> parameters) {
 
-        StringBuffer result = new StringBuffer(path);
+        StringBuffer result;
+        if (path == null)
+            result = new StringBuffer();
+        else
+            result = new StringBuffer(path);
 
         if (parameters != null) {
             result.append('?');
@@ -595,12 +517,45 @@ public abstract class RestServiceMethod implements RestService {
     }
 
     /**
+     * @param put
+     * @return
+     * @throws SystemException
+     * @throws RemoteException
+     */
+    private final String executeRequest(final HttpUriRequest request)
+        throws SystemException, RemoteException {
+
+        String result = null;
+        HttpResponse response = null;
+        try {
+            try {
+                response = getRestClient().execute(request);
+                if (response.getEntity() != null) {
+                    InputStream in = response.getEntity().getContent();
+                    result =
+                        convertStreamToString(in, response
+                            .getEntity().getContentEncoding());
+                }
+            }
+            catch (IOException e) {
+                throw new SystemException(
+                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+            }
+            decideStatusCode(response, result);
+        }
+        finally {
+            closeConnection(request, response);
+        }
+        return result;
+    }
+
+    /**
      * 
      * @param request
      * @param response
      */
     private final void closeConnection(
-        final HttpRequestBase request, final HttpResponse response) {
+        final HttpUriRequest request, final HttpResponse response) {
         if (response != null && response.getEntity() != null) {
             try {
                 response.getEntity().consumeContent();
@@ -613,5 +568,17 @@ public abstract class RestServiceMethod implements RestService {
         else if (request != null) {
             request.abort();
         }
+    }
+
+    /**
+     * @param path
+     * @return
+     */
+    private final String checkPath(final String path) {
+        if (path.startsWith("?"))
+            return path;
+        if (!path.startsWith("/"))
+            return "/" + path;
+        return path;
     }
 }

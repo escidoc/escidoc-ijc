@@ -21,7 +21,7 @@ import de.escidoc.core.common.exceptions.remote.application.security.Authorizati
 public class StagingRestServiceLocator extends RestServiceMethod
     implements StagingHandler {
 
-    private static final String PATH_STAGING = "/st/staging-file";
+    public static final String PATH = "/st/staging-file";
 
     @Override
     public String upload(final File f) throws RemoteException,
@@ -30,7 +30,7 @@ public class StagingRestServiceLocator extends RestServiceMethod
 
         checkNotNull(f);
 
-        return put(PATH_STAGING, f);
+        return put(PATH, f);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class StagingRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ins);
 
-        return put(PATH_STAGING, ins);
+        return put(PATH, ins);
     }
 
 }

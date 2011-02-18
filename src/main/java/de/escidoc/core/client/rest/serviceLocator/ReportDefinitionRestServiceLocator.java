@@ -31,7 +31,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class ReportDefinitionRestServiceLocator extends RestServiceMethod
     implements ReportDefinitionHandler {
 
-    private static final String PATH = "/statistic/report-definition";
+    public static final String PATH = "/statistic/report-definition";
 
     /*
      * (non-Javadoc)

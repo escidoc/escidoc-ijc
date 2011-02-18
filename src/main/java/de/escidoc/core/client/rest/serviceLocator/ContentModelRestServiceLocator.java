@@ -75,7 +75,7 @@ import de.escidoc.core.resources.HttpInputStream;
 public class ContentModelRestServiceLocator extends RestServiceMethod
     implements ContentModelHandler {
 
-    private static final String PATH_CONTENT_MODEL = "/cmm/content-model";
+    public static final String PATH = "/cmm/content-model";
 
     /**
      * See Interface for functional description.
@@ -101,7 +101,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentModelId);
 
-        del(PATH_CONTENT_MODEL + "/" + contentModelId);
+        del(PATH + "/" + contentModelId);
     }
 
     /**
@@ -144,7 +144,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentModelXml);
 
-        return put(PATH_CONTENT_MODEL, contentModelXml);
+        return put(PATH, contentModelXml);
     }
 
     /**
@@ -197,7 +197,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         checkNotNull(contentModelId);
         checkNotNull(contentModelXml);
 
-        return put(PATH_CONTENT_MODEL + "/" + contentModelId, contentModelXml);
+        return put(PATH + "/" + contentModelId, contentModelXml);
     }
 
     /**
@@ -219,7 +219,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentModelId);
 
-        return get(PATH_CONTENT_MODEL + "/" + contentModelId);
+        return get(PATH + "/" + contentModelId);
     }
 
     @Override
@@ -233,7 +233,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         checkNotNull(contentModelId);
         checkNotNull(contentStreamName);
 
-        return get(PATH_CONTENT_MODEL + "/" + contentModelId
+        return get(PATH + "/" + contentModelId
             + "/content-streams/content-stream/" + contentStreamName);
     }
 
@@ -262,7 +262,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         checkNotNull(contentModelId);
         checkNotNull(contentStreamName);
 
-        return getStream(PATH_CONTENT_MODEL + "/" + contentModelId
+        return getStream(PATH + "/" + contentModelId
             + "/content-streams/content-stream/" + contentStreamName);
     }
 
@@ -274,8 +274,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentModelId);
 
-        return get(PATH_CONTENT_MODEL + "/" + contentModelId
-            + "/content-streams");
+        return get(PATH + "/" + contentModelId + "/content-streams");
     }
 
     @Override
@@ -286,7 +285,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentModelId);
 
-        return get(PATH_CONTENT_MODEL + "/" + contentModelId + "/properties");
+        return get(PATH + "/" + contentModelId + "/properties");
     }
 
     @Override
@@ -297,8 +296,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentModelId);
 
-        return get(PATH_CONTENT_MODEL + "/" + contentModelId
-            + "/version-history");
+        return get(PATH + "/" + contentModelId + "/version-history");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -307,7 +305,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
     public String retrieveContentModels(final HashMap parameterMap)
         throws RemoteException, SystemException, InvalidSearchQueryException {
 
-        return get(PATH_CONTENT_MODEL + "s", parameterMap);
+        return get(PATH + "s", parameterMap);
     }
 
     /**
@@ -324,7 +322,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         AuthorizationException, InvalidXmlException {
 
         checkNotNull(request);
-        return get(PATH_CONTENT_MODEL + "s" + getEscidoc12Filter(request));
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 
     /**
@@ -341,6 +339,6 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
         AuthorizationException, InvalidXmlException {
 
         checkNotNull(request);
-        return get(PATH_CONTENT_MODEL + "s" + getEscidoc12Filter(request));
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 }

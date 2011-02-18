@@ -29,7 +29,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class RoleRestServiceLocator extends RestServiceMethod
     implements RoleHandler {
 
-    private static final String PATH_ROLE = "/aa/role";
+    public static final String PATH = "/aa/role";
 
     @Override
     public void delete(final String roleId) throws RemoteException,
@@ -39,7 +39,7 @@ public class RoleRestServiceLocator extends RestServiceMethod
 
         checkNotNull(roleId);
 
-        del(PATH_ROLE + "/" + roleId);
+        del(PATH + "/" + roleId);
 
     }
 
@@ -51,7 +51,7 @@ public class RoleRestServiceLocator extends RestServiceMethod
 
         checkNotNull(roleXml);
 
-        return put(PATH_ROLE, roleXml);
+        return put(PATH, roleXml);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class RoleRestServiceLocator extends RestServiceMethod
         checkNotNull(roleId);
         checkNotNull(roleXml);
 
-        return put(PATH_ROLE + "/" + roleId, roleXml);
+        return put(PATH + "/" + roleId, roleXml);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class RoleRestServiceLocator extends RestServiceMethod
 
         checkNotNull(roleId);
 
-        return get(PATH_ROLE + "/" + roleId);
+        return get(PATH + "/" + roleId);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -86,7 +86,7 @@ public class RoleRestServiceLocator extends RestServiceMethod
         InvalidSearchQueryException, AuthenticationException,
         AuthorizationException {
 
-        return get(PATH_ROLE + "s", filter);
+        return get(PATH + "s", filter);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class RoleRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_ROLE + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -108,6 +108,6 @@ public class RoleRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_ROLE + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 }

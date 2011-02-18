@@ -55,7 +55,7 @@ import de.escidoc.core.resources.HttpInputStream;
 public class ItemRestServiceLocator extends RestServiceMethod
     implements ItemHandler {
 
-    private static final String PATH_ITEM = "/ir/item";
+    public static final String PATH = "/ir/item";
 
     /**
      * See Interface for functional description.
@@ -80,7 +80,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        del(PATH_ITEM + "/" + itemId);
+        del(PATH + "/" + itemId);
     }
 
     /**
@@ -123,7 +123,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemXml);
 
-        return put(PATH_ITEM, itemXml);
+        return put(PATH, itemXml);
     }
 
     /**
@@ -175,7 +175,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(itemXml);
 
-        return put(PATH_ITEM + "/" + itemId, itemXml);
+        return put(PATH + "/" + itemId, itemXml);
     }
 
     @Override
@@ -187,7 +187,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/lock", userId);
+        return post(PATH + "/" + itemId + "/lock", userId);
     }
 
     @Override
@@ -200,7 +200,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(userId);
 
-        return post(PATH_ITEM + "/" + itemId + "/unlock", userId);
+        return post(PATH + "/" + itemId + "/unlock", userId);
     }
 
     @Override
@@ -213,7 +213,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/release", param);
+        return post(PATH + "/" + itemId + "/release", param);
     }
 
     @Override
@@ -223,7 +223,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return get(PATH_ITEM + "/" + itemId);
+        return get(PATH + "/" + itemId);
     }
 
     @Override
@@ -236,7 +236,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/submit", param);
+        return post(PATH + "/" + itemId + "/submit", param);
     }
 
     @Override
@@ -253,8 +253,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(componentXml);
 
-        return put(PATH_ITEM + "/" + itemId + "/components/component",
-            componentXml);
+        return put(PATH + "/" + itemId + "/components/component", componentXml);
     }
 
     @Override
@@ -267,8 +266,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return get(PATH_ITEM + "/" + itemId + "/components/component"
-            + componentId);
+        return get(PATH + "/" + itemId + "/components/component" + componentId);
     }
 
     @Override
@@ -281,8 +279,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return get(PATH_ITEM + "/" + itemId + "/components/component/"
-            + componentId + "/md-records");
+        return get(PATH + "/" + itemId + "/components/component/" + componentId
+            + "/md-records");
     }
 
     @Override
@@ -297,8 +295,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(componentId);
         checkNotNull(mdRecordId);
 
-        return get(PATH_ITEM + "/" + itemId + "/components/component/"
-            + componentId + "/md-records/md-record/" + mdRecordId);
+        return get(PATH + "/" + itemId + "/components/component/" + componentId
+            + "/md-records/md-record/" + mdRecordId);
     }
 
     @Override
@@ -316,8 +314,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(componentId);
         checkNotNull(componentXml);
 
-        return put(PATH_ITEM + "/" + itemId + "/components/component/"
-            + componentId, componentXml);
+        return put(
+            PATH + "/" + itemId + "/components/component/" + componentId,
+            componentXml);
     }
 
     @Override
@@ -328,7 +327,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return get(PATH_ITEM + "/" + itemId + "/components");
+        return get(PATH + "/" + itemId + "/components");
     }
 
     @Override
@@ -341,8 +340,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return get(PATH_ITEM + "/" + itemId + "/components/component/"
-            + componentId + "/properties");
+        return get(PATH + "/" + itemId + "/components/component/" + componentId
+            + "/properties");
     }
 
     /**
@@ -388,8 +387,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return put(PATH_ITEM + "/" + itemId + "/md-records/md-record",
-            mdRecordXml);
+        return put(PATH + "/" + itemId + "/md-records/md-record", mdRecordXml);
     }
 
     @Override
@@ -402,8 +400,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(mdRecordId);
 
-        return get(PATH_ITEM + "/" + itemId + "/md-records/md-record/"
-            + mdRecordId);
+        return get(PATH + "/" + itemId + "/md-records/md-record/" + mdRecordId);
     }
 
     @Override
@@ -420,8 +417,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(mdRecordId);
         checkNotNull(mdRecordXml);
 
-        return post(PATH_ITEM + "/" + itemId + "/md-records/md-record/"
-            + mdRecordId, mdRecordXml);
+        return post(
+            PATH + "/" + itemId + "/md-records/md-record/" + mdRecordId,
+            mdRecordXml);
     }
 
     @Override
@@ -432,7 +430,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return get(PATH_ITEM + "/" + itemId + "/md-records");
+        return get(PATH + "/" + itemId + "/md-records");
     }
 
     @Override
@@ -443,7 +441,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return get(PATH_ITEM + "/" + itemId + "/content-streams");
+        return get(PATH + "/" + itemId + "/content-streams");
     }
 
     @Override
@@ -456,8 +454,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(contentStreamId);
 
-        return get(PATH_ITEM + "/" + itemId
-            + "/content-streams/content-stream/" + contentStreamId);
+        return get(PATH + "/" + itemId + "/content-streams/content-stream/"
+            + contentStreamId);
     }
 
     @Override
@@ -470,7 +468,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(contentStreamId);
 
-        return getStream(PATH_ITEM + "/" + itemId
+        return getStream(PATH + "/" + itemId
             + "/content-streams/content-stream/" + contentStreamId + "/content");
     }
 
@@ -484,7 +482,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return getStream(PATH_ITEM + "/" + itemId + "/components/component/"
+        return getStream(PATH + "/" + itemId + "/components/component/"
             + componentId + "/content");
     }
 
@@ -503,7 +501,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         String params = getGetParams(transParams);
         params = params == null ? "" : "?" + params;
 
-        return getStream(PATH_ITEM + "/" + itemId + "/components/component/"
+        return getStream(PATH + "/" + itemId + "/components/component/"
             + componentId + "/content/" + transformer + params);
     }
 
@@ -515,7 +513,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return get(PATH_ITEM + "/" + itemId + "/properties");
+        return get(PATH + "/" + itemId + "/properties");
     }
 
     @Override
@@ -526,7 +524,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return get(PATH_ITEM + "/" + itemId + "/resources/version-history");
+        return get(PATH + "/" + itemId + "/resources/version-history");
     }
 
     @Override
@@ -537,7 +535,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return get(PATH_ITEM + "/" + itemId + "/relations");
+        return get(PATH + "/" + itemId + "/relations");
     }
 
     @Override
@@ -551,7 +549,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/revise", taskParam);
+        return post(PATH + "/" + itemId + "/revise", taskParam);
     }
 
     @Override
@@ -565,7 +563,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/withdraw", taskParam);
+        return post(PATH + "/" + itemId + "/withdraw", taskParam);
     }
 
     @Override
@@ -578,7 +576,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        del(PATH_ITEM + "/" + itemId + "/components/component/" + componentId);
+        del(PATH + "/" + itemId + "/components/component/" + componentId);
     }
 
     @Override
@@ -591,7 +589,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        return post(PATH_ITEM + "/" + id + "/move-to-context", taskParam);
+        return post(PATH + "/" + id + "/move-to-context", taskParam);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -601,7 +599,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return get(PATH_ITEM + "s", filter);
+        return get(PATH + "s", filter);
     }
 
     @Override
@@ -612,7 +610,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_ITEM + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -623,7 +621,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_ITEM + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -635,7 +633,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/assign-version-pid", taskParam);
+        return post(PATH + "/" + itemId + "/assign-version-pid", taskParam);
     }
 
     @Override
@@ -647,7 +645,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/assign-object-pid", taskParam);
+        return post(PATH + "/" + itemId + "/assign-object-pid", taskParam);
     }
 
     @Override
@@ -662,7 +660,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return post(PATH_ITEM + "/" + itemId + "/components/component/"
+        return post(PATH + "/" + itemId + "/components/component/"
             + componentId + "/assign-content-pid", taskParam);
     }
 
@@ -680,8 +678,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/content-relations/add",
-            taskParam);
+        return post(PATH + "/" + itemId + "/content-relations/add", taskParam);
     }
 
     @Override
@@ -697,7 +694,7 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return post(PATH_ITEM + "/" + itemId + "/content-relations/remove",
+        return post(PATH + "/" + itemId + "/content-relations/remove",
             taskParam);
     }
 
@@ -708,6 +705,6 @@ public class ItemRestServiceLocator extends RestServiceMethod
 
         checkNotNull(itemId);
 
-        return get(PATH_ITEM + "/" + itemId + "/resources/parents");
+        return get(PATH + "/" + itemId + "/resources/parents");
     }
 }

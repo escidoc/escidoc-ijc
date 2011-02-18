@@ -25,7 +25,7 @@ import de.escidoc.core.om.IngestHandler;
 public class IngestRestServiceLocator extends RestServiceMethod
     implements IngestHandler {
 
-    private static final String PATH_CONTEXT = "/ir/ingest";
+    public static final String PATH = "/ir/ingest";
 
     @Override
     public String ingest(final String resourceXml) throws RemoteException,
@@ -37,6 +37,6 @@ public class IngestRestServiceLocator extends RestServiceMethod
 
         checkNotNull(resourceXml);
 
-        return put(PATH_CONTEXT, resourceXml);
+        return put(PATH, resourceXml);
     }
 }

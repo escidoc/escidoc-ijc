@@ -22,7 +22,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class AdminRestServiceLocator extends RestServiceMethod
     implements de.escidoc.core.adm.AdminHandler {
 
-    private static final String PATH_CONTEXT = "/adm/admin";
+    public static final String PATH = "/adm/admin";
 
     /*
      * (non-Javadoc)
@@ -33,7 +33,7 @@ public class AdminRestServiceLocator extends RestServiceMethod
     public String deleteObjects(final String taskParam) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException,
         InvalidXmlException {
-        return post(PATH_CONTEXT + "/deleteobjects", taskParam);
+        return post(PATH + "/deleteobjects", taskParam);
     }
 
     /*
@@ -44,7 +44,7 @@ public class AdminRestServiceLocator extends RestServiceMethod
     @Override
     public String getPurgeStatus() throws RemoteException, SystemException,
         AuthorizationException, AuthenticationException {
-        return get(PATH_CONTEXT + "/deleteobjects");
+        return get(PATH + "/deleteobjects");
     }
 
     /*
@@ -55,7 +55,7 @@ public class AdminRestServiceLocator extends RestServiceMethod
     @Override
     public String getReindexStatus() throws RemoteException, SystemException,
         AuthorizationException, AuthenticationException {
-        return get(PATH_CONTEXT + "/reindex");
+        return get(PATH + "/reindex");
     }
 
     /*
@@ -68,7 +68,7 @@ public class AdminRestServiceLocator extends RestServiceMethod
     public void decreaseReindexStatus(final String taskParam)
         throws RemoteException, SystemException, AuthorizationException,
         AuthenticationException, InvalidXmlException {
-        post(PATH_CONTEXT + "/decrease-reindex-status", taskParam);
+        post(PATH + "/decrease-reindex-status", taskParam);
     }
 
     /*
@@ -85,7 +85,7 @@ public class AdminRestServiceLocator extends RestServiceMethod
         checkNotNull(clearIndex);
         checkNotNull(indexNamePrefix);
 
-        return post(PATH_CONTEXT + "/reindex/" + clearIndex + "/"
+        return post(PATH + "/reindex/" + clearIndex + "/"
             + indexNamePrefix, "");
     }
 
@@ -97,7 +97,7 @@ public class AdminRestServiceLocator extends RestServiceMethod
     @Override
     public String getRepositoryInfo() throws RemoteException, SystemException,
         AuthorizationException, AuthenticationException {
-        return get(PATH_CONTEXT + "/get-repository-info");
+        return get(PATH + "/get-repository-info");
     }
 
     /*
@@ -112,7 +112,7 @@ public class AdminRestServiceLocator extends RestServiceMethod
 
         checkNotNull(exampleSet);
 
-        return get(PATH_CONTEXT + "/load-examples/" + exampleSet);
+        return get(PATH + "/load-examples/" + exampleSet);
     }
 
     /*
@@ -123,7 +123,7 @@ public class AdminRestServiceLocator extends RestServiceMethod
     @Override
     public String getIndexConfiguration() throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException {
-        return get(PATH_CONTEXT + "/get-index-configuration");
+        return get(PATH + "/get-index-configuration");
     }
 
 }

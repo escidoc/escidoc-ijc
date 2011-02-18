@@ -20,7 +20,7 @@ import de.escidoc.core.client.interfaces.SearchHandler;
 public class SearchRestServiceLocator extends RestServiceMethod
     implements SearchHandler {
 
-    private static final String PATH_SRW = "/srw/search";
+    public static final String PATH = "/srw/search";
 
     private String database;
 
@@ -31,21 +31,24 @@ public class SearchRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.client.interfaces.SearchHandler#explain(gov.loc.www.zing
      * .srw.ExplainRequestType, java.lang.String)
      */
+    @Override
     public String explain(final ExplainRequestType explainRequestType)
         throws RemoteException {
-        return get(PATH_SRW + "/" + ((this.database == null) ? "" : database)
+        return get(PATH + "/" + (this.database == null ? "" : database)
             + "/" + getExplainRequest(explainRequestType));
     }
 
+    @Override
     public String search(final SearchRetrieveRequestType searchRequestType)
         throws RemoteException, UnsupportedEncodingException {
-        return get(PATH_SRW + "/" + ((this.database == null) ? "" : database)
+        return get(PATH + "/" + (this.database == null ? "" : database)
             + "/" + getSearchRequest(searchRequestType));
     }
 
+    @Override
     public String scan(final ScanRequestType scanRequestType)
         throws RemoteException, UnsupportedEncodingException {
-        return get(PATH_SRW + "/" + ((this.database == null) ? "" : database)
+        return get(PATH + "/" + (this.database == null ? "" : database)
             + "/" + getScanRequest(scanRequestType));
     }
 
@@ -151,7 +154,7 @@ public class SearchRestServiceLocator extends RestServiceMethod
      * 
      * @param db
      */
-    public void setDatabase(String database) {
+    public void setDatabase(final String database) {
         this.database = database;
     }
 }

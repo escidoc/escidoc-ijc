@@ -15,8 +15,14 @@ import de.escidoc.core.sm.PreprocessingHandler;
 public class PreprocessingRestServiceLocator extends RestServiceMethod
     implements PreprocessingHandler {
 
-    private static final String PATH = "/statistic/preprocessing";
+    public static final String PATH = "/statistic/preprocessing";
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.sm.PreprocessingHandler#preprocess(java.lang.String,
+     * java.lang.String)
+     */
     @Override
     public void preprocess(
         final String aggregationDefinitionId, final String xmlData)

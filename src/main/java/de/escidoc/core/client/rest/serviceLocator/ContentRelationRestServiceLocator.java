@@ -75,33 +75,12 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class ContentRelationRestServiceLocator extends RestServiceMethod
     implements ContentRelationHandler {
 
-    private static final String PATH_CONTENT_RELATION = "/ir/content-relation";
+    public static final String PATH = "/ir/content-relation";
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentRelationXml
-     * @return
-     * @throws RemoteException
-     * @throws SystemException
-     * @throws MissingAttributeValueException
-     * @throws MissingContentException
-     * @throws MissingMdRecordException
-     * @throws ReferencedResourceNotFoundException
-     * @throws AuthenticationException
-     * @throws AuthorizationException
-     * @throws ContentRelationNotFoundException
-     * @throws InvalidContentException
-     * @throws RelationPredicateNotFoundException
-     * @throws ReadonlyAttributeViolationException
-     * @throws FileNotFoundException
-     * @throws MissingMethodParameterException
-     * @throws InvalidStatusException
-     * @throws ReadonlyElementViolationException
-     * @throws ContentModelNotFoundException
-     * @throws InvalidXmlException
-     * @throws MissingElementValueException
-     * @see de.escidoc.core.om.ContentRelationHandler#create(String)
+     * @see de.escidoc.core.om.ContentRelationHandler#create(java.lang.String)
      */
     @Override
     public String create(final String contentRelationXml)
@@ -118,7 +97,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationXml);
 
-        return put(PATH_CONTENT_RELATION, contentRelationXml);
+        return put(PATH, contentRelationXml);
     }
 
     /**
@@ -145,7 +124,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        del(PATH_CONTENT_RELATION + "/" + contentRelationId);
+        del(PATH + "/" + contentRelationId);
     }
 
     /**
@@ -197,8 +176,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
         checkNotNull(contentRelationId);
         checkNotNull(contentRelationXml);
 
-        return put(PATH_CONTENT_RELATION + "/" + contentRelationId,
-            contentRelationXml);
+        return put(PATH + "/" + contentRelationId, contentRelationXml);
     }
 
     @Override
@@ -209,7 +187,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return get(PATH_CONTENT_RELATION + "/" + contentRelationId);
+        return get(PATH + "/" + contentRelationId);
     }
 
     @Override
@@ -220,8 +198,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return get(PATH_CONTENT_RELATION + "/" + contentRelationId
-            + "/properties");
+        return get(PATH + "/" + contentRelationId + "/properties");
     }
 
     public String retrieveContentRelations(final String filter)
@@ -229,7 +206,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return post(PATH_CONTENT_RELATION + "s/filter", filter);
+        return post(PATH + "s/filter", filter);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -240,7 +217,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_CONTENT_RELATION + "s", filter);
+        return get(PATH + "s", filter);
     }
 
     @Override
@@ -251,7 +228,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_CONTENT_RELATION + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -262,7 +239,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_CONTENT_RELATION + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -275,8 +252,8 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return post(PATH_CONTENT_RELATION + "/" + contentRelationId
-            + "/assign-object-pid", taskParam);
+        return post(PATH + "/" + contentRelationId + "/assign-object-pid",
+            taskParam);
     }
 
     @Override
@@ -289,8 +266,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return post(PATH_CONTENT_RELATION + "/" + contentRelationId + "/lock",
-            taskParam);
+        return post(PATH + "/" + contentRelationId + "/lock", taskParam);
     }
 
     @Override
@@ -303,9 +279,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return post(
-            PATH_CONTENT_RELATION + "/" + contentRelationId + "/unlock",
-            taskParam);
+        return post(PATH + "/" + contentRelationId + "/unlock", taskParam);
     }
 
     @Override
@@ -318,9 +292,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return post(
-            PATH_CONTENT_RELATION + "/" + contentRelationId + "/submit",
-            taskParam);
+        return post(PATH + "/" + contentRelationId + "/submit", taskParam);
     }
 
     @Override
@@ -333,8 +305,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return post(PATH_CONTENT_RELATION + "/" + contentRelationId
-            + "/release", taskParam);
+        return post(PATH + "/" + contentRelationId + "/release", taskParam);
     }
 
     @Override
@@ -347,8 +318,8 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
         checkNotNull(contentRelationId);
         checkNotNull(mdRecordId);
 
-        return get(PATH_CONTENT_RELATION + "/" + contentRelationId
-            + "/md-records/md-record/" + mdRecordId);
+        return get(PATH + "/" + contentRelationId + "/md-records/md-record/"
+            + mdRecordId);
 
     }
 
@@ -359,8 +330,7 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return get(PATH_CONTENT_RELATION + "/" + contentRelationId
-            + "/md-records");
+        return get(PATH + "/" + contentRelationId + "/md-records");
     }
 
     @Override
@@ -373,16 +343,14 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return post(
-            PATH_CONTENT_RELATION + "/" + contentRelationId + "/revise",
-            taskParam);
+        return post(PATH + "/" + contentRelationId + "/revise", taskParam);
     }
 
     @Override
     public String retrieveRegisteredPredicates() throws RemoteException,
         SystemException, InvalidXmlException, InvalidContentException {
 
-        return get(PATH_CONTENT_RELATION + "s/retrieve-registered-predicates");
+        return get(PATH + "s/retrieve-registered-predicates");
 
     }
 
@@ -394,7 +362,6 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contentRelationId);
 
-        return get(PATH_CONTENT_RELATION + "/" + contentRelationId
-            + "/resources");
+        return get(PATH + "/" + contentRelationId + "/resources");
     }
 }

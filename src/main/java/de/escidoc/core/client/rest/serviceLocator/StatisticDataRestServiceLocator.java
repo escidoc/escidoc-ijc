@@ -20,7 +20,7 @@ import de.escidoc.core.sm.StatisticDataHandler;
 public class StatisticDataRestServiceLocator extends RestServiceMethod
     implements StatisticDataHandler {
 
-    private static final String PATH = "/statistic/statistic-data";
+    public static final String PATH = "/statistic/statistic-data";
 
     /*
      * (non-Javadoc)

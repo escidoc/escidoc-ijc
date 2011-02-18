@@ -22,6 +22,8 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class PolicyDecisionPointRestServiceLocator extends RestServiceMethod
     implements PolicyDecisionPoint {
 
+    public static final String PATH = "/aa/pdp";
+
     @Override
     public String evaluate(final String requestsXml) throws RemoteException,
         SystemException, AuthorizationException, AuthenticationException,
@@ -30,7 +32,7 @@ public class PolicyDecisionPointRestServiceLocator extends RestServiceMethod
 
         checkNotNull(requestsXml);
 
-        return put("/aa/pdp", requestsXml);
+        return put(PATH, requestsXml);
     }
 
     @Override

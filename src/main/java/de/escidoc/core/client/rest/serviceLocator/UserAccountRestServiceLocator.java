@@ -38,7 +38,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class UserAccountRestServiceLocator extends RestServiceMethod
     implements UserAccountHandler {
 
-    private static final String PATH_USER_ACCOUNT = "/aa/user-account";
+    public static final String PATH = "/aa/user-account";
 
     @Override
     public void delete(final String accountId) throws RemoteException,
@@ -46,7 +46,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        del(PATH_USER_ACCOUNT + "/" + accountId);
+        del(PATH + "/" + accountId);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         InvalidStatusException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT, userAccountXml);
+        return put(PATH, userAccountXml);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         InvalidStatusException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT + "/" + accountId, userAccountXml);
+        return put(PATH + "/" + accountId, userAccountXml);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/" + accountId);
+        return get(PATH + "/" + accountId);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, MissingAttributeValueException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        post(PATH_USER_ACCOUNT + "/" + accountId + "/activate", taskParam);
+        post(PATH + "/" + accountId + "/activate", taskParam);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         AuthenticationException, AlreadyDeactiveException,
         AuthorizationException, InvalidXmlException {
 
-        post(PATH_USER_ACCOUNT + "/" + accountId + "/deactivate", taskParam);
+        post(PATH + "/" + accountId + "/deactivate", taskParam);
     }
 
     @Override
@@ -108,8 +108,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidStatusException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        post(PATH_USER_ACCOUNT + "/" + accountId + "/update-password",
-            taskParam);
+        post(PATH + "/" + accountId + "/update-password", taskParam);
     }
 
     @Override
@@ -118,8 +117,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/current-grants");
+        return get(PATH + "/" + accountId + "/resources/current-grants");
     }
 
     @Override
@@ -128,8 +126,8 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, GrantNotFoundException,
         AuthenticationException, AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/grants/grant/" + grantId);
+        return get(PATH + "/" + accountId + "/resources/grants/grant/"
+            + grantId);
     }
 
     @Override
@@ -139,7 +137,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         AlreadyExistsException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT + "/" + objid + "/resources/grants/grant",
+        return put(PATH + "/" + objid + "/resources/grants/grant",
             userAccountXml);
     }
 
@@ -151,8 +149,8 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         GrantNotFoundException, AuthenticationException,
         AlreadyRevokedException, AuthorizationException, InvalidXmlException {
 
-        post(PATH_USER_ACCOUNT + "/" + accountId + "/resources/grants/grant/"
-            + grantId + "/revoke-grant", taskParam);
+        post(PATH + "/" + accountId + "/resources/grants/grant/" + grantId
+            + "/revoke-grant", taskParam);
     }
 
     @Override
@@ -162,8 +160,8 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         GrantNotFoundException, AuthenticationException,
         AlreadyRevokedException, AuthorizationException, InvalidXmlException {
 
-        post(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/grants/revoke-grants", taskParam);
+        post(PATH + "/" + accountId + "/resources/grants/revoke-grants",
+            taskParam);
     }
 
     @Override
@@ -190,8 +188,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/preferences");
+        return get(PATH + "/" + accountId + "/resources/preferences");
     }
 
     @Override
@@ -201,8 +198,8 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AlreadyExistsException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/preferences/preference", body);
+        return put(
+            PATH + "/" + accountId + "/resources/preferences/preference", body);
     }
 
     @Override
@@ -212,8 +209,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, MissingAttributeValueException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/preferences", body);
+        return put(PATH + "/" + accountId + "/resources/preferences", body);
     }
 
     @Override
@@ -225,7 +221,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingAttributeValueException, AlreadyExistsException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT + "/" + accountId
+        return put(PATH + "/" + accountId
             + "/resources/preferences/preference/" + prefName, body);
     }
 
@@ -236,7 +232,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/" + accountId
+        return get(PATH + "/" + accountId
             + "/resources/preferences/preference/" + prefName);
     }
 
@@ -247,8 +243,8 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        del(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/preferences/preference/" + prefName);
+        del(PATH + "/" + accountId + "/resources/preferences/preference/"
+            + prefName);
     }
 
     @Override
@@ -257,8 +253,8 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AlreadyExistsException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/attributes/attribute", body);
+        return put(PATH + "/" + accountId + "/resources/attributes/attribute",
+            body);
     }
 
     @Override
@@ -268,8 +264,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, ReadonlyElementViolationException,
         AuthenticationException, AuthorizationException {
 
-        del(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/attributes/attribute/" + attId);
+        del(PATH + "/" + accountId + "/resources/attributes/attribute/" + attId);
     }
 
     @Override
@@ -279,8 +274,8 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/attributes/attribute/" + attId);
+        return get(PATH + "/" + accountId + "/resources/attributes/attribute/"
+            + attId);
     }
 
     @Override
@@ -289,8 +284,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/attributes");
+        return get(PATH + "/" + accountId + "/resources/attributes");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -311,10 +305,16 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         SystemException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/attributes/" + attName);
+        return get(PATH + "/" + accountId + "/resources/attributes/" + attName);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.aa.UserAccountHandler#retrieveUserAccounts(java.util.
+     * HashMap)
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @Deprecated
@@ -323,16 +323,23 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, InvalidSearchQueryException,
         AuthenticationException, AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "s/filter", filter);
+        return get(PATH + "s/filter", filter);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.UserAccountHandler#retrieveUserAccounts
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
     public String retrieveUserAccounts(final SearchRetrieveRequestType filter)
         throws RemoteException, SystemException,
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_USER_ACCOUNT + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -341,7 +348,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_USER_ACCOUNT + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -353,8 +360,8 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         ReadonlyElementViolationException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return put(PATH_USER_ACCOUNT + "/" + accountId
-            + "/resources/attributes/attribute/" + attId, body);
+        return put(PATH + "/" + accountId + "/resources/attributes/attribute/"
+            + attId, body);
     }
 
     @Override
@@ -362,7 +369,7 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         UserAccountNotFoundException, SystemException, AuthenticationException,
         AuthorizationException {
 
-        return get(PATH_USER_ACCOUNT + "/current");
+        return get(PATH + "/current");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -371,7 +378,6 @@ public class UserAccountRestServiceLocator extends RestServiceMethod
         throws RemoteException, SystemException, InvalidSearchQueryException,
         AuthorizationException, AuthenticationException {
 
-        return get(PATH_USER_ACCOUNT + "/retrievePermissionFilterQuery",
-            parameters);
+        return get(PATH + "/retrievePermissionFilterQuery", parameters);
     }
 }

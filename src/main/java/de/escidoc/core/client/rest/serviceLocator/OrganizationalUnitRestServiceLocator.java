@@ -50,7 +50,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     implements OrganizationalUnitHandler {
 
-    private static final String PATH_OU = "/oum/organizational-unit";
+    public static final String PATH = "/oum/organizational-unit";
 
     @Override
     public String close(final String ouId, final String taskParam)
@@ -61,7 +61,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return post(PATH_OU + "/" + ouId + "/close", taskParam);
+        return post(PATH + "/" + ouId + "/close", taskParam);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return post(PATH_OU + "/" + ouId + "/open", taskParam);
+        return post(PATH + "/" + ouId + "/open", taskParam);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         checkNotNull(ouId);
         checkNotNull(xmlOfParents);
 
-        return put(PATH_OU + "/" + ouId + "/parents", xmlOfParents);
+        return put(PATH + "/" + ouId + "/parents", xmlOfParents);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return get(PATH_OU + "/" + ouId + "/parents");
+        return get(PATH + "/" + ouId + "/parents");
     }
 
     @Override
@@ -109,7 +109,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return get(PATH_OU + "/" + ouId + "/resources/parent-objects");
+        return get(PATH + "/" + ouId + "/resources/parent-objects");
     }
 
     @Override
@@ -120,7 +120,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return get(PATH_OU + "/" + ouId + "/resources/child-objects");
+        return get(PATH + "/" + ouId + "/resources/child-objects");
     }
 
     @Override
@@ -131,7 +131,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return get(PATH_OU + "/" + ouId + "/resources/path-list");
+        return get(PATH + "/" + ouId + "/resources/path-list");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -142,7 +142,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_OU + "s", filter);
+        return get(PATH + "s", filter);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(request);
 
-        return get(PATH_OU + "s" + getEscidoc12Filter(request));
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 
     @Override
@@ -164,7 +164,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(request);
 
-        return get(PATH_OU + "s" + getEscidoc12Filter(request));
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 
     @Override
@@ -176,7 +176,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        del(PATH_OU + "/" + ouId);
+        del(PATH + "/" + ouId);
     }
 
     /**
@@ -220,7 +220,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(organizationalUnitXml);
 
-        return put(PATH_OU, organizationalUnitXml);
+        return put(PATH, organizationalUnitXml);
     }
 
     /**
@@ -272,7 +272,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         checkNotNull(ouId);
         checkNotNull(organizationalUnitXml);
 
-        return put(PATH_OU + "/" + ouId, organizationalUnitXml);
+        return put(PATH + "/" + ouId, organizationalUnitXml);
     }
 
     /**
@@ -287,7 +287,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         checkNotNull(ouId);
         checkNotNull(userId);
 
-        return post(PATH_OU + "/" + ouId + "/lock", userId);
+        return post(PATH + "/" + ouId + "/lock", userId);
     }
 
     /**
@@ -302,7 +302,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         checkNotNull(ouId);
         checkNotNull(userId);
 
-        return post(PATH_OU + "/" + ouId + "/unlock", userId);
+        return post(PATH + "/" + ouId + "/unlock", userId);
     }
 
     /**
@@ -320,7 +320,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return get(PATH_OU + "/" + ouId);
+        return get(PATH + "/" + ouId);
     }
 
     /**
@@ -338,7 +338,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return get(PATH_OU + "/" + ouId + "/resources/successors");
+        return get(PATH + "/" + ouId + "/resources/successors");
     };
 
     public String createMdRecord(final String ouId, final String mdRecordXml)
@@ -351,7 +351,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         checkNotNull(ouId);
         checkNotNull(mdRecordXml);
 
-        return put(PATH_OU + "/" + ouId + "/md-records/md-record", mdRecordXml);
+        return put(PATH + "/" + ouId + "/md-records/md-record", mdRecordXml);
     }
 
     @Override
@@ -364,7 +364,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         checkNotNull(ouId);
         checkNotNull(mdRecordId);
 
-        return get(PATH_OU + "/" + ouId + "/md-records/md-record/" + mdRecordId);
+        return get(PATH + "/" + ouId + "/md-records/md-record/" + mdRecordId);
     }
 
     /**
@@ -380,7 +380,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         checkNotNull(ouId);
         checkNotNull(mdRecordsXml);
 
-        return put(PATH_OU + "/" + ouId + "/md-records", mdRecordsXml);
+        return put(PATH + "/" + ouId + "/md-records", mdRecordsXml);
     }
 
     @Override
@@ -391,7 +391,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return get(PATH_OU + "/" + ouId + "/md-records");
+        return get(PATH + "/" + ouId + "/md-records");
     }
 
     @Override
@@ -402,6 +402,6 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
 
         checkNotNull(ouId);
 
-        return get(PATH_OU + "/" + ouId + "/properties");
+        return get(PATH + "/" + ouId + "/properties");
     }
 }

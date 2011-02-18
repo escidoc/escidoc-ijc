@@ -28,7 +28,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class ScopeRestServiceLocator extends RestServiceMethod
     implements ScopeHandler {
 
-    private static final String PATH_SCOPE = "/statistic/scope";
+    public static final String PATH = "/statistic/scope";
 
     /*
      * (non-Javadoc)
@@ -42,7 +42,7 @@ public class ScopeRestServiceLocator extends RestServiceMethod
 
         checkNotNull(id);
 
-        del(PATH_SCOPE + "/" + id);
+        del(PATH + "/" + id);
     }
 
     /*
@@ -58,7 +58,7 @@ public class ScopeRestServiceLocator extends RestServiceMethod
 
         checkNotNull(xml);
 
-        return put(PATH_SCOPE, xml);
+        return put(PATH, xml);
     }
 
     /*
@@ -76,7 +76,7 @@ public class ScopeRestServiceLocator extends RestServiceMethod
         checkNotNull(id);
         checkNotNull(xml);
 
-        return put(PATH_SCOPE + "/" + id, xml);
+        return put(PATH + "/" + id, xml);
     }
 
     /*
@@ -91,7 +91,7 @@ public class ScopeRestServiceLocator extends RestServiceMethod
 
         checkNotNull(id);
 
-        return get(PATH_SCOPE + "/" + id);
+        return get(PATH + "/" + id);
     }
 
     /*
@@ -106,7 +106,7 @@ public class ScopeRestServiceLocator extends RestServiceMethod
         SystemException, InvalidSearchQueryException, AuthorizationException,
         AuthenticationException, MissingMethodParameterException {
 
-        return get(PATH_SCOPE + "s", filter);
+        return get(PATH + "s", filter);
     }
 
     /*
@@ -124,7 +124,7 @@ public class ScopeRestServiceLocator extends RestServiceMethod
 
         checkNotNull(request);
 
-        return get(PATH_SCOPE + "s" + getEscidoc12Filter(request));
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 
     /*
@@ -142,6 +142,6 @@ public class ScopeRestServiceLocator extends RestServiceMethod
 
         checkNotNull(request);
 
-        return get(PATH_SCOPE + "s" + getEscidoc12Filter(request));
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 }

@@ -85,7 +85,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class ContainerRestServiceLocator extends RestServiceMethod
     implements ContainerHandler {
 
-    private static final String PATH_CONTAINER = "/ir/container";
+    public static final String PATH = "/ir/container";
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
@@ -96,7 +96,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/tocs/filter", filter);
+        return get(PATH + "/" + containerId + "/tocs/filter", filter);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/tocs/add", taskParam);
+        return post(PATH + "/" + containerId + "/tocs/add", taskParam);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         checkNotNull(containerId);
         checkNotNull(containerXml);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/create-container",
+        return post(PATH + "/" + containerId + "/create-container",
             containerXml);
     }
 
@@ -142,8 +142,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/members/add",
-            taskParam);
+        return post(PATH + "/" + containerId + "/members/add", taskParam);
     }
 
     @Override
@@ -157,8 +156,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/members/remove",
-            taskParam);
+        return post(PATH + "/" + containerId + "/members/remove", taskParam);
     }
 
     @Override
@@ -169,7 +167,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/struct-map");
+        return get(PATH + "/" + containerId + "/struct-map");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -182,8 +180,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/members/filter",
-            filter);
+        return get(PATH + "/" + containerId + "/members/filter", filter);
     }
 
     @Override
@@ -196,7 +193,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         checkNotNull(containerId);
         checkNotNull(filter);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/resources/members"
+        return get(PATH + "/" + containerId + "/resources/members"
             + getEscidoc12Filter(filter));
     }
 
@@ -210,7 +207,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         checkNotNull(containerId);
         checkNotNull(filter);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/resources/members"
+        return get(PATH + "/" + containerId + "/resources/members"
             + getEscidoc12Filter(filter));
     }
 
@@ -228,8 +225,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         checkNotNull(mdRecordId);
         checkNotNull(mdRecordXml);
 
-        return post(PATH_CONTAINER + "/" + containerId
-            + "/md-records/md-record/" + mdRecordId, mdRecordXml);
+        return post(PATH + "/" + containerId + "/md-records/md-record/"
+            + mdRecordId, mdRecordXml);
     }
 
     @Override
@@ -249,8 +246,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         checkNotNull(containerId);
         checkNotNull(itemXml);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/create-item",
-            itemXml);
+        return post(PATH + "/" + containerId + "/create-item", itemXml);
     }
 
     @Override
@@ -267,7 +263,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerXml);
 
-        return put(PATH_CONTAINER, containerXml);
+        return put(PATH, containerXml);
     }
 
     @Override
@@ -287,7 +283,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         checkNotNull(containerId);
         checkNotNull(containerXml);
 
-        return put(PATH_CONTAINER + "/" + containerId, containerXml);
+        return put(PATH + "/" + containerId, containerXml);
     }
 
     @Override
@@ -299,7 +295,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        del(PATH_CONTAINER + "/" + containerId);
+        del(PATH + "/" + containerId);
     }
 
     @Override
@@ -311,7 +307,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/lock", taskParam);
+        return post(PATH + "/" + containerId + "/lock", taskParam);
     }
 
     @Override
@@ -323,7 +319,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/unlock", taskParam);
+        return post(PATH + "/" + containerId + "/unlock", taskParam);
     }
 
     @Override
@@ -336,7 +332,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/release", taskParam);
+        return post(PATH + "/" + containerId + "/release", taskParam);
     }
 
     @Override
@@ -347,7 +343,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId);
+        return get(PATH + "/" + containerId);
     }
 
     @Override
@@ -360,7 +356,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/submit", taskParam);
+        return post(PATH + "/" + containerId + "/submit", taskParam);
     }
 
     @Override
@@ -373,9 +369,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return put(
-            PATH_CONTAINER + "/" + containerId + "/md-records/md-record",
-            xmlData);
+        return put(PATH + "/" + containerId + "/md-records/md-record", xmlData);
     }
 
     @Override
@@ -389,8 +383,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         checkNotNull(containerId);
         checkNotNull(mdRecordId);
 
-        return get(PATH_CONTAINER + "/" + containerId
-            + "/md-records/md-record/" + mdRecordId);
+        return get(PATH + "/" + containerId + "/md-records/md-record/"
+            + mdRecordId);
     }
 
     @Override
@@ -401,7 +395,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/md-records");
+        return get(PATH + "/" + containerId + "/md-records");
     }
 
     @Override
@@ -412,7 +406,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/properties");
+        return get(PATH + "/" + containerId + "/properties");
     }
 
     @Override
@@ -424,8 +418,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId
-            + "/resources/version-history");
+        return get(PATH + "/" + containerId + "/resources/version-history");
     }
 
     @Override
@@ -436,7 +429,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/relations");
+        return get(PATH + "/" + containerId + "/relations");
     }
 
     @Override
@@ -450,7 +443,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/revise", taskParam);
+        return post(PATH + "/" + containerId + "/revise", taskParam);
     }
 
     @Override
@@ -464,7 +457,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/withdraw", taskParam);
+        return post(PATH + "/" + containerId + "/withdraw", taskParam);
     }
 
     @Override
@@ -477,8 +470,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/move-to-context",
-            taskParam);
+        return post(PATH + "/" + containerId + "/move-to-context", taskParam);
     }
 
     @Override
@@ -489,7 +481,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_CONTAINER + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -500,7 +492,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_CONTAINER + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -511,7 +503,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_CONTAINER + "s", filter);
+        return get(PATH + "s", filter);
     }
 
     @Override
@@ -524,8 +516,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/assign-version-pid",
-            taskParam);
+        return post(PATH + "/" + containerId + "/assign-version-pid", taskParam);
     }
 
     @Override
@@ -538,8 +529,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId + "/assign-object-pid",
-            taskParam);
+        return post(PATH + "/" + containerId + "/assign-object-pid", taskParam);
     }
 
     @Override
@@ -556,8 +546,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId
-            + "/content-relations/add", taskParam);
+        return post(PATH + "/" + containerId + "/content-relations/add",
+            taskParam);
     }
 
     @Override
@@ -574,8 +564,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return post(PATH_CONTAINER + "/" + containerId
-            + "/content-relations/remove", taskParam);
+        return post(PATH + "/" + containerId + "/content-relations/remove",
+            taskParam);
     }
 
     @Override
@@ -599,6 +589,6 @@ public class ContainerRestServiceLocator extends RestServiceMethod
 
         checkNotNull(containerId);
 
-        return get(PATH_CONTAINER + "/" + containerId + "/resources/parents");
+        return get(PATH + "/" + containerId + "/resources/parents");
     }
 }

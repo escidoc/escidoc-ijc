@@ -23,7 +23,7 @@ import de.escidoc.core.sm.ReportHandler;
 public class ReportRestServiceLocator extends RestServiceMethod
     implements ReportHandler {
 
-    private static String PATH = "/statistic/report";
+    public static String PATH = "/statistic/report";
 
     /*
      * (non-Javadoc)

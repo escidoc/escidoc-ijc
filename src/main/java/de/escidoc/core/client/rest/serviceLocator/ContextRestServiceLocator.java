@@ -76,7 +76,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class ContextRestServiceLocator extends RestServiceMethod
     implements ContextHandler {
 
-    private static final String PATH_CONTEXT = "/ir/context";
+    public static final String PATH = "/ir/context";
 
     @Override
     public String close(final String contextId, final String taskParam)
@@ -88,7 +88,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextId);
 
-        return post(PATH_CONTEXT + "/" + contextId + "/close", taskParam);
+        return post(PATH + "/" + contextId + "/close", taskParam);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextId);
 
-        return post(PATH_CONTEXT + "/" + contextId + "/open", taskParam);
+        return post(PATH + "/" + contextId + "/open", taskParam);
     }
 
     public String retrieveMembers(final String contextId, final String filter)
@@ -111,8 +111,8 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextId);
 
-        return post(PATH_CONTEXT + "/" + contextId
-            + "/resources/members/filter", filter);
+        return post(PATH + "/" + contextId + "/resources/members/filter",
+            filter);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -125,8 +125,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextId);
 
-        return get(PATH_CONTEXT + "/" + contextId + "/resources/members",
-            filter);
+        return get(PATH + "/" + contextId + "/resources/members", filter);
     }
 
     @Override
@@ -139,7 +138,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
         checkNotNull(contextId);
         checkNotNull(filter);
 
-        return get(PATH_CONTEXT + "/" + contextId + "/resources/members"
+        return get(PATH + "/" + contextId + "/resources/members"
             + getEscidoc12Filter(filter));
     }
 
@@ -153,7 +152,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
         checkNotNull(contextId);
         checkNotNull(filter);
 
-        return get(PATH_CONTEXT + "/" + contextId + "/resources/members"
+        return get(PATH + "/" + contextId + "/resources/members"
             + getEscidoc12Filter(filter));
     }
 
@@ -167,7 +166,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
         checkNotNull(contextId);
         checkNotNull(admId);
 
-        return get(PATH_CONTEXT + "/" + contextId
+        return get(PATH + "/" + contextId
             + "/admin-descriptors/admin-descriptor/" + admId);
     }
 
@@ -179,7 +178,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextId);
 
-        return get(PATH_CONTEXT + "/" + contextId + "/admin-descriptors");
+        return get(PATH + "/" + contextId + "/admin-descriptors");
     }
 
     @Override
@@ -216,7 +215,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextId);
 
-        del(PATH_CONTEXT + "/" + contextId);
+        del(PATH + "/" + contextId);
     }
 
     /**
@@ -259,7 +258,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextXml);
 
-        return put(PATH_CONTEXT, contextXml);
+        return put(PATH, contextXml);
     }
 
     /**
@@ -311,7 +310,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
         checkNotNull(contextId);
         checkNotNull(contextXml);
 
-        return put(PATH_CONTEXT + "/" + contextId, contextXml);
+        return put(PATH + "/" + contextId, contextXml);
     }
 
     @Override
@@ -322,7 +321,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextId);
 
-        return get(PATH_CONTEXT + "/" + contextId);
+        return get(PATH + "/" + contextId);
     }
 
     @Override
@@ -333,7 +332,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(contextId);
 
-        return get(PATH_CONTEXT + "/" + contextId + "/properties");
+        return get(PATH + "/" + contextId + "/properties");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -344,7 +343,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
         MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
 
-        return get(PATH_CONTEXT + "s", filter);
+        return get(PATH + "s", filter);
     }
 
     @Override
@@ -355,7 +354,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_CONTEXT + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
     @Override
@@ -366,7 +365,7 @@ public class ContextRestServiceLocator extends RestServiceMethod
 
         checkNotNull(filter);
 
-        return get(PATH_CONTEXT + "s" + getEscidoc12Filter(filter));
+        return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
 }

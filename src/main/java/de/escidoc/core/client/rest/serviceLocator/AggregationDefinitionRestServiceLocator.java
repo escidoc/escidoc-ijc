@@ -29,7 +29,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
 public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
     implements AggregationDefinitionHandler {
 
-    private static final String PATH_AD = "/statistic/aggregation-definition";
+    public static final String PATH = "/statistic/aggregation-definition";
 
     /*
      * (non-Javadoc)
@@ -45,7 +45,7 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
 
         checkNotNull(id);
 
-        del(PATH_AD + "/" + id);
+        del(PATH + "/" + id);
     }
 
     /*
@@ -62,7 +62,7 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
 
         checkNotNull(xml);
 
-        return put(PATH_AD, xml);
+        return put(PATH, xml);
     }
 
     /*
@@ -80,7 +80,7 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
 
         checkNotNull(id);
 
-        return get(PATH_AD + "/" + id);
+        return get(PATH + "/" + id);
     }
 
     /*
@@ -97,7 +97,7 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
         AuthorizationException, AuthenticationException,
         MissingMethodParameterException {
 
-        return get(PATH_AD + "s", filter);
+        return get(PATH + "s", filter);
     }
 
     /*
@@ -115,7 +115,7 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
 
         checkNotNull(request);
 
-        return get(PATH_AD + "s" + getEscidoc12Filter(request));
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 
     /*
@@ -132,6 +132,6 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
 
         checkNotNull(request);
 
-        return get(PATH_AD + "s" + getEscidoc12Filter(request));
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 }
