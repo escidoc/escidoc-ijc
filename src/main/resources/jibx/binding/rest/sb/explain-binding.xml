@@ -1,7 +1,11 @@
 <binding>
 
 	<!-- Type mapping for RecordData class -->
-	<mapping name="explain" class="de.escidoc.core.resources.sb.explain.ExplainData">
+	<mapping name="explain" class="de.escidoc.core.resources.sb.explain.Explain"
+    ns="http://explain.z3950.org/dtd/2.0/">
+    
+    <namespace uri="http://explain.z3950.org/dtd/2.0/" default="elements"/>
+	
 		<value name="authoritative" field="authoritative" style="attribute" usage="optional"/>
 		
 		<structure name="serverInfo" field="serverInfo"
@@ -42,7 +46,7 @@
 			type="de.escidoc.core.resources.sb.explain.IndexInfo" usage="optional">
 			
 			<collection field="sets"  create-type="java.util.LinkedList" usage="optional">
-				<structure name="set" type="de.escidoc.core.resources.sb.explain.MySet" usage="optional">
+				<structure name="set" type="de.escidoc.core.resources.sb.explain.IndexSet" usage="optional">
 					<value name="identifier" field="identifier" style="attribute" usage="optional"/>
 					<value name="name" field="name" style="attribute" usage="optional"/>
 				</structure>
@@ -95,7 +99,11 @@
 	</mapping>
 	
 	<!-- Abstract mapping for DatabaseInfoText to be used for different tag-names with the same type. -->
-	<mapping class="de.escidoc.core.resources.sb.explain.DatabaseInfoText" abstract="true">
+	<mapping class="de.escidoc.core.resources.sb.explain.DatabaseInfoText"
+    ns="http://explain.z3950.org/dtd/2.0/"
+    abstract="true">
+    
+    <namespace uri="http://explain.z3950.org/dtd/2.0/" default="elements"/>
 		
 		<value name="lang" field="lang" style="attribute" usage="optional"/>
 		<value name="primary" field="isPrimary" style="attribute" usage="optional"/>

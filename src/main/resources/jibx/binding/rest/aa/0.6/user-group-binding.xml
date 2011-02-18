@@ -1,0 +1,107 @@
+<binding>
+
+  <!-- UserGroup -->
+  <mapping name="user-group" class="de.escidoc.core.resources.aa.usergroup.UserGroup"
+    ns="http://www.escidoc.de/schemas/usergroup/0.6">
+    
+    <namespace uri="http://www.escidoc.de/schemas/usergroup/0.6" prefix="user-group"
+      default="elements"/>
+      
+    <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+    
+    <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+      set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+    <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+      set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+    <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+      set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+
+    <value name="last-modification-date" style="attribute" usage="optional" 
+      type="org.joda.time.DateTime"
+      set-method="setLastModificationDate"
+      get-method="getLastModificationDate"/>
+      
+    <structure name="properties">
+      <structure type="de.escidoc.core.resources.aa.usergroup.UserGroupProperties"
+        field="properties"/>
+    </structure>
+     
+    <structure name="selectors">
+      <collection field="selectors"
+        create-type="de.escidoc.core.resources.aa.usergroup.Selectors">
+        
+        <structure type="de.escidoc.core.resources.aa.usergroup.Selector"/>
+      </collection>
+    </structure>
+    
+    <!-- ignore -->
+    <structure name="resources" usage="optional"/>
+  </mapping>
+  
+  <!-- UserGroupProperties -->
+  <mapping class="de.escidoc.core.resources.aa.usergroup.UserGroupProperties"
+    ns="http://escidoc.de/core/01/properties/" abstract="true">
+    
+    <namespace uri="http://escidoc.de/core/01/properties/" prefix="prop" 
+      default="elements"/>
+    <namespace uri="http://escidoc.de/core/01/structural-relations/" 
+      prefix="srel" />
+      
+    <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+    
+    <value name="creation-date" type="org.joda.time.DateTime" usage="optional"
+      field="creationDate"/>
+      
+    <structure ns="http://escidoc.de/core/01/structural-relations/"
+      name="created-by" field="createdBy" usage="optional">
+      
+      <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+        set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+      <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+        set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+      <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+        set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+    </structure>
+    
+    <structure ns="http://escidoc.de/core/01/structural-relations/"
+      name="modified-by" field="modifiedBy" usage="optional">
+
+      <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+        set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+      <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+        set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+      <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+        set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+    </structure>
+    
+    <value name="email" field="email" usage="optional"/>
+    <value name="name" field="name" usage="required"/>
+    <value name="label" field="label" usage="required"/>
+    <value name="description" field="description" usage="optional"/>
+    <value name="type" field="type" usage="optional"/>
+    <value name="active" field="active" usage="optional"/>
+    
+  </mapping>
+  
+  <!-- Selector -->
+  <mapping name="selector" class="de.escidoc.core.resources.aa.usergroup.Selector"
+    ns="http://www.escidoc.de/schemas/usergroup/0.6">
+    
+    <namespace uri="http://www.escidoc.de/schemas/usergroup/0.6" prefix="user-group"
+      default="elements"/>
+    
+    <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+    
+    <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+      set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+    <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+      set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+    <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+      set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+    
+    <value style="text" field="content"/>
+    <value name="name" field="name" style="attribute"/>
+    <value name="type" set-method="setXmlType" get-method="getXmlType" style="attribute"/>
+    
+  </mapping>
+</binding>

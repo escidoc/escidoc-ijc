@@ -1,13 +1,12 @@
 <binding>
-<namespace uri="http://www.escidoc.de/schemas/searchresult/0.8"
-			prefix="search-result"/>
-	<!--  REST Binding -->
+  <namespace uri="http://www.escidoc.de/schemas/searchresult/0.8"
+			prefix="search-result" default="elements"/>
+			
 	<!-- start: binding of a search-result-record -->
 	<mapping name="search-result-record" ns="http://www.escidoc.de/schemas/searchresult/0.8"
-		class="de.escidoc.core.resources.sb.search.SearchResultRecord"
-		marshaller="de.escidoc.core.common.jibx.binding.SearchResultRecordMarshaller"
-		unmarshaller="de.escidoc.core.common.jibx.binding.SearchResultRecordMarshaller">
-	</mapping>
+		class="de.escidoc.core.resources.sb.search.SearchResult"
+		marshaller="de.escidoc.core.common.jibx.binding.SearchResultMarshaller"
+		unmarshaller="de.escidoc.core.common.jibx.binding.SearchResultMarshaller"/>
 	<!-- end: binding of a search-result-record -->
 
 	<!-- *****************************************
@@ -15,47 +14,39 @@
 		****************************************** -->
 	<mapping name="highlight" ns="http://www.escidoc.de/schemas/searchresult/0.8" 
 		class="de.escidoc.core.resources.sb.search.Highlight">
-		<namespace uri="http://www.escidoc.de/schemas/searchresult/0.8"
-			prefix="search-result"/>
+		
 		<collection field="searchHits" create-type="java.util.LinkedList">
+		
 			<structure name="search-hit"
 				type="de.escidoc.core.resources.sb.search.SearchHit"
-				ns="http://www.escidoc.de/schemas/searchresult/0.8"
 				usage="optional">
-				<collection field="textFragments"
-					create-type="java.util.LinkedList">
-					<structure
-						ns="http://www.escidoc.de/schemas/searchresult/0.8"
-						name="text-fragment"
+				<collection field="textFragments" create-type="java.util.LinkedList">
+				
+					<structure name="text-fragment"
 						type="de.escidoc.core.resources.sb.search.TextFragment"
 						usage="optional">
 						<value name="text-fragment-data"
-							ns="http://www.escidoc.de/schemas/searchresult/0.8"
 							set-method="setTextFragmentData" get-method="getTextFragmentData"
 							usage="optional" />
-						<collection field="hitWords"
-							create-type="java.util.LinkedList">
-							<structure
-								ns="http://www.escidoc.de/schemas/searchresult/0.8"
-								name="hit-word" type="de.escidoc.core.resources.sb.search.HitWord">
+						<collection field="hitWords" create-type="java.util.LinkedList">
+						
+							<structure name="hit-word" type="de.escidoc.core.resources.sb.search.HitWord">
 								<value name="start-index"
-									ns="http://www.escidoc.de/schemas/searchresult/0.8"
 									set-method="setStartIndex" get-method="getStartIndex"
 									usage="optional" />
 								<value name="end-index"
-									ns="http://www.escidoc.de/schemas/searchresult/0.8"
 									set-method="setEndIndex" get-method="getEndIndex"
 									usage="optional" />
 							</structure>
 						</collection>
 					</structure>
 				</collection>
+				
 				<value name="type" style="attribute"
 					set-method="setType" get-method="getType" usage="optional" />
 				<value name="objid" style="attribute"
 					set-method="setObjid" get-method="getObjid" usage="optional" />
 			</structure>
 		</collection>
-	</mapping>
-			
+	</mapping>			
 </binding>

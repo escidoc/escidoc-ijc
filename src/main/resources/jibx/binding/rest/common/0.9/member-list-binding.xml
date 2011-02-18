@@ -1,5 +1,5 @@
 <binding>
-	<!-- SOAP Binding -->
+	<!-- REST Binding -->
 	<!-- start: binding of a member list -->
 	<mapping ns="http://www.escidoc.de/schemas/memberlist/0.9"
 		name="member-list" class="de.escidoc.core.resources.om.MemberList">
