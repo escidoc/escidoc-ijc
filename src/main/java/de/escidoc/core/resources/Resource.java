@@ -41,7 +41,7 @@ public abstract class Resource extends XLinkResource {
 
     public static final Map<ResourceType, String> RESOURCE_URL_MAP =
         new HashMap<ResourceType, String>();
-    {
+    static {
         Resource.RESOURCE_URL_MAP.put(ResourceType.Context, "/ir/context");
         Resource.RESOURCE_URL_MAP.put(ResourceType.Item, "/ir/item");
         Resource.RESOURCE_URL_MAP.put(ResourceType.Container, "/ir/container");
@@ -60,6 +60,7 @@ public abstract class Resource extends XLinkResource {
             "/cmm/content-model");
         Resource.RESOURCE_URL_MAP.put(ResourceType.Grant, "/aa/grant");
         Resource.RESOURCE_URL_MAP.put(ResourceType.Role, "/aa/role");
+        Resource.RESOURCE_URL_MAP.put(ResourceType.UserGroup, "/aa/user-group");
         Resource.RESOURCE_URL_MAP.put(ResourceType.ContentRelation,
             "/ir/content-relation");
     }
