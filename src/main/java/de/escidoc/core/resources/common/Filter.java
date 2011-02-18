@@ -5,7 +5,22 @@ import java.util.LinkedList;
 
 public class Filter {
 
+    /**
+     * 
+     */
     public Filter() {
+    }
+
+    /**
+     * @param name
+     * @param value
+     * @param ids
+     */
+    public Filter(final String name, final String value,
+        final Collection<String> ids) {
+        setName(name);
+        setValue(value);
+        setIds(ids);
     }
 
     public static final String DC_BASE =
