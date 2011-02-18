@@ -44,7 +44,10 @@ public interface HandlerService {
      * 
      * @param tp
      *            The Enum containing the TransportProtocol to be used).
+     * @deprecated All main HandlerClient implementations (except SOAPHCs) are
+     *             using only {@link TransportProtocol#REST} now.
      */
+    @Deprecated
     void setTransport(final TransportProtocol tp);
 
     /**
