@@ -40,7 +40,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  */
 public class UserAccountProperties {
 
-    private DateTime creationDate = null;
+    private DateTime creationDate;
 
     private String loginName;
 
@@ -99,7 +99,7 @@ public class UserAccountProperties {
         return this.active;
     }
 
-    public void setActive(boolean isActive) {
+    public void setActive(final boolean isActive) {
         this.active = isActive;
     }
 
@@ -125,7 +125,7 @@ public class UserAccountProperties {
      * 
      * @param createdBy
      */
-    public void setCreatedBy(UserAccountRef createdBy) {
+    public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -133,7 +133,7 @@ public class UserAccountProperties {
      * 
      * @param modifiedBy
      */
-    public void setModifiedBy(UserAccountRef modifiedBy) {
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
