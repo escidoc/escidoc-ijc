@@ -29,9 +29,11 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,20 +48,15 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
-import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.resources.oum.OrganizationalUnitList;
 import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -68,16 +65,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class OrganizationalUnitHandlerClientTest
-    extends AbstractParameterizedTestBase {
+public class OrganizationalUnitHandlerClientTest {
 
     private Authentication auth;
 
     private OrganizationalUnitHandlerClientInterface ohc;
-
-    public OrganizationalUnitHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -86,7 +78,6 @@ public class OrganizationalUnitHandlerClientTest
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
-        ohc.setTransport(transport);
     }
 
     @After
@@ -116,9 +107,10 @@ public class OrganizationalUnitHandlerClientTest
     @Test
     public void testRetrieve01() throws Exception {
         OrganizationalUnit organizationUnit =
-            ohc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+            ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
-        MarshallerFactory.getInstance(ohc.getTransport())
+        MarshallerFactory
+            .getInstance(ohc.getTransport())
             .getMarshaller(OrganizationalUnit.class)
             .marshalDocument(organizationUnit);
     }
@@ -135,7 +127,7 @@ public class OrganizationalUnitHandlerClientTest
     @Test
     public void testRetrieveUpdate() throws Exception {
         OrganizationalUnit ou =
-            ohc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+            ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
         OrganizationalUnit updatedOU = ohc.update(ou);
 
@@ -151,7 +143,7 @@ public class OrganizationalUnitHandlerClientTest
      */
     @Test
     public void testRetrieveChildObjects() throws Exception {
-        ohc.retrieveChildObjects(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+        ohc.retrieveChildObjects(EscidocClientTestBase.getStaticOrganizationalUnitId());
     }
 
     /**
@@ -168,7 +160,8 @@ public class OrganizationalUnitHandlerClientTest
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -190,46 +183,20 @@ public class OrganizationalUnitHandlerClientTest
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
-
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            me.getObjid(), null));
-        filterParam.setFilters(filters);
-        MarshallerFactory.getInstance(ohc.getTransport()).getMarshaller(TaskParam.class)
-            .marshalDocument(filterParam);
-
         OrganizationalUnitHandlerClientInterface ic =
             new OrganizationalUnitHandlerClient();
 
-        OrganizationalUnitList ouList =
-            ic.retrieveOrganizationalUnits(filterParam);
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request
+            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"="
+                + me.getObjid());
 
+        List<OrganizationalUnit> ouList =
+            ic.retrieveOrganizationalUnitsAsList(request);
+
+        assertNotNull("No result list returned.", ouList);
         assertTrue("result list is empty, try another filter",
             ouList.size() != 0);
-    }
-
-    /**
-     * Prepare and Filter class from the parameter collection.
-     * 
-     * @param name
-     *            name of the filter criteria
-     * @param value
-     *            value of the filter criteria
-     * @param ids
-     *            list of ids to filter
-     * 
-     * @return filter
-     */
-    private Filter getFilter(
-        final String name, final String value, final Collection<String> ids) {
-
-        Filter filter = new Filter();
-        filter.setName(name);
-        filter.setValue(value);
-        filter.setIds(ids);
-        return filter;
     }
 
     /**

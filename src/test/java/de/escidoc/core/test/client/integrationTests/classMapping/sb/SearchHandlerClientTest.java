@@ -35,12 +35,12 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.transform.TransformerException;
 
 import junit.framework.Assert;
 
@@ -54,29 +54,24 @@ import org.junit.runners.Parameterized.Parameters;
 
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.SearchHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.SearchHandlerClientInterface;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.common.reference.ContainerRef;
-import de.escidoc.core.resources.common.reference.ItemRef;
-import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
 import de.escidoc.core.resources.sb.Record.RecordPacking;
-import de.escidoc.core.resources.sb.RecordMetaData;
-import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
 import de.escidoc.core.resources.sb.scan.Term;
 import de.escidoc.core.resources.sb.search.SearchDescriptor;
+import de.escidoc.core.resources.sb.search.SearchResult;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ResourceRecord;
-import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
-import de.escidoc.core.resources.sb.search.records.resolver.RecordResolver;
-import de.escidoc.core.resources.sb.search.records.resolver.TagEntry;
+import de.escidoc.core.resources.sb.search.resolver.ContentResolver;
+import de.escidoc.core.resources.sb.search.resolver.TagEntry;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -88,32 +83,24 @@ public class SearchHandlerClientTest {
 
     private static final StringBuilder out = new StringBuilder();
 
-    private final TransportProtocol transport;
-
     private final RecordPacking packing;
 
     private SearchHandlerClientInterface c;
 
-    public SearchHandlerClientTest(final TransportProtocol transport,
-        final RecordPacking packing) {
-        this.transport = transport;
+    public SearchHandlerClientTest(final RecordPacking packing) {
         this.packing = packing;
     }
 
     @Parameters
     public static Collection<?> data() {
-        return Arrays.asList(new Object[][] {
-            { TransportProtocol.REST, RecordPacking.xml },
-            { TransportProtocol.REST, RecordPacking.string },
-            { TransportProtocol.SOAP, RecordPacking.xml },
-            { TransportProtocol.SOAP, RecordPacking.string } });
+        return Arrays.asList(new Object[][] { { RecordPacking.xml },
+            { RecordPacking.string } });
     }
 
     @Before
     public void init() throws Exception {
         // No authentication required for SB
         c = new SearchHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        c.setTransport(transport);
     }
 
     @After
@@ -134,14 +121,12 @@ public class SearchHandlerClientTest {
         request.setVersion("1.1");
 
         ExplainResponse response = c.explain(request, null);
-        Record<ExplainData> record = response.getRecord();
-        ExplainData data = record.getRecordData();
+        Record<Explain> record = response.getRecord();
+        Explain data = record.getRecordData();
 
         out.append("\n=========================\n");
         out.append("testSRWExplain: ");
-        out.append("Protocol: ");
-        out.append(transport.name());
-        out.append(", RecordPacking: ");
+        out.append("RecordPacking: ");
         out.append(packing);
         out.append("\n");
         out.append(data.toString());
@@ -158,21 +143,18 @@ public class SearchHandlerClientTest {
     public void testFilterExplain() throws Exception {
 
         ItemHandlerClientInterface c = new ItemHandlerClient();
-        c.setTransport(transport);
 
         ExplainRequestType request = new ExplainRequestType();
         request.setVersion("1.1");
         request.setRecordPacking(packing.name());
 
         ExplainResponse response = c.retrieveItems(request);
-        Record<ExplainData> record = response.getRecord();
-        ExplainData data = record.getRecordData();
+        Record<Explain> record = response.getRecord();
+        Explain data = record.getRecordData();
 
         out.append("\n=========================\n");
         out.append("testFilterExplain: ");
-        out.append("Protocol: ");
-        out.append(transport.name());
-        out.append(", RecordPacking: ");
+        out.append("RecordPacking: ");
         out.append(packing);
         out.append("\n");
         out.append(data.toString());
@@ -189,39 +171,35 @@ public class SearchHandlerClientTest {
     public void testSRWSearch() throws Exception {
 
         String query = "escidoc.objecttype=item";
-        // "escidoc.objid=" + Constants.EXAMPLE_ITEM_ID;
+        // "escidoc.objid=" + EscidocClientTestBase.getStaticItemId();
 
         SearchRetrieveResponse response = c.search(query, null);
 
         out.append("\n=========================\n");
         out.append("testSRWSearch: query=");
         out.append(query);
-        out.append(" [Protocol: ");
-        out.append(transport.name());
-        out.append(", RecordPacking: ");
+        out.append(" [RecordPacking: ");
         out.append(packing);
         out.append("]\n");
         out.append("Results: ");
         out.append(response.getNumberOfResultingRecords());
         out.append("\n");
 
-        for (Record<?> record : response.getRecords()) {
-            assertTrue(record instanceof SearchResultRecordRecord);
+        for (SearchResultRecord record : response.getRecords()) {
 
-            if (record instanceof SearchResultRecordRecord) {
-                SearchResultRecordRecord result =
-                    (SearchResultRecordRecord) record;
+            SearchResult data = record.getRecordData();
 
-                SearchResultRecord data = result.getRecordData();
+            assertNotNull(data);
+            assertNotNull(data.getContent());
 
-                assertNotNull(data);
-                assertNotNull(data.getContent());
+            if (data.getContent() instanceof Resource) {
 
-                out.append(data.getContent().getResourceType().name() + ": ID["
-                    + data.getContent().getObjid() + "], Href["
-                    + data.getContent().getXLinkHref() + "], Score["
-                    + data.getScore() + "]\n");
-                assertNotNull(data.getContent().getObjid());
+                Resource res = (Resource) data.getContent();
+                assertNotNull(res.getObjid());
+
+                out.append(res.getResourceType().name() + ": ID["
+                    + res.getObjid() + "], Href[" + res.getXLinkHref()
+                    + "], Score[" + data.getScore() + "]\n");
             }
         }
     }
@@ -253,9 +231,8 @@ public class SearchHandlerClientTest {
     public void testFilterSearch() throws Exception {
 
         ItemHandlerClientInterface c = new ItemHandlerClient();
-        c.setTransport(transport);
 
-        String query = "\"/id\"=" + Constants.EXAMPLE_ITEM_ID;
+        String query = "\"/id\"=" + EscidocClientTestBase.getStaticItemId();
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery(query);
@@ -266,19 +243,18 @@ public class SearchHandlerClientTest {
         out.append("\n=========================\n");
         out.append("testFilterSearch [1]: query=");
         out.append(query);
-        out.append(" [Protocol: ");
-        out.append(transport.name());
-        out.append(", RecordPacking: ");
+        out.append(" [RecordPacking: ");
         out.append(packing);
         out.append("]\n");
         out.append("Results: ");
         out.append(response.getNumberOfResultingRecords());
         out.append("\n");
 
-        for (Record<?> record : response.getRecords()) {
-            if (record instanceof ResourceRecord<?>
-                && ((ResourceRecord<?>) record).getRecordDataType() == Item.class) {
-                Item item = (Item) record.getRecordData();
+        for (SearchResultRecord record : response.getRecords()) {
+            SearchResult result = record.getRecordData();
+
+            if (result.getContent() instanceof Item) {
+                Item item = (Item) result.getContent();
                 out.append("Item: ID[" + item.getObjid() + "], Href["
                     + item.getXLinkHref() + "]\n");
             }
@@ -311,7 +287,6 @@ public class SearchHandlerClientTest {
     @Test
     public void testNullFilterSearch() throws Exception {
         ItemHandlerClientInterface c = new ItemHandlerClient();
-        c.setTransport(transport);
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setRecordPacking(packing.name());
@@ -341,9 +316,7 @@ public class SearchHandlerClientTest {
         out.append("\n=========================\n");
         out.append("ScanRequest: clause=");
         out.append(request.getScanClause());
-        out.append(" [Protocol: ");
-        out.append(transport.name());
-        out.append("]\n");
+        out.append("\n");
         out.append("Results: ");
 
         for (Term term : response.getTerms()) {
@@ -376,8 +349,10 @@ public class SearchHandlerClientTest {
                 + "\t\t\t<recordSchema>default</recordSchema>"
                 + "\t\t\t<recordPacking>xml</recordPacking>"
                 + "\t\t\t<recordData>"
-                + "\t\t\t\t<escidocItem:item xmlns:escidocItem=\"http://www.escidoc.de/schemas/item/0.9\">"
-                + objid + "</escidocItem:item>" + "\t\t\t</recordData>"
+                + "\t\t\t\t<sr:search-result-record xmlns:sr=\"http://www.escidoc.de/schemas/searchresult/0.8\">"
+                + "\t\t\t\t\t<my:item xmlns:my=\"http://mytest.com\">" + objid
+                + "</my:item>" + "\t\t\t\t</sr:search-result-record>"
+                + "\t\t\t</recordData>"
                 + "\t\t\t<recordPosition>1</recordPosition>" + "\t\t</record>"
                 + "\t</records>" + "</searchRetrieveResponse>";
 
@@ -387,24 +362,25 @@ public class SearchHandlerClientTest {
         // simulate request
         SearchRetrieveResponse response =
             MarshallerFactory
-                .getInstance(transport)
-                .getMarshaller(MarshallerFactory.CLASS_SEARCH_RETRIEVE_RESPONSE)
+                .getInstance().getMarshaller(SearchRetrieveResponse.class)
                 .unmarshalDocument(srwResponse);
-
-        // remove registered resolver to avoid other tests to fail.
-        SearchDescriptor.getResolvers().pop();
 
         assertTrue(response.getNumberOfResultingRecords() == 1);
 
-        for (Record<?> record : response.getRecords()) {
+        for (SearchResultRecord record : response.getRecords()) {
 
-            assertTrue(record instanceof MyRefRecord);
+            SearchResult result = record.getRecordData();
 
-            Reference ref = (Reference) record.getRecordData();
+            assertNotNull(result.getContent());
+            assertTrue(result.getContent() instanceof MyRef);
 
-            assertEquals(ref.getObjid(), objid);
+            MyRef ref = (MyRef) result.getContent();
+
+            assertEquals(ref.getId(), objid);
             assertTrue(ref.getResourceType() == ResourceType.Item);
         }
+        // remove registered resolver to avoid other tests to fail.
+        SearchDescriptor.getResolvers().pop();
     }
 
     /**
@@ -413,87 +389,72 @@ public class SearchHandlerClientTest {
      * @author MVO
      * 
      */
-    private class MyResolver extends RecordResolver<MyRefRecord, Class<?>> {
-
-        public MyResolver() {
-            getResolvableRecordDefinitions().put(new TagEntry("item", null),
-                ItemRef.class);
-            getResolvableRecordDefinitions().put(
-                new TagEntry("container", null), ContainerRef.class);
-            // ingore namespaces
-            setIgnoreNS(true);
-        }
-
-        @Override
-        public MyRefRecord getRecordInstance(
-            final Class<?> value, final RecordMetaData data) {
-            // we do not need to check for value, since we only return one
-            // record type but we could return different record types.
-            if (value == ItemRef.class) {
-                return new MyRefRecord(data);
-            }
-            else if (value == ContainerRef.class) {
-                return new MyRefRecord(data);
-            }
-            return null;
-        }
-    }
-
-    private class MyRefRecord extends Record<Reference> {
-
-        public MyRefRecord(final RecordMetaData data) {
-            super(data);
-        }
-
-        @Override
-        protected Reference parseFragmentDOM() {
-            Reference ref = null;
-            try {
-                ref = parse(getRecordDataDOMAsString());
-            }
-            catch (TransformerException e) {
-                // do something
-            }
-            return ref;
-        }
-
-        @Override
-        protected Reference parseFragmentText() {
-            return parse(getRecordDataText());
-        }
+    private class MyResolver extends ContentResolver<MyRef> {
 
         /**
-         * Some simple XML parsing here for test purposes.
-         * 
-         * @param xml
-         * @return
+         * @throws URISyntaxException
          */
-        private Reference parse(final String xml) {
-            if (xml == null)
-                return null;
+        private MyResolver() throws URISyntaxException {
+            getTagEntries()
+                .put(new TagEntry("item", new URI("http://mytest.com")),
+                    MyRef.class);
+        }
 
+        @Override
+        public MyRef getContentInstance(
+            final Class<? extends MyRef> clazz, final String xmlTextFragment) {
+
+            /**
+             * Since we only have one type of MyRef, we can ignore the first
+             * argument. There are no sub types to differ between in here. <br/>
+             * Map the XML to a MyRef instance here (done with some primitive
+             * regexp)
+             */
             Pattern tagNameWithPrefix =
                 Pattern
                     .compile("<(?:([^>^:^\\s]*):)?([^>^\\s]*?)(?:\\s[^<]*)?>");
-            Matcher m = tagNameWithPrefix.matcher(xml);
+            Matcher m = tagNameWithPrefix.matcher(xmlTextFragment);
             if (m.find()) {
                 String id =
-                    xml.substring(m.group(0).length(),
-                        xml.indexOf('<', m.group(0).length()));
+                    xmlTextFragment.substring(m.group(0).length(),
+                        xmlTextFragment.indexOf('<', m.group(0).length()));
 
                 if ("item".equals(m.group(2))) {
-                    return new ItemRef(id);
+                    return new MyRef(id, ResourceType.Item);
                 }
                 else if ("container".equals(m.group(2))) {
-                    return new ContainerRef(id);
+                    return new MyRef(id, ResourceType.Container);
                 }
             }
             return null;
         }
 
-        @Override
-        protected ItemRef getDefaultInstance() {
-            return null;
+    }
+
+    private class MyRef {
+
+        private final String id;
+
+        private final ResourceType type;
+
+        /**
+         * @param id
+         * @param type
+         */
+        public MyRef(final String id, final ResourceType type) {
+            this.id = id;
+            this.type = type;
+        }
+
+        public ResourceType getResourceType() {
+            return type;
+        }
+
+        /**
+         * @return the id
+         */
+        public final String getId() {
+            return id;
         }
     }
 }

@@ -42,15 +42,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
-import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -60,16 +58,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class UserAccountFilterVersion12Test
-    extends AbstractParameterizedTestBase {
+public class UserAccountFilterVersion12Test {
 
     private Authentication auth;
 
     private UserAccountHandlerClientInterface uac;
-
-    public UserAccountFilterVersion12Test(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -78,7 +71,6 @@ public class UserAccountFilterVersion12Test
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
     }
 
     @After
@@ -112,7 +104,7 @@ public class UserAccountFilterVersion12Test
         ExplainResponse response =
             uac.retrieveUserAccounts(new ExplainRequestType());
 
-        ExplainData explain = response.getRecord().getRecordData();
+        Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertTrue("No index definitions found", explain
@@ -159,7 +151,7 @@ public class UserAccountFilterVersion12Test
         assertTrue("Wrong number of matching records",
             response.getNumberOfMatchingRecords() >= 1);
         assertEquals("Wrong record position", 1, response
-            .getRecords().iterator().next().getRecordPosition());
+            .getRecords().iterator().next().getRecordPosition().intValue());
         assertTrue("Different resulting records",
             userAccountList.size() == response.getNumberOfResultingRecords());
     }

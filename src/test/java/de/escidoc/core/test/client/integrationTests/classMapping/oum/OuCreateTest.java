@@ -33,6 +33,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,7 +48,6 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
@@ -56,14 +56,12 @@ import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterfac
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.resources.oum.Parent;
 import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.Predecessor;
 import de.escidoc.core.resources.oum.PredecessorForm;
 import de.escidoc.core.resources.oum.Predecessors;
-import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Asserts;
@@ -74,15 +72,11 @@ import de.escidoc.core.test.client.util.Asserts;
  * @author SWA
  * 
  */
-public class OuCreateTest extends AbstractParameterizedTestBase {
+public class OuCreateTest {
 
     private Authentication auth;
 
     private OrganizationalUnitHandlerClientInterface ohc;
-
-    public OuCreateTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -91,7 +85,6 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
-        ohc.setTransport(transport);
     }
 
     @After
@@ -155,7 +148,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
     @Test(expected = MissingElementValueException.class)
     public void testCreateOrganizationalUnit03() throws Exception {
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
@@ -186,7 +180,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
     @Test(expected = MissingElementValueException.class)
     public void testCreateOrganizationalUnit04() throws Exception {
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -219,7 +214,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         final String ouName = "Generic Organizational Unit";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
@@ -265,7 +261,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         final String ouDescription = "Just a generic organizational unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -328,7 +325,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -385,7 +383,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
         // OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         ou1.setProperties(properties);
 
         MetadataRecord mdRecord =
@@ -400,7 +399,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
         // OU 2
         OrganizationalUnit ou2 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties2 = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties2 =
+            new OrganizationalUnitProperties();
         ou2.setProperties(properties2);
 
         // set OU1 Predecessor of OU2
@@ -454,7 +454,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
         // create OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         ou1.setProperties(properties);
         MetadataRecord mdRecord =
             createMdRecordDC("escidoc", "myMdRecord", ou1Name, ou1Description);
@@ -465,7 +466,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
         // create OU 2
         OrganizationalUnit ou2 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties2 = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties2 =
+            new OrganizationalUnitProperties();
         ou2.setProperties(properties2);
         mdRecord =
             createMdRecordDC("escidoc", "myMdRecord", ou2Name, ou2Description);
@@ -476,7 +478,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
         // create OU 3
         OrganizationalUnit ou3 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties3 = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties3 =
+            new OrganizationalUnitProperties();
         ou3.setProperties(properties3);
         mdRecord =
             createMdRecordDC("escidoc", "myMdRecord", ou3Name, ou3Description);
@@ -487,7 +490,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
 
         // create OU 4
         OrganizationalUnit ou4 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties4 = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties4 =
+            new OrganizationalUnitProperties();
 
         Parents parents = new Parents();
         parents.add(new Parent(ou1.getObjid()));
@@ -504,8 +508,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         ou4 = ohc.create(ou4);
 
         // retrieve parent objects
-        OrganizationalUnitList ouList =
-            ohc.retrieveParentObjects(ou4.getObjid());
+        List<OrganizationalUnit> ouList =
+            ohc.retrieveParentObjectsAsList(ou4.getObjid());
 
         assertEquals("Wrong number ob OUs in List", 3, ouList.size());
 
@@ -526,7 +530,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -581,7 +586,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -627,7 +633,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -673,7 +680,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -715,7 +723,8 @@ public class OuCreateTest extends AbstractParameterizedTestBase {
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecord mdRecord =

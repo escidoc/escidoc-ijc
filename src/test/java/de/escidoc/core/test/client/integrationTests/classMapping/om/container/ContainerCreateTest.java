@@ -49,7 +49,9 @@ import org.w3c.dom.Node;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
@@ -70,7 +72,6 @@ import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Asserts;
@@ -81,15 +82,11 @@ import de.escidoc.core.test.client.util.Asserts;
  * @author SWA
  * 
  */
-public class ContainerCreateTest extends AbstractParameterizedTestBase {
+public class ContainerCreateTest {
 
     private Authentication auth;
 
     private ContainerHandlerClientInterface cc;
-
-    public ContainerCreateTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -98,7 +95,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
     }
 
     @After
@@ -177,7 +173,8 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
     public void testCreateContainer05() throws Exception {
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         container.setProperties(properties);
         cc.create(container);
     }
@@ -195,7 +192,8 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
     public void testCreateContainer06() throws Exception {
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -218,7 +216,8 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
     public void testCreateContainer07() throws Exception {
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -248,7 +247,8 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         container.setProperties(properties);
 
         // md-record
@@ -282,9 +282,10 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -324,12 +325,11 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         assertEquals(container.getProperties().getContentModel().getObjid(),
             createdContainer.getProperties().getContentModel().getObjid());
 
-        Marshaller<MetadataRecord> m1 =
-            new Marshaller<MetadataRecord>(MetadataRecord.class, cc
-                .getTransport().name());
+        Marshaller<MetadataRecord> m =
+            MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
 
         String xml1 =
-            m1.marshalDocument(container.getMetadataRecords().get("escidoc"));
+            m.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
         Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
         Node mdRecordBeforeCreateNode =
@@ -340,9 +340,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         MetadataRecord createdContainerMdRecord =
             createdContainer.getMetadataRecords().get("escidoc");
 
-        Marshaller<MetadataRecord> m2 =
-            MarshallerFactory.getInstance(transport).getMarshaller(MetadataRecord.class);
-        String xml2 = m2.marshalDocument(createdContainerMdRecord);
+        String xml2 = m.marshalDocument(createdContainerMdRecord);
 
         Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
         Node mdRecordAfterCreateNode =
@@ -368,7 +366,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         Container container = createContainerWithMinContent();
         Relations relations = new Relations();
         Relation relation =
-            new Relation(new ItemRef(Constants.EXAMPLE_ITEM_ID));
+            new Relation(new ItemRef(EscidocClientTestBase.getStaticItemId()));
         relation
             .setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
         relations.add(relation);
@@ -378,7 +376,9 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
 
         // test marshalling created Container.
         Marshaller<Container> mContainer =
-            new Marshaller<Container>(Container.class, cc.getTransport().name());
+            MarshallerFactory.getInstance().getMarshaller(Container.class);
+        Marshaller<MetadataRecord> mMetadataRecord =
+            MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
 
         String xmlc1 = mContainer.marshalDocument(createdContainer);
 
@@ -392,10 +392,6 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
             createdContainer.getProperties().getContentModel().getObjid());
 
         // MetadataRecords
-
-        Marshaller<MetadataRecord> mMetadataRecord =
-            new Marshaller<MetadataRecord>(MetadataRecord.class, cc
-                .getTransport().name());
 
         String xml1 =
             mMetadataRecord.marshalDocument(container.getMetadataRecords().get(
@@ -454,7 +450,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
         container.setStructMap(structMap);
         Container createdContainer = cc.create(container);
         Marshaller<Container> m =
-            new Marshaller<Container>(Container.class, cc.getTransport().name());
+            MarshallerFactory.getInstance().getMarshaller(Container.class);
         m.marshalDocument(createdContainer);
 
         StructMap createdStructMap = createdContainer.getStructMap();
@@ -495,8 +491,7 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
             createdContainer.getProperties().getContentModel().getObjid());
 
         Marshaller<MetadataRecord> m =
-            new Marshaller<MetadataRecord>(MetadataRecord.class, cc
-                .getTransport().name());
+            MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
         String xml1 =
             m.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
@@ -609,13 +604,15 @@ public class ContainerCreateTest extends AbstractParameterizedTestBase {
     // }
 
     private Container createContainerWithMinContent()
-        throws ParserConfigurationException {
+        throws ParserConfigurationException, TransportException,
+        EscidocException, InternalClientException {
 
         Container container = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
 
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();

@@ -40,7 +40,6 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.cmm.ContentModel;
@@ -54,7 +53,6 @@ import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -66,15 +64,11 @@ import de.escidoc.core.test.client.util.SetupDataUtil;
  * @author SWA
  * 
  */
-public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
+public class SurrogateItemCreateTest {
 
     private Authentication auth;
 
     private ItemHandlerClientInterface ihc;
-
-    public SurrogateItemCreateTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -83,7 +77,6 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
     }
 
     @After
@@ -119,23 +112,20 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
         // -------------------------------------------------
         // Create Organizational Unit (and set status to open)
         OrganizationalUnit organizationalUnit =
-            SetupDataUtil.createOrganizationalUnit(auth, transport, true);
+            SetupDataUtil.createOrganizationalUnit(auth, true);
 
         // -------------------------------------------------
         // create Context 1
         Context context1 =
-            SetupDataUtil.createContext(auth, organizationalUnit, transport,
-                true);
+            SetupDataUtil.createContext(auth, organizationalUnit, true);
 
         // create Context 2
         Context context2 =
-            SetupDataUtil.createContext(auth, organizationalUnit, transport,
-                true);
+            SetupDataUtil.createContext(auth, organizationalUnit, true);
 
         // -------------------------------------------------
         // create Content Model
-        ContentModel contentModel =
-            SetupDataUtil.createContentModel(auth, transport);
+        ContentModel contentModel = SetupDataUtil.createContentModel(auth);
 
         // -------------------------------------------------
         // Create User Account
@@ -143,11 +133,11 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
 
         UserAccount userAccount =
             SetupDataUtil.createUserWithDepositorRole(auth, password,
-                context1.getReference(), transport);
+                context1.getReference());
 
         UserAccount userAccount2 =
             SetupDataUtil.createUserWithDepositorRole(auth, password,
-                context2.getReference(), transport);
+                context2.getReference());
 
         // -------------------------------------------------
         // create origin Item
@@ -161,7 +151,6 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
         ItemHandlerClientInterface ihc =
             new ItemHandlerClient(depositorAuth.getServiceAddress());
         ihc.setHandle(depositorAuth.getHandle());
-        ihc.setTransport(transport);
 
         Item originItem = new Item();
 
@@ -226,7 +215,6 @@ public class SurrogateItemCreateTest extends AbstractParameterizedTestBase {
         ItemHandlerClientInterface ihc2 =
             new ItemHandlerClient(depositorAuth2.getServiceAddress());
         ihc2.setHandle(depositorAuth2.getHandle());
-        ihc2.setTransport(transport);
 
         Item surrogateItem = new Item();
 

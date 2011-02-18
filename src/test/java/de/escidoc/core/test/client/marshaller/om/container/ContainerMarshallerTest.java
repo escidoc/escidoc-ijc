@@ -63,7 +63,11 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
 
-    public ContainerMarshallerTest(TransportProtocol transport) {
+    private static final String BASE = "/om/container";
+
+    private static final String XSD_VERSION = "0.9";
+
+    public ContainerMarshallerTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -77,12 +81,12 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         String containerXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/container/0.8/container01.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "container01.xml"));
 
         Container container =
-            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Container.class)
                 .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:157513", container.getObjid());
@@ -98,7 +102,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "Object escidoc:157513 created.", container
-                .getProperties().getPublicStatusComment());
+                .getProperties().getPublicStatusComment().trim());
         assertEquals("Wrong name", "Container escidoc:157513", container
             .getProperties().getName());
 
@@ -170,12 +174,12 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshallingLocked() throws Exception {
 
         String containerXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/container/0.8/container_locked01.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "container_locked01.xml"));
 
         Container container =
-            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Container.class)
                 .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:157513", container.getObjid());
@@ -191,7 +195,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "Object escidoc:157513 created.", container
-                .getProperties().getPublicStatusComment());
+                .getProperties().getPublicStatusComment().trim());
         assertEquals("Wrong name", "Container escidoc:157513", container
             .getProperties().getName());
 
@@ -270,12 +274,13 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshallingWithContainerInStructMap() throws Exception {
 
         String containerXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/container/0.8/container_with_container_member.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION,
+                "container_with_container_member.xml"));
 
         Container container =
-            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Container.class)
                 .unmarshalDocument(containerXml);
 
         assertEquals("Wrong objid", "escidoc:188602", container.getObjid());
@@ -291,7 +296,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "Object escidoc:188602 created.", container
-                .getProperties().getPublicStatusComment());
+                .getProperties().getPublicStatusComment().trim());
         assertEquals("Wrong name", "Container escidoc:188602", container
             .getProperties().getName());
 
@@ -380,7 +385,8 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
         container.setStructMap(structMap);
 
         String containerXml =
-            MarshallerFactory.getInstance(transport).getMarshaller(Container.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Container.class)
                 .marshalDocument(container);
 
         Document containerDoc = XmlUtility.getDocument(containerXml);

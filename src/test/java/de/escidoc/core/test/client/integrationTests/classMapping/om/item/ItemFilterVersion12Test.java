@@ -49,7 +49,6 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -57,12 +56,11 @@ import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
-import de.escidoc.core.resources.sb.Record;
-import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchResult;
+import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ResourceRecord;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -72,15 +70,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
+public class ItemFilterVersion12Test {
 
     private Authentication auth;
 
     private ItemHandlerClientInterface ihc;
-
-    public ItemFilterVersion12Test(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -89,7 +83,6 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
     }
 
     @After
@@ -107,7 +100,7 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
     @Test
     public void testExplain() throws Exception {
         ExplainResponse response = ihc.retrieveItems(new ExplainRequestType());
-        ExplainData explain = response.getRecord().getRecordData();
+        Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertNotNull("No index definitions found", explain.getIndexInfo());
@@ -131,9 +124,9 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            EscidocClientTestBase.getStaticContentModelId()));
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
@@ -173,11 +166,12 @@ public class ItemFilterVersion12Test extends AbstractParameterizedTestBase {
 
         Collection<String> itemIds =
             new ArrayList<String>(response.getNumberOfResultingRecords());
-        for (Record<?> record : response.getRecords()) {
-            if (record instanceof ResourceRecord<?>
-                && ((ResourceRecord<?>) record).getRecordDataType() == Item.class) {
+        for (SearchResultRecord record : response.getRecords()) {
+            SearchResult result = record.getRecordData();
 
-                Item data = (Item) record.getRecordData();
+            if (result.getContent() instanceof Item) {
+
+                Item data = (Item) result.getContent();
                 if (data != null)
                     itemIds.add(data.getObjid());
             }

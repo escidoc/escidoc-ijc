@@ -54,7 +54,6 @@ import de.escidoc.core.resources.aa.pdp.Decision;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Result;
 import de.escidoc.core.resources.aa.pdp.Results;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -65,15 +64,11 @@ import de.escidoc.core.test.client.util.Template;
  * @author
  * 
  */
-public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
+public class PdpHandlerClientTest {
 
     private Authentication auth;
 
     private PolicyDecisionPointHandlerClientInterface pdpc;
-
-    public PdpHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -82,7 +77,6 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         pdpc = new PolicyDecisionPointHandlerClient(auth.getServiceAddress());
         pdpc.setHandle(auth.getHandle());
-        pdpc.setTransport(transport);
     }
 
     @After
@@ -94,11 +88,11 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
     @Test
     public void testMarshalling() throws Exception {
         String xml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load(transport
-                .name().toLowerCase() + "/aa/pdp/requests.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template
+                .load(TransportProtocol.REST.name().toLowerCase()
+                    + "/aa/pdp/requests.xml"));
         Marshaller<Requests> m =
-            MarshallerFactory.getInstance(transport).getMarshaller(
-                Requests.class);
+            MarshallerFactory.getInstance().getMarshaller(Requests.class);
 
         Requests requests = m.unmarshalDocument(xml);
         m.marshalDocument(requests);
@@ -210,6 +204,8 @@ public class PdpHandlerClientTest extends AbstractParameterizedTestBase {
      * Currently, the infrastructure does not support multiple subjects in one
      * RequestCtx. No exception is thrown. The exception is part of the
      * ResponseCtx. So you will get a decision deny instead of an Exception.
+     * 
+     * TODO multiple subjects should work, test it.
      * 
      * @throws Exception
      */

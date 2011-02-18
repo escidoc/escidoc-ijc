@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,7 +21,6 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -28,11 +29,9 @@ import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterfac
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.resources.oum.OrganizationalUnitList;
+import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.resources.oum.Parent;
 import de.escidoc.core.resources.oum.Parents;
-import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -42,19 +41,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author MVO
  * 
  */
-public class OuParentsTest extends AbstractParameterizedTestBase {
+public class OuParentsTest {
 
     private Authentication auth;
 
     private OrganizationalUnitHandlerClientInterface ohc;
-
-    /**
-     * 
-     * @param transport
-     */
-    public OuParentsTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     /**
      * 
@@ -67,7 +58,6 @@ public class OuParentsTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
-        ohc.setTransport(transport);
     }
 
     /**
@@ -114,8 +104,8 @@ public class OuParentsTest extends AbstractParameterizedTestBase {
             .getParents().get(0).getObjid());
 
         // test if parents children got updated
-        OrganizationalUnitList ouChildren =
-            ohc.retrieveChildObjects(ouParent.getObjid());
+        List<OrganizationalUnit> ouChildren =
+            ohc.retrieveChildObjectsAsList(ouParent.getObjid());
 
         assertTrue(ouChildren.size() == 1);
         assertEquals(ouChildNew.getObjid(), ouChildren.get(0).getObjid());
@@ -237,7 +227,8 @@ public class OuParentsTest extends AbstractParameterizedTestBase {
         ParserConfigurationException {
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName(name);
         organizationalUnit.setProperties(properties);
 

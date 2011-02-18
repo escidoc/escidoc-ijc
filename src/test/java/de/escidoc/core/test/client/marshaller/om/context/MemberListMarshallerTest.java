@@ -47,7 +47,7 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class MemberListMarshallerTest extends AbstractParameterizedTestBase {
 
-    public MemberListMarshallerTest(TransportProtocol transport) {
+    public MemberListMarshallerTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -61,11 +61,12 @@ public class MemberListMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         String contextXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase() + "/member-list.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, "member-list.xml"));
 
         MemberList memberList =
-            MarshallerFactory.getInstance(transport).getMarshaller(MemberList.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(MemberList.class)
                 .unmarshalDocument(contextXml);
 
         assertEquals("Wrong offset", 0, memberList.getOffset());

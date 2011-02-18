@@ -37,7 +37,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.UserAttributeNotFoundException;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
@@ -45,7 +44,6 @@ import de.escidoc.core.resources.aa.useraccount.Attribute;
 import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -55,15 +53,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
+public class UserAccountAttributesTest {
 
     private Authentication auth;
 
     private UserAccountHandlerClientInterface uahc;
-
-    public UserAccountAttributesTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -72,7 +66,6 @@ public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         uahc = new UserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
-        uahc.setTransport(transport);
     }
 
     @After
@@ -209,13 +202,7 @@ public class UserAccountAttributesTest extends AbstractParameterizedTestBase {
         assertEquals("Attribute value differs", uaAttrib.getValue(),
             createAttrib.getValue());
 
-        // delete Attribute
-        uaAttrib = new Attribute("AttributeName", "AttributeValue2");
-        uaAttrib.setObjid(createAttrib.getObjid());
-        uaAttrib
-            .setLastModificationDate(createAttrib.getLastModificationDate());
-
-        uahc.deleteAttribute(objId, uaAttrib);
+        uahc.deleteAttribute(objId, createAttrib.getObjid());
 
         // retrieve
         try {

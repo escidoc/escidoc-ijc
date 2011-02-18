@@ -49,18 +49,14 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -70,7 +66,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
+public class ItemHandlerClientTest {
 
     private static final Logger LOG = Logger
         .getLogger(ItemHandlerClientTest.class);
@@ -79,10 +75,6 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
 
     private ItemHandlerClientInterface ihc;
 
-    public ItemHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
-
     @Before
     public void init() throws Exception {
         auth =
@@ -90,25 +82,12 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
     }
 
     @After
     public void post() throws Exception {
         if (auth != null)
             auth.logout();
-    }
-
-    /**
-     * Test retrieving settings from properties.
-     * 
-     * @throws InternalClientException
-     *             Thrown if ConfigurationProvider failed.
-     */
-    @Test
-    public void testProperties() throws InternalClientException {
-
-        ConfigurationProvider cp = ConfigurationProvider.getInstance();
     }
 
     /**
@@ -120,8 +99,9 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
     @Test
     public void testRetrieve01() throws Exception {
 
-        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
-        MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class)
+        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
+        MarshallerFactory
+            .getInstance(ihc.getTransport()).getMarshaller(Item.class)
             .marshalDocument(item);
     }
 
@@ -144,7 +124,7 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testCreateAndSubmit() throws Exception {
-        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
+        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
 
         Item resultItem = ihc.create(item);
 
@@ -167,7 +147,7 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveVersionHistory() throws Exception {
-        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
+        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
 
         Item item2 = ihc.create(item);
 
@@ -198,7 +178,7 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
 
         item2 = ihc.update(item2);
 
-        VersionHistory vh2 = ihc.retrieveVersionHistory((item2).getObjid());
+        VersionHistory vh2 = ihc.retrieveVersionHistory(item2.getObjid());
 
     }
 
@@ -210,7 +190,7 @@ public class ItemHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testItemLifecycle() throws Exception {
-        Item item = ihc.retrieve(Constants.EXAMPLE_ITEM_ID);
+        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
 
         Item resultItem = ihc.create(item);
         TaskParam tp = new TaskParam();

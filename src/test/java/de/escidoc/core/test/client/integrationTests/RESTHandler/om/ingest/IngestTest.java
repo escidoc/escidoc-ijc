@@ -101,9 +101,9 @@ public class IngestTest {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -153,9 +153,9 @@ public class IngestTest {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -213,9 +213,9 @@ public class IngestTest {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

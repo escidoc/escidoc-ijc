@@ -13,7 +13,6 @@ import org.junit.Test;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ScopeHandlerClient;
 import de.escidoc.core.client.StatisticDataHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -24,7 +23,6 @@ import de.escidoc.core.resources.sm.StringParameter;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
 import de.escidoc.core.resources.sm.sd.StatisticData;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -32,22 +30,13 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author MVO
  * 
  */
-public class StatisticDataHandlerClientTest
-    extends AbstractParameterizedTestBase {
+public class StatisticDataHandlerClientTest {
 
     private Authentication auth;
 
     private StatisticDataHandlerClient shc;
 
     private String scopeId;
-
-    /**
-     * 
-     * @param transport
-     */
-    public StatisticDataHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     /**
      * 
@@ -60,7 +49,6 @@ public class StatisticDataHandlerClientTest
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         shc = new StatisticDataHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
-        shc.setTransport(transport);
         // create test scope
         scopeId = createScope(ScopeType.admin);
         if (scopeId == null) {
@@ -109,7 +97,6 @@ public class StatisticDataHandlerClientTest
         ScopeHandlerClient shc =
             new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
-        shc.setTransport(transport);
 
         return shc.create(scope).getObjid();
     }

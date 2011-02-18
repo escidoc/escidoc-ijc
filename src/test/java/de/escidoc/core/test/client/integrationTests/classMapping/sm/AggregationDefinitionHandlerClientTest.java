@@ -30,11 +30,11 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.reference.ScopeRef;
-import de.escidoc.core.resources.sb.Record;
-import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
+import de.escidoc.core.resources.sb.search.SearchResult;
+import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 import de.escidoc.core.resources.sm.ad.AggregationDefinition;
 import de.escidoc.core.resources.sm.ad.AggregationTable;
 import de.escidoc.core.resources.sm.ad.CountCumulationField;
@@ -50,7 +50,6 @@ import de.escidoc.core.resources.sm.ad.TimeReductionField;
 import de.escidoc.core.resources.sm.ad.TimeReductionFieldType;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -59,8 +58,7 @@ import de.escidoc.core.test.client.util.Template;
  * @author MVO
  * 
  */
-public class AggregationDefinitionHandlerClientTest
-    extends AbstractParameterizedTestBase {
+public class AggregationDefinitionHandlerClientTest {
 
     private Authentication auth;
 
@@ -88,11 +86,6 @@ public class AggregationDefinitionHandlerClientTest
 
     private static final String FEED = "statistics-data";
 
-    public AggregationDefinitionHandlerClientTest(
-        final TransportProtocol transport) {
-        super(transport);
-    }
-
     @Before
     public void init() throws Exception {
         auth =
@@ -100,7 +93,6 @@ public class AggregationDefinitionHandlerClientTest
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         adhc = new AggregationDefinitionHandlerClient(auth.getServiceAddress());
         adhc.setHandle(auth.getHandle());
-        adhc.setTransport(transport);
 
         // prepare scope
         scopeId = createScope(ScopeType.admin);
@@ -122,11 +114,13 @@ public class AggregationDefinitionHandlerClientTest
     public void testMarshallingForCdata01() throws Exception {
         InputStream in = Template.load("/soap/sm/ad/ad-01.xml");
         AggregationDefinition ad =
-            MarshallerFactory.getInstance(TransportProtocol.SOAP)
+            MarshallerFactory
+                .getInstance(TransportProtocol.SOAP)
                 .getMarshaller(AggregationDefinition.class)
                 .unmarshalDocument(in);
         String xml =
-            MarshallerFactory.getInstance(TransportProtocol.SOAP)
+            MarshallerFactory
+                .getInstance(TransportProtocol.SOAP)
                 .getMarshaller(AggregationDefinition.class).marshalDocument(ad);
     }
 
@@ -306,7 +300,7 @@ public class AggregationDefinitionHandlerClientTest
 
         ExplainRequestType request = new ExplainRequestType();
         ExplainResponse response = adhc.retrieveAggregationDefinitions(request);
-        ExplainData explain = response.getRecord().getRecordData();
+        Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertNotNull("No index definitions found", explain.getIndexInfo());
@@ -340,16 +334,17 @@ public class AggregationDefinitionHandlerClientTest
         assertTrue("Wrong number of resulting records",
             response.getNumberOfResultingRecords() >= 1);
         assertEquals("Wrong record position", 1, response
-            .getRecords().iterator().next().getRecordPosition());
+            .getRecords().iterator().next().getRecordPosition().intValue());
 
         Collection<String> ids =
             new ArrayList<String>(response.getNumberOfResultingRecords());
-        for (Record<?> record : response.getRecords()) {
-            if (record instanceof ResourceRecord<?>
-                && ((ResourceRecord<?>) record).getRecordDataType() == AggregationDefinition.class) {
+        for (SearchResultRecord record : response.getRecords()) {
+            SearchResult recordData = record.getRecordData();
+
+            if (recordData.getContent() instanceof AggregationDefinition) {
 
                 AggregationDefinition data =
-                    (AggregationDefinition) record.getRecordData();
+                    (AggregationDefinition) recordData.getContent();
                 if (data != null)
                     ids.add(data.getObjid());
             }
@@ -425,7 +420,6 @@ public class AggregationDefinitionHandlerClientTest
         ScopeHandlerClient shc =
             new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
-        shc.setTransport(transport);
 
         return shc.create(scope).getObjid();
     }

@@ -49,7 +49,9 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class AttributeMarshallerTest extends AbstractParameterizedTestBase {
 
-    public AttributeMarshallerTest(TransportProtocol transport) {
+    private static final String BASE = "/aa/useraccount";
+
+    public AttributeMarshallerTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -63,12 +65,12 @@ public class AttributeMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         String attributeXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/aa/useraccount/attribute_internal.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, "attribute_internal.xml"));
 
         Attribute attribute =
-            MarshallerFactory.getInstance(transport).getMarshaller(Attribute.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Attribute.class)
                 .unmarshalDocument(attributeXml);
 
         assertEquals("Wrong objid", "escidoc:209775", attribute.getObjid());

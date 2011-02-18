@@ -14,10 +14,8 @@ import org.junit.Test;
 import de.escidoc.core.client.AggregationDefinitionHandlerClient;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ScopeHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -25,19 +23,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author MVO
  * 
  */
-public class ScopeHandlerClientTest extends AbstractParameterizedTestBase {
+public class ScopeHandlerClientTest {
 
     private Authentication auth;
 
     private ScopeHandlerClient shc;
-
-    /**
-     * 
-     * @param transport
-     */
-    public ScopeHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -46,7 +36,6 @@ public class ScopeHandlerClientTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         shc = new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
-        shc.setTransport(transport);
     }
 
     @After
@@ -123,7 +112,6 @@ public class ScopeHandlerClientTest extends AbstractParameterizedTestBase {
             new AggregationDefinitionHandlerClient(
                 EscidocClientTestBase.DEFAULT_SERVICE_URL);
         c.setHandle(auth.getHandle());
-        c.setTransport(transport);
 
         c.create(AggregationDefinitionHandlerClientTest.defineValidAD(
             "ad-test", "test_table", createdScope.getObjid()));

@@ -71,7 +71,7 @@ public class ContainerTestRest {
      */
     @Test
     public void testRetrieveContainer01() throws Exception {
-        cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
+        cc.retrieve(EscidocClientTestBase.getStaticContainerId());
     }
 
     /**
@@ -83,7 +83,7 @@ public class ContainerTestRest {
     @Test
     public void testCreateContainer01() throws Exception {
         // get a valid container
-        String container = cc.retrieve(Constants.EXAMPLE_CONTAINER_ID);
+        String container = cc.retrieve(EscidocClientTestBase.getStaticContainerId());
 
         // create a new one (on basis of the retrieved)
         cc.create(container);

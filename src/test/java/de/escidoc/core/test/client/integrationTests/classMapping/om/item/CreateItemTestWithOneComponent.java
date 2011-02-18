@@ -21,7 +21,6 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.StagingHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -38,12 +37,10 @@ import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
-public class CreateItemTestWithOneComponent
-    extends AbstractParameterizedTestBase {
+public class CreateItemTestWithOneComponent {
 
     private static final String TEST_FILE_PATH = "./resources/escidoc.jpeg";
 
@@ -55,10 +52,6 @@ public class CreateItemTestWithOneComponent
     private ItemHandlerClientInterface itemClient;
 
     private Authentication auth;
-
-    public CreateItemTestWithOneComponent(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -73,6 +66,9 @@ public class CreateItemTestWithOneComponent
             auth.logout();
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     public void shouldReturnNonEmptyContentXlinkHrefWhenItemIsRetrieved()
         throws Exception {
@@ -99,36 +95,60 @@ public class CreateItemTestWithOneComponent
         }
     }
 
+    /**
+     * @throws EscidocClientException
+     */
     private void authentificate() throws EscidocClientException {
         auth =
             new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
     }
 
+    /**
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
     private void initStagingClient() throws EscidocException,
         InternalClientException, TransportException {
         stagingClient = new StagingHandlerClient(auth.getServiceAddress());
         stagingClient.setHandle(auth.getHandle());
     }
 
+    /**
+     * @throws InternalClientException
+     */
     private void initItemClient() throws InternalClientException {
         itemClient = new ItemHandlerClient(auth.getServiceAddress());
         itemClient.setHandle(auth.getHandle());
-        itemClient.setTransport(transport);
     }
 
+    /**
+     * @param contentRef
+     * @return
+     * @throws ParserConfigurationException
+     * @throws InternalClientException
+     * @throws EscidocException
+     * @throws TransportException
+     */
     private Item initItem(final URL contentRef)
-        throws ParserConfigurationException {
+        throws ParserConfigurationException, TransportException,
+        EscidocException, InternalClientException {
         Item item = new Item();
         ItemProperties properties = item.getProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
         setMdRecords(item);
         setComponents(item, contentRef);
         return item;
     }
 
+    /**
+     * @param item
+     * @throws ParserConfigurationException
+     */
     private void setMdRecords(final Item item)
         throws ParserConfigurationException {
         MetadataRecord mdRecord = new MetadataRecord();
@@ -146,6 +166,10 @@ public class CreateItemTestWithOneComponent
         item.setMetadataRecords(mdRecords);
     }
 
+    /**
+     * @param item
+     * @param contentRef
+     */
     private void setComponents(final Item item, final URL contentRef) {
         Component component = new Component();
         setComponentProperties(component, contentRef);
@@ -155,6 +179,10 @@ public class CreateItemTestWithOneComponent
         item.setComponents(components);
     }
 
+    /**
+     * @param component
+     * @param contentRef
+     */
     private void setComponentContent(
         final Component component, final URL contentRef) {
         ComponentContent content = new ComponentContent();
@@ -163,6 +191,10 @@ public class CreateItemTestWithOneComponent
         component.setContent(content);
     }
 
+    /**
+     * @param component
+     * @param contentRef
+     */
     private void setComponentProperties(
         final Component component, final URL contentRef) {
         ComponentProperties properties = new ComponentProperties();

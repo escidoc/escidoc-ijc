@@ -57,14 +57,14 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.RoleProperties;
 import de.escidoc.core.resources.aa.role.Scope;
 import de.escidoc.core.resources.aa.role.ScopeDef;
-import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -75,15 +75,11 @@ import de.escidoc.core.test.client.util.Template;
  * @author SWA
  * 
  */
-public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
+public class RoleFilterVersion12Test {
 
     private Authentication auth;
 
     private RoleHandlerClientInterface rc;
-
-    public RoleFilterVersion12Test(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -92,7 +88,6 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         rc = new RoleHandlerClient(auth.getServiceAddress());
         rc.setHandle(auth.getHandle());
-        rc.setTransport(transport);
     }
 
     @After
@@ -113,7 +108,7 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
 
         ExplainResponse response = rc.retrieveRoles(new ExplainRequestType());
 
-        ExplainData explain = response.getRecord().getRecordData();
+        Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertTrue("No index definitions found", explain
@@ -128,8 +123,7 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
      */
     @Test
     public void testFilter01() throws Exception {
-        Role role = createRole();
-        Role createdRole = rc.create(role);
+        Role createdRole = rc.create(createRole());
 
         // now check if at least this Container is in the list
 
@@ -147,7 +141,7 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
         assertTrue("Wrong number of matching records",
             response.getNumberOfMatchingRecords() >= 1);
         assertEquals("Wrong record position", 1, response
-            .getRecords().iterator().next().getRecordPosition());
+            .getRecords().iterator().next().getRecordPosition().intValue());
 
         Collection<Role> roles = rc.retrieveRolesAsList(srwFilter);
         assertTrue("Different number of resulting records",
@@ -182,14 +176,16 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
 
         // Scope
         Scope scope = new Scope();
-        ScopeDef scopeDef1 = new ScopeDef();
+        // context -> item scope
+        ScopeDef scopeDef1 = new ScopeDef(ResourceType.Item);
         scopeDef1
             .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:item:context");
-        scopeDef1.setResourceType("item");
-        ScopeDef scopeDef2 = new ScopeDef();
+        scopeDef1.setRelationAttributeObjectType(ResourceType.Context);
+        // context -> container scope
+        ScopeDef scopeDef2 = new ScopeDef(ResourceType.Container);
         scopeDef2
-            .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:item:context");
-        scopeDef2.setResourceType("container");
+            .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:container:context");
+        scopeDef2.setRelationAttributeObjectType(ResourceType.Context);
 
         Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);
@@ -203,15 +199,15 @@ public class RoleFilterVersion12Test extends AbstractParameterizedTestBase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc =
-            builder.parse(Template.load(transport.name().toLowerCase()
-                + "/aa/role/policy_for_create.xml"));
+            builder.parse(Template.load(TransportProtocol.REST
+                .name().toLowerCase() + "/aa/role/policy_for_create.xml"));
         Element root = doc.getDocumentElement();
 
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
         Marshaller<Role> m =
-            MarshallerFactory.getInstance(transport).getMarshaller(Role.class);
+            MarshallerFactory.getInstance().getMarshaller(Role.class);
 
         String xml = m.marshalDocument(role);
 

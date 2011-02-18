@@ -13,7 +13,6 @@ import de.escidoc.core.client.AggregationDefinitionHandlerClient;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ReportDefinitionHandlerClient;
 import de.escidoc.core.client.ScopeHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -22,7 +21,6 @@ import de.escidoc.core.resources.sm.ad.AggregationDefinition;
 import de.escidoc.core.resources.sm.report.ReportDefinition;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -30,8 +28,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author MVO
  * 
  */
-public class ReportDefinitionHandlerClientTest
-    extends AbstractParameterizedTestBase {
+public class ReportDefinitionHandlerClientTest {
 
     private Authentication auth;
 
@@ -45,14 +42,6 @@ public class ReportDefinitionHandlerClientTest
 
     private static final String AD_NAME = "Page Statistics for PubMan";
 
-    /**
-     * 
-     * @param transport
-     */
-    public ReportDefinitionHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
-
     @Before
     public void init() throws Exception {
         auth =
@@ -60,7 +49,6 @@ public class ReportDefinitionHandlerClientTest
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         rhc = new ReportDefinitionHandlerClient(auth.getServiceAddress());
         rhc.setHandle(auth.getHandle());
-        rhc.setTransport(transport);
 
         // prepare scope
         scopeId = createScope(ScopeType.admin);
@@ -111,7 +99,6 @@ public class ReportDefinitionHandlerClientTest
         ScopeHandlerClient shc =
             new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
-        shc.setTransport(transport);
 
         return shc.create(scope).getObjid();
     }
@@ -129,7 +116,6 @@ public class ReportDefinitionHandlerClientTest
         AggregationDefinitionHandlerClient ahc =
             new AggregationDefinitionHandlerClient(auth.getServiceAddress());
         ahc.setHandle(auth.getHandle());
-        ahc.setTransport(transport);
 
         AggregationDefinition a =
             ahc.create(AggregationDefinitionHandlerClientTest.defineValidAD(

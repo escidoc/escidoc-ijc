@@ -51,7 +51,6 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.StagingHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -76,7 +75,6 @@ import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -87,15 +85,11 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
-public class ItemCreateTest extends AbstractParameterizedTestBase {
+public class ItemCreateTest {
 
     private Authentication auth;
 
     private ItemHandlerClientInterface ihc;
-
-    public ItemCreateTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -104,7 +98,6 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
     }
 
     @After
@@ -184,7 +177,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
     public void testCreateItem05() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         item.setProperties(properties);
         ihc.create(item);
     }
@@ -200,7 +194,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
     public void testCreateItem06() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         item.setMetadataRecords(mdRecords);
@@ -221,7 +216,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
     public void testCreateItem07() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -244,7 +240,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
     public void testCreateItem08() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -268,7 +265,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
     public void testCreateItem09() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -309,9 +307,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
         item.setXLinkTitle("TEST");
 
         // Content-model
@@ -350,9 +350,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -395,9 +397,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -415,10 +419,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(Constants.EXAMPLE_CONTEXT_ID, createdItem
+        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem
             .getProperties().getContext().getObjid());
-        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, createdItem
-            .getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
+            createdItem.getProperties().getContentModel().getObjid());
         assertEquals(item.getMetadataRecords().size(), createdItem
             .getMetadataRecords().size());
 
@@ -429,10 +433,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
-        assertEquals(Constants.EXAMPLE_CONTEXT_ID, updatedItem
+        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem
             .getProperties().getContext().getObjid());
-        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, updatedItem
-            .getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
+            updatedItem.getProperties().getContentModel().getObjid());
         assertEquals(1, updatedItem.getMetadataRecords().size());
     }
 
@@ -446,9 +450,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -466,10 +472,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(Constants.EXAMPLE_CONTEXT_ID, createdItem
+        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem
             .getProperties().getContext().getObjid());
-        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, createdItem
-            .getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
+            createdItem.getProperties().getContentModel().getObjid());
         assertEquals(item.getMetadataRecords().size(), createdItem
             .getMetadataRecords().size());
 
@@ -480,10 +486,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
-        assertEquals(Constants.EXAMPLE_CONTEXT_ID, updatedItem
+        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem
             .getProperties().getContext().getObjid());
-        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, updatedItem
-            .getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
+            updatedItem.getProperties().getContentModel().getObjid());
         assertEquals(1, updatedItem.getMetadataRecords().size());
     }
 
@@ -497,9 +503,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -517,10 +525,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(Constants.EXAMPLE_CONTEXT_ID, createdItem
+        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem
             .getProperties().getContext().getObjid());
-        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, createdItem
-            .getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
+            createdItem.getProperties().getContentModel().getObjid());
         assertEquals(item.getMetadataRecords().size(), createdItem
             .getMetadataRecords().size());
 
@@ -541,9 +549,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -561,10 +571,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(Constants.EXAMPLE_CONTEXT_ID, createdItem
+        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem
             .getProperties().getContext().getObjid());
-        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, createdItem
-            .getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
+            createdItem.getProperties().getContentModel().getObjid());
         assertEquals(item.getMetadataRecords().size(), createdItem
             .getMetadataRecords().size());
 
@@ -575,10 +585,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
-        assertEquals(Constants.EXAMPLE_CONTEXT_ID, updatedItem
+        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem
             .getProperties().getContext().getObjid());
-        assertEquals(Constants.EXAMPLE_CONTENT_MODEL_ID, updatedItem
-            .getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
+            updatedItem.getProperties().getContentModel().getObjid());
         assertNull(updatedItem.getMetadataRecords());
     }
 
@@ -593,9 +603,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
 
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -643,7 +654,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         item.setComponents(components);
 
         Marshaller<Item> m =
-            MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
+            MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(
+                Item.class);
         m.marshalDocument(item);
 
         Item createdItem = ihc.create(item);
@@ -662,9 +674,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
         properties.setContentModelSpecific(ResourceUtility
             .getContentModelSpecific());
         item.setProperties(properties);
@@ -692,7 +705,8 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // only for debug
         Marshaller<Item> m =
-            MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
+            MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(
+                Item.class);
         m.marshalDocument(item);
 
         Item createdItem = ihc.create(item);
@@ -720,7 +734,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // check Item
         // compare timestamps
-        Item retrievedItem = ihc.retrieve(item);
+        Item retrievedItem = ihc.retrieve(item.getObjid());
         DateTime lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
         assertEquals("Timestamps differ", lmdRetrievedItem,
@@ -737,7 +751,7 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         result = ihc.assignObjectPid(item, taskParam);
 
         // compare timestamps
-        retrievedItem = ihc.retrieve(item);
+        retrievedItem = ihc.retrieve(item.getObjid());
         lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
         assertEquals("Timestamps differ", lmdRetrievedItem,
@@ -781,16 +795,17 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         StagingHandlerClientInterface sthc =
             new StagingHandlerClient(auth.getServiceAddress());
         sthc.setHandle(auth.getHandle());
-        sthc.setTransport(transport);
 
         URL contentRef = sthc.upload(file);
 
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -816,6 +831,11 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
         Item newItem = ihc.create(item);
     }
 
+    @Test
+    public void deleteTest01() throws Exception {
+        ihc.delete(createItem().getObjid());
+    }
+
     /**
      * Create an Item with one Component.
      * 
@@ -834,9 +854,10 @@ public class ItemCreateTest extends AbstractParameterizedTestBase {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
 
         properties.setContentModelSpecific(ResourceUtility
             .getContentModelSpecific());

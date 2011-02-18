@@ -31,12 +31,12 @@ package de.escidoc.core.test.client.integrationTests.classMapping.oum;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -50,20 +50,15 @@ import org.xml.sax.SAXException;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
-import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.resources.oum.OrganizationalUnitList;
-import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
+import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -73,7 +68,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author CHH
  * 
  */
-public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
+public class FilterTopLevelOrgUnitTest {
 
     private static final String IS_TOP_LEVEL = "true";
 
@@ -84,10 +79,6 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
 
     private OrganizationalUnitHandlerClientInterface orgUnitClient;
 
-    public FilterTopLevelOrgUnitTest(final TransportProtocol transport) {
-        super(transport);
-    }
-
     @Before
     public void init() throws Exception {
         auth =
@@ -96,7 +87,6 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
         orgUnitClient =
             new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         orgUnitClient.setHandle(auth.getHandle());
-        orgUnitClient.setTransport(transport);
     }
 
     @After
@@ -109,7 +99,7 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
     public void shouldReturnOrgUnitWithNoParent() throws Exception {
         createOrgUnit();
 
-        OrganizationalUnitList orgUnits = getTopLevelOrgUnits();
+        List<OrganizationalUnit> orgUnits = getTopLevelOrgUnits();
 
         assertThatOrgUnitExist(orgUnits);
         assertThatOrgUnitsDoNotHaveParent(orgUnits);
@@ -130,7 +120,8 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
         final String ouName = "Generic Organizational Unit";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
@@ -163,22 +154,19 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
      * @throws TransportException
      */
     private void assertThatOrgUnitExist(
-        final OrganizationalUnitList rootOrgUnitList) throws EscidocException,
-        InternalClientException, TransportException {
+        final List<OrganizationalUnit> rootOrgUnitList)
+        throws EscidocException, InternalClientException, TransportException {
 
-        assertTrue("RootOrgUnitList is null.", rootOrgUnitList != null);
-
-        Collection<OrganizationalUnit> rootOrgUnits = rootOrgUnitList;
-
-        assertNotNull("rootOrgUnits is null.", rootOrgUnits);
-        assertTrue("rootOrgUnits is empty.", rootOrgUnits.size() > 0);
+        assertNotNull("rootOrgUnits is null.", rootOrgUnitList);
+        assertTrue("rootOrgUnits is empty.", rootOrgUnitList.size() > 0);
     }
 
     /**
-     * 
+     * @param rootOrgUnitList
      */
     private void assertThatOrgUnitsDoNotHaveParent(
-        final OrganizationalUnitList rootOrgUnitList) {
+        final List<OrganizationalUnit> rootOrgUnitList) {
+
         for (final OrganizationalUnit organizationalUnit : rootOrgUnitList) {
             final Parents parents = organizationalUnit.getParents();
             assertNotNull("Parents object should exist.", parents);
@@ -187,23 +175,11 @@ public class FilterTopLevelOrgUnitTest extends AbstractParameterizedTestBase {
         }
     }
 
-    private OrganizationalUnitList getTopLevelOrgUnits()
+    private List<OrganizationalUnit> getTopLevelOrgUnits()
         throws EscidocException, InternalClientException, TransportException {
-        return orgUnitClient
-            .retrieveOrganizationalUnits(createTaskParamWithTopLevelFilter());
-    }
 
-    private TaskParam createTaskParamWithTopLevelFilter() {
-        final TaskParam taskParam = new TaskParam();
-        taskParam.getFilters().add(createTopLevelFilter());
-        return taskParam;
-    }
-
-    private Filter createTopLevelFilter() {
-        final Filter filter = new Filter();
-        filter.setName(TOP_LEVEL_ORGANIZATIONAL_UNITS);
-        filter.setValue(IS_TOP_LEVEL);
-        filter.setIds(Collections.singletonList(""));
-        return filter;
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request.setQuery(TOP_LEVEL_ORGANIZATIONAL_UNITS + "=" + IS_TOP_LEVEL);
+        return orgUnitClient.retrieveOrganizationalUnitsAsList(request);
     }
 }

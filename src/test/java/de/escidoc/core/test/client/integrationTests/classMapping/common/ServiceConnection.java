@@ -41,14 +41,12 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -59,13 +57,9 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * 
  */
 @RunWith(Parameterized.class)
-public class ServiceConnection extends AbstractParameterizedTestBase {
+public class ServiceConnection {
 
     private Authentication auth;
-
-    public ServiceConnection(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -99,7 +93,6 @@ public class ServiceConnection extends AbstractParameterizedTestBase {
         ItemHandlerClientInterface cc =
             new ItemHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
 
         Item item = cc.retrieve(ITEM_ID);
         DateTime lmd = item.getLastModificationDate();
@@ -120,7 +113,6 @@ public class ServiceConnection extends AbstractParameterizedTestBase {
         ContainerHandlerClientInterface cc =
             new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
 
         Container container = cc.retrieve(CONTAINER_ID);
         DateTime lmd = container.getLastModificationDate();
@@ -141,7 +133,6 @@ public class ServiceConnection extends AbstractParameterizedTestBase {
         ContextHandlerClientInterface cc =
             new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
 
         Context context = cc.retrieve(CONTEXT_ID);
         DateTime lmd = context.getLastModificationDate();

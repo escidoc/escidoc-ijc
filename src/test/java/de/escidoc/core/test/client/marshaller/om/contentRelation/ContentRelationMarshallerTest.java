@@ -50,7 +50,11 @@ import de.escidoc.core.test.client.util.Template;
 public class ContentRelationMarshallerTest
     extends AbstractParameterizedTestBase {
 
-    public ContentRelationMarshallerTest(TransportProtocol transport) {
+    private static final String BASE = "/om/content-relation";
+
+    private static final String XSD_VERSION = "0.1";
+
+    public ContentRelationMarshallerTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -64,12 +68,12 @@ public class ContentRelationMarshallerTest
     public void unmarshallingRetrieved() throws Exception {
 
         String crXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/content-relation/0.1/content-relation01.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "content-relation01.xml"));
 
         ContentRelation cr =
-            MarshallerFactory.getInstance(transport).getMarshaller(ContentRelation.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(ContentRelation.class)
                 .unmarshalDocument(crXml);
 
         assertEquals("Wrong objid", "escidoc:157531", cr.getObjid());
@@ -133,12 +137,12 @@ public class ContentRelationMarshallerTest
     public void unmarshallingRetrievLocked() throws Exception {
 
         String crXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/content-relation/0.1/content-relation-locked01.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "content-relation-locked01.xml"));
 
         ContentRelation cr =
-            MarshallerFactory.getInstance(transport).getMarshaller(ContentRelation.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(ContentRelation.class)
                 .unmarshalDocument(crXml);
 
         assertEquals("Wrong objid", "escidoc:157531", cr.getObjid());
@@ -217,7 +221,8 @@ public class ContentRelationMarshallerTest
                         + "/om/content-relation/0.1/content-relation-before-create.xml"));
 
         ContentRelation cr =
-            MarshallerFactory.getInstance(transport).getMarshaller(ContentRelation.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(ContentRelation.class)
                 .unmarshalDocument(crXml);
 
         assertNull("Wrong objid", cr.getObjid());

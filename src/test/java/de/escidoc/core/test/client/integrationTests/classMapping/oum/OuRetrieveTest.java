@@ -37,11 +37,9 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -51,15 +49,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class OuRetrieveTest extends AbstractParameterizedTestBase {
+public class OuRetrieveTest {
 
     private Authentication auth;
 
     private OrganizationalUnitHandlerClientInterface ohc;
-
-    public OuRetrieveTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -68,7 +62,6 @@ public class OuRetrieveTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
-        ohc.setTransport(transport);
     }
 
     @After
@@ -86,7 +79,7 @@ public class OuRetrieveTest extends AbstractParameterizedTestBase {
     @Test
     public void testRetrieveExampleOu01() throws Exception {
         OrganizationalUnit ou =
-            ohc.retrieve(Constants.EXAMPLE_ORGANIZATIONAL_UNIT_ID);
+            ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
         MetadataRecord mdRecord = ou.getMetadataRecords().get("escidoc");
         assertNotNull(ou.getMetadataRecords().get("escidoc"));

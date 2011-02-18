@@ -14,7 +14,6 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -25,23 +24,18 @@ import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
-import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.ContextProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
+import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
-public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
+public class OpenContextWithEmptyComment {
 
     private static final String EMPTY_PUBLIC_STATUS_COMMENT = "";
 
     private Authentication auth;
 
     private ContextHandlerClientInterface cc;
-
-    public OpenContextWithEmptyComment(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -50,7 +44,6 @@ public class OpenContextWithEmptyComment extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
     }
 
     @After

@@ -29,16 +29,20 @@
 package de.escidoc.core.test.client.integrationTests.classMapping.aa.role;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.axis.types.NonNegativeInteger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,14 +60,13 @@ import de.escidoc.core.client.exceptions.application.notfound.RoleNotFoundExcept
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.RoleProperties;
-import de.escidoc.core.resources.aa.role.Roles;
 import de.escidoc.core.resources.aa.role.Scope;
 import de.escidoc.core.resources.aa.role.ScopeDef;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
@@ -73,15 +76,11 @@ import de.escidoc.core.test.client.util.Template;
  * 
  * 
  */
-public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
+public class RoleHandlerClientTest {
 
     private Authentication auth;
 
     private RoleHandlerClientInterface rc;
-
-    public RoleHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -90,7 +89,6 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         rc = new RoleHandlerClient(auth.getServiceAddress());
         rc.setHandle(auth.getHandle());
-        rc.setTransport(transport);
     }
 
     @After
@@ -172,12 +170,12 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         TaskParam filterParam = new TaskParam();
         Collection<Filter> filters = filterParam.getFilters();
 
-        filters.add(getFilter("limited", "false", null));
+        filters.add(new Filter("limited", "false", null));
         filterParam.setFilters(filters);
 
         // serialize data
         MarshallerFactory
-            .getInstance(transport).getMarshaller(TaskParam.class)
+            .getInstance().getMarshaller(TaskParam.class)
             .marshalDocument(filterParam);
     }
 
@@ -191,18 +189,12 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
     @Test
     public void testRetrieveRoles() throws EscidocClientException {
 
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request.setMaximumRecords(new NonNegativeInteger("0"));
 
-        filters.add(getFilter("limited", "false", null));
-        filterParam.setFilters(filters);
+        List<Role> roleList = rc.retrieveRolesAsList(request);
 
-        Roles roleList = rc.retrieveRoles(filterParam);
-
-        // test deserialize Role XML
-        MarshallerFactory
-            .getInstance(rc.getTransport()).getMarshaller(Roles.class)
-            .marshalDocument(roleList);
+        assertNotNull("No roles returned.", roleList);
     }
 
     /**
@@ -233,14 +225,12 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
 
         // Scope
         Scope scope = new Scope();
-        ScopeDef scopeDef1 = new ScopeDef();
+        ScopeDef scopeDef1 = new ScopeDef(ResourceType.Item);
         scopeDef1
             .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:item:context");
-        scopeDef1.setResourceType("item");
-        ScopeDef scopeDef2 = new ScopeDef();
+        ScopeDef scopeDef2 = new ScopeDef(ResourceType.Container);
         scopeDef2
             .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:item:context");
-        scopeDef2.setResourceType("container");
 
         Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);
@@ -254,42 +244,20 @@ public class RoleHandlerClientTest extends AbstractParameterizedTestBase {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc =
-            builder.parse(Template.load(transport.name().toLowerCase()
-                + "/aa/role/policy_for_create.xml"));
+            builder.parse(Template.load(TransportProtocol.REST
+                .name().toLowerCase() + "/aa/role/policy_for_create.xml"));
         Element root = doc.getDocumentElement();
 
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
         Marshaller<Role> m =
-            MarshallerFactory.getInstance(transport).getMarshaller(Role.class);
+            MarshallerFactory.getInstance().getMarshaller(Role.class);
 
         String xml = m.marshalDocument(role);
 
         Role urole = m.unmarshalDocument(xml);
 
         return urole;
-    }
-
-    /**
-     * Prepare and Filter class from the parameter collection.
-     * 
-     * @param name
-     *            TODO
-     * @param value
-     *            TODO
-     * @param ids
-     *            Collection of IDs
-     * @return Filter VO
-     */
-    private Filter getFilter(
-        final String name, final String value, final Collection<String> ids) {
-
-        Filter filter = new Filter();
-        filter.setName(name);
-        filter.setValue(value);
-        filter.setIds(ids);
-
-        return filter;
     }
 }

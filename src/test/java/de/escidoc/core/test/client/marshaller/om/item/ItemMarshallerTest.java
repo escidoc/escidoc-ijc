@@ -62,7 +62,11 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class ItemMarshallerTest extends AbstractParameterizedTestBase {
 
-    public ItemMarshallerTest(TransportProtocol transport) {
+    private static final String XSD_VERSION = "0.10";
+
+    private static final String BASE = "/om/item";
+
+    public ItemMarshallerTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -76,12 +80,12 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         String itemXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/item/0.9/item_released01.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "item_released01.xml"));
 
         Item item =
-            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Item.class)
                 .unmarshalDocument(itemXml);
 
         assertEquals("Wrong objid", "escidoc:40011", item.getObjid());
@@ -212,12 +216,12 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling02() throws Exception {
 
         String itemXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/item/0.9/item_locked01.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "item_locked01.xml"));
 
         Item item =
-            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Item.class)
                 .unmarshalDocument(itemXml);
 
         assertEquals("Wrong objid", "escidoc:40011", item.getObjid());
@@ -353,12 +357,13 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshallItemWithComponentInlineContent() throws Exception {
 
         String itemXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/item/0.9/item_one_component_inline_content.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION,
+                "item_one_component_inline_content.xml"));
 
         Item item =
-            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Item.class)
                 .unmarshalDocument(itemXml);
 
         assertNull("Wrong objid", item.getObjid());
@@ -499,7 +504,8 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
         item.setComponents(components);
 
         String itemXml =
-            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Item.class)
                 .marshalDocument(item);
 
         Document itemDoc = XmlUtility.getDocument(itemXml);
@@ -556,7 +562,8 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
         item.setComponents(components);
 
         String itemXml =
-            MarshallerFactory.getInstance(transport).getMarshaller(Item.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Item.class)
                 .marshalDocument(item);
 
     }

@@ -30,17 +30,18 @@ package de.escidoc.core.test.client.integrationTests.classMapping.aa.user_accoun
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
@@ -49,10 +50,7 @@ import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
-import de.escidoc.core.resources.aa.useraccount.UserAccounts;
-import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -62,15 +60,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author ROF, SWA
  * 
  */
-public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase {
+public class UserAccountHandlerClientTest {
 
     private Authentication auth;
 
     private UserAccountHandlerClientInterface uac;
-
-    public UserAccountHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -79,7 +73,6 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
     }
 
     @After
@@ -208,19 +201,14 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
     @Test
     public void testRetrieveUserAccounts() throws Exception {
 
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request
+            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
-        filterParam.setFilters(filters);
+        List<UserAccount> userAccountList =
+            uac.retrieveUserAccountsAsList(request);
 
-        UserAccounts userAccountList = uac.retrieveUserAccounts(filterParam);
-
-        MarshallerFactory
-            .getInstance(uac.getTransport()).getMarshaller(UserAccounts.class)
-            .marshalDocument(userAccountList);
+        assertNotNull("No user account list returned.", userAccountList);
     }
 
     /**
@@ -302,7 +290,6 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
         UserAccountHandlerClientInterface uac2 =
             new UserAccountHandlerClient(auth.getServiceAddress());
         uac2.setHandle(auth2.getHandle());
-        uac2.setTransport(transport);
 
         uac2.retrieve(objId);
     }
@@ -336,25 +323,4 @@ public class UserAccountHandlerClientTest extends AbstractParameterizedTestBase 
 
         return "login" + System.currentTimeMillis();
     }
-
-    /**
-     * Prepare and Filter class from the parameter collection.
-     * 
-     * @param name
-     * @param value
-     * @param ids
-     * @return Filter
-     * 
-     */
-    // FIXME method is duplicated (see role handler)
-    private Filter getFilter(
-        final String name, final String value, final Collection<String> ids) {
-
-        Filter filter = new Filter();
-        filter.setName(name);
-        filter.setValue(value);
-        filter.setIds(ids);
-        return filter;
-    }
-
 }

@@ -51,7 +51,9 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -60,10 +62,9 @@ import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
-import de.escidoc.core.resources.sb.explain.ExplainData;
+import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -73,15 +74,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase {
+public class ContainerFilterVersion12Test {
 
     private Authentication auth;
 
     private ContainerHandlerClientInterface cc;
-
-    public ContainerFilterVersion12Test(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -90,7 +87,6 @@ public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase 
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
     }
 
     @After
@@ -112,7 +108,7 @@ public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase 
 
         ExplainResponse response =
             cc.retrieveContainers(new ExplainRequestType());
-        ExplainData explain = response.getRecord().getRecordData();
+        Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertTrue("No index definitions found", explain
@@ -156,15 +152,20 @@ public class ContainerFilterVersion12Test extends AbstractParameterizedTestBase 
      * 
      * @return
      * @throws ParserConfigurationException
+     * @throws InternalClientException
+     * @throws EscidocException
+     * @throws TransportException
      */
-    private Container createContainer() throws ParserConfigurationException {
+    private Container createContainer() throws ParserConfigurationException,
+        TransportException, EscidocException, InternalClientException {
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
-        properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

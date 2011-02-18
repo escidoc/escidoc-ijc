@@ -15,7 +15,6 @@ import org.w3c.dom.Node;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -25,7 +24,6 @@ import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -34,15 +32,11 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author MVO
  * 
  */
-public class VersionHistoryTest extends AbstractParameterizedTestBase {
+public class VersionHistoryTest {
 
     private Authentication auth;
 
     private ItemHandlerClientInterface ihc;
-
-    public VersionHistoryTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -51,7 +45,6 @@ public class VersionHistoryTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
     }
 
     @After
@@ -70,9 +63,9 @@ public class VersionHistoryTest extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         item.setXLinkTitle("TEST");
 
         MetadataRecords mdRecords = new MetadataRecords();

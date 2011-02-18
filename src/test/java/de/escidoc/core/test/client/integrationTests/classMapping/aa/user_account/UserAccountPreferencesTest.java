@@ -37,7 +37,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.PreferenceNotFoundException;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
@@ -45,7 +44,6 @@ import de.escidoc.core.resources.aa.useraccount.Preference;
 import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -55,15 +53,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class UserAccountPreferencesTest extends AbstractParameterizedTestBase {
+public class UserAccountPreferencesTest {
 
     private Authentication auth;
 
     private UserAccountHandlerClientInterface uahc;
-
-    public UserAccountPreferencesTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -72,7 +66,6 @@ public class UserAccountPreferencesTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         uahc = new UserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
-        uahc.setTransport(transport);
     }
 
     @After
@@ -204,12 +197,7 @@ public class UserAccountPreferencesTest extends AbstractParameterizedTestBase {
         assertEquals("Preference value differs", uaPref.getValue(),
             createPref.getValue());
 
-        // delete Preference
-        uaPref = new Preference("PreferenceName", "PreferenceValue2");
-        // do not forget the last-modification-date
-        uaPref.setLastModificationDate(createPref.getLastModificationDate());
-
-        uahc.deletePreference(objId, uaPref);
+        uahc.deletePreference(objId, createPref.getName());
 
         // retrieve
         try {

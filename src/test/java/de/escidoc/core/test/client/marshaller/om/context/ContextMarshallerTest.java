@@ -48,7 +48,11 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class ContextMarshallerTest extends AbstractParameterizedTestBase {
 
-    public ContextMarshallerTest(TransportProtocol transport) {
+    private static final String BASE = "/om/context";
+
+    private static final String XSD_VERSION = "0.7";
+
+    public ContextMarshallerTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -62,12 +66,12 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling01() throws Exception {
 
         String contextXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/context/0.7/context01.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "context01.xml"));
 
         Context context =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
 
         assertEquals("Wrong objid", "escidoc:157546", context.getObjid());
@@ -112,12 +116,12 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
     public void unmarshalling02() throws Exception {
 
         String contextXml =
-            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
-                + transport.name().toLowerCase()
-                + "/om/context/0.7/context02.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "context02.xml"));
 
         Context context =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
     }
 }

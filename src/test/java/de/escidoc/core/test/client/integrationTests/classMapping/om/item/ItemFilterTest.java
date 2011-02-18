@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -50,7 +51,6 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -59,27 +59,24 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.resources.om.item.ItemList;
 import de.escidoc.core.resources.om.item.ItemProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * Test the Item Filter.
  * 
+ * TODO delete file and include new versions of these filter requests in
+ * ItemFilter12Test
+ * 
  * @author SWA
  * 
  */
-public class ItemFilterTest extends AbstractParameterizedTestBase {
+public class ItemFilterTest {
 
     private Authentication auth;
 
     private ItemHandlerClientInterface ihc;
-
-    public ItemFilterTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -88,7 +85,6 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
     }
 
     @After
@@ -115,13 +111,13 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
         Collection<String> ids = new LinkedList<String>();
         ids.add("escidoc:7043");
         ids.add("escidoc:7044");
-        ids.add(Constants.EXAMPLE_ITEM_ID);
-        filters.add(getFilter("http://purl.org/dc/elements/1.1/identifier",
+        ids.add(EscidocClientTestBase.getStaticItemId());
+        filters.add(new Filter("http://purl.org/dc/elements/1.1/identifier",
             null, ids));
-        filters.add(getFilter(
+        filters.add(new Filter(
             "http://escidoc.de/core/01/properties/public-status", "pending",
             null));
-        filters.add(getFilter(
+        filters.add(new Filter(
             "http://escidoc.de/core/01/structural-relations/created-by",
             "escidoc:user42", null));
         tp.setFilters(filters);
@@ -135,16 +131,11 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveItems() throws Exception {
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request
+            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=non-existing-user");
 
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
-
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            "non-existing-user", null));
-        filterParam.setFilters(filters);
-
-        ItemList itemList = ihc.retrieveItems(filterParam);
+        List<Item> itemList = ihc.retrieveItemsAsList(request);
 
         assertEquals("Wrong number of elements in list", 0, itemList.size());
     }
@@ -163,9 +154,9 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            EscidocClientTestBase.getStaticContentModelId()));
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
@@ -186,15 +177,13 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
         Item createdItem = ihc.create(item);
 
         // now check if at least this Item is in the list
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request.setQuery("\"/properties/creation-date\"="
+            + createdItem
+                .getProperties().getCreationDate().withZone(DateTimeZone.UTC)
+                .toString());
 
-        filters.add(getFilter("/properties/creation-date", createdItem
-            .getProperties().getCreationDate().withZone(DateTimeZone.UTC)
-            .toString(), null));
-        filterParam.setFilters(filters);
-
-        ItemList itemList = ihc.retrieveItems(filterParam);
+        List<Item> itemList = ihc.retrieveItemsAsList(request);
 
         assertTrue("Wrong number of elements in list", itemList.size() > 0);
 
@@ -210,27 +199,4 @@ public class ItemFilterTest extends AbstractParameterizedTestBase {
             idList.contains(createdItem.getObjid()));
 
     }
-
-    /* ********************************************************************** */
-
-    /**
-     * Prepare and Filter class from the parameter collection.
-     * 
-     * @param name
-     *            Parameter name
-     * @param value
-     *            filter value
-     * @param ids
-     * @return
-     */
-    private Filter getFilter(
-        final String name, final String value, final Collection<String> ids) {
-
-        Filter filter = new Filter();
-        filter.setName(name);
-        filter.setValue(value);
-        filter.setIds(ids);
-        return filter;
-    }
-
 }

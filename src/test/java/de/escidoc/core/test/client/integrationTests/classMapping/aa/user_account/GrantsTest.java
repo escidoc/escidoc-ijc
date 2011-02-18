@@ -59,7 +59,6 @@ import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.reference.RoleRef;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -70,15 +69,11 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
-public class GrantsTest extends AbstractParameterizedTestBase {
+public class GrantsTest {
 
     private Authentication auth;
 
     private UserAccountHandlerClientInterface uahc;
-
-    public GrantsTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -87,7 +82,6 @@ public class GrantsTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         uahc = new UserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
-        uahc.setTransport(transport);
     }
 
     @After
@@ -153,15 +147,14 @@ public class GrantsTest extends AbstractParameterizedTestBase {
         // create Item
         ItemHandlerClientInterface ihc =
             new ItemHandlerClient(auth.getServiceAddress());
-        ihc.setTransport(transport);
         ihc.setHandle(auth.getHandle());
 
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();

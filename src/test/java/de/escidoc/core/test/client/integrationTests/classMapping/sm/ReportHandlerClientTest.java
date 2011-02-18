@@ -13,7 +13,6 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ReportDefinitionHandlerClient;
 import de.escidoc.core.client.ReportHandlerClient;
 import de.escidoc.core.client.ScopeHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -26,7 +25,6 @@ import de.escidoc.core.resources.sm.report.ReportDefinition;
 import de.escidoc.core.resources.sm.report.ReportParameters;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -34,7 +32,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author MVO
  * 
  */
-public class ReportHandlerClientTest extends AbstractParameterizedTestBase {
+public class ReportHandlerClientTest {
 
     private Authentication auth;
 
@@ -43,14 +41,6 @@ public class ReportHandlerClientTest extends AbstractParameterizedTestBase {
     private String reportDefId;
 
     private String scopeId;
-
-    /**
-     * 
-     * @param transport
-     */
-    public ReportHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     /**
      * 
@@ -63,7 +53,6 @@ public class ReportHandlerClientTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         rhc = new ReportHandlerClient(auth.getServiceAddress());
         rhc.setHandle(auth.getHandle());
-        rhc.setTransport(transport);
         // create test scope
         scopeId = createScope(ScopeType.admin);
         if (scopeId == null) {
@@ -99,11 +88,11 @@ public class ReportHandlerClientTest extends AbstractParameterizedTestBase {
             new ReportParameters(new ReportDefinitionRef(reportDefId));
 
         Marshaller<ReportParameters> m1 =
-            MarshallerFactory.getInstance(transport).getMarshaller(
+            MarshallerFactory.getInstance().getMarshaller(
                 ReportParameters.class);
 
         Marshaller<Report> m2 =
-            MarshallerFactory.getInstance(transport).getMarshaller(Report.class);
+            MarshallerFactory.getInstance().getMarshaller(Report.class);
 
         String xml = m1.marshalDocument(parameters);
         m1.unmarshalDocument(xml);
@@ -130,7 +119,6 @@ public class ReportHandlerClientTest extends AbstractParameterizedTestBase {
         ScopeHandlerClient shc =
             new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
-        shc.setTransport(transport);
 
         return shc.create(scope).getObjid();
     }
@@ -149,7 +137,6 @@ public class ReportHandlerClientTest extends AbstractParameterizedTestBase {
         ReportDefinitionHandlerClient rdhc =
             new ReportDefinitionHandlerClient(auth.getServiceAddress());
         rdhc.setHandle(auth.getHandle());
-        rdhc.setTransport(transport);
 
         ReportDefinition rd =
             new ReportDefinition(name, new ScopeRef(scopeId), sql);

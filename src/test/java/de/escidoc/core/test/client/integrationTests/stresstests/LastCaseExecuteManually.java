@@ -69,7 +69,7 @@ public class LastCaseExecuteManually {
     public void testRetrieves1() throws Exception {
         for (int i = 0; i < 500; i++) {
             try {
-                cc.retrieve(Constants.EXAMPLE_CONTENT_MODEL_ID);
+                cc.retrieve(EscidocClientTestBase.getStaticContentModelId());
             }
             catch (Exception e) {
                 if (!failed) {
@@ -92,7 +92,7 @@ public class LastCaseExecuteManually {
     public void testRetrieves2() throws Exception {
         for (int i = 0; i < 500; i++) {
             try {
-                cc.retrieve(Constants.EXAMPLE_CONTENT_MODEL_ID);
+                cc.retrieve(EscidocClientTestBase.getStaticContentModelId());
             }
             catch (Exception e) {
                 if (!failed) {
@@ -115,7 +115,7 @@ public class LastCaseExecuteManually {
     public void testRetrieves3() throws Exception {
         for (int i = 0; i < 500; i++) {
             try {
-                cc.retrieve(Constants.EXAMPLE_CONTENT_MODEL_ID);
+                cc.retrieve(EscidocClientTestBase.getStaticContentModelId());
             }
             catch (Exception e) {
                 if (!failed) {
@@ -138,7 +138,7 @@ public class LastCaseExecuteManually {
     public void testFoo4() throws Exception {
         for (int i = 0; i < 500; i++) {
             try {
-                cc.retrieve(Constants.EXAMPLE_CONTENT_MODEL_ID);
+                cc.retrieve(EscidocClientTestBase.getStaticContentModelId());
             }
             catch (Exception e) {
                 if (!failed) {

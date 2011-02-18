@@ -31,6 +31,8 @@ package de.escidoc.core.test.client.util;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import de.escidoc.core.client.TransportProtocol;
+
 /**
  * Utility class to handle template.
  * 
@@ -74,4 +76,62 @@ public class Template {
         // return new FileInputStream(f);
     }
 
+    /**
+     * @param transport
+     * @param basePath
+     * @param xsdVersion
+     * @param filename
+     * @return
+     * @throws FileNotFoundException
+     */
+    public static final InputStream loadMockup(
+        final TransportProtocol transport, final String basePath,
+        final String xsdVersion, final String filename)
+        throws FileNotFoundException {
+
+        String base = null;
+
+        if (basePath != null) {
+            base = basePath;
+            if (!base.startsWith("/"))
+                base = "/" + base;
+            if (!base.endsWith("/"))
+                base += "/";
+            if (xsdVersion != null)
+                base += xsdVersion + "/";
+        }
+        else {
+            base = "/";
+        }
+
+        return load("/mockups/" + transport.name().toLowerCase() + base
+            + filename);
+    }
+
+    /**
+     * @param transport
+     * @param basePath
+     * @param filename
+     * @return
+     * @throws FileNotFoundException
+     */
+    public static final InputStream loadMockup(
+        final TransportProtocol transport, final String basePath,
+        final String filename) throws FileNotFoundException {
+
+        return loadMockup(transport, basePath, null, filename);
+    }
+
+    /**
+     * @param transport
+     * @param filename
+     * @return
+     * @throws FileNotFoundException
+     */
+    public static final InputStream loadMockup(
+        final TransportProtocol transport, final String filename)
+        throws FileNotFoundException {
+
+        return loadMockup(transport, null, null, filename);
+    }
 }

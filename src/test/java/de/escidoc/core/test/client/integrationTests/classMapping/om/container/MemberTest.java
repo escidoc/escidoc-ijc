@@ -49,7 +49,6 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -65,7 +64,6 @@ import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -75,15 +73,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class MemberTest extends AbstractParameterizedTestBase {
+public class MemberTest {
 
     private Authentication auth;
 
     private ContainerHandlerClientInterface cc;
-
-    public MemberTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -92,7 +86,6 @@ public class MemberTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
     }
 
     @After
@@ -305,11 +298,11 @@ public class MemberTest extends AbstractParameterizedTestBase {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        ContextRef cRef = new ContextRef(Constants.EXAMPLE_CONTEXT_ID);
+        ContextRef cRef = new ContextRef(EscidocClientTestBase.getStaticContextId());
         cRef.setXLinkTitle("Test Context");
         properties.setContext(cRef);
         ContentModelRef cmRef =
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID);
+            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId());
         cmRef.setXLinkTitle("Test ContentModel");
         properties.setContentModel(cmRef);
         container.setProperties(properties);
@@ -339,9 +332,9 @@ public class MemberTest extends AbstractParameterizedTestBase {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -353,7 +346,6 @@ public class MemberTest extends AbstractParameterizedTestBase {
         ItemHandlerClientInterface ihc =
             new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
 
         // create
         Item newItem = ihc.create(item);

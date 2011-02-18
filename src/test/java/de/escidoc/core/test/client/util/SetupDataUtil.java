@@ -43,7 +43,6 @@ import de.escidoc.core.client.ContentModelHandlerClient;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -72,8 +71,8 @@ import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.common.reference.RoleRef;
 import de.escidoc.core.resources.om.context.Context;
-import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.ContextProperties;
+import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -105,9 +104,9 @@ public class SetupDataUtil {
      * @throws TransportException
      */
     public static OrganizationalUnit createOrganizationalUnit(
-        final Authentication auth, final TransportProtocol transport,
-        final boolean setToOpen) throws InternalClientException,
-        ParserConfigurationException, EscidocException, TransportException {
+        final Authentication auth, final boolean setToOpen)
+        throws InternalClientException, ParserConfigurationException,
+        EscidocException, TransportException {
 
         final String ouName = "name" + System.currentTimeMillis();
         final String ouDescription = "Just a generic organizational unit.";
@@ -154,7 +153,6 @@ public class SetupDataUtil {
         OrganizationalUnitHandlerClientInterface ouhc =
             new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ouhc.setHandle(auth.getHandle());
-        ouhc.setTransport(transport);
 
         organizationalUnit = ouhc.create(organizationalUnit);
 
@@ -182,8 +180,7 @@ public class SetupDataUtil {
      */
     public static UserAccount createUserWithDepositorRole(
         final Authentication auth, final String password,
-        final Reference assignOn, final TransportProtocol transport)
-        throws EscidocClientException {
+        final Reference assignOn) throws EscidocClientException {
 
         UserAccount ua = new UserAccount();
 
@@ -199,7 +196,6 @@ public class SetupDataUtil {
         UserAccountHandlerClientInterface uac =
             new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
-        uac.setTransport(transport);
 
         // create
         UserAccount userAccount = uac.create(ua);
@@ -238,13 +234,11 @@ public class SetupDataUtil {
      */
     public static Context createContext(
         final Authentication auth, final OrganizationalUnit organizationalUnit,
-        final TransportProtocol transport, final boolean setToOpen)
-        throws EscidocClientException {
+        final boolean setToOpen) throws EscidocClientException {
 
         ContextHandlerClientInterface cc =
             new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
 
         Context context = new Context();
         ContextProperties properties = new ContextProperties();
@@ -293,11 +287,10 @@ public class SetupDataUtil {
      */
     public static Item createItem(
         final Authentication auth, final Context context,
-        final ContentModel contentModel, final TransportProtocol transport)
-        throws EscidocClientException, ParserConfigurationException {
+        final ContentModel contentModel) throws EscidocClientException,
+        ParserConfigurationException {
 
-        return createItem(auth, context.getObjid(), contentModel.getObjid(),
-            transport);
+        return createItem(auth, context.getObjid(), contentModel.getObjid());
     }
 
     /**
@@ -315,8 +308,8 @@ public class SetupDataUtil {
      */
     public static Item createItem(
         final Authentication auth, final String contextId,
-        final String contentModelId, final TransportProtocol transport)
-        throws EscidocClientException, ParserConfigurationException {
+        final String contentModelId) throws EscidocClientException,
+        ParserConfigurationException {
 
         Item item = new Item();
 
@@ -333,7 +326,6 @@ public class SetupDataUtil {
         ItemHandlerClientInterface ihc =
             new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
-        ihc.setTransport(transport);
 
         return ihc.create(item);
     }
@@ -350,14 +342,12 @@ public class SetupDataUtil {
      *             Thrown if value for XSLT of resource definition is not a
      *             valid URI
      */
-    public static ContentModel createContentModel(
-        final Authentication auth, final TransportProtocol transport)
+    public static ContentModel createContentModel(final Authentication auth)
         throws EscidocClientException, URISyntaxException {
 
         ContentModelHandlerClientInterface cc =
             new ContentModelHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
 
         ContentModel contentModel = new ContentModel();
         ContentModelProperties properties = new ContentModelProperties();

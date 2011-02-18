@@ -45,7 +45,6 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserManagementWrapperClient;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
@@ -56,9 +55,8 @@ import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
-import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.ContextProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
+import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -68,15 +66,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class AuthenticationTest extends AbstractParameterizedTestBase {
-
-    /**
-     * 
-     * @param transport
-     */
-    public AuthenticationTest(TransportProtocol transport) {
-        super(transport);
-    }
+public class AuthenticationTest {
 
     /**
      * Test to logout.
@@ -87,7 +77,6 @@ public class AuthenticationTest extends AbstractParameterizedTestBase {
     @Test
     public void testLogout() throws Exception {
         UserManagementWrapperClient umw = new UserManagementWrapperClient();
-        umw.setTransport(transport);
         umw.logout();
     }
 
@@ -116,8 +105,7 @@ public class AuthenticationTest extends AbstractParameterizedTestBase {
         ItemHandlerClientInterface ih =
             new ItemHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ih.setHandle(auth.getHandle());
-        ih.setTransport(transport);
-        ih.retrieve(Constants.EXAMPLE_ITEM_ID);
+        ih.retrieve(EscidocClientTestBase.getStaticItemId());
         auth.logout();
     }
 
@@ -136,10 +124,9 @@ public class AuthenticationTest extends AbstractParameterizedTestBase {
         ItemHandlerClientInterface ih =
             new ItemHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
         ih.setHandle(auth.getHandle());
-        ih.setTransport(transport);
 
         try {
-            ih.retrieve(Constants.EXAMPLE_ITEM_ID);
+            ih.retrieve(EscidocClientTestBase.getStaticItemId());
         }
         catch (AuthenticationException e) {
             assertTrue(
@@ -174,7 +161,6 @@ public class AuthenticationTest extends AbstractParameterizedTestBase {
 
         ContextHandlerClientInterface cc =
             new ContextHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
-        cc.setTransport(TransportProtocol.REST);
 
         final Context context = new Context();
         final ContextProperties properties = new ContextProperties();

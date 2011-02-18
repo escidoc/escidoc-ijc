@@ -39,7 +39,6 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentModelHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface;
@@ -50,7 +49,6 @@ import de.escidoc.core.resources.cmm.MetadataRecordDefinition;
 import de.escidoc.core.resources.cmm.MetadataRecordDefinitions;
 import de.escidoc.core.resources.cmm.ResourceDefinition;
 import de.escidoc.core.resources.cmm.ResourceDefinitions;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -60,15 +58,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ContentModelCreateTest extends AbstractParameterizedTestBase {
+public class ContentModelCreateTest {
 
     private Authentication auth;
 
     private ContentModelHandlerClientInterface cc;
-
-    public ContentModelCreateTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -77,7 +71,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentModelHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
     }
 
     @After
@@ -127,7 +120,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
         // asserts
         UserAccountHandlerClientInterface uac =
             new UserAccountHandlerClient(auth.getServiceAddress());
-        uac.setTransport(transport);
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
@@ -170,7 +162,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
         // asserts
         UserAccountHandlerClient uac =
             new UserAccountHandlerClient(auth.getServiceAddress());
-        uac.setTransport(transport);
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
@@ -250,7 +241,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
         // asserts
         UserAccountHandlerClient uac =
             new UserAccountHandlerClient(auth.getServiceAddress());
-        uac.setTransport(transport);
         uac.setHandle(auth.getHandle());
 
         UserAccount me = uac.retrieveCurrentUser();
@@ -345,7 +335,6 @@ public class ContentModelCreateTest extends AbstractParameterizedTestBase {
         // asserts
         UserAccountHandlerClient uac =
             new UserAccountHandlerClient(auth.getServiceAddress());
-        uac.setTransport(transport);
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 

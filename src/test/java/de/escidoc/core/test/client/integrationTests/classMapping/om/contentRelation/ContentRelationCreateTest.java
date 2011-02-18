@@ -41,7 +41,6 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentRelationHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -52,7 +51,6 @@ import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.resources.om.contentRelation.ContentRelationProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
@@ -63,15 +61,11 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  * @author SWA
  * 
  */
-public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
+public class ContentRelationCreateTest {
 
     private Authentication auth;
 
     private ContentRelationHandlerClientInterface cc;
-
-    public ContentRelationCreateTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -80,7 +74,6 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentRelationHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
     }
 
     @After
@@ -350,7 +343,8 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
         // check ContentRelation
         // compare timestamps
         DateTime lmdResult = result.getLastModificationDate();
-        ContentRelation retrievedContentRelation = cc.retrieve(contentRelation);
+        ContentRelation retrievedContentRelation =
+            cc.retrieve(contentRelation.getObjid());
         DateTime lmdRetrievedContentRelation =
             retrievedContentRelation.getLastModificationDate();
 
@@ -369,7 +363,7 @@ public class ContentRelationCreateTest extends AbstractParameterizedTestBase {
 
         // compare timestamps
         lmdResult = result.getLastModificationDate();
-        retrievedContentRelation = cc.retrieve(contentRelation);
+        retrievedContentRelation = cc.retrieve(contentRelation.getObjid());
         lmdRetrievedContentRelation =
             retrievedContentRelation.getLastModificationDate();
 

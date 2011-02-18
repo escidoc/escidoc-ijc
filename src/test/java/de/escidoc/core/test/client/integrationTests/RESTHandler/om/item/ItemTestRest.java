@@ -78,7 +78,7 @@ public class ItemTestRest {
      */
     @Test
     public void testRetrieveItem01() throws Exception {
-        cc.retrieve(Constants.EXAMPLE_ITEM_ID);
+        cc.retrieve(EscidocClientTestBase.getStaticItemId());
     }
 
     /**
@@ -90,7 +90,7 @@ public class ItemTestRest {
     @Test
     public void testCreateItem01() throws Exception {
         // retrieve a valid Item
-        final String item = cc.retrieve(Constants.EXAMPLE_ITEM_ID);
+        final String item = cc.retrieve(EscidocClientTestBase.getStaticItemId());
 
         // create a new Item (on basis of the valid)
         final String createdItemXml = cc.create(item);

@@ -45,8 +45,14 @@ import org.apache.xpath.XPathAPI;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 
+import de.escidoc.core.client.AdminHandlerClient;
+import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.resources.adm.LoadExamplesResult.Entry;
+import de.escidoc.core.resources.common.MessagesResult;
 
 /**
  * Utility methods for Tests.
@@ -77,6 +83,18 @@ public final class EscidocClientTestBase {
 
     private static final TransportProtocol defaultTransportProtocol =
         TransportProtocol.REST;
+
+    private static String exampleItemId = null;
+
+    private static String exampleOrganizationalUnitId = null;
+
+    private static String exampleContextId = null;
+
+    private static String exampleContentModelId = null;
+
+    private static String exampleContainerId = null;
+
+    private static boolean loadedExamples = false;
 
     private EscidocClientTestBase() {
     }
@@ -234,5 +252,78 @@ public final class EscidocClientTestBase {
                     xPathToElement + "/@objid|" + xPathToElement + "/@href")
                 .getTextContent();
         return objidOrHref.substring(objidOrHref.lastIndexOf('/') + 1);
+    }
+
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     */
+    private static void loadStaticResources() throws TransportException,
+        EscidocException, InternalClientException {
+
+        Authentication auth =
+            new Authentication(DEFAULT_SERVICE_URL,
+                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        AdminHandlerClient c = new AdminHandlerClient(auth.getServiceAddress());
+        c.setHandle(auth.getHandle());
+        MessagesResult<Entry> result = c.loadExamples();
+
+        for (Entry entry : result) {
+            switch (entry.getResourceType()) {
+                case Item:
+                    exampleItemId = entry.getObjid();
+                    break;
+                case OrganizationalUnit:
+                    exampleOrganizationalUnitId = entry.getObjid();
+                    break;
+                case Context:
+                    exampleContextId = entry.getObjid();
+                    break;
+                case ContentModel:
+                    exampleContentModelId = entry.getObjid();
+                    break;
+                case Container:
+                    exampleContainerId = entry.getObjid();
+                    break;
+            }
+        }
+        loadedExamples = true;
+    }
+
+    public static synchronized String getStaticItemId()
+        throws TransportException, EscidocException, InternalClientException {
+        if (!loadedExamples)
+            loadStaticResources();
+        return exampleItemId;
+    }
+
+    public static synchronized String getStaticOrganizationalUnitId()
+        throws TransportException, EscidocException, InternalClientException {
+        if (!loadedExamples)
+            loadStaticResources();
+        return exampleOrganizationalUnitId;
+    }
+
+    public static synchronized String getStaticContextId()
+        throws TransportException, EscidocException, InternalClientException {
+        if (!loadedExamples)
+            loadStaticResources();
+        return exampleContextId;
+    }
+
+    public static synchronized String getStaticContentModelId()
+        throws TransportException, EscidocException, InternalClientException {
+        if (!loadedExamples)
+            loadStaticResources();
+        return exampleContentModelId;
+    }
+
+    public static synchronized String getStaticContainerId()
+        throws TransportException, EscidocException, InternalClientException {
+        if (!loadedExamples)
+            loadStaticResources();
+        return exampleContainerId;
     }
 }

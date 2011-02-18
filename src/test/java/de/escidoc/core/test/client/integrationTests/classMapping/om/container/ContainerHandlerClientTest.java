@@ -28,7 +28,10 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 
-import java.util.Collection;
+import static org.junit.Assert.assertNotNull;
+import gov.loc.www.zing.srw.SearchRetrieveRequestType;
+
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,22 +44,16 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.application.notfound.ContainerNotFoundException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
-import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
-import de.escidoc.core.resources.om.MemberList;
+import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.container.Container;
-import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.container.ContainerProperties;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
@@ -66,15 +63,11 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
  * @author SWA
  * 
  */
-public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
+public class ContainerHandlerClientTest {
 
     private Authentication auth;
 
     private ContainerHandlerClientInterface cc;
-
-    public ContainerHandlerClientTest(final TransportProtocol transport) {
-        super(transport);
-    }
 
     @Before
     public void init() throws Exception {
@@ -83,7 +76,6 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
-        cc.setTransport(transport);
     }
 
     @After
@@ -103,9 +95,9 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
         // create first a Container
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            EscidocClientTestBase.getStaticContentModelId()));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -124,7 +116,8 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
         // retrieve the created Container
         Container container = cc.retrieve(objid);
 
-        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Container.class)
+        MarshallerFactory
+            .getInstance(cc.getTransport()).getMarshaller(Container.class)
             .marshalDocument(container);
     }
 
@@ -147,23 +140,14 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
      */
     @Test
     public void testRetrieveContainers() throws Exception {
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request
+            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
-        filterParam.setFilters(filters);
-
-        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(TaskParam.class)
-            .marshalDocument(filterParam);
-
-        ContainerList containerList = cc.retrieveContainers(filterParam);
-        Marshaller<ContainerList> m =
-            MarshallerFactory.getInstance(transport).getMarshaller(ContainerList.class);
-        String xml = m.marshalDocument(containerList);
+        List<Container> containerList = cc.retrieveContainersAsList(request);
 
         // FIXME check containerList
+        assertNotNull(containerList);
     }
 
     /**
@@ -176,9 +160,9 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
     public void testRetrieveMembers() throws Exception {
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            EscidocClientTestBase.getStaticContentModelId()));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord();
@@ -194,43 +178,18 @@ public class ContainerHandlerClientTest extends AbstractParameterizedTestBase {
         Container createdContainer = cc.create(containerNew);
         String objid = createdContainer.getObjid();
         Container container = cc.retrieve(objid);
-        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Container.class)
+        MarshallerFactory
+            .getInstance(cc.getTransport()).getMarshaller(Container.class)
             .marshalDocument(container);
 
-        TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
+        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        request
+            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        filters.add(getFilter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
-        filterParam.setFilters(filters);
-        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(TaskParam.class)
-            .marshalDocument(filterParam);
-
-        MemberList memberList = cc.retrieveMembers(objid, filterParam);
-        Marshaller<MemberList> m =
-            MarshallerFactory.getInstance(transport).getMarshaller(MemberList.class);
-        String xml = m.marshalDocument(memberList);
+        List<GenericVersionableResource> memberList =
+            cc.retrieveMembersAsList(objid, request);
 
         // FIXME check containerList
-    }
-
-    /**
-     * Prepare and Filter class from the parameter collection.
-     * 
-     * @param name
-     * @param value
-     * @param ids
-     * @return Filter
-     */
-    // FIXME redundant method
-    private Filter getFilter(
-        final String name, final String value, final Collection<String> ids) {
-
-        Filter filter = new Filter();
-        filter.setName(name);
-        filter.setValue(value);
-        filter.setIds(ids);
-        return filter;
+        assertNotNull(memberList);
     }
 }

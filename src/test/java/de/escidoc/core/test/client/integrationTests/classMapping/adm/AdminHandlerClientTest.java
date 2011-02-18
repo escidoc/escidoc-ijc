@@ -27,7 +27,6 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.OrganizationalUnitHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -79,8 +78,6 @@ public class AdminHandlerClientTest {
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
         ahc = new AdminHandlerClient(auth.getServiceAddress());
         ahc.setHandle(auth.getHandle());
-        // ADM has some serious problems, when called via SOAP
-        ahc.setTransport(TransportProtocol.REST);
     }
 
     @After
@@ -109,16 +106,6 @@ public class AdminHandlerClientTest {
     @Test
     public void testPurgeStatus() throws Exception {
         MessagesStatus status = ahc.getPurgeStatus();
-        validateMessagesStatus(status);
-    }
-
-    /**
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testRecacheStatus() throws Exception {
-        MessagesStatus status = ahc.getRecacheStatus();
         validateMessagesStatus(status);
     }
 
@@ -167,84 +154,6 @@ public class AdminHandlerClientTest {
             info.get(RepositoryInfo.KEY_SCHEMA_ORGANIZATIONAL_UNIT));
         assertNotNull(RepositoryInfo.KEY_SCHEMA_USER_ACCOUNT + " is null.",
             info.get(RepositoryInfo.KEY_SCHEMA_USER_ACCOUNT));
-    }
-
-    /**
-     * 
-     * @throws Exception
-     */
-    // @Test
-    public void testRecache() throws Exception {
-        // start recaching
-        final MessagesStatus status = ahc.recache(true);
-        final ExceptionStatus exceptionStatus = new ExceptionStatus();
-
-        // request status of recaching
-        // do a request every 5 seconds
-        final Thread thread = new Thread() {
-
-            @Override
-            public void run() {
-                MessagesStatus myStatus = status;
-                // log initial status
-                log(myStatus);
-
-                try {
-                    for (; myStatus.getStatusCode() == MessagesStatus.STATUS_IN_PROGRESS;) {
-                        // request current status
-                        myStatus = ahc.getRecacheStatus();
-                        // log current status
-                        log(myStatus);
-                        // wait
-                        sleep(5000);
-
-                        /*
-                         * uncomment this, if you want to see, that the
-                         * exception delegation works correctly:
-                         */
-                        // throw new InternalClientException("TEST");
-                    }
-                }
-                catch (EscidocException e) {
-                    throw new RuntimeException(e);
-                }
-                catch (InternalClientException e) {
-                    throw new RuntimeException(e);
-                }
-                catch (TransportException e) {
-                    throw new RuntimeException(e);
-                }
-                catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        };
-        /*
-         * register exception handler to delegate the exception of the thread
-         * above back to this test
-         */
-        thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-
-            @Override
-            public void uncaughtException(final Thread t, final Throwable e) {
-                exceptionStatus.setException((Exception) e.getCause());
-            }
-
-        });
-        // now let's start the thread and wait for it to be finished
-        thread.start();
-        // wait for the thread
-        for (; thread.isAlive();)
-            ;
-        // evaluate result
-        if (exceptionStatus.hasException()) {
-            throw exceptionStatus.getException();
-        }
-        else {
-            // test if recache info status is set to finished
-            MessagesStatus newStatus = ahc.getRecacheStatus();
-            assertTrue(newStatus.getStatusCode() == MessagesStatus.STATUS_FINISHED);
-        }
     }
 
     /**
@@ -340,17 +249,14 @@ public class AdminHandlerClientTest {
         ItemHandlerClientInterface ih =
             new ItemHandlerClient(auth.getServiceAddress());
         ih.setHandle(auth.getHandle());
-        ih.setTransport(ahc.getTransport());
 
         OrganizationalUnitHandlerClientInterface oh =
             new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         oh.setHandle(auth.getHandle());
-        oh.setTransport(ahc.getTransport());
 
         ContainerHandlerClientInterface ch =
             new ContainerHandlerClient(auth.getServiceAddress());
         ch.setHandle(auth.getHandle());
-        ch.setTransport(ahc.getTransport());
 
         Collection<String> ids = new LinkedList<String>();
 
@@ -454,9 +360,9 @@ public class AdminHandlerClientTest {
         Item item = new Item();
 
         item.getProperties().setContext(
-            new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(
-            new ContentModelRef(Constants.EXAMPLE_CONTENT_MODEL_ID));
+            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         item.setXLinkTitle("TEST");
 
         // Metadata Record(s)
@@ -486,9 +392,9 @@ public class AdminHandlerClientTest {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(Constants.EXAMPLE_CONTEXT_ID));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(
-            Constants.EXAMPLE_CONTENT_MODEL_ID));
+            EscidocClientTestBase.getStaticContentModelId()));
 
         container.setProperties(properties);
 
@@ -519,7 +425,8 @@ public class AdminHandlerClientTest {
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties =
+            new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
