@@ -3,16 +3,12 @@
  */
 package de.escidoc.core.resources.sb.search;
 
-import gov.loc.www.zing.srw.RecordType;
-import gov.loc.www.zing.srw.SearchRetrieveResponseType;
-
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
-import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.common.types.PositiveInteger;
 import de.escidoc.core.resources.sb.Response;
-import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
 
 /**
  * @author MVO
@@ -20,44 +16,38 @@ import de.escidoc.core.resources.sb.search.records.SearchResultRecordRecord;
  */
 public class SearchRetrieveResponse extends Response {
 
+    // required fields
     private int numberOfRecords = -1;
 
-    private final Collection<Record<?>> records = new LinkedList<Record<?>>();
+    // optional fields
+    private String resultSetId;
 
-    /**
-     * Constructor for REST response.
-     */
+    private PositiveInteger resultSetIdleTime;
+
+    private PositiveInteger nextRecordPosition;
+
+    // TODO
+    private Object echoedSearchRetrieveRequest;
+
+    // TODO
+    private Object diagnostics;
+
+    // TODO
+    private Object extraResponseData;
+
+    private final List<SearchResultRecord> records =
+        new LinkedList<SearchResultRecord>();
+
+    @JiBX
     protected SearchRetrieveResponse() {
         super();
-    }
-
-    /**
-     * Constructor for SOAP response.
-     * 
-     * @param zingResponseType
-     * @throws InternalClientException
-     */
-    private SearchRetrieveResponse(
-        final SearchRetrieveResponseType axisResponseType)
-        throws InternalClientException {
-        super(axisResponseType.getVersion());
-        this.numberOfRecords = axisResponseType.getNumberOfRecords().intValue();
-
-        if (axisResponseType.getRecords() != null) {
-            RecordType[] records = axisResponseType.getRecords().getRecord();
-            if (records != null) {
-                for (int i = 0; i < records.length; i++) {
-                    this.records.add(new SearchResultRecordRecord(records[i]));
-                }
-            }
-        }
     }
 
     /**
      * 
      * @return The number of records matching the query.
      */
-    public int getNumberOfMatchingRecords() {
+    public final int getNumberOfMatchingRecords() {
         return this.numberOfRecords;
     }
 
@@ -66,28 +56,65 @@ public class SearchRetrieveResponse extends Response {
      * @return The number of records matching the query <b>and</b> limited by
      *         maximumRecords or other parameters.
      */
-    public int getNumberOfResultingRecords() {
+    public final int getNumberOfResultingRecords() {
         return this.records.size();
     }
 
     /**
-     * Collection of retrieve records.
+     * Collection of records.
      * 
      * @return records
      */
-    public Collection<Record<?>> getRecords() {
+    public final List<SearchResultRecord> getRecords() {
         return records;
     }
 
     /**
-     * 
-     * @param axisResponseType
-     * @return
-     * @throws InternalClientException
+     * @return the numberOfRecords
      */
-    public static final SearchRetrieveResponse createSearchRetrieveResponse(
-        final SearchRetrieveResponseType axisResponseType)
-        throws InternalClientException {
-        return new SearchRetrieveResponse(axisResponseType);
+    public final int getNumberOfRecords() {
+        return numberOfRecords;
+    }
+
+    /**
+     * @return the resultSetId
+     */
+    public final String getResultSetId() {
+        return resultSetId;
+    }
+
+    /**
+     * @return the resultSetIdleTime
+     */
+    public final PositiveInteger getResultSetIdleTime() {
+        return resultSetIdleTime;
+    }
+
+    /**
+     * @return the nextRecordPosition
+     */
+    public final PositiveInteger getNextRecordPosition() {
+        return nextRecordPosition;
+    }
+
+    /**
+     * @return the echoedSearchRetrieveRequest
+     */
+    public final Object getEchoedSearchRetrieveRequest() {
+        return echoedSearchRetrieveRequest;
+    }
+
+    /**
+     * @return the diagnostics
+     */
+    public final Object getDiagnostics() {
+        return diagnostics;
+    }
+
+    /**
+     * @return the extraResponseData
+     */
+    public final Object getExtraResponseData() {
+        return extraResponseData;
     }
 }

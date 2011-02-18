@@ -1,7 +1,9 @@
 package de.escidoc.core.resources.sb.explain;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
+
+import de.escidoc.core.annotations.JiBX;
 
 /**
  * Read-only class.
@@ -15,22 +17,29 @@ import java.util.LinkedList;
  * @author ?, MVO
  * 
  */
+@JiBX
 public class IndexInfo {
-    Collection<MySet> sets = new LinkedList<MySet>();
 
-    Collection<Index> indexes = new LinkedList<Index>();
+    List<IndexSet> sets = new LinkedList<IndexSet>();
 
-    Collection<String> sortKeyWords = new LinkedList<String>();
+    List<Index> indexes = new LinkedList<Index>();
 
-    public Collection<MySet> getSets() {
+    List<String> sortKeyWords = new LinkedList<String>();
+
+    @JiBX
+    private IndexInfo() {
+
+    }
+
+    public List<IndexSet> getSets() {
         return sets;
     }
 
-    public Collection<Index> getIndexes() {
+    public List<Index> getIndexes() {
         return indexes;
     }
 
-    public Collection<String> getSortKeyWords() {
+    public List<String> getSortKeyWords() {
         return sortKeyWords;
     }
 }

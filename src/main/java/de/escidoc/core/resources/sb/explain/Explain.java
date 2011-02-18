@@ -9,7 +9,7 @@ import de.escidoc.core.resources.sb.RecordData;
  * @author ?, MVO
  * 
  */
-public class ExplainData implements RecordData {
+public class Explain implements RecordData {
 
     private boolean authoritative;
 
@@ -26,7 +26,7 @@ public class ExplainData implements RecordData {
     /**
      * Constructor for REST response.
      */
-    protected ExplainData() {
+    protected Explain() {
     }
 
     public boolean isAuthoritative() {

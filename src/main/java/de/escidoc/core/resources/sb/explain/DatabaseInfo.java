@@ -1,7 +1,7 @@
 package de.escidoc.core.resources.sb.explain;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Read-only class.
@@ -17,10 +17,9 @@ import java.util.LinkedList;
  */
 public class DatabaseInfo {
 
-    private Collection<DatabaseInfoText> titles =
-        new LinkedList<DatabaseInfoText>();
+    private List<DatabaseInfoText> titles = new LinkedList<DatabaseInfoText>();
 
-    private Collection<DatabaseInfoText> descriptions =
+    private List<DatabaseInfoText> descriptions =
         new LinkedList<DatabaseInfoText>();;
 
     private String contact;
@@ -30,11 +29,11 @@ public class DatabaseInfo {
     protected DatabaseInfo() {
     }
 
-    public Collection<DatabaseInfoText> getTitles() {
+    public List<DatabaseInfoText> getTitles() {
         return titles;
     }
 
-    public Collection<DatabaseInfoText> getDescriptions() {
+    public List<DatabaseInfoText> getDescriptions() {
         return descriptions;
     }
 

@@ -1,5 +1,7 @@
 package de.escidoc.core.resources.sb.explain;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * 
  * Read-only class.
@@ -7,16 +9,20 @@ package de.escidoc.core.resources.sb.explain;
  * This class is a representation of the configInfo of the response of an
  * explain request.
  * 
- * This class may be initialized either by a SOAP response instance or by JiBX
- * if and only if the REST protocol is being used for the explain request.
- * 
  * @author ?, MVO
  * 
  */
-public class MySet {
+@JiBX
+public class IndexSet {
+
     private String identifier;
 
     private String name;
+
+    @JiBX
+    private IndexSet() {
+
+    }
 
     public String getIdentifier() {
         return identifier;

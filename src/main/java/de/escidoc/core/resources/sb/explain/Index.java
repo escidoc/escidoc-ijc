@@ -1,7 +1,9 @@
 package de.escidoc.core.resources.sb.explain;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
+
+import de.escidoc.core.annotations.JiBX;
 
 /**
  * Read-only class.
@@ -15,25 +17,22 @@ import java.util.LinkedList;
  * @author ?, MVO
  * 
  */
+@JiBX
 public class Index {
     private String title;
 
-    private Collection<IndexName> indexNameList = new LinkedList<IndexName>();
+    private List<IndexName> indexNameList = new LinkedList<IndexName>();
+
+    @JiBX
+    private Index() {
+
+    }
 
     public String getTitle() {
         return title;
     }
 
-    public Collection<IndexName> getIndexNameList() {
+    public List<IndexName> getIndexNameList() {
         return indexNameList;
-    }
-
-    /**
-     * Factory method for JiBX.
-     * 
-     * @return
-     */
-    public static final LinkedList<IndexName> createIndexNameList() {
-        return new LinkedList<IndexName>();
     }
 }
