@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -23,6 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.EncoderException;
+import org.apache.commons.codec.StringEncoder;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -41,6 +43,8 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.log4j.Logger;
+
+import sun.io.CharacterEncoding;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -188,7 +192,7 @@ public abstract class RestServiceMethod implements RestService {
                 // + new String(put.getResponseBody()));
                 // }
                 InputStream in = put.getResponseBodyAsStream();
-                result = convertStreamToString(in);
+                result = convertStreamToString(in, put.getResponseCharSet());
             }
             catch (HttpException e) {
                 statusCode = statusCode == -1 ? e.getReasonCode() : statusCode;
@@ -234,7 +238,7 @@ public abstract class RestServiceMethod implements RestService {
             try {
                 getRestClient().executeMethod(post);
                 InputStream in = post.getResponseBodyAsStream();
-                result = convertStreamToString(in);
+                result = convertStreamToString(in, post.getResponseCharSet());
             }
             catch (HttpException e) {
                 throw new SystemException(e.getReasonCode(), null,
@@ -271,7 +275,7 @@ public abstract class RestServiceMethod implements RestService {
             try {
                 getRestClient().executeMethod(get);
                 InputStream in = get.getResponseBodyAsStream();
-                result = convertStreamToString(in);
+                result = convertStreamToString(in, get.getResponseCharSet());
             }
             catch (HttpException e) {
                 throw new SystemException(e.getReasonCode(), null,
@@ -335,7 +339,8 @@ public abstract class RestServiceMethod implements RestService {
             try {
                 getRestClient().executeMethod(del);
                 InputStream in = del.getResponseBodyAsStream();
-                result = convertStreamToString(in);
+
+                result = convertStreamToString(in, del.getResponseCharSet());
             }
             catch (HttpException e) {
                 throw new SystemException(e.getReasonCode(), null,
@@ -487,24 +492,29 @@ public abstract class RestServiceMethod implements RestService {
      * @param is
      *            InputStream
      * @return String
+     * @throws IOException
      */
-    private String convertStreamToString(final InputStream is) {
+    private String convertStreamToString(
+        final InputStream is, final String responseEnc) throws IOException {
 
         if (is == null) {
             return null;
         }
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
+        String encoding = "UTF-8";
+        if (responseEnc != null)
+            encoding = responseEnc;
 
+        StringBuilder sb = new StringBuilder();
         String line = null;
+
         try {
+            BufferedReader reader =
+                new BufferedReader(new InputStreamReader(is, encoding));
+
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
             }
-        }
-        catch (IOException e) {
-            LOG.debug("An error occured while reading from stream.", e);
         }
         finally {
             try {
