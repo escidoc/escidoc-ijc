@@ -28,7 +28,9 @@
  */
 package de.escidoc.core.resources.aa.role;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.ResourceType;
 
 /**
  * Scope definition.
@@ -39,16 +41,34 @@ import de.escidoc.core.annotations.JiBX;
 @JiBX
 public class ScopeDef {
 
-    private String resourceType;
+    private ResourceType resourceType;
 
     private String relationAttributeId;
+
+    private ResourceType relationAttributeObjectType;
+
+    /**
+     * 
+     */
+    @SuppressWarnings("unused")
+    @JiBX
+    private ScopeDef() {
+
+    }
+
+    /**
+     * @param resourceType
+     */
+    public ScopeDef(final ResourceType resourceType) {
+        setResourceType(resourceType);
+    }
 
     /**
      * Type of Resource.
      * 
      * @return resource type
      */
-    public String getResourceType() {
+    public ResourceType getResourceType() {
         return resourceType;
     }
 
@@ -58,7 +78,8 @@ public class ScopeDef {
      * @param resourceType
      *            Resource Type (item, container, context, ..)
      */
-    public void setResourceType(final String resourceType) {
+    public void setResourceType(final ResourceType resourceType) {
+        checkNotNull(resourceType);
         this.resourceType = resourceType;
     }
 
@@ -79,5 +100,54 @@ public class ScopeDef {
      */
     public void setRelationAttributeId(final String relationAttributeId) {
         this.relationAttributeId = relationAttributeId;
+    }
+
+    /**
+     * @return the relationAttributeObjectType
+     */
+    public ResourceType getRelationAttributeObjectType() {
+        return relationAttributeObjectType;
+    }
+
+    /**
+     * @param relationAttributeObjectType
+     *            the relationAttributeObjectType to set
+     */
+    public void setRelationAttributeObjectType(
+        final ResourceType relationAttributeObjectType) {
+        this.relationAttributeObjectType = relationAttributeObjectType;
+    }
+
+    /**
+     * @return
+     */
+    @SuppressWarnings("unused")
+    private String getXmlResourceType() {
+        return resourceType == null ? null : resourceType.getXmlValue();
+    }
+
+    /**
+     * @return
+     */
+    @SuppressWarnings("unused")
+    private String getXmlRelationAttributeObjectType() {
+        return relationAttributeObjectType == null ? null
+            : relationAttributeObjectType.getXmlValue();
+    }
+
+    /**
+     * @param value
+     */
+    @SuppressWarnings("unused")
+    private void setXmlResourceType(final String value) {
+        resourceType = ResourceType.getValue(value);
+    }
+
+    /**
+     * @param value
+     */
+    @SuppressWarnings("unused")
+    private void setXmlRelationAttributeObjectType(final String value) {
+        relationAttributeObjectType = ResourceType.getValue(value);
     }
 }
