@@ -46,7 +46,7 @@ import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.PathList;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
-import de.escidoc.core.resources.sb.search.SearchResultRecord;
+import de.escidoc.core.resources.sb.search.SearchResult;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sm.scope.Scope;
 
@@ -155,8 +155,8 @@ public class MarshallerFactory {
 
     // SRW/U
 
-    public static final Class<SearchResultRecord> CLASS_SEARCH_RESULT_RECORD =
-        SearchResultRecord.class;
+    public static final Class<SearchResult> CLASS_SEARCH_RESULT_RECORD =
+        SearchResult.class;
 
     public static final Class<ExplainResponse> CLASS_EXPLAIN_RESPONSE =
         ExplainResponse.class;
