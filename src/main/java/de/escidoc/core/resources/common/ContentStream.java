@@ -39,20 +39,47 @@ import de.escidoc.core.resources.om.GenericResource;
  */
 public class ContentStream extends GenericResource {
 
+    private boolean inherited = false;
+
+    /**
+     * required
+     */
     private String mimeType = null;
 
+    /**
+     * required
+     */
     private String name = null;
 
+    /**
+     * required
+     */
     private String storage = null;
 
-    private String content = null;
+    /**
+     * required
+     */
+    private String hrefOrBase64Content = null;
 
-    //
-    // <xs:attribute name="name" use="required"/>
-    // <xs:attribute name="storage" use="required"/>
-    // <xs:attribute name="mime-type" use="required"/>
+    /**
+     * @param name
+     * @param storage
+     * @param content
+     */
+    public ContentStream(final String name, final String storage,
+        final String mimeType) {
 
-    public ContentStream() {
+        setName(name);
+        setStorage(storage);
+        setMimeType(mimeType);
+    }
+
+    /**
+     * JiBX constructor.
+     */
+    @SuppressWarnings("unused")
+    private ContentStream() {
+
     }
 
     /**
@@ -67,6 +94,8 @@ public class ContentStream extends GenericResource {
      *            the mimeType to set
      */
     public void setMimeType(final String mimeType) {
+        if (mimeType == null)
+            throw new IllegalArgumentException("mimeType must not be null.");
         this.mimeType = mimeType;
     }
 
@@ -82,6 +111,8 @@ public class ContentStream extends GenericResource {
      *            the name to set
      */
     public void setName(final String name) {
+        if (name == null)
+            throw new IllegalArgumentException("name must not be null.");
         this.name = name;
     }
 
@@ -97,27 +128,44 @@ public class ContentStream extends GenericResource {
      *            the storage to set
      */
     public void setStorage(final String storage) {
+        if (storage == null)
+            throw new IllegalArgumentException("storage must not be null.");
         this.storage = storage;
-    }
-
-    /**
-     * @return the content
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * @param content
-     *            the content to set
-     */
-    public void setContent(final String content) {
-        this.content = content;
     }
 
     @Override
     public ResourceType getResourceType() {
         return null;
+    }
+
+    /**
+     * @param inherited
+     *            the inherited to set
+     */
+    public void setInherited(final boolean inherited) {
+        this.inherited = inherited;
+    }
+
+    /**
+     * @return the inherited
+     */
+    public boolean isInherited() {
+        return inherited;
+    }
+
+    /**
+     * @param hrefOrBase64Content
+     *            the hrefOrBase64Content to set
+     */
+    public void setHrefOrBase64Content(final String hrefOrBase64Content) {
+        this.hrefOrBase64Content = hrefOrBase64Content;
+    }
+
+    /**
+     * @return the hrefOrBase64Content
+     */
+    public String getHrefOrBase64Content() {
+        return hrefOrBase64Content;
     }
 
 }

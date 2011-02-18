@@ -88,29 +88,13 @@
 			type="de.escidoc.core.resources.common.MetadataRecords"
 			field="mdRecords" usage="optional">
 			<structure map-as="abstract-md-records" usage="optional" />
-		</structure>		
+		</structure>
+		
 		<!-- *****************************************
 			Content-Streams
 			****************************************** -->
-		<!--  structure ns="http://www.escidoc.de/schemas/contentstreams/0.6"
-			name="content-streams"
-			type="de.escidoc.core.resources.common.ContentStreams"
-			field="contentStreams" usage="optional">
-			
-			<collection
-			ns="http://www.escidoc.de/schemas/contentstreams/0.6"
-			field="contentStreams"
-			factory="de.escidoc.core.resources.common.ContentStreams.contentStreamsFactory"
-			usage="optional">
-			<structure
-			ns="http://www.escidoc.de/schemas/contentstreams/0.6"
-			name="content-stream"
-			class="de.escidoc.core.resources.common.ContentStream"
-			marshaller="de.escidoc.core.common.jibx.binding.ContentStream"
-			unmarshaller="de.escidoc.core.common.jibx.binding.ContentStream"
-			usage="optional" />
-			</collection>
-			</structure -->
+		<structure type="de.escidoc.core.resources.common.ContentStreams"
+			field="contentStreams" usage="optional"/>
 
 		<!-- *****************************************
 			Components 

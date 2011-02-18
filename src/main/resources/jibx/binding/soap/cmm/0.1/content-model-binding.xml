@@ -112,9 +112,11 @@
 			</collection>
 		</structure>
 
-		<!-- ****************************************
-			Content Streams
-			****************************************** -->
+		<!-- *****************************************
+      Content-Streams
+      ****************************************** -->
+    <structure type="de.escidoc.core.resources.common.ContentStreams"
+      field="contentStreams" usage="optional"/>
 
 	</mapping>
 	<!-- end: abstract binding of a single content-model -->

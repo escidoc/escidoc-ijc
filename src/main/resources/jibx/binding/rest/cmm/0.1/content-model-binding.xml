@@ -115,6 +115,12 @@
 					usage="optional" />
 			</collection>
 		</structure>
+		
+		<!-- *****************************************
+      Content-Streams
+      ****************************************** -->
+    <structure type="de.escidoc.core.resources.common.ContentStreams"
+      field="contentStreams" usage="optional"/>
 
 		<!-- Resources include (REST only) -->
  		<structure ns="http://www.escidoc.de/schemas/contentmodel/0.1"

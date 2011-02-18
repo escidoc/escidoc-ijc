@@ -269,8 +269,5 @@
 				unmarshaller="org.jibx.extras.DomListMapper" usage="optional" />
 		</structure>
 		
-		
 	</mapping>
-
 </binding>
-

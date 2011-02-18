@@ -31,6 +31,7 @@ package de.escidoc.core.resources.cmm;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
+import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
@@ -50,6 +51,8 @@ public class ContentModel extends GenericResource
     private MetadataRecordDefinitions metadataRecordDefinitions;
 
     private ResourceDefinitions resourceDefinitions;
+
+    private ContentStreams contentStreams = null;
 
     /**
      */
@@ -114,6 +117,21 @@ public class ContentModel extends GenericResource
      */
     public ResourceDefinitions getResourceDefinitions() {
         return resourceDefinitions;
+    }
+
+    /**
+     * @return the contentStreams
+     */
+    public ContentStreams getContentStreams() {
+        return contentStreams;
+    }
+
+    /**
+     * @param contentStreams
+     *            the contentStreams to set
+     */
+    public void setContentStreams(final ContentStreams contentStreams) {
+        this.contentStreams = contentStreams;
     }
 
     /*
