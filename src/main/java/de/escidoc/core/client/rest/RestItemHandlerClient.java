@@ -647,6 +647,26 @@ public class RestItemHandlerClient extends RestClientBase {
 
     /**
      * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String retrieveParents(final String id) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().retrieveParents(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param id
      * @param taskParam
      * @return
      * @throws EscidocException
