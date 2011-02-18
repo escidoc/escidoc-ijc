@@ -12,7 +12,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.AdminHandlerClientInterface;
 import de.escidoc.core.client.rest.RestAdminHandlerClient;
-import de.escidoc.core.client.soap.SoapAdminHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.adm.AdminStatus;
 import de.escidoc.core.resources.adm.LoadExamplesResult;
@@ -29,8 +28,7 @@ import de.escidoc.core.resources.common.TaskParam;
  * 
  */
 public class AdminHandlerClient
-    extends
-    AbstractHandlerClient<SoapAdminHandlerClient, RestAdminHandlerClient>
+    extends AbstractHandlerClient<RestAdminHandlerClient>
     implements AdminHandlerClientInterface {
 
     /**
@@ -72,8 +70,7 @@ public class AdminHandlerClient
 
         checkNotNull(taskParam);
 
-        String xml =
-            getRestHandlerClient().deleteObjects(marshalTaskParam(taskParam));
+        String xml = getClient().deleteObjects(marshalTaskParam(taskParam));
 
         Result result =
             MarshallerFactory
@@ -91,7 +88,7 @@ public class AdminHandlerClient
     @Override
     public MessagesStatus getPurgeStatus() throws EscidocException,
         InternalClientException, TransportException {
-        String xml = getRestHandlerClient().getPurgeStatus();
+        String xml = getClient().getPurgeStatus();
         Result result =
             MarshallerFactory
                 .getInstance().getMarshaller(Result.class)
@@ -108,7 +105,7 @@ public class AdminHandlerClient
     @Override
     public MessagesStatus getReindexStatus() throws EscidocException,
         InternalClientException, TransportException {
-        String xml = getRestHandlerClient().getReindexStatus();
+        String xml = getClient().getReindexStatus();
         Result result =
             MarshallerFactory
                 .getInstance().getMarshaller(Result.class)
@@ -131,8 +128,7 @@ public class AdminHandlerClient
 
         checkNotNull(indexNamePrefix);
 
-        String xml =
-            getRestHandlerClient().reindex(clearIndex, indexNamePrefix);
+        String xml = getClient().reindex(clearIndex, indexNamePrefix);
         Result result =
             MarshallerFactory
                 .getInstance().getMarshaller(Result.class)
@@ -163,7 +159,7 @@ public class AdminHandlerClient
     @Override
     public RepositoryInfo getRepositoryInfo() throws EscidocException,
         InternalClientException, TransportException {
-        String xml = getRestHandlerClient().getRepositoryInfo();
+        String xml = getClient().getRepositoryInfo();
         return new RepositoryInfo(MarshallerFactory
             .getInstance().getMarshaller(Properties.class)
             .unmarshalDocument(xml));
@@ -182,7 +178,7 @@ public class AdminHandlerClient
 
         checkNotNull(exampleSet);
 
-        String xml = getRestHandlerClient().loadExamples(exampleSet);
+        String xml = getClient().loadExamples(exampleSet);
         Result result =
             MarshallerFactory
                 .getInstance().getMarshaller(Result.class)
@@ -202,7 +198,7 @@ public class AdminHandlerClient
     public String getIndexConfiguration() throws EscidocException,
         InternalClientException, TransportException {
 
-        return getRestHandlerClient().getIndexConfiguration();
+        return getClient().getIndexConfiguration();
     }
 
     /**
@@ -216,12 +212,6 @@ public class AdminHandlerClient
     public MessagesResult<Entry> loadExamples() throws EscidocException,
         InternalClientException, TransportException {
         return loadExamples(EXAMPLE_SET_COMMON);
-    }
-
-    @Override
-    protected SoapAdminHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapAdminHandlerClient(getServiceAddress());
     }
 
     @Override

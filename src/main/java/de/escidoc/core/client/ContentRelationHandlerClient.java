@@ -40,7 +40,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContentRelationHandlerClient;
-import de.escidoc.core.client.soap.SoapContentRelationHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.Result;
@@ -59,8 +58,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public class ContentRelationHandlerClient
-    extends
-    AbstractHandlerClient<SoapContentRelationHandlerClient, RestContentRelationHandlerClient>
+    extends AbstractHandlerClient<RestContentRelationHandlerClient>
     implements ContentRelationHandlerClientInterface {
 
     /**
@@ -88,12 +86,6 @@ public class ContentRelationHandlerClient
     @Deprecated
     public ContentRelationHandlerClient(final String serviceAddress) {
         super(serviceAddress);
-    }
-
-    @Override
-    protected SoapContentRelationHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapContentRelationHandlerClient(getServiceAddress());
     }
 
     @Override
@@ -125,8 +117,7 @@ public class ContentRelationHandlerClient
             MarshallerFactory
                 .getInstance().getMarshaller(ContentRelation.class);
 
-        String xml =
-            getRestHandlerClient().create(m.marshalDocument(contentRelation));
+        String xml = getClient().create(m.marshalDocument(contentRelation));
         return m.unmarshalDocument(xml);
     }
 
@@ -168,7 +159,7 @@ public class ContentRelationHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieve(id);
+        String xml = getClient().retrieve(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ContentRelation.class)
@@ -193,7 +184,7 @@ public class ContentRelationHandlerClient
 
         checkNotNull(id);
 
-        getRestHandlerClient().delete(id);
+        getClient().delete(id);
     }
 
     /**
@@ -220,7 +211,7 @@ public class ContentRelationHandlerClient
                 .getInstance().getMarshaller(ContentRelation.class);
 
         String xml =
-            getRestHandlerClient().update(contentRelation.getObjid(),
+            getClient().update(contentRelation.getObjid(),
                 m.marshalDocument(contentRelation));
 
         return m.unmarshalDocument(xml);
@@ -274,8 +265,7 @@ public class ContentRelationHandlerClient
         checkNotNull(taskParam);
 
         String xml =
-            getRestHandlerClient().assignObjectPid(id,
-                marshalTaskParam(taskParam));
+            getClient().assignObjectPid(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory
             .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
@@ -327,8 +317,7 @@ public class ContentRelationHandlerClient
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getRestHandlerClient().lock(id, marshalTaskParam(taskParam));
+        String xml = getClient().lock(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory
             .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
@@ -380,8 +369,7 @@ public class ContentRelationHandlerClient
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getRestHandlerClient().unlock(id, marshalTaskParam(taskParam));
+        String xml = getClient().unlock(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory
             .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
@@ -413,8 +401,7 @@ public class ContentRelationHandlerClient
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getRestHandlerClient().submit(id, marshalTaskParam(taskParam));
+        String xml = getClient().submit(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory
             .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
@@ -467,8 +454,7 @@ public class ContentRelationHandlerClient
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getRestHandlerClient().release(id, marshalTaskParam(taskParam));
+        String xml = getClient().release(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory
             .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
@@ -521,8 +507,7 @@ public class ContentRelationHandlerClient
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getRestHandlerClient().revise(id, marshalTaskParam(taskParam));
+        String xml = getClient().revise(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory
             .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
@@ -571,7 +556,7 @@ public class ContentRelationHandlerClient
         final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = getRestHandlerClient().retrieveContentRelations(filter);
+        String xml = getClient().retrieveContentRelations(filter);
 
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
@@ -607,7 +592,7 @@ public class ContentRelationHandlerClient
         final ExplainRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = getRestHandlerClient().retrieveContentRelations(filter);
+        String xml = getClient().retrieveContentRelations(filter);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
@@ -627,7 +612,7 @@ public class ContentRelationHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieveProperties(id);
+        String xml = getClient().retrieveProperties(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ContentRelationProperties.class)

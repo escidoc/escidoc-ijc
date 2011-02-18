@@ -12,7 +12,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.PreprocessingHandlerClientInterface;
 import de.escidoc.core.client.rest.RestPreprocessingHandlerClient;
-import de.escidoc.core.client.soap.SoapPreprocessingHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sm.preprocess.PreprocessingInformation;
@@ -22,8 +21,7 @@ import de.escidoc.core.resources.sm.preprocess.PreprocessingInformation;
  * 
  */
 public class PreprocessingHandlerClient
-    extends
-    AbstractHandlerClient<SoapPreprocessingHandlerClient, RestPreprocessingHandlerClient>
+    extends AbstractHandlerClient<RestPreprocessingHandlerClient>
     implements PreprocessingHandlerClientInterface {
 
     /**
@@ -81,13 +79,7 @@ public class PreprocessingHandlerClient
             xml = m.marshalDocument(info);
         }
 
-        getRestHandlerClient().preprocess(aggregationDefinitionId, xml);
-    }
-
-    @Override
-    protected SoapPreprocessingHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapPreprocessingHandlerClient(getServiceAddress());
+        getClient().preprocess(aggregationDefinitionId, xml);
     }
 
     @Override

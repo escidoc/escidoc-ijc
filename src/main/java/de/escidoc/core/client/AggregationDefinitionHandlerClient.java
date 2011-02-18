@@ -15,7 +15,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.AggregationDefinitionHandlerClientInterface;
 import de.escidoc.core.client.rest.RestAggregationDefinitionHandlerClient;
-import de.escidoc.core.client.soap.SoapAggregationDefinitionHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
@@ -27,8 +26,7 @@ import de.escidoc.core.resources.sm.ad.AggregationDefinition;
  * 
  */
 public class AggregationDefinitionHandlerClient
-    extends
-    AbstractHandlerClient<SoapAggregationDefinitionHandlerClient, RestAggregationDefinitionHandlerClient>
+    extends AbstractHandlerClient<RestAggregationDefinitionHandlerClient>
     implements AggregationDefinitionHandlerClientInterface {
 
     /**
@@ -70,7 +68,7 @@ public class AggregationDefinitionHandlerClient
 
         checkNotNull(id);
 
-        getRestHandlerClient().delete(id);
+        getClient().delete(id);
     }
 
     /**
@@ -90,8 +88,7 @@ public class AggregationDefinitionHandlerClient
             MarshallerFactory.getInstance(getTransport()).getMarshaller(
                 AggregationDefinition.class);
 
-        String xml =
-            getRestHandlerClient().create(m.marshalDocument(agDefinition));
+        String xml = getClient().create(m.marshalDocument(agDefinition));
         return m.unmarshalDocument(xml);
     }
 
@@ -108,7 +105,7 @@ public class AggregationDefinitionHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieve(id);
+        String xml = getClient().retrieve(id);
         return MarshallerFactory
             .getInstance().getMarshaller(AggregationDefinition.class)
             .unmarshalDocument(xml);
@@ -126,8 +123,7 @@ public class AggregationDefinitionHandlerClient
         final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml =
-            getRestHandlerClient().retrieveAggregationDefinitions(request);
+        String xml = getClient().retrieveAggregationDefinitions(request);
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
             .unmarshalDocument(xml);
@@ -162,17 +158,10 @@ public class AggregationDefinitionHandlerClient
         final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml =
-            getRestHandlerClient().retrieveAggregationDefinitions(request);
+        String xml = getClient().retrieveAggregationDefinitions(request);
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
-    }
-
-    @Override
-    protected SoapAggregationDefinitionHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapAggregationDefinitionHandlerClient(getServiceAddress());
     }
 
     @Override

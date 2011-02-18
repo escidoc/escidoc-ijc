@@ -45,7 +45,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.SearchHandlerClientInterface;
 import de.escidoc.core.client.rest.RestSearchHandlerClient;
-import de.escidoc.core.client.soap.SoapSearchHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
@@ -60,8 +59,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public class SearchHandlerClient
-    extends
-    AbstractHandlerClient<SoapSearchHandlerClient, RestSearchHandlerClient>
+    extends AbstractHandlerClient<RestSearchHandlerClient>
     implements SearchHandlerClientInterface {
 
     /**
@@ -105,7 +103,7 @@ public class SearchHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().explain(request, database);
+        String xml = getClient().explain(request, database);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
@@ -206,7 +204,7 @@ public class SearchHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().search(request, database);
+        String xml = getClient().search(request, database);
 
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
@@ -231,14 +229,7 @@ public class SearchHandlerClient
 
         return MarshallerFactory
             .getInstance().getMarshaller(ScanResponse.class)
-            .unmarshalDocument(getRestHandlerClient().scan(request, database));
-
-    }
-
-    @Override
-    protected SoapSearchHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapSearchHandlerClient(getServiceAddress());
+            .unmarshalDocument(getClient().scan(request, database));
     }
 
     @Override

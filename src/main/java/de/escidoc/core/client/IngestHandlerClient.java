@@ -37,7 +37,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.IngestHandlerClientInterface;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
-import de.escidoc.core.client.soap.SoapIngestHandlerClient;
 
 /**
  * Representation independent client for the ingest handlers.
@@ -46,8 +45,7 @@ import de.escidoc.core.client.soap.SoapIngestHandlerClient;
  * 
  */
 public class IngestHandlerClient
-    extends
-    AbstractHandlerClient<SoapIngestHandlerClient, RestIngestHandlerClient>
+    extends AbstractHandlerClient<RestIngestHandlerClient>
     implements IngestHandlerClientInterface {
 
     /**
@@ -95,13 +93,7 @@ public class IngestHandlerClient
 
         checkNotNull(resourceXml);
 
-        return getRestHandlerClient().ingest(resourceXml);
-    }
-
-    @Override
-    protected SoapIngestHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapIngestHandlerClient(getServiceAddress());
+        return getClient().ingest(resourceXml);
     }
 
     @Override

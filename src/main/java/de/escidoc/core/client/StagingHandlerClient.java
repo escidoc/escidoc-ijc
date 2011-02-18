@@ -39,7 +39,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.StagingHandlerClientInterface;
 import de.escidoc.core.client.rest.RestStagingHandlerClient;
-import de.escidoc.core.client.soap.SoapClientBase;
 
 /**
  * Handler for Staging Service. REST only!
@@ -48,7 +47,7 @@ import de.escidoc.core.client.soap.SoapClientBase;
  * 
  */
 public class StagingHandlerClient
-    extends AbstractHandlerClient<SoapClientBase, RestStagingHandlerClient>
+    extends AbstractHandlerClient<RestStagingHandlerClient>
     implements StagingHandlerClientInterface {
 
     /**
@@ -96,7 +95,7 @@ public class StagingHandlerClient
 
         checkNotNull(f);
 
-        return getRestHandlerClient().upload(f);
+        return getClient().upload(f);
     }
 
     /**
@@ -118,16 +117,7 @@ public class StagingHandlerClient
 
         checkNotNull(ins);
 
-        return getRestHandlerClient().upload(ins);
-    }
-
-    /**
-     * SOAP not supported.
-     */
-    @Override
-    protected SoapClientBase getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return null;
+        return getClient().upload(ins);
     }
 
     @Override

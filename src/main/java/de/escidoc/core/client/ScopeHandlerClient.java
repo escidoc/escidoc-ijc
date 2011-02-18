@@ -15,7 +15,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ScopeHandlerClientInterface;
 import de.escidoc.core.client.rest.RestScopeHandlerClient;
-import de.escidoc.core.client.soap.SoapScopeHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
@@ -27,8 +26,7 @@ import de.escidoc.core.resources.sm.scope.Scope;
  * 
  */
 public class ScopeHandlerClient
-    extends
-    AbstractHandlerClient<SoapScopeHandlerClient, RestScopeHandlerClient>
+    extends AbstractHandlerClient<RestScopeHandlerClient>
     implements ScopeHandlerClientInterface {
 
     /**
@@ -69,7 +67,7 @@ public class ScopeHandlerClient
 
         checkNotNull(id);
 
-        getRestHandlerClient().delete(id);
+        getClient().delete(id);
 
     }
 
@@ -89,7 +87,7 @@ public class ScopeHandlerClient
         Marshaller<Scope> m =
             MarshallerFactory.getInstance().getMarshaller(Scope.class);
 
-        String xml = getRestHandlerClient().create(m.marshalDocument(scope));
+        String xml = getClient().create(m.marshalDocument(scope));
 
         return m.unmarshalDocument(xml);
     }
@@ -112,8 +110,7 @@ public class ScopeHandlerClient
             MarshallerFactory.getInstance().getMarshaller(Scope.class);
 
         String xml =
-            getRestHandlerClient().update(scope.getObjid(),
-                m.marshalDocument(scope));
+            getClient().update(scope.getObjid(), m.marshalDocument(scope));
 
         return m.unmarshalDocument(xml);
     }
@@ -131,7 +128,7 @@ public class ScopeHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieve(id);
+        String xml = getClient().retrieve(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Scope.class).unmarshalDocument(xml);
@@ -151,7 +148,7 @@ public class ScopeHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveScopes(request);
+        String xml = getClient().retrieveScopes(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
@@ -186,17 +183,11 @@ public class ScopeHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveScopes(request);
+        String xml = getClient().retrieveScopes(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
-    }
-
-    @Override
-    protected SoapScopeHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapScopeHandlerClient(getServiceAddress());
     }
 
     @Override

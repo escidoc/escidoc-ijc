@@ -41,7 +41,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
 import de.escidoc.core.client.rest.RestRoleHandlerClient;
-import de.escidoc.core.client.soap.SoapRoleHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.role.Role;
@@ -57,7 +56,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public class RoleHandlerClient
-    extends AbstractHandlerClient<SoapRoleHandlerClient, RestRoleHandlerClient>
+    extends AbstractHandlerClient<RestRoleHandlerClient>
     implements RoleHandlerClientInterface {
 
     /**
@@ -102,7 +101,7 @@ public class RoleHandlerClient
         Marshaller<Role> m =
             MarshallerFactory.getInstance().getMarshaller(Role.class);
 
-        String xml = getRestHandlerClient().create(m.marshalDocument(role));
+        String xml = getClient().create(m.marshalDocument(role));
 
         return m.unmarshalDocument(xml);
     }
@@ -121,7 +120,7 @@ public class RoleHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieve(id);
+        String xml = getClient().retrieve(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Role.class).unmarshalDocument(xml);
@@ -140,7 +139,7 @@ public class RoleHandlerClient
 
         checkNotNull(id);
 
-        getRestHandlerClient().delete(id);
+        getClient().delete(id);
 
     }
 
@@ -160,8 +159,7 @@ public class RoleHandlerClient
             MarshallerFactory.getInstance().getMarshaller(Role.class);
 
         String xml =
-            getRestHandlerClient().update(role.getObjid(),
-                m.marshalDocument(role));
+            getClient().update(role.getObjid(), m.marshalDocument(role));
 
         return m.unmarshalDocument(xml);
     }
@@ -186,7 +184,7 @@ public class RoleHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveRoles(request);
+        String xml = getClient().retrieveRoles(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
@@ -227,17 +225,11 @@ public class RoleHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveRoles(request);
+        String xml = getClient().retrieveRoles(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
-    }
-
-    @Override
-    protected SoapRoleHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapRoleHandlerClient(getServiceAddress());
     }
 
     @Override

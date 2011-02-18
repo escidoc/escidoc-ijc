@@ -12,7 +12,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.StatisticDataHandlerClientInterface;
 import de.escidoc.core.client.rest.RestStatisticDataHandlerClient;
-import de.escidoc.core.client.soap.SoapStatisticDataHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sm.sd.StatisticData;
 
@@ -21,8 +20,7 @@ import de.escidoc.core.resources.sm.sd.StatisticData;
  * 
  */
 public class StatisticDataHandlerClient
-    extends
-    AbstractHandlerClient<SoapStatisticDataHandlerClient, RestStatisticDataHandlerClient>
+    extends AbstractHandlerClient<RestStatisticDataHandlerClient>
     implements StatisticDataHandlerClientInterface {
 
     /**
@@ -70,21 +68,8 @@ public class StatisticDataHandlerClient
                 .getInstance().getMarshaller(StatisticData.class)
                 .marshalDocument(statisticData);
 
-        getRestHandlerClient().create(xml);
+        getClient().create(xml);
 
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.AbstractHandlerClient#getSoapHandlerClientInstance
-     * ()
-     */
-    @Override
-    protected SoapStatisticDataHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapStatisticDataHandlerClient(getServiceAddress());
     }
 
     /*

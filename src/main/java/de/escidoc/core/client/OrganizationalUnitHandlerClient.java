@@ -41,7 +41,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.client.rest.RestOrganizationalUnitHandlerClient;
-import de.escidoc.core.client.soap.SoapOrganizationalUnitHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -65,8 +64,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public class OrganizationalUnitHandlerClient
-    extends
-    AbstractHandlerClient<SoapOrganizationalUnitHandlerClient, RestOrganizationalUnitHandlerClient>
+    extends AbstractHandlerClient<RestOrganizationalUnitHandlerClient>
     implements OrganizationalUnitHandlerClientInterface {
 
     /**
@@ -97,12 +95,6 @@ public class OrganizationalUnitHandlerClient
     }
 
     @Override
-    protected SoapOrganizationalUnitHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapOrganizationalUnitHandlerClient(getServiceAddress());
-    }
-
-    @Override
     protected RestOrganizationalUnitHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
         return new RestOrganizationalUnitHandlerClient(getServiceAddress());
@@ -126,9 +118,7 @@ public class OrganizationalUnitHandlerClient
             MarshallerFactory.getInstance().getMarshaller(
                 OrganizationalUnit.class);
 
-        String xml =
-            getRestHandlerClient()
-                .create(m.marshalDocument(organizationalUnit));
+        String xml = getClient().create(m.marshalDocument(organizationalUnit));
 
         return m.unmarshalDocument(xml);
     }
@@ -147,7 +137,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieve(id);
+        String xml = getClient().retrieve(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(OrganizationalUnit.class)
@@ -175,7 +165,7 @@ public class OrganizationalUnitHandlerClient
                 OrganizationalUnit.class);
 
         String xml =
-            getRestHandlerClient().update(organizationalUnit.getObjid(),
+            getClient().update(organizationalUnit.getObjid(),
                 m.marshalDocument(organizationalUnit));
 
         return m.unmarshalDocument(xml);
@@ -205,8 +195,8 @@ public class OrganizationalUnitHandlerClient
             MarshallerFactory.getInstance().getMarshaller(Parents.class);
 
         String xml =
-            getRestHandlerClient().updateParents(ou.getObjid(),
-                m.marshalDocument(parents));
+            getClient()
+                .updateParents(ou.getObjid(), m.marshalDocument(parents));
 
         return m.unmarshalDocument(xml);
     }
@@ -230,8 +220,7 @@ public class OrganizationalUnitHandlerClient
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getRestHandlerClient().open(id, marshalTaskParam(taskParam));
+        String xml = getClient().open(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory
             .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
@@ -256,8 +245,7 @@ public class OrganizationalUnitHandlerClient
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getRestHandlerClient().close(id, marshalTaskParam(taskParam));
+        String xml = getClient().close(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory
             .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
@@ -276,7 +264,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(id);
 
-        getRestHandlerClient().delete(id);
+        getClient().delete(id);
     }
 
     /**
@@ -293,7 +281,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieveParents(id);
+        String xml = getClient().retrieveParents(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Parents.class).unmarshalDocument(xml);
@@ -304,19 +292,84 @@ public class OrganizationalUnitHandlerClient
      * 
      * @see
      * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #retrieveParentObjects(de.escidoc.core.resources.oum.OrganizationalUnit)
+     */
+    @Override
+    public SearchRetrieveResponse retrieveParentObjects(
+        final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(ou);
+        return retrieveParentObjects(ou.getObjid());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
      * #retrieveParentObjects(java.lang.String)
      */
     @Override
-    public OrganizationalUnitList retrieveParentObjects(final String id)
+    public SearchRetrieveResponse retrieveParentObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieveParentObjects(id);
+        String xml = getClient().retrieveParentObjects(id);
 
         return MarshallerFactory
-            .getInstance().getMarshaller(OrganizationalUnitList.class)
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
             .unmarshalDocument(xml);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #retrieveParentObjects(de.escidoc.core.resources.oum.OrganizationalUnit)
+     */
+    @Override
+    public List<OrganizationalUnit> retrieveParentObjectsAsList(
+        final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(ou);
+
+        return retrieveParentObjectsAsList(ou.getObjid());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #retrieveParentObjectsAsList(java.lang.String)
+     */
+    @Override
+    public List<OrganizationalUnit> retrieveParentObjectsAsList(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return getSearchRetrieveResponseAsList(OrganizationalUnit.class,
+            retrieveParentObjects(id));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #retrieveChildObjects(de.escidoc.core.resources.oum.OrganizationalUnit)
+     */
+    @Override
+    public SearchRetrieveResponse retrieveChildObjects(
+        final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(ou);
+
+        return retrieveChildObjects(ou.getObjid());
     }
 
     /*
@@ -327,16 +380,51 @@ public class OrganizationalUnitHandlerClient
      * #retrieveChildObjects(java.lang.String)
      */
     @Override
-    public OrganizationalUnitList retrieveChildObjects(final String id)
+    public SearchRetrieveResponse retrieveChildObjects(final String id)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieveChildObjects(id);
+        String xml = getClient().retrieveChildObjects(id);
 
         return MarshallerFactory
-            .getInstance().getMarshaller(OrganizationalUnitList.class)
+            .getInstance().getMarshaller(SearchRetrieveResponse.class)
             .unmarshalDocument(xml);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #
+     * retrieveChildObjectsAsList(de.escidoc.core.resources.oum.OrganizationalUnit
+     * )
+     */
+    @Override
+    public List<OrganizationalUnit> retrieveChildObjectsAsList(
+        final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(ou);
+
+        return getSearchRetrieveResponseAsList(OrganizationalUnit.class,
+            retrieveChildObjects(ou.getObjid()));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #retrieveChildObjectsAsList(java.lang.String)
+     */
+    @Override
+    public List<OrganizationalUnit> retrieveChildObjectsAsList(final String id)
+        throws EscidocException, InternalClientException, TransportException {
+
+        return getSearchRetrieveResponseAsList(OrganizationalUnit.class,
+            retrieveChildObjects(id));
     }
 
     /**
@@ -359,8 +447,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(request);
 
-        String xml =
-            getRestHandlerClient().retrieveOrganizationalUnits(request);
+        String xml = getClient().retrieveOrganizationalUnits(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
@@ -404,8 +491,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(request);
 
-        String xml =
-            getRestHandlerClient().retrieveOrganizationalUnits(request);
+        String xml = getClient().retrieveOrganizationalUnits(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
@@ -425,7 +511,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrievePathList(id);
+        String xml = getClient().retrievePathList(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(PathList.class).unmarshalDocument(xml);
@@ -478,7 +564,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieveProperties(id);
+        String xml = getClient().retrieveProperties(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(OrganizationalUnitProperties.class)
@@ -498,7 +584,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieveMdRecords(id);
+        String xml = getClient().retrieveMdRecords(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(MetadataRecords.class)
@@ -520,28 +606,11 @@ public class OrganizationalUnitHandlerClient
         checkNotNull(id);
         checkNotNull(mdRecordId);
 
-        String xml = getRestHandlerClient().retrieveMdRecord(id, mdRecordId);
+        String xml = getClient().retrieveMdRecord(id, mdRecordId);
 
         return MarshallerFactory
             .getInstance().getMarshaller(MetadataRecord.class)
             .unmarshalDocument(xml);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
-     * #retrieveParentObjects(de.escidoc.core.resources.oum.OrganizationalUnit)
-     */
-    @Override
-    public OrganizationalUnitList retrieveParentObjects(
-        final OrganizationalUnit ou) throws EscidocException,
-        InternalClientException, TransportException {
-
-        checkNotNull(ou);
-
-        return retrieveParentObjects(ou.getObjid());
     }
 
     /*
@@ -557,7 +626,7 @@ public class OrganizationalUnitHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieveSuccessors(id);
+        String xml = getClient().retrieveSuccessors(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(OrganizationalUnitList.class)
@@ -578,23 +647,6 @@ public class OrganizationalUnitHandlerClient
         checkNotNull(ou);
 
         return retrieveSuccessors(ou.getObjid());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
-     * #retrieveChildObjects(de.escidoc.core.resources.oum.OrganizationalUnit)
-     */
-    @Override
-    public OrganizationalUnitList retrieveChildObjects(
-        final OrganizationalUnit ou) throws EscidocException,
-        InternalClientException, TransportException {
-
-        checkNotNull(ou);
-
-        return retrieveChildObjects(ou.getObjid());
     }
 
     /*
@@ -630,9 +682,7 @@ public class OrganizationalUnitHandlerClient
         Marshaller<Parents> m =
             MarshallerFactory.getInstance().getMarshaller(Parents.class);
 
-        String xml =
-            getRestHandlerClient()
-                .updateParents(id, m.marshalDocument(parents));
+        String xml = getClient().updateParents(id, m.marshalDocument(parents));
 
         return m.unmarshalDocument(xml);
     }

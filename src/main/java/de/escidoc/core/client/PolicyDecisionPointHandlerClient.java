@@ -37,7 +37,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.PolicyDecisionPointHandlerClientInterface;
 import de.escidoc.core.client.rest.RestPolicyDecisionPointHandlerClient;
-import de.escidoc.core.client.soap.SoapPolicyDecisionPointHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Results;
@@ -51,8 +50,7 @@ import de.escidoc.core.resources.aa.pdp.Results;
  * 
  */
 public class PolicyDecisionPointHandlerClient
-    extends
-    AbstractHandlerClient<SoapPolicyDecisionPointHandlerClient, RestPolicyDecisionPointHandlerClient>
+    extends AbstractHandlerClient<RestPolicyDecisionPointHandlerClient>
     implements PolicyDecisionPointHandlerClientInterface {
 
     /**
@@ -100,16 +98,10 @@ public class PolicyDecisionPointHandlerClient
                 .getInstance().getMarshaller(Requests.class)
                 .marshalDocument(requests);
 
-        xml = getRestHandlerClient().evaluate(xml);
+        xml = getClient().evaluate(xml);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Results.class).unmarshalDocument(xml);
-    }
-
-    @Override
-    protected SoapPolicyDecisionPointHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapPolicyDecisionPointHandlerClient(getServiceAddress());
     }
 
     @Override

@@ -11,15 +11,14 @@ import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.rest.RestClientBase;
-import de.escidoc.core.client.soap.SoapClientBase;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.sb.Record;
+import de.escidoc.core.resources.sb.search.SearchResult;
+import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.resources.sb.search.records.ResourceRecord;
 
-public abstract class AbstractHandlerClient<soapType extends SoapClientBase, restType extends RestClientBase> {
+public abstract class AbstractHandlerClient<T extends RestClientBase> {
 
     private static final Logger LOG = Logger
         .getLogger(AbstractHandlerClient.class);
@@ -28,9 +27,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
 
     private URL serviceAddress;
 
-    protected soapType soapHandlerClient;
-
-    protected restType restHandlerClient;
+    protected T restHandlerClient;
 
     /**
      * 
@@ -113,8 +110,6 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      */
     public final void setHandle(final String handle) {
         this.handle = handle;
-        if (this.soapHandlerClient != null)
-            soapHandlerClient.setHandle(handle);
         if (this.restHandlerClient != null)
             restHandlerClient.setHandle(handle);
     }
@@ -134,72 +129,29 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
     }
 
     /**
-     * Generic convenience method to get the specific recordData content of a
-     * SearchRetrieveResponse.
-     * 
-     * @param <T>
-     * @param record
-     * @param type
-     *            The ResourceType to be used to perform a check against the
-     *            record, if it contains the object of type T. If ResourceType
-     *            does not fit to the type T, a ClassCastException will be
-     *            thrown.
-     * @return The content of the recordData of the SearchRetrieveResponse
-     *         specified as type T.
-     */
-    @SuppressWarnings("unchecked")
-    protected <T> T getSRWResourceRecordData(
-        final Record<?> record, final Class<T> resource) {
-
-        if (record instanceof ResourceRecord<?>) {
-            ResourceRecord<?> rRecord = (ResourceRecord<?>) record;
-
-            if (rRecord.getRecordDataType() == resource) {
-                return (T) record.getRecordData();
-            }
-        }
-        return null;
-    }
-
-    /**
      * 
      * @param <T>
      * @param resource
      * @param response
      * @return
      */
-    protected <T> List<T> getSearchRetrieveResponseAsList(
-        final Class<T> resource, final SearchRetrieveResponse response) {
+    @SuppressWarnings("unchecked")
+    protected <U> List<U> getSearchRetrieveResponseAsList(
+        final Class<U> resource, final SearchRetrieveResponse response) {
 
         checkNotNull(resource);
         checkNotNull(response);
 
-        List<T> results = new LinkedList<T>();
+        List<U> results = new LinkedList<U>();
 
-        for (Record<?> record : response.getRecords()) {
-            T element = getSRWResourceRecordData(record, resource);
-            if (element != null) {
-                results.add(element);
+        for (SearchResultRecord record : response.getRecords()) {
+            SearchResult searchResult = record.getRecordData();
+            Object content = searchResult.getContent();
+            if (resource.isAssignableFrom(content.getClass())) {
+                results.add((U) content);
             }
         }
         return results;
-    }
-
-    /**
-     * Get the SOAP handler.
-     * 
-     * @return SoapContentModelHandlerClient
-     * @throws InternalClientException
-     *             Thrown if creating instance of SoapContentModelHandlerClient
-     *             failed.
-     */
-    protected soapType getSoapHandlerClient() throws InternalClientException {
-        if (soapHandlerClient == null) {
-            soapHandlerClient = getSoapHandlerClientInstance();
-            if (handle != null)
-                soapHandlerClient.setHandle(handle);
-        }
-        return soapHandlerClient;
     }
 
     /**
@@ -210,7 +162,7 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
      *             Thrown if creating instance of RestContentModelHandlerClient
      *             failed.
      */
-    protected restType getRestHandlerClient() throws InternalClientException {
+    protected T getClient() throws InternalClientException {
         if (restHandlerClient == null) {
             restHandlerClient = getRestHandlerClientInstance();
             if (handle != null)
@@ -221,17 +173,9 @@ public abstract class AbstractHandlerClient<soapType extends SoapClientBase, res
 
     /**
      * 
-     * @return The SOAP instance of the handler client.
-     * @throws InternalClientException
-     */
-    protected abstract soapType getSoapHandlerClientInstance()
-        throws InternalClientException;
-
-    /**
-     * 
      * @return The REST instance of the handler client.
      * @throws InternalClientException
      */
-    protected abstract restType getRestHandlerClientInstance()
+    protected abstract T getRestHandlerClientInstance()
         throws InternalClientException;
 }

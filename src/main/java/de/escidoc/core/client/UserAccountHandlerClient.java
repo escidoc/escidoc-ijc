@@ -40,7 +40,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
-import de.escidoc.core.client.soap.SoapUserAccountHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.Attribute;
@@ -63,8 +62,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public class UserAccountHandlerClient
-    extends
-    AbstractHandlerClient<SoapUserAccountHandlerClient, RestUserAccountHandlerClient>
+    extends AbstractHandlerClient<RestUserAccountHandlerClient>
     implements UserAccountHandlerClientInterface {
 
     /**
@@ -95,12 +93,6 @@ public class UserAccountHandlerClient
     }
 
     @Override
-    protected SoapUserAccountHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapUserAccountHandlerClient(getServiceAddress());
-    }
-
-    @Override
     protected RestUserAccountHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
         return new RestUserAccountHandlerClient(getServiceAddress());
@@ -127,8 +119,7 @@ public class UserAccountHandlerClient
         Marshaller<UserAccount> m =
             MarshallerFactory.getInstance().getMarshaller(UserAccount.class);
 
-        String xml =
-            getRestHandlerClient().create(m.marshalDocument(userAccount));
+        String xml = getClient().create(m.marshalDocument(userAccount));
 
         return m.unmarshalDocument(xml);
     }
@@ -151,7 +142,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieve(id);
+        String xml = getClient().retrieve(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(UserAccount.class)
@@ -175,7 +166,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(id);
 
-        getRestHandlerClient().delete(id);
+        getClient().delete(id);
 
     }
 
@@ -201,7 +192,7 @@ public class UserAccountHandlerClient
             MarshallerFactory.getInstance().getMarshaller(UserAccount.class);
 
         String xml =
-            getRestHandlerClient().update(userAccount.getObjid(),
+            getClient().update(userAccount.getObjid(),
                 m.marshalDocument(userAccount));
 
         return m.unmarshalDocument(xml);
@@ -221,8 +212,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(taskParam);
 
-        getRestHandlerClient().updatePassword(userId,
-            marshalTaskParam(taskParam));
+        getClient().updatePassword(userId, marshalTaskParam(taskParam));
 
     }
 
@@ -243,7 +233,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(taskParam);
 
-        getRestHandlerClient().activate(userId, marshalTaskParam(taskParam));
+        getClient().activate(userId, marshalTaskParam(taskParam));
 
     }
 
@@ -264,7 +254,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(taskParam);
 
-        getRestHandlerClient().deactivate(userId, marshalTaskParam(taskParam));
+        getClient().deactivate(userId, marshalTaskParam(taskParam));
 
     }
 
@@ -282,7 +272,7 @@ public class UserAccountHandlerClient
     public UserAccount retrieveCurrentUser() throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = getRestHandlerClient().retrieveCurrentUser();
+        String xml = getClient().retrieveCurrentUser();
 
         return MarshallerFactory
             .getInstance().getMarshaller(UserAccount.class)
@@ -315,9 +305,7 @@ public class UserAccountHandlerClient
         Marshaller<Grant> m =
             MarshallerFactory.getInstance().getMarshaller(Grant.class);
 
-        String xml =
-            getRestHandlerClient()
-                .createGrant(userId, m.marshalDocument(grant));
+        String xml = getClient().createGrant(userId, m.marshalDocument(grant));
 
         return m.unmarshalDocument(xml);
     }
@@ -348,8 +336,7 @@ public class UserAccountHandlerClient
         checkNotNull(grantId);
         checkNotNull(taskParam);
 
-        getRestHandlerClient().revokeGrant(userId, grantId,
-            marshalTaskParam(taskParam));
+        getClient().revokeGrant(userId, grantId, marshalTaskParam(taskParam));
 
     }
 
@@ -377,8 +364,7 @@ public class UserAccountHandlerClient
             MarshallerFactory.getInstance().getMarshaller(Preference.class);
 
         String xml =
-            getRestHandlerClient().createPreference(userId,
-                m.marshalDocument(preference));
+            getClient().createPreference(userId, m.marshalDocument(preference));
 
         return m.unmarshalDocument(xml);
     }
@@ -406,7 +392,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(name);
 
-        String xml = getRestHandlerClient().retrievePreference(userId, name);
+        String xml = getClient().retrievePreference(userId, name);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Preference.class)
@@ -431,7 +417,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(userId);
 
-        String xml = getRestHandlerClient().retrievePreferences(userId);
+        String xml = getClient().retrievePreferences(userId);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Preferences.class)
@@ -464,8 +450,8 @@ public class UserAccountHandlerClient
             MarshallerFactory.getInstance().getMarshaller(Preference.class);
 
         String xml =
-            getRestHandlerClient().updatePreference(userId,
-                preference.getName(), m.marshalDocument(preference));
+            getClient().updatePreference(userId, preference.getName(),
+                m.marshalDocument(preference));
 
         return m.unmarshalDocument(xml);
     }
@@ -520,7 +506,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(name);
 
-        getRestHandlerClient().deletePreference(userId, name);
+        getClient().deletePreference(userId, name);
 
     }
 
@@ -548,8 +534,7 @@ public class UserAccountHandlerClient
             MarshallerFactory.getInstance().getMarshaller(Attribute.class);
 
         String xml =
-            getRestHandlerClient().createAttribute(userId,
-                m.marshalDocument(attribute));
+            getClient().createAttribute(userId, m.marshalDocument(attribute));
 
         return m.unmarshalDocument(xml);
     }
@@ -578,8 +563,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(attributeId);
 
-        String xml =
-            getRestHandlerClient().retrieveAttribute(userId, attributeId);
+        String xml = getClient().retrieveAttribute(userId, attributeId);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Attribute.class)
@@ -604,7 +588,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(userId);
 
-        String xml = getRestHandlerClient().retrieveAttributes(userId);
+        String xml = getClient().retrieveAttributes(userId);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Attributes.class)
@@ -637,8 +621,8 @@ public class UserAccountHandlerClient
             MarshallerFactory.getInstance().getMarshaller(Attribute.class);
 
         String xml =
-            getRestHandlerClient().updateAttribute(userId,
-                attribute.getObjid(), m.marshalDocument(attribute));
+            getClient().updateAttribute(userId, attribute.getObjid(),
+                m.marshalDocument(attribute));
 
         return m.unmarshalDocument(xml);
     }
@@ -665,7 +649,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(attributeId);
 
-        getRestHandlerClient().deleteAttribute(userId, attributeId);
+        getClient().deleteAttribute(userId, attributeId);
     }
 
     /**
@@ -684,7 +668,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(userId);
 
-        String xml = getRestHandlerClient().retrieveCurrentGrants(userId);
+        String xml = getClient().retrieveCurrentGrants(userId);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Grants.class).unmarshalDocument(xml);
@@ -713,7 +697,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(grantId);
 
-        String xml = getRestHandlerClient().retrieveGrant(userId, grantId);
+        String xml = getClient().retrieveGrant(userId, grantId);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Grant.class).unmarshalDocument(xml);
@@ -739,7 +723,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveUserAccounts(request);
+        String xml = getClient().retrieveUserAccounts(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
@@ -781,7 +765,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveUserAccounts(request);
+        String xml = getClient().retrieveUserAccounts(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
@@ -808,7 +792,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveGrants(request);
+        String xml = getClient().retrieveGrants(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
@@ -834,7 +818,7 @@ public class UserAccountHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveGrants(request);
+        String xml = getClient().retrieveGrants(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
@@ -1149,8 +1133,7 @@ public class UserAccountHandlerClient
         checkNotNull(userId);
         checkNotNull(attrName);
 
-        String xml =
-            getRestHandlerClient().retrieveNamedAttributes(userId, attrName);
+        String xml = getClient().retrieveNamedAttributes(userId, attrName);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Attributes.class)

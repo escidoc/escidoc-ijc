@@ -10,7 +10,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ReportHandlerClientInterface;
 import de.escidoc.core.client.rest.RestReportHandlerClient;
-import de.escidoc.core.client.soap.SoapReportHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sm.report.Report;
 import de.escidoc.core.resources.sm.report.ReportParameters;
@@ -20,8 +19,7 @@ import de.escidoc.core.resources.sm.report.ReportParameters;
  * 
  */
 public class ReportHandlerClient
-    extends
-    AbstractHandlerClient<SoapReportHandlerClient, RestReportHandlerClient>
+    extends AbstractHandlerClient<RestReportHandlerClient>
     implements ReportHandlerClientInterface {
 
     /**
@@ -67,16 +65,10 @@ public class ReportHandlerClient
                 .getInstance().getMarshaller(ReportParameters.class)
                 .marshalDocument(reportParameters);
 
-        xml = getRestHandlerClient().retrieve(xml);
+        xml = getClient().retrieve(xml);
 
         return MarshallerFactory
             .getInstance().getMarshaller(Report.class).unmarshalDocument(xml);
-    }
-
-    @Override
-    protected SoapReportHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapReportHandlerClient(getServiceAddress());
     }
 
     @Override

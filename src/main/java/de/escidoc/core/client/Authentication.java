@@ -31,6 +31,7 @@ package de.escidoc.core.client;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -84,6 +85,32 @@ public class Authentication {
         TransportException {
 
         login(serviceAddress, username, password);
+    }
+
+    /**
+     * @param serviceAddress
+     * @param username
+     * @param password
+     * @throws AuthenticationException
+     * @throws TransportException
+     * @deprecated Use
+     *             {@link Authentication#Authentication(URL, String, String)}
+     *             instead.
+     */
+    @Deprecated
+    public Authentication(final String serviceAddress, final String username,
+        final String password) throws AuthenticationException,
+        TransportException {
+
+        URL url;
+        try {
+            url = new URL(serviceAddress);
+        }
+        catch (MalformedURLException e) {
+            throw new TransportException(e);
+        }
+
+        login(url, username, password);
     }
 
     /**
@@ -148,9 +175,9 @@ public class Authentication {
         OutputStreamWriter writer = null;
 
         try {
-            URL loginUrl = new URL(this.serviceAddress + "aa/login?target=");
+            URL loginUrl = new URL(this.serviceAddress + "/aa/login?target=");
             URL authURL =
-                new URL(this.serviceAddress + "aa/j_spring_security_check");
+                new URL(this.serviceAddress + "/aa/j_spring_security_check");
 
             HttpURLConnection.setFollowRedirects(false);
 
@@ -194,7 +221,7 @@ public class Authentication {
                 throw new AuthenticationException(
                     redirectConn.getResponseCode(), "Authorization failed.",
                     redirectConn.getResponseMessage(), this.serviceAddress
-                        + "aa/login");
+                        + "/aa/login");
             }
 
         }
@@ -221,6 +248,32 @@ public class Authentication {
     }
 
     /**
+     * @param serviceUrl
+     * @param username
+     * @param password
+     * @return
+     * @throws TransportException
+     * @throws AuthenticationException
+     * @deprecated Use {@link Authentication#login(URL, String, String)}
+     *             instead.
+     */
+    @Deprecated
+    public String login(
+        final String serviceUrl, final String username, final String password)
+        throws TransportException, AuthenticationException {
+
+        URL url;
+        try {
+            url = new URL(serviceUrl);
+        }
+        catch (MalformedURLException e) {
+            throw new TransportException(e);
+        }
+
+        return login(url, username, password);
+    }
+
+    /**
      * Logout from framework.
      * 
      * @throws EscidocClientException
@@ -231,8 +284,7 @@ public class Authentication {
         TransportException {
 
         if (userManagement == null) {
-            userManagement =
-                new UserManagementWrapperClient(serviceAddress);
+            userManagement = new UserManagementWrapperClient(serviceAddress);
             /*
              * The serviceAddress and handle do not change within an instance of
              * this class.

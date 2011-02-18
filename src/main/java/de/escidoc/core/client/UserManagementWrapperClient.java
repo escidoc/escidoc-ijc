@@ -35,7 +35,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
 import de.escidoc.core.client.rest.RestUserManagementWrapperClient;
-import de.escidoc.core.client.soap.SoapUserManagementWrapperClient;
 
 /**
  * This is the generic ContainerSoapContainerHandlerClient which binds the
@@ -46,8 +45,7 @@ import de.escidoc.core.client.soap.SoapUserManagementWrapperClient;
  * 
  */
 public class UserManagementWrapperClient
-    extends
-    AbstractHandlerClient<SoapUserManagementWrapperClient, RestUserManagementWrapperClient>
+    extends AbstractHandlerClient<RestUserManagementWrapperClient>
     implements UserManagementWrapperClientInterface {
 
     /**
@@ -88,14 +86,8 @@ public class UserManagementWrapperClient
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
 
-        getRestHandlerClient().logout();
+        getClient().logout();
 
-    }
-
-    @Override
-    protected SoapUserManagementWrapperClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapUserManagementWrapperClient(getServiceAddress());
     }
 
     @Override

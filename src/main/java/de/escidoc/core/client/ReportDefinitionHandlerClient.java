@@ -16,7 +16,6 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ReportDefinitionHandlerClientInterface;
 import de.escidoc.core.client.rest.RestReportDefinitionHandlerClient;
-import de.escidoc.core.client.soap.SoapReportDefinitionHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
@@ -29,8 +28,7 @@ import de.escidoc.core.resources.sm.report.ReportDefinitionList;
  * 
  */
 public class ReportDefinitionHandlerClient
-    extends
-    AbstractHandlerClient<SoapReportDefinitionHandlerClient, RestReportDefinitionHandlerClient>
+    extends AbstractHandlerClient<RestReportDefinitionHandlerClient>
     implements ReportDefinitionHandlerClientInterface {
 
     /**
@@ -73,7 +71,7 @@ public class ReportDefinitionHandlerClient
 
         checkNotNull(id);
 
-        getRestHandlerClient().delete(id);
+        getClient().delete(id);
     }
 
     /**
@@ -94,8 +92,7 @@ public class ReportDefinitionHandlerClient
             MarshallerFactory.getInstance().getMarshaller(
                 ReportDefinition.class);
 
-        String xml =
-            getRestHandlerClient().create(m.marshalDocument(reportDefinition));
+        String xml = getClient().create(m.marshalDocument(reportDefinition));
 
         return m.unmarshalDocument(xml);
     }
@@ -120,7 +117,7 @@ public class ReportDefinitionHandlerClient
                 ReportDefinition.class);
 
         String xml =
-            getRestHandlerClient().update(reportDefinition.getObjid(),
+            getClient().update(reportDefinition.getObjid(),
                 m.marshalDocument(reportDefinition));
 
         return m.unmarshalDocument(xml);
@@ -140,7 +137,7 @@ public class ReportDefinitionHandlerClient
 
         checkNotNull(id);
 
-        String xml = getRestHandlerClient().retrieve(id);
+        String xml = getClient().retrieve(id);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ReportDefinition.class)
@@ -167,7 +164,7 @@ public class ReportDefinitionHandlerClient
 
         checkNotNull(filter);
 
-        String xml = getRestHandlerClient().retrieveReportDefinitions(filter);
+        String xml = getClient().retrieveReportDefinitions(filter);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ReportDefinitionList.class)
@@ -189,7 +186,7 @@ public class ReportDefinitionHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveReportDefinitions(request);
+        String xml = getClient().retrieveReportDefinitions(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(SearchRetrieveResponse.class)
@@ -220,24 +217,11 @@ public class ReportDefinitionHandlerClient
 
         checkNotNull(request);
 
-        String xml = getRestHandlerClient().retrieveReportDefinitions(request);
+        String xml = getClient().retrieveReportDefinitions(request);
 
         return MarshallerFactory
             .getInstance().getMarshaller(ExplainResponse.class)
             .unmarshalDocument(xml);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.client.AbstractHandlerClient#getSoapHandlerClientInstance
-     * ()
-     */
-    @Override
-    protected SoapReportDefinitionHandlerClient getSoapHandlerClientInstance()
-        throws InternalClientException {
-        return new SoapReportDefinitionHandlerClient(getServiceAddress());
     }
 
     /*
