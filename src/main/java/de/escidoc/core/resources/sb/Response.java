@@ -6,6 +6,7 @@ package de.escidoc.core.resources.sb;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.client.TransportProtocol;
 
 /**
@@ -20,16 +21,14 @@ import de.escidoc.core.client.TransportProtocol;
  * @author MVO
  * 
  */
+@JiBX
 public abstract class Response {
 
     protected String version;
 
     protected TransportProtocol protocol;
 
-    /**
-     * Constructor for REST response. This constructor will be used by JiBX
-     * only.
-     */
+    @JiBX
     protected Response() {
     }
 
@@ -38,7 +37,7 @@ public abstract class Response {
      * 
      * @param version
      */
-    protected Response(String version) {
+    protected Response(final String version) {
         this.version = version;
     }
 
@@ -58,7 +57,7 @@ public abstract class Response {
      * 
      * @param ictx
      */
-    protected void setProtocol(IUnmarshallingContext ictx) {
+    protected void setProtocol(final IUnmarshallingContext ictx) {
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
         protocol = TransportProtocol.valueOf(ctx.getFactory().getBindingName());
     }
