@@ -108,7 +108,8 @@
 		abstract="true" type-name="organizational-unit-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
-			prefix="prop" />
+			prefix="prop" default="elements"/>
+			
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 		
@@ -122,7 +123,7 @@
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
+		<value type="org.joda.time.DateTime"
 			name="creation-date" set-method="setCreationDate"
 			get-method="getCreationDate" usage="optional" />
 
@@ -149,27 +150,21 @@
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status" set-method="setPublicStatus"
+		<value name="public-status" set-method="setPublicStatus"
 			get-method="getPublicStatus" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status-comment" set-method="setPublicStatusComment"
+		<value name="public-status-comment" set-method="setPublicStatusComment"
 			get-method="getPublicStatusComment" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="name"
-			set-method="setName" get-method="getName" usage="optional" />
+		<value name="name" set-method="setName" get-method="getName" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="description" set-method="setDescription"
+		<value name="description" set-method="setDescription"
 			get-method="getDescription" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="external-ids" set-method="setExternalIds"
+		<value name="external-ids" set-method="setExternalIds"
 			get-method="getExternalIds" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="has-children" set-method="setHasChildren"
+		<value name="has-children" set-method="setHasChildren"
 			get-method="getHasChildren" usage="optional" />
 
 	</mapping>
