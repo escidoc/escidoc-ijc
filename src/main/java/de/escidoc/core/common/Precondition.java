@@ -3,11 +3,16 @@
  */
 package de.escidoc.core.common;
 
+import org.jibx.runtime.JiBXException;
+
 /**
  * @author MVO
  * 
  */
 public class Precondition {
+
+    protected static final String EX_INVALID_OBJ_TYPE =
+        "Unexpected object type. Expected: ";
 
     private Precondition() {
         // no instance
@@ -25,12 +30,7 @@ public class Precondition {
      *         <i>param</i> is not null.
      */
     public static final <T> T checkNotNull(final T param) {
-        if (param == null) {
-            throw new IllegalArgumentException(
-                "CheckNotNull failed: The specified argument must not be null.");
-        }
-
-        return param;
+        return checkNotNull(param, null);
     }
 
     /**
@@ -46,12 +46,75 @@ public class Precondition {
      *         <i>param</i> is not null.
      */
     public static final <T> T checkNotNull(final T param, final String errorMsg) {
-        if (errorMsg == null || errorMsg.isEmpty())
-            return checkNotNull(param);
 
         if (param == null) {
-            throw new IllegalArgumentException(errorMsg);
+            if (errorMsg == null || errorMsg.isEmpty())
+                throw new IllegalArgumentException(
+                    "CheckNotNull failed: The specified argument must not be null.");
+            else
+                throw new IllegalArgumentException(errorMsg);
         }
         return param;
+    }
+
+    /**
+     * @param value
+     * @return
+     */
+    public static final String checkNotEmpty(final String value) {
+        return checkNotEmpty(value, null);
+    }
+
+    /**
+     * @param value
+     * @param errorMsg
+     * @return
+     */
+    public static final String checkNotEmpty(
+        final String value, final String errorMsg) {
+
+        if (checkNotNull(value).isEmpty()) {
+            if (errorMsg == null || errorMsg.isEmpty())
+                throw new IllegalArgumentException(
+                    "checkNotEmpty failed: The specified java.lang.String should not be empty.");
+            else
+                throw new IllegalArgumentException(errorMsg);
+        }
+        return value;
+    }
+
+    /**
+     * @param <T>
+     * @param type
+     * @param obj
+     * @return
+     * @throws JiBXException
+     */
+    public static final <T> T checkObject(final Class<T> type, final Object obj) {
+        return checkObject(type, obj, null);
+    }
+
+    /**
+     * @param <T>
+     * @param type
+     * @param obj
+     * @param msg
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static final <T> T checkObject(
+        final Class<T> type, final Object obj, final String errorMsg) {
+
+        checkNotNull(type);
+        checkNotNull(obj);
+
+        if (!type.isAssignableFrom(obj.getClass())) {
+            if (errorMsg == null)
+                throw new IllegalArgumentException(EX_INVALID_OBJ_TYPE + type);
+            else
+                throw new IllegalArgumentException(errorMsg);
+        }
+
+        return (T) obj;
     }
 }
