@@ -3,11 +3,14 @@
  */
 package de.escidoc.core.common.jibx.binding;
 
+import static de.escidoc.core.common.Precondition.checkObject;
+
 import java.io.IOException;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.MarshallingContext;
@@ -20,6 +23,18 @@ import de.escidoc.core.common.XmlUtility;
  * 
  */
 public class MarshallingBase {
+
+    private static final String EX_UNEXPECTED_MARSH_CTX =
+        "Unexpected marshalling context type.";
+
+    private static final String EX_UNEXPECTED_UNMARSH_CTX =
+        "Unexpected unmarshalling context type.";
+
+    protected static final String EX_MARSH_NOT_SUPPORTED =
+        "Marshalling not supported.";
+
+    protected static final String EX_UNMARSH_NOT_SUPPORTED =
+        "Unmarshalling not supported.";
 
     private static final Pattern CDATA_PATTERN = Pattern
         .compile("<!\\[CDATA.*\\]\\]>");
@@ -63,17 +78,20 @@ public class MarshallingBase {
      * 
      * @param ictx
      * @param element
+     *            the element, which the cursor should be positioned at.
      * @return
      * @throws JiBXException
      */
     protected String getContentOfElementAsXml(
-        IUnmarshallingContext ictx, String element) throws JiBXException {
+        final IUnmarshallingContext ictx, final String element)
+        throws JiBXException {
         StringBuffer result = new StringBuffer();
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
 
         boolean finished = false;
-        ctx.isStart();
+        // ctx.isStart();
         // String root = ctx.getElementName();
+
         while (!finished) {
             if (ctx.isStart()) {
                 result = result.append(getStartElement(ictx));
@@ -101,13 +119,60 @@ public class MarshallingBase {
     }
 
     /**
+     * @param ictx
+     * @return
+     * @throws JiBXException
+     */
+    protected String getElementAsXml(final IUnmarshallingContext ictx)
+        throws JiBXException {
+
+        if (!ictx.isStart())
+            throw new JiBXException("Expected start tag.");
+
+        StringBuffer result = new StringBuffer();
+        UnmarshallingContext ctx = checkUnmarshaller(ictx);
+        boolean finished = false;
+
+        String root = ctx.getElementName();
+        String rootNS = ctx.getElementNamespace();
+
+        while (!finished) {
+            if (ctx.isStart()) {
+                result = result.append(getStartElement(ictx));
+                ctx.parsePastStartTag(ctx.getElementNamespace(),
+                    ctx.getElementName());
+                /*
+                 * The woodstox parser returns text content as decoded text and
+                 * since we are generating a xml text here, we have to encode
+                 * the content again. There is no way to get the origin text.
+                 */
+                result.append(XmlUtility.escapeForbiddenXmlCharacters(ctx
+                    .accumulateText()));
+            }
+            else if (ctx.isEnd()) {
+
+                result.append(getEndElement(ictx));
+
+                if (root.equals(ctx.getElementName()) && rootNS != null
+                    && rootNS.equals(ctx.getElementNamespace())) {
+
+                    finished = true;
+                }
+                ctx.parsePastEndTag(ctx.getElementNamespace(),
+                    ctx.getElementName());
+            }
+        }
+        return result.toString();
+    }
+
+    /**
      * Get XML start element.
      * 
      * @param ictx
      * @return
      * @throws JiBXException
      */
-    private StringBuffer getStartElement(IUnmarshallingContext ictx)
+    private StringBuffer getStartElement(final IUnmarshallingContext ictx)
         throws JiBXException {
         StringBuffer result = new StringBuffer("<");
 
@@ -177,7 +242,7 @@ public class MarshallingBase {
      * @return
      * @throws JiBXException
      */
-    private StringBuffer getEndElement(IUnmarshallingContext ictx)
+    private StringBuffer getEndElement(final IUnmarshallingContext ictx)
         throws JiBXException {
         StringBuffer result = new StringBuffer("</");
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
@@ -263,7 +328,7 @@ public class MarshallingBase {
      * @param textContent
      * @return
      */
-    protected String cleanup(String textContent) {
+    protected String cleanup(final String textContent) {
         return textContent.replaceAll("(^\\s+)|(\\s+$)", "");
     }
 
@@ -281,5 +346,29 @@ public class MarshallingBase {
                 return i;
         }
         return -1;
+    }
+
+    /**
+     * @param ictx
+     * @return
+     * @throws JiBXException
+     */
+    protected static final UnmarshallingContext checkUnmarshaller(
+        final IUnmarshallingContext ictx) throws JiBXException {
+
+        return checkObject(UnmarshallingContext.class, ictx,
+            EX_UNEXPECTED_UNMARSH_CTX);
+    }
+
+    /**
+     * @param ictx
+     * @return
+     * @throws JiBXException
+     */
+    protected static final MarshallingContext checkMarshaller(
+        final IMarshallingContext ictx) throws JiBXException {
+
+        return checkObject(MarshallingContext.class, ictx,
+            EX_UNEXPECTED_MARSH_CTX);
     }
 }
