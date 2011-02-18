@@ -48,6 +48,7 @@ import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.container.Container;
+import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
@@ -120,6 +121,16 @@ public interface ContainerHandlerClientInterface
      */
     StructMap retrieveStructMap(final Container container)
         throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ContainerList retrieveParents(String id) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * Creates a container as a sub-resource of this container.

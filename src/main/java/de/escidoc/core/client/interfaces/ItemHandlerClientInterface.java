@@ -52,6 +52,7 @@ import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
 import de.escidoc.core.resources.om.item.component.Component;
@@ -106,6 +107,16 @@ public interface ItemHandlerClientInterface
      */
     List<Item> retrieveItemsAsList(SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    ContainerList retrieveParents(String id) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param id
