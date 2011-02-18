@@ -51,15 +51,15 @@ import de.escidoc.core.resources.om.item.component.Components;
 public class Item extends GenericVersionableResource
     implements XLinkAutonomous, Referenceable<ItemRef> {
 
-    private ItemProperties properties = new ItemProperties();
+    private ItemProperties properties;
 
-    private Components components = null;
+    private Components components;
 
-    private MetadataRecords mdRecords = null;
+    private MetadataRecords mdRecords;
 
-    private ContentStreams contentStreams = null;
+    private ContentStreams contentStreams;
 
-    private Relations relations = null;
+    private Relations relations;
 
     /**
      * Item.
@@ -73,7 +73,9 @@ public class Item extends GenericVersionableResource
      * @return properties
      */
     public ItemProperties getProperties() {
-        return this.properties;
+        if (properties == null)
+            properties = new ItemProperties();
+        return properties;
     }
 
     /**
