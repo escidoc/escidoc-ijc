@@ -3,11 +3,10 @@
  */
 package de.escidoc.core.client.rest;
 
-import java.net.CookiePolicy;
 import java.net.URL;
 
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.params.ClientPNames;
+import org.apache.http.client.params.HttpClientParams;
 
 import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -74,13 +73,16 @@ public abstract class RestClientBase extends ClientBase
         }
 
         // method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-        method.getParams().setParameter(ClientPNames.COOKIE_POLICY,
-            CookiePolicy.ACCEPT_NONE);
+        // method.getParams().setParameter(ClientPNames.COOKIE_POLICY,
+        // CookiePolicy.ACCEPT_NONE);
+
+        // HttpClientParams.setCookiePolicy(method.getParams(), cookiePolicy);
 
         method.addHeader("Cookie", ESCIDOC_COOKIE_ENTRY + "=" + getHandle());
 
         // method.setFollowRedirects(false);
-        method
-            .getParams().setParameter("http.protocol.handle-redirects", false);
+        // method
+        // .getParams().setParameter("http.protocol.handle-redirects", false);
+        HttpClientParams.setRedirecting(method.getParams(), false);
     }
 }
