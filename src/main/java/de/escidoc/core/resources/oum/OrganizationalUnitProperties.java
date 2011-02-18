@@ -57,7 +57,7 @@ public class OrganizationalUnitProperties extends XLinkResource {
 
     private String externalIds = null;
 
-    private Boolean hasChildren = false;
+    private Boolean hasChildren = Boolean.FALSE;
 
     /**
      * @return The creation date.
