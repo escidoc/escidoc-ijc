@@ -534,7 +534,7 @@
 				</executions>
 				<configuration>
 					<outputDirectory>target</outputDirectory>
-					<finalName>${artifactId}-${version}</finalName>
+					<finalName>${project.artifactId}-${project.version}</finalName>
 					<attach>true</attach>
 				</configuration>
 			</plugin>
