@@ -17,7 +17,6 @@ import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class RetrieveUserAccountsTest {
@@ -29,8 +28,8 @@ public class RetrieveUserAccountsTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uahc = new RestUserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
     }

@@ -37,7 +37,6 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
@@ -56,8 +55,8 @@ public class UserAccountPreferencesTestRest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uahc = new RestUserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
     }

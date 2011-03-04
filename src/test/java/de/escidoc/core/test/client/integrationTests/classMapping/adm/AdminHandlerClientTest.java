@@ -49,7 +49,6 @@ import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
@@ -74,8 +73,8 @@ public class AdminHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ahc = new AdminHandlerClient(auth.getServiceAddress());
         ahc.setHandle(auth.getHandle());
     }

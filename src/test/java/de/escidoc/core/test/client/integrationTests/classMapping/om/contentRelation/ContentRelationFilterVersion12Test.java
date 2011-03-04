@@ -57,7 +57,6 @@ import de.escidoc.core.resources.om.contentRelation.ContentRelationProperties;
 import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
@@ -76,8 +75,8 @@ public class ContentRelationFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentRelationHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }

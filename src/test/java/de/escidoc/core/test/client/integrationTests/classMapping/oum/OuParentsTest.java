@@ -32,7 +32,6 @@ import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.resources.oum.Parent;
 import de.escidoc.core.resources.oum.Parents;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -54,8 +53,8 @@ public class OuParentsTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }

@@ -21,7 +21,6 @@ import de.escidoc.core.resources.sm.ad.AggregationDefinition;
 import de.escidoc.core.resources.sm.report.ReportDefinition;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -45,13 +44,13 @@ public class ReportDefinitionHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rhc = new ReportDefinitionHandlerClient(auth.getServiceAddress());
         rhc.setHandle(auth.getHandle());
 
         // prepare scope
-        scopeId = createScope(ScopeType.admin);
+        scopeId = createScope(ScopeType.ADMIN);
         if (scopeId == null)
             fail("Unable to initialze test case. ScopeId is null.");
         // prepare ad

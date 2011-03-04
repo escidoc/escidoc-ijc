@@ -42,9 +42,13 @@ import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.properties.LockStatus;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
+import de.escidoc.core.resources.om.item.StorageType;
+import de.escidoc.core.resources.om.item.component.ChecksumAlgorithm;
 import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
@@ -96,7 +100,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
 
         assertEquals("Wrong created-by", "escidoc:10001", item
             .getProperties().getCreatedBy().getObjid());
-        assertEquals("Wrong public-status", "released", item
+        assertEquals("Wrong public-status", PublicStatus.RELEASED, item
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "testweise akzeptiert\n\t\t", item
@@ -107,7 +111,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
         assertEquals("Wrong Content Model", "escidoc:persistent4", item
             .getProperties().getContentModel().getObjid());
 
-        assertEquals("Wrong lock-status", "unlocked", item
+        assertEquals("Wrong lock-status", LockStatus.UNLOCKED, item
             .getProperties().getLockStatus());
 
         assertEquals("Wrong [object] pid", "hdl:someHandle/test/escidoc:40011",
@@ -187,8 +191,10 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
         assertEquals("Wrong component property checksum",
             "98d25a345678937832b977310442fa31c", item
                 .getComponents().element().getProperties().getChecksum());
-        assertEquals("Wrong component property checksum-algorithm", "MD5", item
-            .getComponents().element().getProperties().getChecksumAlgorithm());
+        assertEquals("Wrong component property checksum-algorithm",
+            ChecksumAlgorithm.MD5, item
+                .getComponents().element().getProperties()
+                .getChecksumAlgorithm());
 
         assertEquals("Wrong component content title", "test-2010.pdf", item
             .getComponents().element().getContent().getXLinkTitle());
@@ -196,8 +202,9 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
             "Wrong component content href",
             "/ir/item/escidoc:40011/components/component/escidoc:40010/content",
             item.getComponents().element().getContent().getXLinkHref());
-        assertEquals("Wrong component content storage", "internal-managed",
-            item.getComponents().element().getContent().getStorage());
+        assertEquals("Wrong component content storage",
+            StorageType.INTERNAL_MANAGED, item
+                .getComponents().element().getContent().getStorage());
 
         assertEquals("Wrong number of component md-record", 1, item
             .getComponents().element().getMetadataRecords().size());
@@ -232,7 +239,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
 
         assertEquals("Wrong created-by", "escidoc:10001", item
             .getProperties().getCreatedBy().getObjid());
-        assertEquals("Wrong public-status", "released", item
+        assertEquals("Wrong public-status", PublicStatus.RELEASED, item
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "testweise akzeptiert\n\t\t", item
@@ -243,7 +250,7 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
         assertEquals("Wrong Content Model", "escidoc:persistent4", item
             .getProperties().getContentModel().getObjid());
 
-        assertEquals("Wrong lock-status", "locked", item
+        assertEquals("Wrong lock-status", LockStatus.LOCKED, item
             .getProperties().getLockStatus());
         assertEquals("Wrong lock-date",
             new DateTime("2010-07-09T12:24:19.314Z"), item
@@ -328,8 +335,10 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
         assertEquals("Wrong component property checksum",
             "98d25a345678937832b977310442fa31c", item
                 .getComponents().element().getProperties().getChecksum());
-        assertEquals("Wrong component property checksum-algorithm", "MD5", item
-            .getComponents().element().getProperties().getChecksumAlgorithm());
+        assertEquals("Wrong component property checksum-algorithm",
+            ChecksumAlgorithm.MD5, item
+                .getComponents().element().getProperties()
+                .getChecksumAlgorithm());
 
         assertEquals("Wrong component content title", "test-2010.pdf", item
             .getComponents().element().getContent().getXLinkTitle());
@@ -337,8 +346,9 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
             "Wrong component content href",
             "/ir/item/escidoc:40011/components/component/escidoc:40010/content",
             item.getComponents().element().getContent().getXLinkHref());
-        assertEquals("Wrong component content storage", "internal-managed",
-            item.getComponents().element().getContent().getStorage());
+        assertEquals("Wrong component content storage",
+            StorageType.INTERNAL_MANAGED, item
+                .getComponents().element().getContent().getStorage());
 
         assertEquals("Wrong number of component md-record", 1, item
             .getComponents().element().getMetadataRecords().size());
@@ -451,8 +461,9 @@ public class ItemMarshallerTest extends AbstractParameterizedTestBase {
             .getComponents().element().getContent().getXLinkTitle());
         assertNull("Wrong component content href", item
             .getComponents().element().getContent().getXLinkHref());
-        assertEquals("Wrong component content storage", "internal-managed",
-            item.getComponents().element().getContent().getStorage());
+        assertEquals("Wrong component content storage",
+            StorageType.INTERNAL_MANAGED, item
+                .getComponents().element().getContent().getStorage());
 
         // FIXME compare content without trim
         assertEquals(

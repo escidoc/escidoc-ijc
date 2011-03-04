@@ -61,7 +61,6 @@ import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchResult;
 import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -79,8 +78,10 @@ public class ItemFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -124,9 +125,10 @@ public class ItemFilterVersion12Test {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(
-            EscidocClientTestBase.getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
@@ -149,7 +151,7 @@ public class ItemFilterVersion12Test {
         // now check if at least this Item is in the list
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/last-modification-date\"=\""
+        srwFilter.setQuery("\"/properties/creation-date\"=\""
             + createdItem
                 .getLastModificationDate().withZone(DateTimeZone.UTC)
                 .toString() + "\"");

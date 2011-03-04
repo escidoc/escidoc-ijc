@@ -40,7 +40,6 @@ import org.w3c.dom.Node;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.common.XmlUtility;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
@@ -59,8 +58,8 @@ public class ItemTestRest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new RestItemHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -240,12 +239,12 @@ public class ItemTestRest {
     @Test
     public void shouldReturnAllReleasedItems() throws EscidocClientException {
         final Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
                 Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
 
         final ItemHandlerClientInterface cc = new ItemHandlerClient();
         cc.setTransport(TransportProtocol.REST);
-        cc.setServiceAddress(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        cc.setServiceAddress(EscidocClientTestBase.getDefaultInfrastructureURL());
         cc.setHandle(auth.getHandle());
 
         final SearchRetrieveRequestType filter =

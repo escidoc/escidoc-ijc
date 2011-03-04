@@ -50,7 +50,6 @@ import de.escidoc.core.resources.sm.ad.TimeReductionField;
 import de.escidoc.core.resources.sm.ad.TimeReductionFieldType;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
@@ -89,13 +88,13 @@ public class AggregationDefinitionHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         adhc = new AggregationDefinitionHandlerClient(auth.getServiceAddress());
         adhc.setHandle(auth.getHandle());
 
         // prepare scope
-        scopeId = createScope(ScopeType.admin);
+        scopeId = createScope(ScopeType.ADMIN);
         if (scopeId == null)
             fail("Unable to initialze test case. ScopeId is null.");
     }
@@ -163,42 +162,42 @@ public class AggregationDefinitionHandlerClientTest {
             Iterator<Field> it = table.getFields().iterator();
             Field fieldEntry = it.next();
             // info field
-            assertTrue(fieldEntry.getType() == FieldType.InfoField);
+            assertTrue(fieldEntry.getType() == FieldType.INFO);
             InfoField field = (InfoField) fieldEntry;
 
             assertEquals("Incorrect field name.", FIELD_INFO_PAGE,
                 field.getName());
             assertEquals("Incorrect feed.", FEED, field.getFeed());
             assertTrue("Wrong field type.",
-                InfoFieldType.text == field.getInfoFieldType());
+                InfoFieldType.TEXT == field.getInfoFieldType());
             assertEquals("Incorrect xPath.", FIELD_INFO_PAGE_XPATH,
                 field.getXPath());
 
             fieldEntry = it.next();
             // time reduction field
-            assertTrue(fieldEntry.getType() == FieldType.TimeReductionField);
+            assertTrue(fieldEntry.getType() == FieldType.TIME_REDUCTION);
             TimeReductionField timeField = (TimeReductionField) fieldEntry;
 
             assertEquals("Incorrect field name.", FIELD_TIME_MONTH,
                 timeField.getName());
             assertEquals("Incorrect feed.", FEED, timeField.getFeed());
             assertTrue("Wrong field type.",
-                TimeReductionFieldType.month == timeField.getReduceTo());
+                TimeReductionFieldType.MONTH == timeField.getReduceTo());
 
             fieldEntry = it.next();
             // time reduction field
-            assertTrue(fieldEntry.getType() == FieldType.TimeReductionField);
+            assertTrue(fieldEntry.getType() == FieldType.TIME_REDUCTION);
             TimeReductionField timeField2 = (TimeReductionField) fieldEntry;
 
             assertEquals("Incorrect field name.", FIELD_TIME_YEAR,
                 timeField2.getName());
             assertEquals("Incorrect feed.", FEED, timeField2.getFeed());
             assertTrue("Wrong field type.",
-                TimeReductionFieldType.year == timeField2.getReduceTo());
+                TimeReductionFieldType.YEAR == timeField2.getReduceTo());
 
             fieldEntry = it.next();
             // count cumulation field
-            assertTrue(fieldEntry.getType() == FieldType.CountCumulationField);
+            assertTrue(fieldEntry.getType() == FieldType.COUNT_CUMULATION);
             CountCumulationField countField = (CountCumulationField) fieldEntry;
 
             assertEquals("Incorrect field name.", FIELD_CUMUL_REQUESTS,
@@ -206,7 +205,7 @@ public class AggregationDefinitionHandlerClientTest {
 
             fieldEntry = it.next();
             // time reduction field
-            assertTrue(fieldEntry.getType() == FieldType.DifferenceCumulationField);
+            assertTrue(fieldEntry.getType() == FieldType.DIFFERENCE_CUMULATION);
             DifferenceCumulationField diffField =
                 (DifferenceCumulationField) fieldEntry;
 
@@ -379,16 +378,16 @@ public class AggregationDefinitionHandlerClientTest {
         AggregationTable at = new AggregationTable(tableName);
 
         at.getFields().add(
-            new InfoField(FIELD_INFO_PAGE, FEED, InfoFieldType.text,
+            new InfoField(FIELD_INFO_PAGE, FEED, InfoFieldType.TEXT,
                 FIELD_INFO_PAGE_XPATH));
 
         at.getFields().add(
             new TimeReductionField(FIELD_TIME_MONTH, FEED,
-                TimeReductionFieldType.month));
+                TimeReductionFieldType.MONTH));
 
         at.getFields().add(
             new TimeReductionField(FIELD_TIME_YEAR, FEED,
-                TimeReductionFieldType.year));
+                TimeReductionFieldType.YEAR));
 
         at.getFields().add(new CountCumulationField(FIELD_CUMUL_REQUESTS));
 

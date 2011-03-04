@@ -47,14 +47,13 @@ import de.escidoc.core.client.ContainerHandlerClient;
 import de.escidoc.core.client.exceptions.application.notfound.ContainerNotFoundException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.VersionableResource;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
-import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -72,8 +71,8 @@ public class ContainerHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -186,7 +185,7 @@ public class ContainerHandlerClientTest {
         request
             .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        List<GenericVersionableResource> memberList =
+        List<VersionableResource> memberList =
             cc.retrieveMembersAsList(objid, request);
 
         // FIXME check containerList

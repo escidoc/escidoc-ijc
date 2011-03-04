@@ -13,7 +13,6 @@ import de.escidoc.core.client.PreprocessingHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sm.preprocess.PreprocessingInformation;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -29,8 +28,8 @@ public class PreprocessingHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         phc = new PreprocessingHandlerClient(auth.getServiceAddress());
         phc.setHandle(auth.getHandle());
     }

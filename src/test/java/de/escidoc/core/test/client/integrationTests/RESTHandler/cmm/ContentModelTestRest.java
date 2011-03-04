@@ -37,7 +37,6 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.rest.RestContentModelHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.cmm.ContentModel;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
@@ -56,8 +55,8 @@ public class ContentModelTestRest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rcmhc = new RestContentModelHandlerClient(auth.getServiceAddress());
         rcmhc.setHandle(auth.getHandle());
     }

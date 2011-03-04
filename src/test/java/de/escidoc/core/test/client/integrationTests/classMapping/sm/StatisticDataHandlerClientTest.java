@@ -23,7 +23,6 @@ import de.escidoc.core.resources.sm.StringParameter;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
 import de.escidoc.core.resources.sm.sd.StatisticData;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -45,12 +44,12 @@ public class StatisticDataHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         shc = new StatisticDataHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
         // create test scope
-        scopeId = createScope(ScopeType.admin);
+        scopeId = createScope(ScopeType.ADMIN);
         if (scopeId == null) {
             fail("Test initialization failed: scopeId is null.");
         }

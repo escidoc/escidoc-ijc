@@ -36,6 +36,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,9 +50,12 @@ import org.w3c.dom.Document;
 import de.escidoc.core.client.AdminHandlerClient;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.common.configuration.ConfigurationProvider;
+import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.adm.LoadExamplesResult.Entry;
 import de.escidoc.core.resources.common.MessagesResult;
 
@@ -61,16 +66,6 @@ import de.escidoc.core.resources.common.MessagesResult;
  * 
  */
 public final class EscidocClientTestBase {
-
-    public static final String DEFAULT_INFRASTRUCTURE_HOST = "localhost";
-
-    public static final String DEFAULT_INFRASTRUCTURE_PORT = "8080";
-
-    public static final String DEFAULT_INFRASTRUCTURE_PATH = "";
-
-    public static final String DEFAULT_SERVICE_URL = "http://"
-        + DEFAULT_INFRASTRUCTURE_HOST + ":" + DEFAULT_INFRASTRUCTURE_PORT
-        + DEFAULT_INFRASTRUCTURE_PATH;
 
     private static final Pattern PATTERN_OBJID_ATTRIBUTE = Pattern
         .compile("objid=\"([^\"]*)\"");
@@ -84,18 +79,51 @@ public final class EscidocClientTestBase {
     private static final TransportProtocol defaultTransportProtocol =
         TransportProtocol.REST;
 
-    private static String exampleItemId = null;
+    /*
+     * Static variables to store results of initial LoadExamples.
+     */
 
-    private static String exampleOrganizationalUnitId = null;
+    private static String exampleItemId;
 
-    private static String exampleContextId = null;
+    private static String exampleOrganizationalUnitId;
 
-    private static String exampleContentModelId = null;
+    private static String exampleContextId;
 
-    private static String exampleContainerId = null;
+    private static String exampleContentModelId;
+
+    private static String exampleContainerId;
 
     private static boolean loadedExamples = false;
 
+    /*
+     * Static user accounts.
+     */
+
+    private static String exampleAdminId;
+
+    private static String exampleUserId;
+
+    /*
+     * Static connection
+     */
+
+    private static URL defaultInfrastructureURL;
+
+    /*
+     * Username/Password logins
+     */
+    public static final String SYSTEM_ADMIN_USER = "sysadmin";
+
+    public static final String SYSTEM_ADMIN_PASSWORD = "eSciDoc";
+
+    /**
+     * This is definitive an invalid identifier (resource not found).
+     */
+    public static final String INVALID_RESOURCE_ID = "escidoc:-1";
+
+    /**
+     * No instances allowed.
+     */
     private EscidocClientTestBase() {
     }
 
@@ -259,13 +287,14 @@ public final class EscidocClientTestBase {
      * @throws TransportException
      * @throws EscidocException
      * @throws InternalClientException
+     * @throws MalformedURLException
      */
     private static void loadStaticResources() throws TransportException,
         EscidocException, InternalClientException {
 
         Authentication auth =
-            new Authentication(DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(getDefaultInfrastructureURL(),
+                SYSTEM_ADMIN_USER, SYSTEM_ADMIN_PASSWORD);
         AdminHandlerClient c = new AdminHandlerClient(auth.getServiceAddress());
         c.setHandle(auth.getHandle());
         MessagesResult<Entry> result = c.loadExamples();
@@ -292,38 +321,163 @@ public final class EscidocClientTestBase {
         loadedExamples = true;
     }
 
-    public static synchronized String getStaticItemId()
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws MalformedURLException
+     */
+    public static final synchronized String getStaticItemId()
         throws TransportException, EscidocException, InternalClientException {
         if (!loadedExamples)
             loadStaticResources();
         return exampleItemId;
     }
 
-    public static synchronized String getStaticOrganizationalUnitId()
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws MalformedURLException
+     */
+    public static final synchronized String getStaticOrganizationalUnitId()
         throws TransportException, EscidocException, InternalClientException {
         if (!loadedExamples)
             loadStaticResources();
         return exampleOrganizationalUnitId;
     }
 
-    public static synchronized String getStaticContextId()
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws MalformedURLException
+     */
+    public static final synchronized String getStaticContextId()
         throws TransportException, EscidocException, InternalClientException {
         if (!loadedExamples)
             loadStaticResources();
         return exampleContextId;
     }
 
-    public static synchronized String getStaticContentModelId()
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws MalformedURLException
+     */
+    public static final synchronized String getStaticContentModelId()
         throws TransportException, EscidocException, InternalClientException {
         if (!loadedExamples)
             loadStaticResources();
         return exampleContentModelId;
     }
 
-    public static synchronized String getStaticContainerId()
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws MalformedURLException
+     */
+    public static final synchronized String getStaticContainerId()
         throws TransportException, EscidocException, InternalClientException {
         if (!loadedExamples)
             loadStaticResources();
         return exampleContainerId;
+    }
+
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws MalformedURLException
+     */
+    public static final synchronized String getStaticAdminUserId()
+        throws TransportException, EscidocException, InternalClientException {
+        if (exampleAdminId == null) {
+            Authentication auth =
+                new Authentication(getDefaultInfrastructureURL(),
+                    SYSTEM_ADMIN_USER, SYSTEM_ADMIN_PASSWORD);
+            UserAccountHandlerClient uhc =
+                new UserAccountHandlerClient(auth.getServiceAddress());
+            uhc.setHandle(auth.getHandle());
+            exampleAdminId = uhc.retrieveCurrentUser().getObjid();
+        }
+        return exampleAdminId;
+    }
+
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws MalformedURLException
+     */
+    public static final synchronized String getStaticUserId()
+        throws TransportException, EscidocException, InternalClientException {
+        if (exampleUserId == null) {
+            Authentication auth =
+                new Authentication(getDefaultInfrastructureURL(),
+                    SYSTEM_ADMIN_USER, SYSTEM_ADMIN_PASSWORD);
+            UserAccountHandlerClient uhc =
+                new UserAccountHandlerClient(auth.getServiceAddress());
+            uhc.setHandle(auth.getHandle());
+
+            UserAccount acc = new UserAccount();
+
+            acc.getProperties().setActive(true);
+            acc.getProperties().setLoginName("testuser");
+            acc.getProperties().setName("testuser");
+
+            exampleUserId = uhc.create(acc).getObjid();
+        }
+        return exampleUserId;
+    }
+
+    /**
+     * @return
+     * @throws InternalClientException
+     */
+    public static final String getDefaultInfrastructureHost()
+        throws InternalClientException {
+        return ConfigurationProvider.getInstance().getProperty(
+            ConfigurationProvider.PROP_SERVER_NAME);
+    }
+
+    /**
+     * @return
+     * @throws InternalClientException
+     */
+    public static final String getDefaultInfrastructurePort()
+        throws InternalClientException {
+        return ConfigurationProvider.getInstance().getProperty(
+            ConfigurationProvider.PROP_SERVER_PORT);
+    }
+
+    /**
+     * @return
+     * @throws InternalClientException
+     */
+    public static final synchronized URL getDefaultInfrastructureURL()
+        throws InternalClientException {
+
+        if (defaultInfrastructureURL == null) {
+            String port = getDefaultInfrastructurePort();
+            try {
+                defaultInfrastructureURL =
+                    new URL("http://" + getDefaultInfrastructureHost()
+                        + (port == null ? "" : ":" + port));
+            }
+            catch (MalformedURLException e) {
+                throw new InternalClientException(e.getMessage(), e);
+            }
+        }
+        return defaultInfrastructureURL;
     }
 }

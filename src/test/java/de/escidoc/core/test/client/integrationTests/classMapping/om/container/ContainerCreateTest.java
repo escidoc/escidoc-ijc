@@ -30,6 +30,7 @@ package de.escidoc.core.test.client.integrationTests.classMapping.om.container;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -49,16 +50,18 @@ import org.w3c.dom.Node;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
+import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
 import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
+import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
-import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relation;
@@ -68,12 +71,14 @@ import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.structmap.ContainerMemberRef;
+import de.escidoc.core.resources.common.structmap.ItemMemberRef;
 import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
-import de.escidoc.core.test.client.Constants;
+import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 import de.escidoc.core.test.client.util.Asserts;
 
 /**
@@ -91,8 +96,10 @@ public class ContainerCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -439,33 +446,42 @@ public class ContainerCreateTest {
      */
     @Test
     public void testCreateContainerWithOneMember() throws Exception {
+        // create test objects
         Container container = createContainerWithMinContent();
         Container memberContainer = createContainerWithMinContent();
-
+        Item memberItem = createItemWithMinContent();
+        // get ItemHandlerClient for item member creation
+        ItemHandlerClientInterface ihc =
+            new ItemHandlerClient(auth.getServiceAddress());
+        ihc.setHandle(auth.getHandle());
+        // create members
         Container createdMemberContainer = cc.create(memberContainer);
-        String memberId = createdMemberContainer.getObjid();
+        Item createdMemberItem = ihc.create(memberItem);
+        // create struct-map (add container first, then item, which is invalid
+        // due to schema definition)
         StructMap structMap = new StructMap();
-        ContainerMemberRef member = new ContainerMemberRef(memberId);
-        structMap.add(member);
+        structMap
+            .add(new ContainerMemberRef(createdMemberContainer.getObjid()));
+        structMap.add(new ItemMemberRef(createdMemberContainer.getObjid()));
         container.setStructMap(structMap);
+        // create parent
         Container createdContainer = cc.create(container);
-        Marshaller<Container> m =
-            MarshallerFactory.getInstance().getMarshaller(Container.class);
-        m.marshalDocument(createdContainer);
 
+        // validate resulting struct-map
         StructMap createdStructMap = createdContainer.getStructMap();
         assertEquals("Number of members is wrong", 1, createdStructMap.size());
-        Iterator<MemberRef> iterator = createdStructMap.iterator();
-        while (iterator.hasNext()) {
-            Resource memberResource = iterator.next();
-            assertEquals("member is the wrong resource type",
-                memberResource.getClass(), member.getClass());
+        Iterator<MemberRef> it = createdStructMap.iterator();
 
-            assertEquals("member has a wrong id", memberResource.getObjid(),
-                memberId);
-
-        }
-
+        // item should be returned first
+        assertTrue(it.hasNext());
+        MemberRef m = it.next();
+        assertEquals(m.getResourceType(), ResourceType.Item);
+        assertEquals(m.getObjid(), createdMemberItem.getObjid());
+        // container should be returned last
+        assertTrue(it.hasNext());
+        m = it.next();
+        assertEquals(m.getResourceType(), ResourceType.Container);
+        assertEquals(m.getObjid(), createdMemberItem.getObjid());
     }
 
     /**
@@ -647,5 +663,37 @@ public class ContainerCreateTest {
 
         container.setMetadataRecords(mdRecords);
         return container;
+    }
+
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws ParserConfigurationException
+     */
+    private final Item createItemWithMinContent() throws TransportException,
+        EscidocException, InternalClientException, ParserConfigurationException {
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
+        item.setXLinkTitle("TEST");
+
+        // Content-model
+        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        item.getProperties().setContentModelSpecific(cms);
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        item.setMetadataRecords(mdRecords);
+
+        return item;
     }
 }

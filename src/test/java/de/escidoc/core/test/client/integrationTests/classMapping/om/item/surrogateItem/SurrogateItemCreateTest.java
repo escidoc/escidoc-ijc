@@ -53,7 +53,6 @@ import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 import de.escidoc.core.test.client.util.SetupDataUtil;
@@ -73,8 +72,8 @@ public class SurrogateItemCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }

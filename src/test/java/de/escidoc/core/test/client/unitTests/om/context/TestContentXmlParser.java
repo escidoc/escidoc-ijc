@@ -16,12 +16,13 @@ import org.w3c.dom.NodeList;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
-import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.om.context.ContextProperties;
+import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 
 /**
@@ -55,7 +56,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
-        properties.setPublicStatus("opened");
+        properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
         OrganizationalUnitRefs organizationalUnitRefs =
@@ -142,7 +143,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
-        properties.setPublicStatus("opened");
+        properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
         OrganizationalUnitRefs organizationalUnitRefs =
@@ -206,7 +207,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         // unmarshall
         Context contextRev =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
 
         assertEquals("Content failue", contentElementName, contextRev

@@ -50,15 +50,15 @@ import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundExc
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.VersionableResource;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
-import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -75,8 +75,8 @@ public class ContextHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -96,7 +96,7 @@ public class ContextHandlerClientTest {
      */
     @Test(expected = ContextNotFoundException.class)
     public void testRetrieveUnknown() throws Exception {
-        cc.retrieve(Constants.INVALID_RESOURCE_ID);
+        cc.retrieve(EscidocClientTestBase.INVALID_RESOURCE_ID);
     }
 
     /**
@@ -111,7 +111,7 @@ public class ContextHandlerClientTest {
         ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
-        properties.setPublicStatus("opened");
+        properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
         OrganizationalUnitRefs organizationalUnitRefs =
@@ -154,7 +154,7 @@ public class ContextHandlerClientTest {
         ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
-        properties.setPublicStatus("opened");
+        properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
         OrganizationalUnitRefs organizationalUnitRefs =
@@ -242,7 +242,7 @@ public class ContextHandlerClientTest {
             .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"="
                 + me.getObjid());
 
-        List<GenericVersionableResource> memberList =
+        List<VersionableResource> memberList =
             cc.retrieveMembersAsList("escidoc:ex1", request);
 
         assertTrue("result list is empty, try another filter",
@@ -267,7 +267,7 @@ public class ContextHandlerClientTest {
         SearchRetrieveRequestType filter = new SearchRetrieveRequestType();
         filter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
 
-        Collection<GenericVersionableResource> memberList =
+        Collection<VersionableResource> memberList =
             cc.retrieveMembersAsList("escidoc:ex1", filter);
 
         assertTrue("result list is empty, try another filter",

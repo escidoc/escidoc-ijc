@@ -36,6 +36,8 @@ import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.properties.LockStatus;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.om.contentRelation.ContentRelation;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -90,11 +92,11 @@ public class ContentRelationMarshallerTest
         assertEquals("Wrong property description",
             "Java Client Test Content Relation", cr
                 .getProperties().getDescription());
-        assertEquals("Wrong public-status", "pending", cr
+        assertEquals("Wrong public-status", PublicStatus.PENDING, cr
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment", "Object created.", cr
             .getProperties().getPublicStatusComment());
-        assertEquals("Wrong lock-status", "unlocked", cr
+        assertEquals("Wrong lock-status", LockStatus.UNLOCKED, cr
             .getProperties().getLockStatus());
 
         assertEquals(
@@ -159,11 +161,11 @@ public class ContentRelationMarshallerTest
         assertEquals("Wrong property description",
             "Java Client Test Content Relation", cr
                 .getProperties().getDescription());
-        assertEquals("Wrong public-status", "pending", cr
+        assertEquals("Wrong public-status", PublicStatus.PENDING, cr
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment", "Object created.", cr
             .getProperties().getPublicStatusComment());
-        assertEquals("Wrong lock-status", "locked", cr
+        assertEquals("Wrong lock-status", LockStatus.LOCKED, cr
             .getProperties().getLockStatus());
         assertEquals("Wrong lock-date",
             new DateTime("2010-07-09T12:24:19.314Z"), cr
@@ -257,7 +259,5 @@ public class ContentRelationMarshallerTest
             .getMetadataRecords().get(0).getSchema());
 
         // TODO validate md-record content
-
     }
-
 }

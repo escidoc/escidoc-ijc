@@ -71,11 +71,11 @@ import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
+import de.escidoc.core.resources.om.item.StorageType;
 import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
@@ -94,8 +94,8 @@ public class ItemCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -645,7 +645,7 @@ public class ItemCreateTest {
         componentProperties.setVisibility("insitutional");
         component.setProperties(componentProperties);
         ComponentContent content = new ComponentContent();
-        content.setStorage("internal-managed");
+        content.setStorage(StorageType.INTERNAL_MANAGED);
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);
 
@@ -699,7 +699,7 @@ public class ItemCreateTest {
         components.add(component);
         item.setComponents(components);
         ComponentContent content = new ComponentContent();
-        content.setStorage("internal-managed");
+        content.setStorage(StorageType.INTERNAL_MANAGED);
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);
 
@@ -816,7 +816,7 @@ public class ItemCreateTest {
         Component component = new Component();
         ComponentContent content = new ComponentContent();
         content.setXLinkHref(contentRef.toString());
-        content.setStorage("internal-managed");
+        content.setStorage(StorageType.INTERNAL_MANAGED);
         component.setContent(content);
         component.setProperties(new ComponentProperties());
         component.getProperties().setDescription("Random content");
@@ -880,7 +880,7 @@ public class ItemCreateTest {
         components.add(component);
         item.setComponents(components);
         ComponentContent content = new ComponentContent();
-        content.setStorage("internal-managed");
+        content.setStorage(StorageType.INTERNAL_MANAGED);
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);
 

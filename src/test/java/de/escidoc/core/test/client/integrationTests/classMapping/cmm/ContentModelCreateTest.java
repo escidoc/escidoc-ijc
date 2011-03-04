@@ -49,7 +49,6 @@ import de.escidoc.core.resources.cmm.MetadataRecordDefinition;
 import de.escidoc.core.resources.cmm.MetadataRecordDefinitions;
 import de.escidoc.core.resources.cmm.ResourceDefinition;
 import de.escidoc.core.resources.cmm.ResourceDefinitions;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -67,8 +66,8 @@ public class ContentModelCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentModelHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }

@@ -67,7 +67,6 @@ import de.escidoc.core.resources.aa.role.Scope;
 import de.escidoc.core.resources.aa.role.ScopeDef;
 import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
@@ -85,8 +84,8 @@ public class RoleHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rc = new RoleHandlerClient(auth.getServiceAddress());
         rc.setHandle(auth.getHandle());
     }

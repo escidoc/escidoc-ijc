@@ -54,7 +54,6 @@ import de.escidoc.core.resources.aa.pdp.Decision;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Result;
 import de.escidoc.core.resources.aa.pdp.Results;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
@@ -70,21 +69,32 @@ public class PdpHandlerClientTest {
 
     private PolicyDecisionPointHandlerClientInterface pdpc;
 
+    /**
+     * @throws Exception
+     */
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         pdpc = new PolicyDecisionPointHandlerClient(auth.getServiceAddress());
         pdpc.setHandle(auth.getHandle());
     }
 
+    /**
+     * @throws Exception
+     */
     @After
     public void post() throws Exception {
         if (auth != null)
             auth.logout();
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     public void testMarshalling() throws Exception {
         String xml =
@@ -110,16 +120,20 @@ public class PdpHandlerClientTest {
 
         // request 1
         Set<Attribute> attributes = new HashSet<Attribute>();
+
         attributes.add(new Attribute(new URI(
             "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
             new StringAttribute("escidoc:user1")));
+        // new StringAttribute(EscidocClientTestBase.getStaticAdminUserId())));
+
         Set<Subject> subjects = new HashSet<Subject>();
         subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attributes));
 
         Set<Attribute> resourceAttrs = new HashSet<Attribute>();
         resourceAttrs.add(new Attribute(new URI(
             "urn:oasis:names:tc:xacml:1.0:resource:resource-id"), null, null,
-            new StringAttribute("escidoc:persistent1")));
+            new StringAttribute(EscidocClientTestBase
+                .getStaticOrganizationalUnitId())));
 
         Set<Attribute> actionAttrs = new HashSet<Attribute>();
         actionAttrs
@@ -162,14 +176,14 @@ public class PdpHandlerClientTest {
         // Response
         Results results = pdpc.evaluate(requests);
 
-        Iterator<?> itResult = results.iterator();
-        Iterator<?> itRequest = requests.iterator();
+        Iterator<Result> itResult = results.iterator();
+        Iterator<RequestCtx> itRequest = requests.iterator();
 
         // both iterators should have the same count of entries
         while (itResult.hasNext() && itRequest.hasNext()) {
 
-            Result result = (Result) itResult.next();
-            RequestCtx requestCtx = (RequestCtx) itRequest.next();
+            Result result = itResult.next();
+            RequestCtx requestCtx = itRequest.next();
 
             // there should be only one resultCtx inside most times
             for (Iterator<?> it2 =
@@ -177,7 +191,7 @@ public class PdpHandlerClientTest {
                 com.sun.xacml.ctx.Result resultCtx =
                     (com.sun.xacml.ctx.Result) it2.next();
 
-                if (result.getInterpretedDecision() == Decision.permit) {
+                if (result.getInterpretedDecision() == Decision.PERMIT) {
 
                     assertTrue(resultCtx.getDecision() == com.sun.xacml.ctx.Result.DECISION_PERMIT);
 
@@ -235,7 +249,8 @@ public class PdpHandlerClientTest {
         Set<Attribute> resourceAttrs = new HashSet<Attribute>();
         resourceAttrs.add(new Attribute(new URI(
             "urn:oasis:names:tc:xacml:1.0:resource:resource-id"), null, null,
-            new StringAttribute("escidoc:persistent1")));
+            new StringAttribute(EscidocClientTestBase
+                .getStaticOrganizationalUnitId())));
 
         // action
         Set<Attribute> actionAttrs = new HashSet<Attribute>();
@@ -255,7 +270,7 @@ public class PdpHandlerClientTest {
         Results results = pdpc.evaluate(requests);
 
         for (Result result : results) {
-            assertTrue(result.getInterpretedDecision() == Decision.deny);
+            assertTrue(result.getInterpretedDecision() == Decision.DENY);
         }
     }
 }

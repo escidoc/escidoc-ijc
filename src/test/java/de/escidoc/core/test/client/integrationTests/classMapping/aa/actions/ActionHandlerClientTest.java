@@ -35,7 +35,6 @@ import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.aa.actions.UnsecuredActions;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -56,9 +55,9 @@ public class ActionHandlerClientTest {
     public void testCreateAndRetrieveSuccessfulActions() throws Exception {
 
         ActionHandlerClient ac = new ActionHandlerClient();
-        Authentication auth = new Authentication(
-        		EscidocClientTestBase.DEFAULT_SERVICE_URL,
-        		Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+        Authentication auth =
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ac.setHandle(auth.getHandle());
 
         UnsecuredActions actions = new UnsecuredActions();
@@ -66,17 +65,21 @@ public class ActionHandlerClientTest {
         actions.addAction("2");
 
         UnsecuredActions ua =
-            ac.createUnsecuredActions("escidoc:persistent3", actions);
-        MarshallerFactory.getInstance(TransportProtocol.SOAP)
-        	.getMarshaller(UnsecuredActions.class).marshalDocument(
-        			ac.retrieveUnsecuredActions("escidoc:persistent3"));
+            ac.createUnsecuredActions(
+                EscidocClientTestBase.getStaticContextId(), actions);
+        MarshallerFactory
+            .getInstance(TransportProtocol.SOAP)
+            .getMarshaller(UnsecuredActions.class)
+            .marshalDocument(
+                ac.retrieveUnsecuredActions(EscidocClientTestBase
+                    .getStaticContextId()));
 
     }
 
     // public void testUpdateSuccessfulRole() throws Exception {
     //
     // RoleHandlerClient rc = new RoleHandlerClient();
-    //        
+    //
     // Role role = createRole();
     // Role createdRole = rc.create(role);
     // String newName = "newName" + System.currentTimeMillis();
@@ -86,7 +89,7 @@ public class ActionHandlerClientTest {
     // assertEquals(updatedName, newName);
     //
     // }
-    //    
+    //
     // public void testDeleteSuccessfulRole() throws Exception {
     //
     // RoleHandlerClient rc = new RoleHandlerClient();
@@ -106,10 +109,10 @@ public class ActionHandlerClientTest {
     // + "but was " + e.getClass());
     // }
     // }
-    //        
+    //
     // }
     //
-    //    
+    //
     // /**
     // * Test retrieving RetrieveUserAccounts through filter request.
     // *
@@ -130,7 +133,8 @@ public class ActionHandlerClientTest {
     // Roles roleList =
     // rc.retrieveRoles(filterParam);
     // logger.debug("------------------------ ");
-    // String xml = Factory.getMarshaller(RoleList.class).marshalDocument(roleList);
+    // String xml =
+    // Factory.getMarshaller(RoleList.class).marshalDocument(roleList);
     // }
     // catch (Exception e) {
     // // TODO Auto-generated catch block

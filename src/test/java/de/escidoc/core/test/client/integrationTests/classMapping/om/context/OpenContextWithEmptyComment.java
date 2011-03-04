@@ -20,13 +20,13 @@ import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class OpenContextWithEmptyComment {
@@ -40,8 +40,8 @@ public class OpenContextWithEmptyComment {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -83,7 +83,7 @@ public class OpenContextWithEmptyComment {
         final ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
-        properties.setPublicStatus("opened");
+        properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
         final OrganizationalUnitRefs organizationalUnitRefs =

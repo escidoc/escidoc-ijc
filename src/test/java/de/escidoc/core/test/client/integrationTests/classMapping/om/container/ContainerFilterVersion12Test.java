@@ -65,7 +65,6 @@ import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -83,8 +82,8 @@ public class ContainerFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -128,7 +127,7 @@ public class ContainerFilterVersion12Test {
 
         // now check if at least this Container is in the list
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/last-modification-date\"=\""
+        srwFilter.setQuery("\"/properties/creation-date\"=\""
             + createdContainer.getLastModificationDate().withZone(
                 DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));

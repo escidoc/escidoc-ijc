@@ -62,7 +62,6 @@ import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.resources.oum.Predecessor;
 import de.escidoc.core.resources.oum.PredecessorForm;
 import de.escidoc.core.resources.oum.Predecessors;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Asserts;
 
@@ -81,8 +80,8 @@ public class OuCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }

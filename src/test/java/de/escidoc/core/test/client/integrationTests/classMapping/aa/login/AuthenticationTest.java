@@ -51,13 +51,13 @@ import de.escidoc.core.client.exceptions.application.security.AuthenticationExce
 import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -88,7 +88,8 @@ public class AuthenticationTest {
     public void shouldThrowAnAuthenticationExceptionAfterUnsuccesfulLogin()
         throws Exception {
 
-        new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL, "Foo", "");
+        new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+            "Foo", "");
 
     }
 
@@ -99,11 +100,14 @@ public class AuthenticationTest {
     @Test
     public void testAuthentication01() throws Exception {
         Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
         ItemHandlerClientInterface ih =
-            new ItemHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+            new ItemHandlerClient(
+                EscidocClientTestBase.getDefaultInfrastructureURL());
         ih.setHandle(auth.getHandle());
         ih.retrieve(EscidocClientTestBase.getStaticItemId());
         auth.logout();
@@ -116,13 +120,16 @@ public class AuthenticationTest {
     @Test
     public void testAuthentication02() throws Exception {
         Authentication auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
         auth.logout();
 
         ItemHandlerClientInterface ih =
-            new ItemHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+            new ItemHandlerClient(
+                EscidocClientTestBase.getDefaultInfrastructureURL());
         ih.setHandle(auth.getHandle());
 
         try {
@@ -155,18 +162,20 @@ public class AuthenticationTest {
      * @return
      * @throws ParserConfigurationException
      * @throws EscidocClientException
+     * @throws MalformedURLException
      */
     private Context createNewContext() throws ParserConfigurationException,
-        EscidocClientException {
+        EscidocClientException, MalformedURLException {
 
         ContextHandlerClientInterface cc =
-            new ContextHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+            new ContextHandlerClient(
+                EscidocClientTestBase.getDefaultInfrastructureURL());
 
         final Context context = new Context();
         final ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
-        properties.setPublicStatus("opened");
+        properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
         final OrganizationalUnitRefs organizationalUnitRefs =

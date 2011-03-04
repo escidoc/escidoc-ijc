@@ -51,7 +51,6 @@ import de.escidoc.core.resources.aa.useraccount.Grants;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.aa.useraccount.UserAccountProperties;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -69,8 +68,8 @@ public class UserAccountHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
     }

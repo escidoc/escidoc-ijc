@@ -44,6 +44,7 @@ import org.w3c.dom.NodeList;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.structmap.ContainerMemberRef;
@@ -98,7 +99,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
 
         assertEquals("Wrong created-by", "escidoc:exuser1", container
             .getProperties().getCreatedBy().getObjid());
-        assertEquals("Wrong public-status", "pending", container
+        assertEquals("Wrong public-status", PublicStatus.PENDING, container
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "Object escidoc:157513 created.", container
@@ -191,7 +192,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
 
         assertEquals("Wrong created-by", "escidoc:exuser1", container
             .getProperties().getCreatedBy().getObjid());
-        assertEquals("Wrong public-status", "pending", container
+        assertEquals("Wrong public-status", PublicStatus.PENDING, container
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "Object escidoc:157513 created.", container
@@ -292,7 +293,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
 
         assertEquals("Wrong created-by", "escidoc:exuser1", container
             .getProperties().getCreatedBy().getObjid());
-        assertEquals("Wrong public-status", "pending", container
+        assertEquals("Wrong public-status", PublicStatus.PENDING, container
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "Object escidoc:188602 created.", container

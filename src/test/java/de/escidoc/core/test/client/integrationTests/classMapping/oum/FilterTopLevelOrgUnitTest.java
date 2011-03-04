@@ -59,7 +59,6 @@ import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.resources.oum.OrganizationalUnitProperties;
 import de.escidoc.core.resources.oum.Parents;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -82,8 +81,8 @@ public class FilterTopLevelOrgUnitTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         orgUnitClient =
             new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         orgUnitClient.setHandle(auth.getHandle());

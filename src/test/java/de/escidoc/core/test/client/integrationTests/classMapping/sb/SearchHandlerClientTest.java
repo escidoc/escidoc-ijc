@@ -61,7 +61,7 @@ import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.sb.Record;
-import de.escidoc.core.resources.sb.Record.RecordPacking;
+import de.escidoc.core.resources.sb.RecordPacking;
 import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.scan.ScanResponse;
@@ -72,7 +72,6 @@ import de.escidoc.core.resources.sb.search.SearchResultRecord;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 import de.escidoc.core.resources.sb.search.resolver.ContentResolver;
 import de.escidoc.core.resources.sb.search.resolver.TagEntry;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 @RunWith(Parameterized.class)
@@ -93,14 +92,16 @@ public class SearchHandlerClientTest {
 
     @Parameters
     public static Collection<?> data() {
-        return Arrays.asList(new Object[][] { { RecordPacking.xml },
-            { RecordPacking.string } });
+        return Arrays.asList(new Object[][] { { RecordPacking.XML },
+            { RecordPacking.STRING } });
     }
 
     @Before
     public void init() throws Exception {
         // No authentication required for SB
-        c = new SearchHandlerClient(EscidocClientTestBase.DEFAULT_SERVICE_URL);
+        c =
+            new SearchHandlerClient(
+                EscidocClientTestBase.getDefaultInfrastructureURL());
     }
 
     @After

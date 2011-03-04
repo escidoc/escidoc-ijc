@@ -53,7 +53,9 @@ import org.xml.sax.SAXException;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.RoleHandlerClient;
 import de.escidoc.core.client.TransportProtocol;
+import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.RoleHandlerClientInterface;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
@@ -62,10 +64,10 @@ import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.resources.aa.role.RoleProperties;
 import de.escidoc.core.resources.aa.role.Scope;
 import de.escidoc.core.resources.aa.role.ScopeDef;
+import de.escidoc.core.resources.sb.RecordPacking;
 import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 import de.escidoc.core.test.client.util.Template;
 
@@ -84,8 +86,8 @@ public class RoleFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rc = new RoleHandlerClient(auth.getServiceAddress());
         rc.setHandle(auth.getHandle());
     }
@@ -134,6 +136,20 @@ public class RoleFilterVersion12Test {
                     .getProperties().getCreationDate()
                     .withZone(DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
+        srwFilter.setRecordPacking(RecordPacking.XML.toString());
+        evaluateResponse(srwFilter);
+        srwFilter.setRecordPacking(RecordPacking.STRING.toString());
+        evaluateResponse(srwFilter);
+    }
+
+    /**
+     * @param srwFilter
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    private void evaluateResponse(final SearchRetrieveRequestType srwFilter)
+        throws EscidocException, InternalClientException, TransportException {
 
         SearchRetrieveResponse response = rc.retrieveRoles(srwFilter);
 

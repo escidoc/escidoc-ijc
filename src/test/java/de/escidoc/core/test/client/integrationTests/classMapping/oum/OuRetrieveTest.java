@@ -40,7 +40,6 @@ import de.escidoc.core.client.OrganizationalUnitHandlerClient;
 import de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -58,8 +57,8 @@ public class OuRetrieveTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }

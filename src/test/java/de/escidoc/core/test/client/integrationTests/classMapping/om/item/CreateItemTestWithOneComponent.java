@@ -33,11 +33,11 @@ import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.resources.om.item.ItemProperties;
+import de.escidoc.core.resources.om.item.StorageType;
 import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 public class CreateItemTestWithOneComponent {
@@ -100,8 +100,8 @@ public class CreateItemTestWithOneComponent {
      */
     private void authentificate() throws EscidocClientException {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
     }
 
     /**
@@ -187,7 +187,7 @@ public class CreateItemTestWithOneComponent {
         final Component component, final URL contentRef) {
         ComponentContent content = new ComponentContent();
         content.setXLinkHref(contentRef.toString());
-        content.setStorage("internal-managed");
+        content.setStorage(StorageType.INTERNAL_MANAGED);
         component.setContent(content);
     }
 

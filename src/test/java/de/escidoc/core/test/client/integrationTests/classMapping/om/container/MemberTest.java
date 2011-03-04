@@ -64,7 +64,6 @@ import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerProperties;
 import de.escidoc.core.resources.om.item.Item;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -82,8 +81,8 @@ public class MemberTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }

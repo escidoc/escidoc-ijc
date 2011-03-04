@@ -49,6 +49,7 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
@@ -58,7 +59,6 @@ import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
 import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
-import de.escidoc.core.test.client.Constants;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -76,8 +76,8 @@ public class ContextFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.DEFAULT_SERVICE_URL,
-                Constants.SYSTEM_ADMIN_USER, Constants.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -119,7 +119,7 @@ public class ContextFilterVersion12Test {
         // now check if at least this Context is in the list
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/last-modification-date\"=\""
+        srwFilter.setQuery("\"/properties/creation-date\"=\""
             + createdContext.getLastModificationDate().withZone(
                 DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
@@ -145,7 +145,7 @@ public class ContextFilterVersion12Test {
         ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
-        properties.setPublicStatus("opened");
+        properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
         OrganizationalUnitRefs organizationalUnitRefs =

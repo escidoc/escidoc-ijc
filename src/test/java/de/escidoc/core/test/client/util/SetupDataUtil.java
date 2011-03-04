@@ -65,6 +65,7 @@ import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
@@ -244,7 +245,7 @@ public class SetupDataUtil {
         ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
-        properties.setPublicStatus("opened");
+        properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
         OrganizationalUnitRefs organizationalUnitRefs =
