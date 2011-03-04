@@ -28,9 +28,6 @@
  */
 package de.escidoc.core.resources;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Object reference.
  * 
@@ -39,32 +36,9 @@ import java.util.Map;
  */
 public abstract class Resource extends XLinkResource {
 
-    public static final Map<ResourceType, String> RESOURCE_URL_MAP =
-        new HashMap<ResourceType, String>();
-    static {
-        Resource.RESOURCE_URL_MAP.put(ResourceType.Context, "/ir/context");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.Item, "/ir/item");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.Container, "/ir/container");
-        /* /ir/item/<iID>/components/component/<cID>/ */
-        Resource.RESOURCE_URL_MAP.put(ResourceType.Component,
-            "/components/component");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.Toc, "/tocs");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.OrganizationalUnit,
-            "/oum/organizational-unit");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.UserAccount,
-            "/aa/user-account");
-        /* /aa/user-account/<uID>/resources/attributes/attribute/<aID>/ */
-        Resource.RESOURCE_URL_MAP.put(ResourceType.UserAccountAttribute,
-            "/resources/attributes/attribute");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.ContentModel,
-            "/cmm/content-model");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.Grant, "/aa/grant");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.Role, "/aa/role");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.UserGroup, "/aa/user-group");
-        Resource.RESOURCE_URL_MAP.put(ResourceType.ContentRelation,
-            "/ir/content-relation");
-    }
-
+    /**
+     * The global unique id of the resource.
+     */
     private String objid;
 
     /**
@@ -107,7 +81,7 @@ public abstract class Resource extends XLinkResource {
     public Resource(final String objid, final String href, final String title) {
         setXLinkHref(href);
         setXLinkTitle(title);
-        this.objid = objid;
+        setObjid(objid);
     }
 
     /**
@@ -133,11 +107,17 @@ public abstract class Resource extends XLinkResource {
         this.objid = objid;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkHref(java.lang.String)
+     */
     @Override
     public void setXLinkHref(final String href) {
         super.setXLinkHref(href);
         if (href != null) {
-            this.objid = href.substring(href.lastIndexOf('/') + 1);
+            setObjid(href.substring(href.lastIndexOf('/') + 1));
         }
     }
 
@@ -156,8 +136,7 @@ public abstract class Resource extends XLinkResource {
     protected void genOwnXLinkHref() {
         if (getXLinkHref() == null && getResourceType() != null
             && getResourceType().isRootResource() && getObjid() != null) {
-            setXLinkHref(Resource.RESOURCE_URL_MAP.get(getResourceType()) + "/"
-                + getObjid());
+            setXLinkHref(getResourceType().getPath() + "/" + getObjid());
         }
     }
 
@@ -214,14 +193,11 @@ public abstract class Resource extends XLinkResource {
 
             if (type != null && resource.getObjid() != null) {
 
-                String URL = RESOURCE_URL_MAP.get(type);
-                if (URL != null) {
-                    String href = URL + "/" + resource.getObjid();
-                    if (prefix != null)
-                        href = prefix + href;
-                    resource.setXLinkHref(href);
-                    return href;
-                }
+                String href = type.getPath() + "/" + resource.getObjid();
+                if (prefix != null)
+                    href = prefix + href;
+                resource.setXLinkHref(href);
+                return href;
             }
             else if (prefix != null) {
                 resource.setXLinkHref(prefix);
@@ -245,13 +221,7 @@ public abstract class Resource extends XLinkResource {
         if (xLinkHref == null)
             return null;
 
-        for (Map.Entry<ResourceType, String> entry : RESOURCE_URL_MAP
-            .entrySet()) {
-            if (entry.getKey().isRootResource()
-                && xLinkHref.startsWith(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        ResourceType type = ResourceType.getValue(xLinkHref);
+        return type.isRootResource() ? type : null;
     }
 }
