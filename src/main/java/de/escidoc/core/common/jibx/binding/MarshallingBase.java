@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.common.jibx.binding;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import static de.escidoc.core.common.Precondition.checkObject;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
 import de.escidoc.core.common.XmlUtility;
+import de.escidoc.core.resources.interfaces.XmlCompatibleEnum;
 
 /**
  * @author msc
@@ -370,5 +372,26 @@ public class MarshallingBase {
 
         return checkObject(MarshallingContext.class, ictx,
             EX_UNEXPECTED_MARSH_CTX);
+    }
+
+    /**
+     * @param <T>
+     * @param enumClass
+     * @param value
+     * @return
+     */
+    protected static final <T extends Enum<T> & XmlCompatibleEnum> T getEnumValue(
+        final Class<T> enumClass, final String value) {
+
+        checkNotNull(enumClass);
+        checkNotNull(value);
+
+        for (T t : enumClass.getEnumConstants()) {
+            if (value.equals(t.getXmlValue()))
+                return t;
+        }
+
+        throw new IllegalArgumentException("No enum const " + enumClass + "."
+            + value);
     }
 }
