@@ -101,7 +101,7 @@ public final class ConfigurationProvider {
 
     public static final String NS_AA_ROLE = "ns.aa.role";
 
-    public static final String NS_AA_USER_GROUP = "ns.aa.user/group";
+    public static final String NS_AA_USER_GROUP = "ns.aa.user-group";
 
     // CMM
     public static final String NS_CMM_CONTENT_MODEL = "ns.cmm.content-model";
@@ -114,6 +114,9 @@ public final class ConfigurationProvider {
 
     public static final String NS_STATISTIC_AGGREGATION_DEF =
         "ns.statistic.aggregation-definition";
+
+    // OAI
+    public static final String NS_OAI_SET_DEFINITION = "ns.oai.set-definition";
 
     /*
      * Parameters for HttpClient
