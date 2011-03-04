@@ -160,23 +160,6 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * (non-Javadoc)
      * 
      * @see
-     * de.escidoc.core.aa.UserGroupHandler#retrieveGroupsForUser(java.lang.String
-     * )
-     */
-    @Override
-    public Object[] retrieveGroupsForUser(final String userId)
-        throws RemoteException, SystemException, UserAccountNotFoundException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
-        // TODO
-        throw new UnsupportedOperationException(
-            "Method retrieveGroupsForUser not supported.");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
      * de.escidoc.core.aa.UserGroupHandler#retrieveUserGroups(java.util.HashMap)
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
