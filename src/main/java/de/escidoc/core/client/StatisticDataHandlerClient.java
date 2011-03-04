@@ -50,12 +50,12 @@ public class StatisticDataHandlerClient
         super(serviceAddress);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param xml
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see
+     * de.escidoc.core.client.interfaces.StatisticDataHandlerClientInterface
+     * #create(de.escidoc.core.resources.sm.sd.StatisticData)
      */
     @Override
     public void create(final StatisticData statisticData)

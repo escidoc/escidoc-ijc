@@ -48,13 +48,12 @@ public class ReportHandlerClient
         super(serviceAddress);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param xml
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see
+     * de.escidoc.core.client.interfaces.ReportHandlerClientInterface#retrieve
+     * (de.escidoc.core.resources.sm.report.ReportParameters)
      */
     @Override
     public Report retrieve(final ReportParameters reportParameters)

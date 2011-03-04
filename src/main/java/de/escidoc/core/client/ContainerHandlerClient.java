@@ -43,12 +43,12 @@ import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.VersionableResource;
 import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.structmap.StructMap;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
-import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
@@ -94,6 +94,13 @@ public class ContainerHandlerClient
         super(serviceAddress);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestContainerHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
@@ -1035,12 +1042,12 @@ public class ContainerHandlerClient
      * gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public List<GenericVersionableResource> retrieveMembersAsList(
+    public List<VersionableResource> retrieveMembersAsList(
         final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
-        return getSearchRetrieveResponseAsList(
-            GenericVersionableResource.class, retrieveMembers(id, filter));
+        return getSearchRetrieveResponseAsList(VersionableResource.class,
+            retrieveMembers(id, filter));
 
     }
 
@@ -1073,7 +1080,7 @@ public class ContainerHandlerClient
      * gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public List<GenericVersionableResource> retrieveMembersAsList(
+    public List<VersionableResource> retrieveMembersAsList(
         final Container container, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 

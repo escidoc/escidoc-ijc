@@ -71,12 +71,12 @@ public class ScopeHandlerClient
 
     }
 
-    /**
-     * @param xml
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public Scope create(final Scope scope) throws EscidocException,
@@ -92,13 +92,11 @@ public class ScopeHandlerClient
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * @param id
-     * @param xml
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public Scope update(final Scope scope) throws EscidocException,

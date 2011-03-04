@@ -74,13 +74,12 @@ public class ReportDefinitionHandlerClient
         getClient().delete(id);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param xml
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public ReportDefinition create(final ReportDefinition reportDefinition)
@@ -97,14 +96,11 @@ public class ReportDefinitionHandlerClient
         return m.unmarshalDocument(xml);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @param xml
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public ReportDefinition update(final ReportDefinition reportDefinition)

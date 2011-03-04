@@ -56,11 +56,11 @@ public class AggregationDefinitionHandlerClient
         super(serviceAddress);
     }
 
-    /**
-     * @param id
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
     public void delete(final String id) throws EscidocException,
@@ -71,12 +71,12 @@ public class AggregationDefinitionHandlerClient
         getClient().delete(id);
     }
 
-    /**
-     * @param xml
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public AggregationDefinition create(final AggregationDefinition agDefinition)
@@ -92,12 +92,12 @@ public class AggregationDefinitionHandlerClient
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Retrievable#retrieve(java.lang
+     * .String)
      */
     @Override
     public AggregationDefinition retrieve(final String id)
@@ -111,12 +111,14 @@ public class AggregationDefinitionHandlerClient
             .unmarshalDocument(xml);
     }
 
-    /**
-     * @param request
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.AggregationDefinitionHandlerClientInterface
+     * #
+     * retrieveAggregationDefinitions(gov.loc.www.zing.srw.SearchRetrieveRequestType
+     * )
      */
     @Override
     public SearchRetrieveResponse retrieveAggregationDefinitions(
@@ -146,12 +148,12 @@ public class AggregationDefinitionHandlerClient
             retrieveAggregationDefinitions(request));
     }
 
-    /**
-     * @param request
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.AggregationDefinitionHandlerClientInterface
+     * #retrieveAggregationDefinitions(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveAggregationDefinitions(
@@ -164,6 +166,13 @@ public class AggregationDefinitionHandlerClient
             .unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestAggregationDefinitionHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {

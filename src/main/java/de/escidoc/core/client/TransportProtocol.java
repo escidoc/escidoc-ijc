@@ -31,6 +31,8 @@ package de.escidoc.core.client;
 /**
  * Supported Transport Protocols.
  * 
+ * So far, CLIB internal use only.
+ * 
  * @author SWA
  * 
  */

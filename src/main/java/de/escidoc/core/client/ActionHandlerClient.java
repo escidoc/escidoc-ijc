@@ -222,6 +222,11 @@ public class ActionHandlerClient implements ActionHandlerClientInterface {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.base.HandlerService#getTransport()
+     */
     @Override
     public TransportProtocol getTransport() {
         return TransportProtocol.SOAP;

@@ -42,9 +42,9 @@ import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.client.rest.RestContextHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.VersionableResource;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
-import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
@@ -405,14 +405,14 @@ public class ContextHandlerClient
      * @throws TransportException
      */
     @Override
-    public List<GenericVersionableResource> retrieveMembersAsList(
+    public List<VersionableResource> retrieveMembersAsList(
         final String id, final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
         return getSearchRetrieveResponseAsList(
-            GenericVersionableResource.class, retrieveMembers(id, request));
+            VersionableResource.class, retrieveMembers(id, request));
     }
 
     /**
@@ -527,7 +527,7 @@ public class ContextHandlerClient
      * gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public List<GenericVersionableResource> retrieveMembersAsList(
+    public List<VersionableResource> retrieveMembersAsList(
         final Context context, final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
