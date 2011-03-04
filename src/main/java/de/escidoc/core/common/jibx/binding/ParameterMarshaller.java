@@ -11,6 +11,7 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
+import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.sm.DateParameter;
 import de.escidoc.core.resources.sm.DecimalParameter;
@@ -81,13 +82,15 @@ public class ParameterMarshaller extends MarshallingBase
         }
         else if (ctx.isAt(getUri(), TAG_NAME_DECIMAL)) {
             String name = ctx.attributeText(null, ATTR_NAME_NAME);
-            String value = ctx.parseElementText(getUri(), TAG_NAME_DECIMAL);
-            p = new StringParameter(name, value);
+            Float value =
+                Float.valueOf(ctx.parseElementText(getUri(), TAG_NAME_DECIMAL));
+            p = new DecimalParameter(name, value);
         }
         else if (ctx.isAt(getUri(), TAG_NAME_DATE)) {
             String name = ctx.attributeText(null, ATTR_NAME_NAME);
-            String value = ctx.parseElementText(getUri(), TAG_NAME_DATE);
-            p = new StringParameter(name, value);
+            DateTime value =
+                new DateTime(ctx.parseElementText(getUri(), TAG_NAME_DATE));
+            p = new DateParameter(name, value);
         }
         else {
             throw new JiBXException("Unexpected element {"
@@ -130,7 +133,7 @@ public class ParameterMarshaller extends MarshallingBase
         ctx.startTag(getIndex(), getName());
 
         switch (p.getParameterType()) {
-            case string: {
+            case STRING: {
                 ctx.startTagAttributes(getIndex(), TAG_NAME_STRING).attribute(
                     0, ATTR_NAME_NAME, p.getName());
                 ctx.closeStartContent();
@@ -140,7 +143,7 @@ public class ParameterMarshaller extends MarshallingBase
                 ctx.endTag(getIndex(), TAG_NAME_STRING);
                 break;
             }
-            case decimal: {
+            case DECIMAL: {
                 ctx.startTagAttributes(getIndex(), TAG_NAME_DECIMAL).attribute(
                     0, ATTR_NAME_NAME, p.getName());
                 ctx.closeStartContent();
@@ -150,7 +153,7 @@ public class ParameterMarshaller extends MarshallingBase
                 ctx.endTag(getIndex(), TAG_NAME_DECIMAL);
                 break;
             }
-            case date: {
+            case DATE: {
                 ctx.startTagAttributes(getIndex(), TAG_NAME_DATE).attribute(0,
                     ATTR_NAME_NAME, p.getName());
                 ctx.closeStartContent();
