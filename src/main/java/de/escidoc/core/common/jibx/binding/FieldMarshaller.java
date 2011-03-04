@@ -130,7 +130,8 @@ public class FieldMarshaller extends MarshallingBase
             String xPath = ctx.parseElementText(getUri(), TAG_XPATH);
 
             field =
-                new InfoField(name, feed, InfoFieldType.valueOf(type), xPath);
+                new InfoField(name, feed, getEnumValue(InfoFieldType.class,
+                    type), xPath);
 
             ctx.parsePastEndTag(getUri(), TAG_INFO_FIELD);
         }
@@ -146,8 +147,8 @@ public class FieldMarshaller extends MarshallingBase
             String xPath = ctx.parseElementText(getUri(), TAG_XPATH, null);
 
             field =
-                new TimeReductionField(name, feed,
-                    TimeReductionFieldType.valueOf(reduceTo), xPath);
+                new TimeReductionField(name, feed, getEnumValue(
+                    TimeReductionFieldType.class, reduceTo), xPath);
 
             ctx.parsePastEndTag(getUri(), TAG_TIME_REDUCTION_FIELD);
         }
@@ -211,7 +212,7 @@ public class FieldMarshaller extends MarshallingBase
         ctx.startTag(getIndex(), getName());
 
         switch (field.getType()) {
-            case InfoField: {
+            case INFO: {
                 InfoField iField = (InfoField) field;
                 ctx.startTagAttributes(getIndex(), TAG_INFO_FIELD).attribute(0,
                     ATTR_FEED, iField.getFeed());
@@ -222,7 +223,7 @@ public class FieldMarshaller extends MarshallingBase
                 ctx.endTag(getIndex(), TAG_NAME);
 
                 ctx.startTag(getIndex(), TAG_TYPE);
-                ctx.content(iField.getInfoFieldType().name());
+                ctx.content(iField.getInfoFieldType().getXmlValue());
                 ctx.endTag(getIndex(), TAG_TYPE);
 
                 ctx.startTag(getIndex(), TAG_XPATH);
@@ -232,7 +233,7 @@ public class FieldMarshaller extends MarshallingBase
                 ctx.endTag(getIndex(), TAG_INFO_FIELD);
                 break;
             }
-            case TimeReductionField: {
+            case TIME_REDUCTION: {
                 TimeReductionField tField = (TimeReductionField) field;
                 ctx.startTagAttributes(getIndex(), TAG_TIME_REDUCTION_FIELD)
                     .attribute(0, ATTR_FEED, tField.getFeed());
@@ -243,7 +244,7 @@ public class FieldMarshaller extends MarshallingBase
                 ctx.endTag(getIndex(), TAG_NAME);
 
                 ctx.startTag(getIndex(), TAG_REDUCE_TO);
-                ctx.content(tField.getReduceTo().name());
+                ctx.content(tField.getReduceTo().getXmlValue());
                 ctx.endTag(getIndex(), TAG_REDUCE_TO);
 
                 // optional xpath
@@ -256,7 +257,7 @@ public class FieldMarshaller extends MarshallingBase
                 ctx.endTag(getIndex(), TAG_TIME_REDUCTION_FIELD);
                 break;
             }
-            case CountCumulationField: {
+            case COUNT_CUMULATION: {
                 CountCumulationField cField = (CountCumulationField) field;
                 ctx.startTag(getIndex(), TAG_COUNT_CUMULATION_FIELD);
 
@@ -267,7 +268,7 @@ public class FieldMarshaller extends MarshallingBase
                 ctx.endTag(getIndex(), TAG_COUNT_CUMULATION_FIELD);
                 break;
             }
-            case DifferenceCumulationField: {
+            case DIFFERENCE_CUMULATION: {
                 DifferenceCumulationField dField =
                     (DifferenceCumulationField) field;
                 ctx.startTagAttributes(getIndex(), TAG_DIFF_CUMULATION_FIELD)
