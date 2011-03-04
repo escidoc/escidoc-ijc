@@ -57,22 +57,24 @@ public class PDPResultsMarshaller extends MarshallingBase
 
     // public static final String TAG_NAME_
 
-    public PDPResultsMarshaller(String uri, int index, String name) {
+    public PDPResultsMarshaller(final String uri, final int index,
+        final String name) {
         super(uri, index, name);
     }
 
     @Override
-    public boolean isPresent(IUnmarshallingContext ictx) throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx)
+        throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
     @Override
-    public boolean isExtension(String mapname) {
+    public boolean isExtension(final String mapname) {
         return false;
     }
 
     @Override
-    public Object unmarshal(Object obj, IUnmarshallingContext ictx)
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
         throws JiBXException {
 
         if (!(ictx instanceof UnmarshallingContext)) {
@@ -94,9 +96,13 @@ public class PDPResultsMarshaller extends MarshallingBase
 
         while (ctx.isAt(getUri(), TAG_NAME_ESCIDOC_RESULT)) {
 
-            Decision iDecision =
-                Decision.valueOf(ctx.attributeText(null,
-                    ATTR_NAME_ESCIDOC_DECISION));
+            Decision iDecision = null;
+            String tmp = ctx.attributeText(null, ATTR_NAME_ESCIDOC_DECISION);
+            // simulate JiBX's enum-value-method
+            for (Decision d : Decision.values()) {
+                if (d.getXmlValue().equals(tmp))
+                    iDecision = d;
+            }
 
             ctx.parsePastStartTag(getUri(), TAG_NAME_ESCIDOC_RESULT);
 
@@ -146,7 +152,7 @@ public class PDPResultsMarshaller extends MarshallingBase
             ctx.parsePastStartTag(NS_XACML, TAG_NAME_XACML_RESULT);
 
             ctx.parsePastStartTag(NS_XACML, TAG_NAME_XACML_DECISION);
-            String pdpDecision = cleanup(ctx.parseContentText());
+            String pdpDecision = ctx.parseContentText().trim();
             ctx.parsePastEndTag(NS_XACML, TAG_NAME_XACML_DECISION);
 
             // STATUS
@@ -217,7 +223,7 @@ public class PDPResultsMarshaller extends MarshallingBase
     }
 
     @Override
-    public void marshal(Object obj, IMarshallingContext ctx)
+    public void marshal(final Object obj, final IMarshallingContext ctx)
         throws JiBXException {
         throw new JiBXException("Method not yet supported.");
     }
