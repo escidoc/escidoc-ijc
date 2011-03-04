@@ -23,7 +23,8 @@
     <namespace uri="http://www.loc.gov/zing/srw/" default="elements"/>
     
     <value name="recordSchema" field="recordSchema" usage="optional"/>
-      <value name="recordPacking" field="recordPacking" usage="optional"/>
+    <value name="recordPacking" field="recordPacking" usage="optional"
+      format="RecordPacking.default"/>
       
     <structure name="recordData" field="recordData" usage="optional"
       marshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"

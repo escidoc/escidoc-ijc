@@ -43,7 +43,8 @@
 				</collection>
 				
 				<value name="type" style="attribute"
-					set-method="setType" get-method="getType" usage="optional" />
+					set-method="setType" get-method="getType" usage="optional"
+					enum-value-method="getXmlValue"/>
 				<value name="objid" style="attribute"
 					set-method="setObjid" get-method="getObjid" usage="optional" />
 			</structure>

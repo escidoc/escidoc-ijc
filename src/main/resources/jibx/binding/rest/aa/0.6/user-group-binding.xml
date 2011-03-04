@@ -101,7 +101,8 @@
     
     <value style="text" field="content"/>
     <value name="name" field="name" style="attribute"/>
-    <value name="type" set-method="setXmlType" get-method="getXmlType" style="attribute"/>
+    <value name="type" set-method="setType" get-method="getType" style="attribute"
+      enum-value-method="getXmlValue"/>
     
   </mapping>
 </binding>

@@ -64,7 +64,6 @@
       set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
     <value name="last-modification-date" style="attribute" 
-      type="org.joda.time.DateTime"
       set-method="setLastModificationDate"
       get-method="getLastModificationDate"
       usage="optional" />
@@ -92,9 +91,8 @@
       ****************************************** -->
     <structure
       ns="http://www.escidoc.de/schemas/structmap/0.4"
-      name="struct-map"
-      type="de.escidoc.core.resources.common.structmap.StructMap"
-      field="structMap" usage="optional">
+      name="struct-map" field="structMap" usage="optional"
+      type="de.escidoc.core.resources.common.structmap.StructMap">
       <structure map-as="abstract-struct-map" usage="optional" />
     </structure>
     
@@ -123,7 +121,8 @@
     abstract="true" type-name="container-properties">
 
     <namespace uri="http://escidoc.de/core/01/properties/"
-      prefix="prop" />
+      prefix="prop" default="elements"/>
+      
     <namespace uri="http://escidoc.de/core/01/structural-relations/"
       prefix="srel" />
     <namespace uri="http://escidoc.de/core/01/properties/version/"
@@ -133,12 +132,12 @@
     
     <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
-    <value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
-      name="creation-date" set-method="setCreationDate"
+    <value name="creation-date" set-method="setCreationDate"
       get-method="getCreationDate" usage="optional" />
 
     <structure ns="http://escidoc.de/core/01/structural-relations/"
-      name="created-by" field="createdBy" usage="optional">
+      name="created-by" usage="optional"
+      set-method="setCreatedBy" get-method="getCreatedBy">
 
       <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
         set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -148,21 +147,22 @@
         set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
     </structure>
 
-    <value ns="http://escidoc.de/core/01/properties/"
-      name="public-status" field="publicStatus" usage="optional" />
+    <value name="public-status" usage="optional"
+      set-method="setPublicStatus" get-method="getPublicStatus" 
+      enum-value-method="getXmlValue"/>
 
-    <value ns="http://escidoc.de/core/01/properties/"
-      name="public-status-comment" field="publicStatusComment"
-      usage="optional" />
+    <value name="public-status-comment" usage="optional"
+      set-method="setPublicStatusComment" get-method="getPublicStatusComment"/>
 
-    <value ns="http://escidoc.de/core/01/properties/" name="name"
-      field="name" usage="optional" />
+    <value name="name" usage="optional"
+      set-method="setName" get-method="getName"/>
 
-    <value ns="http://escidoc.de/core/01/properties/" name="description"
-      field="description" usage="optional" />
+    <value name="description" usage="optional" 
+      set-method="setDescription" get-method="getDescription"/>
 
     <structure ns="http://escidoc.de/core/01/structural-relations/"
-      name="context" field="context" usage="optional">
+      name="context" usage="optional"
+      set-method="setContext" get-method="getContext">
 
       <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
         set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -173,7 +173,8 @@
     </structure>
 
     <structure ns="http://escidoc.de/core/01/structural-relations/"
-      name="content-model" field="contentModel" usage="optional">
+      name="content-model" usage="optional"
+      set-method="setContentModel" get-method="getContentModel">
 
       <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
         set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -184,30 +185,29 @@
     </structure>
 
     <!-- lock (status, date, owner) -->
-    <value ns="http://escidoc.de/core/01/properties/"
-      name="lock-status" field="lockStatus" usage="optional" />
-    <value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
-        name="lock-date" set-method="setLockDate"
-        get-method="getLockDate" usage="optional" />
+    <value name="lock-status" usage="optional"
+      set-method="setLockStatus" get-method="getLockStatus"
+      enum-value-method="getXmlValue"/>
+    <value name="lock-date" usage="optional"
+      set-method="setLockDate" get-method="getLockDate"/>
+      
     <structure ns="http://escidoc.de/core/01/structural-relations/"
       name="lock-owner" field="lockOwner" usage="optional">
       
       <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
         set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
       <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
-        set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+        set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional"/>
       <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
-        set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+        set-method="setXLinkType" get-method="getXLinkType" usage="optional"/>
     </structure>
 
-    <value ns="http://escidoc.de/core/01/properties/" name="pid"
-      set-method="setPid" get-method="getPid" usage="optional" />
+    <value name="pid" set-method="setPid" get-method="getPid" usage="optional"/>
 
     <!-- *****************************************
       Version 
       ****************************************** -->
-    <structure ns="http://escidoc.de/core/01/properties/"
-      name="version" field="version" usage="optional">
+    <structure name="version" field="version" usage="optional">
 
       <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
         set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -250,8 +250,7 @@
     <!-- *****************************************
       Latest-Version 
       ****************************************** -->
-    <structure ns="http://escidoc.de/core/01/properties/"
-      name="latest-version" field="latestVersion" usage="optional">
+    <structure name="latest-version" field="latestVersion" usage="optional">
 
       <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
         set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -273,8 +272,7 @@
     <!-- *****************************************
       Latest-Release 
       ****************************************** -->
-    <structure ns="http://escidoc.de/core/01/properties/"
-      name="latest-release" field="latestRelease" usage="optional">
+    <structure name="latest-release" field="latestRelease" usage="optional">
 
       <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
         set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -298,7 +296,6 @@
       ****************************************** -->
     <structure name="content-model-specific"
       field="contentModelSpecific"
-      ns="http://escidoc.de/core/01/properties/"
       type="de.escidoc.core.resources.common.properties.ContentModelSpecific"
       usage="optional">
       <structure field="content" type="java.util.List"

@@ -14,7 +14,7 @@
 		</structure>
 
 		<structure name="type" ns="http://www.escidoc.de/schemas/scope/0.3">
-			<value style="text" field="scopeType" />
+			<value style="text" field="scopeType" enum-value-method="getXmlValue"/>
 		</structure>
 	</mapping>
 

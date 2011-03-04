@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding name="REST">
 
-	<!-- common -->
+  <!-- common -->
+  <include path="common/common-binding.xml"/>
+	<!-- common/REST -->
 	<include path="rest/common/task-param-binding.xml" />
 	<include path="rest/common/version-history-binding.xml" />
 	<include path="rest/common/0.1/result-binding.xml" />
@@ -9,6 +11,7 @@
 	<include path="rest/common/0.4/abstract-struct-map-binding.xml" />
 	<include path="rest/common/0.3/relations-binding.xml" />
 	<include path="rest/common/0.10/member-list-binding.xml" />
+	<include path="rest/common/0.7/content-streams-binding.xml"/>
 	<include path="rest/common/properties-binding.xml"/>
 	<include path="rest/common/exception-binding.xml"/>
 

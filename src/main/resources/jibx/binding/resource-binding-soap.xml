@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding name="SOAP">
 
-	<!-- common -->
+  <!-- common -->
+  <include path="common/common-binding.xml"/>
+  <!-- common/SOAP -->
 	<include path="soap/common/task-param-binding.xml" />
 	<include path="soap/common/version-history-binding.xml" />
 	<include path="soap/common/0.1/result-binding.xml" />

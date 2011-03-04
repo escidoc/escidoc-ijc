@@ -102,7 +102,8 @@
 		abstract="true" type-name="content-relation-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
-			prefix="prop" />
+			prefix="prop" default="elements"/>
+			
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 		<namespace uri="http://escidoc.de/core/01/properties/version/"
@@ -119,12 +120,12 @@
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
 			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="creation-date" 
-			type="org.joda.time.DateTime" set-method="setCreationDate" 
-			get-method="getCreationDate" usage="optional" />
+		<value name="creation-date" usage="optional"
+			set-method="setCreationDate" get-method="getCreationDate"/>
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
-			name="created-by" field="createdBy" usage="optional">
+			name="created-by" usage="optional"
+			set-method="setCreatedBy" get-method="getCreatedBy">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -145,24 +146,20 @@
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
-		<value ns="http://escidoc.de/core/01/properties/" name="description"
-			field="description" usage="optional" />
+		<value name="description" field="description" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="public-status"
-			field="publicStatus" usage="optional" />
+		<value name="public-status" field="publicStatus" usage="optional"
+			enum-value-method="getXmlValue"/>
 
-		<value ns="http://escidoc.de/core/01/properties/" name="public-status-comment"
-			field="publicStatusComment" usage="optional" />
-
-		<value ns="http://escidoc.de/core/01/properties/" name="name"
-			field="name" usage="optional" />
+		<value name="public-status-comment" field="publicStatusComment" 
+		  usage="optional" />
 
 		<!-- lock (status, date, owner) -->
-		<value ns="http://escidoc.de/core/01/properties/" name="lock-status" 
-			field="lockStatus" usage="optional" />
-		<value ns="http://escidoc.de/core/01/properties/" name="lock-date" 
-			set-method="setLockDate" get-method="getLockDate"
-			type="org.joda.time.DateTime" usage="optional" />
+		<value name="lock-status" usage="optional" 
+		  set-method="setLockStatus" get-method="getLockStatus"
+		  enum-value-method="getXmlValue"/>
+		<value name="lock-date" usage="optional"
+		  set-method="setLockDate" get-method="getLockDate"/>
 				
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="lock-owner" field="lockOwner" usage="optional">
@@ -175,8 +172,8 @@
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
-		<value ns="http://escidoc.de/core/01/properties/" name="pid"
-			set-method="setPid" get-method="getPid" usage="optional" />
+		<value name="pid" usage="optional"
+			set-method="setPid" get-method="getPid"/>
 
 	</mapping>
 

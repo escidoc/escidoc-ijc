@@ -46,7 +46,8 @@
 		post-set="genXLink">
 		
 		<namespace uri="http://www.escidoc.de/schemas/contentmodel/0.1"
-			prefix="escidocContentModel" />
+			prefix="escidocContentModel" default="elements"/>
+			
 		<namespace uri="http://escidoc.de/core/01/properties/"
 			prefix="prop" />
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
@@ -67,29 +68,26 @@
 		<value name="objid" style="attribute" set-method="setObjid"
 			get-method="getObjid" usage="optional" />
 
-		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+		<value name="last-modification-date" style="attribute" usage="optional"
 			set-method="setLastModificationDate"
-			get-method="getLastModificationDate" usage="optional" />
+			get-method="getLastModificationDate"/>
 
 
 		<!-- *****************************************
 			Properties 
 			****************************************** -->
-		<structure ns="http://www.escidoc.de/schemas/contentmodel/0.1"
-			name="properties" field="properties" usage="optional">
+		<structure name="properties" field="properties" usage="optional">
 			<structure map-as="content-model-properties" usage="optional" />
 		</structure>
 
 		<!-- *****************************************
 			Metadata Record Definitions 
 			****************************************** -->
-		<structure ns="http://www.escidoc.de/schemas/contentmodel/0.1"
-			name="md-record-definitions"
-			field="metadataRecordDefinitions"
+		<structure name="md-record-definitions" field="metadataRecordDefinitions"
 			usage="optional">
 
-			<collection 
-				create-type="de.escidoc.core.resources.cmm.MetadataRecordDefinitions" usage="optional">
+			<collection create-type="de.escidoc.core.resources.cmm.MetadataRecordDefinitions"
+        usage="optional">
 				
 				<structure map-as="abstract-md-record-definition"
 					usage="optional" />
@@ -99,13 +97,11 @@
 		<!-- ****************************************
 			Resource Definitions
 			****************************************** -->
-		<structure ns="http://www.escidoc.de/schemas/contentmodel/0.1"
-			name="resource-definitions"
-			field="resourceDefinitions"
+		<structure name="resource-definitions" field="resourceDefinitions"
 			usage="optional">
 
-			<collection 
-				create-type="de.escidoc.core.resources.cmm.ResourceDefinitions" usage="optional">
+			<collection create-type="de.escidoc.core.resources.cmm.ResourceDefinitions" 
+			  usage="optional">
 				
 				<structure map-as="abstract-resource-definition"
 					usage="optional" />
@@ -173,10 +169,6 @@
 			</structure>
 	</mapping>
 
-	
-	
-
-
 	<!-- *****************************************
 		Properties binding definition
 		****************************************** -->
@@ -185,7 +177,8 @@
 		abstract="true" type-name="content-model-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
-			prefix="prop" />
+			prefix="prop" default="elements"/>
+			
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 		<namespace uri="http://escidoc.de/core/01/properties/version/"
@@ -193,41 +186,45 @@
 		<namespace uri="http://escidoc.de/core/01/properties/release/"
 			prefix="release" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="name"
-			field="name" usage="optional" />
+		<value name="name" field="name" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="description"
-			field="description" usage="optional" />
+		<value name="description"	field="description" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
-			name="creation-date" set-method="setCreationDate"
+		<value name="creation-date" set-method="setCreationDate"
 			get-method="getCreationDate" usage="optional" />
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
-			name="created-by" field="createdBy" usage="optional">
+			name="created-by" usage="optional"
+      set-method="setCreatedBy" get-method="getCreatedBy">
 
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />
 		</structure>
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status" field="publicStatus" usage="optional" />
+		<value name="public-status" field="publicStatus" usage="optional" 
+			enum-value-method="getXmlValue"/>
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status-comment" field="publicStatusComment"
+		<value name="public-status-comment" field="publicStatusComment"
 			usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/"
-			name="lock-status" field="lockStatus" usage="optional" />
+		<!-- lock (status, date, owner) -->
+    <value name="lock-status" field="lockStatus" usage="optional" 
+      enum-value-method="getXmlValue"/>
+    <value name="lock-date" usage="optional"
+        set-method="setLockDate" get-method="getLockDate"/>
+        
+    <structure ns="http://escidoc.de/core/01/structural-relations/"
+      name="lock-owner" field="lockOwner" usage="optional">
+      <value name="objid" style="attribute" set-method="setObjid"
+        get-method="getObjid" usage="optional" />
+    </structure>
 
-		<value ns="http://escidoc.de/core/01/properties/" name="pid"
-			set-method="setPid" get-method="getPid" usage="optional" />
+		<value name="pid"	set-method="setPid" get-method="getPid" usage="optional" />
 
 		<!-- *****************************************
 			Version 
 			****************************************** -->
-		<structure ns="http://escidoc.de/core/01/properties/"
-			name="version" field="version" usage="optional">
+		<structure name="version" field="version" usage="optional">
 
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />
@@ -263,8 +260,7 @@
 		<!-- *****************************************
 			Latest-Version 
 			****************************************** -->
-		<structure ns="http://escidoc.de/core/01/properties/"
-			name="latest-version" field="latestVersion" usage="optional">
+		<structure name="latest-version" field="latestVersion" usage="optional">
 
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />
@@ -282,8 +278,7 @@
 		<!-- *****************************************
 			Latest-Release 
 			****************************************** -->
-		<structure ns="http://escidoc.de/core/01/properties/"
-			name="latest-release" field="latestRelease" usage="optional">
+		<structure name="latest-release" field="latestRelease" usage="optional">
 
 			<value name="objid" style="attribute" set-method="setObjid"
 				get-method="getObjid" usage="optional" />

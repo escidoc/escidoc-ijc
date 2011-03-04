@@ -69,7 +69,6 @@
       get-method="getObjid" usage="optional" />
 
     <value name="last-modification-date" style="attribute" 
-      type="org.joda.time.DateTime"
       set-method="setLastModificationDate"
       get-method="getLastModificationDate" usage="optional" />
 
@@ -134,14 +133,16 @@
       set-method="setCreationDate" get-method="getCreationDate" 
       usage="optional" />
 
-    <structure name="created-by" field="createdBy" usage="optional"
-      ns="http://escidoc.de/core/01/structural-relations/">
+    <structure ns="http://escidoc.de/core/01/structural-relations/"
+      name="created-by" usage="optional"
+      set-method="setCreatedBy" get-method="getCreatedBy">
 
       <value name="objid" style="attribute" set-method="setObjid"
         get-method="getObjid" usage="optional" />
     </structure>
 
-    <value name="public-status" field="publicStatus" usage="optional" />
+    <value name="public-status" field="publicStatus" usage="optional"
+      enum-value-method="getXmlValue"/>
 
     <value name="public-status-comment" field="publicStatusComment"
       usage="optional" />
@@ -164,10 +165,10 @@
     </structure>
 
     <!-- lock (status, date, owner) -->
-    <value name="lock-status" field="lockStatus" usage="optional" />
-    <value name="lock-date" type="org.joda.time.DateTime"
-        set-method="setLockDate"
-        get-method="getLockDate" usage="optional" />
+    <value name="lock-status" field="lockStatus" usage="optional"
+      enum-value-method="getXmlValue"/>
+    <value name="lock-date" usage="optional"
+        set-method="setLockDate" get-method="getLockDate"/>
         
     <structure ns="http://escidoc.de/core/01/structural-relations/"
       name="lock-owner" field="lockOwner" usage="optional">

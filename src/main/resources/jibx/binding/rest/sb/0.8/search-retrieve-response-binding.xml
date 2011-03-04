@@ -39,7 +39,8 @@
     <namespace uri="http://www.escidoc.de/schemas/searchresult/0.8" prefix="search-result"/>
     
     <value name="recordSchema" field="recordSchema"/>
-    <value name="recordPacking" field="recordPacking"/>
+    <value name="recordPacking" field="recordPacking" 
+      format="RecordPacking.default"/>
     
     <structure name="recordData" field="recordData"
       marshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"

@@ -141,7 +141,8 @@
 		</structure>
 
 		<value ns="http://escidoc.de/core/01/properties/"
-			name="public-status" field="publicStatus" usage="optional" />
+			name="public-status" field="publicStatus" usage="optional"
+			enum-value-method="getXmlValue"/>
 
 		<value ns="http://escidoc.de/core/01/properties/"
 			name="public-status-comment" field="publicStatusComment"

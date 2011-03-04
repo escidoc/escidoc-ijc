@@ -11,11 +11,13 @@
 	<!-- end: binding of a single context -->
 
 	<!-- start: abstract binding of a single context -->
-	<mapping ns="http://www.escidoc.de/schemas/context/0.7" class="de.escidoc.core.resources.om.context.Context"
+	<mapping ns="http://www.escidoc.de/schemas/context/0.7" 
+    class="de.escidoc.core.resources.om.context.Context"
 		abstract="true" type-name="abstract-context" pre-get="genXLink">
 
 		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
-			prefix="escidocContext" />
+			prefix="escidocContext" default="elements"/>
+			
 		<namespace uri="http://escidoc.de/core/01/properties/"
 			prefix="prop" />
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
@@ -35,19 +37,16 @@
 			get-method="getLastModificationDate" usage="optional" />
 
 		<!-- Properties include -->
-		<structure ns="http://www.escidoc.de/schemas/context/0.7"
-			name="properties" field="properties" usage="optional">
+		<structure name="properties" field="properties" usage="optional">
 			<structure map-as="context-properties" usage="optional" />
 		</structure>
 
 		<!-- Resources include (REST only) -->
-		<structure ns="http://www.escidoc.de/schemas/context/0.7"
-			name="resources" usage="optional">
+		<structure name="resources" usage="optional">
 		</structure>
 
 		<!-- AdminDescriptors include -->
-		<structure ns="http://www.escidoc.de/schemas/context/0.7"
-			name="admin-descriptors" field="adminDescriptors" usage="optional">
+		<structure name="admin-descriptors" field="adminDescriptors" usage="optional">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute"
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -73,7 +72,8 @@
 		abstract="true" type-name="context-properties">
 
 		<namespace uri="http://escidoc.de/core/01/properties/"
-			prefix="prop" />
+			prefix="prop" default="elements"/>
+			
 		<namespace uri="http://escidoc.de/core/01/structural-relations/"
 			prefix="srel" />
 		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
@@ -85,12 +85,12 @@
 		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute"
 			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
-			name="creation-date" set-method="setCreationDate" get-method="getCreationDate"
-			usage="optional" />
+		<value name="creation-date" usage="optional"
+		  set-method="setCreationDate" get-method="getCreationDate"/>
 
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
-			name="created-by" field="createdBy" usage="optional">
+			name="created-by" usage="optional"
+			set-method="setCreatedBy" get-method="getCreatedBy">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute"
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -112,24 +112,25 @@
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 		</structure>
 
-		<value ns="http://escidoc.de/core/01/properties/" name="public-status"
-			set-method="setPublicStatus" get-method="getPublicStatus" usage="optional" />
+		<value name="public-status"
+			set-method="setPublicStatus" get-method="getPublicStatus" usage="optional"
+			enum-value-method="getXmlValue"/>
 
-		<value ns="http://escidoc.de/core/01/properties/" name="public-status-comment"
+		<value name="public-status-comment"
 			set-method="setPublicStatusComment" get-method="getPublicStatusComment"
 			usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="name"
+		<value name="name"
 			set-method="setName" get-method="getName" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="description"
+		<value name="description"
 			set-method="setDescription" get-method="getDescription" usage="optional" />
 
-		<value ns="http://escidoc.de/core/01/properties/" name="type"
+		<value name="type"
 			set-method="setType" get-method="getType" usage="optional" />
 
 
-		<structure ns="http://escidoc.de/core/01/properties/" name="organizational-units"
+		<structure name="organizational-units"
 			field="organizationalUnitRefs" usage="optional">
 
 			<collection

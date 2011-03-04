@@ -67,9 +67,9 @@
     <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
       set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
-    <value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+    <value name="last-modification-date" style="attribute" usage="optional"
       set-method="setLastModificationDate"
-      get-method="getLastModificationDate" usage="optional" />
+      get-method="getLastModificationDate"/>
 
 
     <!-- *****************************************
@@ -93,25 +93,8 @@
     <!-- *****************************************
       Content-Streams
       ****************************************** -->
-    <!--  structure ns="http://www.escidoc.de/schemas/contentstreams/0.6"
-      name="content-streams"
-      type="de.escidoc.core.resources.common.ContentStreams"
-      field="contentStreams" usage="optional">
-      
-      <collection
-      ns="http://www.escidoc.de/schemas/contentstreams/0.6"
-      field="contentStreams"
-      factory="de.escidoc.core.resources.common.ContentStreams.contentStreamsFactory"
-      usage="optional">
-      <structure
-      ns="http://www.escidoc.de/schemas/contentstreams/0.6"
-      name="content-stream"
-      class="de.escidoc.core.resources.common.ContentStream"
-      marshaller="de.escidoc.core.common.jibx.binding.ContentStream"
-      unmarshaller="de.escidoc.core.common.jibx.binding.ContentStream"
-      usage="optional" />
-      </collection>
-      </structure -->
+    <structure type="de.escidoc.core.resources.common.ContentStreams"
+      field="contentStreams" usage="optional"/>
 
     <!-- *****************************************
       Components 
@@ -153,12 +136,12 @@
               set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
             <value ns="http://escidoc.de/core/01/properties/" 
-              name="creation-date" type="org.joda.time.DateTime"
-              usage="optional" set-method="setCreationDate"
-              get-method="getCreationDate" />
+              name="creation-date" usage="optional" 
+              set-method="setCreationDate" get-method="getCreationDate" />
 
             <structure ns="http://escidoc.de/core/01/structural-relations/"
-              name="created-by" field="createdBy" usage="optional">
+              name="created-by" usage="optional"
+              set-method="setCreatedBy" get-method="getCreatedBy">
 
               <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
                 set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -194,12 +177,13 @@
               field="checksum" usage="optional" />
             <value
               ns="http://escidoc.de/core/01/properties/" name="checksum-algorithm"
-              field="checksumAlgorithm" usage="optional" />
+              field="checksumAlgorithm" usage="optional" 
+              enum-value-method="getXmlValue"/>
               
           </structure>
-          <structure ns="http://www.escidoc.de/schemas/components/0.9" 
-            name="content" type="de.escidoc.core.resources.om.item.component.ComponentContent" field="content"
-            usage="optional">
+          <structure ns="http://www.escidoc.de/schemas/components/0.9"
+            type="de.escidoc.core.resources.om.item.component.ComponentContent" 
+            name="content" field="content" usage="optional">
             
             <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
               set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -209,9 +193,11 @@
               set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
             
             <value name="storage" style="attribute"
-              set-method="setStorage" get-method="getStorage" usage="optional" />
-             <value field="base64EncodedContent" style="text"
-              set-method="setBase64EncodedContent" get-method="getBase64EncodedContent" usage="optional" />
+              set-method="setStorage" get-method="getStorage" usage="optional" 
+              enum-value-method="getXmlValue"/>
+             <value field="base64EncodedContent" style="text" usage="optional"
+              set-method="setBase64EncodedContent" 
+              get-method="getBase64EncodedContent"/>
               
           </structure>
 
@@ -245,8 +231,7 @@
     </structure>
       
     <!-- Resources include (REST only) > ignore -->
-    <structure ns="http://www.escidoc.de/schemas/item/0.10"
-      name="resources" usage="optional">
+    <structure name="resources" usage="optional">
     </structure>
   </mapping>
   <!-- end: abstract binding of a single item -->
@@ -280,7 +265,8 @@
       set-method="setCreationDate" get-method="getCreationDate" usage="optional" />
 
     <structure ns="http://escidoc.de/core/01/structural-relations/"
-      name="created-by" field="createdBy" usage="optional">
+      name="created-by" usage="optional"
+      set-method="setCreatedBy" get-method="getCreatedBy">
 
       <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
         set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -290,7 +276,8 @@
         set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
     </structure>
 
-    <value name="public-status" field="publicStatus" usage="optional" />
+    <value name="public-status" field="publicStatus" usage="optional"
+      enum-value-method="getXmlValue"/>
 
     <value name="public-status-comment" field="publicStatusComment"
       usage="optional" />
@@ -329,9 +316,10 @@
     </structure>
 
     <!-- lock (status, date, owner) -->
-    <value name="lock-status" field="lockStatus" usage="optional" />
-    <value name="lock-date" type="org.joda.time.DateTime"
-        set-method="setLockDate" get-method="getLockDate" usage="optional" />
+    <value name="lock-status" field="lockStatus" usage="optional"
+      enum-value-method="getXmlValue"/>
+    <value name="lock-date" usage="optional"
+      set-method="setLockDate" get-method="getLockDate"/>
         
     <structure ns="http://escidoc.de/core/01/structural-relations/"
       name="lock-owner" field="lockOwner" usage="optional">
