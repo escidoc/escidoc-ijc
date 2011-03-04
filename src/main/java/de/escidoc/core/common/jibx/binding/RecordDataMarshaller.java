@@ -5,6 +5,7 @@ package de.escidoc.core.common.jibx.binding;
 
 import static de.escidoc.core.common.Precondition.checkObject;
 
+import org.apache.log4j.Logger;
 import org.jibx.runtime.IAliasable;
 import org.jibx.runtime.IMarshaller;
 import org.jibx.runtime.IMarshallingContext;
@@ -17,7 +18,7 @@ import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.Record;
-import de.escidoc.core.resources.sb.Record.RecordPacking;
+import de.escidoc.core.resources.sb.RecordPacking;
 
 /**
  * 
@@ -25,7 +26,7 @@ import de.escidoc.core.resources.sb.Record.RecordPacking;
  * The unmarshalling has to happen separately, since the content of the
  * recordData tag can be an encoded XML string or the XML itself. This is
  * depending on the value of the recordPacking, which can be either
- * {@link RecordPacking#string} or {@link RecordPacking#xml}.<br/>
+ * {@link RecordPacking#STRING} or {@link RecordPacking#XML}.<br/>
  * <br/>
  * <b>Important:</b><br/>
  * In case that the content is given as a string, a new Marshaller instance has
@@ -43,6 +44,9 @@ import de.escidoc.core.resources.sb.Record.RecordPacking;
  */
 public class RecordDataMarshaller extends MarshallingBase
     implements IMarshaller, IUnmarshaller, IAliasable {
+
+    private static final Logger LOG = Logger
+        .getLogger(RecordDataMarshaller.class);
 
     /**
      * @param uri
@@ -71,7 +75,19 @@ public class RecordDataMarshaller extends MarshallingBase
 
         ctx.parsePastStartTag(getUri(), getName());
 
-        if (record.getRecordPacking() == RecordPacking.xml) {
+        /*
+         * Reading the text content has to be done before checking, if there is
+         * an element on the next level. Otherwise, the parseContentText-method
+         * will return an empty String. This may be a bug in JiBX.
+         */
+        String contentText = ctx.parseContentText().trim();
+
+        if (ctx.isStart() && ctx.getElementName() != null) {
+            if (record.getRecordPacking() == RecordPacking.STRING) {
+                LOG.debug("WARNING: The content of element {" + getUri() + "}"
+                    + getName() + " was expected to be of recordPacking type "
+                    + RecordPacking.STRING);
+            }
             /*
              * If the content of recordData is XML keep parsing it in the same
              * context.
@@ -79,13 +95,16 @@ public class RecordDataMarshaller extends MarshallingBase
             result = ctx.unmarshalElement();
         }
         else {
+            if (record.getRecordPacking() == RecordPacking.XML) {
+                LOG.debug("WARNING: The content of element {" + getUri() + "}"
+                    + getName() + " was expected to be of recordPacking type "
+                    + RecordPacking.XML);
+            }
             /*
              * If the content of recordData is a escaped String, get the String,
              * (decode it again) and use a new Marshaller instance to unmarshal
              * it.
              */
-            String content = ctx.parseContentText();
-            content = content.replaceAll("(^\\s*)|(\\s*$)", "");
             String bindingName = ctx.getFactory().getBindingName();
             if (bindingName == null) {
                 throw new JiBXException(
@@ -100,7 +119,7 @@ public class RecordDataMarshaller extends MarshallingBase
                     MarshallerFactory
                         .getInstance(transport)
                         .getMarshaller(record.getClass())
-                        .unmarshalDocument(content);
+                        .unmarshalDocument(contentText);
             }
             catch (InternalClientException e) {
                 throw new JiBXException(e.getMessage(), e);
