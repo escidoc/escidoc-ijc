@@ -31,6 +31,8 @@ package de.escidoc.core.resources.om;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import de.escidoc.core.resources.VersionableResource;
+
 /**
  * Member List.
  * 
@@ -45,11 +47,11 @@ public class MemberList {
 
     private int numberOfRecords = -1;
 
-    private Collection<GenericVersionableResource> members =
-        new LinkedList<GenericVersionableResource>();
+    private Collection<VersionableResource> members =
+        new LinkedList<VersionableResource>();
 
-    public static LinkedList<GenericVersionableResource> membersFactory() {
-        return new LinkedList<GenericVersionableResource>();
+    public static LinkedList<VersionableResource> membersFactory() {
+        return new LinkedList<VersionableResource>();
     }
 
     /**
@@ -61,7 +63,7 @@ public class MemberList {
     /**
      * @return the items
      */
-    public Collection<GenericVersionableResource> getMembers() {
+    public Collection<VersionableResource> getMembers() {
         return members;
     }
 
@@ -69,7 +71,7 @@ public class MemberList {
      * @param members
      *            the items to set
      */
-    public void setMembers(final Collection<GenericVersionableResource> members) {
+    public void setMembers(final Collection<VersionableResource> members) {
         this.members = members;
     }
 

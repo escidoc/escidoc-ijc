@@ -29,9 +29,9 @@
 package de.escidoc.core.resources.om.item.component;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * Component.

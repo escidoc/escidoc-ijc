@@ -30,6 +30,7 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.resources.common.properties.interfaces.CreateProperties;
 import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.common.reference.RoleRef;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
@@ -40,13 +41,11 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * @author ?, SWA
  * 
  */
-public class GrantProperties {
+public class GrantProperties implements CreateProperties {
 
     private DateTime creationDate;
 
     private UserAccountRef createdBy;
-
-    private UserAccountRef modifiedBy;
 
     private GrantedTo grantedTo;
 
@@ -62,59 +61,52 @@ public class GrantProperties {
 
     private Reference assignedOn;
 
-    /**
-     * Properties for Grant.
-     */
-    public GrantProperties() {
-
-    }
-
-    /**
-     * Get creation date.
+    /*
+     * (non-Javadoc)
      * 
-     * @return creation date
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #getCreationDate()
      */
+    @Override
     public DateTime getCreationDate() {
         return this.creationDate;
     }
 
-    /**
-     * @param creationDate
-     *            the creationDate to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #setCreationDate(org.joda.time.DateTime)
      */
+    @Override
     public void setCreationDate(final DateTime creationDate) {
-
         this.creationDate = creationDate;
     }
 
-    /**
-     * @return the createdBy
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #getCreatedBy()
      */
+    @Override
     public UserAccountRef getCreatedBy() {
         return this.createdBy;
     }
 
-    /**
-     * @param createdBy
-     *            the createdBy to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #setCreatedBy(de.escidoc.core.resources.common.reference.UserAccountRef)
      */
+    @Override
     public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
-    }
-
-    /**
-     * @return the modifedBy
-     */
-    public UserAccountRef getModifiedBy() {
-        return this.modifiedBy;
-    }
-
-    /**
-     * @param modifiedBy
-     *            the createdBy to set
-     */
-    public void setModifiedBy(final UserAccountRef modifiedBy) {
-        this.modifiedBy = modifiedBy;
     }
 
     /**

@@ -1,10 +1,13 @@
 package de.escidoc.core.resources.sb.search;
 
+import de.escidoc.core.annotations.JiBX;
+
+@JiBX
 public class HitWord {
 
-    float startIndex;
+    private float startIndex;
 
-    float endIndex;
+    private float endIndex;
 
     public float getStartIndex() {
         return startIndex;

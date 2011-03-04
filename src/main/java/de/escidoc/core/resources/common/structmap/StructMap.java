@@ -37,7 +37,16 @@ import de.escidoc.core.resources.XLinkResourceList;
  * struct map is discarded. To add member to an existing Container use the
  * addMembers() and removeMembers() methods.
  * 
- * @author
+ * A struct map is divided into two groups:
+ * <ul>
+ * <li>item references</li>
+ * <li>container references</li>
+ * </ul>
+ * 
+ * Therefore, item references will be stored before container references. This
+ * behavior applies to all methods.
+ * 
+ * @author MVO
  * 
  */
 public class StructMap extends XLinkResourceList<MemberRef> {
@@ -55,6 +64,5 @@ public class StructMap extends XLinkResourceList<MemberRef> {
      * the addMembers() and removeMembers() methods.
      */
     public StructMap() {
-
     }
 }

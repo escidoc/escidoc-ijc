@@ -77,6 +77,6 @@ public class TimeReductionField extends StatisticsField {
 
     @Override
     public FieldType getType() {
-        return FieldType.TimeReductionField;
+        return FieldType.TIME_REDUCTION;
     }
 }

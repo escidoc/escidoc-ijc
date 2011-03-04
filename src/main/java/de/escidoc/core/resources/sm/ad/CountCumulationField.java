@@ -30,6 +30,6 @@ public class CountCumulationField extends Field {
      */
     @Override
     public FieldType getType() {
-        return FieldType.CountCumulationField;
+        return FieldType.COUNT_CUMULATION;
     }
 }

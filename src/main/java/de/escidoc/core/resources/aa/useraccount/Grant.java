@@ -1,11 +1,11 @@
 package de.escidoc.core.resources.aa.useraccount;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.GrantRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * Grant.
@@ -59,8 +59,6 @@ public class Grant extends GenericResource
         if (grantProperties != null) {
 
             genXLinkHref(grantProperties.getCreatedBy(),
-                ResourceType.UserAccount, null);
-            genXLinkHref(grantProperties.getModifiedBy(),
                 ResourceType.UserAccount, null);
             genXLinkHref(grantProperties.getGrantedTo(),
                 ResourceType.UserAccount, null);

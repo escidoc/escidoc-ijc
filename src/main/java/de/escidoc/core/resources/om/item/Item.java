@@ -28,8 +28,8 @@
  */
 package de.escidoc.core.resources.om.item;
 
-import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.VersionableResource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -38,7 +38,6 @@ import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
-import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
@@ -48,7 +47,7 @@ import de.escidoc.core.resources.om.item.component.Components;
  * 
  * @author ?, SWA
  */
-public class Item extends GenericVersionableResource
+public class Item extends VersionableResource
     implements XLinkAutonomous, Referenceable<ItemRef> {
 
     private ItemProperties properties;
@@ -213,8 +212,6 @@ public class Item extends GenericVersionableResource
                     }
                     genXLinkHref(properties.getCreatedBy(),
                         ResourceType.UserAccount, null);
-                    genXLinkHref(properties.getModifiedBy(),
-                        ResourceType.UserAccount, null);
                 }
 
                 if (component.getContent() != null
@@ -272,12 +269,8 @@ public class Item extends GenericVersionableResource
      */
     protected void genVersionHref(final VersionImpl version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(Resource.RESOURCE_URL_MAP
-                .get(ResourceType.Item)
-                + "/"
-                + getObjid()
-                + ":"
-                + version.getNumber());
+            version.setXLinkHref(ResourceType.Item.getPath() + "/" + getObjid()
+                + ":" + version.getNumber());
             genXLinkHref(version.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }

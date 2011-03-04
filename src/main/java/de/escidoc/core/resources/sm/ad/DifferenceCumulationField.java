@@ -45,6 +45,6 @@ public class DifferenceCumulationField extends StatisticsField {
      */
     @Override
     public FieldType getType() {
-        return FieldType.DifferenceCumulationField;
+        return FieldType.DIFFERENCE_CUMULATION;
     }
 }

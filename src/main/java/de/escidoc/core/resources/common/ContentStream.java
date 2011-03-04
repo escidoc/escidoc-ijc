@@ -28,8 +28,10 @@
  */
 package de.escidoc.core.resources.common;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * Content Stream.
@@ -39,23 +41,78 @@ import de.escidoc.core.resources.om.GenericResource;
  */
 public class ContentStream extends GenericResource {
 
-    private String mimeType = null;
-
-    private String name = null;
-
-    private String storage = null;
+    private String mimeType;
 
     /**
-     * FIXME this should be a reference to the binary content only
+     * Max. 64 characters.
      */
-    private String content = null;
+    private String name;
 
-    //
-    // <xs:attribute name="name" use="required"/>
-    // <xs:attribute name="storage" use="required"/>
-    // <xs:attribute name="mime-type" use="required"/>
+    private String storage;
 
-    public ContentStream() {
+    private String hrefOrBase64Content;
+
+    private boolean inherited = false;
+
+    /**
+     * 
+     */
+    public ContentStream(final String name, final String storage,
+        final String mimeType) {
+        super();
+        init(name, storage, mimeType);
+    }
+
+    /**
+     * @param objid
+     * @param href
+     * @param title
+     */
+    public ContentStream(final String objid, final String href,
+        final String title, final String name, final String storage,
+        final String mimeType) {
+        super(objid, href, title);
+        init(name, storage, mimeType);
+    }
+
+    /**
+     * @param href
+     * @param title
+     */
+    public ContentStream(final String href, final String title,
+        final String name, final String storage, final String mimeType) {
+        super(href, title);
+        init(name, storage, mimeType);
+    }
+
+    /**
+     * @param objid
+     */
+    public ContentStream(final String objid, final String name,
+        final String storage, final String mimeType) {
+        super(objid);
+        init(name, storage, mimeType);
+    }
+
+    @JiBX
+    @SuppressWarnings("unused")
+    private ContentStream() {
+
+    }
+
+    /**
+     * @param name
+     * @param storage
+     * @param mimeType
+     */
+    private void init(
+        final String name, final String storage, final String mimeType) {
+        checkNotNull(name);
+        checkNotNull(storage);
+        checkNotNull(mimeType);
+        this.name = name;
+        this.storage = storage;
+        this.mimeType = mimeType;
     }
 
     /**
@@ -104,23 +161,42 @@ public class ContentStream extends GenericResource {
     }
 
     /**
-     * @return the content
+     * @param inherited
+     *            the inherited to set
      */
-    public String getContent() {
-        return content;
+    public void setInherited(final boolean inherited) {
+        this.inherited = inherited;
     }
 
     /**
-     * @param content
-     *            the content to set
+     * @return the inherited
      */
-    public void setContent(final String content) {
-        this.content = content;
+    public boolean isInherited() {
+        return inherited;
     }
 
+    /**
+     * @param hrefOrBase64Content
+     *            the hrefOrBase64Content to set
+     */
+    public void setHrefOrBase64Content(final String hrefOrBase64Content) {
+        this.hrefOrBase64Content = hrefOrBase64Content;
+    }
+
+    /**
+     * @return the hrefOrBase64Content
+     */
+    public String getHrefOrBase64Content() {
+        return hrefOrBase64Content;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return null;
     }
-
 }

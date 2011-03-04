@@ -30,7 +30,6 @@ package de.escidoc.core.resources.common.properties;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 import de.escidoc.core.resources.interfaces.common.LatestRelease;
@@ -126,10 +125,5 @@ public class VersionImpl extends Reference
     public void setComment(final String comment) {
 
         this.comment = comment;
-    }
-
-    @Override
-    public ResourceType getResourceType() {
-        return null;
     }
 }

@@ -31,6 +31,10 @@ package de.escidoc.core.resources.aa.role;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.common.properties.interfaces.CreateProperties;
+import de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties;
+import de.escidoc.core.resources.common.properties.interfaces.ModifyProperties;
+import de.escidoc.core.resources.common.properties.interfaces.NameProperties;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
@@ -40,95 +44,116 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * 
  */
 @JiBX
-public class RoleProperties {
+public class RoleProperties
+    implements CreateProperties, ModifyProperties, NameProperties,
+    DescriptionProperties {
 
     private UserAccountRef createdBy;
 
+    private DateTime creationDate;
+
     private UserAccountRef modifiedBy;
 
-    protected DateTime creationDate;
+    private String name;
 
-    protected String name;
+    private String description;
 
-    protected String description;
-
-    /**
-     * Get modified by.
+    /*
+     * (non-Javadoc)
      * 
-     * @return reference to latest modifier
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ModifyProperties
+     * #getModifiedBy()
      */
+    @Override
     public UserAccountRef getModifiedBy() {
         return modifiedBy;
     }
 
-    /**
-     * Set modified by.
+    /*
+     * (non-Javadoc)
      * 
-     * @param modifiedBy
-     *            UserAccountRef of latest modifier
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ModifyProperties
+     * #setModifiedBy(de.escidoc.core.resources.common.reference.UserAccountRef)
      */
+    @Override
     public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
-    /**
-     * @return the createdBy
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #getCreatedBy()
      */
+    @Override
     public UserAccountRef getCreatedBy() {
         return createdBy;
     }
 
-    /**
-     * @param createdBy
-     *            the createdBy to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #setCreatedBy(de.escidoc.core.resources.common.reference.UserAccountRef)
      */
+    @Override
     public void setCreatedBy(final UserAccountRef createdBy) {
         this.createdBy = createdBy;
     }
 
-    /**
-     * @return the creationDate
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #getCreationDate()
      */
+    @Override
     public DateTime getCreationDate() {
         return creationDate;
     }
 
-    /**
-     * @param creationDate
-     *            the creationDate to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #setCreationDate(org.joda.time.DateTime)
      */
+    @Override
     public void setCreationDate(final DateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    /**
-     * @return the name
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #getName()
      */
+    @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name
-     *            the name to set
-     */
+    @Override
     public void setName(final String name) {
         this.name = name;
     }
 
-    /**
-     * @return the description
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * @param description
-     *            the description to set
-     */
+    @Override
     public void setDescription(final String description) {
         this.description = description;
     }
-
 }

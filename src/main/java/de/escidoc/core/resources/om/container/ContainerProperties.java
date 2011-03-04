@@ -31,9 +31,19 @@ package de.escidoc.core.resources.om.container;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.common.properties.CommonProperties;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.properties.LockStatus;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.properties.VersionImpl;
+import de.escidoc.core.resources.common.properties.interfaces.ContentModelSpecificProperties;
+import de.escidoc.core.resources.common.properties.interfaces.ContextProperties;
+import de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties;
+import de.escidoc.core.resources.common.properties.interfaces.LockingProperties;
+import de.escidoc.core.resources.common.properties.interfaces.NameProperties;
+import de.escidoc.core.resources.common.properties.interfaces.PidProperties;
+import de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties;
+import de.escidoc.core.resources.common.properties.interfaces.VersionProperties;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
@@ -48,294 +58,375 @@ import de.escidoc.core.resources.interfaces.common.Version;
  * 
  */
 @JiBX
-public class ContainerProperties extends XLinkResource {
+public class ContainerProperties extends CommonProperties
+    implements PublicStatusProperties, NameProperties, DescriptionProperties,
+    ContextProperties, LockingProperties, PidProperties, VersionProperties,
+    ContentModelSpecificProperties {
 
-    private DateTime creationDate = null;
+    private String description;
 
-    private String description = null;
+    private PublicStatus publicStatus;
 
-    private UserAccountRef createdBy = null;
+    private String publicStatusComment;
 
-    private String publicStatus = null;
+    private ContextRef context;
 
-    private String publicStatusComment = null;
+    private ContentModelRef contentModel;
 
-    private ContextRef context = null;
+    private LockStatus lockStatus;
 
-    private ContentModelRef contentModel = null;
+    private DateTime lockDate;
 
-    private String lockStatus = null;
+    private UserAccountRef lockOwner;
 
-    private DateTime lockDate = null;
+    private String pid;
 
-    private UserAccountRef lockOwner = null;
+    private String name;
 
-    private String pid = null;
+    private VersionImpl version;
 
-    private String name = null;
+    private VersionImpl latestVersion;
 
-    private VersionImpl version = null;
+    private VersionImpl latestRelease;
 
-    private VersionImpl latestVersion = null;
+    private ContentModelSpecific contentModelSpecific;
 
-    private VersionImpl latestRelease = null;
-
-    private ContentModelSpecific contentModelSpecific = null;
-
-    /**
+    /*
+     * (non-Javadoc)
      * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties
+     * #getPublicStatus()
      */
-    public ContainerProperties() {
-
-    }
-
-    /**
-     * @return the creationDate
-     */
-    public DateTime getCreationDate() {
-        return this.creationDate;
-    }
-
-    /**
-     * @param creationDate
-     *            the creationDate to set
-     */
-    public void setCreationDate(final DateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    /**
-     * @return the createdBy
-     */
-    public UserAccountRef getCreatedBy() {
-        return this.createdBy;
-    }
-
-    /**
-     * @param createdBy
-     *            the createdBy to set
-     */
-    public void setCreatedBy(final UserAccountRef createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    /**
-     * @return the publicStatus
-     */
-    public String getPublicStatus() {
+    @Override
+    public PublicStatus getPublicStatus() {
         return this.publicStatus;
     }
 
-    /**
-     * @param publicStatus
-     *            the publicStatus to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties
+     * #setPublicStatus(java.lang.String)
      */
-    public void setPublicStatus(final String publicStatus) {
+    @Override
+    public void setPublicStatus(final PublicStatus publicStatus) {
         this.publicStatus = publicStatus;
     }
 
-    /**
-     * @return the publicStatusComment
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties
+     * #getPublicStatusComment()
      */
+    @Override
     public String getPublicStatusComment() {
         return this.publicStatusComment;
     }
 
-    /**
-     * @param publicStatusComment
-     *            the publicStatusComment to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties
+     * #setPublicStatusComment(java.lang.String)
      */
+    @Override
     public void setPublicStatusComment(final String publicStatusComment) {
         this.publicStatusComment = publicStatusComment;
     }
 
-    /**
-     * @return the contentModel
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ContextProperties
+     * #getContentModel()
      */
+    @Override
     public ContentModelRef getContentModel() {
         return this.contentModel;
     }
 
-    /**
-     * @param contentModel
-     *            the contentModel to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ContextProperties
+     * #setContentModel
+     * (de.escidoc.core.resources.common.reference.ContentModelRef)
      */
+    @Override
     public void setContentModel(final ContentModelRef contentModel) {
         this.contentModel = contentModel;
     }
 
-    /**
-     * @return the lockDate
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.LockingProperties
+     * #getLockDate()
      */
+    @Override
     public DateTime getLockDate() {
         return this.lockDate;
     }
 
-    /**
-     * @param lockDate
-     *            the lockDate to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.LockingProperties
+     * #setLockDate(org.joda.time.DateTime)
      */
+    @Override
     public void setLockDate(final DateTime lockDate) {
         this.lockDate = lockDate;
     }
 
-    /**
-     * @param lockDate
-     *            the lockDate to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.VersionProperties
+     * #getVersion()
      */
-    public void setLockDate(final String lockDate) {
-        if (lockDate != null) {
-            this.lockDate = new DateTime(lockDate);
-        }
-    }
-
-    /**
-     * @return the version
-     */
+    @Override
     public Version getVersion() {
         return this.version;
     }
 
-    /**
-     * @param version
-     *            the version to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.VersionProperties
+     * #setVersion(de.escidoc.core.resources.interfaces.common.Version)
      */
+    @Override
     public void setVersion(final Version version) {
         this.version = (VersionImpl) version;
     }
 
-    /**
-     * @return the latestVersion
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.VersionProperties
+     * #getLatestVersion()
      */
+    @Override
     public LatestVersion getLatestVersion() {
         return this.latestVersion;
     }
 
-    /**
-     * @param latestVersion
-     *            the latestVersion to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.VersionProperties
+     * #setLatestVersion
+     * (de.escidoc.core.resources.interfaces.common.LatestVersion)
      */
+    @Override
     public void setLatestVersion(final LatestVersion latestVersion) {
         this.latestVersion = (VersionImpl) latestVersion;
     }
 
-    /**
-     * @return the latestRelease
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.VersionProperties
+     * #getLatestRelease()
      */
+    @Override
     public LatestRelease getLatestRelease() {
         return this.latestRelease;
     }
 
-    /**
-     * @param latestRelease
-     *            the latestRelease to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.VersionProperties
+     * #setLatestRelease
+     * (de.escidoc.core.resources.interfaces.common.LatestRelease)
      */
+    @Override
     public void setLatestRelease(final LatestRelease latestRelease) {
         this.latestRelease = (VersionImpl) latestRelease;
     }
 
-    /**
-     * @return the context
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ContextProperties
+     * #getContext()
      */
+    @Override
     public ContextRef getContext() {
         return this.context;
     }
 
-    /**
-     * @return the lockStatus
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.LockingProperties
+     * #getLockStatus()
      */
-    public String getLockStatus() {
+    @Override
+    public LockStatus getLockStatus() {
         return this.lockStatus;
     }
 
-    /**
-     * @return the lockOwner
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.LockingProperties
+     * #getLockOwner()
      */
+    @Override
     public UserAccountRef getLockOwner() {
         return this.lockOwner;
     }
 
-    /**
-     * @return the pid
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PidProperties#
+     * getPid()
      */
+    @Override
     public String getPid() {
         return this.pid;
     }
 
-    /**
-     * @return the contentModelSpecific
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.common.properties.interfaces.
+     * ContentModelSpecificProperties#getContentModelSpecific()
      */
+    @Override
     public ContentModelSpecific getContentModelSpecific() {
         return this.contentModelSpecific;
     }
 
-    /**
-     * @param context
-     *            the context to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ContextProperties
+     * #setContext(de.escidoc.core.resources.common.reference.ContextRef)
      */
+    @Override
     public void setContext(final ContextRef context) {
         this.context = context;
     }
 
-    /**
-     * @param lockStatus
-     *            the lockStatus to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.LockingProperties
+     * #setLockStatus(java.lang.String)
      */
-    public void setLockStatus(final String lockStatus) {
+    @Override
+    public void setLockStatus(final LockStatus lockStatus) {
         this.lockStatus = lockStatus;
     }
 
-    /**
-     * @param lockOwner
-     *            the lockOwner to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.LockingProperties
+     * #setLockOwner(de.escidoc.core.resources.common.reference.UserAccountRef)
      */
+    @Override
     public void setLockOwner(final UserAccountRef lockOwner) {
         this.lockOwner = lockOwner;
     }
 
-    /**
-     * @param pid
-     *            the pid to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PidProperties#
+     * setPid(java.lang.String)
      */
+    @Override
     public void setPid(final String pid) {
         this.pid = pid;
     }
 
-    /**
-     * @param contentModelSpecific
-     *            the contentModelSpecific to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.common.properties.interfaces.
+     * ContentModelSpecificProperties
+     * #setContentModelSpecific(de.escidoc.core.resources
+     * .common.properties.ContentModelSpecific)
      */
+    @Override
     public void setContentModelSpecific(
         final ContentModelSpecific contentModelSpecific) {
         this.contentModelSpecific = contentModelSpecific;
     }
 
-    /**
-     * @return the description
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties
+     * #getDescription()
      */
+    @Override
     public String getDescription() {
         return this.description;
     }
 
-    /**
-     * @param description
-     *            the description to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties
+     * #setDescription(java.lang.String)
      */
+    @Override
     public void setDescription(final String description) {
         this.description = description;
     }
 
-    /**
-     * @return the name
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #getName()
      */
+    @Override
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @param name
-     *            the name to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #setName(java.lang.String)
      */
+    @Override
     public void setName(final String name) {
         this.name = name;
     }

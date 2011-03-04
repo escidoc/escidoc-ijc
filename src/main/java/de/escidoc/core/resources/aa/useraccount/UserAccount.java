@@ -29,11 +29,11 @@
 package de.escidoc.core.resources.aa.useraccount;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * User Account.

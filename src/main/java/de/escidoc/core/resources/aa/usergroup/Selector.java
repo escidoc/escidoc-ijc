@@ -3,7 +3,6 @@
  */
 package de.escidoc.core.resources.aa.usergroup;
 
-import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
@@ -20,47 +19,6 @@ public class Selector extends Resource {
     private String name;
 
     private SelectorType type;
-
-    /**
-     * Enum with mapping between Enum constant and xmlValue, which may be
-     * invalid as an enum namen in Java.
-     * 
-     * @author MVO
-     * 
-     */
-    public enum SelectorType {
-        Internal("internal"), UserAttribute("user-attribute");
-
-        private final String xmlName;
-
-        /**
-         * @param xmlName
-         */
-        private SelectorType(final String xmlName) {
-            checkNotNull(xmlName);
-            this.xmlName = xmlName;
-        }
-
-        /**
-         * @param string
-         * @return
-         */
-        public static SelectorType getValue(final String string) {
-            for (int i = 0; i < SelectorType.values().length; i++) {
-                if (SelectorType.values()[i].name().equals(string)
-                    || SelectorType.values()[i].xmlName.equals(string))
-                    return SelectorType.values()[i];
-            }
-            return null;
-        }
-
-        /**
-         * @return
-         */
-        private String getXmlName() {
-            return xmlName;
-        }
-    }
 
     /**
      * @param content
@@ -125,27 +83,11 @@ public class Selector extends Resource {
         this.type = type;
     }
 
-    /**
-     * Method for JiBX to map XML values, which include illegal characters in
-     * enum names.
+    /*
+     * (non-Javadoc)
      * 
-     * @param type
+     * @see de.escidoc.core.resources.Resource#getResourceType()
      */
-    @SuppressWarnings("unused")
-    private void setXmlType(final String type) {
-        this.type = SelectorType.getValue(type);
-    }
-
-    /**
-     * Method used by JiBX, to get the XML representation of the enum value.
-     * 
-     * @return
-     */
-    @SuppressWarnings("unused")
-    private String getXmlType() {
-        return this.type.getXmlName();
-    }
-
     @Override
     public ResourceType getResourceType() {
         return null;

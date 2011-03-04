@@ -16,17 +16,39 @@ public class ItemMemberRef extends MemberRef {
     @SuppressWarnings("unused")
     @JiBX
     private ItemMemberRef() {
-        this(null);
     }
 
+    /**
+     * @param objid
+     * @param href
+     * @param title
+     */
+    public ItemMemberRef(final String objid, final String href,
+        final String title) {
+        super(objid, href, title);
+    }
+
+    /**
+     * @param href
+     * @param title
+     */
+    public ItemMemberRef(final String href, final String title) {
+        super(href, title);
+    }
+
+    /**
+     * @param objid
+     */
     public ItemMemberRef(final String objid) {
         super(objid);
     }
 
-    public ItemMemberRef(final String xLinkHref, final String xLinkTitle) {
-        super(xLinkHref, xLinkTitle);
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.structmap.MemberRef#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.Item;

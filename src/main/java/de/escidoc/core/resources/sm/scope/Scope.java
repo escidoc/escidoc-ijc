@@ -4,7 +4,7 @@
 package de.escidoc.core.resources.sm.scope;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ScopeRef;
@@ -14,7 +14,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  * 
  */
 @JiBX
-public class Scope extends Resource implements Referenceable<ScopeRef> {
+public class Scope extends GenericResource implements Referenceable<ScopeRef> {
 
     private String name;
 

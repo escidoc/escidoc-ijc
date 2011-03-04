@@ -58,6 +58,6 @@ public class InfoField extends StatisticsField {
      */
     @Override
     public FieldType getType() {
-        return FieldType.InfoField;
+        return FieldType.INFO;
     }
 }

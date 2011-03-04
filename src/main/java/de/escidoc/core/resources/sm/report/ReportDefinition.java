@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
@@ -16,7 +16,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  * 
  */
 @JiBX
-public class ReportDefinition extends Resource
+public class ReportDefinition extends GenericResource
     implements Referenceable<ReportDefinitionRef> {
 
     private String name;

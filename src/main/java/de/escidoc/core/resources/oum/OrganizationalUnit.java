@@ -29,11 +29,11 @@
 package de.escidoc.core.resources.oum;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * OrganizationalUnit of eSciDoc.

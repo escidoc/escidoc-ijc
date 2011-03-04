@@ -1,8 +1,8 @@
 package de.escidoc.core.resources.aa.useraccount;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * FIXME:
@@ -16,7 +16,7 @@ import de.escidoc.core.resources.om.GenericResource;
  * 
  */
 @JiBX
-public class GrantedTo extends GenericResource {
+public class GrantedTo extends Resource {
 
     private String resource;
 

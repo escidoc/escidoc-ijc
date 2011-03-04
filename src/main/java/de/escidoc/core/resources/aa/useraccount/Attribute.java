@@ -1,9 +1,7 @@
 package de.escidoc.core.resources.aa.useraccount;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 
 /**
@@ -13,13 +11,11 @@ import de.escidoc.core.resources.ResourceType;
  * 
  */
 @JiBX
-public class Attribute extends Resource {
+public class Attribute extends GenericResource {
 
     private String name;
 
     private String value;
-
-    private DateTime lastModificationDate = null;
 
     private boolean internal = false;
 
@@ -81,26 +77,6 @@ public class Attribute extends Resource {
     }
 
     /**
-     * Get last modification date of the resource.
-     * 
-     * @return last-modification-date
-     */
-    public DateTime getLastModificationDate() {
-        return this.lastModificationDate;
-    }
-
-    /**
-     * Set last-modification-date.
-     * 
-     * @param lmd
-     *            last-modification-date
-     */
-    public void setLastModificationDate(final DateTime lmd) {
-
-        this.lastModificationDate = lmd;
-    }
-
-    /**
      * Set internal.
      * 
      * An attribute is internal if it is not obtained from external
@@ -129,5 +105,4 @@ public class Attribute extends Resource {
     public ResourceType getResourceType() {
         return ResourceType.UserAccountAttribute;
     }
-
 }

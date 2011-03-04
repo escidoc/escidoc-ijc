@@ -17,13 +17,9 @@ public abstract class Record<T> {
 
     protected static final Logger LOG = Logger.getLogger(Record.class);
 
-    public static enum RecordPacking {
-        string, xml
-    };
-
     protected String recordSchema;
 
-    protected String recordPacking;
+    protected RecordPacking recordPacking;
 
     protected PositiveInteger recordPosition;
 
@@ -65,9 +61,7 @@ public abstract class Record<T> {
      * @return
      */
     public RecordPacking getRecordPacking() {
-        if (recordPacking == null)
-            return null;
-        return RecordPacking.valueOf(recordPacking.toLowerCase());
+        return recordPacking;
     }
 
     /**

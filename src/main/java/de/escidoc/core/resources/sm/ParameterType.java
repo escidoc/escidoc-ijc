@@ -4,9 +4,11 @@
 package de.escidoc.core.resources.sm;
 
 /**
+ * CLIB internal enumeration.
+ * 
  * @author MVO
  * 
  */
 public enum ParameterType {
-    string, decimal, date
+    STRING, DECIMAL, DATE;
 }

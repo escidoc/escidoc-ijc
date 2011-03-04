@@ -29,7 +29,6 @@
 package de.escidoc.core.resources.oum;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
 
@@ -76,30 +75,19 @@ public class Predecessor extends Resource {
     }
 
     /**
-     * Set form of successor.
-     * 
-     * @param form
-     *            String equivalent of succession form
-     * @throws EscidocClientException
+     * @return
      */
-    public void setFormAsString(final String form)
-        throws EscidocClientException {
-
-        this.form = PredecessorForm.fromString(form);
-    }
-
-    public String getFormAsString() {
-
-        return this.form.toString();
-    }
-
     public PredecessorForm getForm() {
         return form;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.OrganizationalUnit;
     }
-
 }

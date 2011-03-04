@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.AggregationDefinitionRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
@@ -15,7 +15,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  * 
  */
 @JiBX
-public class AggregationDefinition extends Resource
+public class AggregationDefinition extends GenericResource
     implements Referenceable<AggregationDefinitionRef> {
 
     private String name;

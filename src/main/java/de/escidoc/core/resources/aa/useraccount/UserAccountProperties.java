@@ -30,6 +30,10 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.resources.common.properties.interfaces.ActiveProperties;
+import de.escidoc.core.resources.common.properties.interfaces.CreateProperties;
+import de.escidoc.core.resources.common.properties.interfaces.ModifyProperties;
+import de.escidoc.core.resources.common.properties.interfaces.NameProperties;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
@@ -38,19 +42,141 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * @author SWA
  * 
  */
-public class UserAccountProperties {
+public class UserAccountProperties
+    implements CreateProperties, ModifyProperties, NameProperties,
+    ActiveProperties {
 
     private DateTime creationDate;
 
-    private String loginName;
-
     private UserAccountRef createdBy;
+
+    private String loginName;
 
     private UserAccountRef modifiedBy;
 
     private String name;
 
     private boolean active;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #getCreationDate()
+     */
+    @Override
+    public DateTime getCreationDate() {
+        return this.creationDate;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #setCreationDate(org.joda.time.DateTime)
+     */
+    @Override
+    public void setCreationDate(final DateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #getCreatedBy()
+     */
+    @Override
+    public UserAccountRef getCreatedBy() {
+        return this.createdBy;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #setCreatedBy(de.escidoc.core.resources.common.reference.UserAccountRef)
+     */
+    @Override
+    public void setCreatedBy(final UserAccountRef createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #getName()
+     */
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #setName(java.lang.String)
+     */
+    @Override
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ActiveProperties
+     * #isActive()
+     */
+    @Override
+    public boolean isActive() {
+        return this.active;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ActiveProperties
+     * #setActive(boolean)
+     */
+    @Override
+    public void setActive(final boolean isActive) {
+        this.active = isActive;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ModifyProperties
+     * #getModifiedBy()
+     */
+    @Override
+    public UserAccountRef getModifiedBy() {
+        return this.modifiedBy;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ModifyProperties
+     * #setModifiedBy(de.escidoc.core.resources.common.reference.UserAccountRef)
+     */
+    @Override
+    public void setModifiedBy(final UserAccountRef modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
 
     /**
      * Get login name of user.
@@ -70,91 +196,4 @@ public class UserAccountProperties {
     public void setLoginName(final String loginName) {
         this.loginName = loginName;
     }
-
-    /**
-     * Get name of user.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Set name of user.
-     * 
-     * @param name
-     *            User name
-     */
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    /**
-     * Is user account active.
-     * 
-     * @return true if active, false otherwise
-     */
-    public boolean isActive() {
-        return this.active;
-    }
-
-    public void setActive(final boolean isActive) {
-        this.active = isActive;
-    }
-
-    /**
-     * Get ResourceRef of creator.
-     * 
-     * @return the creator of the User Account
-     */
-    public UserAccountRef getCreatedBy() {
-        return this.createdBy;
-    }
-
-    /**
-     * Get ResourceRef of latest modifier.
-     * 
-     * @return modified by
-     */
-    public UserAccountRef getModifiedBy() {
-        return this.modifiedBy;
-    }
-
-    /**
-     * 
-     * @param createdBy
-     */
-    public void setCreatedBy(final UserAccountRef createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    /**
-     * 
-     * @param modifiedBy
-     */
-    public void setModifiedBy(final UserAccountRef modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    /**
-     * Get creation date of User Account.
-     * 
-     * @return creation date
-     */
-    public DateTime getCreationDate() {
-        return this.creationDate;
-    }
-
-    /**
-     * Set creation date of User Account.
-     * 
-     * @param creationDate
-     *            the creationDate to set
-     */
-    public void setCreationDate(final DateTime creationDate) {
-
-        this.creationDate = creationDate;
-    }
-
 }

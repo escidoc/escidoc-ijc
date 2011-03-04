@@ -16,17 +16,39 @@ public class ContainerMemberRef extends MemberRef {
     @SuppressWarnings("unused")
     @JiBX
     private ContainerMemberRef() {
-        this(null);
     }
 
+    /**
+     * @param objid
+     * @param href
+     * @param title
+     */
+    public ContainerMemberRef(final String objid, final String href,
+        final String title) {
+        super(objid, href, title);
+    }
+
+    /**
+     * @param href
+     * @param title
+     */
+    public ContainerMemberRef(final String href, final String title) {
+        super(href, title);
+    }
+
+    /**
+     * @param objid
+     */
     public ContainerMemberRef(final String objid) {
         super(objid);
     }
 
-    public ContainerMemberRef(final String xLinkHref, final String xLinkTitle) {
-        super(xLinkHref, xLinkTitle);
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.structmap.MemberRef#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.Container;

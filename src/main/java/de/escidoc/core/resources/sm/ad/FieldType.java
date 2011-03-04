@@ -3,10 +3,13 @@
  */
 package de.escidoc.core.resources.sm.ad;
 
+
 /**
+ * CLIB internal enumeration.
+ * 
  * @author MVO
  * 
  */
 public enum FieldType {
-    InfoField, TimeReductionField, CountCumulationField, DifferenceCumulationField
+    INFO, TIME_REDUCTION, COUNT_CUMULATION, DIFFERENCE_CUMULATION;
 }

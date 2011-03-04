@@ -39,7 +39,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.base.CrudService;
 import de.escidoc.core.client.interfaces.base.HandlerService;
 import de.escidoc.core.client.interfaces.base.OpenCloseService;
-import de.escidoc.core.resources.om.GenericVersionableResource;
+import de.escidoc.core.resources.VersionableResource;
 import de.escidoc.core.resources.om.context.AdminDescriptor;
 import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
@@ -187,7 +187,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<GenericVersionableResource> retrieveMembersAsList(
+    List<VersionableResource> retrieveMembersAsList(
         final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
@@ -209,7 +209,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<GenericVersionableResource> retrieveMembersAsList(
+    List<VersionableResource> retrieveMembersAsList(
         final Context context, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 

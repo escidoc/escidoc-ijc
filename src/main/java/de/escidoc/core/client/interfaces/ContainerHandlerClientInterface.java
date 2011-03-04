@@ -43,10 +43,10 @@ import de.escidoc.core.client.interfaces.base.RelationsService;
 import de.escidoc.core.client.interfaces.base.ResourceStatusService;
 import de.escidoc.core.client.interfaces.base.VersionPidService;
 import de.escidoc.core.client.interfaces.base.VersionableResourceService;
+import de.escidoc.core.resources.VersionableResource;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.structmap.StructMap;
-import de.escidoc.core.resources.om.GenericVersionableResource;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.resources.om.container.ContainerList;
 import de.escidoc.core.resources.om.item.Item;
@@ -310,7 +310,7 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<GenericVersionableResource> retrieveMembersAsList(
+    List<VersionableResource> retrieveMembersAsList(
         final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
@@ -322,7 +322,7 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<GenericVersionableResource> retrieveMembersAsList(
+    List<VersionableResource> retrieveMembersAsList(
         final Container container, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 

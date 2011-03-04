@@ -23,6 +23,6 @@ public class StringParameter extends Parameter<String> {
 
     @Override
     public ParameterType getParameterType() {
-        return ParameterType.string;
+        return ParameterType.STRING;
     }
 }

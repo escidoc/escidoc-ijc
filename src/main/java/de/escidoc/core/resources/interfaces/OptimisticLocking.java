@@ -11,7 +11,19 @@ import org.joda.time.DateTime;
  */
 public interface OptimisticLocking {
 
-    public void setLastModificationDate(final DateTime lmd);
+    /**
+     * Set the last modification date.
+     * 
+     * TODO: should the client be able to set it?
+     * 
+     * @param lmd
+     */
+    void setLastModificationDate(final DateTime lmd);
 
-    public DateTime getLastModificationDate();
+    /**
+     * Get the last modification date.
+     * 
+     * @return the last modification date.
+     */
+    DateTime getLastModificationDate();
 }

@@ -117,37 +117,4 @@ public class ScopeDef {
         final ResourceType relationAttributeObjectType) {
         this.relationAttributeObjectType = relationAttributeObjectType;
     }
-
-    /**
-     * @return
-     */
-    @SuppressWarnings("unused")
-    private String getXmlResourceType() {
-        return resourceType == null ? null : resourceType.getXmlValue();
-    }
-
-    /**
-     * @return
-     */
-    @SuppressWarnings("unused")
-    private String getXmlRelationAttributeObjectType() {
-        return relationAttributeObjectType == null ? null
-            : relationAttributeObjectType.getXmlValue();
-    }
-
-    /**
-     * @param value
-     */
-    @SuppressWarnings("unused")
-    private void setXmlResourceType(final String value) {
-        resourceType = ResourceType.getValue(value);
-    }
-
-    /**
-     * @param value
-     */
-    @SuppressWarnings("unused")
-    private void setXmlRelationAttributeObjectType(final String value) {
-        relationAttributeObjectType = ResourceType.getValue(value);
-    }
 }

@@ -28,10 +28,6 @@
  */
 package de.escidoc.core.resources.om.item;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
 
@@ -43,7 +39,7 @@ import de.escidoc.core.resources.ResourceType;
  */
 public class Content extends Resource {
 
-    private String storage;
+    private StorageType storage;
 
     /**
      * Content.
@@ -64,7 +60,7 @@ public class Content extends Resource {
     /**
      * @return the storage
      */
-    public String getStorage() {
+    public StorageType getStorage() {
         return storage;
     }
 
@@ -72,24 +68,15 @@ public class Content extends Resource {
      * @param storage
      *            the storage to set
      */
-    public void setStorage(final String storage) {
+    public void setStorage(final StorageType storage) {
         this.storage = storage;
     }
 
-    /**
-     * Get InputStream of the binary content.
+    /*
+     * (non-Javadoc)
      * 
-     * @return binary content InputStream
-     * @throws IOException
-     *             Thrown if storage URL is invalid or if the data access and
-     *             transport fails.
+     * @see de.escidoc.core.resources.Resource#getResourceType()
      */
-    protected InputStream getBinaryContent() throws IOException {
-
-        URL url = new URL(this.storage);
-        return url.openStream();
-    }
-
     @Override
     public ResourceType getResourceType() {
         return null;

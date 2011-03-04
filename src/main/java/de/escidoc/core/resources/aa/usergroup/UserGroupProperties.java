@@ -6,6 +6,12 @@ package de.escidoc.core.resources.aa.usergroup;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.common.properties.interfaces.ActiveProperties;
+import de.escidoc.core.resources.common.properties.interfaces.CreateProperties;
+import de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties;
+import de.escidoc.core.resources.common.properties.interfaces.ModifyProperties;
+import de.escidoc.core.resources.common.properties.interfaces.NameProperties;
+import de.escidoc.core.resources.common.properties.interfaces.TypeProperties;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
@@ -13,16 +19,12 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * 
  */
 @JiBX
-public class UserGroupProperties {
+public class UserGroupProperties
+    implements CreateProperties, ModifyProperties, NameProperties,
+    DescriptionProperties, TypeProperties, ActiveProperties {
 
-    /**
-     * optional
-     */
     private DateTime creationDate;
 
-    /**
-     * optional
-     */
     private UserAccountRef createdBy;
 
     /**
@@ -55,49 +57,172 @@ public class UserGroupProperties {
      */
     private boolean active = true;
 
-    /**
-     * @param creationDate
-     *            the creationDate to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ModifyProperties
+     * #getModifiedBy()
      */
-    public void setCreationDate(final DateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    /**
-     * @return the creationDate
-     */
-    public DateTime getCreationDate() {
-        return creationDate;
-    }
-
-    /**
-     * @return the createdBy
-     */
-    public UserAccountRef getCreatedBy() {
-        return createdBy;
-    }
-
-    /**
-     * @param createdBy
-     *            the createdBy to set
-     */
-    public void setCreatedBy(final UserAccountRef createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    /**
-     * @return the modifiedBy
-     */
+    @Override
     public UserAccountRef getModifiedBy() {
         return modifiedBy;
     }
 
-    /**
-     * @param modifiedBy
-     *            the modifiedBy to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ModifyProperties
+     * #setModifiedBy(de.escidoc.core.resources.common.reference.UserAccountRef)
      */
+    @Override
     public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #getName()
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #setName(java.lang.String)
+     */
+    @Override
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties
+     * #getDescription()
+     */
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties
+     * #setDescription(java.lang.String)
+     */
+    @Override
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.TypeProperties
+     * #getType()
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.TypeProperties
+     * #setType(java.lang.String)
+     */
+    @Override
+    public void setType(final String type) {
+        this.type = type;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ActiveProperties
+     * #isActive()
+     */
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ActiveProperties
+     * #setActive(boolean)
+     */
+    @Override
+    public void setActive(final boolean active) {
+        this.active = active;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #getCreationDate()
+     */
+    @Override
+    public DateTime getCreationDate() {
+        return this.creationDate;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #setCreationDate(org.joda.time.DateTime)
+     */
+    @Override
+    public void setCreationDate(final DateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #getCreatedBy()
+     */
+    @Override
+    public UserAccountRef getCreatedBy() {
+        return this.createdBy;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.CreateProperties
+     * #setCreatedBy(de.escidoc.core.resources.common.reference.UserAccountRef)
+     */
+    @Override
+    public void setCreatedBy(final UserAccountRef createdBy) {
+        this.createdBy = createdBy;
     }
 
     /**
@@ -116,21 +241,6 @@ public class UserGroupProperties {
     }
 
     /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    /**
      * @return the label
      */
     public String getLabel() {
@@ -143,50 +253,5 @@ public class UserGroupProperties {
      */
     public void setLabel(final String label) {
         this.label = label;
-    }
-
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    /**
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * @param type
-     *            the type to set
-     */
-    public void setType(final String type) {
-        this.type = type;
-    }
-
-    /**
-     * @return the active
-     */
-    public boolean isActive() {
-        return active;
-    }
-
-    /**
-     * @param active
-     *            the active to set
-     */
-    public void setActive(final boolean active) {
-        this.active = active;
     }
 }

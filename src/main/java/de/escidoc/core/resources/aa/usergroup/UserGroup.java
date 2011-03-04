@@ -4,8 +4,8 @@
 package de.escidoc.core.resources.aa.usergroup;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * @author MVO

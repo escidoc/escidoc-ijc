@@ -28,19 +28,17 @@
  */
 package de.escidoc.core.resources.oum;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
-import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.resources.interfaces.XmlCompatibleEnum;
 
 /**
  * Enumeration to describe all forms of Predecessors.
  * 
  * @author SWA
  */
-public enum PredecessorForm {
-    SPLITTING("splitting"), FUSION("fusion"), SPINOFF("spin-off"), AFFILIATION(
-        "affiliation"), REPLACEMENT("replacement");
+public enum PredecessorForm implements XmlCompatibleEnum {
+    SPLITTING, FUSION, SPINOFF("spin-off"), AFFILIATION, REPLACEMENT;
 
-    private final String label;
+    private final String xmlValue;
 
     /**
      * Create a new object.
@@ -48,50 +46,24 @@ public enum PredecessorForm {
      * @param label
      *            object label
      */
-    PredecessorForm(final String label) {
-        this.label = label;
+    private PredecessorForm(final String xmlValue) {
+        this.xmlValue = xmlValue;
     }
 
     /**
-     * Get the label of the object.
      * 
-     * @return object label
+     */
+    private PredecessorForm() {
+        this.xmlValue = name().toLowerCase();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.interfaces.XmlCompatibleEnum#getXmlValue()
      */
     @Override
-    public String toString() {
-        return label;
-    }
-
-    /**
-     * Convert from String to enum type PredecessorForm.
-     * 
-     * @param form
-     *            form as String
-     * @return PredecessorForm
-     * @throws EscidocClientException
-     *             Thrown if form String has no equivalent enum type
-     */
-    public static PredecessorForm fromString(final String form)
-        throws EscidocClientException {
-
-        if (form.equals(PredecessorForm.AFFILIATION.toString())) {
-            return PredecessorForm.AFFILIATION;
-        }
-        else if (form.equals(PredecessorForm.FUSION.toString())) {
-            return PredecessorForm.FUSION;
-        }
-        else if (form.equals(PredecessorForm.SPINOFF.toString())) {
-            return PredecessorForm.SPINOFF;
-        }
-        else if (form.equals(PredecessorForm.SPLITTING.toString())) {
-            return PredecessorForm.SPLITTING;
-        }
-        else if (form.equals(PredecessorForm.REPLACEMENT.toString())) {
-            return PredecessorForm.REPLACEMENT;
-        }
-        else {
-            throw new InternalClientException("Unsupported successor form type");
-        }
-
+    public String getXmlValue() {
+        return xmlValue;
     }
 }

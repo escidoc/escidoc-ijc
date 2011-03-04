@@ -28,12 +28,39 @@
  */
 package de.escidoc.core.resources.aa.pdp;
 
+import de.escidoc.core.resources.interfaces.XmlCompatibleEnum;
+
 /**
  * 
  * @author ?
  * 
  */
-public enum Decision {
+public enum Decision implements XmlCompatibleEnum {
+    PERMIT, DENY;
 
-    permit, deny
+    private final String xmlValue;
+
+    /**
+     * @param xmlValue
+     */
+    private Decision(final String xmlValue) {
+        this.xmlValue = xmlValue;
+    }
+
+    /**
+     * 
+     */
+    private Decision() {
+        this.xmlValue = name().toLowerCase();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.interfaces.XmlCompatibleEnum#getXmlValue()
+     */
+    @Override
+    public String getXmlValue() {
+        return xmlValue;
+    }
 }

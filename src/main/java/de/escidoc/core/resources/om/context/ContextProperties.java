@@ -28,9 +28,13 @@
  */
 package de.escidoc.core.resources.om.context;
 
-import org.joda.time.DateTime;
-
-import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.common.properties.CommonProperties;
+import de.escidoc.core.resources.common.properties.PublicStatus;
+import de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties;
+import de.escidoc.core.resources.common.properties.interfaces.ModifyProperties;
+import de.escidoc.core.resources.common.properties.interfaces.NameProperties;
+import de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties;
+import de.escidoc.core.resources.common.properties.interfaces.TypeProperties;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 
 /**
@@ -39,17 +43,15 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * @author SWA
  * 
  */
-public class ContextProperties extends XLinkResource {
-
-    private DateTime creationDate;
-
-    private UserAccountRef createdBy;
+public class ContextProperties extends CommonProperties
+    implements ModifyProperties, PublicStatusProperties, NameProperties,
+    DescriptionProperties, TypeProperties {
 
     private UserAccountRef modifiedBy;
 
     private String name;
 
-    private String publicStatus;
+    private PublicStatus publicStatus;
 
     private String publicStatusComment;
 
@@ -59,149 +61,146 @@ public class ContextProperties extends XLinkResource {
 
     private OrganizationalUnitRefs organizationalUnitRefs;
 
-    /**
-     * @return The creation date.
-     */
-    public DateTime getCreationDate() {
-        return this.creationDate;
-    }
-
-    /**
-     * Set the creation date.
+    /*
+     * (non-Javadoc)
      * 
-     * @param creationDate
-     *            The new creation date.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ModifyProperties
+     * #getModifiedBy()
      */
-    public void setCreationDate(final DateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    /**
-     * @return The creator.
-     */
-    public UserAccountRef getCreatedBy() {
-        return this.createdBy;
-    }
-
-    /**
-     * Set the creator.
-     * 
-     * @param createdBy
-     *            The link to the new creator.
-     */
-    public void setCreatedBy(final UserAccountRef createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    /**
-     * @return The creator.
-     */
+    @Override
     public UserAccountRef getModifiedBy() {
         return this.modifiedBy;
     }
 
-    /**
-     * Set the creator.
+    /*
+     * (non-Javadoc)
      * 
-     * @param modifiedBy
-     *            The link to the new modifier.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.ModifyProperties
+     * #setModifiedBy(de.escidoc.core.resources.common.reference.UserAccountRef)
      */
+    @Override
     public void setModifiedBy(final UserAccountRef modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @return
-     * @see de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface#getName()
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #getName()
      */
+    @Override
     public String getName() {
         return this.name;
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param name
-     * @see de.escidoc.core.resources.interfaces.common.ContextPropertiesInterface#setName(java.lang.String)
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.NameProperties
+     * #setName(java.lang.String)
      */
+    @Override
     public void setName(final String name) {
         this.name = name;
     }
 
-    /**
-     * Get the public status comment.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The public status comment.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties
+     * #getPublicStatusComment()
      */
+    @Override
     public String getPublicStatusComment() {
         return this.publicStatusComment;
     }
 
-    /**
-     * Set the comment for the public status.
+    /*
+     * (non-Javadoc)
      * 
-     * @param comment
-     *            The public status comment.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties
+     * #setPublicStatusComment(java.lang.String)
      */
+    @Override
     public void setPublicStatusComment(final String comment) {
         this.publicStatusComment = comment;
     }
 
-    /**
-     * Get the public status comment.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The public status comment.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties
+     * #getPublicStatus()
      */
-    public String getPublicStatus() {
+    @Override
+    public PublicStatus getPublicStatus() {
         return this.publicStatus;
     }
 
-    /**
-     * Set the the public status.
+    /*
+     * (non-Javadoc)
      * 
-     * @param status
-     *            The public status.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PublicStatusProperties
+     * #setPublicStatus(java.lang.String)
      */
-    public void setPublicStatus(final String status) {
+    @Override
+    public void setPublicStatus(final PublicStatus status) {
         this.publicStatus = status;
     }
 
-    /**
-     * Get description of Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @return description
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties
+     * #getDescription()
      */
+    @Override
     public String getDescription() {
         return this.description;
     }
 
-    /**
-     * Set description of Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @param description
-     *            The new description.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties
+     * #setDescription(java.lang.String)
      */
+    @Override
     public void setDescription(final String description) {
         this.description = description;
     }
 
-    /**
-     * Get type of Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @return type
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.TypeProperties
+     * #getType()
      */
+    @Override
     public String getType() {
         return this.type;
     }
 
-    /**
-     * Set type of Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @param type
-     *            The new type.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.TypeProperties
+     * #setType(java.lang.String)
      */
+    @Override
     public void setType(final String type) {
         this.type = type;
     }

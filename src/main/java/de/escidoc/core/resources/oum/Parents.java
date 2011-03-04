@@ -30,7 +30,6 @@ package de.escidoc.core.resources.oum;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.XLinkResourceList;
@@ -52,24 +51,39 @@ public class Parents extends XLinkResourceList<Parent>
      */
     private static final long serialVersionUID = -962919764840581526L;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.interfaces.OptimisticLocking#
+     * setLastModificationDate(org.joda.time.DateTime)
+     */
     @Override
     public void setLastModificationDate(final DateTime lmd) {
         this.lmd = lmd;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.interfaces.OptimisticLocking#
+     * getLastModificationDate()
+     */
     @Override
     public DateTime getLastModificationDate() {
         return this.lmd;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+     */
     @Override
     public void genXLink() {
         for (Parent parent : this) {
             if (parent.getXLinkHref() == null && parent.getObjid() != null) {
-                parent.setXLinkHref(Resource.RESOURCE_URL_MAP
-                    .get(ResourceType.OrganizationalUnit)
-                    + "/"
-                    + parent.getObjid());
+                parent.setXLinkHref(ResourceType.OrganizationalUnit.getPath()
+                    + "/" + parent.getObjid());
             }
         }
     }

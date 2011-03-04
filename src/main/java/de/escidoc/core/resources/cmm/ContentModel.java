@@ -28,13 +28,12 @@
  */
 package de.escidoc.core.resources.cmm;
 
-import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.VersionableResource;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * The eSciDoc Content Model.
@@ -42,10 +41,10 @@ import de.escidoc.core.resources.om.GenericResource;
  * @author SWA
  * 
  */
-public class ContentModel extends GenericResource
+public class ContentModel extends VersionableResource
     implements XLinkAutonomous, Referenceable<ContentModelRef> {
 
-    private ContentModelProperties properties = new ContentModelProperties();
+    private ContentModelProperties properties;
 
     private MetadataRecordDefinitions metadataRecordDefinitions;
 
@@ -63,6 +62,8 @@ public class ContentModel extends GenericResource
      * @return properties
      */
     public ContentModelProperties getProperties() {
+        if (properties == null)
+            properties = new ContentModelProperties();
         return this.properties;
     }
 
@@ -166,12 +167,8 @@ public class ContentModel extends GenericResource
      */
     protected void genVersionHref(final VersionImpl version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(Resource.RESOURCE_URL_MAP
-                .get(ResourceType.Item)
-                + "/"
-                + getObjid()
-                + ":"
-                + version.getNumber());
+            version.setXLinkHref(ResourceType.Item.getPath() + "/" + getObjid()
+                + ":" + version.getNumber());
             genXLinkHref(version.getModifiedBy(), ResourceType.UserAccount,
                 null);
         }

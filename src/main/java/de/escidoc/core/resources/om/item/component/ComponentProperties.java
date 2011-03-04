@@ -28,10 +28,9 @@
  */
 package de.escidoc.core.resources.om.item.component;
 
-import org.joda.time.DateTime;
-
-import de.escidoc.core.resources.XLinkResource;
-import de.escidoc.core.resources.common.reference.UserAccountRef;
+import de.escidoc.core.resources.common.properties.CommonProperties;
+import de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties;
+import de.escidoc.core.resources.common.properties.interfaces.PidProperties;
 
 /**
  * Properties for eSciDoc Component (non-versioned resource).
@@ -39,17 +38,16 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * @author SWA
  * 
  */
-public class ComponentProperties extends XLinkResource {
+public class ComponentProperties extends CommonProperties
+    implements DescriptionProperties, PidProperties {
 
-    private DateTime creationDate;
+    private String description;
 
-    private DateTime lastModificationDate;
+    private String pid;
 
-    private UserAccountRef createdBy;
+    private String validStatus;
 
-    private UserAccountRef modifiedBy;
-
-    private String name;
+    private String visibility;
 
     private String contentCategory;
 
@@ -59,101 +57,54 @@ public class ComponentProperties extends XLinkResource {
 
     private String checksum;
 
-    private String checksumAlgorithm;
+    private ChecksumAlgorithm checksumAlgorithm;
 
-    private String visibility;
-
-    private String validStatus;
-
-    private String description;
-
-    private String pid;
-
-    /**
-     * @return The creation date.
-     */
-    public DateTime getCreationDate() {
-        return this.creationDate;
-    }
-
-    /**
-     * Set the creation date.
+    /*
+     * (non-Javadoc)
      * 
-     * @param creationDate
-     *            The new creation date.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties
+     * #setDescription(java.lang.String)
      */
-    public void setCreationDate(final DateTime creationDate) {
-        this.creationDate = creationDate;
+    @Override
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
-    /**
-     * @return The creator.
-     */
-    public UserAccountRef getCreatedBy() {
-        return this.createdBy;
-    }
-
-    /**
-     * Set the creator.
+    /*
+     * (non-Javadoc)
      * 
-     * @param createdBy
-     *            The link to the new creator.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties
+     * #getDescription()
      */
-    public void setCreatedBy(final UserAccountRef createdBy) {
-        this.createdBy = createdBy;
+    @Override
+    public String getDescription() {
+        return description;
     }
 
-    /**
-     * @return The creation date.
-     */
-    public DateTime getLastModificationDate() {
-        return this.lastModificationDate;
-    }
-
-    /**
-     * Set the last modification date.
+    /*
+     * (non-Javadoc)
      * 
-     * @param lastModificationDate
-     *            The new last modification date.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PidProperties#
+     * setPid(java.lang.String)
      */
-    public void setLastModificationDate(final DateTime lastModificationDate) {
-        this.lastModificationDate = lastModificationDate;
+    @Override
+    public void setPid(final String pid) {
+        this.pid = pid;
     }
 
-    /**
-     * @return The creator.
-     */
-    public UserAccountRef getModifiedBy() {
-        return this.modifiedBy;
-    }
-
-    /**
-     * Set the creator.
+    /*
+     * (non-Javadoc)
      * 
-     * @param modifiedBy
-     *            The link to the new modifier.
+     * @see
+     * de.escidoc.core.resources.common.properties.interfaces.PidProperties#
+     * getPid()
      */
-    public void setModifiedBy(final UserAccountRef modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @return Name of Component
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * See Interface for functional description.
-     * 
-     * @param name
-     *            Name of Component
-     */
-    public void setName(final String name) {
-        this.name = name;
+    @Override
+    public String getPid() {
+        return pid;
     }
 
     /**
@@ -276,7 +227,7 @@ public class ComponentProperties extends XLinkResource {
      * @param checksumAlgorithm
      *            checksum algorithm (MD5, SHA-1, ..)
      */
-    public void setChecksumAlgorithm(final String checksumAlgorithm) {
+    public void setChecksumAlgorithm(final ChecksumAlgorithm checksumAlgorithm) {
         this.checksumAlgorithm = checksumAlgorithm;
     }
 
@@ -285,46 +236,7 @@ public class ComponentProperties extends XLinkResource {
      * 
      * @return checksum algorithm
      */
-    public String getChecksumAlgorithm() {
+    public ChecksumAlgorithm getChecksumAlgorithm() {
         return checksumAlgorithm;
     }
-
-    /**
-     * Set description.
-     * 
-     * @param description
-     *            description
-     */
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    /**
-     * Get description.
-     * 
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Set PID of component (content PID).
-     * 
-     * @param pid
-     *            The PID for the content.
-     */
-    public void setPid(final String pid) {
-        this.pid = pid;
-    }
-
-    /**
-     * Get PID of component (content PID).
-     * 
-     * @return PID of the content
-     */
-    public String getPid() {
-        return pid;
-    }
-
 }

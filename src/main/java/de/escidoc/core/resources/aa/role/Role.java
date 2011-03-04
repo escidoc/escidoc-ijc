@@ -31,11 +31,11 @@ package de.escidoc.core.resources.aa.role;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.RoleRef;
-import de.escidoc.core.resources.om.GenericResource;
 
 /**
  * Role.

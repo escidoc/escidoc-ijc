@@ -25,6 +25,6 @@ public class DecimalParameter extends Parameter<Float> {
 
     @Override
     public ParameterType getParameterType() {
-        return ParameterType.decimal;
+        return ParameterType.DECIMAL;
     }
 }
