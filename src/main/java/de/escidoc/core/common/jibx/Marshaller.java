@@ -91,7 +91,9 @@ public class Marshaller<E> {
             result = (E) uctx.unmarshalElement();
         }
         catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             throw new InternalClientException(
                 "Unmarshalling from XML document to " + resourceClass.getName()
                     + " failed! Document is not 'UTF-8' encoded! ", e);
@@ -177,13 +179,17 @@ public class Marshaller<E> {
             result = new String(out.toByteArray(), "UTF-8");
         }
         catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             throw new InternalClientException("Marshalling from "
                 + resourceClass.getName()
                 + " to XML document failed due to wrong encoding ('UTF-8')!", e);
         }
         catch (JiBXException e) {
-            e.printStackTrace();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage(), e);
+            }
             throw new InternalClientException("Marshalling from "
                 + resourceClass.getName() + " to XML document failed! ", e);
         }
