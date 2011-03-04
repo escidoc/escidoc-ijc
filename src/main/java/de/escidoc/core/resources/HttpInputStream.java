@@ -72,11 +72,24 @@ public class HttpInputStream extends InputStream {
         return inputStream.available();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.io.InputStream#close()
+     */
     @Override
     public void close() throws IOException {
-        inputStream.close();
-        response.getEntity().consumeContent();
-        requestBase.abort();
+        try {
+            inputStream.close();
+        }
+        finally {
+            try {
+                response.getEntity().consumeContent();
+            }
+            finally {
+                requestBase.abort();
+            }
+        }
     }
 
     @Override
