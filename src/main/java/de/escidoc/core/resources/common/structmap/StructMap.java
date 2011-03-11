@@ -28,7 +28,14 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
-import de.escidoc.core.resources.XLinkResourceList;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkResource;
 
 /**
  * StructMap (Structure Map of Container).
@@ -49,12 +56,17 @@ import de.escidoc.core.resources.XLinkResourceList;
  * @author MVO
  * 
  */
-public class StructMap extends XLinkResourceList<MemberRef> {
+public class StructMap extends XLinkResource
+    implements Iterable<MemberRef>, Serializable {
 
     /**
      * 
      */
     private static final long serialVersionUID = -657913209962433330L;
+
+    private List<ItemMemberRef> items;
+
+    private List<ContainerMemberRef> containers;
 
     /**
      * StructMap.
@@ -64,5 +76,146 @@ public class StructMap extends XLinkResourceList<MemberRef> {
      * the addMembers() and removeMembers() methods.
      */
     public StructMap() {
+    }
+
+    /**
+     * @return
+     */
+    public List<ItemMemberRef> getItems() {
+        if (items == null)
+            items = new LinkedList<ItemMemberRef>();
+        return items;
+    }
+
+    /**
+     * @return
+     */
+    public List<ContainerMemberRef> getContainers() {
+        if (containers == null)
+            containers = new LinkedList<ContainerMemberRef>();
+        return containers;
+    }
+
+    /**
+     * Convenience method to add an {@link ItemMemberRef} or a
+     * {@link ContainerMemberRef} to the Struct-Map.
+     * 
+     * @param m
+     * @return
+     */
+    public boolean add(final MemberRef m) {
+        if (m == null)
+            return false;
+        if (m.getResourceType() == ResourceType.Item)
+            return getItems().add((ItemMemberRef) m);
+        if (m.getResourceType() == ResourceType.Container)
+            return getContainers().add((ContainerMemberRef) m);
+        return false;
+    }
+
+    /**
+     * Convenience method to remove an {@link ItemMemberRef} or a
+     * {@link ContainerMemberRef} from the Struct-Map.
+     * 
+     * @param m
+     * @return
+     */
+    public boolean remove(final MemberRef m) {
+        if (m == null)
+            return false;
+        if (m.getResourceType() == ResourceType.Item) {
+            return items != null ? items.remove(m) : false;
+        }
+        if (m.getResourceType() == ResourceType.Container)
+            return containers != null ? containers.remove(m) : false;
+        return false;
+    }
+
+    /**
+     * Convenience method to get the size of the Struct-Map.
+     * 
+     * @return
+     */
+    public int size() {
+        int size = 0;
+        if (items != null)
+            size += items.size();
+        if (containers != null)
+            size += containers.size();
+        return size;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Iterable#iterator()
+     */
+    @Override
+    public Iterator<MemberRef> iterator() {
+        return new StructMapIterator();
+    }
+
+    /**
+     * 
+     * @author MVO
+     * 
+     */
+    public class StructMapIterator implements Iterator<MemberRef> {
+
+        private Iterator<ItemMemberRef> itItems;
+
+        private Iterator<ContainerMemberRef> itContainers;
+
+        StructMapIterator() {
+            if (items != null)
+                itItems = items.iterator();
+            if (containers != null)
+                itContainers = containers.iterator();
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Iterator#hasNext()
+         */
+        @Override
+        public boolean hasNext() {
+            if (itItems != null && itItems.hasNext())
+                return true;
+            else if (itContainers != null && itContainers.hasNext())
+                return true;
+
+            return false;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Iterator#next()
+         */
+        @Override
+        public MemberRef next() {
+            if (itItems != null && itItems.hasNext())
+                return itItems.next();
+            else if (itContainers != null && itContainers.hasNext())
+                return itContainers.next();
+
+            throw new NoSuchElementException();
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Iterator#remove()
+         */
+        @Override
+        public void remove() {
+            if (itItems != null && itItems.hasNext())
+                itItems.remove();
+            else if (itContainers != null && itContainers.hasNext())
+                itContainers.remove();
+            else
+                throw new IllegalStateException();
+        }
     }
 }
