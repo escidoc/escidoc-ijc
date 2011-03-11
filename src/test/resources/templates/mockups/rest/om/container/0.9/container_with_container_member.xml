@@ -59,10 +59,9 @@
 
 	</escidocMetadataRecords:md-records>
 	<struct-map:struct-map>
-		<srel:item xlink:type="simple" xlink:href="/ir/item/escidoc:198576" />
-		<srel:container xlink:type="simple"
-			xlink:href="/ir/container/escidoc:188601" />
-		<srel:item xlink:type="simple" xlink:href="/ir/item/escidoc:198577" />
+	  <srel:item xlink:type="simple" xlink:href="/ir/item/escidoc:198576" />
+	  <srel:item xlink:type="simple" xlink:href="/ir/item/escidoc:198577" />
+		<srel:container xlink:type="simple" xlink:href="/ir/container/escidoc:188601" />
 	</struct-map:struct-map>
 	<relations:relations>
 	</relations:relations>
