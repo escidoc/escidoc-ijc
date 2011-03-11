@@ -71,8 +71,10 @@ public class ItemUpdateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -134,8 +136,10 @@ public class ItemUpdateTest {
     private Item createItem() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef("escidoc:ex1"));
-        properties.setContentModel(new ContentModelRef("escidoc:ex4"));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();

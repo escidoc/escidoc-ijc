@@ -69,8 +69,10 @@ public class ContentRelationCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentRelationHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -223,8 +225,10 @@ public class ContentRelationCreateTest {
         contentRelation
             .setType(new URI(
                 "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ContextRef("escidoc:ex1"));
-        contentRelation.setObject(new ItemRef("escidoc:ex5:1"));
+        contentRelation.setSubject(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        contentRelation.setObject(new ItemRef(EscidocClientTestBase
+            .getStaticItemId()));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
@@ -265,8 +269,10 @@ public class ContentRelationCreateTest {
         contentRelation
             .setType(new URI(
                 "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ContextRef("escidoc:ex1"));
-        contentRelation.setObject(new ItemRef("escidoc:ex5:1"));
+        contentRelation.setSubject(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        contentRelation.setObject(new ItemRef(EscidocClientTestBase
+            .getStaticItemId()));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
@@ -319,8 +325,10 @@ public class ContentRelationCreateTest {
         contentRelation
             .setType(new URI(
                 "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ContextRef("escidoc:ex1"));
-        contentRelation.setObject(new ItemRef("escidoc:ex5:1"));
+        contentRelation.setSubject(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        contentRelation.setObject(new ItemRef(EscidocClientTestBase
+            .getStaticItemId()));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();

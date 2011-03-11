@@ -45,6 +45,9 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentRelationHandlerClient;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
@@ -75,8 +78,10 @@ public class ContentRelationFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentRelationHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -143,9 +148,13 @@ public class ContentRelationFilterVersion12Test {
      * @return
      * @throws URISyntaxException
      * @throws ParserConfigurationException
+     * @throws InternalClientException
+     * @throws EscidocException
+     * @throws TransportException
      */
     private ContentRelation createContentRelation() throws URISyntaxException,
-        ParserConfigurationException {
+        ParserConfigurationException, TransportException, EscidocException,
+        InternalClientException {
         ContentRelation contentRelation = new ContentRelation();
 
         // properties
@@ -158,8 +167,10 @@ public class ContentRelationFilterVersion12Test {
             .setType(new URI(
                 "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
 
-        contentRelation.setSubject(new ContextRef("escidoc:ex1"));
-        contentRelation.setObject(new ItemRef("escidoc:ex5:1"));
+        contentRelation.setSubject(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        contentRelation.setObject(new ItemRef(EscidocClientTestBase
+            .getStaticItemId()));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();

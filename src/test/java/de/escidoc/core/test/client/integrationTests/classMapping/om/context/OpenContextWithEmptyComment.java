@@ -40,8 +40,10 @@ public class OpenContextWithEmptyComment {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -88,7 +90,8 @@ public class OpenContextWithEmptyComment {
 
         final OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+        organizationalUnitRefs.add(new OrganizationalUnitRef(
+            EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);

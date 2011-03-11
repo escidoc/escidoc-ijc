@@ -86,8 +86,10 @@ public class RoleFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rc = new RoleHandlerClient(auth.getServiceAddress());
         rc.setHandle(auth.getHandle());
     }
@@ -193,15 +195,15 @@ public class RoleFilterVersion12Test {
         // Scope
         Scope scope = new Scope();
         // context -> item scope
-        ScopeDef scopeDef1 = new ScopeDef(ResourceType.Item);
-        scopeDef1
-            .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:item:context");
-        scopeDef1.setRelationAttributeObjectType(ResourceType.Context);
+        ScopeDef scopeDef1 =
+            new ScopeDef(ResourceType.Item,
+                "info:escidoc/names:aa:1.0:resource:item:context",
+                ResourceType.Context);
         // context -> container scope
-        ScopeDef scopeDef2 = new ScopeDef(ResourceType.Container);
-        scopeDef2
-            .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:container:context");
-        scopeDef2.setRelationAttributeObjectType(ResourceType.Context);
+        ScopeDef scopeDef2 =
+            new ScopeDef(ResourceType.Container,
+                "info:escidoc/names:aa:1.0:resource:container:context",
+                ResourceType.Context);
 
         Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);

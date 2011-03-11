@@ -73,8 +73,10 @@ public class OrganizationalUnitHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }
@@ -142,7 +144,8 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieveChildObjects() throws Exception {
-        ohc.retrieveChildObjects(EscidocClientTestBase.getStaticOrganizationalUnitId());
+        ohc.retrieveChildObjects(EscidocClientTestBase
+            .getStaticOrganizationalUnitId());
     }
 
     /**
@@ -186,9 +189,7 @@ public class OrganizationalUnitHandlerClientTest {
             new OrganizationalUnitHandlerClient();
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request
-            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"="
-                + me.getObjid());
+        request.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
 
         List<OrganizationalUnit> ouList =
             ic.retrieveOrganizationalUnitsAsList(request);

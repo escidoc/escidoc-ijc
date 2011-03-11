@@ -60,7 +60,7 @@ import de.escidoc.core.test.client.util.Template;
 /**
  * Test PDP Handler.
  * 
- * @author
+ * @author MVO
  * 
  */
 public class PdpHandlerClientTest {

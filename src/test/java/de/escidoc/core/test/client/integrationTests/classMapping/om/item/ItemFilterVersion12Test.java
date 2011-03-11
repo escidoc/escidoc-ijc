@@ -164,7 +164,7 @@ public class ItemFilterVersion12Test {
         assertTrue("Wrong number of resulting records",
             response.getNumberOfResultingRecords() >= 1);
         assertEquals("Wrong record position", 1, response
-            .getRecords().iterator().next().getRecordPosition());
+            .getRecords().iterator().next().getRecordPosition().intValue());
 
         Collection<String> itemIds =
             new ArrayList<String>(response.getNumberOfResultingRecords());

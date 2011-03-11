@@ -84,8 +84,10 @@ public class RoleHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rc = new RoleHandlerClient(auth.getServiceAddress());
         rc.setHandle(auth.getHandle());
     }
@@ -224,12 +226,14 @@ public class RoleHandlerClientTest {
 
         // Scope
         Scope scope = new Scope();
-        ScopeDef scopeDef1 = new ScopeDef(ResourceType.Item);
-        scopeDef1
-            .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:item:context");
-        ScopeDef scopeDef2 = new ScopeDef(ResourceType.Container);
-        scopeDef2
-            .setRelationAttributeId("info:escidoc/names:aa:1.0:resource:item:context");
+        ScopeDef scopeDef1 =
+            new ScopeDef(ResourceType.Item,
+                "info:escidoc/names:aa:1.0:resource:item:context",
+                ResourceType.Context);
+        ScopeDef scopeDef2 =
+            new ScopeDef(ResourceType.Container,
+                "info:escidoc/names:aa:1.0:resource:item:context",
+                ResourceType.Context);
 
         Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);

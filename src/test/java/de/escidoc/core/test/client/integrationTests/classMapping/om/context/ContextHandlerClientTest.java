@@ -75,8 +75,10 @@ public class ContextHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -116,7 +118,8 @@ public class ContextHandlerClientTest {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+        organizationalUnitRefs.add(new OrganizationalUnitRef(
+            EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -159,7 +162,8 @@ public class ContextHandlerClientTest {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+        organizationalUnitRefs.add(new OrganizationalUnitRef(
+            EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
@@ -243,7 +247,8 @@ public class ContextHandlerClientTest {
                 + me.getObjid());
 
         List<VersionableResource> memberList =
-            cc.retrieveMembersAsList("escidoc:ex1", request);
+            cc.retrieveMembersAsList(
+                EscidocClientTestBase.getStaticContextId(), request);
 
         assertTrue("result list is empty, try another filter",
             memberList.size() != 0);
@@ -268,7 +273,8 @@ public class ContextHandlerClientTest {
         filter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
 
         Collection<VersionableResource> memberList =
-            cc.retrieveMembersAsList("escidoc:ex1", filter);
+            cc.retrieveMembersAsList(
+                EscidocClientTestBase.getStaticContextId(), filter);
 
         assertTrue("result list is empty, try another filter",
             memberList.size() != 0);

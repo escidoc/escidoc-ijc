@@ -48,6 +48,9 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContextHandlerClient;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.interfaces.ContextHandlerClientInterface;
 import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
@@ -76,8 +79,10 @@ public class ContextFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -132,15 +137,19 @@ public class ContextFilterVersion12Test {
         assertTrue("Wrong number of resulting records",
             contextList.getNumberOfResultingRecords() >= 1);
         assertEquals("Wrong record position", 1, contextList
-            .getRecords().iterator().next().getRecordPosition());
+            .getRecords().iterator().next().getRecordPosition().intValue());
     }
 
     /**
      * 
      * @return
      * @throws ParserConfigurationException
+     * @throws InternalClientException
+     * @throws EscidocException
+     * @throws TransportException
      */
-    private Context createContext() throws ParserConfigurationException {
+    private Context createContext() throws ParserConfigurationException,
+        TransportException, EscidocException, InternalClientException {
         Context context = new Context();
         ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
@@ -150,7 +159,8 @@ public class ContextFilterVersion12Test {
 
         OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+        organizationalUnitRefs.add(new OrganizationalUnitRef(
+            EscidocClientTestBase.getStaticOrganizationalUnitId()));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");

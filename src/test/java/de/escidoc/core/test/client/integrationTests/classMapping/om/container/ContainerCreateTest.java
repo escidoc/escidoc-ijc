@@ -445,7 +445,7 @@ public class ContainerCreateTest {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void testCreateContainerWithOneMember() throws Exception {
+    public void testCreateContainerWithMembers() throws Exception {
         // create test objects
         Container container = createContainerWithMinContent();
         Container memberContainer = createContainerWithMinContent();
@@ -462,14 +462,14 @@ public class ContainerCreateTest {
         StructMap structMap = new StructMap();
         structMap
             .add(new ContainerMemberRef(createdMemberContainer.getObjid()));
-        structMap.add(new ItemMemberRef(createdMemberContainer.getObjid()));
+        structMap.add(new ItemMemberRef(createdMemberItem.getObjid()));
         container.setStructMap(structMap);
         // create parent
         Container createdContainer = cc.create(container);
 
         // validate resulting struct-map
         StructMap createdStructMap = createdContainer.getStructMap();
-        assertEquals("Number of members is wrong", 1, createdStructMap.size());
+        assertEquals("Number of members is wrong", 2, createdStructMap.size());
         Iterator<MemberRef> it = createdStructMap.iterator();
 
         // item should be returned first
@@ -481,7 +481,7 @@ public class ContainerCreateTest {
         assertTrue(it.hasNext());
         m = it.next();
         assertEquals(m.getResourceType(), ResourceType.Container);
-        assertEquals(m.getObjid(), createdMemberItem.getObjid());
+        assertEquals(m.getObjid(), createdMemberContainer.getObjid());
     }
 
     /**

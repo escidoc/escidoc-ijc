@@ -180,7 +180,8 @@ public class AuthenticationTest {
 
         final OrganizationalUnitRefs organizationalUnitRefs =
             new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
+        organizationalUnitRefs.add(new OrganizationalUnitRef(
+            EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);

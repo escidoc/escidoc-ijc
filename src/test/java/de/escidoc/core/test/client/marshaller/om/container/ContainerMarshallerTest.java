@@ -44,6 +44,7 @@ import org.w3c.dom.NodeList;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.properties.LockStatus;
 import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
@@ -112,7 +113,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
         assertEquals("Wrong Content Model", "escidoc:ex4", container
             .getProperties().getContentModel().getObjid());
 
-        assertEquals("Wrong lock-status", "unlocked", container
+        assertEquals("Wrong lock-status", LockStatus.UNLOCKED, container
             .getProperties().getLockStatus());
 
         // version
@@ -205,7 +206,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
         assertEquals("Wrong Content Model", "escidoc:ex4", container
             .getProperties().getContentModel().getObjid());
 
-        assertEquals("Wrong lock-status", "locked", container
+        assertEquals("Wrong lock-status", LockStatus.LOCKED, container
             .getProperties().getLockStatus());
         assertEquals("Wrong lock-date",
             new DateTime("2010-07-09T12:24:19.314Z"), container
@@ -306,7 +307,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
         assertEquals("Wrong Content Model", "escidoc:ex4", container
             .getProperties().getContentModel().getObjid());
 
-        assertEquals("Wrong lock-status", "unlocked", container
+        assertEquals("Wrong lock-status", LockStatus.UNLOCKED, container
             .getProperties().getLockStatus());
         assertTrue("Wrong lock-date",
             container.getProperties().getLockDate() == null);
@@ -367,7 +368,7 @@ public class ContainerMarshallerTest extends AbstractParameterizedTestBase {
      *             Thrown if no or wrong exception is caught from the framework.
      */
     @Test
-    public void marshallingWithDirectAddedStrucutMapMembers() throws Exception {
+    public void marshallingWithDirectAddedStructMapMembers() throws Exception {
 
         final String contextId = "escidoc:context";
         final String contentModelId = "escidoc:contentmodel";

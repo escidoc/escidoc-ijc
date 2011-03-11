@@ -82,8 +82,10 @@ public class ContainerFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -138,7 +140,7 @@ public class ContainerFilterVersion12Test {
         assertTrue("Wrong number of matching records",
             containerList.getNumberOfMatchingRecords() >= 1);
         assertEquals("Wrong record position", 1, containerList
-            .getRecords().iterator().next().getRecordPosition());
+            .getRecords().iterator().next().getRecordPosition().intValue());
 
         // now check the convenience method
         Collection<Container> list = cc.retrieveContainersAsList(srwFilter);
