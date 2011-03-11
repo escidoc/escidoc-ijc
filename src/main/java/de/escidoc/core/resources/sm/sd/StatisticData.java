@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ScopeRef;
 import de.escidoc.core.resources.sm.Parameter;
 
@@ -14,7 +15,7 @@ import de.escidoc.core.resources.sm.Parameter;
  * 
  */
 @JiBX
-public class StatisticData extends Resource {
+public class StatisticData extends Resource implements XLinkAutonomous {
 
     private ScopeRef scope;
 
@@ -55,8 +56,25 @@ public class StatisticData extends Resource {
         return parameters;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#genXLink()
+     */
+    @Override
+    public void genXLink() {
+        // do not generate own XLink
+        if (scope != null)
+            scope.genXLink();
     }
 }
