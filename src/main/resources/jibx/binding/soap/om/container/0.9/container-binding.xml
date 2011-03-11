@@ -93,13 +93,9 @@
     <!-- *****************************************
       Struct-Map
       ****************************************** -->
-    <structure
+    <structure name="struct-map" field="structMap" usage="optional"
       ns="http://www.escidoc.de/schemas/structmap/0.4"
-      name="struct-map"
-      type="de.escidoc.core.resources.common.structmap.StructMap"
-      field="structMap" usage="optional">
-      <structure map-as="abstract-struct-map" usage="optional" />
-    </structure>
+      map-as="abstract-struct-map"/>
     
     <!-- *****************************************
       Relations 

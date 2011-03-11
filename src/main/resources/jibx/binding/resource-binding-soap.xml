@@ -8,7 +8,7 @@
 	<include path="soap/common/version-history-binding.xml" />
 	<include path="soap/common/0.1/result-binding.xml" />
 	<include path="soap/common/0.5/md-records-binding.xml" />
-	<include path="soap/common/0.4/abstract-struct-map-binding.xml" />
+	<include path="soap/common/0.4/struct-map-binding.xml" />
 	<include path="soap/common/0.3/relations-binding.xml" />
 	<include path="soap/common/0.10/member-list-binding.xml" />
 	<include path="soap/common/properties-binding.xml"/>
@@ -42,12 +42,12 @@
 <!--	<include path="soap/sb/0.8/search-result-record-binding.xml" />-->
 	
 	<!-- SM -->
-  <include path="soap/sm/0.3/scope-binding.xml" />
-  <include path="soap/sm/0.3/aggregation-definition-binding.xml" />
-  <include path="soap/sm/0.3/report-definition-binding.xml" />
+  <include path="soap/sm/0.4/scope-binding.xml" />
+  <include path="soap/sm/0.4/aggregation-definition-binding.xml" />
+  <include path="soap/sm/0.4/report-definition-binding.xml" />
   <include path="soap/sm/0.3/statistic-data-binding.xml" />
-  <include path="soap/sm/0.3/report-binding.xml" />
-  <include path="soap/sm/0.3/report-parameters-binding.xml" />
+  <include path="soap/sm/0.4/report-binding.xml" />
+  <include path="soap/sm/0.4/report-parameters-binding.xml" />
   <include path="soap/sm/0.3/preprocessing-info-binding.xml" />
   
   <!-- FOR TESTS ONLY -->

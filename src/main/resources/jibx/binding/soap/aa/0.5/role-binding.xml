@@ -87,16 +87,13 @@
     
       <structure name="scope-def" type="de.escidoc.core.resources.aa.role.ScopeDef">
       
-        <value name="resource-type" set-method="setResourceType"
-          get-method="getResourceType" style="attribute"
+        <value name="resource-type" field="resourceType" style="attribute"
           enum-value-method="getXmlValue"/>
+        <value name="relation-attribute-id" field="relationAttributeId" 
+          style="attribute" usage="optional" />
+        <value name="relation-attribute-object-type" style="attribute" usage="optional" 
+          field="relationAttributeObjectType" enum-value-method="getXmlValue"/>
           
-        <value name="relation-attribute-id" set-method="setRelationAttributeId"
-          get-method="getRelationAttributeId" style="attribute" usage="optional" />
-        <value name="relation-attribute-object-type" style="attribute" usage="optional"
-          set-method="setRelationAttributeObjectType"
-          get-method="getRelationAttributeObjectType"
-          enum-value-method="getXmlValue"/>
       </structure>
     </collection>
     <value name="unlimited" set-method="setUnlimited" get-method="isUnlimited"

@@ -1,0 +1,27 @@
+<binding>
+
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+  
+  <mapping name="statistic-record" class="de.escidoc.core.resources.sm.sd.StatisticData"
+    pre-get="genXLink">
+  
+    <structure name="scope" field="scope" 
+      type="de.escidoc.core.resources.common.reference.ScopeRef">
+      
+      <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+	      set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+	    <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+	      set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+	    <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+	      set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+    </structure>
+    
+    <collection field="parameters" create-type="java.util.LinkedList" 
+      item-type="de.escidoc.core.resources.sm.Parameter">
+      <structure name="parameter" 
+        marshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"
+        unmarshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"/>  
+    </collection>
+  </mapping>
+  
+</binding>
