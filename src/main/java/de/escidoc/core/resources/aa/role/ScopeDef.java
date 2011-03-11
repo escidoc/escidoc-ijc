@@ -60,7 +60,26 @@ public class ScopeDef {
      * @param resourceType
      */
     public ScopeDef(final ResourceType resourceType) {
-        setResourceType(resourceType);
+        checkNotNull(resourceType);
+        this.resourceType = resourceType;
+    }
+
+    /**
+     * @param resourceType
+     * @param relationAttributeId
+     * @param relationAttributeObjectType
+     */
+    public ScopeDef(final ResourceType resourceType,
+        final String relationAttributeId,
+        final ResourceType relationAttributeObjectType) {
+
+        checkNotNull(resourceType);
+        checkNotNull(relationAttributeId);
+        checkNotNull(relationAttributeObjectType);
+
+        this.resourceType = resourceType;
+        this.relationAttributeId = relationAttributeId;
+        this.relationAttributeObjectType = relationAttributeObjectType;
     }
 
     /**
@@ -73,17 +92,6 @@ public class ScopeDef {
     }
 
     /**
-     * Set resource type.
-     * 
-     * @param resourceType
-     *            Resource Type (item, container, context, ..)
-     */
-    public void setResourceType(final ResourceType resourceType) {
-        checkNotNull(resourceType);
-        this.resourceType = resourceType;
-    }
-
-    /**
      * Get id of relation attribute.
      * 
      * @return id
@@ -93,28 +101,9 @@ public class ScopeDef {
     }
 
     /**
-     * Set id of relation of attribute.
-     * 
-     * @param relationAttributeId
-     *            id of relation
-     */
-    public void setRelationAttributeId(final String relationAttributeId) {
-        this.relationAttributeId = relationAttributeId;
-    }
-
-    /**
      * @return the relationAttributeObjectType
      */
     public ResourceType getRelationAttributeObjectType() {
         return relationAttributeObjectType;
-    }
-
-    /**
-     * @param relationAttributeObjectType
-     *            the relationAttributeObjectType to set
-     */
-    public void setRelationAttributeObjectType(
-        final ResourceType relationAttributeObjectType) {
-        this.relationAttributeObjectType = relationAttributeObjectType;
     }
 }
