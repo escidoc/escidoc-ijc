@@ -34,7 +34,7 @@ package de.escidoc.core.resources;
  * @author SWA
  * 
  */
-public abstract class Resource extends XLinkResource {
+public abstract class Resource extends XLinkResource implements XLinkAutonomous {
 
     /**
      * The global unique id of the resource.
@@ -223,5 +223,15 @@ public abstract class Resource extends XLinkResource {
 
         ResourceType type = ResourceType.getValue(xLinkHref);
         return type.isRootResource() ? type : null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+     */
+    @Override
+    public void genXLink() {
+        genOwnXLinkHref();
     }
 }
