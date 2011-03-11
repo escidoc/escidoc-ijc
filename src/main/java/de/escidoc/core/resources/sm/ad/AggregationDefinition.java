@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.AggregationDefinitionRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ScopeRef;
@@ -16,7 +17,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  */
 @JiBX
 public class AggregationDefinition extends GenericResource
-    implements Referenceable<AggregationDefinitionRef> {
+    implements Referenceable<AggregationDefinitionRef>, XLinkAutonomous {
 
     private String name;
 
@@ -98,9 +99,25 @@ public class AggregationDefinition extends GenericResource
         return new AggregationDefinitionRef(this.getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.AggregationDefinition;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#genXLink()
+     */
+    @Override
+    public void genXLink() {
+        super.genXLink();
+        if (scope != null)
+            scope.genXLink();
+    }
 }
