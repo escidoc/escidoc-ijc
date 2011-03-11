@@ -5,7 +5,6 @@ package de.escidoc.core.resources;
 
 import java.util.LinkedList;
 
-import de.escidoc.core.resources.XLinkResource.XLINK_TYPE;
 
 /**
  * @author MVO
@@ -19,7 +18,7 @@ public class XLinkResourceList<E> extends LinkedList<E> {
 
     private String xLinkTitle;
 
-    private XLINK_TYPE xLinkType;
+    private XLinkType xLinkType;
 
     /**
      * Get the href of the resource. (May depend on transport protocol.)
@@ -39,7 +38,7 @@ public class XLinkResourceList<E> extends LinkedList<E> {
     public void setXLinkHref(final String href) {
         if (href != null && href.length() > 0) {
             this.xLinkHref = href;
-            this.xLinkType = XLINK_TYPE.simple;
+            this.xLinkType = XLinkType.simple;
         }
     }
 
@@ -69,7 +68,7 @@ public class XLinkResourceList<E> extends LinkedList<E> {
      * @return xlink:type if and only if this.href has been set. (REST protocol
      *         uses xlink:href. SOAP needs this.objid only.)
      */
-    public XLINK_TYPE getXLinkType() {
+    public XLinkType getXLinkType() {
         return this.xLinkType;
     }
 
@@ -79,7 +78,7 @@ public class XLinkResourceList<E> extends LinkedList<E> {
      * @param type
      *            Type of xlink.
      */
-    public void setXLinkType(final XLINK_TYPE type) {
+    public void setXLinkType(final XLinkType type) {
         this.xLinkType = type;
     }
 }

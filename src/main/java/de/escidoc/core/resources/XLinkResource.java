@@ -9,19 +9,11 @@ package de.escidoc.core.resources;
  */
 public abstract class XLinkResource {
 
-    /**
-     * XLink Types.
-     * 
-     */
-    public static enum XLINK_TYPE {
-        simple, extended, locator, arc, resource, title
-    }
-
     private String xLinkHref;
 
     private String xLinkTitle;
 
-    private XLINK_TYPE xLinkType;
+    private XLinkType xLinkType;
 
     /**
      * Get the href of the resource. (May depend on transport protocol.)
@@ -41,7 +33,7 @@ public abstract class XLinkResource {
     public void setXLinkHref(final String href) {
         if (href != null && href.length() > 0) {
             this.xLinkHref = href;
-            this.xLinkType = XLINK_TYPE.simple;
+            this.xLinkType = XLinkType.simple;
         }
     }
 
@@ -71,7 +63,7 @@ public abstract class XLinkResource {
      * @return xlink:type if and only if this.href has been set. (REST protocol
      *         uses xlink:href. SOAP needs this.objid only.)
      */
-    public XLINK_TYPE getXLinkType() {
+    public XLinkType getXLinkType() {
         return this.xLinkType;
     }
 
@@ -81,7 +73,7 @@ public abstract class XLinkResource {
      * @param type
      *            Type of xlink.
      */
-    public void setXLinkType(final XLINK_TYPE type) {
+    public void setXLinkType(final XLinkType type) {
         this.xLinkType = type;
     }
 }
