@@ -207,7 +207,14 @@ public class Container extends VersionableResource
                 structMap.setXLinkHref(getXLinkHref() + "/struct-map");
             }
 
-            for (MemberRef memberRef : structMap) {
+            for (MemberRef memberRef : structMap.getItems()) {
+                if (memberRef.getXLinkHref() == null
+                    && memberRef.getResourceType() != null
+                    && memberRef.getResourceType().isRootResource()) {
+                    genXLinkHref(memberRef, memberRef.getResourceType(), null);
+                }
+            }
+            for (MemberRef memberRef : structMap.getContainers()) {
                 if (memberRef.getXLinkHref() == null
                     && memberRef.getResourceType() != null
                     && memberRef.getResourceType().isRootResource()) {
