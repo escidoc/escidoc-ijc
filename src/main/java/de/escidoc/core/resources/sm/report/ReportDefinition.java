@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 import de.escidoc.core.resources.common.reference.RoleRef;
@@ -17,7 +18,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  */
 @JiBX
 public class ReportDefinition extends GenericResource
-    implements Referenceable<ReportDefinitionRef> {
+    implements Referenceable<ReportDefinitionRef>, XLinkAutonomous {
 
     private String name;
 
@@ -99,8 +100,25 @@ public class ReportDefinition extends GenericResource
         return new ReportDefinitionRef(this.getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.ReportDefinition;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#genXLink()
+     */
+    @Override
+    public void genXLink() {
+        super.genXLink();
+        if (scope != null)
+            scope.genXLink();
     }
 }

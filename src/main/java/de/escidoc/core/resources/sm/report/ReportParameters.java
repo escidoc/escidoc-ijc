@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 import de.escidoc.core.resources.sm.Parameter;
 
@@ -15,7 +16,7 @@ import de.escidoc.core.resources.sm.Parameter;
  * 
  */
 @JiBX
-public class ReportParameters {
+public class ReportParameters implements XLinkAutonomous {
 
     private ReportDefinitionRef reportDefinition;
 
@@ -56,5 +57,17 @@ public class ReportParameters {
             parameters = new LinkedList<Parameter<?>>();
         }
         return parameters;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+     */
+    @Override
+    public void genXLink() {
+        if (reportDefinition != null) {
+            reportDefinition.genXLink();
+        }
     }
 }

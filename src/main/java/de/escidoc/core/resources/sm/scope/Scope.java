@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.resources.sm.scope;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
@@ -31,10 +32,8 @@ public class Scope extends GenericResource implements Referenceable<ScopeRef> {
      * @param scopeType
      */
     public Scope(final String name, final ScopeType scopeType) {
-        if (name == null)
-            throw new IllegalArgumentException("name must not be null.");
-        if (scopeType == null)
-            throw new IllegalArgumentException("scopeType must not be null.");
+        checkNotNull(name);
+        checkNotNull(scopeType);
 
         this.name = name;
         this.scopeType = scopeType;
@@ -65,6 +64,11 @@ public class Scope extends GenericResource implements Referenceable<ScopeRef> {
         return new ScopeRef(this.getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.Scope;

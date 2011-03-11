@@ -3,6 +3,7 @@ package de.escidoc.core.resources.sm.report;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 
 /**
@@ -10,7 +11,7 @@ import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
  * 
  */
 @JiBX
-public class Report extends Resource {
+public class Report extends Resource implements XLinkAutonomous {
 
     private ReportDefinitionRef reportDefinition;
 
@@ -58,8 +59,25 @@ public class Report extends Resource {
         this.reportRecord = reportRecord;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#genXLink()
+     */
+    @Override
+    public void genXLink() {
+        // do not generate own XLink
+        if (reportDefinition != null)
+            reportDefinition.genXLink();
     }
 }
