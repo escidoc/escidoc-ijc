@@ -14,7 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -24,7 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.StringEncoder;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -43,8 +41,6 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.log4j.Logger;
-
-import sun.io.CharacterEncoding;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -506,14 +502,15 @@ public abstract class RestServiceMethod implements RestService {
             encoding = responseEnc;
 
         StringBuilder sb = new StringBuilder();
-        String line = null;
+        char[] buffer = new char[1024];
+        int read = -1;
 
         try {
             BufferedReader reader =
                 new BufferedReader(new InputStreamReader(is, encoding));
 
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+            while ((read = reader.read(buffer)) != -1) {
+                sb.append(buffer, 0, read);
             }
         }
         finally {
