@@ -370,14 +370,15 @@ public abstract class RestServiceMethod implements RestService {
         }
 
         StringBuilder sb = new StringBuilder();
-        String line = null;
+        char[] buffer = new char[1024];
+        int read = -1;
 
         try {
             BufferedReader reader =
                 new BufferedReader(new InputStreamReader(is, encoding));
 
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+            while ((read = reader.read(buffer)) != -1) {
+                sb.append(buffer, 0, read);
             }
         }
         finally {
