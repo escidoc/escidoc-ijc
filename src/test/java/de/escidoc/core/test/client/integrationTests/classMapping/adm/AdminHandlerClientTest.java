@@ -18,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -173,6 +174,7 @@ public class AdminHandlerClientTest {
      * 
      * @throws Exception
      */
+    @Ignore
     @Test
     public void testRecache() throws Exception {
         // start recaching
@@ -251,6 +253,7 @@ public class AdminHandlerClientTest {
      * 
      * @throws Exception
      */
+    @Ignore
     @Test
     public void testReindex() throws Exception {
         // ahc.reindex(true, "all");
@@ -333,6 +336,7 @@ public class AdminHandlerClientTest {
      * 
      * @throws Exception
      */
+    @Ignore
     @Test
     public void testPurge() throws Exception {
         // create some data to delete

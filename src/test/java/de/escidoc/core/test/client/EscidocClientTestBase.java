@@ -57,7 +57,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public final class EscidocClientTestBase {
 
-    public static final String DEFAULT_INFRASTRUCTURE_HOST = "localhost";
+    public static final String DEFAULT_INFRASTRUCTURE_HOST = "escidev6";
 
     public static final String DEFAULT_INFRASTRUCTURE_PORT = "8080";
 

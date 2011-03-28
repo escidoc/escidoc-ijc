@@ -48,7 +48,7 @@ import de.escidoc.core.test.client.util.Template;
  */
 public class ContextMarshallerTest extends AbstractParameterizedTestBase {
 
-    public ContextMarshallerTest(TransportProtocol transport) {
+    public ContextMarshallerTest(final TransportProtocol transport) {
         super(transport);
     }
 
@@ -67,7 +67,8 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/context/0.7/context01.xml"));
 
         Context context =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
 
         assertEquals("Wrong objid", "escidoc:157546", context.getObjid());
@@ -117,7 +118,24 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
                 + "/om/context/0.7/context02.xml"));
 
         Context context =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class)
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
+                .unmarshalDocument(contextXml);
+    }
+
+    /**
+     * @throws Exception
+     */
+    @Test
+    public void unmarshalling03() throws Exception {
+        String contextXml =
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/mockups/"
+                + transport.name().toLowerCase()
+                + "/om/context/0.7/context03.xml"));
+
+        Context context =
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
                 .unmarshalDocument(contextXml);
     }
 }
