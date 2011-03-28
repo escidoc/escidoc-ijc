@@ -26,6 +26,6 @@ public class DateParameter extends Parameter<DateTime> {
 
     @Override
     public ParameterType getParameterType() {
-        return ParameterType.date;
+        return ParameterType.DATE;
     }
 }

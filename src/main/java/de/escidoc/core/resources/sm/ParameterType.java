@@ -8,5 +8,5 @@ package de.escidoc.core.resources.sm;
  * 
  */
 public enum ParameterType {
-    string, decimal, date
+    STRING, DECIMAL, DATE
 }
