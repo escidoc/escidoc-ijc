@@ -5,8 +5,6 @@ package de.escidoc.core.client;
 
 import java.net.URL;
 
-import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.client.interfaces.ActionHandlerClientInterface;
 import de.escidoc.core.client.interfaces.AdminHandlerClientInterface;
 import de.escidoc.core.client.interfaces.AggregationDefinitionHandlerClientInterface;
 import de.escidoc.core.client.interfaces.ContainerHandlerClientInterface;
@@ -35,27 +33,6 @@ import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
 public final class HandlerClientFactory {
 
     private HandlerClientFactory() {
-    }
-
-    /**
-     * 
-     * @return
-     * @throws InternalClientException
-     */
-    public static final ActionHandlerClientInterface getActionHandlerClient()
-        throws InternalClientException {
-        return new ActionHandlerClient();
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @return
-     * @throws InternalClientException
-     */
-    public static final ActionHandlerClientInterface getActionHandlerClient(
-        final URL serviceAddress) throws InternalClientException {
-        return new ActionHandlerClient(serviceAddress);
     }
 
     /**
