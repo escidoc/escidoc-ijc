@@ -1,5 +1,7 @@
 package de.escidoc.core.common.jibx.binding;
 
+import static de.escidoc.core.common.Precondition.checkObject;
+
 import org.jibx.runtime.IAliasable;
 import org.jibx.runtime.IMarshallable;
 import org.jibx.runtime.IMarshaller;
@@ -25,6 +27,11 @@ public class SearchResultMarshaller extends MarshallingBase
     public static final String TAG_NAME_SCORE = "score";
 
     public static final String TAG_NAME_HIGHLIGHT = "highlight";
+
+    // TODO there must be a way to get the prefix from the binding
+    public static final String PREFIX_NAME = "search-result";
+
+    public static final String ATTR_NAME_BASE = "base";
 
     /**
      * SearchResultRecord Marshaller.
@@ -68,58 +75,49 @@ public class SearchResultMarshaller extends MarshallingBase
     public void marshal(final Object obj, final IMarshallingContext ictx)
         throws JiBXException {
 
-        if (!(obj instanceof SearchResult)) {
-            throw new JiBXException("Invalid object type for marshaller");
+        MarshallingContext ctx = checkMarshaller(ictx);
+        SearchResult record = checkObject(SearchResult.class, obj);
+        int[] urisIndex = new int[1];
+        urisIndex[0] = getIndex();
+        String[] prefixIndex = new String[1];
+        prefixIndex[0] = PREFIX_NAME;
+
+        ctx.startTagNamespaces(0, getName(), urisIndex, prefixIndex);
+
+        if (record.getBase() != null) {
+            ctx.attribute(1, ATTR_NAME_BASE, record.getBase());
         }
-        else if (!(ictx instanceof MarshallingContext)) {
-            throw new JiBXException("Invalid object type for marshaller");
+
+        ctx.closeStartContent();
+
+        // optional
+        if (record.getScore() != null) {
+            ctx.element(0, TAG_NAME_SCORE, record.getScore().toString());
         }
-        else {
-            // TODO iterate all attributes and save them in a HashMap
-            MarshallingContext ctx = (MarshallingContext) ictx;
-            SearchResult record = (SearchResult) obj;
-            int[] urisIndex = new int[1];
-            urisIndex[0] = getIndex();
-            String[] prefixIndex = new String[1];
-            prefixIndex[0] = "search-result";
 
-            ctx.startTagNamespaces(0, getName(), urisIndex, prefixIndex);
+        // optional
+        if (record.getHighlight() != null) {
+            if (record.getHighlight() instanceof IMarshallable) {
 
-            if (record.getBase() != null) {
-                ctx.attribute(1, "base", record.getBase());
-            }
-
-            ctx.closeStartContent();
-
-            // optional
-            if (record.getScore() != null) {
-                ctx.element(0, TAG_NAME_SCORE, record.getScore().toString());
-            }
-
-            // optional
-            if (record.getHighlight() != null) {
-                if (record.getHighlight() instanceof IMarshallable) {
-
-                    ((IMarshallable) record.getHighlight()).marshal(ctx);
-
-                }
-                else {
-                    throw new JiBXException("Mapped value is not marshallable");
-                }
-            }
-
-            // required
-            if (record.getContent() instanceof IMarshallable) {
-
-                ((IMarshallable) record.getContent()).marshal(ctx);
+                ((IMarshallable) record.getHighlight()).marshal(ctx);
 
             }
             else {
                 throw new JiBXException("Mapped value is not marshallable");
             }
-
-            ctx.endTag(getIndex(), getName());
         }
+
+        // required
+        if (record.getContent() instanceof IMarshallable) {
+
+            ((IMarshallable) record.getContent()).marshal(ctx);
+
+        }
+        else {
+            throw new JiBXException("Mapped value is not marshallable");
+        }
+
+        ctx.endTag(getIndex(), getName());
 
     }
 
