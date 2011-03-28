@@ -64,16 +64,29 @@ public class ReportHandlerClient
             .unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getSoapHandlerClientInstance
+     * ()
+     */
     @Override
     protected SoapReportHandlerClient getSoapHandlerClientInstance()
         throws InternalClientException {
         return new SoapReportHandlerClient(getServiceAddress());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestReportHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
         return new RestReportHandlerClient(getServiceAddress());
     }
-
 }
