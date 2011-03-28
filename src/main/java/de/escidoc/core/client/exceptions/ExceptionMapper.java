@@ -1,5 +1,7 @@
 package de.escidoc.core.client.exceptions;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.lang.reflect.Constructor;
 import java.rmi.RemoteException;
 
@@ -53,7 +55,9 @@ public class ExceptionMapper extends Exception {
      * </ul>
      * 
      * @param exception
-     *            the exception to map
+     *            the exception to map (not null)
+     * @param log
+     *            the logger to use (not null)
      * @throws EscidocException
      *             if the given exception is a
      *             de.escidoc.core.common.exceptions.remote.EscidocException
@@ -65,14 +69,20 @@ public class ExceptionMapper extends Exception {
      *             or none of the above; thrown if a
      *             de.escidoc.core.common.exceptions.remote.EscidocException
      *             couldn't be mapped
+     * @throws IllegalArgumentException
+     *             if any of the parameters <code>exception</code> or
+     *             <code>log</code> is null.
      */
-    public static void map(final Exception exception, Logger log) throws EscidocException,
-        InternalClientException, TransportException {
+    public static void map(final Exception exception, final Logger log)
+        throws EscidocException, InternalClientException, TransportException {
 
-    	if (log.isDebugEnabled()) {
-    		log.debug(exception.getMessage(), exception);
-    	}
-    	
+        checkNotNull(exception);
+        checkNotNull(log);
+
+        if (log.isDebugEnabled()) {
+            log.debug(exception.getMessage(), exception);
+        }
+
         if (exception instanceof InternalClientException) {
             throw (InternalClientException) exception;
         }
