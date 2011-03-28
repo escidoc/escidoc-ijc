@@ -26,7 +26,7 @@ public class InvalidScopeException
     public InvalidScopeException(final String message, final Throwable cause) {
         super(message, cause);
         try {
-            Class<?> te = InvalidResourceException.class;
+            Class<?> te = InvalidScopeException.class;
             Class<?> cE =
                 Class.forName(te.getName().replace(
                     "de.escidoc.core.client.exceptions",
