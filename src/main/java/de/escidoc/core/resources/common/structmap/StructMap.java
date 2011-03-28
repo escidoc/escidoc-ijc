@@ -28,7 +28,14 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
-import de.escidoc.core.resources.XLinkResourceList;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkResource;
 
 /**
  * StructMap (Structure Map of Container).
@@ -37,15 +44,30 @@ import de.escidoc.core.resources.XLinkResourceList;
  * struct map is discarded. To add member to an existing Container use the
  * addMembers() and removeMembers() methods.
  * 
- * @author
+ * A struct map is divided into two groups:
+ * <ul>
+ * <li>item references</li>
+ * <li>container references</li>
+ * </ul>
+ * 
+ * Therefore, item references will be stored before container references. This
+ * behavior applies to all methods.
+ * 
+ * @author MVO
  * 
  */
-public class StructMap extends XLinkResourceList<MemberRef> {
+public class StructMap extends XLinkResource
+    implements Iterable<MemberRef>, Serializable {
 
     /**
      * 
      */
     private static final long serialVersionUID = -657913209962433330L;
+
+    private List<ItemMemberRef> items = new LinkedList<ItemMemberRef>();
+
+    private List<ContainerMemberRef> containers =
+        new LinkedList<ContainerMemberRef>();
 
     /**
      * StructMap.
@@ -55,6 +77,173 @@ public class StructMap extends XLinkResourceList<MemberRef> {
      * the addMembers() and removeMembers() methods.
      */
     public StructMap() {
+    }
 
+    /**
+     * @return
+     */
+    public List<ItemMemberRef> getItems() {
+        if (items == null)
+            items = new LinkedList<ItemMemberRef>();
+        return items;
+    }
+
+    /**
+     * @return
+     */
+    public List<ContainerMemberRef> getContainers() {
+        if (containers == null)
+            containers = new LinkedList<ContainerMemberRef>();
+        return containers;
+    }
+
+    /**
+     * Convenience method to add an {@link ItemMemberRef} or a
+     * {@link ContainerMemberRef} to the Struct-Map.
+     * 
+     * @param m
+     * @return
+     */
+    public boolean add(final MemberRef m) {
+        if (m == null)
+            return false;
+        if (m.getResourceType() == ResourceType.Item)
+            return getItems().add((ItemMemberRef) m);
+        if (m.getResourceType() == ResourceType.Container)
+            return getContainers().add((ContainerMemberRef) m);
+        return false;
+    }
+
+    /**
+     * Convenience method to remove an {@link ItemMemberRef} or a
+     * {@link ContainerMemberRef} from the Struct-Map.
+     * 
+     * @param m
+     * @return
+     */
+    public boolean remove(final MemberRef m) {
+        if (m == null)
+            return false;
+        if (m.getResourceType() == ResourceType.Item) {
+            return items != null ? items.remove(m) : false;
+        }
+        if (m.getResourceType() == ResourceType.Container)
+            return containers != null ? containers.remove(m) : false;
+        return false;
+    }
+
+    /**
+     * Convenience method to get the size of the Struct-Map.
+     * 
+     * @return
+     */
+    public int size() {
+        int size = 0;
+        if (items != null)
+            size += items.size();
+        if (containers != null)
+            size += containers.size();
+        return size;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Iterable#iterator()
+     */
+    @Override
+    public Iterator<MemberRef> iterator() {
+        return new StructMapIterator();
+    }
+
+    /**
+     * 
+     * @author MVO
+     * 
+     */
+    public class StructMapIterator implements Iterator<MemberRef> {
+
+        private int pos = -1;
+
+        StructMapIterator() {
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Iterator#hasNext()
+         */
+        @Override
+        public boolean hasNext() {
+            if (items == null && containers == null)
+                return false;
+
+            if (items != null && containers != null)
+                return pos + 1 < items.size() + containers.size();
+            if (items != null)
+                return pos + 1 < items.size();
+            if (containers != null)
+                return pos + 1 < containers.size();
+
+            return false;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Iterator#next()
+         */
+        @Override
+        public MemberRef next() {
+            if (items == null && containers == null)
+                throw new NoSuchElementException();
+
+            pos++;
+            if (items != null && containers != null) {
+                if (pos < items.size())
+                    return items.get(pos);
+                else
+                    return containers.get(pos - items.size());
+            }
+
+            if (items != null) {
+                return items.get(pos);
+            }
+            if (containers != null) {
+                return containers.get(pos);
+            }
+
+            throw new NoSuchElementException();
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Iterator#remove()
+         */
+        @Override
+        public void remove() {
+            if (items == null && containers == null)
+                throw new IllegalStateException();
+
+            try {
+                if (items != null && containers != null) {
+                    if (pos < items.size())
+                        items.remove(pos);
+                    else
+                        containers.remove(pos - items.size());
+                }
+                else if (items != null) {
+                    items.remove(pos);
+                }
+                else if (containers != null) {
+                    containers.remove(pos);
+                }
+                pos--;
+            }
+            catch (NoSuchElementException e) {
+                throw new IllegalStateException();
+            }
+        }
     }
 }
