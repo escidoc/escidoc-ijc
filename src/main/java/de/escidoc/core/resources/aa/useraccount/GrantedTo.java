@@ -33,6 +33,6 @@ public class GrantedTo extends Resource {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.UserAccount;
+        return ResourceType.USERACCOUNT;
     }
 }

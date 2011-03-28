@@ -29,6 +29,6 @@ public class ContainerRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Container;
+        return ResourceType.CONTAINER;
     }
 }

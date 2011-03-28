@@ -57,6 +57,6 @@ public class Parent extends Resource {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.OrganizationalUnit;
+        return ResourceType.ORGANIZATIONAL_UNIT;
     }
 }

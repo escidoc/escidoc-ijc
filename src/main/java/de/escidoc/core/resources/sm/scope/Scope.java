@@ -71,6 +71,6 @@ public class Scope extends GenericResource implements Referenceable<ScopeRef> {
      */
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Scope;
+        return ResourceType.SCOPE;
     }
 }

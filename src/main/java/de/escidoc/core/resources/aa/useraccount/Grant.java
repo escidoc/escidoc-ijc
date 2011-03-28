@@ -59,12 +59,12 @@ public class Grant extends GenericResource
         if (grantProperties != null) {
 
             genXLinkHref(grantProperties.getCreatedBy(),
-                ResourceType.UserAccount, null);
+                ResourceType.USERACCOUNT, null);
             genXLinkHref(grantProperties.getGrantedTo(),
-                ResourceType.UserAccount, null);
+                ResourceType.USERACCOUNT, null);
             genXLinkHref(grantProperties.getRevokedBy(),
-                ResourceType.UserAccount, null);
-            genXLinkHref(grantProperties.getRole(), ResourceType.Role, null);
+                ResourceType.USERACCOUNT, null);
+            genXLinkHref(grantProperties.getRole(), ResourceType.ROLE, null);
 
             /**
              * AssignedOn cannot be generated if ResourceType is null or not a
@@ -95,6 +95,6 @@ public class Grant extends GenericResource
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Grant;
+        return ResourceType.GRANT;
     }
 }

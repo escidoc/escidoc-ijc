@@ -180,13 +180,13 @@ public class Item extends VersionableResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
                 null);
-            genXLinkHref(properties.getContext(), ResourceType.Context, null);
+            genXLinkHref(properties.getContext(), ResourceType.CONTEXT, null);
             genXLinkHref(properties.getContentModel(),
-                ResourceType.ContentModel, null);
-            genXLinkHref(properties.getOrigin(), ResourceType.Item, null);
-            genXLinkHref(properties.getLockOwner(), ResourceType.UserAccount,
+                ResourceType.CONTENT_MODEL, null);
+            genXLinkHref(properties.getOrigin(), ResourceType.ITEM, null);
+            genXLinkHref(properties.getLockOwner(), ResourceType.USERACCOUNT,
                 null);
             genVersionHref((VersionImpl) properties.getVersion());
             genVersionHref((VersionImpl) properties.getLatestVersion());
@@ -201,7 +201,7 @@ public class Item extends VersionableResource
                 String cPrefix = null;
                 if (getXLinkHref() != null) {
                     cPrefix =
-                        genXLinkHref(component, ResourceType.Component,
+                        genXLinkHref(component, ResourceType.COMPONENT,
                             getXLinkHref());
                 }
 
@@ -211,7 +211,7 @@ public class Item extends VersionableResource
                         properties.setXLinkHref(cPrefix + "/properties");
                     }
                     genXLinkHref(properties.getCreatedBy(),
-                        ResourceType.UserAccount, null);
+                        ResourceType.USERACCOUNT, null);
                 }
 
                 if (component.getContent() != null
@@ -269,9 +269,9 @@ public class Item extends VersionableResource
      */
     protected void genVersionHref(final VersionImpl version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(ResourceType.Item.getPath() + "/" + getObjid()
+            version.setXLinkHref(ResourceType.ITEM.getPath() + "/" + getObjid()
                 + ":" + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), ResourceType.UserAccount,
+            genXLinkHref(version.getModifiedBy(), ResourceType.USERACCOUNT,
                 null);
         }
     }
@@ -289,6 +289,6 @@ public class Item extends VersionableResource
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Item;
+        return ResourceType.ITEM;
     }
 }

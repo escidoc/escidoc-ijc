@@ -29,6 +29,6 @@ public class UserAccountRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.UserAccount;
+        return ResourceType.USERACCOUNT;
     }
 }

@@ -29,6 +29,6 @@ public class ItemRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Item;
+        return ResourceType.ITEM;
     }
 }

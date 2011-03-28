@@ -103,6 +103,6 @@ public class Attribute extends GenericResource {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.UserAccountAttribute;
+        return ResourceType.USERACCOUNT_ATTRIBUTE;
     }
 }

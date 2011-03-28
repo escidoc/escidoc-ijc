@@ -82,7 +82,7 @@ public class Parents extends XLinkResourceList<Parent>
     public void genXLink() {
         for (Parent parent : this) {
             if (parent.getXLinkHref() == null && parent.getObjid() != null) {
-                parent.setXLinkHref(ResourceType.OrganizationalUnit.getPath()
+                parent.setXLinkHref(ResourceType.ORGANIZATIONAL_UNIT.getPath()
                     + "/" + parent.getObjid());
             }
         }

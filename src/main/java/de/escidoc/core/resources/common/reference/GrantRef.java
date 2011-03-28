@@ -29,6 +29,6 @@ public class GrantRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Grant;
+        return ResourceType.GRANT;
     }
 }

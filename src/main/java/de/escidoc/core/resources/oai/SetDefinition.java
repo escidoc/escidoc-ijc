@@ -69,6 +69,6 @@ public class SetDefinition extends GenericResource {
      */
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.SetDefinition;
+        return ResourceType.SET_DEFINITION;
     }
 }

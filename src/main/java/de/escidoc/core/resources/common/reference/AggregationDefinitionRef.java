@@ -30,6 +30,6 @@ public class AggregationDefinitionRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.AggregationDefinition;
+        return ResourceType.AGGREGATION_DEFINITION;
     }
 }

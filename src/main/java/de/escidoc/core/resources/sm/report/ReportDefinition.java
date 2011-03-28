@@ -107,7 +107,7 @@ public class ReportDefinition extends GenericResource
      */
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.ReportDefinition;
+        return ResourceType.REPORT_DEFINITION;
     }
 
     /*

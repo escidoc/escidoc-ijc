@@ -164,9 +164,9 @@ public class OrganizationalUnit extends GenericResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
                 null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
                 null);
         }
         if (parents != null) {
@@ -175,7 +175,7 @@ public class OrganizationalUnit extends GenericResource
             }
 
             for (Parent parent : parents) {
-                genXLinkHref(parent, ResourceType.OrganizationalUnit, null);
+                genXLinkHref(parent, ResourceType.ORGANIZATIONAL_UNIT, null);
             }
 
         }
@@ -200,7 +200,7 @@ public class OrganizationalUnit extends GenericResource
 
             for (Predecessor predecessor : predecessors.getPredecessorRef()) {
                 if (predecessor.getXLinkHref() == null) {
-                    genXLinkHref(predecessor, ResourceType.OrganizationalUnit,
+                    genXLinkHref(predecessor, ResourceType.ORGANIZATIONAL_UNIT,
                         null);
                 }
             }
@@ -209,6 +209,6 @@ public class OrganizationalUnit extends GenericResource
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.OrganizationalUnit;
+        return ResourceType.ORGANIZATIONAL_UNIT;
     }
 }

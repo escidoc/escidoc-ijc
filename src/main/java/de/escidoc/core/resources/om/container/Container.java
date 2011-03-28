@@ -169,11 +169,11 @@ public class Container extends VersionableResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
                 null);
-            genXLinkHref(properties.getContext(), ResourceType.Context, null);
+            genXLinkHref(properties.getContext(), ResourceType.CONTEXT, null);
             genXLinkHref(properties.getContentModel(),
-                ResourceType.ContentModel, null);
+                ResourceType.CONTENT_MODEL, null);
             genVersionHref((VersionImpl) properties.getVersion());
             genVersionHref((VersionImpl) properties.getLatestVersion());
             genVersionHref((VersionImpl) properties.getLatestRelease());
@@ -233,9 +233,9 @@ public class Container extends VersionableResource
      */
     protected void genVersionHref(final VersionImpl version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(ResourceType.Container.getPath() + "/"
+            version.setXLinkHref(ResourceType.CONTAINER.getPath() + "/"
                 + getObjid() + ":" + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), ResourceType.UserAccount,
+            genXLinkHref(version.getModifiedBy(), ResourceType.USERACCOUNT,
                 null);
         }
     }
@@ -253,6 +253,6 @@ public class Container extends VersionableResource
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Container;
+        return ResourceType.CONTAINER;
     }
 }

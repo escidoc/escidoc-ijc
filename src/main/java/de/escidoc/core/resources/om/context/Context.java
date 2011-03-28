@@ -106,14 +106,14 @@ public class Context extends GenericResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
                 null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
                 null);
 
             if (properties.getOrganizationalUnitRefs() != null) {
                 for (Resource ouRef : properties.getOrganizationalUnitRefs()) {
-                    genXLinkHref(ouRef, ResourceType.OrganizationalUnit, null);
+                    genXLinkHref(ouRef, ResourceType.ORGANIZATIONAL_UNIT, null);
                 }
             }
         }
@@ -146,6 +146,6 @@ public class Context extends GenericResource
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Context;
+        return ResourceType.CONTEXT;
     }
 }

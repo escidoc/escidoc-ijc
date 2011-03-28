@@ -38,7 +38,7 @@ public class UserGroup extends GenericResource {
      */
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.UserGroup;
+        return ResourceType.USERGROUP;
     }
 
     /**

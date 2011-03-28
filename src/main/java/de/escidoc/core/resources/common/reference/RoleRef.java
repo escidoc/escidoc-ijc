@@ -29,6 +29,6 @@ public class RoleRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Role;
+        return ResourceType.ROLE;
     }
 }

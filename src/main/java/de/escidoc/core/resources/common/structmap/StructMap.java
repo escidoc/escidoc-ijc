@@ -64,9 +64,10 @@ public class StructMap extends XLinkResource
      */
     private static final long serialVersionUID = -657913209962433330L;
 
-    private List<ItemMemberRef> items;
+    private List<ItemMemberRef> items = new LinkedList<ItemMemberRef>();
 
-    private List<ContainerMemberRef> containers;
+    private List<ContainerMemberRef> containers =
+        new LinkedList<ContainerMemberRef>();
 
     /**
      * StructMap.
@@ -106,9 +107,9 @@ public class StructMap extends XLinkResource
     public boolean add(final MemberRef m) {
         if (m == null)
             return false;
-        if (m.getResourceType() == ResourceType.Item)
+        if (m.getResourceType() == ResourceType.ITEM)
             return getItems().add((ItemMemberRef) m);
-        if (m.getResourceType() == ResourceType.Container)
+        if (m.getResourceType() == ResourceType.CONTAINER)
             return getContainers().add((ContainerMemberRef) m);
         return false;
     }
@@ -123,10 +124,10 @@ public class StructMap extends XLinkResource
     public boolean remove(final MemberRef m) {
         if (m == null)
             return false;
-        if (m.getResourceType() == ResourceType.Item) {
+        if (m.getResourceType() == ResourceType.ITEM) {
             return items != null ? items.remove(m) : false;
         }
-        if (m.getResourceType() == ResourceType.Container)
+        if (m.getResourceType() == ResourceType.CONTAINER)
             return containers != null ? containers.remove(m) : false;
         return false;
     }

@@ -17,63 +17,63 @@ import de.escidoc.core.resources.oum.OrganizationalUnit;
 public enum ResourceType implements XmlCompatibleEnum {
 
     // root resources
-    Context(de.escidoc.core.resources.om.context.Context.class, "context",
+    CONTEXT(de.escidoc.core.resources.om.context.Context.class, "context",
         ConfigurationProvider.NS_IR_CONTEXT, "/ir/context"),
     //
-    Item(de.escidoc.core.resources.om.item.Item.class, "item",
+    ITEM(de.escidoc.core.resources.om.item.Item.class, "item",
         ConfigurationProvider.NS_IR_ITEM, "/ir/item"),
     //
-    Container(de.escidoc.core.resources.om.container.Container.class,
+    CONTAINER(de.escidoc.core.resources.om.container.Container.class,
         "container", ConfigurationProvider.NS_IR_CONTAINER, "/ir/container"),
     //
-    OrganizationalUnit(OrganizationalUnit.class, "organizational-unit",
+    ORGANIZATIONAL_UNIT(OrganizationalUnit.class, "organizational-unit",
         ConfigurationProvider.NS_OUM_ORGANIZATIONAL_UNIT,
         "/oum/organizational-unit"),
     //
-    UserAccount(UserAccount.class, "user-account",
+    USERACCOUNT(UserAccount.class, "user-account",
         ConfigurationProvider.NS_AA_USER_ACCOUNT, "/aa/user-account"),
     //
-    UserGroup(UserAccount.class, "user-group",
+    USERGROUP(UserAccount.class, "user-group",
         ConfigurationProvider.NS_AA_USER_GROUP, "/aa/user-group"),
     //
-    ContentModel(de.escidoc.core.resources.cmm.ContentModel.class,
+    CONTENT_MODEL(de.escidoc.core.resources.cmm.ContentModel.class,
         "content-model", ConfigurationProvider.NS_CMM_CONTENT_MODEL,
         "/cmm/content-model"),
     //
-    Grant(de.escidoc.core.resources.aa.useraccount.Grant.class, "grant",
+    GRANT(de.escidoc.core.resources.aa.useraccount.Grant.class, "grant",
         ConfigurationProvider.NS_AA_GRANT, "/aa/grant"),
     //
-    Role(de.escidoc.core.resources.aa.role.Role.class, "role",
+    ROLE(de.escidoc.core.resources.aa.role.Role.class, "role",
         ConfigurationProvider.NS_AA_ROLE, "/aa/role"),
     //
-    ContentRelation(
+    CONTENT_RELATION(
         de.escidoc.core.resources.om.contentRelation.ContentRelation.class,
         "content-relation", ConfigurationProvider.NS_IR_CONTENT_RELATION,
         "/ir/content-relation"),
     //
-    Scope(de.escidoc.core.resources.sm.scope.Scope.class, "scope",
+    SCOPE(de.escidoc.core.resources.sm.scope.Scope.class, "scope",
         ConfigurationProvider.NS_STATISTIC_SCOPE, "/statistic/scope"),
     //
-    ReportDefinition(
+    REPORT_DEFINITION(
         de.escidoc.core.resources.sm.report.ReportDefinition.class,
         "report-definition", ConfigurationProvider.NS_STATISTIC_REPORT_DEF,
         "/statistic/report-definition"),
     //
-    AggregationDefinition(
+    AGGREGATION_DEFINITION(
         de.escidoc.core.resources.sm.ad.AggregationDefinition.class,
         "aggregation-definition",
         ConfigurationProvider.NS_STATISTIC_AGGREGATION_DEF,
         "/statistic/aggregation-definition"),
     // sub resources
-    Component(de.escidoc.core.resources.om.item.component.Component.class,
+    COMPONENT(de.escidoc.core.resources.om.item.component.Component.class,
         "component", ConfigurationProvider.NS_IR_COMPONENTS,
         "/components/component"),
     //
-    SetDefinition(de.escidoc.core.resources.oai.SetDefinition.class,
+    SET_DEFINITION(de.escidoc.core.resources.oai.SetDefinition.class,
         "set-defintion", ConfigurationProvider.NS_OAI_SET_DEFINITION,
         "/oai/set-definition"),
     //
-    UserAccountAttribute("user-account-attribute",
+    USERACCOUNT_ATTRIBUTE("user-account-attribute",
         "/resources/attributes/attribute");
 
     private final boolean isRootResource;
@@ -158,8 +158,21 @@ public enum ResourceType implements XmlCompatibleEnum {
         return namespace;
     }
 
+    /**
+     * @return
+     */
     public String getPath() {
         return path;
+    }
+
+    /**
+     * @return The path of the resource including the objid or null if the objid
+     *         is null.
+     */
+    public String getPath(final String objid) {
+        if (objid != null)
+            return path + '/' + objid;
+        return null;
     }
 
     /**

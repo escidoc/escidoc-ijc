@@ -26,6 +26,6 @@ public class ScopeRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Scope;
+        return ResourceType.SCOPE;
     }
 }

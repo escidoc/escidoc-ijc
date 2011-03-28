@@ -29,6 +29,6 @@ public class OrganizationalUnitRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.OrganizationalUnit;
+        return ResourceType.ORGANIZATIONAL_UNIT;
     }
 }

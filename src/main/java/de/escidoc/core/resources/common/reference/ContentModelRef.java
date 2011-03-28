@@ -29,6 +29,6 @@ public class ContentModelRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.ContentModel;
+        return ResourceType.CONTENT_MODEL;
     }
 }

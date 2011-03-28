@@ -51,6 +51,6 @@ public class ContainerMemberRef extends MemberRef {
      */
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Container;
+        return ResourceType.CONTAINER;
     }
 }

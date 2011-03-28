@@ -51,6 +51,6 @@ public class ItemMemberRef extends MemberRef {
      */
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Item;
+        return ResourceType.ITEM;
     }
 }

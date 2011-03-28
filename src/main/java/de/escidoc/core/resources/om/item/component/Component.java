@@ -122,7 +122,7 @@ public class Component extends GenericResource {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Component;
+        return ResourceType.COMPONENT;
     }
 
 }

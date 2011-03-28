@@ -106,7 +106,7 @@ public class AggregationDefinition extends GenericResource
      */
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.AggregationDefinition;
+        return ResourceType.AGGREGATION_DEFINITION;
     }
 
     /*

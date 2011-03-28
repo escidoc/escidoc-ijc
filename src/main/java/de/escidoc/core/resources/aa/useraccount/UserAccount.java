@@ -117,9 +117,9 @@ public class UserAccount extends GenericResource
         genOwnXLinkHref();
 
         if (properties != null) {
-            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
                 null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
                 null);
         }
     }
@@ -137,6 +137,6 @@ public class UserAccount extends GenericResource
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.UserAccount;
+        return ResourceType.USERACCOUNT;
     }
 }

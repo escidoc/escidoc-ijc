@@ -29,6 +29,6 @@ public class ContextRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.Context;
+        return ResourceType.CONTEXT;
     }
 }

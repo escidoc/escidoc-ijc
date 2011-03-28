@@ -26,6 +26,6 @@ public class ReportDefinitionRef extends Reference {
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.ReportDefinition;
+        return ResourceType.REPORT_DEFINITION;
     }
 }

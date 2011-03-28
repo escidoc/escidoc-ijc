@@ -130,9 +130,9 @@ public class ContentModel extends VersionableResource
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
                 null);
-            genXLinkHref(properties.getLockOwner(), ResourceType.UserAccount,
+            genXLinkHref(properties.getLockOwner(), ResourceType.USERACCOUNT,
                 null);
             genVersionHref((VersionImpl) properties.getVersion());
             genVersionHref((VersionImpl) properties.getLatestVersion());
@@ -167,9 +167,9 @@ public class ContentModel extends VersionableResource
      */
     protected void genVersionHref(final VersionImpl version) {
         if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(ResourceType.Item.getPath() + "/" + getObjid()
+            version.setXLinkHref(ResourceType.ITEM.getPath() + "/" + getObjid()
                 + ":" + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), ResourceType.UserAccount,
+            genXLinkHref(version.getModifiedBy(), ResourceType.USERACCOUNT,
                 null);
         }
     }
@@ -187,6 +187,6 @@ public class ContentModel extends VersionableResource
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.ContentModel;
+        return ResourceType.CONTENT_MODEL;
     }
 }

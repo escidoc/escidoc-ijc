@@ -211,9 +211,9 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
             if (properties.getXLinkHref() == null && getXLinkHref() != null) {
                 properties.setXLinkHref(getXLinkHref() + "/properties");
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
                 null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.UserAccount,
+            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
                 null);
         }
         if (mdRecords != null && getXLinkHref() != null) {
@@ -240,6 +240,6 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
 
     @Override
     public ResourceType getResourceType() {
-        return ResourceType.ContentRelation;
+        return ResourceType.CONTENT_RELATION;
     }
 }
