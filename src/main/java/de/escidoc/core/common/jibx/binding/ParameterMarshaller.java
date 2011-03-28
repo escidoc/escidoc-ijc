@@ -11,6 +11,7 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
+import org.joda.time.DateTime;
 
 import de.escidoc.core.resources.sm.DateParameter;
 import de.escidoc.core.resources.sm.DecimalParameter;
@@ -72,22 +73,20 @@ public class ParameterMarshaller extends MarshallingBase
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
         Parameter<?> p = null;
 
+        String name = ctx.attributeText(null, ATTR_NAME_NAME);
         ctx.parsePastStartTag(getUri(), getName());
 
         if (ctx.isAt(getUri(), TAG_NAME_STRING)) {
-            String name = ctx.attributeText(null, ATTR_NAME_NAME);
             String value = ctx.parseElementText(getUri(), TAG_NAME_STRING);
             p = new StringParameter(name, value);
         }
         else if (ctx.isAt(getUri(), TAG_NAME_DECIMAL)) {
-            String name = ctx.attributeText(null, ATTR_NAME_NAME);
             String value = ctx.parseElementText(getUri(), TAG_NAME_DECIMAL);
-            p = new StringParameter(name, value);
+            p = new DecimalParameter(name, Float.valueOf(value));
         }
         else if (ctx.isAt(getUri(), TAG_NAME_DATE)) {
-            String name = ctx.attributeText(null, ATTR_NAME_NAME);
             String value = ctx.parseElementText(getUri(), TAG_NAME_DATE);
-            p = new StringParameter(name, value);
+            p = new DateParameter(name, new DateTime(value));
         }
         else {
             throw new JiBXException("Unexpected element {"
@@ -127,36 +126,26 @@ public class ParameterMarshaller extends MarshallingBase
         MarshallingContext ctx = (MarshallingContext) ictx;
         Parameter<?> p = (Parameter<?>) obj;
 
-        ctx.startTag(getIndex(), getName());
+        ctx.startTagAttributes(getIndex(), getName()).attribute(0,
+            ATTR_NAME_NAME, p.getName());
+        ctx.closeStartContent();
 
         switch (p.getParameterType()) {
-            case string: {
-                ctx.startTagAttributes(getIndex(), TAG_NAME_STRING).attribute(
-                    0, ATTR_NAME_NAME, p.getName());
-                ctx.closeStartContent();
-
+            case STRING: {
+                ctx.startTag(getIndex(), TAG_NAME_STRING);
                 ctx.content(((StringParameter) p).getValue());
-
                 ctx.endTag(getIndex(), TAG_NAME_STRING);
                 break;
             }
-            case decimal: {
-                ctx.startTagAttributes(getIndex(), TAG_NAME_DECIMAL).attribute(
-                    0, ATTR_NAME_NAME, p.getName());
-                ctx.closeStartContent();
-
+            case DECIMAL: {
+                ctx.startTag(getIndex(), TAG_NAME_DECIMAL);
                 ctx.content(((DecimalParameter) p).getValue().toString());
-
                 ctx.endTag(getIndex(), TAG_NAME_DECIMAL);
                 break;
             }
-            case date: {
-                ctx.startTagAttributes(getIndex(), TAG_NAME_DATE).attribute(0,
-                    ATTR_NAME_NAME, p.getName());
-                ctx.closeStartContent();
-
+            case DATE: {
+                ctx.startTag(getIndex(), TAG_NAME_DATE);
                 ctx.content(((DateParameter) p).getValue().toString());
-
                 ctx.endTag(getIndex(), TAG_NAME_DATE);
                 break;
             }
