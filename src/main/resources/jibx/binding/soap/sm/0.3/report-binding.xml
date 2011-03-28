@@ -12,19 +12,20 @@
         get-method="getObjid"/> 
     </structure>
     
-    <structure name="report-record" usage="optional" field="reportRecord" 
-      type="de.escidoc.core.resources.sm.report.ReportRecord">
+    <collection get-method="getReportRecords" set-method="setReportRecords"
+      create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.sm.report.ReportRecord">
       
-      <collection field="parameters" create-type="java.util.LinkedList" 
-	      item-type="de.escidoc.core.resources.sm.Parameter"
-	      usage="optional">
-	      <structure name="parameter" 
-	        marshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"
-	        unmarshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"/>  
-	    </collection>
-      
-    </structure>
-  
+	    <structure name="report-record">
+	      <collection get-method="getParameters" set-method="setParameters"
+          create-type="java.util.LinkedList" 
+		      item-type="de.escidoc.core.resources.sm.Parameter"
+		      usage="optional">
+		      <structure name="parameter" 
+		        marshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"
+		        unmarshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"/>  
+		    </collection>
+	    </structure>
+	  </collection>
   </mapping>
-  
 </binding>

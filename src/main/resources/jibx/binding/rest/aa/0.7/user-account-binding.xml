@@ -30,10 +30,9 @@
 	<!-- end: binding of an user account list -->
 	
 	<!-- start: abstract binding of a single user account -->
-	<mapping ns="http://www.escidoc.de/schemas/useraccount/0.7"
-		class="de.escidoc.core.resources.aa.useraccount.UserAccount" abstract="true"
-		type-name="abstract-user-account"
-		pre-get="genXLink">
+	<mapping ns="http://www.escidoc.de/schemas/useraccount/0.7" abstract="true"
+		class="de.escidoc.core.resources.aa.useraccount.UserAccount"
+		type-name="abstract-user-account" pre-get="genXLink">
 		
 		<namespace uri="http://www.escidoc.de/schemas/useraccount/0.7"
 			prefix="user-account" />

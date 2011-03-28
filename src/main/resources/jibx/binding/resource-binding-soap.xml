@@ -6,7 +6,7 @@
 	<include path="soap/common/version-history-binding.xml" />
 	<include path="soap/common/0.1/result-binding.xml" />
 	<include path="soap/common/0.5/md-records-binding.xml" />
-	<include path="soap/common/0.4/abstract-struct-map-binding.xml" />
+	<include path="soap/common/0.4/struct-map-binding.xml" />
 	<include path="soap/common/0.3/relations-binding.xml" />
 	<include path="soap/common/0.9/member-list-binding.xml" />
 	<!-- include path="soap/common/0.6/toc-binding.xml" / -->

@@ -1,12 +1,37 @@
 <binding>
-	<!-- start: abstract binding of struct-map resource -->
-	<mapping ns="http://www.escidoc.de/schemas/structmap/0.4"
-		class="de.escidoc.core.resources.common.structmap.StructMap"
-		name="struct-map">
+  <namespace uri="http://www.escidoc.de/schemas/structmap/0.4"
+    prefix="struct-map" default="elements"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/"
+    prefix="srel" />
 
-		<structure 
-			map-as="abstract-struct-map" usage="optional" />
+	<!-- start: abstract binding of struct-map resource -->
+	<mapping name="struct-map" ns="http://www.escidoc.de/schemas/structmap/0.4"
+		class="de.escidoc.core.resources.common.structmap.StructMap">
+		<structure map-as="abstract-struct-map"/>
+	</mapping>
+
+	<mapping ns="http://www.escidoc.de/schemas/structmap/0.4"
+		class="de.escidoc.core.resources.common.structmap.StructMap" abstract="true"
+		type-name="abstract-struct-map">
+
+		<collection field="items" create-type="java.util.LinkedList">
+			<structure ns="http://escidoc.de/core/01/structural-relations/"
+				name="item" type="de.escidoc.core.resources.common.structmap.ItemMemberRef">
+				<value name="objid" style="attribute" set-method="setObjid"
+					get-method="getObjid" usage="optional" />
+			</structure>
+		</collection>
+		
+		<collection field="containers" create-type="java.util.LinkedList">
+		  <structure name="container" 
+        ns="http://escidoc.de/core/01/structural-relations/" 
+        type="de.escidoc.core.resources.common.structmap.ContainerMemberRef">
+        <value name="objid" style="attribute" set-method="setObjid"
+          get-method="getObjid" usage="optional" />
+      </structure>
+    </collection>
 
 	</mapping>
+
 	<!-- end: abstract binding of struct-map resource -->
 </binding>

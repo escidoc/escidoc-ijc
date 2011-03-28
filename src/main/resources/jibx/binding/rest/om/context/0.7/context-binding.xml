@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
-	<!-- REST Binding -->
+
+  <namespace uri="http://www.escidoc.de/schemas/context/0.7"
+    prefix="escidocContext" default="elements"/>
+  <namespace uri="http://escidoc.de/core/01/properties/"
+    prefix="prop" />
+  <namespace uri="http://escidoc.de/core/01/structural-relations/"
+    prefix="srel" />
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+	<namespace uri="http://www.escidoc.de/schemas/contextlist/0.7"
+	   prefix="context-list" />
+
 	<!-- start: binding of a single context -->
 	<mapping name="context" ns="http://www.escidoc.de/schemas/context/0.7"
 		class="de.escidoc.core.resources.om.context.Context">
-		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
-			prefix="escidocContext" />
+		
 		<structure map-as="abstract-context" />
 	</mapping>
 	<!-- end: binding of a single context -->
 
 	<!-- start: abstract binding of a single context -->
-	<mapping ns="http://www.escidoc.de/schemas/context/0.7" class="de.escidoc.core.resources.om.context.Context"
+	<mapping ns="http://www.escidoc.de/schemas/context/0.7" 
+    class="de.escidoc.core.resources.om.context.Context"
 		abstract="true" type-name="abstract-context" pre-get="genXLink">
-
-		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
-			prefix="escidocContext" />
-		<namespace uri="http://escidoc.de/core/01/properties/"
-			prefix="prop" />
-		<namespace uri="http://escidoc.de/core/01/structural-relations/"
-			prefix="srel" />
-		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
 		<!-- Root attributes -->
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute"
@@ -35,19 +37,16 @@
 			get-method="getLastModificationDate" usage="optional" />
 
 		<!-- Properties include -->
-		<structure ns="http://www.escidoc.de/schemas/context/0.7"
-			name="properties" field="properties" usage="optional">
+		<structure name="properties" field="properties" usage="optional">
 			<structure map-as="context-properties" usage="optional" />
 		</structure>
 
 		<!-- Resources include (REST only) -->
-		<structure ns="http://www.escidoc.de/schemas/context/0.7"
-			name="resources" usage="optional">
+		<structure name="resources" usage="optional">
 		</structure>
 
 		<!-- AdminDescriptors include -->
-		<structure ns="http://www.escidoc.de/schemas/context/0.7"
-			name="admin-descriptors" field="adminDescriptors" usage="optional">
+		<structure name="admin-descriptors" field="adminDescriptors" usage="optional">
 
 			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute"
 				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -56,27 +55,20 @@
 			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute"
 				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
-			<collection create-type="de.escidoc.core.resources.om.context.AdminDescriptors"
-				usage="optional">
-
-				<structure map-as="abstract-admin-descriptor" usage="optional" />
+			<collection usage="optional">
+				<structure name="admin-descriptor" map-as="abstract-admin-descriptor"/>
 			</collection>
 		</structure>
 	</mapping>
 	<!-- end: abstract binding of a single context -->
 
 
-	<!-- ***************************************** Properties binding definition 
+	<!-- ***************************************** 
+	     Properties binding definition 
 		****************************************** -->
 	<mapping ns="http://escidoc.de/core/01/properties/" 
     class="de.escidoc.core.resources.om.context.ContextProperties"
 		abstract="true" type-name="context-properties">
-
-		<namespace uri="http://escidoc.de/core/01/properties/"
-			prefix="prop" />
-		<namespace uri="http://escidoc.de/core/01/structural-relations/"
-			prefix="srel" />
-		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
 
 		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute"
 			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
@@ -151,10 +143,6 @@
 		class="de.escidoc.core.resources.common.reference.OrganizationalUnitRef"
 		abstract="true" type-name="abstract-organizational-unit-ref">
 
-		<namespace uri="http://escidoc.de/core/01/structural-relations/"
-			prefix="srel" />
-		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
-
 		<structure ns="http://escidoc.de/core/01/structural-relations/"
 			name="organizational-unit"
 			type="de.escidoc.core.resources.common.reference.OrganizationalUnitRef"
@@ -169,46 +157,43 @@
 		</structure>
 	</mapping>
 
-	<!-- ***************************************** Abstract Admin Descriptors 
+	<!-- ***************************************** 
+	     Abstract Admin Descriptors 
 		****************************************** -->
 	<mapping ns="http://www.escidoc.de/schemas/context/0.7"
 		class="de.escidoc.core.resources.om.context.AdminDescriptor" abstract="true"
 		type-name="abstract-admin-descriptor">
 
-		<namespace uri="http://www.escidoc.de/schemas/context/0.7"
-			prefix="escidocContext" />
-		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+		<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute"
+			set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute"
+			set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+		<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute"
+			set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
 
-		<structure ns="http://www.escidoc.de/schemas/context/0.7"
-			name="admin-descriptor" type="de.escidoc.core.resources.om.context.AdminDescriptor"
-			usage="optional">
+		<value name="name" set-method="setName" get-method="getName"
+			style="attribute" usage="optional" />
 
-			<value ns="http://www.w3.org/1999/xlink" name="href" style="attribute"
-				set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
-			<value ns="http://www.w3.org/1999/xlink" name="title" style="attribute"
-				set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
-			<value ns="http://www.w3.org/1999/xlink" name="type" style="attribute"
-				set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
-
-			<value name="name" set-method="setName" get-method="getName"
-				style="attribute" usage="optional" />
-
-			<structure field="content" type="org.w3c.dom.Element"
-				marshaller="org.jibx.extras.DomElementMapper" 
-				unmarshaller="org.jibx.extras.DomElementMapper"
-				usage="optional" />
-		</structure>
+		<structure field="content" type="org.w3c.dom.Element"
+			marshaller="org.jibx.extras.DomElementMapper" 
+			unmarshaller="org.jibx.extras.DomElementMapper"
+			usage="optional" />
 	</mapping>
+
+  <!-- ***************************************** 
+      Concrete Admin Descriptors 
+    ****************************************** -->
+  <mapping name="admin-descriptor" 
+    ns="http://www.escidoc.de/schemas/context/0.7"
+    class="de.escidoc.core.resources.om.context.AdminDescriptor">
+    
+    <structure map-as="abstract-admin-descriptor"/>
+  </mapping>
 
 	<!-- start: binding of a context unit list -->
 	<mapping ns="http://www.escidoc.de/schemas/contextlist/0.7" 
     name="context-list" class="de.escidoc.core.resources.om.context.ContextList">
     
-    <namespace uri="http://www.escidoc.de/schemas/contextlist/0.7"
-      prefix="context-list" />
-    <namespace uri="http://www.escidoc.de/schemas/context/0.7"
-      prefix="context" default="elements"/>
-      
     <collection create-type="java.util.LinkedList" usage="optional"
       item-type="de.escidoc.core.resources.om.context.Context">
       <structure name="context">
@@ -219,4 +204,3 @@
 	<!-- end: binding of a context list -->
 
 </binding>
-
