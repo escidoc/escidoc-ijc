@@ -6,7 +6,6 @@ import java.util.Map;
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
-import de.escidoc.core.resources.aa.actions.UnsecuredActions;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Results;
 import de.escidoc.core.resources.aa.role.Role;
@@ -86,9 +85,6 @@ public class MarshallerFactory {
         UserAccounts.class;
 
     public static final Class<Roles> CLASS_ROLES = Roles.class;
-
-    public static final Class<UnsecuredActions> CLASS_UNSECURED_ACTIONS =
-        UnsecuredActions.class;
 
     // OM
     public static final Class<Context> CLASS_CONTEXT = Context.class;
