@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<test:aggregation-definition xmlns:test="http://www.escidoc.de/schemas/aggregationdefinition/0.3">
+<test:aggregation-definition xmlns:test="http://www.escidoc.de/schemas/aggregationdefinition/0.4"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
   <test:name>Page Statistics for PubMan</test:name>
-  <test:scope objid="escidoc:scope2" />
+  <test:scope xlink:href="/statistic/scope/escidoc:scope2" xlink:type="simple" xlink:title="Test Scope"/>
   <test:aggregation-table>
     <test:name>Page_Statistics</test:name>
     <test:field>
