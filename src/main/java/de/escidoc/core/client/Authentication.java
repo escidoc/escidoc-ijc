@@ -229,19 +229,20 @@ public class Authentication {
             throw new TransportException(e);
         }
         finally {
-            if (restrictedConn != null)
-                restrictedConn.disconnect();
-            if (authConn != null)
-                authConn.disconnect();
-            if (redirectConn != null)
-                redirectConn.disconnect();
-            if (writer != null)
+            // if (restrictedConn != null)
+            // restrictedConn.disconnect();
+            // if (authConn != null)
+            // authConn.disconnect();
+            // if (redirectConn != null)
+            // redirectConn.disconnect();
+            if (writer != null) {
                 try {
                     writer.close();
                 }
                 catch (IOException e) {
                     LOG.debug("Unable to close OutputStream.", e);
                 }
+            }
         }
 
         return handle;
