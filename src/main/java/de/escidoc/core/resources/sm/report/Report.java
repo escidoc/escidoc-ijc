@@ -1,5 +1,8 @@
 package de.escidoc.core.resources.sm.report;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
@@ -14,7 +17,7 @@ public class Report extends Resource {
 
     private ReportDefinitionRef reportDefinition;
 
-    private ReportRecord reportRecord;
+    private List<ReportRecord> reportRecords;
 
     @JiBX
     @SuppressWarnings("unused")
@@ -46,16 +49,18 @@ public class Report extends Resource {
      * 
      * @return
      */
-    public ReportRecord getReportRecord() {
-        return reportRecord;
+    public List<ReportRecord> getReportRecords() {
+        if (reportRecords == null)
+            reportRecords = new LinkedList<ReportRecord>();
+        return reportRecords;
     }
 
     /**
      * 
      * @param reportRecord
      */
-    public void setReportRecord(final ReportRecord reportRecord) {
-        this.reportRecord = reportRecord;
+    public void setReportRecords(final List<ReportRecord> reportRecords) {
+        this.reportRecords = reportRecords;
     }
 
     @Override

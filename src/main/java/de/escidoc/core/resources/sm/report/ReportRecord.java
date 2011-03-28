@@ -1,7 +1,7 @@
 package de.escidoc.core.resources.sm.report;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.sm.Parameter;
@@ -13,7 +13,7 @@ import de.escidoc.core.resources.sm.Parameter;
 @JiBX
 public class ReportRecord {
 
-    private Collection<Parameter<?>> parameters;
+    private List<Parameter<?>> parameters;
 
     /**
      * 
@@ -28,10 +28,18 @@ public class ReportRecord {
      * 
      * @return
      */
-    public Collection<Parameter<?>> getParameters() {
+    public List<Parameter<?>> getParameters() {
         if (parameters == null) {
             parameters = new LinkedList<Parameter<?>>();
         }
         return parameters;
+    }
+
+    /**
+     * @param parameters
+     *            the parameters to set
+     */
+    public void setParameters(final List<Parameter<?>> parameters) {
+        this.parameters = parameters;
     }
 }
