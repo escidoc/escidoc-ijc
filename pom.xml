@@ -201,10 +201,7 @@
 					<outputDirectory>${project.build.directory}/generated-sources/</outputDirectory>
 					<urls>
 						<!-- AA -->
-						<url>${wsdl.host}/ActionHandlerService?wsdl
-						</url>
 						<!-- wasn't there in 1.2 -->
-						<url>${wsdl.host}/AdminService?wsdl</url>
 						<url>${wsdl.host}/AdminHandlerService?wsdl
 						</url>
 						<url>${wsdl.host}/PolicyDecisionPointService?wsdl
