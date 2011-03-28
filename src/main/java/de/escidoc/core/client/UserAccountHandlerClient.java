@@ -92,6 +92,13 @@ public class UserAccountHandlerClient
         super(serviceAddress);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestUserAccountHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
