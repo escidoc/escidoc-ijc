@@ -227,13 +227,13 @@ public class RoleHandlerClientTest {
         // Scope
         Scope scope = new Scope();
         ScopeDef scopeDef1 =
-            new ScopeDef(ResourceType.Item,
+            new ScopeDef(ResourceType.ITEM,
                 "info:escidoc/names:aa:1.0:resource:item:context",
-                ResourceType.Context);
+                ResourceType.CONTEXT);
         ScopeDef scopeDef2 =
-            new ScopeDef(ResourceType.Container,
+            new ScopeDef(ResourceType.CONTAINER,
                 "info:escidoc/names:aa:1.0:resource:item:context",
-                ResourceType.Context);
+                ResourceType.CONTEXT);
 
         Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);

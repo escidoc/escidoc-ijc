@@ -301,19 +301,19 @@ public final class EscidocClientTestBase {
 
         for (Entry entry : result) {
             switch (entry.getResourceType()) {
-                case Item:
+                case ITEM:
                     exampleItemId = entry.getObjid();
                     break;
-                case OrganizationalUnit:
+                case ORGANIZATIONAL_UNIT:
                     exampleOrganizationalUnitId = entry.getObjid();
                     break;
-                case Context:
+                case CONTEXT:
                     exampleContextId = entry.getObjid();
                     break;
-                case ContentModel:
+                case CONTENT_MODEL:
                     exampleContentModelId = entry.getObjid();
                     break;
-                case Container:
+                case CONTAINER:
                     exampleContainerId = entry.getObjid();
                     break;
             }

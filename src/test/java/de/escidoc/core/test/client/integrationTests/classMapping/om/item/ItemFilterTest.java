@@ -32,16 +32,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
@@ -52,10 +49,8 @@ import org.w3c.dom.Element;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
-import de.escidoc.core.resources.common.Filter;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.om.item.Item;
@@ -80,8 +75,10 @@ public class ItemFilterTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -90,36 +87,6 @@ public class ItemFilterTest {
     public void post() throws Exception {
         if (auth != null)
             auth.logout();
-    }
-
-    /**
-     * Test binding filter.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testFilterBinding() throws Exception {
-
-        TaskParam tp = new TaskParam();
-        tp.setLastModificationDate(new DateTime(System.currentTimeMillis()));
-        tp.setComment("Lalalala!");
-        tp.setPid("pid");
-
-        Collection<Filter> filters = tp.getFilters();
-        Collection<String> ids = new LinkedList<String>();
-        ids.add("escidoc:7043");
-        ids.add("escidoc:7044");
-        ids.add(EscidocClientTestBase.getStaticItemId());
-        filters.add(new Filter("http://purl.org/dc/elements/1.1/identifier",
-            null, ids));
-        filters.add(new Filter(
-            "http://escidoc.de/core/01/properties/public-status", "pending",
-            null));
-        filters.add(new Filter(
-            "http://escidoc.de/core/01/structural-relations/created-by",
-            "escidoc:user42", null));
-        tp.setFilters(filters);
     }
 
     /**
@@ -153,9 +120,10 @@ public class ItemFilterTest {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(
-            EscidocClientTestBase.getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
@@ -177,10 +145,10 @@ public class ItemFilterTest {
 
         // now check if at least this Item is in the list
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request.setQuery("\"/properties/creation-date\"="
+        request.setQuery("\"/properties/creation-date\"=\""
             + createdItem
                 .getProperties().getCreationDate().withZone(DateTimeZone.UTC)
-                .toString());
+                .toString() + "\"");
 
         List<Item> itemList = ihc.retrieveItemsAsList(request);
 

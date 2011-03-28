@@ -196,14 +196,14 @@ public class RoleFilterVersion12Test {
         Scope scope = new Scope();
         // context -> item scope
         ScopeDef scopeDef1 =
-            new ScopeDef(ResourceType.Item,
+            new ScopeDef(ResourceType.ITEM,
                 "info:escidoc/names:aa:1.0:resource:item:context",
-                ResourceType.Context);
+                ResourceType.CONTEXT);
         // context -> container scope
         ScopeDef scopeDef2 =
-            new ScopeDef(ResourceType.Container,
+            new ScopeDef(ResourceType.CONTAINER,
                 "info:escidoc/names:aa:1.0:resource:container:context",
-                ResourceType.Context);
+                ResourceType.CONTEXT);
 
         Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);

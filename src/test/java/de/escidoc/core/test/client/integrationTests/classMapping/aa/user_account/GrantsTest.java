@@ -77,8 +77,10 @@ public class GrantsTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uahc = new UserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
     }
@@ -152,8 +154,10 @@ public class GrantsTest {
 
         item.getProperties().setContext(
             new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties().setContentModel(
-            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -183,7 +187,7 @@ public class GrantsTest {
         String objId = createdUa.getObjid();
 
         // create Grant
-        String roleId = "escidoc:role-audience";
+        String roleId = "escidoc:role-collaborator";
         Grant grant = new Grant();
         GrantProperties gProp = new GrantProperties();
         gProp.setRole(new RoleRef(roleId));

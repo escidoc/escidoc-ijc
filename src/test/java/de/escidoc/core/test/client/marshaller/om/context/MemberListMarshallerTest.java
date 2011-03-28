@@ -60,14 +60,13 @@ public class MemberListMarshallerTest extends AbstractParameterizedTestBase {
     @Test
     public void unmarshalling01() throws Exception {
 
-        String contextXml =
+        String memberXml =
             EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
                 transport, "member-list.xml"));
-
         MemberList memberList =
             MarshallerFactory
                 .getInstance(transport).getMarshaller(MemberList.class)
-                .unmarshalDocument(contextXml);
+                .unmarshalDocument(memberXml);
 
         assertEquals("Wrong offset", 0, memberList.getOffset());
         assertEquals("Wrong limit", 1000, memberList.getLimit());
@@ -92,15 +91,15 @@ public class MemberListMarshallerTest extends AbstractParameterizedTestBase {
         //
         // assertEquals("Wrong description", "ContextDescription", memberList
         // .getProperties().getDescription());
-        // assertEquals("Wrong type", "type", memberList
-        // .getProperties().getType());
-        //
-        // // TODO
-        // // assertEquals("Wrong number of admin-descriptors", 1, context
-        // // .getProperties().getOrganizationalUnitRefs().);
-        //
-        // // assertEquals("Wrong name of admin-descriptors", 1, context
-        // // .getAdminDescriptors().getAdminDescriptors().);
+        // assertEquals("Wrong type", "type",
+        // memberList.getProperties().getType());
+
+        // TODO
+        // assertEquals("Wrong number of admin-descriptors", 1, context
+        // .getProperties().getOrganizationalUnitRefs().);
+
+        // assertEquals("Wrong name of admin-descriptors", 1, context
+        // .getAdminDescriptors().getAdminDescriptors().);
 
     }
 

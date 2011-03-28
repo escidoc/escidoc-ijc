@@ -18,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,8 +74,10 @@ public class AdminHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ahc = new AdminHandlerClient(auth.getServiceAddress());
         ahc.setHandle(auth.getHandle());
     }
@@ -159,6 +162,7 @@ public class AdminHandlerClientTest {
      * 
      * @throws Exception
      */
+    @Ignore("development")
     @Test
     public void testReindex() throws Exception {
         // ahc.reindex(true, "all");
@@ -241,6 +245,7 @@ public class AdminHandlerClientTest {
      * 
      * @throws Exception
      */
+    @Ignore("development")
     @Test
     public void testPurge() throws Exception {
         // create some data to delete
@@ -360,8 +365,10 @@ public class AdminHandlerClientTest {
 
         item.getProperties().setContext(
             new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties().setContentModel(
-            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
         item.setXLinkTitle("TEST");
 
         // Metadata Record(s)
@@ -391,9 +398,10 @@ public class AdminHandlerClientTest {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(
-            EscidocClientTestBase.getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
 
         container.setProperties(properties);
 

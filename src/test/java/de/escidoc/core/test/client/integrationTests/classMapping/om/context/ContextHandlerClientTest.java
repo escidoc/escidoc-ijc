@@ -32,7 +32,6 @@ import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -192,66 +191,6 @@ public class ContextHandlerClientTest {
         MarshallerFactory
             .getInstance(cc.getTransport()).getMarshaller(Context.class)
             .marshalDocument(retrivedContext);
-    }
-
-    /**
-     * Test retrieving contexts through filter request.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testRetrieveContextsOld() throws Exception {
-
-        // just getting a valid objid of a user
-        UserAccountHandlerClientInterface uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
-        uac.setHandle(auth.getHandle());
-
-        UserAccount me = uac.retrieveCurrentUser();
-
-        // call filter without Authentication (login)
-        ContextHandlerClient cc =
-            new ContextHandlerClient(auth.getServiceAddress());
-        // do not set handle here (see above comment)
-
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request
-            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"="
-                + me.getObjid());
-
-        List<Context> contextList = cc.retrieveContextsAsList(request);
-
-        assertTrue("result list is empty, try another filter",
-            contextList.size() != 0);
-    }
-
-    /**
-     * Test retrieving Members through filter request.
-     * 
-     * @throws Exception
-     *             Thrown if anythings failed.
-     */
-    @Test
-    public void testRetrieveMembersOld() throws Exception {
-        // just getting a valid objid of a user
-        UserAccountHandlerClientInterface uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
-        uac.setHandle(auth.getHandle());
-
-        UserAccount me = uac.retrieveCurrentUser();
-
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request
-            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"="
-                + me.getObjid());
-
-        List<VersionableResource> memberList =
-            cc.retrieveMembersAsList(
-                EscidocClientTestBase.getStaticContextId(), request);
-
-        assertTrue("result list is empty, try another filter",
-            memberList.size() != 0);
     }
 
     /**

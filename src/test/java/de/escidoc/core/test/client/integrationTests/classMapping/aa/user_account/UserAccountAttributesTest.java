@@ -61,8 +61,10 @@ public class UserAccountAttributesTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uahc = new UserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
     }
@@ -205,7 +207,7 @@ public class UserAccountAttributesTest {
 
         // retrieve
         try {
-            uahc.retrieveAttribute(objId, uaAttrib.getObjid());
+            uahc.retrieveAttribute(objId, createAttrib.getObjid());
             fail("Prefence not deleted.");
         }
         catch (UserAttributeNotFoundException e) {

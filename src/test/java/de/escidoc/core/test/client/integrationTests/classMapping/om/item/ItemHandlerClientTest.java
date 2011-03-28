@@ -33,11 +33,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -49,15 +48,23 @@ import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.MetadataRecord;
+import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.reference.ContentModelRef;
+import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.EscidocClientTestBase;
+import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtility;
 
 /**
  * Test the Item Handler Client.
@@ -77,8 +84,10 @@ public class ItemHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -166,15 +175,6 @@ public class ItemHandlerClientTest {
         Element element1 = doc.createElement("some-other-stuff1");
         element1.setTextContent("33333333333333333333");
 
-        List<Element> cmsContent = new LinkedList<Element>();
-        cmsContent.add(contentModelSpecific);
-        cmsContent.add(element1);
-        ContentModelSpecific cms = new ContentModelSpecific();
-
-        cms.setContent(cmsContent);
-
-        item2.getProperties().setContentModelSpecific(cms);
-
         item2 = ihc.update(item2);
 
         VersionHistory vh2 = ihc.retrieveVersionHistory(item2.getObjid());
@@ -189,15 +189,18 @@ public class ItemHandlerClientTest {
      */
     @Test
     public void testItemLifecycle() throws Exception {
-        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
+        // Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
+        Item resultItem = createBasicItem();
 
-        Item resultItem = ihc.create(item);
+        // Item resultItem = ihc.create(item);
         TaskParam tp = new TaskParam();
         tp.setLastModificationDate(resultItem.getLastModificationDate());
 
         // submit
         tp.setComment("Item '" + resultItem.getObjid() + " will be submitted.");
         ihc.submit(resultItem.getObjid(), tp);
+
+        // retrieve submitted item
         resultItem = ihc.retrieve(resultItem.getObjid());
 
         // assign object pid
@@ -205,6 +208,8 @@ public class ItemHandlerClientTest {
         tp.setComment(null);
         tp.setUrl(new URL("http://www.escidoc.de/test-pid"));
         Result pidResult = ihc.assignObjectPid(resultItem.getObjid(), tp);
+
+        // asserts
         assertNotNull("AssignObjectPid returns null", pidResult);
         assertTrue("AssignObjectPid returns empty result", !pidResult.isEmpty());
         assertTrue("AssignObjectPid returns invalid result", pidResult
@@ -227,8 +232,42 @@ public class ItemHandlerClientTest {
         tp.setLastModificationDate(resultItem.getLastModificationDate());
         tp.setComment("Item '" + resultItem.getObjid() + " will be released.");
         ihc.release(resultItem.getObjid(), tp);
+
+        // retrieve released item
         resultItem = ihc.retrieve(resultItem.getObjid());
 
+    }
+
+    /**
+     * @return
+     * @throws TransportException
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws ParserConfigurationException
+     */
+    private Item createBasicItem() throws TransportException, EscidocException,
+        InternalClientException, ParserConfigurationException {
+        Item item = new Item();
+
+        item.getProperties().setContext(
+            new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
+
+        // Content-model
+        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        item.getProperties().setContentModelSpecific(cms);
+
+        // Metadata Record(s)
+        MetadataRecords mdRecords = new MetadataRecords();
+        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        item.setMetadataRecords(mdRecords);
+
+        // create
+        return ihc.create(item);
     }
 
     /* ********************************************************************** */

@@ -378,7 +378,7 @@ public class SearchHandlerClientTest {
             MyRef ref = (MyRef) result.getContent();
 
             assertEquals(ref.getId(), objid);
-            assertTrue(ref.getResourceType() == ResourceType.Item);
+            assertTrue(ref.getResourceType() == ResourceType.ITEM);
         }
         // remove registered resolver to avoid other tests to fail.
         SearchDescriptor.getResolvers().pop();
@@ -421,10 +421,10 @@ public class SearchHandlerClientTest {
                         xmlTextFragment.indexOf('<', m.group(0).length()));
 
                 if ("item".equals(m.group(2))) {
-                    return new MyRef(id, ResourceType.Item);
+                    return new MyRef(id, ResourceType.ITEM);
                 }
                 else if ("container".equals(m.group(2))) {
-                    return new MyRef(id, ResourceType.Container);
+                    return new MyRef(id, ResourceType.CONTAINER);
                 }
             }
             return null;

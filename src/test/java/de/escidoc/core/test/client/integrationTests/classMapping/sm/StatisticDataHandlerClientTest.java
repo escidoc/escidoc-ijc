@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -44,8 +45,10 @@ public class StatisticDataHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         shc = new StatisticDataHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
         // create test scope
@@ -70,6 +73,7 @@ public class StatisticDataHandlerClientTest {
      * 
      * @throws Exception
      */
+    @Ignore
     @Test
     public void testCreate01() throws Exception {
         StatisticData sd = new StatisticData(new ScopeRef(scopeId));

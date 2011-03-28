@@ -48,8 +48,10 @@ public class ReportHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rhc = new ReportHandlerClient(auth.getServiceAddress());
         rhc.setHandle(auth.getHandle());
         // create test scope
@@ -59,7 +61,7 @@ public class ReportHandlerClientTest {
         }
         reportDefId =
             createReportDefinition("Report Name",
-                "select day, month from _escidocaggdef1_request_statistics;");
+                "select day, month from escidocaggdef1_request_statistics;");
         if (reportDefId == null) {
             fail("Test initialization failed: reportDefId is null.");
         }
@@ -77,7 +79,6 @@ public class ReportHandlerClientTest {
     }
 
     /**
-     * TODO implement
      * 
      * @throws Exception
      */

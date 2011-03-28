@@ -11,7 +11,6 @@ import static org.junit.Assert.fail;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,11 +23,9 @@ import org.junit.Test;
 import de.escidoc.core.client.AggregationDefinitionHandlerClient;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ScopeHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.reference.ScopeRef;
 import de.escidoc.core.resources.sb.explain.Explain;
 import de.escidoc.core.resources.sb.explain.ExplainResponse;
@@ -51,7 +48,6 @@ import de.escidoc.core.resources.sm.ad.TimeReductionFieldType;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
 import de.escidoc.core.test.client.EscidocClientTestBase;
-import de.escidoc.core.test.client.util.Template;
 
 /**
  * @author MVO
@@ -88,8 +84,10 @@ public class AggregationDefinitionHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         adhc = new AggregationDefinitionHandlerClient(auth.getServiceAddress());
         adhc.setHandle(auth.getHandle());
 
@@ -103,24 +101,6 @@ public class AggregationDefinitionHandlerClientTest {
     public void post() throws Exception {
         if (auth != null)
             auth.logout();
-    }
-
-    /**
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testMarshallingForCdata01() throws Exception {
-        InputStream in = Template.load("/soap/sm/ad/ad-01.xml");
-        AggregationDefinition ad =
-            MarshallerFactory
-                .getInstance(TransportProtocol.SOAP)
-                .getMarshaller(AggregationDefinition.class)
-                .unmarshalDocument(in);
-        String xml =
-            MarshallerFactory
-                .getInstance(TransportProtocol.SOAP)
-                .getMarshaller(AggregationDefinition.class).marshalDocument(ad);
     }
 
     /**

@@ -81,8 +81,10 @@ public class MemberTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -297,7 +299,8 @@ public class MemberTest {
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        ContextRef cRef = new ContextRef(EscidocClientTestBase.getStaticContextId());
+        ContextRef cRef =
+            new ContextRef(EscidocClientTestBase.getStaticContextId());
         cRef.setXLinkTitle("Test Context");
         properties.setContext(cRef);
         ContentModelRef cmRef =
@@ -332,8 +335,10 @@ public class MemberTest {
 
         item.getProperties().setContext(
             new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties().setContentModel(
-            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();

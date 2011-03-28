@@ -475,12 +475,12 @@ public class ContainerCreateTest {
         // item should be returned first
         assertTrue(it.hasNext());
         MemberRef m = it.next();
-        assertEquals(m.getResourceType(), ResourceType.Item);
+        assertEquals(m.getResourceType(), ResourceType.ITEM);
         assertEquals(m.getObjid(), createdMemberItem.getObjid());
         // container should be returned last
         assertTrue(it.hasNext());
         m = it.next();
-        assertEquals(m.getResourceType(), ResourceType.Container);
+        assertEquals(m.getResourceType(), ResourceType.CONTAINER);
         assertEquals(m.getObjid(), createdMemberContainer.getObjid());
     }
 

@@ -35,6 +35,7 @@ import org.junit.Test;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -85,7 +86,7 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
             .getProperties().getCreatedBy().getObjid());
         assertEquals("Wrong modified-by", "escidoc:exuser1", context
             .getProperties().getModifiedBy().getObjid());
-        assertEquals("Wrong public-status", "created", context
+        assertEquals("Wrong public-status", PublicStatus.CREATED, context
             .getProperties().getPublicStatus());
         assertEquals("Wrong public-status comment",
             "Object escidoc:157546 created.", context
@@ -118,6 +119,21 @@ public class ContextMarshallerTest extends AbstractParameterizedTestBase {
         String contextXml =
             EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
                 transport, BASE, XSD_VERSION, "context02.xml"));
+
+        Context context =
+            MarshallerFactory
+                .getInstance(transport).getMarshaller(Context.class)
+                .unmarshalDocument(contextXml);
+    }
+
+    /**
+     * @throws Exception
+     */
+    @Test
+    public void unmarshalling03() throws Exception {
+        String contextXml =
+            EscidocClientTestBase.getXmlFileAsString(Template.loadMockup(
+                transport, BASE, XSD_VERSION, "context03.xml"));
 
         Context context =
             MarshallerFactory
