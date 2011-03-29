@@ -874,7 +874,7 @@
 				<artifactId>escidoc-core</artifactId>
 				<version>1.2</version>
 				<type>ear</type>
-				<scope>compile</scope>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -884,7 +884,7 @@
 			<groupId>org.escidoc</groupId>
 			<artifactId>escidoc-core</artifactId>
 			<type>ear</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<!-- Joda Time -->
 		<dependency>
