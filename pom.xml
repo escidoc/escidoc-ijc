@@ -34,6 +34,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.6.1</slf4j.version>
+        <jdbc.postgresql.version>9.0-801.jdbc4</jdbc.postgresql.version>
+        <fedora.database>fedora3</fedora.database>
+		<fedora.database.user>fedoraAdmin</fedora.database.user>
+		<triplestore.database>riTriples</triplestore.database>
+        <escidoc.database>escidoc-core</escidoc.database>
+		<escidoc.database.user>escidoc</escidoc.database.user>
 		<escidoc.host.protocol>http</escidoc.host.protocol>
     <escidoc.host.name>localhost</escidoc.host.name>
     <escidoc.host.port>8080</escidoc.host.port>
@@ -179,8 +185,196 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.3</version>
+                <dependencies>
+                    <!-- specify the dependent jdbc driver here -->
+                    <dependency>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${jdbc.postgresql.version}</version>
+                    </dependency>
+                </dependencies>
+                <!-- common configuration shared by all executions -->
+                <configuration>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>jdbc:postgresql://localhost:5432/postgres</url>
+                    <!-- use your settings.xml to configure username and password -->
+                    <settingsKey>escidoc-core-db-admin</settingsKey>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>drop-fedora-db</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <!-- need another database to drop the targeted one -->
+                            <url>jdbc:postgresql://localhost:5432/postgres</url>
+                            <autocommit>true</autocommit>
+                            <sqlCommand>DROP DATABASE IF EXISTS "${fedora.database}"</sqlCommand>
+                            <onError>continue</onError>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>drop-triplestore-db</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <!-- need another database to drop the targeted one -->
+                            <url>jdbc:postgresql://localhost:5432/postgres</url>
+                            <autocommit>true</autocommit>
+                            <sqlCommand>DROP DATABASE IF EXISTS "${triplestore.database}"</sqlCommand>
+                            <onError>continue</onError>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>drop-fedora-role</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <!-- need another database to drop the targeted one -->
+                            <url>jdbc:postgresql://localhost:5432/postgres</url>
+                            <autocommit>true</autocommit>
+                            <sqlCommand>DROP ROLE IF EXISTS "${fedora.database.user}"</sqlCommand>
+                            <onError>continue</onError>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>drop-escidoc-db</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <!-- need another database to drop the targeted one -->
+                            <url>jdbc:postgresql://localhost:5432/postgres</url>
+                            <autocommit>true</autocommit>
+                            <sqlCommand>DROP DATABASE IF EXISTS "${escidoc.database}"</sqlCommand>
+                            <onError>continue</onError>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>drop-escidoc-role</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <!-- need another database to drop the targeted one -->
+                            <url>jdbc:postgresql://localhost:5432/postgres</url>
+                            <autocommit>true</autocommit>
+                            <sqlCommand>DROP ROLE IF EXISTS "${escidoc.database.user}"</sqlCommand>
+                            <onError>continue</onError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-installer</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.escidoc.core</groupId>
+                                    <artifactId>escidoc-installer</artifactId>
+                                    <version>1.3-beta3</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>escidoc-installer.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>install-escidoc-core</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>${project.build.directory}/escidoc-installer.jar</argument>
+                                <argument>${project.build.directory}/classes/escidoc-core-install-script.xml</argument>
+                            </arguments>
+                            <outputFile>${project.build.directory}/escidoc-installer.log</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.0.6</version>
+                <executions>
+                    <execution>
+                        <id>start-container</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <wait>false</wait>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <container>
+                        <containerId>jboss42x</containerId>
+                        <home>${project.build.directory}/escidoc/jboss</home>
+                        <timeout>600000</timeout>
+                    </container>
+                </configuration>
+            </plugin>
+            <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>axistools-maven-plugin</artifactId>
 				<executions>
@@ -470,8 +664,8 @@
 						</mapping>
 
 						<!-- -->
-						<!-- <mapping namespace="http://vo.business.${component}.core.escidoc.de" 
-							package="de.escidoc.core.remote.${component}.business.vo" /> <mapping namespace="http://vo.${component}.core.escidoc.de" 
+						<!-- <mapping namespace="http://vo.business.${component}.core.escidoc.de"
+							package="de.escidoc.core.remote.${component}.business.vo" /> <mapping namespace="http://vo.${component}.core.escidoc.de"
 							package="de.escidoc.core.remote.${component}.vo" /> -->
 
 					</mappings>
@@ -674,7 +868,12 @@
 			
 			
 		</plugins>
-
+        <resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<testResources>
 			<testResource>
 				<directory>src/test/resources</directory>
@@ -684,7 +883,6 @@
 
 
 	<profiles>
-
 		<profile>
 			<id>install-escidoc</id>
 			<activation>
@@ -1177,4 +1375,5 @@
 		</dependency>
 
 	</dependencies>
+
 </project>
