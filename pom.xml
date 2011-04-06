@@ -373,6 +373,20 @@
                         <home>${project.build.directory}/escidoc/jboss</home>
                         <timeout>600000</timeout>
                     </container>
+
+					<configuration>
+						<type>standalone</type>
+						<properties>
+							<cargo.hostname>localhost</cargo.hostname>
+							<cargo.protocol>http</cargo.protocol>
+
+							<cargo.servlet.port>8080</cargo.servlet.port>
+							<cargo.rmi.port>1099</cargo.rmi.port>
+							<cargo.logging>medium</cargo.logging>
+							<cargo.jvmargs>-Xmx1024m -Xms312m -XX:MaxPermSize=320m
+									</cargo.jvmargs>
+						</properties>
+					</configuration>
                 </configuration>
             </plugin>
             <plugin>
