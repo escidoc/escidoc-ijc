@@ -334,6 +334,7 @@
                         <configuration>
                             <executable>java</executable>
                             <arguments>
+								<argument>-Dskip.validation=true</argument>
                                 <argument>-jar</argument>
                                 <argument>${project.build.directory}/escidoc-installer.jar</argument>
                                 <argument>${project.build.directory}/classes/escidoc-core-install-script.xml</argument>
