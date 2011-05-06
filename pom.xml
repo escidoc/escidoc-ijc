@@ -34,24 +34,25 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.6.1</slf4j.version>
-        <jdbc.postgresql.version>9.0-801.jdbc4</jdbc.postgresql.version>
-        <fedora.database>fedora3</fedora.database>
+		<jdbc.postgresql.version>9.0-801.jdbc4</jdbc.postgresql.version>
+		<fedora.database>fedora3</fedora.database>
 		<fedora.database.user>fedoraAdmin</fedora.database.user>
 		<triplestore.database>riTriples</triplestore.database>
-        <escidoc.database>escidoc-core</escidoc.database>
+		<escidoc.database>escidoc-core</escidoc.database>
 		<escidoc.database.user>escidoc</escidoc.database.user>
 		<escidoc.host.protocol>http</escidoc.host.protocol>
-    <escidoc.host.name>localhost</escidoc.host.name>
-    <escidoc.host.port>8080</escidoc.host.port>
-    <escidoc.host>${escidoc.host.protocol}://${escidoc.host.name}:${escidoc.host.port}</escidoc.host>
-    <wsdl.location>/axis/services</wsdl.location>
-    <wsdl.host>${escidoc.host}${wsdl.location}</wsdl.host>
+		<escidoc.host.name>localhost</escidoc.host.name>
+		<escidoc.host.port>8080</escidoc.host.port>
+		<escidoc.host>${escidoc.host.protocol}://${escidoc.host.name}:${escidoc.host.port}</escidoc.host>
+		<wsdl.location>/axis/services</wsdl.location>
+		<wsdl.host>${escidoc.host}${wsdl.location}</wsdl.host>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<docbook.gen.dir.name>gen-docbook</docbook.gen.dir.name>
 		<docbook.gen.dir>${project.reporting.outputDirectory}/${docbook.gen.dir.name}</docbook.gen.dir>
 		<docbook.src.xml>src/site/xml</docbook.src.xml>
 		<docbook.src.xsl>src/site/xsl</docbook.src.xsl>
-		<docbook.api.chapter.title>Api Reference for eSciDocCore Infrastructure Service Clients and Resources</docbook.api.chapter.title>
+		<docbook.api.chapter.title>Api Reference for eSciDocCore
+			Infrastructure Service Clients and Resources</docbook.api.chapter.title>
 		<docbook.bookinfo.title>eSciDoc Infrastructure Java Client Library</docbook.bookinfo.title>
 		<docbook.bookinfo.subtitle>For eSciDocCore Infrastructure Version 1.3</docbook.bookinfo.subtitle>
 		<dbdoclet.document>api.xml</dbdoclet.document>
@@ -115,34 +116,35 @@
 						</reports>
 					</reportSet>
 					<reportSet>
-            <id>dbdoclet</id>
-            <configuration>
-              <doclet>org.dbdoclet.doclet.docbook.DocBookDoclet</doclet>
-              <docletArtifact>
-                <groupId>org.dbdoclet.doclet</groupId>
-						    <artifactId>docbook</artifactId>
-						    <version>jdk1_5</version>
-              </docletArtifact>
-              <excludePackageNames>java.lang.*:org.*:de.escidoc.core.aa:de.escidoc.core.adm:de.escidoc.core.cmm:de.escidoc.core.common.exceptions:de.escidoc.core.oai:de.escidoc.core.om:de.escidoc.core.oum:de.escidoc.core.sm:de.escidoc.core.tme:gov.*</excludePackageNames>
-              <additionalparam>
-                    -f ${dbdoclet.document} -booktype book -id numbered -nostatistics -part
+						<id>dbdoclet</id>
+						<configuration>
+							<doclet>org.dbdoclet.doclet.docbook.DocBookDoclet</doclet>
+							<docletArtifact>
+								<groupId>org.dbdoclet.doclet</groupId>
+								<artifactId>docbook</artifactId>
+								<version>jdk1_5</version>
+							</docletArtifact>
+							<excludePackageNames>java.lang.*:org.*:de.escidoc.core.aa:de.escidoc.core.adm:de.escidoc.core.cmm:de.escidoc.core.common.exceptions:de.escidoc.core.oai:de.escidoc.core.om:de.escidoc.core.oum:de.escidoc.core.sm:de.escidoc.core.tme:gov.*</excludePackageNames>
+							<additionalparam>
+								-f ${dbdoclet.document} -booktype book -id numbered -nostatistics
+								-part
               </additionalparam>
-              <destDir>${docbook.gen.dir.name}</destDir>
-              <!-- For the project-reports page-->
-              <name>DocBookDoclet</name>
-              <description>DocBookDoclet documentation.</description>              
-            </configuration>
-            <reports>
-              <report>javadoc</report>
-            </reports>
-          </reportSet>
+							<destDir>${docbook.gen.dir.name}</destDir>
+							<!-- For the project-reports page -->
+							<name>DocBookDoclet</name>
+							<description>DocBookDoclet documentation.</description>
+						</configuration>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
 				</reportSets>
 			</plugin>
 		</plugins>
 	</reporting>
 
 	<build>
-    <pluginManagement>
+		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -185,194 +187,194 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sql-maven-plugin</artifactId>
-                <version>1.3</version>
-                <dependencies>
-                    <!-- specify the dependent jdbc driver here -->
-                    <dependency>
-                        <groupId>postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>${jdbc.postgresql.version}</version>
-                    </dependency>
-                </dependencies>
-                <!-- common configuration shared by all executions -->
-                <configuration>
-                    <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost:5432/postgres</url>
-                    <!-- use your settings.xml to configure username and password -->
-                    <settingsKey>escidoc-core-db-admin</settingsKey>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>drop-fedora-db</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <!-- need another database to drop the targeted one -->
-                            <url>jdbc:postgresql://localhost:5432/postgres</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>DROP DATABASE IF EXISTS "${fedora.database}"</sqlCommand>
-                            <onError>continue</onError>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>drop-triplestore-db</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <!-- need another database to drop the targeted one -->
-                            <url>jdbc:postgresql://localhost:5432/postgres</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>DROP DATABASE IF EXISTS "${triplestore.database}"</sqlCommand>
-                            <onError>continue</onError>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>drop-fedora-role</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <!-- need another database to drop the targeted one -->
-                            <url>jdbc:postgresql://localhost:5432/postgres</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>DROP ROLE IF EXISTS "${fedora.database.user}"</sqlCommand>
-                            <onError>continue</onError>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>drop-escidoc-db</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <!-- need another database to drop the targeted one -->
-                            <url>jdbc:postgresql://localhost:5432/postgres</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>DROP DATABASE IF EXISTS "${escidoc.database}"</sqlCommand>
-                            <onError>continue</onError>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>drop-escidoc-role</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <!-- need another database to drop the targeted one -->
-                            <url>jdbc:postgresql://localhost:5432/postgres</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>DROP ROLE IF EXISTS "${escidoc.database.user}"</sqlCommand>
-                            <onError>continue</onError>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.2</version>
-                <executions>
-                    <execution>
-                        <id>copy-installer</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.escidoc.core</groupId>
-                                    <artifactId>escidoc-installer</artifactId>
-                                    <version>1.3-beta3</version>
-                                    <type>jar</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}</outputDirectory>
-                                    <destFileName>escidoc-installer.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.5</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>resources</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2</version>
-                <executions>
-                    <execution>
-                        <id>install-escidoc-core</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>java</executable>
-                            <arguments>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.3</version>
+				<dependencies>
+					<!-- specify the dependent jdbc driver here -->
+					<dependency>
+						<groupId>postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>${jdbc.postgresql.version}</version>
+					</dependency>
+				</dependencies>
+				<!-- common configuration shared by all executions -->
+				<configuration>
+					<driver>org.postgresql.Driver</driver>
+					<url>jdbc:postgresql://localhost:5432/postgres</url>
+					<!-- use your settings.xml to configure username and password -->
+					<settingsKey>escidoc-core-db-admin</settingsKey>
+				</configuration>
+				<executions>
+					<execution>
+						<id>drop-fedora-db</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<!-- need another database to drop the targeted one -->
+							<url>jdbc:postgresql://localhost:5432/postgres</url>
+							<autocommit>true</autocommit>
+							<sqlCommand>DROP DATABASE IF EXISTS "${fedora.database}"</sqlCommand>
+							<onError>continue</onError>
+						</configuration>
+					</execution>
+					<execution>
+						<id>drop-triplestore-db</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<!-- need another database to drop the targeted one -->
+							<url>jdbc:postgresql://localhost:5432/postgres</url>
+							<autocommit>true</autocommit>
+							<sqlCommand>DROP DATABASE IF EXISTS "${triplestore.database}"</sqlCommand>
+							<onError>continue</onError>
+						</configuration>
+					</execution>
+					<execution>
+						<id>drop-fedora-role</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<!-- need another database to drop the targeted one -->
+							<url>jdbc:postgresql://localhost:5432/postgres</url>
+							<autocommit>true</autocommit>
+							<sqlCommand>DROP ROLE IF EXISTS "${fedora.database.user}"</sqlCommand>
+							<onError>continue</onError>
+						</configuration>
+					</execution>
+					<execution>
+						<id>drop-escidoc-db</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<!-- need another database to drop the targeted one -->
+							<url>jdbc:postgresql://localhost:5432/postgres</url>
+							<autocommit>true</autocommit>
+							<sqlCommand>DROP DATABASE IF EXISTS "${escidoc.database}"</sqlCommand>
+							<onError>continue</onError>
+						</configuration>
+					</execution>
+					<execution>
+						<id>drop-escidoc-role</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<!-- need another database to drop the targeted one -->
+							<url>jdbc:postgresql://localhost:5432/postgres</url>
+							<autocommit>true</autocommit>
+							<sqlCommand>DROP ROLE IF EXISTS "${escidoc.database.user}"</sqlCommand>
+							<onError>continue</onError>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>copy-installer</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.escidoc.core</groupId>
+									<artifactId>escidoc-installer</artifactId>
+									<version>1.3-beta3</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}</outputDirectory>
+									<destFileName>escidoc-installer.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>resources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<id>install-escidoc-core</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>java</executable>
+							<arguments>
 								<argument>-Dskip.validation=true</argument>
-                                <argument>-jar</argument>
-                                <argument>${project.build.directory}/escidoc-installer.jar</argument>
-                                <argument>${project.build.directory}/classes/escidoc-core-install-script.xml</argument>
-                            </arguments>
-                            <outputFile>${project.build.directory}/escidoc-installer.log</outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven2-plugin</artifactId>
-                <version>1.0.6</version>
-                <executions>
-                    <execution>
-                        <id>start-container</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                        <configuration>
-                            <wait>false</wait>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stop-container</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <container>
-                        <containerId>jboss42x</containerId>
-                        <home>${project.build.directory}/escidoc/jboss</home>
-                        <timeout>600000</timeout>
-                    </container>
+								<argument>-jar</argument>
+								<argument>${project.build.directory}/escidoc-installer.jar</argument>
+								<argument>${project.build.directory}/classes/escidoc-core-install-script.xml</argument>
+							</arguments>
+							<outputFile>${project.build.directory}/escidoc-installer.log</outputFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.0.6</version>
+				<executions>
+					<execution>
+						<id>start-container</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<wait>false</wait>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-container</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<container>
+						<containerId>jboss42x</containerId>
+						<home>${project.build.directory}/escidoc/jboss</home>
+						<timeout>600000</timeout>
+					</container>
 
 					<configuration>
 						<type>standalone</type>
@@ -387,9 +389,9 @@
 									</cargo.jvmargs>
 						</properties>
 					</configuration>
-                </configuration>
-            </plugin>
-            <plugin>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>axistools-maven-plugin</artifactId>
 				<executions>
@@ -679,8 +681,8 @@
 						</mapping>
 
 						<!-- -->
-						<!-- <mapping namespace="http://vo.business.${component}.core.escidoc.de"
-							package="de.escidoc.core.remote.${component}.business.vo" /> <mapping namespace="http://vo.${component}.core.escidoc.de"
+						<!-- <mapping namespace="http://vo.business.${component}.core.escidoc.de" 
+							package="de.escidoc.core.remote.${component}.business.vo" /> <mapping namespace="http://vo.${component}.core.escidoc.de" 
 							package="de.escidoc.core.remote.${component}.vo" /> -->
 
 					</mappings>
@@ -765,129 +767,153 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.6</version>
-        
-        <dependencies>
-          <dependency>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+
+				<dependencies>
+					<dependency>
 						<groupId>saxon</groupId>
 						<artifactId>saxon</artifactId>
 						<version>6.5.5</version>
 					</dependency>
 					<dependency>
-				    <groupId>saxon</groupId>
-				    <artifactId>saxon-xml-apis</artifactId>
-				    <version>6.5.5</version>
+						<groupId>saxon</groupId>
+						<artifactId>saxon-xml-apis</artifactId>
+						<version>6.5.5</version>
 					</dependency>
 					<dependency>
-				    <groupId>saxon</groupId>
-				    <artifactId>saxon-jdom</artifactId>
-				    <version>6.5.5</version>
+						<groupId>saxon</groupId>
+						<artifactId>saxon-jdom</artifactId>
+						<version>6.5.5</version>
 					</dependency>
 					<dependency>
-				    <groupId>org.apache.xmlgraphics</groupId>
-				    <artifactId>fop</artifactId>
-				    <version>0.93</version>
+						<groupId>org.apache.xmlgraphics</groupId>
+						<artifactId>fop</artifactId>
+						<version>0.93</version>
 					</dependency>
-        </dependencies>
-        
-        <executions>
-          <execution>
-            <phase>site</phase>
-            <configuration>
-              <target>
-                <!-- replace content -->
-                <replace file="${dbdoclet.document.path}" token="&lt;?xml version='1.0' encoding='UTF-8'?>" value=" " />
-						    <replace file="${dbdoclet.document.path}" token="&lt;!DOCTYPE" value="sdf" />
-						    
-						    <replace file="${dbdoclet.document.path}" token="&lt;chapter" value="&lt;section" />
-						    <replace file="${dbdoclet.document.path}" token="&lt;/chapter" value="&lt;/section" />
-						    <replace file="${dbdoclet.document.path}" token="part" value="chapter" />
-						
-						    <replace file="${dbdoclet.document.path}" token="&lt;title>Reference Handbook&lt;/title>" value="&lt;title>${docbook.api.chapter.title}&lt;/title>" />
-						    <replace file="${dbdoclet.document.path}" token="chapter lang" value="chapter id='API-REFERENCE' lang" />
-						    
-						    <replace file="${dbdoclet.document.path}" token="&lt;abstract>" value=" " />
-						    <replace file="${dbdoclet.document.path}" token="&lt;para>&lt;/para>" value=" " />
-						    <replace file="${dbdoclet.document.path}" token="&lt;/abstract>" value=" " />
-						    <replace file="${dbdoclet.document.path}" token="&lt;index/>" value=" " />
-						    
-						    <copy todir="${docbook.gen.dir}" overwrite="true">
-						      <fileset dir="${docbook.src.xml}" />
-						    </copy>
-						    
-						    <copy todir="${project.reporting.outputDirectory}/tmp">
-						      <fileset dir="${docbook.src.xsl}"/>
-						    </copy>
-						    
-                <!-- create fo -->
-                <echo level="info">
-					        Generating ${docbook.gen.dir}/${doc.name}.fo
-					      </echo>
-					      
-					      <property name="saxon_classpath" refid="maven.plugin.classpath"/>
-					      <property name="doctype_dtd_loc" value="../tmp/docbook-xml-4.5/docbookx.dtd"/>
-					      <property name="bookinfo_title" value="${docbook.bookinfo.title}"/>
-					      <property name="bookinfo_subtitle" value="${docbook.bookinfo.subtitle}"/>
-					      <property name="image_loc" value="."/>
+				</dependencies>
 
-                <replace file="${docbook.gen.dir}/${doc.name}.xml" token="{DOCTYPE_DTD_LOC}" value="${doctype_dtd_loc}"/>
-                <replace file="${docbook.gen.dir}/${doc.name}.xml" token="{IMAGE_LOC}" value="${image_loc}"/>
-                <replace file="${docbook.gen.dir}/${doc.name}.xml" token="{TITLE}" value="${bookinfo_title}"/>
-                <replace file="${docbook.gen.dir}/${doc.name}.xml" token="{SUBTITLE}" value="${bookinfo_subtitle}"/>
-					      
-					      <!-- TODO change style back to docbook.src.xsl eventually -->
-							  <java classname="com.icl.saxon.StyleSheet" output="${docbook.gen.dir}/${doc.name}-create-fo.log"
-                      fork="true" dir="${docbook.gen.dir}/..">
-                  <classpath>
-                    <pathelement path="${saxon_classpath}"/>
-                  </classpath>
-                  <jvmarg line="-Xmx512M -Xms64m" />
-                  <jvmarg line="-Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration" />
-                  <arg value="-o" />
-                  <arg value="${docbook.gen.dir}/${doc.name}.fo" />
-                  <arg value="${docbook.gen.dir}/${doc.name}.xml" />
-                  <arg value="${project.reporting.outputDirectory}/tmp/EscidocDocbook.xsl" />
-                </java>
-							  
-							  <replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.VERSION}" value="${project.artifactId}-${project.version}" />
-							  <replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.DATE}" value="${maven.build.timestamp}" />						    
-						    
-						    <echo level="info">
-					        Generating ${pdf.dir}/${doc.name}.pdf
+				<executions>
+					<execution>
+						<phase>site</phase>
+						<configuration>
+							<target>
+								<!-- replace content -->
+								<replace file="${dbdoclet.document.path}"
+									token="&lt;?xml version='1.0' encoding='UTF-8'?>" value=" " />
+								<replace file="${dbdoclet.document.path}" token="&lt;!DOCTYPE"
+									value="sdf" />
+
+								<replace file="${dbdoclet.document.path}" token="&lt;chapter"
+									value="&lt;section" />
+								<replace file="${dbdoclet.document.path}" token="&lt;/chapter"
+									value="&lt;/section" />
+								<replace file="${dbdoclet.document.path}" token="part"
+									value="chapter" />
+
+								<replace file="${dbdoclet.document.path}" token="&lt;title>Reference Handbook&lt;/title>"
+									value="&lt;title>${docbook.api.chapter.title}&lt;/title>" />
+								<replace file="${dbdoclet.document.path}" token="chapter lang"
+									value="chapter id='API-REFERENCE' lang" />
+
+								<replace file="${dbdoclet.document.path}" token="&lt;abstract>"
+									value=" " />
+								<replace file="${dbdoclet.document.path}" token="&lt;para>&lt;/para>"
+									value=" " />
+								<replace file="${dbdoclet.document.path}" token="&lt;/abstract>"
+									value=" " />
+								<replace file="${dbdoclet.document.path}" token="&lt;index/>"
+									value=" " />
+
+								<copy todir="${docbook.gen.dir}" overwrite="true">
+									<fileset dir="${docbook.src.xml}" />
+								</copy>
+
+								<copy todir="${project.reporting.outputDirectory}/tmp">
+									<fileset dir="${docbook.src.xsl}" />
+								</copy>
+
+								<!-- create fo -->
+								<echo level="info">
+									Generating ${docbook.gen.dir}/${doc.name}.fo
 					      </echo>
-					      
-					      <mkdir dir="${pdf.dir}"/>
-					      
-					      <replace />
-					      
-							  <java classname="org.apache.fop.cli.Main" output="${pdf.dir}/${doc.name}-create-pdf.log"
-                      fork="true" dir="${pdf.dir}/..">
-                  <classpath>
-                    <pathelement path="${saxon_classpath}"/>
-                  </classpath>
-                  <jvmarg line="-Xmx1024M -Xms128m" />
-                  <arg line='-fo "${docbook.gen.dir}/${doc.name}.fo" -pdf "${pdf.dir}/${doc.name}.pdf"'/>
-                </java>
-						    
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+
+								<property name="saxon_classpath" refid="maven.plugin.classpath" />
+								<property name="doctype_dtd_loc" value="../tmp/docbook-xml-4.5/docbookx.dtd" />
+								<property name="bookinfo_title" value="${docbook.bookinfo.title}" />
+								<property name="bookinfo_subtitle" value="${docbook.bookinfo.subtitle}" />
+								<property name="image_loc" value="." />
+
+								<replace file="${docbook.gen.dir}/${doc.name}.xml"
+									token="{DOCTYPE_DTD_LOC}" value="${doctype_dtd_loc}" />
+								<replace file="${docbook.gen.dir}/${doc.name}.xml"
+									token="{IMAGE_LOC}" value="${image_loc}" />
+								<replace file="${docbook.gen.dir}/${doc.name}.xml"
+									token="{TITLE}" value="${bookinfo_title}" />
+								<replace file="${docbook.gen.dir}/${doc.name}.xml"
+									token="{SUBTITLE}" value="${bookinfo_subtitle}" />
+
+								<!-- TODO change style back to docbook.src.xsl eventually -->
+								<java classname="com.icl.saxon.StyleSheet"
+									output="${docbook.gen.dir}/${doc.name}-create-fo.log" fork="true"
+									dir="${docbook.gen.dir}/..">
+									<classpath>
+										<pathelement path="${saxon_classpath}" />
+									</classpath>
+									<jvmarg line="-Xmx512M -Xms64m" />
+									<jvmarg
+										line="-Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration" />
+									<arg value="-o" />
+									<arg value="${docbook.gen.dir}/${doc.name}.fo" />
+									<arg value="${docbook.gen.dir}/${doc.name}.xml" />
+									<arg
+										value="${project.reporting.outputDirectory}/tmp/EscidocDocbook.xsl" />
+								</java>
+
+								<replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.VERSION}"
+									value="${project.artifactId}-${project.version}" />
+								<replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.DATE}"
+									value="${maven.build.timestamp}" />
+
+								<echo level="info">
+									Generating ${pdf.dir}/${doc.name}.pdf
+					      </echo>
+
+								<mkdir dir="${pdf.dir}" />
+
+								<replace />
+
+								<java classname="org.apache.fop.cli.Main" output="${pdf.dir}/${doc.name}-create-pdf.log"
+									fork="true" dir="${pdf.dir}/..">
+									<classpath>
+										<pathelement path="${saxon_classpath}" />
+									</classpath>
+									<jvmarg line="-Xmx1024M -Xms128m" />
+									<arg
+										line='-fo "${docbook.gen.dir}/${doc.name}.fo" -pdf "${pdf.dir}/${doc.name}.pdf"' />
+								</java>
+
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.8</version>
 				<configuration>
-				<excludes>
-					<exclude>**/integrationTests</exclude>
-				</excludes>
+					<includes>
+						<include>**/*Test</include>
+					</includes>
+					<excludes>
+						<exclude>**/integrationTests</exclude>
+					</excludes>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -925,7 +951,7 @@
 						<exclude>**/*</exclude>
 					</excludes>
 					<forkMode>always</forkMode>
-<!-- 					<argLine>-Xmx1024m -XX:MaxPermSize=640m</argLine> -->
+					<!-- <argLine>-Xmx1024m -XX:MaxPermSize=640m</argLine> -->
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -935,10 +961,10 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			
-			
+
+
 		</plugins>
-        <resources>
+		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
