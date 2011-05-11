@@ -115,6 +115,9 @@ public final class ConfigurationProvider {
     public static final String NS_STATISTIC_AGGREGATION_DEF =
         "ns.statistic.aggregation-definition";
 
+    public static final String NS_STATISTIC_STATISTIC_DATA =
+        "ns.statistic.statistic-data";
+
     // OAI
     public static final String NS_OAI_SET_DEFINITION = "ns.oai.set-definition";
 
