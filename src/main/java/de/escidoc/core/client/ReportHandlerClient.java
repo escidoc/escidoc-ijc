@@ -70,6 +70,13 @@ public class ReportHandlerClient
             .getInstance().getMarshaller(Report.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestReportHandlerClient getRestHandlerClientInstance()
         throws InternalClientException {
