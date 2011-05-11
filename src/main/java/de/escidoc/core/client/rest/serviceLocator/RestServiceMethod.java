@@ -350,7 +350,7 @@ public abstract class RestServiceMethod implements RestService {
     }
 
     /**
-     * Convert inputstream into String.
+     * Convert InputStream into String.
      * 
      * @param is
      *            InputStream
