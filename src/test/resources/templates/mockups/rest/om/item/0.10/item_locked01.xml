@@ -9,7 +9,7 @@
 	xmlns:prop="http://escidoc.de/core/01/properties/"
 	xmlns:srel="http://escidoc.de/core/01/structural-relations/"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xlink:href="/ir/item/escidoc:40011"
+	xlink:href="/ir/item/escidoc:40011:5"
 	last-modification-date="2010-07-06T13:10:16.536Z">
 	<escidocItem:properties>
 		<prop:creation-date>2010-07-06T12:50:20.219Z</prop:creation-date>
@@ -155,6 +155,9 @@
 			</publication:publication>
 		</escidocMetadataRecords:md-record>
 	</escidocMetadataRecords:md-records>
+	<escidocContentStreams:content-streams>
+    <escidocContentStreams:content-stream name="foo" inherited="true" storage="external" mime-type="application/octet-stream">http://www.google.de</escidocContentStreams:content-stream>
+	</escidocContentStreams:content-streams>
 	<escidocComponents:components xml:base="http://localhost:8080">
 		<escidocComponents:component xlink:href="/ir/item/escidoc:40011/components/component/escidoc:40010" xlink:type="simple">
 			<escidocComponents:properties>
@@ -194,6 +197,9 @@
 			</escidocMetadataRecords:md-records>
 		</escidocComponents:component>
 	</escidocComponents:components>
-	<relations:relations></relations:relations>
+	<relations:relations>
+    <relations:relation xlink:href="ir/item/escidoc:rel1234" xlink:type="simple" predicate="test:foo:bar"/>
+    <relations:relation xlink:href="oum/organizational-unit/escidoc:rel4567" xlink:type="simple" predicate="test:foo:bar"/>
+	</relations:relations>
 </escidocItem:item>
 	
