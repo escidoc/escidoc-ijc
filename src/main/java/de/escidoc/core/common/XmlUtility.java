@@ -106,8 +106,27 @@ public class XmlUtility {
         throws ParserConfigurationException, UnsupportedEncodingException,
         SAXException, IOException {
 
+        return getDocument(xml, false);
+    }
+
+    /**
+     * @param xml
+     * @param namespaceAware
+     * @return
+     * @throws ParserConfigurationException
+     * @throws UnsupportedEncodingException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static Document getDocument(
+        final String xml, final boolean namespaceAware)
+        throws ParserConfigurationException, UnsupportedEncodingException,
+        SAXException, IOException {
+
         DocumentBuilderFactory docBuilderFactory =
             DocumentBuilderFactory.newInstance();
+        docBuilderFactory.setFeature("http://xml.org/sax/features/namespaces",
+            namespaceAware);
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         Document result =
             docBuilder.parse(new ByteArrayInputStream(xml
