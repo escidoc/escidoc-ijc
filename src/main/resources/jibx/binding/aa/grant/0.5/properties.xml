@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/grants/0.5" prefix="grants"/>
+	<namespace uri="http://escidoc.de/core/01/properties/" prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+  <mapping class="de.escidoc.core.resources.aa.useraccount.GrantProperties"
+    abstract="true" type-name="aa.grant.properties">
+
+    <structure name="granted-to" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/" 
+      set-method="setGrantedTo" get-method="getGrantedTo">
+      
+      <value name="resource" style="attribute" usage="optional"
+        set-method="setResource" get-method="getResource"/>
+        
+      <structure map-as="de.escidoc.core.resources.common.reference.UserAccountRef"/>
+    </structure>
+
+    <value name="creation-date" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setCreationDate" get-method="getCreationDate"/>
+
+    <structure name="created-by" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/" 
+      set-method="setCreatedBy" get-method="getCreatedBy"/>
+
+    <value name="revocation-date" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setRevocationDate" get-method="getRevocationDate"/>
+
+    <structure name="revoked-by" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/" 
+      set-method="setRevokedBy" get-method="getRevokedBy"/>
+    
+    <value name="grant-remark" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setGrantRemark" get-method="getGrantRemark"/>
+
+    <value name="revocation-remark" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setRevocationRemark" get-method="getRevocationRemark"/>
+
+    <structure name="role" usage="optional" 
+      ns="http://escidoc.de/core/01/structural-relations/"
+      set-method="setRole" get-method="getRole"/>
+
+    <structure name="assigned-on" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/"
+      set-method="setAssignedOn" get-method="getAssignedOn"/>
+
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="properties" ns="http://www.escidoc.de/schemas/grants/0.5"
+    class="de.escidoc.core.resources.aa.useraccount.GrantProperties">
+    <structure map-as="aa.grant.properties"/>
+  </mapping>
+
+</binding>

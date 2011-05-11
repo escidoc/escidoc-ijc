@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/grants/0.5" prefix="grants"/>
+  <namespace uri="http://escidoc.de/core/01/properties/" prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- grants -->
+	<mapping class="de.escidoc.core.resources.aa.useraccount.Grants"
+     abstract="true" type-name="aa.grants">
+    <collection create-type="de.escidoc.core.resources.aa.useraccount.Grants"
+      item-type="de.escidoc.core.resources.aa.useraccount.Grant"/>
+  </mapping>
+	
+	<!-- grant -->
+	<mapping class="de.escidoc.core.resources.aa.useraccount.Grant"
+     abstract="true" type-name="aa.grant"
+     post-set="generateXLinkHref">
+    
+    <structure map-as="de.escidoc.core.resources.GenericResource"/>
+    
+    <structure field="properties" usage="optional"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- current-grants -->
+	<mapping name="current-grants" ns="http://www.escidoc.de/schemas/grants/0.5"
+	 class="de.escidoc.core.resources.aa.useraccount.Grants">
+	 <structure map-as="aa.grants"/>
+	</mapping>
+	
+	<!-- grant -->
+	<mapping name="grant" ns="http://www.escidoc.de/schemas/grants/0.5"
+    class="de.escidoc.core.resources.aa.useraccount.Grant">
+    <structure map-as="aa.grant" />
+  </mapping>
+
+</binding>

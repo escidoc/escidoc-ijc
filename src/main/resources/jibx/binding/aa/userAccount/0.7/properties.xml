@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/useraccount/0.7" prefix="user-account"/>
+	<namespace uri="http://escidoc.de/core/01/properties/" prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.aa.useraccount.UserAccountProperties"
+    abstract="true" type-name="aa.user-account.properties">
+
+    <value name="creation-date" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setCreationDate" get-method="getCreationDate"/>
+
+    <structure name="created-by" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/" 
+      set-method="setCreatedBy" get-method="getCreatedBy"/>
+
+    <structure name="modified-by" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/"
+      set-method="setModifiedBy" get-method="getModifiedBy"/>
+
+    <value name="name" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setName" get-method="getName"/>
+
+    <value name="login-name" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setLoginName" get-method="getLoginName"/>
+
+    <value name="active" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setActive" get-method="isActive"/>
+
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="properties" ns="http://www.escidoc.de/schemas/useraccount/0.7" 
+    class="de.escidoc.core.resources.aa.useraccount.UserAccountProperties">
+    <structure map-as="aa.user-account.properties"/>
+  </mapping>
+
+</binding>
