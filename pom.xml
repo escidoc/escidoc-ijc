@@ -34,12 +34,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.6.1</slf4j.version>
+		<junit.version>4.8.2</junit.version>
 		<jdbc.postgresql.version>9.0-801.jdbc4</jdbc.postgresql.version>
 		<fedora.database>fedora3</fedora.database>
 		<fedora.database.user>fedoraAdmin</fedora.database.user>
+		<fedora.database.password>fedoraAdmin</fedora.database.password>
 		<triplestore.database>riTriples</triplestore.database>
 		<escidoc.database>escidoc-core</escidoc.database>
 		<escidoc.database.user>escidoc</escidoc.database.user>
+		<escidoc.database.password>escidoc</escidoc.database.password>
 		<escidoc.host.protocol>http</escidoc.host.protocol>
 		<escidoc.host.name>localhost</escidoc.host.name>
 		<escidoc.host.port>8080</escidoc.host.port>
@@ -60,6 +63,7 @@
 		<pdf.dir.name>pdf</pdf.dir.name>
 		<pdf.dir>${project.reporting.outputDirectory}/${pdf.dir.name}</pdf.dir>
 		<doc.name>Client_api_reference</doc.name>
+		<installer.installpath>${project.build.directory}${file.separator}escidoc</installer.installpath>
 	</properties>
 
 	<repositories>
@@ -88,12 +92,12 @@
 		</repository>
 	</repositories>
 
-	<reporting>
+  <reporting>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.7</version>
+				<version>2.8</version>
 				<reportSets>
 					<reportSet>
 						<id>html</id>
@@ -142,1206 +146,882 @@
 			</plugin>
 		</plugins>
 	</reporting>
-
+	
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>axistools-maven-plugin</artifactId>
-					<version>1.4</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.sonar</groupId>
-					<artifactId>sonar-maven-plugin</artifactId>
-					<version>2.3</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.3.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>axistools-maven-plugin</artifactId>
+          <version>1.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.sonar</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0-beta-3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.sonar</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+         <groupId>org.codehaus.gmaven</groupId>
+         <artifactId>gmaven-plugin</artifactId>
+         <version>1.3</version>
+         <executions>
+            <execution>
+               <phase>validate</phase>
+               <goals>
+                  <goal>execute</goal>
+               </goals>
+               <configuration>
+                  <source>
+                  import java.io.File;
+                  
+                  String installPath = new String(project.properties.getProperty('installer.installpath'));
+                  File dir = new File(installPath);
+                  if (dir.exists()) { 
+                      if (dir.isDirectory()) {
+                        project.properties.setProperty('skipInstaller', 'true');
+                      }
+                  }
+                  </source>
+               </configuration>
+            </execution>
+         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>target/generated-sources</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>sql-maven-plugin</artifactId>
+        <version>1.3</version>
+        <dependencies>
+          <!-- specify the dependent jdbc driver here -->
+          <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${jdbc.postgresql.version}</version>
+          </dependency>
+        </dependencies>
+        <!-- common configuration shared by all executions -->
+        <configuration>
+          <driver>org.postgresql.Driver</driver>
+          <url>jdbc:postgresql://localhost:5432/postgres</url>
+          <!-- use your settings.xml to configure username and password -->
+          <settingsKey>escidoc-core-db-admin</settingsKey>
+        </configuration>
+        <executions>
+          <execution>
+            <id>drop-fedora-db</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <!-- need another database to drop the targeted one -->
+              <url>jdbc:postgresql://localhost:5432/postgres</url>
+              <autocommit>true</autocommit>
+              <sqlCommand>DROP DATABASE IF EXISTS "${fedora.database}"</sqlCommand>
+              <onError>continue</onError>
+            </configuration>
+          </execution>
+          <execution>
+            <id>drop-triplestore-db</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <!-- need another database to drop the targeted one -->
+              <url>jdbc:postgresql://localhost:5432/postgres</url>
+              <autocommit>true</autocommit>
+              <sqlCommand>DROP DATABASE IF EXISTS "${triplestore.database}"</sqlCommand>
+              <onError>continue</onError>
+            </configuration>
+          </execution>
+          <execution>
+            <id>drop-fedora-role</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <!-- need another database to drop the targeted one -->
+              <url>jdbc:postgresql://localhost:5432/postgres</url>
+              <autocommit>true</autocommit>
+              <sqlCommand>DROP ROLE IF EXISTS "${fedora.database.user}"</sqlCommand>
+              <onError>continue</onError>
+            </configuration>
+          </execution>
+          <execution>
+            <id>drop-escidoc-db</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <!-- need another database to drop the targeted one -->
+              <url>jdbc:postgresql://localhost:5432/postgres</url>
+              <autocommit>true</autocommit>
+              <sqlCommand>DROP DATABASE IF EXISTS "${escidoc.database}"</sqlCommand>
+              <onError>continue</onError>
+            </configuration>
+          </execution>
+          <execution>
+            <id>drop-escidoc-role</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <!-- need another database to drop the targeted one -->
+              <url>jdbc:postgresql://localhost:5432/postgres</url>
+              <autocommit>true</autocommit>
+              <sqlCommand>DROP ROLE IF EXISTS "${escidoc.database.user}"</sqlCommand>
+              <onError>continue</onError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <id>copy-installer</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <skip>${skipInstaller}</skip>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.escidoc.core</groupId>
+                  <artifactId>installer</artifactId>
+                  <version>1.3-RC1</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>escidoc-installer.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.5</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2</version>
+        <executions>
+          <execution>
+            <id>install-escidoc-core</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <skip>${skipInstaller}</skip>
+              <executable>java</executable>
+              <arguments>
+                <argument>-Dskip.validation=true</argument>
+                <argument>-jar</argument>
+                <argument>${project.build.directory}/escidoc-installer.jar</argument>
+                <argument>${project.build.directory}/classes/escidoc-core-install-script.xml</argument>
+              </arguments>
+              <outputFile>${project.build.directory}/escidoc-installer.log</outputFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.0.6</version>
+        <executions>
+          <execution>
+            <id>start-container</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <wait>false</wait>
+              <skip>${skipJBoss}</skip>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop-container</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+            <configuration>
+              <skip>${skipJBoss}</skip>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <container>
+            <containerId>jboss42x</containerId>
+            <home>${project.build.directory}/escidoc/jboss</home>
+            <timeout>600000</timeout>
+          </container>
+          <configuration>
+            <type>standalone</type>
+            <properties>
+              <cargo.hostname>localhost</cargo.hostname>
+              <cargo.protocol>http</cargo.protocol>
+              <cargo.servlet.port>8080</cargo.servlet.port>
+              <cargo.rmi.port>1099</cargo.rmi.port>
+              <cargo.logging>medium</cargo.logging>
+              <cargo.jvmargs>-Xmx1024m -Xms312m -XX:MaxPermSize=320m</cargo.jvmargs>
+            </properties>
+          </configuration>
+        </configuration>
+      </plugin>
+      <plugin>
 
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.sonar</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>target/generated-sources</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId>
-				<version>1.3</version>
-				<dependencies>
-					<!-- specify the dependent jdbc driver here -->
-					<dependency>
-						<groupId>postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-						<version>${jdbc.postgresql.version}</version>
-					</dependency>
-				</dependencies>
-				<!-- common configuration shared by all executions -->
-				<configuration>
-					<driver>org.postgresql.Driver</driver>
-					<url>jdbc:postgresql://localhost:5432/postgres</url>
-					<!-- use your settings.xml to configure username and password -->
-					<settingsKey>escidoc-core-db-admin</settingsKey>
-				</configuration>
-				<executions>
-					<execution>
-						<id>drop-fedora-db</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<!-- need another database to drop the targeted one -->
-							<url>jdbc:postgresql://localhost:5432/postgres</url>
-							<autocommit>true</autocommit>
-							<sqlCommand>DROP DATABASE IF EXISTS "${fedora.database}"</sqlCommand>
-							<onError>continue</onError>
-						</configuration>
-					</execution>
-					<execution>
-						<id>drop-triplestore-db</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<!-- need another database to drop the targeted one -->
-							<url>jdbc:postgresql://localhost:5432/postgres</url>
-							<autocommit>true</autocommit>
-							<sqlCommand>DROP DATABASE IF EXISTS "${triplestore.database}"</sqlCommand>
-							<onError>continue</onError>
-						</configuration>
-					</execution>
-					<execution>
-						<id>drop-fedora-role</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<!-- need another database to drop the targeted one -->
-							<url>jdbc:postgresql://localhost:5432/postgres</url>
-							<autocommit>true</autocommit>
-							<sqlCommand>DROP ROLE IF EXISTS "${fedora.database.user}"</sqlCommand>
-							<onError>continue</onError>
-						</configuration>
-					</execution>
-					<execution>
-						<id>drop-escidoc-db</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<!-- need another database to drop the targeted one -->
-							<url>jdbc:postgresql://localhost:5432/postgres</url>
-							<autocommit>true</autocommit>
-							<sqlCommand>DROP DATABASE IF EXISTS "${escidoc.database}"</sqlCommand>
-							<onError>continue</onError>
-						</configuration>
-					</execution>
-					<execution>
-						<id>drop-escidoc-role</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<!-- need another database to drop the targeted one -->
-							<url>jdbc:postgresql://localhost:5432/postgres</url>
-							<autocommit>true</autocommit>
-							<sqlCommand>DROP ROLE IF EXISTS "${escidoc.database.user}"</sqlCommand>
-							<onError>continue</onError>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.2</version>
-				<executions>
-					<execution>
-						<id>copy-installer</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.escidoc.core</groupId>
-									<artifactId>escidoc-installer</artifactId>
-									<version>1.3-beta3</version>
-									<type>jar</type>
-									<overWrite>false</overWrite>
-									<outputDirectory>${project.build.directory}</outputDirectory>
-									<destFileName>escidoc-installer.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>true</overWriteSnapshots>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>resources</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2</version>
-				<executions>
-					<execution>
-						<id>install-escidoc-core</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>java</executable>
-							<arguments>
-								<argument>-Dskip.validation=true</argument>
-								<argument>-jar</argument>
-								<argument>${project.build.directory}/escidoc-installer.jar</argument>
-								<argument>${project.build.directory}/classes/escidoc-core-install-script.xml</argument>
-							</arguments>
-							<outputFile>${project.build.directory}/escidoc-installer.log</outputFile>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.0.6</version>
-				<executions>
-					<execution>
-						<id>start-container</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-						<configuration>
-							<wait>false</wait>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-container</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<container>
-						<containerId>jboss42x</containerId>
-						<home>${project.build.directory}/escidoc/jboss</home>
-						<timeout>600000</timeout>
-					</container>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>axistools-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>wsdl2java</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>wsdl2java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <testCases>false</testCases>
+          <serverSide>true</serverSide>
+          <noImports>true</noImports>
+          <runTestCasesAsUnitTests>false</runTestCasesAsUnitTests>
+          <subPackageByFileName>false</subPackageByFileName>
+          <outputDirectory>${project.build.directory}/generated-sources/</outputDirectory>
+          <urls>
+            <!-- AA -->
+            <!-- wasn't there in 1.2 -->
+            <url>${wsdl.host}/AdminHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/PolicyDecisionPointService?wsdl
+            </url>
+            <url>${wsdl.host}/RoleHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/UserAccountHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/UserGroupHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/UserManagementWrapperService?wsdl
+            </url>
 
-					<configuration>
-						<type>standalone</type>
-						<properties>
-							<cargo.hostname>localhost</cargo.hostname>
-							<cargo.protocol>http</cargo.protocol>
+            <!-- common -->
+            <url>${wsdl.host}/SoapExceptionGenerationService?wsdl
+            </url>
 
-							<cargo.servlet.port>8080</cargo.servlet.port>
-							<cargo.rmi.port>1099</cargo.rmi.port>
-							<cargo.logging>medium</cargo.logging>
-							<cargo.jvmargs>-Xmx1024m -Xms312m -XX:MaxPermSize=320m
-									</cargo.jvmargs>
-						</properties>
-					</configuration>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>axistools-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>wsdl2java</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<testCases>false</testCases>
-					<serverSide>true</serverSide>
-					<noImports>true</noImports>
-					<runTestCasesAsUnitTests>false</runTestCasesAsUnitTests>
-					<subPackageByFileName>false</subPackageByFileName>
-					<outputDirectory>${project.build.directory}/generated-sources/</outputDirectory>
-					<urls>
-						<!-- AA -->
-						<!-- wasn't there in 1.2 -->
-						<url>${wsdl.host}/AdminHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/PolicyDecisionPointService?wsdl
-						</url>
-						<url>${wsdl.host}/RoleHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/UserAccountHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/UserGroupHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/UserManagementWrapperService?wsdl
-						</url>
+            <!-- CMM -->
+            <url>${wsdl.host}/ContentModelHandlerService?wsdl
+            </url>
 
-						<!-- common -->
-						<url>${wsdl.host}/SoapExceptionGenerationService?wsdl
-						</url>
+            <!-- OM -->
+            <url>${wsdl.host}/ContainerHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/ContentRelationHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/ContextHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/ItemHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/IngestHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/SemanticStoreHandlerService?wsdl
+            </url>
 
-						<!-- CMM -->
-						<url>${wsdl.host}/ContentModelHandlerService?wsdl
-						</url>
+            <!-- OUM -->
+            <url>${wsdl.host}/OrganizationalUnitHandlerService?wsdl
+            </url>
 
-						<!-- OM -->
-						<url>${wsdl.host}/ContainerHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/ContentRelationHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/ContextHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/ItemHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/IngestHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/SemanticStoreHandlerService?wsdl
-						</url>
+            <!-- OAI -->
+            <url>${wsdl.host}/SetDefinitionHandlerService?wsdl
+            </url>
 
-						<!-- OUM -->
-						<url>${wsdl.host}/OrganizationalUnitHandlerService?wsdl
-						</url>
+            <!-- SB -->
+            <url>${escidoc.host}/srw/search?wsdl</url>
 
-						<!-- OAI -->
-						<url>${wsdl.host}/SetDefinitionHandlerService?wsdl
-						</url>
+            <!-- SM -->
+            <url>${wsdl.host}/AggregationDefinitionHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/PreprocessingHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/ReportDefinitionHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/ReportHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/ScopeHandlerService?wsdl
+            </url>
+            <url>${wsdl.host}/StatisticDataHandlerService?wsdl
+            </url>
 
-						<!-- SB -->
-						<url>${escidoc.host}/srw/search?wsdl</url>
+            <!-- TME -->
+            <url>${wsdl.host}/JhoveHandlerService?wsdl
+            </url>
+          </urls>
+          <mappings>
+            <!-- AA -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ActionHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.aa</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/PolicyDecisionPointService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.aa</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/RoleHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.aa</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/UserAccountHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.aa</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/UserManagementWrapperService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.aa</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/UserGroupHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.aa</targetPackage>
+            </mapping>
 
-						<!-- SM -->
-						<url>${wsdl.host}/AggregationDefinitionHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/PreprocessingHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/ReportDefinitionHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/ReportHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/ScopeHandlerService?wsdl
-						</url>
-						<url>${wsdl.host}/StatisticDataHandlerService?wsdl
-						</url>
+            <!-- ADM -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/AdminHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.adm</targetPackage>
+            </mapping>
 
-						<!-- TME -->
-						<url>${wsdl.host}/JhoveHandlerService?wsdl
-						</url>
-					</urls>
-					<mappings>
-						<!-- AA -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ActionHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.aa</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/PolicyDecisionPointService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.aa</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/RoleHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.aa</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/UserAccountHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.aa</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/UserManagementWrapperService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.aa</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/UserGroupHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.aa</targetPackage>
-						</mapping>
+            <!-- common -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/SoapExceptionGenerationService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.common</targetPackage>
+            </mapping>
 
-						<!-- ADM -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/AdminHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.adm</targetPackage>
-						</mapping>
+            <!-- CMM -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ContentModelHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.cmm</targetPackage>
+            </mapping>
 
-						<!-- common -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/SoapExceptionGenerationService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.common</targetPackage>
-						</mapping>
+            <!-- OM -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ContainerHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.om</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ContentRelationHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.om</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ContextHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.om</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ItemHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.om</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ContentRelationHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.om</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/SemanticStoreHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.om</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/IngestHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.om</targetPackage>
+            </mapping>
 
-						<!-- CMM -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ContentModelHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.cmm</targetPackage>
-						</mapping>
+            <!-- OAI -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/SetDefinitionHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.oai</targetPackage>
+            </mapping>
 
-						<!-- OM -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ContainerHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.om</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ContentRelationHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.om</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ContextHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.om</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ItemHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.om</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ContentRelationHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.om</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/SemanticStoreHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.om</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/IngestHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.om</targetPackage>
-						</mapping>
+            <!-- OUM -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/OrganizationalUnitHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.oum</targetPackage>
+            </mapping>
 
-						<!-- OAI -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/SetDefinitionHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.oai</targetPackage>
-						</mapping>
+            <!-- SB -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services//0.1</namespace>
+              <targetPackage>de.escidoc.core.sb</targetPackage>
+            </mapping>
 
-						<!-- OUM -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/OrganizationalUnitHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.oum</targetPackage>
-						</mapping>
+            <!-- SM -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/AggregationDefinitionHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.sm</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/PreprocessingHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.sm</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ReportDefinitionHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.sm</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ReportHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.sm</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/ScopeHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.sm</targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://www.escidoc.de/services/StatisticDataHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.sm</targetPackage>
+            </mapping>
 
-						<!-- SB -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services//0.1</namespace>
-							<targetPackage>de.escidoc.core.sb</targetPackage>
-						</mapping>
+            <!-- TME -->
+            <mapping>
+              <namespace>http://www.escidoc.de/services/JhoveHandlerService/0.1
+              </namespace>
+              <targetPackage>de.escidoc.core.tme</targetPackage>
+            </mapping>
 
-						<!-- SM -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/AggregationDefinitionHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.sm</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/PreprocessingHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.sm</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ReportDefinitionHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.sm</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ReportHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.sm</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/ScopeHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.sm</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://www.escidoc.de/services/StatisticDataHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.sm</targetPackage>
-						</mapping>
+            <!-- Exception & Other -->
+            <mapping>
+              <namespace>http://exceptions.common.core.escidoc.de</namespace>
+              <targetPackage>de.escidoc.core.common.exceptions.remote
+              </targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://application.exceptions.common.core.escidoc.de
+              </namespace>
+              <targetPackage>de.escidoc.core.common.exceptions.remote.application
+              </targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://invalid.application.exceptions.common.core.escidoc.de
+              </namespace>
+              <targetPackage>de.escidoc.core.common.exceptions.remote.application.invalid
+              </targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://missing.application.exceptions.common.core.escidoc.de
+              </namespace>
+              <targetPackage>de.escidoc.core.common.exceptions.remote.application.missing
+              </targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://notfound.application.exceptions.common.core.escidoc.de
+              </namespace>
+              <targetPackage>de.escidoc.core.common.exceptions.remote.application.notfound
+              </targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://violated.application.exceptions.common.core.escidoc.de
+              </namespace>
+              <targetPackage>de.escidoc.core.common.exceptions.remote.application.violated
+              </targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://security.application.exceptions.common.core.escidoc.de
+              </namespace>
+              <targetPackage>de.escidoc.core.common.exceptions.remote.application.security
+              </targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://system.exceptions.common.core.escidoc.de
+              </namespace>
+              <targetPackage>de.escidoc.core.common.exceptions.remote.system
+              </targetPackage>
+            </mapping>
+            <mapping>
+              <namespace>http://io.java</namespace>
+              <targetPackage>de.escidoc.core.java.io</targetPackage>
+            </mapping>
 
-						<!-- TME -->
-						<mapping>
-							<namespace>http://www.escidoc.de/services/JhoveHandlerService/0.1
-							</namespace>
-							<targetPackage>de.escidoc.core.tme</targetPackage>
-						</mapping>
+            <!-- -->
+            <!-- <mapping namespace="http://vo.business.${component}.core.escidoc.de" 
+              package="de.escidoc.core.remote.${component}.business.vo" /> <mapping namespace="http://vo.${component}.core.escidoc.de" 
+              package="de.escidoc.core.remote.${component}.vo" /> -->
 
-						<!-- Exception & Other -->
-						<mapping>
-							<namespace>http://exceptions.common.core.escidoc.de</namespace>
-							<targetPackage>de.escidoc.core.common.exceptions.remote
-							</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://application.exceptions.common.core.escidoc.de
-							</namespace>
-							<targetPackage>de.escidoc.core.common.exceptions.remote.application
-							</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://invalid.application.exceptions.common.core.escidoc.de
-							</namespace>
-							<targetPackage>de.escidoc.core.common.exceptions.remote.application.invalid
-							</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://missing.application.exceptions.common.core.escidoc.de
-							</namespace>
-							<targetPackage>de.escidoc.core.common.exceptions.remote.application.missing
-							</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://notfound.application.exceptions.common.core.escidoc.de
-							</namespace>
-							<targetPackage>de.escidoc.core.common.exceptions.remote.application.notfound
-							</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://violated.application.exceptions.common.core.escidoc.de
-							</namespace>
-							<targetPackage>de.escidoc.core.common.exceptions.remote.application.violated
-							</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://security.application.exceptions.common.core.escidoc.de
-							</namespace>
-							<targetPackage>de.escidoc.core.common.exceptions.remote.application.security
-							</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://system.exceptions.common.core.escidoc.de
-							</namespace>
-							<targetPackage>de.escidoc.core.common.exceptions.remote.system
-							</targetPackage>
-						</mapping>
-						<mapping>
-							<namespace>http://io.java</namespace>
-							<targetPackage>de.escidoc.core.java.io</targetPackage>
-						</mapping>
+          </mappings>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
+          <verbose>true</verbose>
+          <fork>true</fork>
+          <debug>true</debug>
+          <optimize>false</optimize>
+        </configuration>
+        <!-- <executions> <execution> <id>default-compile</id> <configuration> 
+          <includes> <source>src/main/java/**/*.java</source> <source>target/generated-sources/**/*.java</source> 
+          </includes> </configuration> </execution> </executions> -->
+      </plugin>
 
-						<!-- -->
-						<!-- <mapping namespace="http://vo.business.${component}.core.escidoc.de" 
-							package="de.escidoc.core.remote.${component}.business.vo" /> <mapping namespace="http://vo.${component}.core.escidoc.de" 
-							package="de.escidoc.core.remote.${component}.vo" /> -->
+      <plugin>
+        <groupId>org.jibx</groupId>
+        <artifactId>maven-jibx-plugin</artifactId>
+        <version>1.2.2</version>
+        <configuration>
+          <directory>src/main/resources/jibx/binding</directory>
+          <includes>
+            <!-- <includes>resource-binding-rest.xml</includes> -->
+            <!-- <includes>resource-binding-soap.xml</includes> -->
+            <include>rest-binding.in.xml</include>
+            <include>rest-binding.out.xml</include>
+            <include>soap-binding.in.xml</include>
+            <include>soap-binding.out.xml</include>
+          </includes>
+          <verbose>false</verbose>
+          <!-- set validation to false to ignore the warnings for ignored input/output 
+            attributes -->
+          <validate>true</validate>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>bind</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-					</mappings>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<showDeprecation>true</showDeprecation>
-					<showWarnings>true</showWarnings>
-					<verbose>true</verbose>
-					<fork>true</fork>
-					<debug>true</debug>
-					<optimize>false</optimize>
-				</configuration>
-				<!-- <executions> <execution> <id>default-compile</id> <configuration> 
-					<includes> <source>src/main/java/**/*.java</source> <source>target/generated-sources/**/*.java</source> 
-					</includes> </configuration> </execution> </executions> -->
-			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1.2</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <outputDirectory>target</outputDirectory>
+          <finalName>${project.artifactId}-${project.version}</finalName>
+          <attach>true</attach>
+        </configuration>
+      </plugin>
 
-			<plugin>
-				<groupId>org.jibx</groupId>
-				<artifactId>maven-jibx-plugin</artifactId>
-				<version>1.2.2</version>
-				<configuration>
-					<directory>src/main/resources/jibx/binding</directory>
-					<includes>
-						<includes>resource-binding-rest.xml</includes>
-						<includes>resource-binding-soap.xml</includes>
-					</includes>
-					<verbose>false</verbose>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>bind</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+      <plugin>
+        <!-- NOTE: We don't need a groupId specification because the group is 
+          org.apache.maven.plugins ...which is assumed by default. -->
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/src.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>  <!-- this is used for inheritance merges -->
+            <phase>install</phase>  <!-- append to the packaging phase. -->
+            <goals>
+              <goal>single</goal>  <!-- goals == mojos -->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<outputDirectory>target</outputDirectory>
-					<finalName>${project.artifactId}-${project.version}</finalName>
-					<attach>true</attach>
-				</configuration>
-			</plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
 
-			<plugin>
-				<!-- NOTE: We don't need a groupId specification because the group is 
-					org.apache.maven.plugins ...which is assumed by default. -->
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<descriptors>
-						<descriptor>src/main/assembly/src.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>  <!-- this is used for inheritance merges -->
-						<phase>install</phase>  <!-- append to the packaging phase. -->
-						<goals>
-							<goal>single</goal>  <!-- goals == mojos -->
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+        <dependencies>
+          <dependency>
+            <groupId>saxon</groupId>
+            <artifactId>saxon</artifactId>
+            <version>6.5.5</version>
+          </dependency>
+          <dependency>
+            <groupId>saxon</groupId>
+            <artifactId>saxon-xml-apis</artifactId>
+            <version>6.5.5</version>
+          </dependency>
+          <dependency>
+            <groupId>saxon</groupId>
+            <artifactId>saxon-jdom</artifactId>
+            <version>6.5.5</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>fop</artifactId>
+            <version>0.93</version>
+          </dependency>
+        </dependencies>
 
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
+        <executions>
+          <execution>
+            <phase>site</phase>
+            <configuration>
+              <target>
+                <!-- replace content -->
+                <replace file="${dbdoclet.document.path}"
+                  token="&lt;?xml version='1.0' encoding='UTF-8'?>" value=" " />
+                <replace file="${dbdoclet.document.path}" token="&lt;!DOCTYPE"
+                  value="sdf" />
 
-				<dependencies>
-					<dependency>
-						<groupId>saxon</groupId>
-						<artifactId>saxon</artifactId>
-						<version>6.5.5</version>
-					</dependency>
-					<dependency>
-						<groupId>saxon</groupId>
-						<artifactId>saxon-xml-apis</artifactId>
-						<version>6.5.5</version>
-					</dependency>
-					<dependency>
-						<groupId>saxon</groupId>
-						<artifactId>saxon-jdom</artifactId>
-						<version>6.5.5</version>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.xmlgraphics</groupId>
-						<artifactId>fop</artifactId>
-						<version>0.93</version>
-					</dependency>
-				</dependencies>
+                <replace file="${dbdoclet.document.path}" token="&lt;chapter"
+                  value="&lt;section" />
+                <replace file="${dbdoclet.document.path}" token="&lt;/chapter"
+                  value="&lt;/section" />
+                <replace file="${dbdoclet.document.path}" token="part"
+                  value="chapter" />
 
-				<executions>
-					<execution>
-						<phase>site</phase>
-						<configuration>
-							<target>
-								<!-- replace content -->
-								<replace file="${dbdoclet.document.path}"
-									token="&lt;?xml version='1.0' encoding='UTF-8'?>" value=" " />
-								<replace file="${dbdoclet.document.path}" token="&lt;!DOCTYPE"
-									value="sdf" />
+                <replace file="${dbdoclet.document.path}" token="&lt;title>Reference Handbook&lt;/title>"
+                  value="&lt;title>${docbook.api.chapter.title}&lt;/title>" />
+                <replace file="${dbdoclet.document.path}" token="chapter lang"
+                  value="chapter id='API-REFERENCE' lang" />
 
-								<replace file="${dbdoclet.document.path}" token="&lt;chapter"
-									value="&lt;section" />
-								<replace file="${dbdoclet.document.path}" token="&lt;/chapter"
-									value="&lt;/section" />
-								<replace file="${dbdoclet.document.path}" token="part"
-									value="chapter" />
+                <replace file="${dbdoclet.document.path}" token="&lt;abstract>"
+                  value=" " />
+                <replace file="${dbdoclet.document.path}" token="&lt;para>&lt;/para>"
+                  value=" " />
+                <replace file="${dbdoclet.document.path}" token="&lt;/abstract>"
+                  value=" " />
+                <replace file="${dbdoclet.document.path}" token="&lt;index/>"
+                  value=" " />
 
-								<replace file="${dbdoclet.document.path}" token="&lt;title>Reference Handbook&lt;/title>"
-									value="&lt;title>${docbook.api.chapter.title}&lt;/title>" />
-								<replace file="${dbdoclet.document.path}" token="chapter lang"
-									value="chapter id='API-REFERENCE' lang" />
+                <copy todir="${docbook.gen.dir}" overwrite="true">
+                  <fileset dir="${docbook.src.xml}" />
+                </copy>
 
-								<replace file="${dbdoclet.document.path}" token="&lt;abstract>"
-									value=" " />
-								<replace file="${dbdoclet.document.path}" token="&lt;para>&lt;/para>"
-									value=" " />
-								<replace file="${dbdoclet.document.path}" token="&lt;/abstract>"
-									value=" " />
-								<replace file="${dbdoclet.document.path}" token="&lt;index/>"
-									value=" " />
+                <copy todir="${project.reporting.outputDirectory}/tmp">
+                  <fileset dir="${docbook.src.xsl}" />
+                </copy>
 
-								<copy todir="${docbook.gen.dir}" overwrite="true">
-									<fileset dir="${docbook.src.xml}" />
-								</copy>
+                <!-- create fo -->
+                <echo level="info">
+                  Generating ${docbook.gen.dir}/${doc.name}.fo
+                </echo>
 
-								<copy todir="${project.reporting.outputDirectory}/tmp">
-									<fileset dir="${docbook.src.xsl}" />
-								</copy>
+                <property name="saxon_classpath" refid="maven.plugin.classpath" />
+                <property name="doctype_dtd_loc" value="../tmp/docbook-xml-4.5/docbookx.dtd" />
+                <property name="bookinfo_title" value="${docbook.bookinfo.title}" />
+                <property name="bookinfo_subtitle" value="${docbook.bookinfo.subtitle}" />
+                <property name="image_loc" value="." />
 
-								<!-- create fo -->
-								<echo level="info">
-									Generating ${docbook.gen.dir}/${doc.name}.fo
-					      </echo>
+                <replace file="${docbook.gen.dir}/${doc.name}.xml"
+                  token="{DOCTYPE_DTD_LOC}" value="${doctype_dtd_loc}" />
+                <replace file="${docbook.gen.dir}/${doc.name}.xml"
+                  token="{IMAGE_LOC}" value="${image_loc}" />
+                <replace file="${docbook.gen.dir}/${doc.name}.xml"
+                  token="{TITLE}" value="${bookinfo_title}" />
+                <replace file="${docbook.gen.dir}/${doc.name}.xml"
+                  token="{SUBTITLE}" value="${bookinfo_subtitle}" />
 
-								<property name="saxon_classpath" refid="maven.plugin.classpath" />
-								<property name="doctype_dtd_loc" value="../tmp/docbook-xml-4.5/docbookx.dtd" />
-								<property name="bookinfo_title" value="${docbook.bookinfo.title}" />
-								<property name="bookinfo_subtitle" value="${docbook.bookinfo.subtitle}" />
-								<property name="image_loc" value="." />
+                <!-- TODO change style back to docbook.src.xsl eventually -->
+                <java classname="com.icl.saxon.StyleSheet"
+                  output="${docbook.gen.dir}/${doc.name}-create-fo.log" fork="true"
+                  dir="${docbook.gen.dir}/..">
+                  <classpath>
+                    <pathelement path="${saxon_classpath}" />
+                  </classpath>
+                  <jvmarg line="-Xmx512M -Xms64m" />
+                  <jvmarg
+                    line="-Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration" />
+                  <arg value="-o" />
+                  <arg value="${docbook.gen.dir}/${doc.name}.fo" />
+                  <arg value="${docbook.gen.dir}/${doc.name}.xml" />
+                  <arg
+                    value="${project.reporting.outputDirectory}/tmp/EscidocDocbook.xsl" />
+                </java>
 
-								<replace file="${docbook.gen.dir}/${doc.name}.xml"
-									token="{DOCTYPE_DTD_LOC}" value="${doctype_dtd_loc}" />
-								<replace file="${docbook.gen.dir}/${doc.name}.xml"
-									token="{IMAGE_LOC}" value="${image_loc}" />
-								<replace file="${docbook.gen.dir}/${doc.name}.xml"
-									token="{TITLE}" value="${bookinfo_title}" />
-								<replace file="${docbook.gen.dir}/${doc.name}.xml"
-									token="{SUBTITLE}" value="${bookinfo_subtitle}" />
+                <replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.VERSION}"
+                  value="${project.artifactId}-${project.version}" />
+                <replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.DATE}"
+                  value="${maven.build.timestamp}" />
 
-								<!-- TODO change style back to docbook.src.xsl eventually -->
-								<java classname="com.icl.saxon.StyleSheet"
-									output="${docbook.gen.dir}/${doc.name}-create-fo.log" fork="true"
-									dir="${docbook.gen.dir}/..">
-									<classpath>
-										<pathelement path="${saxon_classpath}" />
-									</classpath>
-									<jvmarg line="-Xmx512M -Xms64m" />
-									<jvmarg
-										line="-Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration" />
-									<arg value="-o" />
-									<arg value="${docbook.gen.dir}/${doc.name}.fo" />
-									<arg value="${docbook.gen.dir}/${doc.name}.xml" />
-									<arg
-										value="${project.reporting.outputDirectory}/tmp/EscidocDocbook.xsl" />
-								</java>
+                <echo level="info">
+                  Generating ${pdf.dir}/${doc.name}.pdf
+                </echo>
 
-								<replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.VERSION}"
-									value="${project.artifactId}-${project.version}" />
-								<replace file="${docbook.gen.dir}/${doc.name}.fo" token="{BUILD.DATE}"
-									value="${maven.build.timestamp}" />
+                <mkdir dir="${pdf.dir}" />
 
-								<echo level="info">
-									Generating ${pdf.dir}/${doc.name}.pdf
-					      </echo>
+                <!-- TODO -->
+                <replace />
 
-								<mkdir dir="${pdf.dir}" />
+                <java classname="org.apache.fop.cli.Main" output="${pdf.dir}/${doc.name}-create-pdf.log"
+                  fork="true" dir="${pdf.dir}/..">
+                  <classpath>
+                    <pathelement path="${saxon_classpath}" />
+                  </classpath>
+                  <jvmarg line="-Xmx1024M -Xms128m" />
+                  <arg
+                    line='-fo "${docbook.gen.dir}/${doc.name}.fo" -pdf "${pdf.dir}/${doc.name}.pdf"' />
+                </java>
 
-								<replace />
-
-								<java classname="org.apache.fop.cli.Main" output="${pdf.dir}/${doc.name}-create-pdf.log"
-									fork="true" dir="${pdf.dir}/..">
-									<classpath>
-										<pathelement path="${saxon_classpath}" />
-									</classpath>
-									<jvmarg line="-Xmx1024M -Xms128m" />
-									<arg
-										line='-fo "${docbook.gen.dir}/${doc.name}.fo" -pdf "${pdf.dir}/${doc.name}.pdf"' />
-								</java>
-
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.8</version>
-				<configuration>
-					<includes>
-						<include>**/*Test</include>
-					</includes>
-					<excludes>
-						<exclude>**/integrationTests</exclude>
-					</excludes>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-						<version>${junit.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.8</version>
-				<executions>
-					<execution>
-						<id>integration-test</id>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>verify</id>
-						<goals>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<redirectTestOutputToFile>target/test-output.log</redirectTestOutputToFile>
-					<includes>
-						<include>**/*integrationTests</include>
-					</includes>
-					<excludes>
-						<exclude>**/*</exclude>
-					</excludes>
-					<forkMode>always</forkMode>
-					<!-- <argLine>-Xmx1024m -XX:MaxPermSize=640m</argLine> -->
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-						<version>${junit.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
-
-		</plugins>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-			</testResource>
-		</testResources>
-	</build>
-
-
-	<profiles>
-		<profile>
-			<id>install-escidoc</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-
-			<build>
-				<plugins>
-					<!-- we need to setup the database for escidoc -->
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>sql-maven-plugin</artifactId>
-						<version>1.3</version>
-						<dependencies>
-							<!-- specify the dependent jdbc driver here -->
-							<dependency>
-								<groupId>postgresql</groupId>
-								<artifactId>postgresql</artifactId>
-								<version>8.4-701.jdbc4</version>
-							</dependency>
-						</dependencies>
-						<!-- common configuration shared by all executions -->
-						<configuration>
-							<driver>org.postgresql.Driver</driver>
-							<url>jdbc:postgresql://localhost:5432/postgres</url>
-							<username>postgres</username>
-							<password>postgres</password>
-							<!-- You can comment out username/password configurations and have 
-								maven to look them up in your settings.xml using ${settingsKey} -->
-							<settingsKey>sensibleKey</settingsKey>
-							<!--all executions are ignored if -Dmaven.test.skip=true -->
-							<skip>${maven.test.skip}</skip>
-						</configuration>
-						<executions>
-							<execution>
-								<id>drop-db-before-compile</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<!-- need another database to drop the targeted one -->
-									<url>jdbc:postgresql://localhost:5432/postgres</url>
-									<autocommit>true</autocommit>
-									<sqlCommand>DROP DATABASE "escidoc-core"</sqlCommand>
-									<!-- ignore error when database is not avaiable -->
-									<onError>continue</onError>
-								</configuration>
-							</execution>
-							<execution>
-								<id>drop-role-before-compile</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<!-- need another database to drop the targeted one -->
-									<url>jdbc:postgresql://localhost:5432/postgres</url>
-									<autocommit>true</autocommit>
-									<sqlCommand>DROP ROLE "escidoc"</sqlCommand>
-									<!-- ignore error when database is not avaiable -->
-									<onError>continue</onError>
-								</configuration>
-							</execution>
-
-							<execution>
-								<id>create-role</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<url>jdbc:postgresql://localhost:5432/postgres</url>
-									<!-- no transaction -->
-									<autocommit>true</autocommit>
-									<sqlCommand>CREATE ROLE "escidoc" LOGIN PASSWORD 'escidoc'
-										VALID
-										UNTIL 'infinity';</sqlCommand>
-								</configuration>
-							</execution>
-							<execution>
-								<id>create-db</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<url>jdbc:postgresql://localhost:5432/postgres</url>
-									<!-- no transaction -->
-									<autocommit>true</autocommit>
-									<sqlCommand>CREATE DATABASE "escidoc-core" WITH ENCODING='UTF8'
-										OWNER="escidoc"</sqlCommand>
-								</configuration>
-							</execution>
-							<execution>
-								<id>create-db-lang</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
-									<!-- no transaction -->
-									<autocommit>true</autocommit>
-									<srcFiles>
-										<srcFile>src/test/data/sql/postgres/create-language.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/pgxml.sql</srcFile>
-									</srcFiles>
-								</configuration>
-							</execution>
-							<execution>
-								<id>create-schemas</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<driver>org.postgresql.Driver</driver>
-									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
-									<username>escidoc</username>
-									<password>escidoc</password>
-									<autocommit>true</autocommit>
-									<srcFiles>
-										<!-- the initialize phase allows no filtering. Furthermore is creating 
-											database part of the test phase. That's why here should only be these tables 
-											are generated where hibernate depends on. -->
-										<srcFile>src/test/data/sql/postgres/aa/aa.create.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/adm/adm.create.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/oai/oai.create.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/om/om.create.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/sm/sm.create.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/st/st.create.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/db-cache/list.create.sql</srcFile>
-									</srcFiles>
-								</configuration>
-							</execution>
-							<execution>
-								<!-- the initialize phase allows no filtering. Furthermore is creating 
-									database part of the test phase. That's why here should only be these tables 
-									are generated where hibernate depends on. -->
-								<id>insert-accounts-into-db</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<driver>org.postgresql.Driver</driver>
-									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
-									<username>escidoc</username>
-									<password>escidoc</password>
-									<autocommit>true</autocommit>
-									<srcFiles>
-										<srcFile>src/test/data/sql/postgres/aa/aa.init.user-accounts.common.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/aa/aa.init.user-accounts.MPDL.sql</srcFile>
-									</srcFiles>
-								</configuration>
-							</execution>
-							<execution>
-								<!-- the initialize phase allows no filtering. Furthermore is creating 
-									database part of the test phase. That's why here should only be these tables 
-									are generated where hibernate depends on. -->
-								<id>init-handles-into-db</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<driver>org.postgresql.Driver</driver>
-									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
-									<username>escidoc</username>
-									<password>escidoc</password>
-									<autocommit>true</autocommit>
-									<fileset>
-										<basedir>${basedir}</basedir>
-										<includes>
-											<include>src/test/data/sql/postgres/aa/aa.init.handles.*.sql</include>
-										</includes>
-									</fileset>
-								</configuration>
-							</execution>
-							<execution>
-								<!-- the initialize phase allows no filtering. Furthermore is creating 
-									database part of the test phase. That's why here should only be these tables 
-									are generated where hibernate depends on. -->
-								<id>insert-roles-into-db</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<driver>org.postgresql.Driver</driver>
-									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
-									<username>escidoc</username>
-									<password>escidoc</password>
-									<autocommit>true</autocommit>
-									<fileset>
-										<basedir>${basedir}</basedir>
-										<includes>
-											<include>src/test/data/sql/postgres/aa/aa.init.roles.*.sql</include>
-										</includes>
-									</fileset>
-								</configuration>
-							</execution>
-							<execution>
-								<!-- the initialize phase allows no filtering. Furthermore is creating 
-									database part of the test phase. That's why here should only be these tables 
-									are generated where hibernate depends on. -->
-								<id>insert-into-db</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<driver>org.postgresql.Driver</driver>
-									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
-									<username>escidoc</username>
-									<password>escidoc</password>
-									<autocommit>true</autocommit>
-									<fileset>
-										<basedir>${basedir}</basedir>
-										<includes>
-											<include>src/test/data/sql/postgres/aa/aa.init.grants.*.sql</include>
-											<include>src/test/data/sql/postgres/aa/aa.init.actions.sql</include>
-											<include>src/test/data/sql/postgres/aa/aa.init.method-mappings.*.sql</include>
-										</includes>
-									</fileset>
-								</configuration>
-							</execution>
-							<execution>
-								<id>insert-test-user</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>execute</goal>
-								</goals>
-								<configuration>
-									<driver>org.postgresql.Driver</driver>
-									<url>jdbc:postgresql://localhost:5432/escidoc-core</url>
-									<username>escidoc</username>
-									<password>escidoc</password>
-									<autocommit>true</autocommit>
-									<srcFiles>
-										<!-- the initialize phase allows no filtering. Furthermore is creating 
-											database part of the test phase. That's why here should only be these tables 
-											are generated where hibernate depends on. -->
-										<!-- <srcFile>src/test/data/sql/postgres/test/test.aa.init.roles.sql</srcFile> -->
-										<srcFile>src/test/data/sql/postgres/test/test.aa.init.users.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/test/test.aa.init.groups.sql</srcFile>
-										<srcFile>src/test/data/sql/postgres/test/test.sm.create.sql</srcFile>
-									</srcFiles>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-
-					<!-- we need a running eSciDoc infrastructure -->
-					<plugin>
-						<groupId>org.codehaus.cargo</groupId>
-						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>1.0.3</version>
-						<executions>
-							<execution>
-								<id>install</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>install</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>start-container</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>start</goal>
-								</goals>
-								<configuration>
-									<wait>false</wait>
-								</configuration>
-							</execution>
-							<execution>
-								<id>stop-container</id>
-								<phase>post-integration-test</phase>
-								<goals>
-									<goal>stop</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<container>
-								<containerId>jboss42x</containerId>
-								<timeout>240000</timeout>
-								<zipUrlInstaller>
-									<url>http://escidev5:8888/files/jboss-4.2.3.GA-jdk6-escidoc1.2.zip</url>
-									<installDir>${installDir}</installDir>
-								</zipUrlInstaller>
-								<output>${project.build.directory}/jboss42x/container.log</output>
-								<append>false</append>
-								<log>${project.build.directory}/jboss42x/cargo.log</log>
-							</container>
-
-							<configuration>
-								<type>standalone</type>
-								<home>${project.build.directory}/jboss42x/container</home>
-								<properties>
-									<cargo.hostname>localhost</cargo.hostname>
-									<cargo.protocol>http</cargo.protocol>
-
-									<cargo.servlet.port>8080</cargo.servlet.port>
-									<cargo.rmi.port>1099</cargo.rmi.port>
-									<cargo.logging>medium</cargo.logging>
-									<cargo.jvmargs>-Dhttp.proxyHost=proxy.fiz-karlsruhe.de
-										-Dhttp.proxyPort=8888
-										-Dhttp.nonProxyHosts="*.escidoc.de|*escidoc.org|localhost"</cargo.jvmargs>
-								</properties>
-								<deployables>
-									<deployable>
-										<groupId>org.escidoc</groupId>
-										<artifactId>escidoc-core</artifactId>
-										<type>ear</type>
-										<pingURL>${escidoc.host}/adm/admin/get-repository-info</pingURL>
-									</deployable>
-									<!-- deploy fedora -->
-									<!-- <deployable> <groupId>org.escidoc</groupId> <artifactId>fcrepo</artifactId> 
-										<type>war</type> </deployable> -->
-								</deployables>
-								<configfiles>
-									<!-- config -->
-									<configfile>
-										<file>src/test/data/jboss/server/default/conf/escidoc-core-log4j.xml</file>
-										<file>src/test/data/jboss/server/default/conf/escidoc-core.properties</file>
-										<file>src/test/data/jboss/server/default/conf/escidoc-login.xml</file>
-										<file>src/test/data/jboss/server/default/conf/jboss-log4j.xml</file>
-										<file>src/test/data/jboss/server/default/conf/catalog.xml</file>
-										<todir>conf</todir>
-									</configfile>
-									<configfile>
-										<file>src/test/data/jboss/server/default/conf/props/defaultRoles.properties</file>
-										<file>src/test/data/jboss/server/default/conf/props/defaultUsers.properties</file>
-										<todir>conf/props</todir>
-									</configfile>
-									<!-- search -->
-									<configfile>
-										<file>src/test/data/jboss/server/default/conf/search/sen.xml</file>
-										<todir>conf/search</todir>
-									</configfile>
-									<configfile>
-										<file>src/test/data/jboss/server/default/conf/search/config/fedoragsearch.properties</file>
-										<file>src/test/data/jboss/server/default/conf/search/config/gsearchAttributes.xslt</file>
-										<file>src/test/data/jboss/server/default/conf/search/config/permissions.xslt</file>
-										<file>src/test/data/jboss/server/default/conf/search/config/SRWServer.props</file>
-										<todir>conf/search/config</todir>
-									</configfile>
-									<!-- missing: index, repository, rest -->
-									<configfile>
-										<file>src/test/data/jboss/server/default/conf/tme/jhove.conf</file>
-										<todir>conf/tme</todir>
-									</configfile>
-								</configfiles>
-							</configuration>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.8</version>
+        <configuration>
+        <excludes>
+          <exclude>**/integrationTests/**/*</exclude>
+        </excludes>
+        <includes>
+          <include>**/unitTests/**/*Test.java</include>
+          <include>**/unitTests/**/Test*.java</include>
+          <include>**/unitTests/**/*TestCase.java</include>
+        </includes>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.8</version>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>verify</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <redirectTestOutputToFile>target/test-output.log</redirectTestOutputToFile>
+          <excludes>
+            <exclude>**/unitTests/**/*</exclude>
+          </excludes>
+          <includes>
+            <include>**/integrationTests/**/*Test.java</include>
+            <include>**/integrationTests/**/*TestCase.java</include>
+            <include>**/integrationTests/**/Test*.java</include>
+          </includes>
+          <forkMode>always</forkMode>
+<!--          <argLine>-Xmx1024m -XX:MaxPermSize=640m</argLine> -->
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+    </testResources>
+  </build>
 
 	<dependencyManagement>
 		<dependencies>
