@@ -28,8 +28,7 @@
  */
 package de.escidoc.core.resources.om.item;
 
-import de.escidoc.core.resources.Resource;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkResource;
 
 /**
  * Item Content.
@@ -37,7 +36,7 @@ import de.escidoc.core.resources.ResourceType;
  * @author SWA
  * 
  */
-public class Content extends Resource {
+public abstract class Content extends XLinkResource {
 
     private StorageType storage;
 
@@ -46,15 +45,6 @@ public class Content extends Resource {
      */
     public Content() {
 
-    }
-
-    /**
-     * 
-     * @param id
-     *            The resource reference.
-     */
-    public Content(final Resource id) {
-        super(id.getObjid(), id.getXLinkHref(), id.getXLinkTitle());
     }
 
     /**
@@ -70,15 +60,5 @@ public class Content extends Resource {
      */
     public void setStorage(final StorageType storage) {
         this.storage = storage;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.Resource#getResourceType()
-     */
-    @Override
-    public ResourceType getResourceType() {
-        return null;
     }
 }

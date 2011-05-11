@@ -24,13 +24,6 @@ public class UserGroup extends GenericResource {
     public UserGroup() {
     }
 
-    /**
-     * @param objid
-     */
-    public UserGroup(final String objid) {
-        super(objid);
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -73,5 +66,20 @@ public class UserGroup extends GenericResource {
         if (selectors == null)
             selectors = new Selectors();
         return selectors;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        /*
+         * Properties and selectors do not support xlink but each selector does
+         * on its ownm therefore do nothing here.
+         */
     }
 }

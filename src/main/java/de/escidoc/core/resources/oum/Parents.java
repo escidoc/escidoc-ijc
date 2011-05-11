@@ -30,9 +30,7 @@ package de.escidoc.core.resources.oum;
 
 import org.joda.time.DateTime;
 
-import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
-import de.escidoc.core.resources.XLinkResourceList;
+import de.escidoc.core.resources.ResourceList;
 import de.escidoc.core.resources.interfaces.OptimisticLocking;
 
 /**
@@ -41,10 +39,11 @@ import de.escidoc.core.resources.interfaces.OptimisticLocking;
  * @author SWA
  * 
  */
-public class Parents extends XLinkResourceList<Parent>
-    implements OptimisticLocking, XLinkAutonomous {
+public class Parents extends ResourceList<Parent> implements OptimisticLocking {
 
     private DateTime lmd;
+
+    private static final String OU_PARENTS_PATH = "/parents";
 
     /**
      * 
@@ -76,15 +75,10 @@ public class Parents extends XLinkResourceList<Parent>
     /*
      * (non-Javadoc)
      * 
-     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+     * @see de.escidoc.core.resources.XLinkResourceList#getListXLinkPath()
      */
     @Override
-    public void genXLink() {
-        for (Parent parent : this) {
-            if (parent.getXLinkHref() == null && parent.getObjid() != null) {
-                parent.setXLinkHref(ResourceType.ORGANIZATIONAL_UNIT.getPath()
-                    + "/" + parent.getObjid());
-            }
-        }
+    protected String getListXLinkPath() {
+        return OU_PARENTS_PATH;
     }
 }

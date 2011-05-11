@@ -3,46 +3,47 @@
  */
 package de.escidoc.core.resources.oai;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+import static de.escidoc.core.common.Precondition.validateString;
+
+import java.util.regex.Pattern;
+
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 
 /**
- * @author MVO
+ * @author Marko Voß
  * 
  */
+@JiBX
 public class SetDefinition extends GenericResource {
 
     private SetDefinitionProperties properties;
 
+    private String specification;
+
+    private String query;
+
+    private static final Pattern SET_SPEC_TYPE = Pattern
+        .compile("[A-Za-z0-9\\-_\\.!~\\*'\\(\\)]+");
+
     /**
-     * 
+     * JiBX-Constructor
      */
-    public SetDefinition() {
+    @SuppressWarnings("unused")
+    @JiBX
+    private SetDefinition() {
+
     }
 
     /**
-     * @param objid
+     * @param specification
+     * @param query
      */
-    public SetDefinition(final String objid) {
-        super(objid);
-    }
-
-    /**
-     * @param href
-     * @param title
-     */
-    public SetDefinition(final String href, final String title) {
-        super(href, title);
-    }
-
-    /**
-     * @param objid
-     * @param href
-     * @param title
-     */
-    public SetDefinition(final String objid, final String href,
-        final String title) {
-        super(objid, href, title);
+    public SetDefinition(final String specification, final String query) {
+        setSpecification(specification);
+        setQuery(query);
     }
 
     /**
@@ -57,9 +58,37 @@ public class SetDefinition extends GenericResource {
      * @return the properties
      */
     public SetDefinitionProperties getProperties() {
-        if (properties == null)
-            properties = new SetDefinitionProperties();
         return properties;
+    }
+
+    /**
+     * @param specification
+     *            the specification to set
+     */
+    public void setSpecification(final String specification) {
+        this.specification = validateString(SET_SPEC_TYPE, specification);
+    }
+
+    /**
+     * @return the specification
+     */
+    public String getSpecification() {
+        return specification;
+    }
+
+    /**
+     * @param query
+     *            the query to set
+     */
+    public void setQuery(final String query) {
+        this.query = checkNotNull(query);
+    }
+
+    /**
+     * @return the query
+     */
+    public String getQuery() {
+        return query;
     }
 
     /*
@@ -70,5 +99,19 @@ public class SetDefinition extends GenericResource {
     @Override
     public ResourceType getResourceType() {
         return ResourceType.SET_DEFINITION;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        // if (getXLinkHref() != null) {
+        //
+        // }
     }
 }

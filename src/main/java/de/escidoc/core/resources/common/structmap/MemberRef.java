@@ -3,7 +3,9 @@
  */
 package de.escidoc.core.resources.common.structmap;
 
+import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkType;
 import de.escidoc.core.resources.common.reference.Reference;
 
 /**
@@ -13,12 +15,12 @@ import de.escidoc.core.resources.common.reference.Reference;
 public abstract class MemberRef extends Reference {
 
     /**
-     * @param objid
      * @param href
      * @param title
+     * @param type
      */
-    public MemberRef(final String objid, final String href, final String title) {
-        super(objid, href, title);
+    public MemberRef(final String href, final String title, final XLinkType type) {
+        super(href, title, type);
     }
 
     /**
@@ -37,8 +39,9 @@ public abstract class MemberRef extends Reference {
     }
 
     /**
-     * 
+     * JiBX Constructor
      */
+    @JiBX
     protected MemberRef() {
     }
 

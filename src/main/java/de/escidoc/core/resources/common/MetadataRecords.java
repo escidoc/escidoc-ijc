@@ -28,9 +28,7 @@
  */
 package de.escidoc.core.resources.common;
 
-import java.util.Iterator;
-
-import de.escidoc.core.resources.XLinkResourceList;
+import de.escidoc.core.resources.NamedSubResourceList;
 
 /**
  * MetadataRecords.
@@ -38,9 +36,11 @@ import de.escidoc.core.resources.XLinkResourceList;
  * @author SWA
  * 
  */
-public class MetadataRecords extends XLinkResourceList<MetadataRecord> {
+public class MetadataRecords extends NamedSubResourceList<MetadataRecord> {
 
     private static final long serialVersionUID = -90749979126226984L;
+
+    private static final String MD_RECORDS_PATH = "/md-records";
 
     /**
      * Constructor MetadataRecords.
@@ -49,41 +49,13 @@ public class MetadataRecords extends XLinkResourceList<MetadataRecord> {
 
     }
 
-    /**
-     * Get a MetadataRecord.
+    /*
+     * (non-Javadoc)
      * 
-     * @param name
-     *            The name of the MetadataRecord.
-     * @return MetadataRecord object.
+     * @see de.escidoc.core.resources.XLinkResourceList#getListXLinkHref()
      */
-    public MetadataRecord get(final String name) {
-
-        MetadataRecord result = null;
-        Iterator<MetadataRecord> mdRecordIter = this.iterator();
-        while (mdRecordIter.hasNext()) {
-            MetadataRecord next = mdRecordIter.next();
-            if (next.getName().equals(name)) {
-                result = next;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param name
-     *            The name of the metadataRecord.
-     */
-    public void del(final String name) {
-
-        Iterator<MetadataRecord> mdRecordIter = this.iterator();
-        for (int i = 0; mdRecordIter.hasNext(); i++) {
-            MetadataRecord next = mdRecordIter.next();
-            if (next.getName().equals(name)) {
-                this.remove(i);
-                break;
-            }
-        }
+    @Override
+    protected String getListXLinkPath() {
+        return MD_RECORDS_PATH;
     }
 }

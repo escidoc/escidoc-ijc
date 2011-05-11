@@ -28,9 +28,9 @@
  */
 package de.escidoc.core.resources.oum;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 
 /**
  * Organizational Unit as Predecessor reference.
@@ -39,28 +39,40 @@ import de.escidoc.core.resources.ResourceType;
  * 
  */
 @JiBX
-public class Predecessor extends Resource {
+public class Predecessor extends OrganizationalUnitRef {
 
     private PredecessorForm form;
 
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    @SuppressWarnings("unused")
-    private Predecessor() {
+    protected Predecessor() {
     }
 
     /**
-     * 
      * @param objid
-     *            The objid of the resource.
      * @param form
-     *            The form of predecessor (a Spin-Off, a merge etc.)
+     *            succession form
      */
     public Predecessor(final String objid, final PredecessorForm form) {
         super(objid);
 
-        if (form == null)
-            throw new IllegalArgumentException("form must not be null.");
+        checkNotNull(form);
+        this.form = form;
+    }
 
+    /**
+     * @param xLinkHref
+     * @param xLinkTitle
+     * @param form
+     *            succession form
+     */
+    public Predecessor(final String xLinkHref, final String xLinkTitle,
+        final PredecessorForm form) {
+        super(xLinkHref, xLinkTitle);
+
+        checkNotNull(form);
         this.form = form;
     }
 
@@ -79,15 +91,5 @@ public class Predecessor extends Resource {
      */
     public PredecessorForm getForm() {
         return form;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.Resource#getResourceType()
-     */
-    @Override
-    public ResourceType getResourceType() {
-        return ResourceType.ORGANIZATIONAL_UNIT;
     }
 }

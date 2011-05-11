@@ -30,8 +30,7 @@ package de.escidoc.core.resources.common;
 
 import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.GenericResource;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.NamedSubResource;
 
 /**
  * Content Stream.
@@ -39,14 +38,9 @@ import de.escidoc.core.resources.ResourceType;
  * @author MSC, SWA
  * 
  */
-public class ContentStream extends GenericResource {
+public class ContentStream extends NamedSubResource {
 
     private String mimeType;
-
-    /**
-     * Max. 64 characters.
-     */
-    private String name;
 
     private String storage;
 
@@ -54,65 +48,27 @@ public class ContentStream extends GenericResource {
 
     private boolean inherited = false;
 
-    /**
-     * 
-     */
-    public ContentStream(final String name, final String storage,
-        final String mimeType) {
-        super();
-        init(name, storage, mimeType);
-    }
-
-    /**
-     * @param objid
-     * @param href
-     * @param title
-     */
-    public ContentStream(final String objid, final String href,
-        final String title, final String name, final String storage,
-        final String mimeType) {
-        super(objid, href, title);
-        init(name, storage, mimeType);
-    }
-
-    /**
-     * @param href
-     * @param title
-     */
-    public ContentStream(final String href, final String title,
-        final String name, final String storage, final String mimeType) {
-        super(href, title);
-        init(name, storage, mimeType);
-    }
-
-    /**
-     * @param objid
-     */
-    public ContentStream(final String objid, final String name,
-        final String storage, final String mimeType) {
-        super(objid);
-        init(name, storage, mimeType);
-    }
-
-    @JiBX
-    @SuppressWarnings("unused")
-    private ContentStream() {
-
-    }
+    private static final String CONTENT_STREAM_PATH = "/content-stream";
 
     /**
      * @param name
      * @param storage
      * @param mimeType
      */
-    private void init(
-        final String name, final String storage, final String mimeType) {
-        checkNotNull(name);
+    public ContentStream(final String name, final String storage,
+        final String mimeType) {
+        super(name);
         checkNotNull(storage);
         checkNotNull(mimeType);
-        this.name = name;
         this.storage = storage;
         this.mimeType = mimeType;
+    }
+
+    /**
+     * JiBX Constructor
+     */
+    @JiBX
+    protected ContentStream() {
     }
 
     /**
@@ -128,21 +84,6 @@ public class ContentStream extends GenericResource {
      */
     public void setMimeType(final String mimeType) {
         this.mimeType = mimeType;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(final String name) {
-        this.name = name;
     }
 
     /**
@@ -193,10 +134,10 @@ public class ContentStream extends GenericResource {
     /*
      * (non-Javadoc)
      * 
-     * @see de.escidoc.core.resources.Resource#getResourceType()
+     * @see de.escidoc.core.resources.NamedSubResource#getSubRecourcePath()
      */
     @Override
-    public ResourceType getResourceType() {
-        return null;
+    protected String getSubRecourcePath() {
+        return CONTENT_STREAM_PATH;
     }
 }

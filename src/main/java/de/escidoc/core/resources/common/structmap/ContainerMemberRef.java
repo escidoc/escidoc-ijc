@@ -5,6 +5,7 @@ package de.escidoc.core.resources.common.structmap;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkType;
 
 /**
  * @author SWA, MVO
@@ -13,19 +14,21 @@ import de.escidoc.core.resources.ResourceType;
 @JiBX
 public class ContainerMemberRef extends MemberRef {
 
-    @SuppressWarnings("unused")
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    private ContainerMemberRef() {
+    protected ContainerMemberRef() {
     }
 
     /**
-     * @param objid
      * @param href
      * @param title
+     * @param type
      */
-    public ContainerMemberRef(final String objid, final String href,
-        final String title) {
-        super(objid, href, title);
+    public ContainerMemberRef(final String href, final String title,
+        final XLinkType type) {
+        super(href, title, type);
     }
 
     /**

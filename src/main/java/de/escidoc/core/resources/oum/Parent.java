@@ -29,8 +29,7 @@
 package de.escidoc.core.resources.oum;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
 
 /**
  * Organizational Unit as Parent reference.
@@ -39,24 +38,27 @@ import de.escidoc.core.resources.ResourceType;
  * 
  */
 @JiBX
-public class Parent extends Resource {
+public class Parent extends OrganizationalUnitRef {
 
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    @SuppressWarnings("unused")
-    private Parent() {
+    protected Parent() {
     }
 
     /**
-     * 
+     * @param xLinkHref
+     * @param xLinkTitle
+     */
+    public Parent(final String xLinkHref, final String xLinkTitle) {
+        super(xLinkHref, xLinkTitle);
+    }
+
+    /**
      * @param objid
-     *            The objid of the parent Organizational Unit.
      */
     public Parent(final String objid) {
         super(objid);
-    }
-
-    @Override
-    public ResourceType getResourceType() {
-        return ResourceType.ORGANIZATIONAL_UNIT;
     }
 }

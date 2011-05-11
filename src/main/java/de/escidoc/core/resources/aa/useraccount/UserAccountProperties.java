@@ -30,6 +30,7 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.common.DateTimeUtility;
 import de.escidoc.core.resources.common.properties.interfaces.ActiveProperties;
 import de.escidoc.core.resources.common.properties.interfaces.CreateProperties;
 import de.escidoc.core.resources.common.properties.interfaces.ModifyProperties;
@@ -79,7 +80,7 @@ public class UserAccountProperties
      */
     @Override
     public void setCreationDate(final DateTime creationDate) {
-        this.creationDate = creationDate;
+        this.creationDate = DateTimeUtility.normalize(creationDate);
     }
 
     /*

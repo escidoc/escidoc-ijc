@@ -30,6 +30,7 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.common.DateTimeUtility;
 import de.escidoc.core.resources.common.properties.interfaces.CreateProperties;
 import de.escidoc.core.resources.common.reference.Reference;
 import de.escidoc.core.resources.common.reference.RoleRef;
@@ -82,7 +83,7 @@ public class GrantProperties implements CreateProperties {
      */
     @Override
     public void setCreationDate(final DateTime creationDate) {
-        this.creationDate = creationDate;
+        this.creationDate = DateTimeUtility.normalize(creationDate);
     }
 
     /*
@@ -140,7 +141,7 @@ public class GrantProperties implements CreateProperties {
      *            Revocation date as String
      */
     public void setRevocationDate(final DateTime revocationDate) {
-        this.revocationDate = revocationDate;
+        this.revocationDate = DateTimeUtility.normalize(revocationDate);
     }
 
     /**

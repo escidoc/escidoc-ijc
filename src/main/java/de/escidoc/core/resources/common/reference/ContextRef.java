@@ -13,20 +13,34 @@ import de.escidoc.core.resources.ResourceType;
 @JiBX
 public class ContextRef extends Reference {
 
-    @SuppressWarnings("unused")
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    private ContextRef() {
-        this(null);
+    protected ContextRef() {
     }
 
+    /**
+     * @param objid
+     */
     public ContextRef(final String objid) {
         super(objid);
     }
 
+    /**
+     * @param xLinkHref
+     * @param xLinkTitle
+     */
     public ContextRef(final String xLinkHref, final String xLinkTitle) {
         super(xLinkHref, xLinkTitle);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Reference#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.CONTEXT;

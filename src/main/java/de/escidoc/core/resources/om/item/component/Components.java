@@ -28,9 +28,7 @@
  */
 package de.escidoc.core.resources.om.item.component;
 
-import java.util.Iterator;
-
-import de.escidoc.core.resources.XLinkResourceList;
+import de.escidoc.core.resources.ResourceList;
 
 /**
  * Components of Item.
@@ -38,54 +36,22 @@ import de.escidoc.core.resources.XLinkResourceList;
  * @author SWA
  * 
  */
-public class Components extends XLinkResourceList<Component> {
+public class Components extends ResourceList<Component> {
 
     /**
      * 
      */
     private static final long serialVersionUID = 4368909050450367931L;
 
-    /**
-     * Components.
-     */
-    public Components() {
+    private static final String COMPONENTS_PATH = "/components";
 
-    }
-
-    /**
-     * Get the id of a Component selected by objid of Component.
+    /*
+     * (non-Javadoc)
      * 
-     * @param componentId
-     *            The name of the Component.
-     * @return Component
+     * @see de.escidoc.core.resources.XLinkResourceList#getListXLinkPath()
      */
-    public Component getComponent(final String componentId) {
-
-        Iterator<Component> componentIter = this.iterator();
-        while (componentIter.hasNext()) {
-            Component next = componentIter.next();
-            if (componentId.equals(next.getObjid())) {
-                return next;
-            }
-        }
-        return null;
+    @Override
+    protected String getListXLinkPath() {
+        return COMPONENTS_PATH;
     }
-
-    /**
-     * Delete a Component.
-     * 
-     * @param componentId
-     *            The objid of the to delete Component.
-     */
-    public void del(final String componentId) {
-
-        Iterator<Component> componentIter = this.iterator();
-        while (componentIter.hasNext()) {
-            Component next = componentIter.next();
-            if (!componentId.equals(next.getObjid())) {
-                remove(next);
-            }
-        }
-    }
-
 }

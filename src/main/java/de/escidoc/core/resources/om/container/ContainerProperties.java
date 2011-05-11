@@ -31,6 +31,8 @@ package de.escidoc.core.resources.om.container;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.common.DateTimeUtility;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.properties.CommonProperties;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
 import de.escidoc.core.resources.common.properties.LockStatus;
@@ -185,7 +187,7 @@ public class ContainerProperties extends CommonProperties
      */
     @Override
     public void setLockDate(final DateTime lockDate) {
-        this.lockDate = lockDate;
+        this.lockDate = DateTimeUtility.normalize(lockDate);
     }
 
     /*
@@ -429,5 +431,25 @@ public class ContainerProperties extends CommonProperties
     @Override
     public void setName(final String name) {
         this.name = name;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.common.properties.CommonProperties#
+     * generateXLinkHref(java.lang.String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        super.generateXLinkHref(parentPath);
+        if (version != null) {
+            version.generateXLinkHref(ResourceType.CONTAINER.getPath());
+        }
+        if (latestVersion != null) {
+            latestVersion.generateXLinkHref(ResourceType.CONTAINER.getPath());
+        }
+        if (latestRelease != null) {
+            latestRelease.generateXLinkHref(ResourceType.CONTAINER.getPath());
+        }
     }
 }

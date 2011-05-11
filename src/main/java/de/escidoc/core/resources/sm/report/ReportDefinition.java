@@ -1,12 +1,13 @@
 package de.escidoc.core.resources.sm.report;
 
-import java.util.Collection;
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 import de.escidoc.core.resources.common.reference.RoleRef;
@@ -18,7 +19,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  */
 @JiBX
 public class ReportDefinition extends GenericResource
-    implements Referenceable<ReportDefinitionRef>, XLinkAutonomous {
+    implements Referenceable<ReportDefinitionRef> {
 
     private String name;
 
@@ -26,11 +27,13 @@ public class ReportDefinition extends GenericResource
 
     private String sql;
 
-    private Collection<RoleRef> allowedRoles;
+    private List<RoleRef> allowedRoles;
 
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    @SuppressWarnings("unused")
-    private ReportDefinition() {
+    protected ReportDefinition() {
     }
 
     /**
@@ -42,16 +45,9 @@ public class ReportDefinition extends GenericResource
      */
     public ReportDefinition(final String name, final ScopeRef scope,
         final String sql) {
-        if (name == null)
-            throw new IllegalArgumentException("name must not be null.");
-        if (scope == null)
-            throw new IllegalArgumentException("scope must not be null.");
-        if (sql == null)
-            throw new IllegalArgumentException("sql must not be null.");
-
-        this.name = name;
-        this.scope = scope;
-        this.sql = sql;
+        this.name = checkNotNull(name);
+        this.scope = checkNotNull(scope);
+        this.sql = checkNotNull(sql);
     }
 
     /**
@@ -82,7 +78,7 @@ public class ReportDefinition extends GenericResource
      * 
      * @return
      */
-    public Collection<RoleRef> getAllowedRoles() {
+    public List<RoleRef> getAllowedRoles() {
         if (allowedRoles == null) {
             allowedRoles = new LinkedList<RoleRef>();
         }
@@ -113,12 +109,12 @@ public class ReportDefinition extends GenericResource
     /*
      * (non-Javadoc)
      * 
-     * @see de.escidoc.core.resources.Resource#genXLink()
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
      */
     @Override
-    public void genXLink() {
-        super.genXLink();
-        if (scope != null)
-            scope.genXLink();
+    public void generateXLinkHref(final String parentPath) {
+        // nothing to do
     }
 }

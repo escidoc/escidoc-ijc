@@ -3,11 +3,12 @@
  */
 package de.escidoc.core.resources.sm.report;
 
-import java.util.Collection;
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 import de.escidoc.core.resources.sm.Parameter;
 
@@ -16,16 +17,17 @@ import de.escidoc.core.resources.sm.Parameter;
  * 
  */
 @JiBX
-public class ReportParameters implements XLinkAutonomous {
+public class ReportParameters {
 
     private ReportDefinitionRef reportDefinition;
 
-    private Collection<Parameter<?>> parameters;
+    private List<Parameter<?>> parameters;
 
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    @SuppressWarnings("unused")
-    private ReportParameters() {
-
+    protected ReportParameters() {
     }
 
     /**
@@ -33,9 +35,7 @@ public class ReportParameters implements XLinkAutonomous {
      * @param reportDefinition
      */
     public ReportParameters(final ReportDefinitionRef reportDefinition) {
-        if (reportDefinition == null)
-            throw new IllegalArgumentException(
-                "reportDefinition must not be null.");
+        checkNotNull(reportDefinition);
         this.reportDefinition = reportDefinition;
     }
 
@@ -52,22 +52,10 @@ public class ReportParameters implements XLinkAutonomous {
      * 
      * @return
      */
-    public Collection<Parameter<?>> getParameters() {
+    public List<Parameter<?>> getParameters() {
         if (parameters == null) {
             parameters = new LinkedList<Parameter<?>>();
         }
         return parameters;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
-     */
-    @Override
-    public void genXLink() {
-        if (reportDefinition != null) {
-            reportDefinition.genXLink();
-        }
     }
 }

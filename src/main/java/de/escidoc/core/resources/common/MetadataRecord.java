@@ -30,7 +30,8 @@ package de.escidoc.core.resources.common;
 
 import org.w3c.dom.Element;
 
-import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.NamedSubResource;
 
 /**
  * MetadataRecord.
@@ -38,20 +39,29 @@ import de.escidoc.core.resources.XLinkResource;
  * @author SWA
  * 
  */
-public class MetadataRecord extends XLinkResource {
+@JiBX
+public class MetadataRecord extends NamedSubResource {
 
-    private String name = null;
+    private String mdType;
 
-    private String mdType = null;
+    private String schema;
 
-    private String schema = null;
+    private Element content;
 
-    private Element content = null;
+    private static final String MD_RECORD_PATH = "/md-record";
 
     /**
-     * 
+     * JiBX Constructor
      */
-    public MetadataRecord() {
+    @JiBX
+    protected MetadataRecord() {
+    }
+
+    /**
+     * @param name
+     */
+    public MetadataRecord(final String name) {
+        super(name);
     }
 
     /**
@@ -68,21 +78,6 @@ public class MetadataRecord extends XLinkResource {
     public void setContent(final Element content) {
 
         this.content = content;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(final String name) {
-        this.name = name;
     }
 
     /**
@@ -115,4 +110,13 @@ public class MetadataRecord extends XLinkResource {
         this.schema = schema;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.NamedSubResource#getSubRecourcePath()
+     */
+    @Override
+    protected String getSubRecourcePath() {
+        return MD_RECORD_PATH;
+    }
 }

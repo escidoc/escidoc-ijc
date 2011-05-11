@@ -31,15 +31,10 @@ package de.escidoc.core.resources.om.container;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.VersionableResource;
-import de.escidoc.core.resources.XLinkAutonomous;
-import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.resources.common.Relation;
 import de.escidoc.core.resources.common.Relations;
-import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ContainerRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
-import de.escidoc.core.resources.common.structmap.MemberRef;
 import de.escidoc.core.resources.common.structmap.StructMap;
 
 /**
@@ -50,7 +45,7 @@ import de.escidoc.core.resources.common.structmap.StructMap;
  */
 @JiBX
 public class Container extends VersionableResource
-    implements XLinkAutonomous, Referenceable<ContainerRef> {
+    implements Referenceable<ContainerRef> {
 
     private MetadataRecords mdRecords;
 
@@ -162,81 +157,20 @@ public class Container extends VersionableResource
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
     @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (properties != null) {
-            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
-                properties.setXLinkHref(getXLinkHref() + "/properties");
+    public void generateXLinkHref(final String parentPath) {
+        if (getXLinkHref() != null) {
+            if (properties != null) {
+                properties.generateXLinkHref(getXLinkHref());
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
-                null);
-            genXLinkHref(properties.getContext(), ResourceType.CONTEXT, null);
-            genXLinkHref(properties.getContentModel(),
-                ResourceType.CONTENT_MODEL, null);
-            genVersionHref((VersionImpl) properties.getVersion());
-            genVersionHref((VersionImpl) properties.getLatestVersion());
-            genVersionHref((VersionImpl) properties.getLatestRelease());
-        }
-        if (mdRecords != null && getXLinkHref() != null) {
-            if (mdRecords.getXLinkHref() == null) {
-                mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+            if (mdRecords != null) {
+                mdRecords.generateXLinkHref(getXLinkHref());
             }
-
-            for (MetadataRecord record : mdRecords) {
-                if (record.getXLinkHref() == null) {
-                    record.setXLinkHref(getXLinkHref()
-                        + "/md-records/md-record/" + record.getName());
-                }
+            if (relations != null) {
+                relations.generateXLinkHref(getXLinkHref());
             }
-        }
-        if (relations != null) {
-            if (relations.getXLinkHref() == null && getXLinkHref() != null) {
-                relations.setXLinkHref(getXLinkHref() + "/relations");
+            if (structMap != null) {
+                structMap.generateXLinkHref(getXLinkHref());
             }
-            for (Relation relation : relations) {
-                if (relation.getXLinkHref() == null
-                    && relation.getResourceType() != null
-                    && relation.getResourceType().isRootResource()) {
-                    genXLinkHref(relation, relation.getResourceType(), null);
-                }
-            }
-        }
-        if (structMap != null) {
-            if (structMap.getXLinkHref() == null && getXLinkHref() != null) {
-                structMap.setXLinkHref(getXLinkHref() + "/struct-map");
-            }
-
-            for (MemberRef memberRef : structMap.getItems()) {
-                if (memberRef.getXLinkHref() == null
-                    && memberRef.getResourceType() != null
-                    && memberRef.getResourceType().isRootResource()) {
-                    genXLinkHref(memberRef, memberRef.getResourceType(), null);
-                }
-            }
-            for (MemberRef memberRef : structMap.getContainers()) {
-                if (memberRef.getXLinkHref() == null
-                    && memberRef.getResourceType() != null
-                    && memberRef.getResourceType().isRootResource()) {
-                    genXLinkHref(memberRef, memberRef.getResourceType(), null);
-                }
-            }
-        }
-    }
-
-    /**
-     * Method used by ResourceRef implementations to ensure a fully valid
-     * xLinkHref definition for all sub resources they may own. The validation
-     * methods calling this method may be called by JiBX as post-set methods.
-     * 
-     * @param version
-     */
-    protected void genVersionHref(final VersionImpl version) {
-        if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(ResourceType.CONTAINER.getPath() + "/"
-                + getObjid() + ":" + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), ResourceType.USERACCOUNT,
-                null);
         }
     }
 
@@ -251,6 +185,11 @@ public class Container extends VersionableResource
         return new ContainerRef(getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.CONTAINER;

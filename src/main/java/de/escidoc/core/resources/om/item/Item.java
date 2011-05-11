@@ -30,16 +30,11 @@ package de.escidoc.core.resources.om.item;
 
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.VersionableResource;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.ContentStreams;
-import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Relations;
-import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.common.reference.ItemRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
-import de.escidoc.core.resources.om.item.component.Component;
-import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.resources.om.item.component.Components;
 
 /**
@@ -47,8 +42,7 @@ import de.escidoc.core.resources.om.item.component.Components;
  * 
  * @author ?, SWA
  */
-public class Item extends VersionableResource
-    implements XLinkAutonomous, Referenceable<ItemRef> {
+public class Item extends VersionableResource implements Referenceable<ItemRef> {
 
     private ItemProperties properties;
 
@@ -93,7 +87,6 @@ public class Item extends VersionableResource
      * @return Components
      */
     public Components getComponents() {
-
         return this.components;
     }
 
@@ -103,7 +96,6 @@ public class Item extends VersionableResource
      * @return MetadataRecords
      */
     public MetadataRecords getMetadataRecords() {
-
         return this.mdRecords;
     }
 
@@ -113,7 +105,6 @@ public class Item extends VersionableResource
      * @return Relations
      */
     public Relations getRelations() {
-
         return this.relations;
     }
 
@@ -124,7 +115,6 @@ public class Item extends VersionableResource
      *            The new Components of Item.
      */
     public void setComponents(final Components components) {
-
         this.components = components;
 
     }
@@ -136,7 +126,6 @@ public class Item extends VersionableResource
      *            The new MetadataRecords of Item.
      */
     public void setMetadataRecords(final MetadataRecords metadataRecords) {
-
         this.mdRecords = metadataRecords;
     }
 
@@ -147,7 +136,6 @@ public class Item extends VersionableResource
      *            The new Relations of Item.
      */
     public void setRelations(final Relations relations) {
-
         this.relations = relations;
 
     }
@@ -173,90 +161,28 @@ public class Item extends VersionableResource
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
     @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (properties != null) {
-            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
-                properties.setXLinkHref(getXLinkHref() + "/properties");
+    public void generateXLinkHref(final String parentPath) {
+        if (getXLinkHref() != null) {
+            if (properties != null) {
+                properties.generateXLinkHref(getXLinkHref());
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
-                null);
-            genXLinkHref(properties.getContext(), ResourceType.CONTEXT, null);
-            genXLinkHref(properties.getContentModel(),
-                ResourceType.CONTENT_MODEL, null);
-            genXLinkHref(properties.getOrigin(), ResourceType.ITEM, null);
-            genXLinkHref(properties.getLockOwner(), ResourceType.USERACCOUNT,
-                null);
-            genVersionHref((VersionImpl) properties.getVersion());
-            genVersionHref((VersionImpl) properties.getLatestVersion());
-            genVersionHref((VersionImpl) properties.getLatestRelease());
-        }
-        if (components != null) {
-            if (components.getXLinkHref() == null && getXLinkHref() != null) {
-                components.setXLinkHref(getXLinkHref() + "/components");
+            if (components != null) {
+                components.generateXLinkHref(getXLinkHref());
             }
-
-            for (Component component : components) {
-                String cPrefix = null;
-                if (getXLinkHref() != null) {
-                    cPrefix =
-                        genXLinkHref(component, ResourceType.COMPONENT,
-                            getXLinkHref());
-                }
-
-                ComponentProperties properties = component.getProperties();
-                if (properties != null) {
-                    if (properties.getXLinkHref() == null && cPrefix != null) {
-                        properties.setXLinkHref(cPrefix + "/properties");
-                    }
-                    genXLinkHref(properties.getCreatedBy(),
-                        ResourceType.USERACCOUNT, null);
-                }
-
-                if (component.getContent() != null
-                    && component.getContent().getXLinkHref() == null
-                    && cPrefix != null) {
-                    component.getContent().setXLinkHref(cPrefix + "/content");
-                }
-
-                if (component.getMetadataRecords() != null && cPrefix != null) {
-                    if (component.getMetadataRecords() == null) {
-                        component.getMetadataRecords().setXLinkHref(
-                            cPrefix + "/md-records");
-                    }
-
-                    for (MetadataRecord record : component.getMetadataRecords()) {
-                        if (record.getXLinkHref() == null) {
-                            record.setXLinkHref(cPrefix
-                                + "/md-records/md-record/" + record.getName());
-                        }
-                    }
-                }
+            if (mdRecords != null) {
+                mdRecords.generateXLinkHref(getXLinkHref());
             }
-        }
-        if (mdRecords != null && getXLinkHref() != null) {
-            if (mdRecords.getXLinkHref() == null) {
-                mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+            if (contentStreams != null) {
+                contentStreams.generateXLinkHref(getXLinkHref());
             }
-
-            for (MetadataRecord record : mdRecords) {
-                if (record.getXLinkHref() == null && record.getName() != null) {
-                    record.setXLinkHref(getXLinkHref()
-                        + "/md-records/md-record/" + record.getName());
-                }
+            if (relations != null) {
+                relations.generateXLinkHref(getXLinkHref());
+                /*
+                 * If relations are not set by the binding, it is impossible to
+                 * calculate their HREF since we only know the ID but not the
+                 * type.
+                 */
             }
-        }
-        if (contentStreams != null) {
-            // TODO
-        }
-        if (relations != null && relations.getXLinkHref() == null
-            && getXLinkHref() != null) {
-            relations.setXLinkHref(getXLinkHref() + "/relations");
-            /**
-             * If relations are not set by the binding, it is impossible to
-             * calculate their HREF since we only know the ID but not the type.
-             */
         }
     }
 
@@ -267,14 +193,14 @@ public class Item extends VersionableResource
      * 
      * @param version
      */
-    protected void genVersionHref(final VersionImpl version) {
-        if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(ResourceType.ITEM.getPath() + "/" + getObjid()
-                + ":" + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), ResourceType.USERACCOUNT,
-                null);
-        }
-    }
+    // protected void genVersionHref(final VersionImpl version) {
+    // if (version != null && version.getXLinkHref() == null) {
+    // version.setXLinkHref(ResourceType.ITEM.getPath() + "/" + getObjid()
+    // + ":" + version.getNumber());
+    // genXLinkHref(version.getModifiedBy(), ResourceType.USERACCOUNT,
+    // null);
+    // }
+    // }
 
     /*
      * (non-Javadoc)
@@ -287,6 +213,11 @@ public class Item extends VersionableResource
         return new ItemRef(getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.ITEM;

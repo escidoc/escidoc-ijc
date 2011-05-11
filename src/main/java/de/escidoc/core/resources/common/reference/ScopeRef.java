@@ -10,20 +10,34 @@ import de.escidoc.core.resources.ResourceType;
 @JiBX
 public class ScopeRef extends Reference {
 
-    @SuppressWarnings("unused")
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    private ScopeRef() {
-        this(null);
+    protected ScopeRef() {
     }
 
+    /**
+     * @param objid
+     */
     public ScopeRef(final String objid) {
         super(objid);
     }
 
+    /**
+     * @param xLinkHref
+     * @param xLinkTitle
+     */
     public ScopeRef(final String xLinkHref, final String xLinkTitle) {
         super(xLinkHref, xLinkTitle);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Reference#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.SCOPE;

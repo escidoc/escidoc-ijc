@@ -31,7 +31,6 @@ package de.escidoc.core.resources.aa.useraccount;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.UserAccountRef;
 
@@ -43,7 +42,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  */
 @JiBX
 public class UserAccount extends GenericResource
-    implements XLinkAutonomous, Referenceable<UserAccountRef> {
+    implements Referenceable<UserAccountRef> {
 
     private UserAccountProperties properties;
 
@@ -75,54 +74,38 @@ public class UserAccount extends GenericResource
         this.properties = properties;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result =
-            prime * result + (properties == null ? 0 : properties.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!super.equals(obj)) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        UserAccount other = (UserAccount) obj;
-        if (properties == null) {
-            if (other.properties != null) {
-                return false;
-            }
-        }
-        else if (!properties.equals(other.properties)) {
-            return false;
-        }
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
-     */
-    @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (properties != null) {
-            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
-                null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
-                null);
-        }
-    }
+    // TODO check why there has been equals() and hashcode() been implemented.
+    // @Override
+    // public int hashCode() {
+    // final int prime = 31;
+    // int result = super.hashCode();
+    // result =
+    // prime * result + (properties == null ? 0 : properties.hashCode());
+    // return result;
+    // }
+    //
+    // @Override
+    // public boolean equals(final Object obj) {
+    // if (this == obj) {
+    // return true;
+    // }
+    // if (!super.equals(obj)) {
+    // return false;
+    // }
+    // if (getClass() != obj.getClass()) {
+    // return false;
+    // }
+    // UserAccount other = (UserAccount) obj;
+    // if (properties == null) {
+    // if (other.properties != null) {
+    // return false;
+    // }
+    // }
+    // else if (!properties.equals(other.properties)) {
+    // return false;
+    // }
+    // return true;
+    // }
 
     /*
      * (non-Javadoc)
@@ -135,8 +118,30 @@ public class UserAccount extends GenericResource
         return new UserAccountRef(getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.USERACCOUNT;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        // if (properties != null) {
+        // genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
+        // null);
+        // genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
+        // null);
+        // }
     }
 }

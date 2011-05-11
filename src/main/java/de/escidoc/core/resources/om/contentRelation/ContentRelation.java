@@ -32,8 +32,6 @@ import java.net.URI;
 
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
-import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.reference.Reference;
 
@@ -43,12 +41,11 @@ import de.escidoc.core.resources.common.reference.Reference;
  * @author SWA
  * 
  */
-public class ContentRelation extends GenericResource implements XLinkAutonomous {
+public class ContentRelation extends GenericResource {
 
     private MetadataRecords mdRecords;
 
-    private ContentRelationProperties properties =
-        new ContentRelationProperties();
+    private ContentRelationProperties properties;
 
     private URI type;
 
@@ -204,40 +201,30 @@ public class ContentRelation extends GenericResource implements XLinkAutonomous 
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
     @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (properties != null) {
-            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
-                properties.setXLinkHref(getXLinkHref() + "/properties");
+    public void generateXLinkHref(final String parentPath) {
+        if (getXLinkHref() != null) {
+            if (properties != null) {
+                properties.generateXLinkHref(getXLinkHref());
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
-                null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
-                null);
-        }
-        if (mdRecords != null && getXLinkHref() != null) {
-            if (mdRecords.getXLinkHref() == null) {
-                mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
+            if (mdRecords != null) {
+                mdRecords.generateXLinkHref(getXLinkHref());
             }
-
-            for (MetadataRecord record : mdRecords) {
-                if (record.getXLinkHref() == null) {
-                    record.setXLinkHref(getXLinkHref()
-                        + "/md-records/md-record/" + record.getName());
-                }
+            if (subject != null && subject.getResourceType() != null
+                && subject.getResourceType().isRootResource()) {
+                genXLinkHref(subject, subject.getResourceType(), null);
             }
-        }
-        if (subject != null && subject.getResourceType() != null
-            && subject.getResourceType().isRootResource()) {
-            genXLinkHref(subject, subject.getResourceType(), null);
-        }
-        if (object != null && object.getResourceType() != null
-            && object.getResourceType().isRootResource()) {
-            genXLinkHref(object, object.getResourceType(), null);
+            if (object != null && object.getResourceType() != null
+                && object.getResourceType().isRootResource()) {
+                genXLinkHref(object, object.getResourceType(), null);
+            }
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.CONTENT_RELATION;

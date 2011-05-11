@@ -33,7 +33,6 @@ import org.w3c.dom.Element;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.RoleRef;
 
@@ -44,8 +43,7 @@ import de.escidoc.core.resources.common.reference.RoleRef;
  * 
  */
 @JiBX
-public class Role extends GenericResource
-    implements XLinkAutonomous, Referenceable<RoleRef> {
+public class Role extends GenericResource implements Referenceable<RoleRef> {
 
     private RoleProperties properties;
 
@@ -81,6 +79,9 @@ public class Role extends GenericResource
      * @return Scope
      */
     public Scope getScope() {
+        if (scope == null) {
+            scope = new Scope();
+        }
         return scope;
     }
 
@@ -119,23 +120,6 @@ public class Role extends GenericResource
     /*
      * (non-Javadoc)
      * 
-     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
-     */
-    @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (properties != null) {
-            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
-                null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
-                null);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see
      * de.escidoc.core.resources.common.reference.Referenceable#getReference()
      */
@@ -144,8 +128,27 @@ public class Role extends GenericResource
         return new RoleRef(getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.ROLE;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        /*
+         * Nothing to do.
+         */
     }
 }

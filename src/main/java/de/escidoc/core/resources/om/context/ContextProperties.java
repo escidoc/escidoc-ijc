@@ -211,7 +211,10 @@ public class ContextProperties extends CommonProperties
      * @return OrganizationalUnits
      */
     public OrganizationalUnitRefs getOrganizationalUnitRefs() {
-        return this.organizationalUnitRefs;
+        if (organizationalUnitRefs == null) {
+            organizationalUnitRefs = new OrganizationalUnitRefs();
+        }
+        return organizationalUnitRefs;
     }
 
     /**

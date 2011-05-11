@@ -1,6 +1,5 @@
 package de.escidoc.core.resources.om.context;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
@@ -26,12 +25,11 @@ public class OrganizationalUnitRefs extends LinkedList<OrganizationalUnitRef> {
      * @return Organizational Unit reference
      */
     public OrganizationalUnitRef get(final String objid) {
-
-        Iterator<OrganizationalUnitRef> ouRefIter = this.iterator();
-        while (ouRefIter.hasNext()) {
-            OrganizationalUnitRef next = ouRefIter.next();
-            if (next.getObjid().equals(objid)) {
-                return next;
+        if (objid != null) {
+            for (OrganizationalUnitRef element : this) {
+                if (objid.equals(element.getObjid())) {
+                    return element;
+                }
             }
         }
         return null;
@@ -44,15 +42,13 @@ public class OrganizationalUnitRefs extends LinkedList<OrganizationalUnitRef> {
      *            The objid of the Organizational Unit.
      */
     public void del(final String objid) {
-
-        Iterator<OrganizationalUnitRef> ouRefIter = this.iterator();
-        while (ouRefIter.hasNext()) {
-            OrganizationalUnitRef next = ouRefIter.next();
-            if (next.getObjid().equals(objid)) {
-                this.remove(objid);
-                break;
+        if (objid != null) {
+            for (OrganizationalUnitRef element : this) {
+                if (objid.equals(element.getObjid())) {
+                    remove(element);
+                    break;
+                }
             }
         }
     }
-
 }

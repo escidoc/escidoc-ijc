@@ -30,6 +30,7 @@ package de.escidoc.core.resources.om.item.component;
 
 import org.apache.commons.codec.binary.Base64;
 
+import de.escidoc.core.resources.XLinkType;
 import de.escidoc.core.resources.om.item.Content;
 
 /**
@@ -58,13 +59,64 @@ public class ComponentContent extends Content {
         return base64EncodedContent;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkHref(java.lang.String)
+     */
+    @Override
+    public void setXLinkHref(final String xLinkHref) {
+        super.setXLinkHref(xLinkHref);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkType(de.escidoc.core.
+     * resources.XLinkType)
+     */
+    @Override
+    public void setXLinkType(final XLinkType type) {
+        super.setXLinkType(type);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkTitle(java.lang.String)
+     */
+    @Override
+    public void setXLinkTitle(final String title) {
+        super.setXLinkTitle(title);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomous#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        /*
+         * The xlink:href has to be set either by the user to use a reference
+         * instead of a base64 encoded content for create/update methods of the
+         * item resource or by the infrastructure in order to return the href
+         * for the content for retrieval.
+         */
+    }
+
     /**
      * Encode binary content.
      * 
      * @param inlineContent
      * @return base64 encoded content as String
      */
-    public String encodeBinaryContent(final String inlineContent) {
+    public static final String encodeBinaryContent(final String inlineContent) {
         return Base64.encodeBase64String(inlineContent.getBytes());
     }
 
@@ -73,7 +125,7 @@ public class ComponentContent extends Content {
      * @param inlineContent
      * @return base64 encoded content as String
      */
-    public byte[] encodeBinaryContent(final byte[] inlineContent) {
+    public static final byte[] encodeBinaryContent(final byte[] inlineContent) {
         return Base64.encodeBase64(inlineContent);
     }
 
@@ -83,7 +135,8 @@ public class ComponentContent extends Content {
      * @param base64EncodedContent
      * @return base64 decoded content as String
      */
-    public String decodeBinaryContent(final String base64EncodedContent) {
+    public static final String decodeBinaryContent(
+        final String base64EncodedContent) {
         return new String(Base64.decodeBase64(base64EncodedContent.getBytes()));
     }
 
@@ -92,7 +145,8 @@ public class ComponentContent extends Content {
      * @param base64EncodedContent
      * @return base64 decoded content as byte[]
      */
-    public byte[] decodeBinaryContent(final byte[] base64EncodedContent) {
+    public static final byte[] decodeBinaryContent(
+        final byte[] base64EncodedContent) {
         return Base64.decodeBase64(base64EncodedContent);
     }
 }

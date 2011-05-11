@@ -28,10 +28,6 @@
  */
 package de.escidoc.core.resources.cmm;
 
-import java.net.URI;
-
-import de.escidoc.core.common.jibx.CustomConverter;
-import de.escidoc.core.resources.XLinkResource;
 
 /**
  * Content Model resource definition
@@ -39,11 +35,11 @@ import de.escidoc.core.resources.XLinkResource;
  * @author SWA
  * 
  */
-public class ResourceDefinition extends XLinkResource {
+public class ResourceDefinition {
 
     private String name;
 
-    private URI xslt;
+    private Xslt xslt;
 
     private String mdRecordName;
 
@@ -79,7 +75,7 @@ public class ResourceDefinition extends XLinkResource {
      * @param xslt
      *            The xslt
      */
-    public void setXslt(final URI xslt) {
+    public void setXslt(final Xslt xslt) {
         this.xslt = xslt;
     }
 
@@ -88,7 +84,7 @@ public class ResourceDefinition extends XLinkResource {
      * 
      * @return The xslt.
      */
-    public URI getXslt() {
+    public Xslt getXslt() {
         return xslt;
     }
 
@@ -106,15 +102,5 @@ public class ResourceDefinition extends XLinkResource {
      */
     public String getMetadataRecordName() {
         return mdRecordName;
-    }
-
-    @Override
-    public String getXLinkHref() {
-        return CustomConverter.serializeURI(getXslt());
-    }
-
-    @Override
-    public void setXLinkHref(String href) {
-        setXslt(CustomConverter.deserializeURI(href));
     }
 }

@@ -28,7 +28,7 @@
  */
 package de.escidoc.core.resources.common;
 
-import de.escidoc.core.resources.XLinkResourceList;
+import de.escidoc.core.resources.ResourceList;
 
 /**
  * Relations.
@@ -36,17 +36,22 @@ import de.escidoc.core.resources.XLinkResourceList;
  * @author SWA
  * 
  */
-public class Relations extends XLinkResourceList<Relation> {
+public class Relations extends ResourceList<Relation> {
 
     /**
      * 
      */
     private static final long serialVersionUID = 5665063093642931041L;
 
-    /**
-     * 
-     */
-    public Relations() {
+    private static final String RELATIONS_PATH = "/relations";
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkResourceList#getListXLinkPath()
+     */
+    @Override
+    protected String getListXLinkPath() {
+        return RELATIONS_PATH;
     }
 }

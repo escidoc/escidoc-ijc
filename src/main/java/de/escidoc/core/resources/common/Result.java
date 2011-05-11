@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import org.joda.time.DateTime;
 import org.w3c.dom.Element;
 
+import de.escidoc.core.common.DateTimeUtility;
+
 /**
  * Result (result.xsd).
  * 
@@ -20,7 +22,7 @@ public class Result extends LinkedList<Element> {
 
     // private static final Logger LOGGER = Logger.getLogger(Result.class);
 
-    private DateTime lmd = null;
+    private DateTime lmd;
 
     /**
      * See Interface for functional description.
@@ -38,6 +40,6 @@ public class Result extends LinkedList<Element> {
      *            last modification date
      */
     public void setLastModificationDate(final DateTime timestamp) {
-        this.lmd = timestamp;
+        this.lmd = DateTimeUtility.normalize(timestamp);
     }
 }

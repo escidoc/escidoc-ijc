@@ -28,9 +28,7 @@
  */
 package de.escidoc.core.resources.om.context;
 
-import java.util.Iterator;
-
-import de.escidoc.core.resources.XLinkResourceList;
+import de.escidoc.core.resources.NamedSubResourceList;
 
 /**
  * Admin Descriptors.
@@ -38,12 +36,14 @@ import de.escidoc.core.resources.XLinkResourceList;
  * @author SWA
  * 
  */
-public class AdminDescriptors extends XLinkResourceList<AdminDescriptor> {
+public class AdminDescriptors extends NamedSubResourceList<AdminDescriptor> {
 
     /**
      * 
      */
     private static final long serialVersionUID = 8873813166227493199L;
+
+    private static final String ADMIN_DESCRIPTORS_PATH = "/admin-descriptors";
 
     /**
      * 
@@ -51,42 +51,13 @@ public class AdminDescriptors extends XLinkResourceList<AdminDescriptor> {
     public AdminDescriptors() {
     }
 
-    /**
-     * Get a AdminDescriptor.
+    /*
+     * (non-Javadoc)
      * 
-     * @param name
-     *            The name of the AdminDescriptor.
-     * @return AdminDescriptor object.
+     * @see de.escidoc.core.resources.XLinkResourceList#getListXLinkPath()
      */
-    public AdminDescriptor get(final String name) {
-
-        AdminDescriptor result = null;
-        Iterator<AdminDescriptor> adIter = this.iterator();
-        while (adIter.hasNext()) {
-            AdminDescriptor next = adIter.next();
-            if (next.getName().equals(name)) {
-                result = next;
-                break;
-            }
-        }
-        return result;
+    @Override
+    protected String getListXLinkPath() {
+        return ADMIN_DESCRIPTORS_PATH;
     }
-
-    /**
-     * 
-     * @param name
-     *            The name of the AdminDescriptor.
-     */
-    public void del(final String name) {
-
-        Iterator<AdminDescriptor> admDescIter = this.iterator();
-        while (admDescIter.hasNext()) {
-            AdminDescriptor next = admDescIter.next();
-            if (next.getName().equals(name)) {
-                this.remove(name);
-                break;
-            }
-        }
-    }
-
 }

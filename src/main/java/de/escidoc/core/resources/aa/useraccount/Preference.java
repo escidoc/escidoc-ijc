@@ -2,11 +2,12 @@ package de.escidoc.core.resources.aa.useraccount;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.common.DateTimeUtility;
+
 /**
  * User Account Preference.
  * 
  * @author SWA
- * 
  */
 public class Preference {
 
@@ -14,7 +15,7 @@ public class Preference {
 
     private String value;
 
-    private DateTime lastModificationDate = null;
+    private DateTime lastModificationDate;
 
     /**
      * User Account Preference.
@@ -90,8 +91,6 @@ public class Preference {
      *            last-modification-date
      */
     public void setLastModificationDate(final DateTime lmd) {
-
-        this.lastModificationDate = lmd;
+        this.lastModificationDate = DateTimeUtility.normalize(lmd);
     }
-
 }

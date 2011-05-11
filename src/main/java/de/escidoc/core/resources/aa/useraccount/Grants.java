@@ -28,48 +28,19 @@
  */
 package de.escidoc.core.resources.aa.useraccount;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Grant.
+ * Grants.
  * 
  * @author ?, SWA
  * 
  */
-public class Grants {
-
-    private final Collection<Grant> grants = new LinkedList<Grant>();
+public class Grants extends LinkedList<Grant> {
 
     /**
-     * Get grants.
      * 
-     * @return Collection of Grants
      */
-    public Collection<Grant> getGrants() {
-        return grants;
-    }
-
-    /**
-     * The method is mandatory on create of grants, but not-allowed on update of
-     * grants.
-     * 
-     * @param grant
-     *            Grant
-     */
-    public void add(final Grant grant) {
-        this.grants.add(grant);
-    }
-
-    /**
-     * The method is mandatory on create of grants, but not-allowed on update of
-     * grants.
-     * 
-     * @param grant
-     *            Grant
-     */
-    public void del(final Grant grant) {
-        this.grants.remove(grant);
-    }
+    private static final long serialVersionUID = 881579053448401087L;
 
 }

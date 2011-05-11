@@ -3,6 +3,7 @@ package de.escidoc.core.resources.sm;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.common.DateTimeUtility;
 
 /**
  * @author MRO
@@ -21,7 +22,7 @@ public class DateParameter extends Parameter<DateTime> {
      * @param date
      */
     public DateParameter(final String name, final DateTime date) {
-        super(name, date);
+        super(name, DateTimeUtility.normalize(date));
     }
 
     @Override

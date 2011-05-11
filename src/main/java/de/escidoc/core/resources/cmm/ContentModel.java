@@ -30,8 +30,7 @@ package de.escidoc.core.resources.cmm;
 
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.VersionableResource;
-import de.escidoc.core.resources.XLinkAutonomous;
-import de.escidoc.core.resources.common.properties.VersionImpl;
+import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
 
@@ -42,13 +41,15 @@ import de.escidoc.core.resources.common.reference.Referenceable;
  * 
  */
 public class ContentModel extends VersionableResource
-    implements XLinkAutonomous, Referenceable<ContentModelRef> {
+    implements Referenceable<ContentModelRef> {
 
     private ContentModelProperties properties;
 
     private MetadataRecordDefinitions metadataRecordDefinitions;
 
     private ResourceDefinitions resourceDefinitions;
+
+    private ContentStreams contentStreams;
 
     /**
      */
@@ -64,7 +65,7 @@ public class ContentModel extends VersionableResource
     public ContentModelProperties getProperties() {
         if (properties == null)
             properties = new ContentModelProperties();
-        return this.properties;
+        return properties;
     }
 
     /**
@@ -94,6 +95,9 @@ public class ContentModel extends VersionableResource
      * @return MetadataRecordDefinitions
      */
     public MetadataRecordDefinitions getMetadataRecordDefinitions() {
+        if (metadataRecordDefinitions == null) {
+            metadataRecordDefinitions = new MetadataRecordDefinitions();
+        }
         return metadataRecordDefinitions;
     }
 
@@ -114,64 +118,28 @@ public class ContentModel extends VersionableResource
      * @return ResourceDefinitions
      */
     public ResourceDefinitions getResourceDefinitions() {
+        if (resourceDefinitions == null) {
+            resourceDefinitions = new ResourceDefinitions();
+        }
         return resourceDefinitions;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+    /**
+     * @return the contentStreams
      */
-    @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (properties != null) {
-            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
-                properties.setXLinkHref(getXLinkHref() + "/properties");
-            }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
-                null);
-            genXLinkHref(properties.getLockOwner(), ResourceType.USERACCOUNT,
-                null);
-            genVersionHref((VersionImpl) properties.getVersion());
-            genVersionHref((VersionImpl) properties.getLatestVersion());
-            genVersionHref((VersionImpl) properties.getLatestRelease());
+    public ContentStreams getContentStreams() {
+        if (contentStreams == null) {
+            contentStreams = new ContentStreams();
         }
-        if (metadataRecordDefinitions != null && getXLinkHref() != null) {
-            for (MetadataRecordDefinition def : metadataRecordDefinitions) {
-                if (def.getXLinkHref() == null && def.getName() != null) {
-                    def.setXLinkHref(getXLinkHref()
-                        + "/md-record-definitions/md-record-definition/"
-                        + def.getName() + "/schema/content");
-                }
-            }
-        }
-        if (resourceDefinitions != null && getXLinkHref() != null) {
-            for (ResourceDefinition def : resourceDefinitions) {
-                if (def.getXLinkHref() == null && def.getName() != null) {
-                    def.setXLinkHref(getXLinkHref()
-                        + "/md-record-definitions/md-record-definition/"
-                        + def.getName() + "/xslt/content");
-                }
-            }
-        }
+        return contentStreams;
     }
 
     /**
-     * Method used by ResourceRef implementations to ensure a fully valid
-     * xLinkHref definition for all sub resources they may own. The validation
-     * methods calling this method may be called by JiBX as post-set methods.
-     * 
-     * @param version
+     * @param contentStreams
+     *            the contentStreams to set
      */
-    protected void genVersionHref(final VersionImpl version) {
-        if (version != null && version.getXLinkHref() == null) {
-            version.setXLinkHref(ResourceType.ITEM.getPath() + "/" + getObjid()
-                + ":" + version.getNumber());
-            genXLinkHref(version.getModifiedBy(), ResourceType.USERACCOUNT,
-                null);
-        }
+    public void setContentStreams(final ContentStreams contentStreams) {
+        this.contentStreams = contentStreams;
     }
 
     /*
@@ -185,8 +153,36 @@ public class ContentModel extends VersionableResource
         return new ContentModelRef(getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.CONTENT_MODEL;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        if (getXLinkHref() != null) {
+            if (properties != null) {
+                properties.generateXLinkHref(getXLinkHref());
+            }
+            if (contentStreams != null) {
+                contentStreams.generateXLinkHref(getXLinkHref());
+            }
+            /*
+             * MetadataRecordDefinitions and ResourceDefinitions do not support
+             * XLinkHrefs
+             */
+        }
     }
 }

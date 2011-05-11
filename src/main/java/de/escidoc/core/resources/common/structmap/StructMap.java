@@ -64,6 +64,8 @@ public class StructMap extends XLinkResource
      */
     private static final long serialVersionUID = -657913209962433330L;
 
+    private static final String STRUCT_MAP_PATH = "/struct-map";
+
     private List<ItemMemberRef> items = new LinkedList<ItemMemberRef>();
 
     private List<ContainerMemberRef> containers =
@@ -154,6 +156,20 @@ public class StructMap extends XLinkResource
     @Override
     public Iterator<MemberRef> iterator() {
         return new StructMapIterator();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        if (getXLinkHref() == null && parentPath != null) {
+            setXLinkHref(parentPath + STRUCT_MAP_PATH);
+        }
     }
 
     /**

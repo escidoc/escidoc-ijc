@@ -1,9 +1,7 @@
 package de.escidoc.core.resources.sm.report;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
-import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
 
 /**
@@ -11,15 +9,17 @@ import de.escidoc.core.resources.common.reference.ReportDefinitionRef;
  * 
  */
 @JiBX
-public class Report extends Resource implements XLinkAutonomous {
+public class Report {
 
     private ReportDefinitionRef reportDefinition;
 
     private ReportRecord reportRecord;
 
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    @SuppressWarnings("unused")
-    private Report() {
+    protected Report() {
 
     }
 
@@ -29,9 +29,7 @@ public class Report extends Resource implements XLinkAutonomous {
      * @param reportRecord
      */
     public Report(final ReportDefinitionRef reportDefinition) {
-        if (reportDefinition == null)
-            throw new IllegalArgumentException(
-                "reportDefinition must not be null.");
+        checkNotNull(reportDefinition);
         this.reportDefinition = reportDefinition;
     }
 
@@ -48,6 +46,9 @@ public class Report extends Resource implements XLinkAutonomous {
      * @return
      */
     public ReportRecord getReportRecord() {
+        if (reportRecord == null) {
+            reportRecord = new ReportRecord();
+        }
         return reportRecord;
     }
 
@@ -57,27 +58,5 @@ public class Report extends Resource implements XLinkAutonomous {
      */
     public void setReportRecord(final ReportRecord reportRecord) {
         this.reportRecord = reportRecord;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.Resource#getResourceType()
-     */
-    @Override
-    public ResourceType getResourceType() {
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.Resource#genXLink()
-     */
-    @Override
-    public void genXLink() {
-        // do not generate own XLink
-        if (reportDefinition != null)
-            reportDefinition.genXLink();
     }
 }

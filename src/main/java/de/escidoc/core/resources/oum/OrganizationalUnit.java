@@ -31,8 +31,6 @@ package de.escidoc.core.resources.oum;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
-import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 
 /**
@@ -42,8 +40,7 @@ import de.escidoc.core.resources.common.MetadataRecords;
  * 
  */
 @JiBX
-public class OrganizationalUnit extends GenericResource
-    implements XLinkAutonomous {
+public class OrganizationalUnit extends GenericResource {
 
     private OrganizationalUnitProperties properties;
 
@@ -76,7 +73,8 @@ public class OrganizationalUnit extends GenericResource
      * See Interface for functional description.
      * 
      * @return
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getParents()
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit
+     *      .OrganizationalUnitInterface#getParents()
      */
     public Parents getParents() {
         if (parents == null) {
@@ -89,7 +87,8 @@ public class OrganizationalUnit extends GenericResource
      * See Interface for functional description.
      * 
      * @return
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getMetadataRecords()
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit
+     *      .OrganizationalUnitInterface#getMetadataRecords()
      */
     public MetadataRecords getMetadataRecords() {
         if (mdRecords == null) {
@@ -102,7 +101,8 @@ public class OrganizationalUnit extends GenericResource
      * See Interface for functional description.
      * 
      * @return
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#getPredecessors()
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit
+     *      .OrganizationalUnitInterface#getPredecessors()
      */
     public Predecessors getPredecessors() {
         if (predecessors == null) {
@@ -115,7 +115,8 @@ public class OrganizationalUnit extends GenericResource
      * See Interface for functional description.
      * 
      * @param parents
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setParents(de.escidoc.core.resources.om.organizationalUnit.Parents)
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit
+     *      .OrganizationalUnitInterface#setParents(de.escidoc.core.resources.om.organizationalUnit.Parents)
      */
     public void setParents(final Parents parents) {
         this.parents = parents;
@@ -125,7 +126,8 @@ public class OrganizationalUnit extends GenericResource
      * See Interface for functional description.
      * 
      * @param mdRecords
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setMetadataRecords(de.escidoc.core.resources.common.MetadataRecords)
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit
+     *      .OrganizationalUnitInterface#setMetadataRecords(de.escidoc.core.resources.common.MetadataRecords)
      */
     public void setMetadataRecords(final MetadataRecords metadataRecords) {
         this.mdRecords = metadataRecords;
@@ -145,7 +147,8 @@ public class OrganizationalUnit extends GenericResource
      * See Interface for functional description.
      * 
      * @param predecessors
-     * @see de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface#setPredecessors(de.escidoc.core.resources.om.organizationalUnit.Predecessors)
+     * @see de.escidoc.core.resources.interfaces.organizationalUnit
+     *      .OrganizationalUnitInterface#setPredecessors(de.escidoc.core.resources.om.organizationalUnit.Predecessors)
      */
     public void setPredecessors(final Predecessors predecessors) {
         this.predecessors = predecessors;
@@ -157,56 +160,28 @@ public class OrganizationalUnit extends GenericResource
      * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
      */
     @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (properties != null) {
-            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
-                properties.setXLinkHref(getXLinkHref() + "/properties");
+    public void generateXLinkHref(final String parentPath) {
+        if (getXLinkHref() != null) {
+            if (properties != null) {
+                properties.generateXLinkHref(getXLinkHref());
             }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
-                null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
-                null);
-        }
-        if (parents != null) {
-            if (parents.getXLinkHref() == null && getXLinkHref() != null) {
-                parents.setXLinkHref(getXLinkHref() + "/parents");
+            if (parents != null) {
+                parents.generateXLinkHref(getXLinkHref());
             }
-
-            for (Parent parent : parents) {
-                genXLinkHref(parent, ResourceType.ORGANIZATIONAL_UNIT, null);
+            if (mdRecords != null) {
+                mdRecords.generateXLinkHref(getXLinkHref());
             }
-
-        }
-        if (mdRecords != null && getXLinkHref() != null) {
-            if (mdRecords.getXLinkHref() == null) {
-                mdRecords.setXLinkHref(getXLinkHref() + "/md-records");
-            }
-
-            for (MetadataRecord record : mdRecords) {
-                if (record.getXLinkHref() == null) {
-                    record.setXLinkHref(getXLinkHref()
-                        + "/md-records/md-record/" + record.getName());
-                }
-            }
-        }
-
-        if (predecessors != null) {
-
-            if (predecessors.getXLinkHref() == null && getXLinkHref() != null) {
-                predecessors.setXLinkHref(getXLinkHref() + "/predecessors");
-            }
-
-            for (Predecessor predecessor : predecessors.getPredecessorRef()) {
-                if (predecessor.getXLinkHref() == null) {
-                    genXLinkHref(predecessor, ResourceType.ORGANIZATIONAL_UNIT,
-                        null);
-                }
+            if (predecessors != null) {
+                predecessors.generateXLinkHref(getXLinkHref());
             }
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.ORGANIZATIONAL_UNIT;

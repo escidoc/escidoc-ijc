@@ -28,17 +28,30 @@
  */
 package de.escidoc.core.resources.common;
 
-import de.escidoc.core.resources.XLinkResourceList;
+import de.escidoc.core.resources.NamedSubResourceList;
 
-public class ContentStreams extends XLinkResourceList<ContentStream> {
+public class ContentStreams extends NamedSubResourceList<ContentStream> {
 
     /**
      * 
      */
     private static final long serialVersionUID = -5527353567135131796L;
 
-    public ContentStreams() {
+    private static final String CONTENT_STREAMS_PATH = "/content-streams";
 
+    /**
+     * 
+     */
+    public ContentStreams() {
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkResourceList#getListXLinkPath()
+     */
+    @Override
+    protected String getListXLinkPath() {
+        return CONTENT_STREAMS_PATH;
+    }
 }

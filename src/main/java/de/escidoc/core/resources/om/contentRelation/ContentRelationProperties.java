@@ -31,6 +31,7 @@ package de.escidoc.core.resources.om.contentRelation;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.common.DateTimeUtility;
 import de.escidoc.core.resources.common.properties.CommonProperties;
 import de.escidoc.core.resources.common.properties.LockStatus;
 import de.escidoc.core.resources.common.properties.PublicStatus;
@@ -137,7 +138,7 @@ public class ContentRelationProperties extends CommonProperties
      */
     @Override
     public void setLockDate(final DateTime lockDate) {
-        this.lockDate = lockDate;
+        this.lockDate = DateTimeUtility.normalize(lockDate);
     }
 
     /*

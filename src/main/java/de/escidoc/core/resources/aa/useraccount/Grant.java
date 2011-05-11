@@ -3,7 +3,6 @@ package de.escidoc.core.resources.aa.useraccount;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.GrantRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
 
@@ -14,10 +13,9 @@ import de.escidoc.core.resources.common.reference.Referenceable;
  * 
  */
 @JiBX
-public class Grant extends GenericResource
-    implements XLinkAutonomous, Referenceable<GrantRef> {
+public class Grant extends GenericResource implements Referenceable<GrantRef> {
 
-    private GrantProperties grantProperties;
+    private GrantProperties properties;
 
     /**
      * 
@@ -26,15 +24,34 @@ public class Grant extends GenericResource
     }
 
     /**
+     * @return
+     */
+    public GrantProperties getProperties() {
+        if (properties == null) {
+            properties = new GrantProperties();
+        }
+        return properties;
+    }
+
+    /**
+     * @param properties
+     */
+    public void setProperties(final GrantProperties properties) {
+        this.properties = properties;
+    }
+
+    /**
      * Get Grant Properties.
      * 
      * @return GrantProperties
+     * @deprecated Use {@link Grant#getProperties()} instead.
      */
+    @Deprecated
     public GrantProperties getGrantProperties() {
-        if (grantProperties == null) {
-            grantProperties = new GrantProperties();
+        if (properties == null) {
+            properties = new GrantProperties();
         }
-        return grantProperties;
+        return properties;
     }
 
     /**
@@ -42,44 +59,11 @@ public class Grant extends GenericResource
      * 
      * @param grantProperties
      *            GrantProperties
+     * @deprecated Use {@link Grant#setProperties(GrantProperties)} instead.
      */
+    @Deprecated
     public void setGrantProperties(final GrantProperties grantProperties) {
-        this.grantProperties = grantProperties;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
-     */
-    @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (grantProperties != null) {
-
-            genXLinkHref(grantProperties.getCreatedBy(),
-                ResourceType.USERACCOUNT, null);
-            genXLinkHref(grantProperties.getGrantedTo(),
-                ResourceType.USERACCOUNT, null);
-            genXLinkHref(grantProperties.getRevokedBy(),
-                ResourceType.USERACCOUNT, null);
-            genXLinkHref(grantProperties.getRole(), ResourceType.ROLE, null);
-
-            /**
-             * AssignedOn cannot be generated if ResourceType is null or not a
-             * root resource.
-             */
-            if (grantProperties.getAssignedOn() != null
-                && grantProperties.getAssignedOn().getObjid() != null
-                && grantProperties.getAssignedOn().getResourceType() != null
-                && grantProperties
-                    .getAssignedOn().getResourceType().isRootResource()) {
-
-                genXLinkHref(grantProperties.getAssignedOn(), grantProperties
-                    .getAssignedOn().getResourceType(), null);
-            }
-        }
+        this.properties = grantProperties;
     }
 
     /*
@@ -93,8 +77,39 @@ public class Grant extends GenericResource
         return new GrantRef(getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.GRANT;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+
+        if (properties != null) {
+            /**
+             * AssignedOn cannot be generated if ResourceType is null or not a
+             * root resource.
+             */
+            if (properties.getAssignedOn() != null
+                && properties.getAssignedOn().getObjid() != null
+                && properties.getAssignedOn().getResourceType() != null
+                && properties
+                    .getAssignedOn().getResourceType().isRootResource()) {
+
+                genXLinkHref(properties.getAssignedOn(), null);
+            }
+        }
     }
 }

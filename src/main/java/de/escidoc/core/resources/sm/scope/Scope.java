@@ -21,9 +21,11 @@ public class Scope extends GenericResource implements Referenceable<ScopeRef> {
 
     private ScopeType scopeType;
 
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    @SuppressWarnings("unused")
-    private Scope() {
+    protected Scope() {
     }
 
     /**
@@ -72,5 +74,19 @@ public class Scope extends GenericResource implements Referenceable<ScopeRef> {
     @Override
     public ResourceType getResourceType() {
         return ResourceType.SCOPE;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomous#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        /*
+         * Nothing to do.
+         */
     }
 }

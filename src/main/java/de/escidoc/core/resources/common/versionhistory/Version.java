@@ -28,13 +28,13 @@
  */
 package de.escidoc.core.resources.common.versionhistory;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.common.DateTimeUtility;
 import de.escidoc.core.resources.common.reference.Reference;
 
 /**
@@ -53,7 +53,7 @@ public class Version extends Reference {
 
     private String comment;
 
-    private Collection<Event> events;
+    private List<Event> events;
 
     /**
      * @return the versionNumber
@@ -67,6 +67,13 @@ public class Version extends Reference {
      */
     public DateTime getTimestamp() {
         return timestamp;
+    }
+
+    /**
+     * @param date
+     */
+    protected void setTimestamp(final DateTime date) {
+        this.timestamp = DateTimeUtility.normalize(date);
     }
 
     /**
@@ -86,15 +93,10 @@ public class Version extends Reference {
     /**
      * @return the events
      */
-    public Collection<Event> getEvents() {
+    public List<Event> getEvents() {
         if (events == null) {
             events = new LinkedList<Event>();
         }
         return events;
-    }
-
-    @Override
-    public ResourceType getResourceType() {
-        return null;
     }
 }

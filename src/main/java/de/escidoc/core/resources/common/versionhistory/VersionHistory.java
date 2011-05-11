@@ -28,12 +28,13 @@
  */
 package de.escidoc.core.resources.common.versionhistory;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.common.DateTimeUtility;
 
 /**
  * 
@@ -45,7 +46,7 @@ public class VersionHistory {
 
     private DateTime lastModificationDate;
 
-    private Collection<Version> versions;
+    private List<Version> versions;
 
     /**
      * @return the lastModificationDate
@@ -55,9 +56,16 @@ public class VersionHistory {
     }
 
     /**
+     * @param date
+     */
+    protected void setLastModificationDate(final DateTime date) {
+        this.lastModificationDate = DateTimeUtility.normalize(date);
+    }
+
+    /**
      * @return the versions
      */
-    public Collection<Version> getVersions() {
+    public List<Version> getVersions() {
         if (versions == null) {
             versions = new LinkedList<Version>();
         }

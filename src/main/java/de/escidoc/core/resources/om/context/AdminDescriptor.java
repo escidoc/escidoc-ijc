@@ -47,7 +47,8 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.resources.NamedSubResource;
 
 /**
  * AdminDescriptor.
@@ -55,28 +56,24 @@ import de.escidoc.core.resources.XLinkResource;
  * @author SWA
  * 
  */
-public class AdminDescriptor extends XLinkResource {
+public class AdminDescriptor extends NamedSubResource {
 
-    private String name = null;
+    private static final String ADMIN_DESCRIPTOR_PATH = "/admin-descriptor";
 
-    private Element content = null;
-
-    public AdminDescriptor() {
-    }
+    private Element content;
 
     /**
-     * @return the admin descriptor name
+     * JiBX Constructor
      */
-    public String getName() {
-        return this.name;
+    @JiBX
+    protected AdminDescriptor() {
     }
 
     /**
      * @param name
-     *            the admin descriptor name
      */
-    public void setName(final String name) {
-        this.name = name;
+    public AdminDescriptor(final String name) {
+        super(name);
     }
 
     /**
@@ -137,5 +134,15 @@ public class AdminDescriptor extends XLinkResource {
         Document d = builder.parse(is);
 
         this.content = d.getDocumentElement();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.NamedSubResource#getSubRecourcePath()
+     */
+    @Override
+    protected String getSubRecourcePath() {
+        return ADMIN_DESCRIPTOR_PATH;
     }
 }

@@ -28,61 +28,30 @@
  */
 package de.escidoc.core.resources.oum;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-
-import de.escidoc.core.resources.XLinkResource;
+import de.escidoc.core.resources.ResourceList;
 
 /**
  * Organizational Unit Predecessors.
  * 
- * FIXME: extends LinkedList
- * 
  * @author SWA
  * 
  */
-public class Predecessors extends XLinkResource {
-
-    private Collection<Predecessor> predecessorRefs =
-        new LinkedList<Predecessor>();
+public class Predecessors extends ResourceList<Predecessor> {
 
     /**
-     * Get the whole Predecessors collection.
      * 
-     * @return Collection of Predecessors for the OrganizationalUnit.
      */
-    public Collection<Predecessor> getPredecessorRef() {
-        return this.predecessorRefs;
-    }
+    private static final long serialVersionUID = -5134784664686872257L;
 
-    /**
-     * Set the whole Predecessors collection.
-     * 
-     * @param predecessorRef
-     *            Collection of Predecessors for the OrganizationalUnit.
-     */
-    public void setPredecessorRef(final Collection<Predecessor> predecessorRef) {
-        this.predecessorRefs = predecessorRef;
-    }
+    private static final String PREDECESSORS_PATH = "/predecessors";
 
-    /**
-     * Add a Predecessor to the predecessor collection of the
-     * OrganizationalUnit.
+    /*
+     * (non-Javadoc)
      * 
-     * @param predecessorRef
-     *            New resource reference to the predecessor.
+     * @see de.escidoc.core.resources.XLinkResourceList#getListXLinkPath()
      */
-    public void addPredecessorRef(final Predecessor predecessorRef) {
-        this.predecessorRefs.add(predecessorRef);
-    }
-
-    /**
-     * Iterator over Predecessors.
-     * 
-     * @return Iterator
-     */
-    public Iterator<Predecessor> iterator() {
-        return this.predecessorRefs.iterator();
+    @Override
+    protected String getListXLinkPath() {
+        return PREDECESSORS_PATH;
     }
 }

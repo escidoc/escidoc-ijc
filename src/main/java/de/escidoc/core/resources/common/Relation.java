@@ -28,8 +28,8 @@
  */
 package de.escidoc.core.resources.common;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.reference.Reference;
 
@@ -40,15 +40,17 @@ import de.escidoc.core.resources.common.reference.Reference;
  * 
  */
 @JiBX
-public class Relation extends Resource {
+public class Relation extends Reference {
 
     private String predicate;
 
     private ResourceType type;
 
-    @SuppressWarnings("unused")
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    private Relation() {
+    protected Relation() {
     }
 
     /**
@@ -57,15 +59,12 @@ public class Relation extends Resource {
      *            The resource reference.
      */
     public Relation(final Reference ref) {
-
-        if (ref == null)
-            throw new IllegalArgumentException("ref must not be null.");
-
-        setObjid(ref.getObjid());
-        setXLinkHref(ref.getXLinkHref());
-        setXLinkTitle(ref.getXLinkTitle());
-
-        this.type = ref.getResourceType();
+        checkNotNull(ref);
+        identifier = new Identifier(ref.getObjid());
+        identifier.setHref(ref.getXLinkHref());
+        identifier.setTitle(ref.getXLinkTitle());
+        identifier.setType(ref.getXLinkType());
+        type = ref.getResourceType();
     }
 
     /**
@@ -87,8 +86,40 @@ public class Relation extends Resource {
         this.predicate = predicate;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return type;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Reference#generateXLinkHref
+     * (java.lang.String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        /*
+         * It is impossible to generate an xlink:href out of an objid, since
+         * there is no type supported in SOAP for relations. The only
+         * possibility we have here, is to generate the type of this Relation
+         * out of the xlink:href if and only if the xlink:href was set before
+         * unmarshalling to an instance of this class. Therefore the type is
+         * only supported, if REST is being used as the TransportProtocol.
+         */
+        if (getXLinkHref() != null && this.type == null) {
+            String prefixPath =
+                getXLinkHref().substring(0, getXLinkHref().lastIndexOf('/'));
+            ResourceType type = ResourceType.getValue(prefixPath);
+            if (type != null) {
+                this.type = type;
+            }
+        }
     }
 }

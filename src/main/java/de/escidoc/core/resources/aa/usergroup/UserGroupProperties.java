@@ -6,6 +6,7 @@ package de.escidoc.core.resources.aa.usergroup;
 import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.common.DateTimeUtility;
 import de.escidoc.core.resources.common.properties.interfaces.ActiveProperties;
 import de.escidoc.core.resources.common.properties.interfaces.CreateProperties;
 import de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties;
@@ -39,7 +40,6 @@ public class UserGroupProperties
 
     private String name;
 
-    // FIXME schema definition for this type is AnyType
     private String label;
 
     /**
@@ -198,7 +198,7 @@ public class UserGroupProperties
      */
     @Override
     public void setCreationDate(final DateTime creationDate) {
-        this.creationDate = creationDate;
+        this.creationDate = DateTimeUtility.normalize(creationDate);
     }
 
     /*

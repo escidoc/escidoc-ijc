@@ -1,7 +1,7 @@
 package de.escidoc.core.resources.sm.ad;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.annotations.JiBX;
 
@@ -14,9 +14,9 @@ public class AggregationTable {
 
     private String name;
 
-    private Collection<Field> fields;
+    private List<Field> fields;
 
-    private Collection<Index> indexes;
+    private List<Index> indexes;
 
     @JiBX
     @SuppressWarnings("unused")
@@ -46,7 +46,7 @@ public class AggregationTable {
     /**
      * @return the fields
      */
-    public Collection<Field> getFields() {
+    public List<Field> getFields() {
         if (fields == null) {
             fields = new LinkedList<Field>();
         }
@@ -56,7 +56,7 @@ public class AggregationTable {
     /**
      * @return the indexes
      */
-    public Collection<Index> getIndexes() {
+    public List<Index> getIndexes() {
         if (indexes == null) {
             indexes = new LinkedList<Index>();
         }

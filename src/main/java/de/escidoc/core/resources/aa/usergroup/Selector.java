@@ -4,15 +4,14 @@
 package de.escidoc.core.resources.aa.usergroup;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
-import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.common.reference.Reference;
 
 /**
  * @author MVO
  * 
  */
 @JiBX
-public class Selector extends Resource {
+public class Selector extends Reference {
 
     private String content;
 
@@ -32,9 +31,11 @@ public class Selector extends Resource {
         this.type = type;
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    private Selector() {
+    protected Selector() {
 
     }
 
@@ -81,15 +82,5 @@ public class Selector extends Resource {
      */
     public void setType(final SelectorType type) {
         this.type = type;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.Resource#getResourceType()
-     */
-    @Override
-    public ResourceType getResourceType() {
-        return null;
     }
 }

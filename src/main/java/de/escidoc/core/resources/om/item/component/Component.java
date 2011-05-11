@@ -56,16 +56,6 @@ public class Component extends GenericResource {
     }
 
     /**
-     * Component.
-     * 
-     * @param id
-     *            Objid of Component.
-     */
-    public Component(final String id) {
-        super(id);
-    }
-
-    /**
      * Get Content of Component.
      * 
      * @return the content
@@ -120,9 +110,46 @@ public class Component extends GenericResource {
         this.properties = properties;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.COMPONENT;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        /*
+         * The Href of components can only be generated, if they are retrieved
+         * as a sub resource of another root resource.
+         */
+        if (parentPath != null) {
+            if (getXLinkHref() == null) {
+                setXLinkHref(parentPath
+                    + ResourceType.COMPONENT.getPath(getObjid()));
+            }
+
+            if (properties != null) {
+                properties.generateXLinkHref(getXLinkHref());
+            }
+
+            if (mdRecords != null) {
+                mdRecords.generateXLinkHref(getXLinkHref());
+            }
+
+            if (content != null) {
+                content.generateXLinkHref(getXLinkHref());
+            }
+        }
+    }
 }

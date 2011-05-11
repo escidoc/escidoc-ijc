@@ -28,8 +28,8 @@
  */
 package de.escidoc.core.resources.aa.role;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.annotations.JiBX;
 
@@ -42,7 +42,7 @@ import de.escidoc.core.annotations.JiBX;
 @JiBX
 public class Scope {
 
-    private Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
+    private List<ScopeDef> scopeDefinitions;
 
     private boolean unlimited = false;
 
@@ -51,7 +51,10 @@ public class Scope {
      * 
      * @return scope definitions
      */
-    public Collection<ScopeDef> getScopeDefinitions() {
+    public List<ScopeDef> getScopeDefinitions() {
+        if (scopeDefinitions == null) {
+            scopeDefinitions = new LinkedList<ScopeDef>();
+        }
         return scopeDefinitions;
     }
 
@@ -61,7 +64,7 @@ public class Scope {
      * @param scopeDefinitions
      *            Collection of scope definitions
      */
-    public void setScopeDefinitions(final Collection<ScopeDef> scopeDefinitions) {
+    public void setScopeDefinitions(final List<ScopeDef> scopeDefinitions) {
         this.scopeDefinitions = scopeDefinitions;
     }
 
@@ -83,5 +86,4 @@ public class Scope {
     public void setUnlimited(final boolean unlimited) {
         this.unlimited = unlimited;
     }
-
 }

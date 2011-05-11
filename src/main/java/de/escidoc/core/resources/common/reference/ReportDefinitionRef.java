@@ -2,6 +2,7 @@ package de.escidoc.core.resources.common.reference;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.XLinkType;
 
 /**
  * @author MRO
@@ -10,20 +11,44 @@ import de.escidoc.core.resources.ResourceType;
 @JiBX
 public class ReportDefinitionRef extends Reference {
 
-    @SuppressWarnings("unused")
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    private ReportDefinitionRef() {
-        this(null);
+    protected ReportDefinitionRef() {
     }
 
+    /**
+     * @param href
+     * @param title
+     * @param type
+     */
+    public ReportDefinitionRef(final String href, final String title,
+        final XLinkType type) {
+        super(href, title, type);
+    }
+
+    /**
+     * @param href
+     * @param title
+     */
+    public ReportDefinitionRef(final String href, final String title) {
+        super(href, title);
+    }
+
+    /**
+     * @param objid
+     */
     public ReportDefinitionRef(final String objid) {
         super(objid);
     }
 
-    public ReportDefinitionRef(final String xLinkHref, final String xLinkTitle) {
-        super(xLinkHref, xLinkTitle);
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Reference#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.REPORT_DEFINITION;

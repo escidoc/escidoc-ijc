@@ -1,33 +1,37 @@
 package de.escidoc.core.resources.common;
 
 import java.net.URL;
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.joda.time.DateTime;
+
+import de.escidoc.core.annotations.JiBX;
+import de.escidoc.core.common.DateTimeUtility;
 
 /**
  * 
  * @author SWA
  * 
  */
+@JiBX
 public class TaskParam {
 
-    private DateTime lastModificationDate = null;
+    private DateTime lastModificationDate;
 
-    private String comment = null;
+    private String comment;
 
-    private String pid = null;
+    private String pid;
 
-    private URL url = null;
+    private URL url;
 
-    private String password = null;
+    private String password;
 
-    private String username = null;
+    private String username;
 
-    private Collection<Filter> filters = new LinkedList<Filter>();
+    private List<Filter> filters = new LinkedList<Filter>();
 
-    private Collection<String> ids = new LinkedList<String>();
+    private List<String> ids = new LinkedList<String>();
 
     private boolean keepInSync = false;
 
@@ -43,8 +47,8 @@ public class TaskParam {
      *            the lastModificationDate to set
      */
     public void setLastModificationDate(final DateTime lastModificationDate) {
-
-        this.lastModificationDate = lastModificationDate;
+        this.lastModificationDate =
+            DateTimeUtility.normalize(lastModificationDate);
     }
 
     /**
@@ -95,7 +99,7 @@ public class TaskParam {
     /**
      * @return the filters
      */
-    public Collection<Filter> getFilters() {
+    public List<Filter> getFilters() {
         return filters;
     }
 
@@ -103,7 +107,7 @@ public class TaskParam {
      * @param filters
      *            the filters to set
      */
-    public void setFilters(final Collection<Filter> filters) {
+    public void setFilters(final List<Filter> filters) {
         this.filters = filters;
     }
 
@@ -150,7 +154,7 @@ public class TaskParam {
      * 
      * @return resource references
      */
-    public Collection<String> getResourceRefs() {
+    public List<String> getResourceRefs() {
         return this.ids;
     }
 
@@ -168,7 +172,7 @@ public class TaskParam {
      * @param keepInSync
      *            the keepInSync to set
      */
-    public void setKeepInSync(boolean keepInSync) {
+    public void setKeepInSync(final boolean keepInSync) {
         this.keepInSync = keepInSync;
     }
 

@@ -1,5 +1,6 @@
 package de.escidoc.core.resources.sm;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
 
 /**
@@ -13,23 +14,21 @@ public abstract class Parameter<T> {
 
     private T value;
 
+    /**
+     * 
+     */
     @JiBX
-    Parameter() {
+    protected Parameter() {
 
     }
 
     /**
-     * 
+     * @param name
      * @param value
      */
     public Parameter(final String name, final T value) {
-        if (name == null)
-            throw new IllegalArgumentException("name must not be null.");
-        if (value == null)
-            throw new IllegalArgumentException("value must not be null.");
-
-        this.name = name;
-        this.value = value;
+        this.name = checkNotNull(name);
+        this.value = checkNotNull(value);
     }
 
     /**
@@ -48,5 +47,8 @@ public abstract class Parameter<T> {
         return name;
     }
 
+    /**
+     * @return
+     */
     public abstract ParameterType getParameterType();
 }

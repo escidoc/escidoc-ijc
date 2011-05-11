@@ -1,12 +1,13 @@
 package de.escidoc.core.resources.sm.ad;
 
-import java.util.Collection;
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.GenericResource;
+import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.AggregationDefinitionRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
 import de.escidoc.core.resources.common.reference.ScopeRef;
@@ -16,14 +17,14 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  * 
  */
 @JiBX
-public class AggregationDefinition extends GenericResource
-    implements Referenceable<AggregationDefinitionRef>, XLinkAutonomous {
+public class AggregationDefinition extends Resource
+    implements Referenceable<AggregationDefinitionRef> {
 
     private String name;
 
     private ScopeRef scope;
 
-    private Collection<AggregationTable> aggregationTables;
+    private List<AggregationTable> aggregationTables;
 
     private StatisticData statisticData;
 
@@ -43,13 +44,9 @@ public class AggregationDefinition extends GenericResource
     public AggregationDefinition(final String name, final ScopeRef scope,
         final StatisticData statisticData) {
 
-        if (name == null)
-            throw new IllegalArgumentException("name must not be null.");
-        if (scope == null)
-            throw new IllegalArgumentException("scope must not be null.");
-        if (statisticData == null)
-            throw new IllegalArgumentException(
-                "statisticData must not be null.");
+        checkNotNull(name);
+        checkNotNull(scope);
+        checkNotNull(statisticData);
 
         this.name = name;
         this.scope = scope;
@@ -74,7 +71,7 @@ public class AggregationDefinition extends GenericResource
     /**
      * @return
      */
-    public Collection<AggregationTable> getAggregationTables() {
+    public List<AggregationTable> getAggregationTables() {
         if (aggregationTables == null) {
             aggregationTables = new LinkedList<AggregationTable>();
         }
@@ -112,12 +109,12 @@ public class AggregationDefinition extends GenericResource
     /*
      * (non-Javadoc)
      * 
-     * @see de.escidoc.core.resources.Resource#genXLink()
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
      */
     @Override
-    public void genXLink() {
-        super.genXLink();
-        if (scope != null)
-            scope.genXLink();
+    public void generateXLinkHref(final String parentPath) {
+        // nothing to do
     }
 }

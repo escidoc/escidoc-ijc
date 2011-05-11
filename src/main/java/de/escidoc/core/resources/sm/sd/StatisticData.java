@@ -1,12 +1,11 @@
 package de.escidoc.core.resources.sm.sd;
 
-import java.util.Collection;
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.util.LinkedList;
+import java.util.List;
 
 import de.escidoc.core.annotations.JiBX;
-import de.escidoc.core.resources.Resource;
-import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ScopeRef;
 import de.escidoc.core.resources.sm.Parameter;
 
@@ -15,16 +14,17 @@ import de.escidoc.core.resources.sm.Parameter;
  * 
  */
 @JiBX
-public class StatisticData extends Resource implements XLinkAutonomous {
+public class StatisticData {
 
     private ScopeRef scope;
 
-    private Collection<Parameter<?>> parameters;
+    private List<Parameter<?>> parameters;
 
+    /**
+     * JiBX Constructor
+     */
     @JiBX
-    @SuppressWarnings("unused")
-    private StatisticData() {
-
+    protected StatisticData() {
     }
 
     /**
@@ -32,8 +32,7 @@ public class StatisticData extends Resource implements XLinkAutonomous {
      * @param scope
      */
     public StatisticData(final ScopeRef scope) {
-        if (scope == null)
-            throw new IllegalArgumentException("scope must not be null.");
+        checkNotNull(scope);
 
         this.scope = scope;
     }
@@ -49,32 +48,10 @@ public class StatisticData extends Resource implements XLinkAutonomous {
     /**
      * @return the parameters
      */
-    public Collection<Parameter<?>> getParameters() {
+    public List<Parameter<?>> getParameters() {
         if (parameters == null) {
             parameters = new LinkedList<Parameter<?>>();
         }
         return parameters;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.Resource#getResourceType()
-     */
-    @Override
-    public ResourceType getResourceType() {
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.Resource#genXLink()
-     */
-    @Override
-    public void genXLink() {
-        // do not generate own XLink
-        if (scope != null)
-            scope.genXLink();
     }
 }

@@ -1,5 +1,6 @@
 package de.escidoc.core.resources.aa.useraccount;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
@@ -20,9 +21,10 @@ public class Attribute extends GenericResource {
     private boolean internal = false;
 
     /**
-     * User Account Attribute.
+     * JiBX Constructor
      */
-    public Attribute() {
+    @JiBX
+    protected Attribute() {
     }
 
     /**
@@ -34,8 +36,8 @@ public class Attribute extends GenericResource {
      *            Attribute value
      */
     public Attribute(final String name, final String value) {
-        this.name = name;
-        this.value = value;
+        setName(name);
+        setValue(value);
     }
 
     /**
@@ -45,6 +47,7 @@ public class Attribute extends GenericResource {
      *            Name
      */
     public void setName(final String name) {
+        checkNotNull(name);
         this.name = name;
     }
 
@@ -101,8 +104,28 @@ public class Attribute extends GenericResource {
         return internal;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.USERACCOUNT_ATTRIBUTE;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        if (parentPath != null && getXLinkHref() == null) {
+            setXLinkHref(parentPath
+                + ResourceType.USERACCOUNT_ATTRIBUTE.getPath(getObjid()));
+        }
     }
 }

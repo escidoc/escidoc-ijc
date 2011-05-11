@@ -30,9 +30,7 @@ package de.escidoc.core.resources.om.context;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
-import de.escidoc.core.resources.Resource;
 import de.escidoc.core.resources.ResourceType;
-import de.escidoc.core.resources.XLinkAutonomous;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.reference.Referenceable;
 
@@ -44,11 +42,11 @@ import de.escidoc.core.resources.common.reference.Referenceable;
  */
 @JiBX
 public class Context extends GenericResource
-    implements XLinkAutonomous, Referenceable<ContextRef> {
+    implements Referenceable<ContextRef> {
 
-    private AdminDescriptors adminDescriptors = null;
+    private AdminDescriptors adminDescriptors;
 
-    private ContextProperties properties = null;
+    private ContextProperties properties;
 
     /**
      */
@@ -61,8 +59,10 @@ public class Context extends GenericResource
      * @return properties
      */
     public ContextProperties getProperties() {
-
-        return this.properties;
+        if (properties == null) {
+            properties = new ContextProperties();
+        }
+        return properties;
     }
 
     /**
@@ -81,7 +81,10 @@ public class Context extends GenericResource
      * @return AdminDescriptors
      */
     public AdminDescriptors getAdminDescriptors() {
-        return this.adminDescriptors;
+        if (adminDescriptors == null) {
+            adminDescriptors = new AdminDescriptors();
+        }
+        return adminDescriptors;
     }
 
     /**
@@ -92,45 +95,6 @@ public class Context extends GenericResource
      */
     public void setAdminDescriptors(final AdminDescriptors adminDescriptors) {
         this.adminDescriptors = adminDescriptors;
-    }
-
-    /**
-     * XLinkHref validation for JiBX. This method will be called by the JiBX
-     * binding for the REST transport protocol as post-set.
-     */
-    @Override
-    public void genXLink() {
-        genOwnXLinkHref();
-
-        if (properties != null) {
-            if (properties.getXLinkHref() == null && getXLinkHref() != null) {
-                properties.setXLinkHref(getXLinkHref() + "/properties");
-            }
-            genXLinkHref(properties.getCreatedBy(), ResourceType.USERACCOUNT,
-                null);
-            genXLinkHref(properties.getModifiedBy(), ResourceType.USERACCOUNT,
-                null);
-
-            if (properties.getOrganizationalUnitRefs() != null) {
-                for (Resource ouRef : properties.getOrganizationalUnitRefs()) {
-                    genXLinkHref(ouRef, ResourceType.ORGANIZATIONAL_UNIT, null);
-                }
-            }
-        }
-        if (adminDescriptors != null && getXLinkHref() != null) {
-            if (adminDescriptors.getXLinkHref() == null) {
-                adminDescriptors.setXLinkHref(getXLinkHref()
-                    + "/admin-descriptors");
-            }
-
-            for (AdminDescriptor descriptor : adminDescriptors) {
-                if (descriptor.getXLinkHref() == null) {
-                    descriptor.setXLinkHref(getXLinkHref()
-                        + "/admin-descriptors/admin-descriptor/"
-                        + descriptor.getName());
-                }
-            }
-        }
     }
 
     /*
@@ -144,8 +108,33 @@ public class Context extends GenericResource
         return new ContextRef(getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.Resource#getResourceType()
+     */
     @Override
     public ResourceType getResourceType() {
         return ResourceType.CONTEXT;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkAutonomousX#generateXLinkHref(java.lang
+     * .String)
+     */
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        if (getXLinkHref() != null) {
+
+            if (properties != null) {
+                properties.generateXLinkHref(getXLinkHref());
+            }
+            if (adminDescriptors != null) {
+                adminDescriptors.generateXLinkHref(getXLinkHref());
+            }
+        }
     }
 }

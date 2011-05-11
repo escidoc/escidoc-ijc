@@ -43,5 +43,4 @@ public class ItemList extends LinkedList<Item> {
      * 
      */
     private static final long serialVersionUID = 3030485863112321714L;
-
 }

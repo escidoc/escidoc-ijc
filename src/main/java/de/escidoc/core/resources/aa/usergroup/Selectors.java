@@ -3,7 +3,6 @@
  */
 package de.escidoc.core.resources.aa.usergroup;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
 /**
@@ -21,12 +20,5 @@ public class Selectors extends LinkedList<Selector> {
      * 
      */
     public Selectors() {
-    }
-
-    /**
-     * @param c
-     */
-    public Selectors(final Collection<? extends Selector> c) {
-        super(c);
     }
 }

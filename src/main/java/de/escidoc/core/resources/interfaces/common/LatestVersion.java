@@ -2,6 +2,8 @@ package de.escidoc.core.resources.interfaces.common;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.resources.XLinkType;
+
 /**
  * LastestVersion Properties Interface.
  * 
@@ -23,6 +25,9 @@ public interface LatestVersion {
      */
     void setNumber(final String number);
 
+    /**
+     * @return
+     */
     DateTime getDate();
 
     /**
@@ -33,4 +38,11 @@ public interface LatestVersion {
      */
     void setDate(final DateTime date);
 
+    String getObjid();
+
+    String getXLinkHref();
+
+    String getXLinkTitle();
+
+    XLinkType getXLinkType();
 }

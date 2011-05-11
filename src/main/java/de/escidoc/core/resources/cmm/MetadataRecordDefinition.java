@@ -28,22 +28,17 @@
  */
 package de.escidoc.core.resources.cmm;
 
-import java.net.URI;
-
-import de.escidoc.core.common.jibx.CustomConverter;
-import de.escidoc.core.resources.XLinkResource;
-
 /**
  * Metadata Record definition of Content Model.
  * 
  * @author SWA
  * 
  */
-public class MetadataRecordDefinition extends XLinkResource {
+public class MetadataRecordDefinition {
 
     private String name;
 
-    private URI schema;
+    private Schema schema;
 
     public MetadataRecordDefinition() {
 
@@ -74,7 +69,7 @@ public class MetadataRecordDefinition extends XLinkResource {
      * @param schema
      *            The schema URI
      */
-    public void setSchema(final URI schema) {
+    public void setSchema(final Schema schema) {
         this.schema = schema;
     }
 
@@ -83,17 +78,7 @@ public class MetadataRecordDefinition extends XLinkResource {
      * 
      * @return The schema URI.
      */
-    public URI getSchema() {
-        return schema;
-    }
-
-    @Override
-    public String getXLinkHref() {
-        return CustomConverter.serializeURI(getSchema());
-    }
-
-    @Override
-    public void setXLinkHref(String href) {
-        setSchema(CustomConverter.deserializeURI(href));
+    public Schema getSchema() {
+        return this.schema;
     }
 }
