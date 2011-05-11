@@ -1,0 +1,18 @@
+<binding>
+  
+  <mapping name="statistic-record" class="de.escidoc.core.resources.sm.sd.StatisticData">
+  
+    <structure name="scope" field="scope" 
+      type="de.escidoc.core.resources.common.reference.ScopeRef">
+      <value name="objid" style="attribute" set-method="setObjid" get-method="getObjid"/>
+    </structure>
+    
+    <collection field="parameters" create-type="java.util.LinkedList" 
+      item-type="de.escidoc.core.resources.sm.Parameter">
+      <structure name="parameter" 
+        marshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"
+        unmarshaller="de.escidoc.core.common.jibx.binding.ParameterMarshaller"/>  
+    </collection>
+  </mapping>
+  
+</binding>
