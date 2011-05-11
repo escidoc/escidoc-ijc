@@ -30,6 +30,10 @@ public class Marshaller<E> {
 
     private Object userContext;
 
+    private static final String BINDING_IN_EXT = "_IN";
+
+    private static final String BINDING_OUT_EXT = "_OUT";
+
     /**
      * 
      * @param resourceClass
@@ -79,7 +83,7 @@ public class Marshaller<E> {
         E result = null;
 
         try {
-            IBindingFactory bfact = getBindingFactory();
+            IBindingFactory bfact = getBindingFactory(BINDING_IN_EXT);
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             ByteArrayInputStream in =
                 new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
@@ -132,7 +136,7 @@ public class Marshaller<E> {
         E result = null;
 
         try {
-            IBindingFactory bfact = getBindingFactory();
+            IBindingFactory bfact = getBindingFactory(BINDING_IN_EXT);
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             uctx.setDocument(xmlInputStream, "UTF-8");
             if (userContext != null)
@@ -171,7 +175,7 @@ public class Marshaller<E> {
         String result = null;
 
         try {
-            IBindingFactory bfact = getBindingFactory();
+            IBindingFactory bfact = getBindingFactory(BINDING_OUT_EXT);
             IMarshallingContext mctx = bfact.createMarshallingContext();
             mctx.setIndent(2);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -234,9 +238,23 @@ public class Marshaller<E> {
      * @return
      * @throws JiBXException
      */
-    private IBindingFactory getBindingFactory() throws JiBXException {
+    private IBindingFactory getBindingFactory(final String bindingNameExtension)
+        throws JiBXException {
         if (bindingName != null && !bindingName.isEmpty()) {
-            return BindingDirectory.getFactory(bindingName, resourceClass);
+            String name = bindingName;
+            if (bindingNameExtension != null) {
+                name += bindingNameExtension;
+            }
+            /*
+             * try to get the factory with the binding name extension or without
+             * the extension if the first try fails.
+             */
+            try {
+                return BindingDirectory.getFactory(name, resourceClass);
+            }
+            catch (JiBXException e) {
+                return BindingDirectory.getFactory(bindingName, resourceClass);
+            }
         }
         else {
             return BindingDirectory.getFactory(resourceClass);
