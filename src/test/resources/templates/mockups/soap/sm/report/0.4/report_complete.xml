@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report:report xmlns:report="http://www.escidoc.de/schemas/report/0.4"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <report:report-definition objid="escidoc:2323"/>
+  <report:report-record>
+    <report:parameter name="datetest">
+	    <report:datevalue>2011-02-09T16:05:07.585Z</report:datevalue>
+	  </report:parameter>
+	  <report:parameter name="stringtest">
+	    <report:stringvalue>Foo Bar</report:stringvalue>
+	  </report:parameter>
+	  <report:parameter name="decimaltest">
+	    <report:decimalvalue>3.14</report:decimalvalue>
+	  </report:parameter>
+  </report:report-record>
+</report:report>

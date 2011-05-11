@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report-def:report-definition xmlns:report-def="http://www.escidoc.de/schemas/reportdefinition/0.4"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xlink:title="ReportDefinition Test" xlink:type="simple"
+  xlink:href="/statistic/report-definition/escidoc:3027"
+  last-modification-date="2011-02-09T16:05:07.585Z">
+  <report-def:name>Report Name</report-def:name>
+  <report-def:scope xlink:title="Scope Test" xlink:type="simple" xlink:href="/statistic/scope/escidoc:3026"/>
+  <report-def:sql><![CDATA[select page,year,sum(requests) as requests,sum(sessions) as sessions from _escidoc4001_report_test where page='createItem' group by page,year order by page, year;]]></report-def:sql>
+  <report-def:allowed-roles>
+    <report-def:allowed-role xlink:title="Role Ref" xlink:type="simple" xlink:href="/aa/role/default-user"/>
+  </report-def:allowed-roles>
+</report-def:report-definition>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agg-def:aggregation-definition 
+  xmlns:agg-def="http://www.escidoc.de/schemas/aggregationdefinition/0.4"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xlink:href="/statistic/aggregation-definition/escidoc:4001"
+  xlink:title="Foo Agg-Def" xlink:type="simple">
+  <agg-def:name>Page Statistics for PubMan</agg-def:name>
+  <agg-def:scope xlink:href="/statistic/scope/escidoc:3026" xlink:title="Foo Scope" xlink:type="simple"/>
+  <agg-def:aggregation-table>
+    <agg-def:name>_escidoc4001_report_test</agg-def:name>
+    <agg-def:field>
+      <agg-def:info-field feed="statistics-data">
+        <agg-def:name>page</agg-def:name>
+        <agg-def:type>text</agg-def:type>
+        <agg-def:xpath>//parameter[@name="page"]/stringvalue</agg-def:xpath>
+      </agg-def:info-field>
+    </agg-def:field>
+    <agg-def:field>
+      <agg-def:time-reduction-field feed="statistics-data">
+        <agg-def:name>month</agg-def:name>
+        <agg-def:reduce-to>month</agg-def:reduce-to>
+      </agg-def:time-reduction-field>
+    </agg-def:field>
+    <agg-def:field>
+      <agg-def:time-reduction-field feed="statistics-data">
+        <agg-def:name>year</agg-def:name>
+        <agg-def:reduce-to>year</agg-def:reduce-to>
+      </agg-def:time-reduction-field>
+    </agg-def:field>
+    <agg-def:field>
+      <agg-def:count-cumulation-field>
+        <agg-def:name>requests</agg-def:name>
+      </agg-def:count-cumulation-field>
+    </agg-def:field>
+    <agg-def:field>
+      <agg-def:difference-cumulation-field feed="statistics-data">
+        <agg-def:name>sessions</agg-def:name>
+        <agg-def:xpath>//parameter[@name="session_id"]/stringvalue</agg-def:xpath>
+      </agg-def:difference-cumulation-field>
+    </agg-def:field>
+    <agg-def:index>
+      <agg-def:name>_escidoc4001_time_idx</agg-def:name>
+      <agg-def:field>month</agg-def:field>
+      <agg-def:field>year</agg-def:field>
+    </agg-def:index>
+  </agg-def:aggregation-table>
+  <agg-def:statistic-data>
+    <agg-def:statistic-table>
+      <agg-def:xpath/>
+    </agg-def:statistic-table>
+  </agg-def:statistic-data>
+</agg-def:aggregation-definition>
