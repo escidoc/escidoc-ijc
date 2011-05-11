@@ -3,6 +3,9 @@
  */
 package de.escidoc.core.common;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jibx.runtime.JiBXException;
 
 /**
@@ -116,5 +119,25 @@ public class Precondition {
         }
 
         return (T) obj;
+    }
+
+    /**
+     * @param pattern
+     * @param value
+     */
+    public static final String validateString(
+        final Pattern pattern, final String value) {
+
+        checkNotNull(pattern);
+        checkNotNull(value);
+
+        Matcher m = pattern.matcher(value);
+        if (m.find()) {
+            return value;
+        }
+        else {
+            throw new IllegalArgumentException(
+                "The string does not match the pattern: " + pattern.toString());
+        }
     }
 }
