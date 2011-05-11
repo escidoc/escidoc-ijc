@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/aggregationdefinition/0.4" prefix="agg-def"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.sm.ad.AggregationDefinition"
+    abstract="true" type-name="sm.aggregation-definition"
+    post-set="generateXLinkHref">
+    
+    <structure map-as="de.escidoc.core.resources.Resource"/>
+      
+    <structure name="name"
+      ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4">
+      <value style="text" field="name"/>
+    </structure>
+    
+    <structure name="scope"
+      ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4" 
+      field="scope"/>
+    
+    <collection field="aggregationTables" create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.sm.ad.AggregationTable"/>
+    
+    <structure field="statisticData"/>
+  </mapping>
+
+  <!-- statistic-data -->  
+  <mapping class="de.escidoc.core.resources.sm.ad.StatisticData"
+    abstract="true" type-name="sm.aggregation-definition.statistic-data">
+    <structure field="statisticTable"/>
+  </mapping>
+  
+  <!-- statistic-table -->
+  <mapping class="de.escidoc.core.resources.sm.ad.StatisticTable"
+    abstract="true" type-name="sm.aggregation-definition.statistic-data.statistic-table">
+    
+    <structure name="xpath" usage="optional"
+      ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4">
+      <value style="text" field="xPath"/>
+    </structure>
+  </mapping>
+  
+  <!-- aggregation-table -->
+  <mapping class="de.escidoc.core.resources.sm.ad.AggregationTable"
+    abstract="true" type-name="sm.aggregation-definition.aggregation-table">
+    
+    <structure name="name"  
+      ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4">
+      <value style="text" field="name"/>
+    </structure>
+    
+    <!-- direct mapping of fields -->
+    <collection field="fields" create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.sm.ad.Field">
+      
+      <structure name="field" 
+        ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4"
+        marshaller="de.escidoc.core.common.jibx.binding.FieldMarshaller" 
+        unmarshaller="de.escidoc.core.common.jibx.binding.FieldMarshaller"/>
+        
+    </collection>
+    
+    <!-- direct mapping of indexes -->
+    <collection field="indexes" create-type="java.util.LinkedList" 
+      item-type="de.escidoc.core.resources.sm.ad.Index">
+      
+      <structure name="index" 
+        ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4">
+        
+        <structure name="name" 
+          ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4">
+          <value style="text" field="name"/>
+        </structure>
+          
+        <collection field="fieldNames" create-type="java.util.LinkedList" 
+          item-type="java.lang.String">
+          <structure name="field" 
+            ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4">
+            <value style="text"/>
+          </structure>
+        </collection>
+        
+      </structure>
+    </collection>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- aggregation-definition -->
+	<mapping name="aggregation-definition" ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4" 
+    class="de.escidoc.core.resources.sm.ad.AggregationDefinition">
+    <structure map-as="sm.aggregation-definition"/>
+  </mapping>
+  
+  <!-- statistic-data -->
+  <mapping name="statistic-data" ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4" 
+    class="de.escidoc.core.resources.sm.ad.StatisticData">
+    <structure map-as="sm.aggregation-definition.statistic-data"/>
+  </mapping>
+  
+  <!-- statistic-table -->
+  <mapping name="statistic-table" ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4" 
+    class="de.escidoc.core.resources.sm.ad.StatisticTable">
+    <structure map-as="sm.aggregation-definition.statistic-data.statistic-table"/>
+  </mapping>
+  
+  <!-- aggregation-table -->
+  <mapping name="aggregation-table" ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4"
+    class="de.escidoc.core.resources.sm.ad.AggregationTable">
+    <structure map-as="sm.aggregation-definition.aggregation-table"/>
+  </mapping>
+
+</binding>

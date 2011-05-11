@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.escidoc.de/schemas/item/0.10" 
+    prefix="escidocItem"/>
+  <namespace uri="http://escidoc.de/core/01/properties/" 
+    prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/properties/version/" 
+    prefix="version"/>
+  <namespace uri="http://escidoc.de/core/01/properties/release/" 
+    prefix="release"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" 
+    prefix="srel"/>
+  <namespace uri="http://www.escidoc.de/schemas/components/0.9" 
+    prefix="escidocComponents"/>
+  <namespace uri="http://www.escidoc.de/schemas/contentstreams/0.7" 
+    prefix="escidocContentStreams"/>
+  <namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
+    prefix="escidocMetadataRecords"/>
+  <namespace uri="http://www.escidoc.de/schemas/relations/0.3" 
+    prefix="relations"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- Item -->
+	<mapping ns="http://www.escidoc.de/schemas/item/0.10"
+    class="de.escidoc.core.resources.om.item.Item"
+    abstract="true" type-name="om.item"
+    post-set="generateXLinkHref">
+    
+    <structure map-as="de.escidoc.core.resources.VersionableResource"/>
+
+    <!-- properties -->
+    <structure field="properties" usage="optional"/>
+
+    <!-- md-records -->
+    <structure field="mdRecords" usage="optional"/>
+      
+    <!-- content-streams -->
+    <structure field="contentStreams" usage="optional"/>
+      
+    <!-- components -->
+    <structure field="components" usage="optional"/>
+      
+    <!-- relations -->
+    <structure field="relations" usage="optional"/>
+      
+    <!-- resources (ignore) -->
+    <structure ns="http://www.escidoc.de/schemas/item/0.10" name="resources"
+      usage="optional"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- Item -->
+	<mapping name="item" ns="http://www.escidoc.de/schemas/item/0.10"
+    class="de.escidoc.core.resources.om.item.Item"
+    extends="de.escidoc.core.resources.VersionableResource">
+    
+    <structure map-as="om.item"/>
+  </mapping>
+
+</binding>

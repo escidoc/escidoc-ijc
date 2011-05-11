@@ -1,6 +1,0 @@
-<binding>
-  <!-- general format definitions -->
-  <format label="RecordPacking.default" type="de.escidoc.core.resources.sb.RecordPacking"
-    serializer="de.escidoc.core.resources.sb.RecordPacking.serialize"
-    deserializer="de.escidoc.core.resources.sb.RecordPacking.deserialize"/>
-</binding>

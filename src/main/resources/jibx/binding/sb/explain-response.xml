@@ -1,0 +1,28 @@
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.loc.gov/zing/srw/" prefix="srw" default="elements"/>
+  
+  <!-- ABSTRACT MAPPINGS -->
+  <!-- explain-response -->
+  <mapping class="de.escidoc.core.resources.sb.explain.ExplainResponse"
+    abstract="true" type-name="sb.explain-response">
+    
+    <structure map-as="de.escidoc.core.resources.sb.Response"/>
+    
+    <structure name="record" usage="optional" field="record"/>
+  </mapping>
+  
+  <!-- explain-record -->
+  <mapping class="de.escidoc.core.resources.sb.explain.ExplainRecord"
+    abstract="true">
+    <structure map-as="de.escidoc.core.resources.sb.Record"/>
+  </mapping>
+  
+  <!-- CONCRETE MAPPINGS -->
+  <!-- explain-response -->
+  <mapping name="explainResponse" ns="http://www.loc.gov/zing/srw/"
+    class="de.escidoc.core.resources.sb.explain.ExplainResponse">
+    <structure map-as="sb.explain-response"/>
+  </mapping>
+</binding>

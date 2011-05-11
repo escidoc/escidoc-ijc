@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAPESPACES -->
+  <!-- none -->
+  
+  <!-- ABSTRACT MAPPINGS -->
+  <format type="java.net.URL"
+    serializer="de.escidoc.core.common.jibx.CustomConverter.serializeURL"
+    deserializer="de.escidoc.core.common.jibx.CustomConverter.deserializeURL"/>
+
+  <!-- CONCRETE MAPPINGS -->
+	<mapping name="param"
+		class="de.escidoc.core.resources.common.TaskParam">
+
+		<value name="last-modification-date" style="attribute" usage="optional"
+			set-method="setLastModificationDate" get-method="getLastModificationDate"/>
+
+		<value name="comment" set-method="setComment" get-method="getComment" usage="optional"/>
+		<value name="pid" set-method="setPid" get-method="getPid" usage="optional"/>
+		<value name="password" set-method="setPassword" get-method="getPassword" usage="optional"/>
+		<value name="url" set-method="setUrl" get-method="getUrl" usage="optional" />
+
+		<collection field="ids" create-type="java.util.LinkedList" item-type="java.lang.String">
+			<value name="id"/>
+		</collection>
+
+		<collection field="filters" create-type="java.util.LinkedList"
+		  item-type="de.escidoc.core.resources.common.Filter">
+			<structure name="filter" 
+        marshaller="de.escidoc.core.common.jibx.binding.FilterMarshaller"
+				unmarshaller="de.escidoc.core.common.jibx.binding.FilterMarshaller"/>
+		</collection>
+		
+    <value name="keepInSync" set-method="setKeepInSync" get-method="isKeepInSync" usage="optional"/> 
+	</mapping>
+</binding>

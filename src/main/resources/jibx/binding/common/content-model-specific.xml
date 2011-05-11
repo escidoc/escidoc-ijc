@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://escidoc.de/core/01/properties/" prefix="prop"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.common.properties.ContentModelSpecific"
+      abstract="true" type-name="common.properties.cms">
+      
+      <structure field="content" type="java.util.List" usage="optional"
+        marshaller="org.jibx.extras.DomListMapper"
+        unmarshaller="org.jibx.extras.DomListMapper"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+  <mapping name="content-model-specific" ns="http://escidoc.de/core/01/properties/"
+    class="de.escidoc.core.resources.common.properties.ContentModelSpecific">
+    <structure map-as="common.properties.cms"/>
+  </mapping>
+</binding>

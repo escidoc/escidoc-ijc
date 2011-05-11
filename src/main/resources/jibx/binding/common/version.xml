@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+  <namespace uri="http://escidoc.de/core/01/properties/version/" prefix="version"/>
+  <namespace uri="http://escidoc.de/core/01/properties/release/" prefix="release"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- VersionImpl (Version & LatestVersion) -->
+  <mapping class="de.escidoc.core.resources.common.properties.VersionImpl" 
+    abstract="true" type-name="common.properties.version">
+    
+    <structure map-as="de.escidoc.core.resources.common.reference.Reference"/>
+     
+    <value ns="http://escidoc.de/core/01/properties/version/"
+      name="number" get-method="getNumber" set-method="setNumber"
+      usage="optional" />
+    
+    <value ns="http://escidoc.de/core/01/properties/version/"
+      name="date" set-method="setDate" get-method="getDate" 
+      usage="optional" />
+      
+    <value ns="http://escidoc.de/core/01/properties/version/"
+      name="status" set-method="setStatus" get-method="getStatus"
+      usage="optional" />
+    
+    <structure ns="http://escidoc.de/core/01/structural-relations/"
+      name="modified-by" set-method="setModifiedBy"
+      get-method="getModifiedBy" usage="optional"/>
+    
+    <value ns="http://escidoc.de/core/01/properties/version/"
+      name="comment" set-method="setComment" get-method="getComment"
+      usage="optional" />
+    
+    <value ns="http://escidoc.de/core/01/properties/version/"
+      name="pid" set-method="setPid" get-method="getPid" usage="optional" />
+  </mapping>
+  
+  <!-- VersionImpl (LatestRelease) -->
+  <mapping class="de.escidoc.core.resources.common.properties.VersionImpl"
+    abstract="true" type-name="common.properties.release">
+    
+    <structure map-as="de.escidoc.core.resources.common.reference.Reference"/>
+     
+    <value ns="http://escidoc.de/core/01/properties/release/"
+      name="number" get-method="getNumber" set-method="setNumber"
+      usage="optional" />
+    <value ns="http://escidoc.de/core/01/properties/release/"
+      name="date" set-method="setDate"
+      get-method="getDate" usage="optional" />
+    <value ns="http://escidoc.de/core/01/properties/release/"
+      name="pid" set-method="setPid" get-method="getPid" usage="optional" />
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- Versions got implemented by one class:
+	     de.escidoc.core.resources.common.properties.VersionImpl
+	     Therefore we are not able to define concrete mappings for all three cases:
+	     Version, LatestVersion and LatestRelease and therefore versions cannot be
+	     marshalled without a surrounding object, which defines, which version with
+	     name and namespace has to be marshalled.
+    -->
+
+</binding>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/contentmodel/0.1" prefix="escidocContentModel"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- md-record-definitions -->
+	<mapping class="de.escidoc.core.resources.cmm.MetadataRecordDefinitions"
+    abstract="true" type-name="cmm.content-model.md-record-definitions">
+    
+    <collection create-type="de.escidoc.core.resources.cmm.MetadataRecordDefinitions"
+      item-type="de.escidoc.core.resources.cmm.MetadataRecordDefinition"/>
+  </mapping>
+  
+  <!-- md-record-definition -->
+  <mapping class="de.escidoc.core.resources.cmm.MetadataRecordDefinition"
+    abstract="true" type-name="cmm.content-model.md-record-definition">
+
+    <value name="name" usage="optional" style="attribute"
+      set-method="setName" get-method="getName"/>
+      
+    <structure field="schema" usage="optional"/>
+  </mapping>
+  
+  <!-- schema -->
+  <mapping class="de.escidoc.core.resources.cmm.Schema"
+    abstract="true" type-name="cmm.content-model.md-record-definition.schema">
+    <structure map-as="de.escidoc.core.resources.XLinkResource.force"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- md-record-definitions -->
+  <mapping name="md-record-definitions"
+    ns="http://www.escidoc.de/schemas/contentmodel/0.1"
+    class="de.escidoc.core.resources.cmm.MetadataRecordDefinitions">
+    <structure map-as="cmm.content-model.md-record-definitions"/>
+  </mapping>
+  
+  <!-- md-record-definition -->
+  <mapping name="md-record-definition"
+    ns="http://www.escidoc.de/schemas/contentmodel/0.1"
+    class="de.escidoc.core.resources.cmm.MetadataRecordDefinition">
+    <structure map-as="cmm.content-model.md-record-definition"/>
+  </mapping>
+  
+  <!-- schema -->
+  <mapping name="schema"
+    ns="http://www.escidoc.de/schemas/contentmodel/0.1"
+    class="de.escidoc.core.resources.cmm.Schema">
+    <structure map-as="cmm.content-model.md-record-definition.schema"/>
+  </mapping>
+
+</binding>
