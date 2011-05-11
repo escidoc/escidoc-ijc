@@ -58,12 +58,24 @@ public class RecordDataMarshaller extends MarshallingBase
         super(uri, index, name);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jibx.runtime.IUnmarshaller#isPresent(org.jibx.runtime.
+     * IUnmarshallingContext)
+     */
     @Override
     public boolean isPresent(final IUnmarshallingContext ictx)
         throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jibx.runtime.IUnmarshaller#unmarshal(java.lang.Object,
+     * org.jibx.runtime.IUnmarshallingContext)
+     */
     @Override
     public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
         throws JiBXException {
@@ -112,12 +124,14 @@ public class RecordDataMarshaller extends MarshallingBase
                         + "No TransportProtocol defined for unmarshalling.");
             }
 
-            TransportProtocol transport =
-                TransportProtocol.valueOf(bindingName);
             try {
+                /*
+                 * We do no longer need to differ between REST or SOAP input,
+                 * since both bindings are capable to handle both kinds of input
+                 */
                 result =
                     MarshallerFactory
-                        .getInstance(transport)
+                        .getInstance(TransportProtocol.REST)
                         .getMarshaller(record.getClass())
                         .unmarshalDocument(contentText);
             }
@@ -131,11 +145,22 @@ public class RecordDataMarshaller extends MarshallingBase
         return result;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jibx.runtime.IMarshaller#isExtension(java.lang.String)
+     */
     @Override
     public boolean isExtension(final String arg0) {
         return false;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object,
+     * org.jibx.runtime.IMarshallingContext)
+     */
     @Override
     public void marshal(final Object arg0, final IMarshallingContext arg1)
         throws JiBXException {
