@@ -40,8 +40,10 @@ public class VersionHistoryTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -63,9 +65,10 @@ public class VersionHistoryTest {
 
         item.getProperties().setContext(
             new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties().setContentModel(
-            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
-        item.setXLinkTitle("TEST");
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");

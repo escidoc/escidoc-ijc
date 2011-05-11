@@ -71,8 +71,10 @@ public class ContainerHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -94,13 +96,13 @@ public class ContainerHandlerClientTest {
         // create first a Container
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(
-            EscidocClientTestBase.getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -159,13 +161,13 @@ public class ContainerHandlerClientTest {
     public void testRetrieveMembers() throws Exception {
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(
-            EscidocClientTestBase.getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();

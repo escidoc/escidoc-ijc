@@ -127,9 +127,9 @@ public class GrantsTest {
                 .getGrantProperties().getRole().getObjid());
 
         Grants grants = uahc.retrieveCurrentGrants(objId);
-        assertTrue(grants.getGrants().size() > 0);
+        assertTrue(grants.size() > 0);
         if (uahc.getTransport() == TransportProtocol.REST) {
-            for (Grant g : grants.getGrants()) {
+            for (Grant g : grants) {
                 String xLinkTitle = g.getXLinkTitle();
                 assertTrue(xLinkTitle != null && !xLinkTitle.isEmpty());
             }
@@ -202,12 +202,11 @@ public class GrantsTest {
             createdGrant.getGrantProperties().getAssignedOn().getObjid());
 
         Grants grants = uahc.retrieveCurrentGrants(objId);
-        assertTrue("No Grants", grants.getGrants().size() > 0);
+        assertTrue("No Grants", grants.size() > 0);
         assertEquals("Missing Grant", createdGrant.getObjid(), grants
-            .getGrants().iterator().next().getObjid());
+            .iterator().next().getObjid());
         assertEquals("Missing Assigned-On", createdItem.getObjid(), grants
-            .getGrants().iterator().next().getGrantProperties().getAssignedOn()
-            .getObjid());
+            .iterator().next().getGrantProperties().getAssignedOn().getObjid());
     }
 
     /**

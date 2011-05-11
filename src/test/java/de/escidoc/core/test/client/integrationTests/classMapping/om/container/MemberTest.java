@@ -301,11 +301,9 @@ public class MemberTest {
         ContainerProperties properties = new ContainerProperties();
         ContextRef cRef =
             new ContextRef(EscidocClientTestBase.getStaticContextId());
-        cRef.setXLinkTitle("Test Context");
         properties.setContext(cRef);
         ContentModelRef cmRef =
             new ContentModelRef(EscidocClientTestBase.getStaticContentModelId());
-        cmRef.setXLinkTitle("Test ContentModel");
         properties.setContentModel(cmRef);
         container.setProperties(properties);
 
@@ -372,8 +370,7 @@ public class MemberTest {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
 
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName(name);
+        MetadataRecord mdRecord = new MetadataRecord(name);
 
         Element element = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);

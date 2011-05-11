@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.test.client.util;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -61,6 +60,7 @@ import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.cmm.ContentModelProperties;
 import de.escidoc.core.resources.cmm.ResourceDefinition;
 import de.escidoc.core.resources.cmm.ResourceDefinitions;
+import de.escidoc.core.resources.cmm.Xslt;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
@@ -119,8 +119,7 @@ public class SetupDataUtil {
         // organizationalUnit.setProperties(properties);
 
         // md-record "escidoc"
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -361,7 +360,7 @@ public class SetupDataUtil {
         ResourceDefinition rd1 = new ResourceDefinition();
         rd1.setName("transX" + System.nanoTime());
         rd1.setMetadataRecordName("escidoc");
-        rd1.setXslt(new URI(
+        rd1.setXslt(new Xslt(
             "http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
         ResourceDefinitions rds = new ResourceDefinitions();
         rds.add(rd1);

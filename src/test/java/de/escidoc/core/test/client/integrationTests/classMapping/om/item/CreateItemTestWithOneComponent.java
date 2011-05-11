@@ -100,8 +100,10 @@ public class CreateItemTestWithOneComponent {
      */
     private void authentificate() throws EscidocClientException {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
     }
 
     /**
@@ -151,8 +153,7 @@ public class CreateItemTestWithOneComponent {
      */
     private void setMdRecords(final Item item)
         throws ParserConfigurationException {
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         final DocumentBuilderFactory factory =
             DocumentBuilderFactory.newInstance();

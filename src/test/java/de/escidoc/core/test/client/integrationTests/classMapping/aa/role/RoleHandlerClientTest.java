@@ -34,7 +34,6 @@ import static org.junit.Assert.fail;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -169,7 +168,7 @@ public class RoleHandlerClientTest {
     public void testSerializeRole() throws InternalClientException {
 
         TaskParam filterParam = new TaskParam();
-        Collection<Filter> filters = filterParam.getFilters();
+        List<Filter> filters = filterParam.getFilters();
 
         filters.add(new Filter("limited", "false", null));
         filterParam.setFilters(filters);
@@ -235,7 +234,7 @@ public class RoleHandlerClientTest {
                 "info:escidoc/names:aa:1.0:resource:item:context",
                 ResourceType.CONTEXT);
 
-        Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
+        List<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);
         scopeDefinitions.add(scopeDef2);
         scope.setScopeDefinitions(scopeDefinitions);

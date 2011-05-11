@@ -30,7 +30,6 @@ package de.escidoc.core.test.client.integrationTests.classMapping.cmm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.net.URI;
 import java.util.Iterator;
 
 import org.junit.After;
@@ -49,6 +48,8 @@ import de.escidoc.core.resources.cmm.MetadataRecordDefinition;
 import de.escidoc.core.resources.cmm.MetadataRecordDefinitions;
 import de.escidoc.core.resources.cmm.ResourceDefinition;
 import de.escidoc.core.resources.cmm.ResourceDefinitions;
+import de.escidoc.core.resources.cmm.Schema;
+import de.escidoc.core.resources.cmm.Xslt;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
@@ -66,8 +67,10 @@ public class ContentModelCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentModelHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -150,7 +153,7 @@ public class ContentModelCreateTest {
         MetadataRecordDefinition mdRecordDef = new MetadataRecordDefinition();
         mdRecordDef.setName("Name-" + System.nanoTime());
         mdRecordDef
-            .setSchema(new URI(
+            .setSchema(new Schema(
                 "http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
         MetadataRecordDefinitions mdrds = new MetadataRecordDefinitions();
         mdrds.add(mdRecordDef);
@@ -206,7 +209,7 @@ public class ContentModelCreateTest {
         MetadataRecordDefinition mdRecordDef = new MetadataRecordDefinition();
         mdRecordDef.setName("Name-" + System.nanoTime());
         mdRecordDef
-            .setSchema(new URI(
+            .setSchema(new Schema(
                 "http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
         MetadataRecordDefinitions mdrds = new MetadataRecordDefinitions();
         mdrds.add(mdRecordDef);
@@ -215,7 +218,7 @@ public class ContentModelCreateTest {
         MetadataRecordDefinition mdRecordDef2 = new MetadataRecordDefinition();
         mdRecordDef2.setName("Name-" + System.nanoTime());
         mdRecordDef2
-            .setSchema(new URI(
+            .setSchema(new Schema(
                 "http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
         cmm.getMetadataRecordDefinitions().add(mdRecordDef2);
 
@@ -223,7 +226,7 @@ public class ContentModelCreateTest {
         ResourceDefinition rd1 = new ResourceDefinition();
         rd1.setName("transX" + System.nanoTime());
         rd1.setMetadataRecordName("escidoc");
-        rd1.setXslt(new URI(
+        rd1.setXslt(new Xslt(
             "http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
         ResourceDefinitions rds = new ResourceDefinitions();
         rds.add(rd1);
@@ -232,7 +235,7 @@ public class ContentModelCreateTest {
         ResourceDefinition rd2 = new ResourceDefinition();
         rd2.setName("transX" + System.nanoTime());
         rd2.setMetadataRecordName("blafasel");
-        rd2.setXslt(new URI("http://localhost:8080/xsl/copy.xsl"));
+        rd2.setXslt(new Xslt("http://localhost:8080/xsl/copy.xsl"));
         cmm.getResourceDefinitions().add(rd2);
 
         ContentModel cmmCreated = cc.create(cmm);
@@ -315,7 +318,7 @@ public class ContentModelCreateTest {
         ResourceDefinition rd1 = new ResourceDefinition();
         rd1.setName("transX" + System.nanoTime());
         rd1.setMetadataRecordName("escidoc");
-        rd1.setXslt(new URI(
+        rd1.setXslt(new Xslt(
             "http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
         ResourceDefinitions rds = new ResourceDefinitions();
         rds.add(rd1);

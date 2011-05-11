@@ -108,7 +108,6 @@ public class ContentRelationCreateTest {
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContentRelation02() throws Exception {
         ContentRelation contentRelation = new ContentRelation();
-        contentRelation.setXLinkTitle("New title for test");
         cc.create(contentRelation);
     }
 
@@ -161,29 +160,6 @@ public class ContentRelationCreateTest {
      * Test if the right exception is thrown if calling create with an
      * incomplete ContentRelation.
      * 
-     * One invalid MetadataRecord (no name, no content) is part of
-     * ContentRelation.
-     * 
-     * @throws Exception
-     *             Thrown if no or wrong exception is caught from the framework.
-     */
-    @Test(expected = XmlSchemaValidationException.class)
-    public void testCreateContentRelation06() throws Exception {
-        ContentRelation contentRelation = new ContentRelation();
-        ContentRelationProperties properties = new ContentRelationProperties();
-        contentRelation.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecords.add(mdRecord);
-        contentRelation.setMetadataRecords(mdRecords);
-
-        cc.create(contentRelation);
-    }
-
-    /**
-     * Test if the right exception is thrown if calling create with an
-     * incomplete ContentRelation.
-     * 
      * One invalid MetadataRecord (no content) is part of ContentRelation.
      * 
      * @throws Exception
@@ -195,8 +171,7 @@ public class ContentRelationCreateTest {
         ContentRelationProperties properties = new ContentRelationProperties();
         contentRelation.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         mdRecords.add(mdRecord);
         contentRelation.setMetadataRecords(mdRecords);
 

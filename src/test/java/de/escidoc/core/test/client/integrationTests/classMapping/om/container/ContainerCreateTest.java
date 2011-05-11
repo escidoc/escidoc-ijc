@@ -135,7 +135,6 @@ public class ContainerCreateTest {
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer02() throws Exception {
         Container container = new Container();
-        container.setXLinkTitle("New title for test");
         cc.create(container);
     }
 
@@ -190,30 +189,6 @@ public class ContainerCreateTest {
      * Test if the right exception is thrown if calling create with an
      * incomplete Container.
      * 
-     * One invalid MetadataRecord (no name, no content) is part of Container.
-     * 
-     * @throws Exception
-     *             Thrown if no or wrong exception is caught from the framework.
-     */
-    @Test(expected = XmlSchemaValidationException.class)
-    public void testCreateContainer06() throws Exception {
-        Container container = new Container();
-        ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        container.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecords.add(mdRecord);
-        container.setMetadataRecords(mdRecords);
-
-        cc.create(container);
-    }
-
-    /**
-     * Test if the right exception is thrown if calling create with an
-     * incomplete Container.
-     * 
      * One invalid MetadataRecord (no content) is part of Container.
      * 
      * @throws Exception
@@ -227,8 +202,7 @@ public class ContainerCreateTest {
             .getStaticContextId()));
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
@@ -260,8 +234,7 @@ public class ContainerCreateTest {
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -310,8 +283,7 @@ public class ContainerCreateTest {
         container.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         Document docMdRecord = builder.newDocument();
         Element element = docMdRecord.createElementNS(null, "myMdRecord");
@@ -633,8 +605,7 @@ public class ContainerCreateTest {
         container.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -642,8 +613,7 @@ public class ContainerCreateTest {
 
         mdRecord.setContent(element);
         mdRecords.add(mdRecord);
-        MetadataRecord mdRecord2 = new MetadataRecord();
-        mdRecord2.setName("md-record2");
+        MetadataRecord mdRecord2 = new MetadataRecord("md-record2");
         Element element2 = doc.createElementNS(null, "myMdRecord");
         element2.setTextContent("222222222");
 
@@ -651,8 +621,7 @@ public class ContainerCreateTest {
 
         mdRecords.add(mdRecord2);
 
-        MetadataRecord mdRecord3 = new MetadataRecord();
-        mdRecord3.setName("md-record3");
+        MetadataRecord mdRecord3 = new MetadataRecord("md-record3");
         Element element3 = doc.createElementNS(null, "myMdRecord");
         Element element4 = doc.createElementNS(null, "some-other-stuff");
         element2.setTextContent("33333333333333333333");
@@ -682,7 +651,6 @@ public class ContainerCreateTest {
             .setContentModel(
                 new ContentModelRef(EscidocClientTestBase
                     .getStaticContentModelId()));
-        item.setXLinkTitle("TEST");
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();

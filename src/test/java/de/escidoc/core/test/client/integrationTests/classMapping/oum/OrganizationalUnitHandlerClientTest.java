@@ -220,8 +220,7 @@ public class OrganizationalUnitHandlerClientTest {
         throws ParserConfigurationException {
 
         // md-record
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName(mdRecordName);
+        MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);

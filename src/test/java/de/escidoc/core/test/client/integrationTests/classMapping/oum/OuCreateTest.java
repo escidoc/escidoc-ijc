@@ -80,8 +80,10 @@ public class OuCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }
@@ -121,8 +123,7 @@ public class OuCreateTest {
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -153,8 +154,7 @@ public class OuCreateTest {
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -186,8 +186,7 @@ public class OuCreateTest {
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -218,8 +217,7 @@ public class OuCreateTest {
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         String str =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -266,8 +264,7 @@ public class OuCreateTest {
         organizationalUnit.setProperties(properties);
 
         // md-record "escidoc"
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -407,7 +404,7 @@ public class OuCreateTest {
 
         Predecessor predecessor =
             new Predecessor(ou1.getObjid(), PredecessorForm.REPLACEMENT);
-        predecessors.addPredecessorRef(predecessor);
+        predecessors.add(predecessor);
         ou2.setPredecessors(predecessors);
 
         mdRecord =
@@ -423,8 +420,7 @@ public class OuCreateTest {
         // assert OU values
         assertEquals("Wrong predecessor", ou2
             .getPredecessors().iterator().next().getObjid(), ou1.getObjid());
-        assertEquals("Wrong predecessor", 1, ou2
-            .getPredecessors().getPredecessorRef().size());
+        assertEquals("Wrong predecessor", 1, ou2.getPredecessors().size());
     }
 
     /**
@@ -789,8 +785,7 @@ public class OuCreateTest {
         throws ParserConfigurationException {
 
         // md-record
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName(mdRecordName);
+        MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);

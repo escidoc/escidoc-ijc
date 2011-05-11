@@ -369,7 +369,6 @@ public class AdminHandlerClientTest {
             .setContentModel(
                 new ContentModelRef(EscidocClientTestBase
                     .getStaticContentModelId()));
-        item.setXLinkTitle("TEST");
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -470,8 +469,7 @@ public class AdminHandlerClientTest {
         throws ParserConfigurationException {
 
         // md-record
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName(mdRecordName);
+        MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);

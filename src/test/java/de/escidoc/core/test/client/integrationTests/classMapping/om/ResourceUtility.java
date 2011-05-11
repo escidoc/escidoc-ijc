@@ -41,8 +41,7 @@ public class ResourceUtility {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
 
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName(name);
+        MetadataRecord mdRecord = new MetadataRecord(name);
 
         Element element = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);

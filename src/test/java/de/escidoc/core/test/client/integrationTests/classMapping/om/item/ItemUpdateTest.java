@@ -96,8 +96,7 @@ public class ItemUpdateTest {
 
         Item item = createItem();
 
-        MetadataRecord mdRecord2 = new MetadataRecord();
-        mdRecord2.setName("md-record2");
+        MetadataRecord mdRecord2 = new MetadataRecord("md-record2");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -158,8 +157,7 @@ public class ItemUpdateTest {
         item.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);

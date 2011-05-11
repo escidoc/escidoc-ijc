@@ -171,8 +171,8 @@ public class ContextFilterVersion12Test {
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor();
-        adminDescriptor.setName("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor =
+            new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();

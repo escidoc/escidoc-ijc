@@ -36,6 +36,7 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -205,7 +206,7 @@ public class RoleFilterVersion12Test {
                 "info:escidoc/names:aa:1.0:resource:container:context",
                 ResourceType.CONTEXT);
 
-        Collection<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
+        List<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);
         scopeDefinitions.add(scopeDef2);
         scope.setScopeDefinitions(scopeDefinitions);

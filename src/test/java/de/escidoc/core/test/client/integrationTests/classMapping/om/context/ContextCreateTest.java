@@ -141,8 +141,8 @@ public class ContextCreateTest {
         ContextProperties properties = new ContextProperties();
         context.setProperties(properties);
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor();
-        adminDescriptor.setName("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor =
+            new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -181,8 +181,8 @@ public class ContextCreateTest {
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor();
-        adminDescriptor.setName("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor =
+            new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -221,8 +221,8 @@ public class ContextCreateTest {
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor();
-        adminDescriptor.setName("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor =
+            new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -242,7 +242,5 @@ public class ContextCreateTest {
             .getProperties().getDescription());
         assertEquals("Wrong number of admin-descriptors", 1, createdContext
             .getAdminDescriptors().size());
-
     }
-
 }

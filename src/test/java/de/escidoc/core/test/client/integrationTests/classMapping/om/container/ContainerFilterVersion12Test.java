@@ -184,8 +184,7 @@ public class ContainerFilterVersion12Test {
         container.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         Document docMdRecord = builder.newDocument();
         Element element = docMdRecord.createElementNS(null, "myMdRecord");

@@ -187,8 +187,8 @@ public class AuthenticationTest {
         context.setProperties(properties);
 
         final AdminDescriptors adminDescriptors = new AdminDescriptors();
-        final AdminDescriptor adminDescriptor = new AdminDescriptor();
-        adminDescriptor.setName("AdminDescriptorDemoName");
+        final AdminDescriptor adminDescriptor =
+            new AdminDescriptor("AdminDescriptorDemoName");
         final DocumentBuilderFactory factory =
             DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();

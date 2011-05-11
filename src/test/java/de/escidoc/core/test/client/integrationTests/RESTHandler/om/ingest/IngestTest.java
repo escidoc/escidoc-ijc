@@ -71,8 +71,10 @@ public class IngestTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
     }
 
     @After
@@ -94,15 +96,17 @@ public class IngestTest {
         ihc.setHandle(auth.getHandle());
 
         Marshaller<Item> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST)
-                .getMarshaller(Item.class);
+            MarshallerFactory
+                .getInstance(TransportProtocol.REST).getMarshaller(Item.class);
 
         Item item = new Item();
 
         item.getProperties().setContext(
             new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties().setContentModel(
-            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
+        item.getProperties()
+            .setContentModel(
+                new ContentModelRef(EscidocClientTestBase
+                    .getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -145,16 +149,18 @@ public class IngestTest {
         cc.setHandle(auth.getHandle());
 
         Marshaller<Container> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST)
-                .getMarshaller(Container.class);
+            MarshallerFactory
+                .getInstance(TransportProtocol.REST).getMarshaller(
+                    Container.class);
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(
-            EscidocClientTestBase.getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -172,8 +178,7 @@ public class IngestTest {
         container.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         Document docMdRecord = builder.newDocument();
         Element element = docMdRecord.createElementNS(null, "myMdRecord");
@@ -197,7 +202,7 @@ public class IngestTest {
 
         rihc.ingest(containerXml);
     }
-    
+
     @Test
     public void testIngestContainer02() throws Exception {
         RestContainerHandlerClient cc =
@@ -205,16 +210,18 @@ public class IngestTest {
         cc.setHandle(auth.getHandle());
 
         Marshaller<Container> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST)
-                .getMarshaller(Container.class);
+            MarshallerFactory
+                .getInstance(TransportProtocol.REST).getMarshaller(
+                    Container.class);
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(
-            EscidocClientTestBase.getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase
+            .getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
+            .getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -232,8 +239,7 @@ public class IngestTest {
         container.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         Document docMdRecord = builder.newDocument();
         Element element = docMdRecord.createElementNS(null, "myMdRecord");

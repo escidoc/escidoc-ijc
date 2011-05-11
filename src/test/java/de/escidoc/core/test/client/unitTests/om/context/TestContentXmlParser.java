@@ -68,8 +68,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor();
-        adminDescriptor.setName(adminDescriptorName);
+        AdminDescriptor adminDescriptor =
+            new AdminDescriptor(adminDescriptorName);
         adminDescriptor.setContent("<" + contentElementName + "/>");
 
         adminDescriptors.add(adminDescriptor);
@@ -155,8 +155,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor();
-        adminDescriptor.setName(adminDescriptorName);
+        AdminDescriptor adminDescriptor =
+            new AdminDescriptor(adminDescriptorName);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();

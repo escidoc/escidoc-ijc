@@ -94,8 +94,10 @@ public class ItemCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -131,7 +133,6 @@ public class ItemCreateTest {
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem02() throws Exception {
         Item item = new Item();
-        item.setXLinkTitle("New title for test");
         ihc.create(item);
     }
 
@@ -207,30 +208,6 @@ public class ItemCreateTest {
      * Test if the right exception is thrown if calling create with an
      * incomplete Item.
      * 
-     * One invalid MetadataRecord (no name, no content) is part of Item.
-     * 
-     * @throws Exception
-     *             Thrown if no or wrong exception is caught from the framework.
-     */
-    @Test(expected = XmlSchemaValidationException.class)
-    public void testCreateItem07() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        item.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecords.add(mdRecord);
-        item.setMetadataRecords(mdRecords);
-
-        ihc.create(item);
-    }
-
-    /**
-     * Test if the right exception is thrown if calling create with an
-     * incomplete Item.
-     * 
      * One invalid MetadataRecord (no content) is part of Item.
      * 
      * @throws Exception
@@ -244,8 +221,7 @@ public class ItemCreateTest {
             .getStaticContextId()));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
@@ -283,8 +259,7 @@ public class ItemCreateTest {
         properties.setContentModelSpecific(cms);
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
         Document doc1 = builder.newDocument();
         Element element = doc1.createElementNS(null, "myMdRecord");
 
@@ -312,7 +287,6 @@ public class ItemCreateTest {
             .setContentModel(
                 new ContentModelRef(EscidocClientTestBase
                     .getStaticContentModelId()));
-        item.setXLinkTitle("TEST");
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -628,8 +602,7 @@ public class ItemCreateTest {
 
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord();
-        mdRecord.setName("escidoc");
+        MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         Document doc1 = builder.newDocument();
         Element element = doc1.createElementNS(null, "myMdRecord");

@@ -142,25 +142,22 @@ public class UserAccountAttributesTest {
         // create Attribute
         Attribute uaAttrib = new Attribute("AttributeName", "AttributeValue");
 
-        Attribute createAttrib = uahc.createAttribute(objId, uaAttrib);
+        Attribute returnedAttrib = uahc.createAttribute(objId, uaAttrib);
         assertEquals("Attribute name differs", uaAttrib.getName(),
-            createAttrib.getName());
+            returnedAttrib.getName());
         assertEquals("Attribute value differs", uaAttrib.getValue(),
-            createAttrib.getValue());
+            returnedAttrib.getValue());
 
         // update Attribute
-        uaAttrib = new Attribute("AttributeName", "AttributeValue2");
-        uaAttrib.setObjid(createAttrib.getObjid());
-        uaAttrib
-            .setLastModificationDate(createAttrib.getLastModificationDate());
+        returnedAttrib.setValue("AttributeValue2");
+        returnedAttrib = uahc.updateAttribute(objId, uaAttrib);
 
-        createAttrib = uahc.updateAttribute(objId, uaAttrib);
         assertEquals("Attribute name differs", uaAttrib.getObjid(),
-            createAttrib.getObjid());
+            returnedAttrib.getObjid());
         assertEquals("Attribute name differs", uaAttrib.getName(),
-            createAttrib.getName());
+            returnedAttrib.getName());
         assertEquals("Attribute value differs", uaAttrib.getValue(),
-            createAttrib.getValue());
+            returnedAttrib.getValue());
 
         // retrieve
         Attributes attributes = uahc.retrieveAttributes(objId);
