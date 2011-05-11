@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Classes which are annotate with this annotation do have to comply to some
+ * Classes which are annotated with this annotation do have to comply to some
  * general rules in order to work best with JiBX bindings. This annotation can
  * be used on classes and constructors and should be used on private
  * constructors only as explained in paragraph 2.
@@ -85,11 +85,22 @@ import java.lang.annotation.Target;
  * The added default constructor seems to be public and is therefore no option
  * as well, because the object may be used outside of this API. A user of this
  * API should not be able to instantiate objects with invalid states.</li>
+ * </ul>
+ * <li>Super-classes<br/>
+ * <br/>
+ * If a super class supports fields for storing data and no setter methods shall
+ * exist, since those fields can only be set by the eSciDoc Infrastructure, they
+ * have to be <code>protected</code> instead of <code>private</code> in order to
+ * be accessible by the JiBX binding. Classes which extends such super classes
+ * may read-only access those fields, even through they are not
+ * <code>final</code>. Preferably use the getter-methods instead of accessing
+ * those fields directly, since the getter-methods may implement some specific
+ * behavior.</li>
  * </ol>
  * 
  * @author MVO
  */
-@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR })
+@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD })
 @Retention(RetentionPolicy.SOURCE)
 @Documented
 public @interface JiBX {
