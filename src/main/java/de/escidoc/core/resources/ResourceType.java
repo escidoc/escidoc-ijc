@@ -64,17 +64,35 @@ public enum ResourceType implements XmlCompatibleEnum {
         "aggregation-definition",
         ConfigurationProvider.NS_STATISTIC_AGGREGATION_DEF,
         "/statistic/aggregation-definition"),
-    // sub resources
-    COMPONENT(de.escidoc.core.resources.om.item.component.Component.class,
-        "component", ConfigurationProvider.NS_IR_COMPONENTS,
-        "/components/component"),
+    //
+    STATISTIC_DATA("statistic-data", "/statistic/statistic-data"),
+    /**
+     * A report is no real Resource since it has no objid or xlink-attributes
+     * and is a generated result of statistics.
+     */
+    REPORT("report", "/statistic/report"),
+    /**
+     * Preprocessing is no real Resource since it does not exist as an object.
+     */
+    PREPROCESSING("preprocessing", "/statistic/preprocessing"),
     //
     SET_DEFINITION(de.escidoc.core.resources.oai.SetDefinition.class,
         "set-defintion", ConfigurationProvider.NS_OAI_SET_DEFINITION,
         "/oai/set-definition"),
+
+    /**
+     * Staging-File is no real Resource since it does not exist as an object.
+     */
+    STAGING_FILE("staging-file", "/st/staging-file"),
+
+    // sub resources
     //
-    USERACCOUNT_ATTRIBUTE("user-account-attribute",
-        "/resources/attributes/attribute");
+    COMPONENT(de.escidoc.core.resources.om.item.component.Component.class,
+        "component", ConfigurationProvider.NS_IR_COMPONENTS, "/component",
+        false),
+
+    // TODO: delete?
+    USERACCOUNT_ATTRIBUTE("user-account-attribute", "/attribute");
 
     private final boolean isRootResource;
 
@@ -87,14 +105,17 @@ public enum ResourceType implements XmlCompatibleEnum {
     private final String path;
 
     /**
-     * @param isRootResource
+     * @param clazz
      * @param xmlValue
+     * @param nsConfig
+     * @param path
+     * @param isRootResource
      */
     ResourceType(final Class<? extends Resource> clazz, final String xmlValue,
-        final String nsConfig, final String path) {
+        final String nsConfig, final String path, final boolean isRootResource) {
 
         this.clazz = clazz;
-        this.isRootResource = true;
+        this.isRootResource = isRootResource;
         this.xmlValue = xmlValue;
         this.path = path;
 
@@ -119,6 +140,21 @@ public enum ResourceType implements XmlCompatibleEnum {
         }
     }
 
+    /**
+     * @param clazz
+     * @param xmlValue
+     * @param nsConfig
+     * @param path
+     */
+    ResourceType(final Class<? extends Resource> clazz, final String xmlValue,
+        final String nsConfig, final String path) {
+        this(clazz, xmlValue, nsConfig, path, true);
+    }
+
+    /**
+     * @param xmlValue
+     * @param path
+     */
     ResourceType(final String xmlValue, final String path) {
         this.clazz = null;
         this.isRootResource = false;

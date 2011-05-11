@@ -5,6 +5,8 @@ package de.escidoc.core.resources;
 
 import org.joda.time.DateTime;
 
+import de.escidoc.core.common.DateTimeUtility;
+
 /**
  * @author MVO
  * 
@@ -24,36 +26,12 @@ public abstract class GenericResource extends Resource {
     }
 
     /**
-     * @param objid
-     */
-    public GenericResource(final String objid) {
-        super(objid);
-    }
-
-    /**
-     * @param href
-     * @param title
-     */
-    public GenericResource(final String href, final String title) {
-        super(href, title);
-    }
-
-    /**
-     * @param objid
-     * @param href
-     * @param title
-     */
-    public GenericResource(final String objid, final String href,
-        final String title) {
-        super(objid, href, title);
-    }
-
-    /**
      * @param lastModificationDate
      *            the lastModificationDate to set
      */
     public void setLastModificationDate(final DateTime lastModificationDate) {
-        this.lastModificationDate = lastModificationDate;
+        this.lastModificationDate =
+            DateTimeUtility.normalize(lastModificationDate);
     }
 
     /**

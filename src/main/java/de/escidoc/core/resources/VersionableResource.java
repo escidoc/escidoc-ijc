@@ -28,8 +28,6 @@
  */
 package de.escidoc.core.resources;
 
-import de.escidoc.core.resources.common.versionhistory.VersionHistory;
-
 /**
  * 
  * @author SWA
@@ -37,11 +35,7 @@ import de.escidoc.core.resources.common.versionhistory.VersionHistory;
  */
 public abstract class VersionableResource extends GenericResource {
 
-    private final VersionHistory versionHistory = null;
-
-    private int versionNumber = 0;
-
-    private boolean hasVersionNumber = false;
+    private static final String OBJID_PATTERN = "([^:]+:[^:]+)(:\\d+)?";
 
     /**
      * 
@@ -51,77 +45,117 @@ public abstract class VersionableResource extends GenericResource {
     }
 
     /**
-     * @param objid
-     * @param href
-     * @param title
-     */
-    public VersionableResource(final String objid, final String href,
-        final String title) {
-        super(objid, href, title);
-    }
-
-    /**
-     * @param href
-     * @param title
-     */
-    public VersionableResource(final String href, final String title) {
-        super(href, title);
-    }
-
-    /**
-     * @param objid
-     */
-    public VersionableResource(final String objid) {
-        super(objid);
-    }
-
-    /**
      * Get the number of the version.
      * 
      * @return number of version
      */
     public int getVersionNumber() {
-        return this.versionNumber;
+        return this.identifier == null ? 0 : ((VersionedIdentifier) identifier)
+            .getVersionNumber();
     }
 
     /**
-     * Get the version history of the resource.
-     * 
-     * @return version history
-     */
-    public VersionHistory getVersionHistory() {
-        return this.versionHistory;
-    }
-
-    /**
-     * @return the hasVersionNumber
+     * @return <code>true</code> if and only if this resource has a version
+     *         number.
      */
     public boolean hasVersionNumber() {
-        return hasVersionNumber;
+        return this.identifier == null ? false
+            : ((VersionedIdentifier) identifier).hasVersionNumber();
+    }
+
+    /**
+     * @return the objid without its version extension.
+     */
+    public String getOriginObjid() {
+        if (this.identifier == null || this.identifier.getObjid() == null) {
+            return null;
+        }
+        return identifier.getObjid().replaceAll(OBJID_PATTERN, "$1");
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see de.escidoc.core.resources.Resource#setObjid(java.lang.String)
+     * @see de.escidoc.core.resources.Resource#getIdentifierInstance()
      */
     @Override
-    public void setObjid(final String objid) {
-        if (objid == null) {
-            super.setObjid(null);
-        }
-        else {
-            String[] v = objid.split(":");
-            if (v.length < 2)
-                throw new IllegalArgumentException(
-                    "Illegal argument for eSciDoc Objid: " + objid);
+    protected Identifier getIdentifierInstance() {
+        return this.new VersionedIdentifier();
+    }
 
-            super.setObjid(v[0] + ":" + v[1]);
+    /**
+     * @author Marko Voß
+     * 
+     */
+    public class VersionedIdentifier extends Identifier {
 
-            if (v.length > 2) {
-                this.versionNumber = Integer.valueOf(v[2]);
-                this.hasVersionNumber = true;
+        private int versionNumber = 0;
+
+        private boolean hasVersionNumber = false;
+
+        /**
+         * @param objid
+         *            the objid to set
+         */
+        @Override
+        public void setObjid(final String objid) {
+            super.setObjid(objid);
+            if (objid != null) {
+                String[] v = objid.split(":");
+                if (v.length > 2) {
+                    this.versionNumber = Integer.valueOf(v[2]);
+                    this.hasVersionNumber = true;
+                }
             }
+        }
+
+        /**
+         * @return the versionNumber
+         */
+        public int getVersionNumber() {
+            return versionNumber;
+        }
+
+        /**
+         * @return the hasVersionNumber
+         */
+        public boolean hasVersionNumber() {
+            return hasVersionNumber;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Object#hashCode()
+         */
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = super.hashCode();
+            result = prime * result + (hasVersionNumber ? 1231 : 1237);
+            result = prime * result + versionNumber;
+            return result;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj)
+                return true;
+            if (!super.equals(obj))
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            VersionedIdentifier other = (VersionedIdentifier) obj;
+            if (hasVersionNumber != other.hasVersionNumber)
+                return false;
+            if (versionNumber != other.versionNumber)
+                return false;
+            return true;
         }
     }
 }

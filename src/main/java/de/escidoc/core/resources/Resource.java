@@ -1,110 +1,89 @@
-/*
- * CDDL HEADER START
- *
- * The contents of this file are subject to the terms of the
- * Common Development and Distribution License, Version 1.0 only
- * (the "License").  You may not use this file except in compliance
- * with the License.
- *
- * You can obtain a copy of the license at license/ESCIDOC.LICENSE
- * or http://www.escidoc.de/license.
- * See the License for the specific language governing permissions
- * and limitations under the License.
- *
- * When distributing Covered Code, include this CDDL HEADER in each
- * file and include the License file at license/ESCIDOC.LICENSE.
- * If applicable, add the following below this CDDL HEADER, with the
- * fields enclosed by brackets "[]" replaced with your own identifying
- * information: Portions Copyright [yyyy] [name of copyright owner]
- *
- * CDDL HEADER END
- */
-
-/*
- * Copyright 2006-2010 Fachinformationszentrum Karlsruhe Gesellschaft
- * fuer wissenschaftlich-technische Information mbH and Max-Planck-
- * Gesellschaft zur Foerderung der Wissenschaft e.V.  
- * All rights reserved.  Use is subject to license terms.
+/**
+ * 
  */
 package de.escidoc.core.resources;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+import de.escidoc.core.annotations.JiBX;
+
 /**
- * Object reference.
- * 
- * @author SWA
+ * @author MVO
  * 
  */
-public abstract class Resource extends XLinkResource implements XLinkAutonomous {
+@JiBX
+public abstract class Resource extends XLinkResource {
 
     /**
-     * The global unique id of the resource.
+     * Only JiBX may initialize this object, because of the identifier will be
+     * set by the eSciDoc Infrastructure.
      */
-    private String objid;
+    protected Identifier identifier;
 
     /**
      * 
      */
     public Resource() {
-
     }
 
     /**
+     * Protected constructor for objects, which require an objid for
+     * initialization. Such objects are references to resources.
+     * 
      * 
      * @param objid
-     *            The objid of the resource.
      */
-    public Resource(final String objid) {
-        setObjid(objid);
+    protected Resource(final String objid) {
+        identifier = new Identifier(objid);
     }
 
     /**
+     * Protected constructor for objects, which require an objid for
+     * initialization. Such objects are references to resources.
      * 
-     * @param href
-     *            The href of the resource (for XML Xlink href attribute)
-     * @param title
-     *            The title of the resource (for XML Xlink title attribute)
+     * @param xLinkHref
+     * @param xLinkTitle
+     * @param xLinkType
      */
-    public Resource(final String href, final String title) {
-        setXLinkHref(href);
-        setXLinkTitle(title);
+    protected Resource(final String xLinkHref, final String xLinkTitle,
+        final XLinkType xLinkType) {
+        identifier = new Identifier(xLinkHref, xLinkTitle, xLinkType);
     }
 
     /**
-     * 
-     * @param objid
-     *            The objid of the resource.
-     * @param href
-     *            The href of the resource (for XML Xlink href attribute)
-     * @param title
-     *            The title of the resource (for XML Xlink title attribute)
-     */
-    public Resource(final String objid, final String href, final String title) {
-        setXLinkHref(href);
-        setXLinkTitle(title);
-        setObjid(objid);
-    }
-
-    /**
-     * Get the object id of the resource.
-     * 
-     * @return object id
+     * @return the objid
      */
     public String getObjid() {
-        return this.objid;
+        return identifier == null ? null : identifier.getObjid();
     }
 
-    /**
-     * Set object id.
+    /*
+     * (non-Javadoc)
      * 
-     * Workaround needed because SRW returns search results as SOAP formatted
-     * XML. Therefore we need to generate the Href in case we are using the REST
-     * protocol.
-     * 
-     * @param objid
-     *            The object Id.
+     * @see de.escidoc.core.resources.XLinkResource#getXLinkHref()
      */
-    public void setObjid(final String objid) {
-        this.objid = objid;
+    @Override
+    public String getXLinkHref() {
+        return identifier == null ? null : identifier.getHref();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkResource#getXLinkTitle()
+     */
+    @Override
+    public String getXLinkTitle() {
+        return identifier == null ? null : identifier.getTitle();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkResource#getXLinkType()
+     */
+    @Override
+    public XLinkType getXLinkType() {
+        return identifier == null ? null : identifier.getType();
     }
 
     /*
@@ -114,66 +93,80 @@ public abstract class Resource extends XLinkResource implements XLinkAutonomous 
      * de.escidoc.core.resources.XLinkResource#setXLinkHref(java.lang.String)
      */
     @Override
-    public void setXLinkHref(final String href) {
-        super.setXLinkHref(href);
-        if (href != null) {
-            setObjid(href.substring(href.lastIndexOf('/') + 1));
-        }
+    protected void setXLinkHref(final String xLinkHref) {
+        if (identifier == null)
+            identifier = new Identifier(xLinkHref, null, null);
+        else
+            identifier.setHref(xLinkHref);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkType(de.escidoc.core.
+     * resources.XLinkType)
+     */
+    @Override
+    protected void setXLinkType(final XLinkType type) {
+        if (identifier != null)
+            identifier.setType(type);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkTitle(java.lang.String)
+     */
+    @Override
+    protected void setXLinkTitle(final String title) {
+        if (identifier != null)
+            identifier.setTitle(title);
     }
 
     /**
-     * Get the type of the resource.
-     * 
-     * @return Resource type
+     * @return The {@link ResourceType} of the implementation of this abstract
+     *         class.
      */
     public abstract ResourceType getResourceType();
 
     /**
-     * Method used by ResourceRef implementations to ensure a fully valid
-     * xLinkHref definition for all sub resources they may own. The validation
-     * methods calling this method may be called by JiBX as post-set methods.
+     * Factory method for JiBX to create an instance of {@link Identifier}.
+     * 
+     * @param obj
+     * @return
      */
-    protected void genOwnXLinkHref() {
-        if (getXLinkHref() == null && getResourceType() != null
-            && getResourceType().isRootResource() && getObjid() != null) {
-            setXLinkHref(getResourceType().getPath() + "/" + getObjid());
+    protected static final Identifier createIdentifier(final Object obj) {
+        if (obj instanceof Resource) {
+            return ((Resource) obj).getIdentifierInstance();
         }
+        throw new IllegalArgumentException();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * This method returns an instance of the Identifier. All classes, which
+     * extends this class in order to define new {@link Identifier}s must
+     * override this method and return their own implementation instead of the
+     * default one. <br/>
+     * <br/>
+     * See {@link VersionableResource} for an example of another Identifier
+     * implementation.
      * 
-     * @see java.lang.Object#hashCode()
+     * @return an instance of the {@link Identifier}
      */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (objid == null ? 0 : objid.hashCode());
-        return result;
+    protected Identifier getIdentifierInstance() {
+        return this.new Identifier();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see java.lang.Object#equals(java.lang.Object)
      */
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Resource other = (Resource) obj;
-        if (objid == null) {
-            if (other.objid != null)
-                return false;
+    protected void validateIdentifier() {
+        if (identifier != null && identifier.objid == null
+            && identifier.href == null) {
+            identifier = null;
         }
-        else if (!objid.equals(other.objid))
-            return false;
-        return true;
     }
 
     /**
@@ -193,7 +186,7 @@ public abstract class Resource extends XLinkResource implements XLinkAutonomous 
 
             if (type != null && resource.getObjid() != null) {
 
-                String href = type.getPath() + "/" + resource.getObjid();
+                String href = type.getPath(resource.getObjid());
                 if (prefix != null)
                     href = prefix + href;
                 resource.setXLinkHref(href);
@@ -208,30 +201,250 @@ public abstract class Resource extends XLinkResource implements XLinkAutonomous 
     }
 
     /**
-     * Returns the resource type of the specified xLinkHref. The xLinkHref is
-     * not being validated.
-     * 
-     * @param xLinkHref
-     * @return the resource type of the specified xLinkHref or null if and only
-     *         if the specified xLinkHref cannot be mapped to a root resource
-     *         type.
+     * @param resource
+     * @param prefix
+     * @return the generated HREF
      */
-    public static final ResourceType getRootResourceTypeForHref(
-        final String xLinkHref) {
-        if (xLinkHref == null)
-            return null;
+    protected static final String genXLinkHref(
+        final Resource resource, final String prefix) {
 
-        ResourceType type = ResourceType.getValue(xLinkHref);
-        return type.isRootResource() ? type : null;
+        if (resource != null && resource.getXLinkHref() == null) {
+
+            if (resource.getResourceType() != null
+                && resource.getObjid() != null) {
+
+                String href =
+                    resource.getResourceType().getPath(resource.getObjid());
+                if (prefix != null)
+                    href = prefix + href;
+                resource.setXLinkHref(href);
+                return href;
+            }
+            else if (prefix != null) {
+                resource.setXLinkHref(prefix);
+                return prefix;
+            }
+        }
+        return "";
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see de.escidoc.core.resources.XLinkAutonomous#genXLink()
+     * @see java.lang.Object#hashCode()
      */
     @Override
-    public void genXLink() {
-        genOwnXLinkHref();
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result =
+            prime * result + (identifier == null ? 0 : identifier.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Resource other = (Resource) obj;
+        if (identifier == null) {
+            if (other.identifier != null)
+                return false;
+        }
+        else if (!identifier.equals(other.identifier))
+            return false;
+        return true;
+    }
+
+    /**
+     * @author MVO
+     * 
+     */
+    @JiBX
+    protected class Identifier {
+
+        protected String objid;
+
+        protected String href;
+
+        protected XLinkType type = XLinkType.simple;
+
+        protected String title;
+
+        /**
+         * @param id
+         */
+        Identifier() {
+        }
+
+        /**
+         * @param objid
+         */
+        public Identifier(final String objid) {
+            checkNotNull(objid);
+            this.objid = objid;
+        }
+
+        /**
+         * @param href
+         * @param title
+         * @param type
+         */
+        public Identifier(final String href, final String title,
+            final XLinkType type) {
+            checkNotNull(href);
+            this.href = href;
+            this.title = title;
+            this.type = type == null ? XLinkType.simple : type;
+        }
+
+        /**
+         * @param objid
+         *            the objid to set
+         */
+        public void setObjid(final String objid) {
+            this.objid = objid;
+        }
+
+        /**
+         * @param href
+         *            the href to set
+         */
+        public void setHref(final String href) {
+            this.href = href;
+        }
+
+        /**
+         * @param type
+         *            the type to set
+         */
+        public void setType(final XLinkType type) {
+            if (type != null)
+                this.type = type;
+        }
+
+        /**
+         * @param title
+         *            the title to set
+         */
+        public void setTitle(final String title) {
+            this.title = title;
+        }
+
+        /**
+         * @return the objid
+         */
+        public String getObjid() {
+            if (objid != null)
+                return objid;
+            if (href != null)
+                setObjid(genObjid());
+            return objid;
+        }
+
+        /**
+         * @return the href
+         */
+        public String getHref() {
+            if (href != null)
+                return href;
+            if (objid != null)
+                setHref(genXLink());
+            return href;
+        }
+
+        /**
+         * @return
+         */
+        public boolean hasTitleForHref() {
+            return getHref() != null && getTitle() != null;
+        }
+
+        /**
+         * @return
+         */
+        public boolean hasTypeForHref() {
+            return getHref() != null && getType() != null;
+        }
+
+        /**
+         * @return the type
+         */
+        public XLinkType getType() {
+            return type;
+        }
+
+        /**
+         * @return the title
+         */
+        public String getTitle() {
+            return title;
+        }
+
+        /**
+         * @return
+         */
+        protected String genXLink() {
+            if (href == null && getResourceType() != null
+                && getResourceType().isRootResource())
+                return new StringBuilder(getResourceType().getPath())
+                    .append('/').append(objid).toString();
+            return null;
+        }
+
+        /**
+         * @return
+         */
+        protected String genObjid() {
+            return href.substring(href.lastIndexOf('/') + 1);
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Object#hashCode()
+         */
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result =
+                prime
+                    * result
+                    + (this.getObjid() == null ? 0 : this.getObjid().hashCode());
+            return result;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Identifier other = (Identifier) obj;
+            if (this.getObjid() == null) {
+                if (other.getObjid() != null)
+                    return false;
+            }
+            else if (!this.getObjid().equals(other.getObjid()))
+                return false;
+            return true;
+        }
     }
 }

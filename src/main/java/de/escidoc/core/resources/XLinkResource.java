@@ -3,17 +3,23 @@
  */
 package de.escidoc.core.resources;
 
+import de.escidoc.core.annotations.JiBX;
+
 /**
  * @author MVO
  * 
  */
-public abstract class XLinkResource {
+@JiBX
+public abstract class XLinkResource extends XLinkAutonomous {
 
-    private String xLinkHref;
+    @JiBX
+    protected String xLinkHref;
 
-    private String xLinkTitle;
+    @JiBX
+    protected String xLinkTitle;
 
-    private XLinkType xLinkType;
+    @JiBX
+    protected XLinkType xLinkType = XLinkType.simple;
 
     /**
      * Get the href of the resource. (May depend on transport protocol.)
@@ -22,19 +28,6 @@ public abstract class XLinkResource {
      */
     public String getXLinkHref() {
         return this.xLinkHref;
-    }
-
-    /**
-     * Set the href of the resource. (May depend on transport protocol.)
-     * 
-     * @param href
-     *            The href of the resource
-     */
-    public void setXLinkHref(final String href) {
-        if (href != null && href.length() > 0) {
-            this.xLinkHref = href;
-            this.xLinkType = XLinkType.simple;
-        }
     }
 
     /**
@@ -47,18 +40,7 @@ public abstract class XLinkResource {
     }
 
     /**
-     * Set the resource title. (May depend on transport protocol or is
-     * discarded.)
-     * 
-     * @param title
-     *            The title of the resource.
-     */
-    public void setXLinkTitle(final String title) {
-        this.xLinkTitle = title;
-    }
-
-    /**
-     * Get XLink type. (Default XLINK_TYPE.simple)
+     * Get XLink type. (Default {@link XLinkType.simple})
      * 
      * @return xlink:type if and only if this.href has been set. (REST protocol
      *         uses xlink:href. SOAP needs this.objid only.)
@@ -68,12 +50,49 @@ public abstract class XLinkResource {
     }
 
     /**
-     * Set Xlink:type.
+     * This method is used by JiBX to test, if the title should be marshalled or
+     * not.
      * 
-     * @param type
-     *            Type of xlink.
+     * @return <code>true</code> if and only if the title is not null and the
+     *         href is not null, otherwise <code>false</code>.
      */
-    public void setXLinkType(final XLinkType type) {
+    protected boolean hasXLinkTitleForHref() {
+        return getXLinkHref() != null && getXLinkTitle() != null;
+    }
+
+    /**
+     * This method is used by JiBX to test, if the type should be marshalled or
+     * not.
+     * 
+     * @return <code>true</code> if and only if the type is not null and the
+     *         href is not null, otherwise <code>false</code>.
+     */
+    protected boolean hasXLinkTypeForHref() {
+        return getXLinkHref() != null && getXLinkType() != null;
+    }
+
+    /**
+     * Sets the xLinkHref. This method may be used only by implementations of
+     * this class in order to generate the xLinkHref for their sub-resources.
+     * 
+     * @param xLinkHref
+     *            The xLinkHref to set.
+     */
+    protected void setXLinkHref(final String xLinkHref) {
+        this.xLinkHref = xLinkHref;
+    }
+
+    /**
+     * @param type
+     */
+    protected void setXLinkType(final XLinkType type) {
         this.xLinkType = type;
+    }
+
+    /**
+     * @param title
+     */
+    protected void setXLinkTitle(final String title) {
+        this.xLinkTitle = title;
     }
 }

@@ -3,82 +3,36 @@
  */
 package de.escidoc.core.resources;
 
-import java.util.LinkedList;
-
+import de.escidoc.core.client.TransportProtocol;
 
 /**
+ * This class represents a list, where the list itself as well as the elements
+ * in this list can have xlink-attributes in their XML representation.
+ * 
  * @author MVO
  * 
  */
-public class XLinkResourceList<E> extends LinkedList<E> {
+public abstract class XLinkResourceList<E extends XLinkResource>
+    extends XLinkList<E> {
 
     private static final long serialVersionUID = 8240386975522360182L;
 
-    private String xLinkHref;
-
-    private String xLinkTitle;
-
-    private XLinkType xLinkType;
-
     /**
-     * Get the href of the resource. (May depend on transport protocol.)
-     * 
-     * @return href of resource.
+     * A resource returned from the eSciDoc Infrastructure can be returned
+     * either in {@link TransportProtocol.SOAP} or
+     * {@link TransportProtocol.REST}. In both cases either the objid or the
+     * xlink values have to be generated. JiBX will call this method as a
+     * post-set-method. A resource implementing this method must ensure to
+     * generate the identifiers for all sub-resources as well.
      */
-    public String getXLinkHref() {
-        return this.xLinkHref;
-    }
+    @Override
+    public void generateXLinkHref(final String parentPath) {
+        super.generateXLinkHref(parentPath);
 
-    /**
-     * Set the href of the resource. (May depend on transport protocol.)
-     * 
-     * @param href
-     *            The href of the resource
-     */
-    public void setXLinkHref(final String href) {
-        if (href != null && href.length() > 0) {
-            this.xLinkHref = href;
-            this.xLinkType = XLinkType.simple;
+        if (getXLinkHref() != null) {
+            for (XLinkResource resource : this) {
+                resource.generateXLinkHref(getXLinkHref());
+            }
         }
-    }
-
-    /**
-     * Get the title of the resource. (May depend on transport protocol.)
-     * 
-     * @return Resource title.
-     */
-    public String getXLinkTitle() {
-        return this.xLinkTitle;
-    }
-
-    /**
-     * Set the resource title. (May depend on transport protocol or is
-     * discarded.)
-     * 
-     * @param title
-     *            The title of the resource.
-     */
-    public void setXLinkTitle(final String title) {
-        this.xLinkTitle = title;
-    }
-
-    /**
-     * Get XLink type. (Default XLINK_TYPE.simple)
-     * 
-     * @return xlink:type if and only if this.href has been set. (REST protocol
-     *         uses xlink:href. SOAP needs this.objid only.)
-     */
-    public XLinkType getXLinkType() {
-        return this.xLinkType;
-    }
-
-    /**
-     * Set Xlink:type.
-     * 
-     * @param type
-     *            Type of xlink.
-     */
-    public void setXLinkType(final XLinkType type) {
-        this.xLinkType = type;
     }
 }

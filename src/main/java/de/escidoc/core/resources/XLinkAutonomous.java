@@ -3,30 +3,28 @@
  */
 package de.escidoc.core.resources;
 
+import de.escidoc.core.client.TransportProtocol;
+
 /**
- * @author MVO
+ * @author Marko Voß
  * 
  */
-public interface XLinkAutonomous {
+public abstract class XLinkAutonomous {
 
     /**
-     * XLink validation for JiBX.<br/>
-     * <br/>
-     * 
-     * The client application, may only work with {@link #getObjid()} and
-     * {@link #setObjid(String)} or an appropriate constructor for a resource
-     * implementation. In order to work with such resource objects correctly no
-     * matter which transport protocol is being used by the client application,
-     * this method is being used by the JiBX binding to ensure, that the XLink
-     * values do exist after a resource object got retrieved from the
-     * infrastructure <b>and</b> when requesting operations for a resource
-     * object on the infrastructure by using the REST protocol.<br/>
-     * <br/>
-     * Therefore this method is being called by the
-     * <ul>
-     * <li>SOAP binding as a <b>post-set</b> method for unmarshalling and</li>
-     * <li>REST binding as a <b>pre-get</b> method for marshalling.</li>
-     * </ul>
+     * A resource returned from the eSciDoc Infrastructure can be returned
+     * either in {@link TransportProtocol.SOAP} or
+     * {@link TransportProtocol.REST}. In both cases either the objid or the
+     * xlink values have to be generated. JiBX will call this method as a
+     * post-set-method. A resource implementing this method must ensure to
+     * generate the identifiers for all sub-resources as well.
      */
-    void genXLink();
+    public abstract void generateXLinkHref(String parentPath);
+
+    /**
+     * 
+     */
+    public void generateXLinkHref() {
+        generateXLinkHref(null);
+    }
 }
