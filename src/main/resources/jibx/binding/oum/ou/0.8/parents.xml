@@ -13,9 +13,6 @@
 
     <structure map-as="de.escidoc.core.resources.XLinkResourceList"/>
 
-    <value style="attribute" name="last-modification-date" usage="optional"
-      set-method="setLastModificationDate" get-method="getLastModificationDate"/>
-
     <collection create-type="de.escidoc.core.resources.oum.Parents"
        item-type="de.escidoc.core.resources.oum.Parent"/>
   </mapping>
