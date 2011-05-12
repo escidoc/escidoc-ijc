@@ -29,10 +29,9 @@
 package de.escidoc.core.client;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +44,7 @@ import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
 import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
 import de.escidoc.core.common.URLUtility;
+import de.escidoc.core.common.exceptions.remote.system.SystemException;
 
 /**
  * Authenticate against eSciDoc framework.
@@ -163,89 +163,21 @@ public class Authentication {
         this.serviceAddress = URLUtility.unifyAddress(serviceUrl);
         this.username = username;
 
-        /*
-         * SWA: This implementation is wrong or could be at least more
-         * efficient. If the user gets not authentication cookie than is no
-         * further request required. And a request with no authentication cookie
-         * should not be responsed by an HTTP status code 500.
-         */
-        HttpURLConnection restrictedConn = null;
-        HttpURLConnection authConn = null;
-        HttpURLConnection redirectConn = null;
-        OutputStreamWriter writer = null;
-
         try {
-            URL loginUrl = new URL(this.serviceAddress + "/aa/login?target=");
-            URL authURL =
-                new URL(this.serviceAddress + "/aa/j_spring_security_check");
-
-            HttpURLConnection.setFollowRedirects(false);
-
-            // 1) Make a login request in order to get the session cookie.
-            restrictedConn = (HttpURLConnection) loginUrl.openConnection();
-            restrictedConn.connect();
-
-            // 2) Make a POST request sending the login credentials and the
-            // previous session cookie in order to get the next session cookie.
-            authConn = (HttpURLConnection) authURL.openConnection();
-            authConn.setRequestMethod("POST");
-            authConn.setDoOutput(true);
-
-            authConn.setRequestProperty("Cookie",
-                restrictedConn.getHeaderField("Set-Cookie"));
-            String params =
-                "j_username=" + username + "&j_password=" + password;
-
-            writer = new OutputStreamWriter(authConn.getOutputStream());
-            writer.write(params);
-            writer.close();
-
-            authConn.connect();
-            List<String> cookieList =
-                authConn.getHeaderFields().get("Set-Cookie");
-
-            // 3) Make a login request with the previous session cookie in order
-            // to get the auth cookie.
-            redirectConn = (HttpURLConnection) loginUrl.openConnection();
-            if (cookieList != null) {
-                Iterator<String> cookieIt = cookieList.iterator();
-                while (cookieIt.hasNext()) {
-                    redirectConn.addRequestProperty("Cookie", cookieIt.next());
-                }
-            }
-            redirectConn.connect();
-            cookieList = redirectConn.getHeaderFields().get("Set-Cookie");
-            this.handle = getEsciDocCookie(cookieList);
-
-            if (handle == null) {
-                throw new AuthenticationException(
-                    redirectConn.getResponseCode(), "Authorization failed.",
-                    redirectConn.getResponseMessage(), this.serviceAddress
-                        + "/aa/login");
-            }
-
+            this.handle =
+                getClient().getClient().getClient().login(username, password);
         }
-        catch (IOException e) {
-            throw new TransportException(e);
+        catch (SystemException e) {
+            throw new TransportException(e.getMessage(), e);
         }
-        finally {
-            // if (restrictedConn != null)
-            // restrictedConn.disconnect();
-            // if (authConn != null)
-            // authConn.disconnect();
-            // if (redirectConn != null)
-            // redirectConn.disconnect();
-            if (writer != null) {
-                try {
-                    writer.close();
-                }
-                catch (IOException e) {
-                    LOG.debug("Unable to close OutputStream.", e);
-                }
-            }
+        catch (RemoteException e) {
+            throw new AuthenticationException(e.getMessage(), e);
+        }
+        catch (InternalClientException e) {
+            throw new TransportException(e.getMessage(), e);
         }
 
-        return handle;
+        return this.handle;
     }
 
     /**
@@ -283,17 +215,16 @@ public class Authentication {
      */
     public void logout() throws EscidocException, InternalClientException,
         TransportException {
+        getClient().logout();
+    }
 
+    private UserManagementWrapperClient getClient()
+        throws InternalClientException {
         if (userManagement == null) {
             userManagement = new UserManagementWrapperClient(serviceAddress);
-            /*
-             * The serviceAddress and handle do not change within an instance of
-             * this class.
-             */
             userManagement.setHandle(handle);
-            userManagement.setTransport(TransportProtocol.REST);
         }
-        userManagement.logout();
+        return (UserManagementWrapperClient) userManagement;
     }
 
     /**
