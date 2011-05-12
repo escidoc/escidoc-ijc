@@ -16,8 +16,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -25,16 +27,20 @@ import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -42,6 +48,7 @@ import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.rest.RestService;
 import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 import de.escidoc.core.common.URLUtility;
+import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
 import de.escidoc.core.resources.HttpInputStream;
 
@@ -342,7 +349,7 @@ public abstract class RestServiceMethod implements RestService {
      * 
      * @return
      */
-    private synchronized HttpClient getRestClient() {
+    protected synchronized HttpClient getRestClient() {
         if (this.client == null) {
             this.client = HttpClientFactory.getHttpClient();
         }
@@ -566,9 +573,10 @@ public abstract class RestServiceMethod implements RestService {
                     LOG.debug("Unable to close HttpResponse.");
             }
         }
-        else if (request != null) {
+        if (request != null) {
             request.abort();
         }
+        getRestClient().getConnectionManager().closeExpiredConnections();
     }
 
     /**
@@ -581,5 +589,95 @@ public abstract class RestServiceMethod implements RestService {
         if (!path.startsWith("/"))
             return "/" + path;
         return path;
+    }
+
+    /**
+     * @param username
+     * @param password
+     * @return
+     * @throws SystemException
+     * @throws AuthenticationException
+     */
+    public String authenticate(final String username, final String password)
+        throws SystemException, AuthenticationException {
+
+        HttpClient client = HttpClientFactory.getHttpClient();
+
+        String loginPath = checkPath("/aa/login?target=");
+        String authPath = checkPath("/aa/j_spring_security_check");
+
+        HttpGet get = new HttpGet(this.serviceAddress + loginPath);
+        HttpGet redirected = new HttpGet(this.serviceAddress + loginPath);
+        HttpPost post = new HttpPost(this.serviceAddress + authPath);
+
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+        formparams.add(new BasicNameValuePair("j_username", username));
+        formparams.add(new BasicNameValuePair("j_password", password));
+
+        HttpClientParams.setRedirecting(get.getParams(), false);
+        HttpClientParams.setRedirecting(redirected.getParams(), false);
+        HttpClientParams.setRedirecting(post.getParams(), false);
+
+        HttpResponse response = null;
+        String cookie = null;
+        String handle = null;
+        int statusCode = 0;
+        String statusMsg = null;
+
+        try {
+            response = getRestClient().execute(get);
+            cookie = checkCookie(response, "Set-Cookie");
+            closeConnection(get, response);
+
+            post.setHeader("Cookie", cookie);
+            post.setEntity(new UrlEncodedFormEntity(formparams, "UTF-8"));
+            response = getRestClient().execute(post);
+            cookie = checkCookie(response, "Set-Cookie");
+            closeConnection(post, response);
+
+            redirected.setHeader("Cookie", cookie);
+            response = getRestClient().execute(redirected);
+            cookie = checkCookie(response, "Set-Cookie");
+            statusCode = response.getStatusLine().getStatusCode();
+            statusMsg = response.getStatusLine().getReasonPhrase();
+            closeConnection(redirected, response);
+        }
+        catch (IOException e) {
+            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR,
+                null, e.getMessage());
+        }
+        finally {
+            closeConnection(get, response);
+            closeConnection(post, response);
+            closeConnection(redirected, response);
+        }
+
+        if (cookie != null && cookie.toLowerCase().startsWith("escidoccookie=")) {
+            String[] parts = cookie.split(";");
+            handle = parts[0].split("=")[1];
+        }
+
+        if (handle == null) {
+            throw new AuthenticationException(statusCode,
+                "Authorization failed.", statusMsg, this.serviceAddress
+                    + "/aa/login");
+        }
+        return handle;
+    }
+
+    /**
+     * @param response
+     * @param name
+     * @return
+     * @throws SystemException
+     */
+    private String checkCookie(final HttpResponse response, final String name)
+        throws SystemException {
+        Header[] cookies = response.getHeaders(name);
+
+        if (cookies == null || cookies.length < 1)
+            return null;
+        else
+            return cookies[0].getValue();
     }
 }

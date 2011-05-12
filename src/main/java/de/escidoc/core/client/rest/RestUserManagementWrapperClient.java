@@ -7,11 +7,11 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 
-import de.escidoc.core.aa.UserManagementWrapper;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.UserManagementWrapper;
 import de.escidoc.core.client.rest.serviceLocator.UserManagementWrapperRestServiceLocator;
 
 /**
@@ -20,8 +20,8 @@ import de.escidoc.core.client.rest.serviceLocator.UserManagementWrapperRestServi
  */
 public class RestUserManagementWrapperClient extends RestClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(RestUserManagementWrapperClient.class);
+    private static final Logger LOG = Logger
+        .getLogger(RestUserManagementWrapperClient.class);
 
     private UserManagementWrapper restClient = null;
 
