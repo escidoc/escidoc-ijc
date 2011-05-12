@@ -380,28 +380,77 @@ public interface UserAccountHandlerClientInterface
         throws EscidocException, InternalClientException, TransportException;
 
     /**
+     * Update Attribute of User Account.
      * 
      * @param userId
      * @param attribute
-     * @return
+     * @return The updated Attribute
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     Attribute updateAttribute(final String userId, final Attribute attribute)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
+     * Update Attribute of User Account.
+     * 
+     * @param userId
+     * @param attributeId
+     * @param attribute
+     * @return The updated Attribute
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    Attribute updateAttribute(
+        final String userId, final String attributeId, final Attribute attribute)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * Update Attribute of User Account.
      * 
      * @param user
      * @param attribute
-     * @return
+     * @return The updated Attribute
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     Attribute updateAttribute(final UserAccount user, final Attribute attribute)
         throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * Update Attribute of User Account.
+     * 
+     * @param user
+     * @param attributeId
+     * @param attribute
+     * @return The updated Attribute
+     * 
+     * @throws EscidocException
+     *             Thrown if an exception from framework is received.
+     * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
+     */
+    Attribute updateAttribute(
+        final UserAccount user, final String attributeId,
+        final Attribute attribute) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 

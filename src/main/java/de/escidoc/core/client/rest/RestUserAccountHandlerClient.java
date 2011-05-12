@@ -570,13 +570,13 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     public String updateAttribute(
-        final String objid, final String attributeId, final String preferenceXML)
+        final String objid, final String attributeId, final String attributeXML)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
             result =
-                getClient().updateAttribute(objid, attributeId, preferenceXML);
+                getClient().updateAttribute(objid, attributeId, attributeXML);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
