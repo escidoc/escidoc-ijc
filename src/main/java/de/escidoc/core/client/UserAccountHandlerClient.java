@@ -602,36 +602,47 @@ public class UserAccountHandlerClient
             .unmarshalDocument(xml);
     }
 
-    /**
-     * Update Attribute of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     * @param attribute
-     * @return The updated Attribute
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * updateAttribute(java.lang.String, java.lang.String,
+     * de.escidoc.core.resources.aa.useraccount.Attribute)
      */
     @Override
     public Attribute updateAttribute(
-        final String userId, final Attribute attribute)
+        final String userId, final String attributeId, final Attribute attribute)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(userId);
+        checkNotNull(attributeId);
         checkNotNull(attribute);
 
         Marshaller<Attribute> m =
             MarshallerFactory.getInstance().getMarshaller(Attribute.class);
 
         String xml =
-            getClient().updateAttribute(userId, attribute.getObjid(),
+            getClient().updateAttribute(userId, attributeId,
                 m.marshalDocument(attribute));
 
         return m.unmarshalDocument(xml);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * updateAttribute(java.lang.String,
+     * de.escidoc.core.resources.aa.useraccount.Attribute)
+     */
+    @Override
+    public Attribute updateAttribute(
+        final String userId, final Attribute attribute)
+        throws EscidocException, InternalClientException, TransportException {
+
+        checkNotNull(attribute);
+
+        return updateAttribute(userId, attribute.getObjid(), attribute);
     }
 
     /**
@@ -1024,8 +1035,27 @@ public class UserAccountHandlerClient
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(user);
+        checkNotNull(attribute);
 
-        return updateAttribute(user.getObjid(), attribute);
+        return updateAttribute(user.getObjid(), attribute.getObjid(), attribute);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * updateAttribute(de.escidoc.core.resources.aa.useraccount.UserAccount,
+     * de.escidoc.core.resources.aa.useraccount.Attribute)
+     */
+    @Override
+    public Attribute updateAttribute(
+        final UserAccount user, final String attributeId,
+        final Attribute attribute) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(user);
+
+        return updateAttribute(user.getObjid(), attributeId, attribute);
     }
 
     /*
