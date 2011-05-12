@@ -331,7 +331,6 @@
                   <groupId>org.escidoc.core</groupId>
                   <artifactId>installer</artifactId>
                   <version>1.3-RC1</version>
-                  <classifier>standard</classifier>
                   <type>jar</type>
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}</outputDirectory>
@@ -356,6 +355,24 @@
               <goal>resources</goal>
             </goals>
           </execution>
+          <execution>
+             <id>overwrite-configurations</id>
+             <phase>process-sources</phase>
+             <goals>
+               <goal>copy-resources</goal>
+             </goals>
+             <configuration>
+               <outputDirectory>${project.build.directory}/escidoc/jboss
+               </outputDirectory>
+               <resources>
+                 <resource>
+                   <directory>src/test/resources/conf/jboss/postgres
+                   </directory>
+                   <filtering>true</filtering>
+                 </resource>
+               </resources>
+             </configuration>
+           </execution>
         </executions>
       </plugin>
       <plugin>
@@ -390,7 +407,7 @@
         <executions>
           <execution>
             <id>start-container</id>
-            <phase>generate-sources</phase>
+            <phase>process-sources</phase>
             <goals>
               <goal>start</goal>
             </goals>
@@ -436,7 +453,7 @@
         <executions>
           <execution>
             <id>wsdl2java</id>
-            <phase>generate-sources</phase>
+            <phase>process-sources</phase>
             <goals>
               <goal>wsdl2java</goal>
             </goals>
