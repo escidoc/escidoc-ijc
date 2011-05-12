@@ -5,6 +5,7 @@ package de.escidoc.core.common;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * @author Marko Voß
@@ -19,6 +20,8 @@ public class DateTimeUtility {
     public static final DateTime normalize(final DateTime date) {
         if (date == null)
             return null;
-        return date.toDateTime(DateTimeZone.UTC);
+        return ISODateTimeFormat
+            .dateTime().withZone(DateTimeZone.UTC)
+            .parseDateTime(date.toString());
     }
 }
