@@ -40,7 +40,7 @@ public abstract class NamedSubResourceList<E extends NamedSubResource>
     public void del(final String name) {
         for (E element : this) {
             if (element.getName().equals(name)) {
-                this.remove(name);
+                this.remove(element);
                 break;
             }
         }
