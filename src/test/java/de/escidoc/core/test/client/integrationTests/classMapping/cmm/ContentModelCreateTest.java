@@ -130,8 +130,8 @@ public class ContentModelCreateTest {
         assertEquals("Wrong description", cmm.getProperties().getDescription(),
             cmmCreated.getProperties().getDescription());
 
-        assertEquals("Wrong number of metadata record definition schema", null,
-            cmm.getMetadataRecordDefinitions());
+        assertEquals("Wrong number of metadata record definitions", 0, cmm
+            .getMetadataRecordDefinitions().size());
 
         assertEquals("Wrong creator", me.getObjid(), cmmCreated
             .getProperties().getCreatedBy().getObjid());
@@ -186,7 +186,7 @@ public class ContentModelCreateTest {
                     .getMetadataRecordDefinitions().iterator().next().getName()
                 + "/schema/content", cmmCreated
                 .getMetadataRecordDefinitions().iterator().next().getSchema()
-                .toString());
+                .getXLinkHref());
 
         assertEquals("Wrong creator", me.getObjid(), cmmCreated
             .getProperties().getCreatedBy().getObjid());
@@ -272,7 +272,7 @@ public class ContentModelCreateTest {
                 "/cmm/content-model/" + cmmCreated.getObjid()
                     + "/md-record-definitions/md-record-definition/"
                     + mrd.getName() + "/schema/content", mrdCreated
-                    .getSchema().toString());
+                    .getSchema().getXLinkHref());
         }
 
         // assert resource definitions
@@ -295,7 +295,7 @@ public class ContentModelCreateTest {
                 "/cmm/content-model/" + cmmCreated.getObjid()
                     + "/resource-definitions/resource-definition/"
                     + rd.getName() + "/xslt/content", rdCreated
-                    .getXslt().toString());
+                    .getXslt().getXLinkHref());
         }
 
         assertEquals("Wrong creator", me.getObjid(), cmmCreated
@@ -346,8 +346,8 @@ public class ContentModelCreateTest {
         assertEquals("Wrong description", cmm.getProperties().getDescription(),
             cmmCreated.getProperties().getDescription());
 
-        assertEquals("Wrong number of metadata record definition", null,
-            cmmCreated.getMetadataRecordDefinitions());
+        assertEquals("Wrong number of metadata record definition", 0,
+            cmmCreated.getMetadataRecordDefinitions().size());
 
         assertEquals("Wrong number of resource definition", 1, cmmCreated
             .getResourceDefinitions().size());
@@ -358,8 +358,8 @@ public class ContentModelCreateTest {
         assertEquals("Wrong description", cmm.getProperties().getDescription(),
             cmmUpdated.getProperties().getDescription());
 
-        assertEquals("Wrong number of metadata record definition", null,
-            cmmUpdated.getMetadataRecordDefinitions());
+        assertEquals("Wrong number of metadata record definition", 0,
+            cmmUpdated.getMetadataRecordDefinitions().size());
 
         assertEquals("Wrong number of resource definition", 1, cmmUpdated
             .getResourceDefinitions().size());

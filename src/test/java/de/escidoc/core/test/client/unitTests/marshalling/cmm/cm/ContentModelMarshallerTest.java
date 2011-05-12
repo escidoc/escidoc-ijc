@@ -134,7 +134,7 @@ public class ContentModelMarshallerTest
             "/escidocContentModel:content-model/escidocContentModel:resource-definitions/escidocContentModel:resource-definition[1]/@name",
             obj.getResourceDefinitions().get(0).getName());
         assertXPath(
-            "/escidocContentModel:content-model/escidocContentModel:resource-definitions/escidocContentModel:resource-definition[1]/@md-record-name",
+            "/escidocContentModel:content-model/escidocContentModel:resource-definitions/escidocContentModel:resource-definition[1]/escidocContentModel:md-record-name",
             obj.getResourceDefinitions().get(0).getMetadataRecordName());
 
         // check xlink no matter, what transport protocol we are using

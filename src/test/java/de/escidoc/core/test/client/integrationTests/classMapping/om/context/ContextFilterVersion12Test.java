@@ -34,8 +34,6 @@ import static org.junit.Assert.assertTrue;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.util.Date;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -122,8 +120,6 @@ public class ContextFilterVersion12Test {
     @Test
     public void testFilter01() throws Exception {
         Context createdContext = cc.create(createContext());
-
-        System.out.println("TEST123: " + new Date());
 
         // now check if at least this Context is in the list
 

@@ -142,29 +142,31 @@ public class UserAccountAttributesTest {
         // create Attribute
         Attribute uaAttrib = new Attribute("AttributeName", "AttributeValue");
 
-        Attribute returnedAttrib = uahc.createAttribute(objId, uaAttrib);
+        Attribute createdAttrib = uahc.createAttribute(objId, uaAttrib);
         assertEquals("Attribute name differs", uaAttrib.getName(),
-            returnedAttrib.getName());
+            createdAttrib.getName());
         assertEquals("Attribute value differs", uaAttrib.getValue(),
-            returnedAttrib.getValue());
+            createdAttrib.getValue());
 
         // update Attribute
-        returnedAttrib.setValue("AttributeValue2");
-        returnedAttrib = uahc.updateAttribute(objId, uaAttrib);
+        createdAttrib.setValue("AttributeValue2");
 
-        assertEquals("Attribute name differs", uaAttrib.getObjid(),
-            returnedAttrib.getObjid());
-        assertEquals("Attribute name differs", uaAttrib.getName(),
-            returnedAttrib.getName());
-        assertEquals("Attribute value differs", uaAttrib.getValue(),
-            returnedAttrib.getValue());
+        Attribute updatedAttrib = uahc.updateAttribute(objId, createdAttrib);
+
+        assertEquals("Attribute name differs", createdAttrib.getObjid(),
+            updatedAttrib.getObjid());
+        assertEquals("Attribute name differs", createdAttrib.getName(),
+            updatedAttrib.getName());
+        assertEquals("Attribute value differs", createdAttrib.getValue(),
+            updatedAttrib.getValue());
 
         // retrieve
         Attributes attributes = uahc.retrieveAttributes(objId);
         assertTrue("Wrong number of attributes", attributes.size() == 1);
         Attribute p = attributes.iterator().next();
-        assertEquals("Attribute name differs", uaAttrib.getName(), p.getName());
-        assertEquals("Attribute value differs", uaAttrib.getValue(),
+        assertEquals("Attribute name differs", updatedAttrib.getName(),
+            p.getName());
+        assertEquals("Attribute value differs", updatedAttrib.getValue(),
             p.getValue());
     }
 
