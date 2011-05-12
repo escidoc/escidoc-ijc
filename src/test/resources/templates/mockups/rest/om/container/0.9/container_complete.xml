@@ -79,4 +79,6 @@
     <relations:relation xlink:href="/ir/item/escidoc:rel1234" xlink:type="simple" predicate="test:foo:bar"/>
     <relations:relation xlink:href="/oum/organizational-unit/escidoc:rel4567" xlink:type="simple" predicate="test:foo:bar"/>
   </relations:relations>
+  <escidocContainer:resources>
+  </escidocContainer:resources>
 </escidocContainer:container>

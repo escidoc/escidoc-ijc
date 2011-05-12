@@ -58,11 +58,11 @@
 	</escidocContentModel:md-record-definitions>
 	
 	<escidocContentModel:resource-definitions>
-    <escidocContentModel:resource-definition
-      name="escidoc123" md-record-name="escidoc">
+    <escidocContentModel:resource-definition name="escidoc123">
       <escidocContentModel:xslt xlink:type="simple"
         xlink:title="escidoc"
         xlink:href="/cmm/content-model/escidoc:2044/md-record-definitions/md-record-definition/escidoc/schema/content" />
+      <escidocContentModel:md-record-name>escidoc</escidocContentModel:md-record-name>
     </escidocContentModel:resource-definition>
   </escidocContentModel:resource-definitions>
 
