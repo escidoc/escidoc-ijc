@@ -50,17 +50,15 @@
       ns="http://escidoc.de/core/01/properties/"
       set-method="setType" get-method="getType"/>
 
-    <structure name="organizational-units" usage="optional"
-      ns="http://escidoc.de/core/01/properties/">
+    <collection name="organizational-units" usage="optional"
+      ns="http://escidoc.de/core/01/properties/" 
+      field="organizationalUnitRefs"
+      create-type="de.escidoc.core.resources.om.context.OrganizationalUnitRefs"
+      item-type="de.escidoc.core.resources.common.reference.OrganizationalUnitRef">
       
-      <collection field="organizationalUnitRefs"
-        create-type="de.escidoc.core.resources.om.context.OrganizationalUnitRefs"
-        item-type="de.escidoc.core.resources.common.reference.OrganizationalUnitRef">
-        
-        <structure name="organizational-unit" 
-          ns="http://escidoc.de/core/01/structural-relations/"/>
-      </collection>
-    </structure>
+      <structure name="organizational-unit" 
+        ns="http://escidoc.de/core/01/structural-relations/"/>
+    </collection>
   </mapping>
   
   <!-- CONCRETE MAPPINGS -->

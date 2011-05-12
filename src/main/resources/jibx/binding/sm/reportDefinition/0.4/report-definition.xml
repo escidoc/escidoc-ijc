@@ -27,7 +27,7 @@
       marshaller="de.escidoc.core.common.jibx.binding.OptionalCDataMarshaller" 
       unmarshaller="de.escidoc.core.common.jibx.binding.OptionalCDataMarshaller"/>
     
-    <collection name="allowed-roles"
+    <collection name="allowed-roles" usage="optional"
       ns="http://www.escidoc.de/schemas/reportdefinition/0.4" 
       field="allowedRoles" 
       create-type="java.util.LinkedList"

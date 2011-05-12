@@ -39,6 +39,9 @@
     
     <!-- relations -->
     <structure field="relations" usage="optional"/>
+    
+    <!-- ignore resources -->
+    <structure name="resources" ns="http://www.escidoc.de/schemas/container/0.9" usage="optional"/>
   </mapping>
 
 	<!-- CONCRETE MAPPINGS -->

@@ -29,7 +29,7 @@
 		<value name="version-status" field="versionStatus" />
 		<value name="comment" field="comment" />
 		
-		<collection name="events" field="events"
+		<collection name="events" usage="optional" field="events"
 		  create-type="java.util.LinkedList"
 		  item-type="de.escidoc.core.resources.common.versionhistory.Event"/>
   </mapping>

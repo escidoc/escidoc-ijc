@@ -2,7 +2,7 @@
 <binding>
 
 	<!-- NAMESPACES -->
-	<namespace uri="http://www.escidoc.de/schemas/contentmodel/0.1" prefix="escidocContentModel"/>
+	<namespace uri="http://www.escidoc.de/schemas/contentmodel/0.1" prefix="escidocContentModel" default="elements"/>
   <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
 
 	<!-- ABSTRACT MAPPINGS -->
@@ -21,10 +21,10 @@
     <value name="name" style="attribute" usage="optional"
       set-method="setName" get-method="getName"/>
       
-    <value name="md-record-name" style="attribute" usage="optional"
-      set-method="setMetadataRecordName" get-method="getMetadataRecordName"/>
-      
     <structure field="xslt" usage="optional"/>
+    
+    <value name="md-record-name" style="element" usage="optional"
+      set-method="setMetadataRecordName" get-method="getMetadataRecordName"/>
   </mapping>
   
   <!-- xslt -->
