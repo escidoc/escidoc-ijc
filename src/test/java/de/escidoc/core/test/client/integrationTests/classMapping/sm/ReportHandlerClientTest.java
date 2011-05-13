@@ -61,7 +61,7 @@ public class ReportHandlerClientTest {
         }
         reportDefId =
             createReportDefinition("Report Name",
-                "select day, month from escidocaggdef1_request_statistics;");
+                "select day, month from escidocaggdef1_request_stats;");
         if (reportDefId == null) {
             fail("Test initialization failed: reportDefId is null.");
         }
