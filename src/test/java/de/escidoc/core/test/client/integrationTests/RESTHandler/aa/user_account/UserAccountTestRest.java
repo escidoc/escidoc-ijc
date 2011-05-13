@@ -33,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
+import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.application.notfound.UserAccountNotFoundException;
 import de.escidoc.core.client.rest.RestUserAccountHandlerClient;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -54,8 +54,10 @@ public class UserAccountTestRest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(
+                EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER,
+                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uahc = new RestUserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
     }
@@ -134,7 +136,7 @@ public class UserAccountTestRest {
      * @throws Exception
      *             Thrown if anythings failed.
      */
-    @Test(expected = MissingMethodParameterException.class)
+    @Test(expected = InternalClientException.class)
     public void methodCallWithNull() throws Exception {
         uahc.create(null);
     }
