@@ -601,8 +601,6 @@ public abstract class RestServiceMethod implements RestService {
     public String authenticate(final String username, final String password)
         throws SystemException, AuthenticationException {
 
-        HttpClient client = HttpClientFactory.getHttpClient();
-
         String loginPath = checkPath("/aa/login?target=");
         String authPath = checkPath("/aa/j_spring_security_check");
 
