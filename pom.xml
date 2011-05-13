@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.escidoc.core</groupId>
-	<artifactId>client-1.3</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<name>eSciDocCoreClientLib</name>
-	<description>Java eSciDoc client library for eSciDoc infrastructure v1.3</description>
+	<artifactId>escidoc-ijc</artifactId>
+	<version>1.3-SNAPSHOT</version>
+	<name>eSciDoc Infrastructure Java Connector</name>
+	<description>eSciDoc Infrastructure Java Connector for eSciDoc Infrastructure v1.3</description>
 
 	<ciManagement>
 		<system>Hudson</system>
@@ -40,6 +40,7 @@
 		<fedora.database.user>fedoraAdmin</fedora.database.user>
 		<fedora.database.password>fedoraAdmin</fedora.database.password>
 		<triplestore.database>riTriples</triplestore.database>
+		<escidoc.version>1.3</escidoc.version>
 		<escidoc.database>escidoc-core</escidoc.database>
 		<escidoc.database.user>escidoc</escidoc.database.user>
 		<escidoc.database.password>escidoc</escidoc.database.password>
@@ -170,9 +171,34 @@
           <artifactId>maven-site-plugin</artifactId>
           <version>3.0-beta-3</version>
         </plugin>
+        <plugin>
+          <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+          <artifactId>maven-java-formatter-plugin</artifactId>
+          <version>0.2.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+        <artifactId>maven-java-formatter-plugin</artifactId>
+        <configuration>
+          <compilerSource>1.6</compilerSource>
+          <compilerCompliance>1.6</compilerCompliance>
+          <compilerTargetPlatform>1.6</compilerTargetPlatform>
+          <lineEnding>CRLF</lineEnding>
+          <encoding>UTF-8</encoding>
+          <configFile>${project.basedir}/etc/eSciDoc_codestyle.xml</configFile>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.sonar</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
@@ -330,8 +356,7 @@
                 <artifactItem>
                   <groupId>org.escidoc.core</groupId>
                   <artifactId>installer</artifactId>
-                  <version>1.3</version>
-                  <classifier>standard</classifier>
+                  <version>${escidoc.version}</version>
                   <type>jar</type>
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}</outputDirectory>
@@ -1074,7 +1099,7 @@
 			<dependency>
 				<groupId>org.escidoc</groupId>
 				<artifactId>escidoc-core</artifactId>
-				<version>trunk-SNAPSHOT</version>
+				<version>${escidoc.version}</version>
 				<type>ear</type>
 				<scope>provided</scope>
 			</dependency>
