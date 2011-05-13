@@ -31,10 +31,9 @@ public class UserAccountMarshallerTest extends MarshallerTestBase<UserAccount> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public UserAccountMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
-        super(UserAccount.class, BASE, XSD, "user-account_complete.xml",
-            transport);
+    public UserAccountMarshallerTest(final TransportProtocol transport) throws IOException,
+        ParserConfigurationException, SAXException {
+        super(UserAccount.class, BASE, XSD, "user-account_complete.xml", transport);
     }
 
     @Override
@@ -45,22 +44,17 @@ public class UserAccountMarshallerTest extends MarshallerTestBase<UserAccount> {
 
         // UserAccount
         assertResource("/user-account:user-account", obj);
-        assertDateTime("/user-account:user-account/@last-modification-date",
-            obj.getLastModificationDate());
+        assertDateTime("/user-account:user-account/@last-modification-date", obj.getLastModificationDate());
 
         // UserAccountProperties
         String path = "/user-account:user-account/user-account:properties";
         assertNotNull(obj.getProperties());
 
-        assertDateTime(path + "/prop:creation-date", obj
-            .getProperties().getCreationDate());
-        assertResource(path + "/srel:created-by", obj
-            .getProperties().getCreatedBy());
-        assertResource(path + "/srel:modified-by", obj
-            .getProperties().getModifiedBy());
+        assertDateTime(path + "/prop:creation-date", obj.getProperties().getCreationDate());
+        assertResource(path + "/srel:created-by", obj.getProperties().getCreatedBy());
+        assertResource(path + "/srel:modified-by", obj.getProperties().getModifiedBy());
         assertXPath(path + "/prop:name", obj.getProperties().getName());
-        assertXPath(path + "/prop:login-name", obj
-            .getProperties().getLoginName());
+        assertXPath(path + "/prop:login-name", obj.getProperties().getLoginName());
         assertXPath(path + "/prop:active", obj.getProperties().isActive());
     }
 
@@ -70,8 +64,7 @@ public class UserAccountMarshallerTest extends MarshallerTestBase<UserAccount> {
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final UserAccount obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final UserAccount obj) throws Exception {
         // TODO Auto-generated method stub
     }
 }

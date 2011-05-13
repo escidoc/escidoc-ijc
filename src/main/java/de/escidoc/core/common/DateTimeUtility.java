@@ -20,8 +20,6 @@ public class DateTimeUtility {
     public static final DateTime normalize(final DateTime date) {
         if (date == null)
             return null;
-        return ISODateTimeFormat
-            .dateTime().withZone(DateTimeZone.UTC)
-            .parseDateTime(date.toString());
+        return ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(date.toString());
     }
 }

@@ -98,8 +98,7 @@ public class AdminDescriptor extends NamedSubResource {
         Transformer transformer = transFactory.newTransformer();
         StringWriter buffer = new StringWriter();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.transform(new DOMSource(this.content), new StreamResult(
-            buffer));
+        transformer.transform(new DOMSource(this.content), new StreamResult(buffer));
 
         return buffer.toString();
 
@@ -125,8 +124,7 @@ public class AdminDescriptor extends NamedSubResource {
      * @throws SAXException
      *             If any parser error occurs
      */
-    public void setContent(final String xml)
-        throws ParserConfigurationException, SAXException, IOException {
+    public void setContent(final String xml) throws ParserConfigurationException, SAXException, IOException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();

@@ -20,178 +20,174 @@ import de.escidoc.core.client.rest.serviceLocator.AdminRestServiceLocator;
  */
 public class RestAdminHandlerClient extends RestClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(RestAdminHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestAdminHandlerClient.class);
 
-	private AdminHandler restClient;
+    private AdminHandler restClient;
 
-	/**
-	 * 
-	 * @throws InternalClientException
-	 */
-	public RestAdminHandlerClient() throws InternalClientException {
-		super();
-	}
+    /**
+     * 
+     * @throws InternalClientException
+     */
+    public RestAdminHandlerClient() throws InternalClientException {
+        super();
+    }
 
-	/**
-	 * 
-	 * @param serviceAddress
-	 * @throws InternalClientException
-	 */
-	public RestAdminHandlerClient(final URL serviceAddress)
-			throws InternalClientException {
-		super(serviceAddress);
-	}
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     */
+    public RestAdminHandlerClient(final URL serviceAddress) throws InternalClientException {
+        super(serviceAddress);
+    }
 
-	/**
-	 * 
-	 * @param serviceAddress
-	 * @throws InternalClientException
-	 * @deprecated Use
-	 *             {@link RestAdminHandlerClient#RestAdminHandlerClient(URL)}
-	 *             instead.
-	 */
-	@Deprecated
-	public RestAdminHandlerClient(final String serviceAddress)
-			throws InternalClientException {
-		super(serviceAddress);
-	}
+    /**
+     * 
+     * @param serviceAddress
+     * @throws InternalClientException
+     * @deprecated Use
+     *             {@link RestAdminHandlerClient#RestAdminHandlerClient(URL)}
+     *             instead.
+     */
+    @Deprecated
+    public RestAdminHandlerClient(final String serviceAddress) throws InternalClientException {
+        super(serviceAddress);
+    }
 
-	/**
-	 * @param taskParam
-	 * @return
-	 * @throws EscidocException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
-	public String deleteObjects(final String taskParam)
-			throws EscidocException, InternalClientException,
-			TransportException {
-		try {
-			return getClient().deleteObjects(taskParam);
-		} catch (Exception e) {
-			ExceptionMapper.map(e, LOG);
-		}
-		return null;
-	}
+    /**
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String deleteObjects(final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
+        try {
+            return getClient().deleteObjects(taskParam);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return null;
+    }
 
-	/**
-	 * @return
-	 * @throws EscidocException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
-	public String getPurgeStatus() throws EscidocException,
-			InternalClientException, TransportException {
-		try {
-			return getClient().getPurgeStatus();
-		} catch (Exception e) {
-			ExceptionMapper.map(e, LOG);
-		}
-		return null;
-	}
+    /**
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String getPurgeStatus() throws EscidocException, InternalClientException, TransportException {
+        try {
+            return getClient().getPurgeStatus();
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return null;
+    }
 
-	/**
-	 * @return
-	 * @throws EscidocException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
-	public String getReindexStatus() throws EscidocException,
-			InternalClientException, TransportException {
-		try {
-			return getClient().getReindexStatus();
-		} catch (Exception e) {
-			ExceptionMapper.map(e, LOG);
-		}
-		return null;
-	}
+    /**
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String getReindexStatus() throws EscidocException, InternalClientException, TransportException {
+        try {
+            return getClient().getReindexStatus();
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return null;
+    }
 
-	/**
-	 * @param clearIndex
-	 * @param indexNamePrefix
-	 * @return
-	 * @throws EscidocException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
-	public String reindex(final boolean clearIndex, final String indexNamePrefix)
-			throws EscidocException, InternalClientException,
-			TransportException {
-		try {
-			return getClient().reindex(clearIndex ? "true" : "false",
-					indexNamePrefix);
-		} catch (Exception e) {
-			ExceptionMapper.map(e, LOG);
-		}
-		return null;
-	}
+    /**
+     * @param clearIndex
+     * @param indexNamePrefix
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String reindex(final boolean clearIndex, final String indexNamePrefix) throws EscidocException,
+        InternalClientException, TransportException {
+        try {
+            return getClient().reindex(clearIndex ? "true" : "false", indexNamePrefix);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return null;
+    }
 
-	/**
-	 * @return
-	 * @throws EscidocException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
-	public String getRepositoryInfo() throws EscidocException,
-			InternalClientException, TransportException {
-		try {
-			return getClient().getRepositoryInfo();
-		} catch (Exception e) {
-			ExceptionMapper.map(e, LOG);
-		}
-		return null;
-	}
+    /**
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String getRepositoryInfo() throws EscidocException, InternalClientException, TransportException {
+        try {
+            return getClient().getRepositoryInfo();
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return null;
+    }
 
-	/**
-	 * @param exampleSet
-	 * @return
-	 * @throws EscidocException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
-	public String loadExamples(final String exampleSet)
-			throws EscidocException, InternalClientException,
-			TransportException {
-		try {
-			return getClient().loadExamples(exampleSet);
-		} catch (Exception e) {
-			ExceptionMapper.map(e, LOG);
-		}
-		return null;
-	}
+    /**
+     * @param exampleSet
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String loadExamples(final String exampleSet) throws EscidocException, InternalClientException,
+        TransportException {
+        try {
+            return getClient().loadExamples(exampleSet);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return null;
+    }
 
-	/**
-	 * 
-	 * @return
-	 * @throws EscidocException
-	 * @throws InternalClientException
-	 * @throws TransportException
-	 */
-	public String getIndexConfiguration() throws EscidocException,
-			InternalClientException, TransportException {
-		try {
-			return getClient().getIndexConfiguration();
-		} catch (Exception e) {
-			ExceptionMapper.map(e, LOG);
-		}
-		return null;
-	}
+    /**
+     * 
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String getIndexConfiguration() throws EscidocException, InternalClientException, TransportException {
+        try {
+            return getClient().getIndexConfiguration();
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return null;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.escidoc.core.client.ClientBase#getClient()
-	 */
-	@Override
-	public AdminHandler getClient() throws InternalClientException {
-		if (this.restClient == null) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.ClientBase#getClient()
+     */
+    @Override
+    public AdminHandler getClient() throws InternalClientException {
+        if (this.restClient == null) {
 
-			AdminRestServiceLocator serviceLocator = new AdminRestServiceLocator();
-			serviceLocator.registerRestCallbackHandler(this);
-			serviceLocator.setServiceAddress(getServiceAddress());
-			this.restClient = serviceLocator;
-		}
-		return this.restClient;
-	}
+            AdminRestServiceLocator serviceLocator = new AdminRestServiceLocator();
+            serviceLocator.registerRestCallbackHandler(this);
+            serviceLocator.setServiceAddress(getServiceAddress());
+            this.restClient = serviceLocator;
+        }
+        return this.restClient;
+    }
 }

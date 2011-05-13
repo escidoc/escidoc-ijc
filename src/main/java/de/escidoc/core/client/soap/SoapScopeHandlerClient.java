@@ -26,8 +26,7 @@ import de.escidoc.core.sm.ScopeHandlerServiceLocator;
  */
 public class SoapScopeHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(SoapScopeHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapScopeHandlerClient.class);
 
     private ScopeHandler client;
 
@@ -44,8 +43,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapScopeHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapScopeHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -58,8 +56,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapScopeHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapScopeHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -69,8 +66,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -90,8 +86,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String xml) throws EscidocException, InternalClientException, TransportException {
 
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
@@ -114,8 +109,8 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String update(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String xml) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -139,8 +134,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -162,8 +156,8 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveScopes(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
         return retrieveScopes(getEscidoc12Filter(request));
@@ -176,8 +170,8 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveScopes(final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String resultXml = null;
         try {
@@ -196,8 +190,8 @@ public class SoapScopeHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveScopes(final ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException {
 
         evalRequest(request);
         return retrieveScopes(getEscidoc12Filter(request));
@@ -211,11 +205,8 @@ public class SoapScopeHandlerClient extends SoapClientBase {
     @Override
     public ScopeHandler getClient() throws InternalClientException {
         if (client == null) {
-            ScopeHandlerServiceLocator serviceLocator =
-                new ScopeHandlerServiceLocator(getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getScopeHandlerServiceAddress());
+            ScopeHandlerServiceLocator serviceLocator = new ScopeHandlerServiceLocator(getEngineConfig());
+            URL url = getHandlerServiceURL(serviceLocator.getScopeHandlerServiceAddress());
             try {
                 client = serviceLocator.getScopeHandlerService(url);
             }

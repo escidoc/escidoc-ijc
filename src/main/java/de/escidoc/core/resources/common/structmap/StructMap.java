@@ -56,8 +56,7 @@ import de.escidoc.core.resources.XLinkResource;
  * @author MVO
  * 
  */
-public class StructMap extends XLinkResource
-    implements Iterable<MemberRef>, Serializable {
+public class StructMap extends XLinkResource implements Iterable<MemberRef>, Serializable {
 
     /**
      * 
@@ -68,8 +67,7 @@ public class StructMap extends XLinkResource
 
     private List<ItemMemberRef> items = new LinkedList<ItemMemberRef>();
 
-    private List<ContainerMemberRef> containers =
-        new LinkedList<ContainerMemberRef>();
+    private List<ContainerMemberRef> containers = new LinkedList<ContainerMemberRef>();
 
     /**
      * StructMap.

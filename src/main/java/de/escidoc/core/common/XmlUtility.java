@@ -29,8 +29,7 @@ import org.xml.sax.SAXException;
  */
 public class XmlUtility {
 
-    public static final String XML_HEADER =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     public static final String AMPERSAND = "&";
 
@@ -52,43 +51,31 @@ public class XmlUtility {
 
     public static final String ESC_QUOT = "&quot;";
 
-    private static final Pattern PATTERN_ESCAPE_NEEDED = Pattern
-        .compile(AMPERSAND + "|" + LESS_THAN + "|" + GREATER_THAN + "|" + QUOT
-            + "|" + APOS);
+    private static final Pattern PATTERN_ESCAPE_NEEDED =
+        Pattern.compile(AMPERSAND + "|" + LESS_THAN + "|" + GREATER_THAN + "|" + QUOT + "|" + APOS);
 
-    private static final Pattern PATTERN_UNESCAPE_NEEDED = Pattern
-        .compile(ESC_AMPERSAND + "|" + ESC_LESS_THAN + "|" + ESC_GREATER_THAN
-            + "|" + ESC_QUOT + "|" + ESC_APOS);
+    private static final Pattern PATTERN_UNESCAPE_NEEDED =
+        Pattern.compile(ESC_AMPERSAND + "|" + ESC_LESS_THAN + "|" + ESC_GREATER_THAN + "|" + ESC_QUOT + "|" + ESC_APOS);
 
-    private static final Pattern PATTERN_AMPERSAND = Pattern.compile("("
-        + AMPERSAND + ")");
+    private static final Pattern PATTERN_AMPERSAND = Pattern.compile("(" + AMPERSAND + ")");
 
-    private static final Pattern PATTERN_LESS_THAN = Pattern.compile("("
-        + LESS_THAN + ")");
+    private static final Pattern PATTERN_LESS_THAN = Pattern.compile("(" + LESS_THAN + ")");
 
-    private static final Pattern PATTERN_GREATER_THAN = Pattern.compile("("
-        + GREATER_THAN + ")");
+    private static final Pattern PATTERN_GREATER_THAN = Pattern.compile("(" + GREATER_THAN + ")");
 
-    private static final Pattern PATTERN_QUOT = Pattern.compile("(" + QUOT
-        + ")");
+    private static final Pattern PATTERN_QUOT = Pattern.compile("(" + QUOT + ")");
 
-    private static final Pattern PATTERN_APOS = Pattern.compile("(" + APOS
-        + ")");
+    private static final Pattern PATTERN_APOS = Pattern.compile("(" + APOS + ")");
 
-    private static final Pattern PATTERN_ESC_AMPERSAND = Pattern.compile("("
-        + ESC_AMPERSAND + ")");
+    private static final Pattern PATTERN_ESC_AMPERSAND = Pattern.compile("(" + ESC_AMPERSAND + ")");
 
-    private static final Pattern PATTERN_ESC_LESS_THAN = Pattern.compile("("
-        + ESC_LESS_THAN + ")");
+    private static final Pattern PATTERN_ESC_LESS_THAN = Pattern.compile("(" + ESC_LESS_THAN + ")");
 
-    private static final Pattern PATTERN_ESC_GREATER_THAN = Pattern.compile("("
-        + ESC_GREATER_THAN + ")");
+    private static final Pattern PATTERN_ESC_GREATER_THAN = Pattern.compile("(" + ESC_GREATER_THAN + ")");
 
-    private static final Pattern PATTERN_ESC_QUOT = Pattern.compile("("
-        + ESC_QUOT + ")");
+    private static final Pattern PATTERN_ESC_QUOT = Pattern.compile("(" + ESC_QUOT + ")");
 
-    private static final Pattern PATTERN_ESC_APOS = Pattern.compile("("
-        + ESC_APOS + ")");
+    private static final Pattern PATTERN_ESC_APOS = Pattern.compile("(" + ESC_APOS + ")");
 
     /**
      * Get a DOM object of the XML string.
@@ -102,9 +89,8 @@ public class XmlUtility {
      * @throws SAXException
      * @throws IOException
      */
-    public static Document getDocument(final String xml)
-        throws ParserConfigurationException, UnsupportedEncodingException,
-        SAXException, IOException {
+    public static Document getDocument(final String xml) throws ParserConfigurationException,
+        UnsupportedEncodingException, SAXException, IOException {
 
         return getDocument(xml, false);
     }
@@ -118,19 +104,13 @@ public class XmlUtility {
      * @throws SAXException
      * @throws IOException
      */
-    public static Document getDocument(
-        final String xml, final boolean namespaceAware)
-        throws ParserConfigurationException, UnsupportedEncodingException,
-        SAXException, IOException {
+    public static Document getDocument(final String xml, final boolean namespaceAware)
+        throws ParserConfigurationException, UnsupportedEncodingException, SAXException, IOException {
 
-        DocumentBuilderFactory docBuilderFactory =
-            DocumentBuilderFactory.newInstance();
-        docBuilderFactory.setFeature("http://xml.org/sax/features/namespaces",
-            namespaceAware);
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        docBuilderFactory.setFeature("http://xml.org/sax/features/namespaces", namespaceAware);
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-        Document result =
-            docBuilder.parse(new ByteArrayInputStream(xml
-                .getBytes(Constants.DEFAULT_CHARSET)));
+        Document result = docBuilder.parse(new ByteArrayInputStream(xml.getBytes(Constants.DEFAULT_CHARSET)));
         return result;
     }
 
@@ -143,9 +123,7 @@ public class XmlUtility {
      * 
      * @throws TransformerException
      */
-    public static String xmlToString(
-        final Node node, final boolean omitXMLDeclaration)
-        throws TransformerException {
+    public static String xmlToString(final Node node, final boolean omitXMLDeclaration) throws TransformerException {
 
         Source source = new DOMSource(node);
         StringWriter stringWriter = new StringWriter();
@@ -153,8 +131,7 @@ public class XmlUtility {
 
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION,
-            omitXMLDeclaration ? "yes" : "no");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, omitXMLDeclaration ? "yes" : "no");
         transformer.transform(source, result);
 
         return stringWriter.getBuffer().toString();
@@ -167,8 +144,7 @@ public class XmlUtility {
      * @return
      * @throws TransformerException
      */
-    public static String xmlToString(final Node node)
-        throws TransformerException {
+    public static String xmlToString(final Node node) throws TransformerException {
         return xmlToString(node, true);
     }
 
@@ -186,13 +162,9 @@ public class XmlUtility {
         String result = xmlText;
         if (result != null) {
             if (PATTERN_ESCAPE_NEEDED.matcher(result).find()) {
-                result =
-                    PATTERN_AMPERSAND.matcher(result).replaceAll(ESC_AMPERSAND);
-                result =
-                    PATTERN_LESS_THAN.matcher(result).replaceAll(ESC_LESS_THAN);
-                result =
-                    PATTERN_GREATER_THAN.matcher(result).replaceAll(
-                        ESC_GREATER_THAN);
+                result = PATTERN_AMPERSAND.matcher(result).replaceAll(ESC_AMPERSAND);
+                result = PATTERN_LESS_THAN.matcher(result).replaceAll(ESC_LESS_THAN);
+                result = PATTERN_GREATER_THAN.matcher(result).replaceAll(ESC_GREATER_THAN);
                 result = PATTERN_QUOT.matcher(result).replaceAll(ESC_QUOT);
                 result = PATTERN_APOS.matcher(result).replaceAll(ESC_APOS);
             }
@@ -215,15 +187,11 @@ public class XmlUtility {
 
         String result = xmlText;
         if (result != null && PATTERN_UNESCAPE_NEEDED.matcher(result).find()) {
-            result =
-                PATTERN_ESC_LESS_THAN.matcher(result).replaceAll(LESS_THAN);
-            result =
-                PATTERN_ESC_GREATER_THAN.matcher(result).replaceAll(
-                    GREATER_THAN);
+            result = PATTERN_ESC_LESS_THAN.matcher(result).replaceAll(LESS_THAN);
+            result = PATTERN_ESC_GREATER_THAN.matcher(result).replaceAll(GREATER_THAN);
             result = PATTERN_ESC_QUOT.matcher(result).replaceAll(QUOT);
             result = PATTERN_ESC_APOS.matcher(result).replaceAll(APOS);
-            result =
-                PATTERN_ESC_AMPERSAND.matcher(result).replaceAll(AMPERSAND);
+            result = PATTERN_ESC_AMPERSAND.matcher(result).replaceAll(AMPERSAND);
         }
         return result;
     }

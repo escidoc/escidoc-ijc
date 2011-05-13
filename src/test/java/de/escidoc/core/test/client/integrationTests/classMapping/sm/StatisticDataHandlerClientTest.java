@@ -45,10 +45,8 @@ public class StatisticDataHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         shc = new StatisticDataHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
         // create test scope
@@ -92,13 +90,11 @@ public class StatisticDataHandlerClientTest {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String createScope(final ScopeType type) throws EscidocException,
-        InternalClientException, TransportException {
-        Scope scope =
-            new Scope("AdminScope @" + System.currentTimeMillis(), type);
+    private String createScope(final ScopeType type) throws EscidocException, InternalClientException,
+        TransportException {
+        Scope scope = new Scope("AdminScope @" + System.currentTimeMillis(), type);
 
-        ScopeHandlerClient shc =
-            new ScopeHandlerClient(auth.getServiceAddress());
+        ScopeHandlerClient shc = new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
 
         return shc.create(scope).getObjid();

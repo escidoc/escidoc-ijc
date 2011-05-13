@@ -18,8 +18,7 @@ public class StatisticData {
 
     public StatisticData(final StatisticTable statisticTable) {
         if (statisticTable == null)
-            throw new IllegalArgumentException(
-                "statisticTable must not be null.");
+            throw new IllegalArgumentException("statisticTable must not be null.");
 
         this.statisticTable = statisticTable;
     }

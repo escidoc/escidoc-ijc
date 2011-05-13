@@ -30,13 +30,11 @@ import de.escidoc.core.resources.aa.pdp.Requests;
  * @author MVO
  * 
  */
-public class PDPRequestsMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class PDPRequestsMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
     public static final String NS_XACML_PREFIX = "xacml-context";
 
-    public static final String NS_XACML =
-        "urn:oasis:names:tc:xacml:1.0:context";
+    public static final String NS_XACML = "urn:oasis:names:tc:xacml:1.0:context";
 
     public static final String NS_REQUESTS_PREFIX = "requests";
 
@@ -81,8 +79,7 @@ public class PDPRequestsMarshaller extends MarshallingBase
     }
 
     @Override
-    public Object unmarshal(Object obj, IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(Object obj, IUnmarshallingContext ictx) throws JiBXException {
 
         if (!(ictx instanceof UnmarshallingContext)) {
             throw new JiBXException("Unexpected unmarshalling context type.");
@@ -111,8 +108,7 @@ public class PDPRequestsMarshaller extends MarshallingBase
 
             // get subjects
             while (ctx.isAt(NS_XACML, TAG_NAME_SUBJECT)) {
-                String subjectId =
-                    ctx.attributeText(null, ATTR_NAME_SUBJECT_CATEGORY, null);
+                String subjectId = ctx.attributeText(null, ATTR_NAME_SUBJECT_CATEGORY, null);
 
                 ctx.parsePastStartTag(NS_XACML, TAG_NAME_SUBJECT);
 
@@ -124,8 +120,7 @@ public class PDPRequestsMarshaller extends MarshallingBase
                 }
                 else {
                     try {
-                        subjects.add(new Subject(new URI(subjectId),
-                            subjectAttrs));
+                        subjects.add(new Subject(new URI(subjectId), subjectAttrs));
                     }
                     catch (URISyntaxException e) {
                         throw new JiBXException("Unable to parse subject.", e);
@@ -155,8 +150,7 @@ public class PDPRequestsMarshaller extends MarshallingBase
                 ctx.parsePastEndTag(NS_XACML, TAG_NAME_ENVIRONMENT);
             }
 
-            requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs,
-                envAttrs));
+            requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs, envAttrs));
 
             ctx.parsePastEndTag(NS_XACML, TAG_NAME_REQUEST);
         }
@@ -173,30 +167,22 @@ public class PDPRequestsMarshaller extends MarshallingBase
      * @throws JiBXException
      * @throws URISyntaxException
      */
-    private void parseAttributes(
-        final Set<Attribute> attributes, final UnmarshallingContext ctx)
-        throws JiBXException {
+    private void parseAttributes(final Set<Attribute> attributes, final UnmarshallingContext ctx) throws JiBXException {
 
         try {
             while (ctx.isAt(NS_XACML, TAG_NAME_ATTRIBUTE)) {
-                URI id =
-                    new URI(ctx.attributeText(null, ATTR_NAME_ATTRIBUTE_ID));
+                URI id = new URI(ctx.attributeText(null, ATTR_NAME_ATTRIBUTE_ID));
 
-                URI dataType =
-                    new URI(ctx.attributeText(null, ATTR_NAME_DATA_TYPE));
+                URI dataType = new URI(ctx.attributeText(null, ATTR_NAME_DATA_TYPE));
                 String value = null;
 
                 ctx.parsePastStartTag(NS_XACML, TAG_NAME_ATTRIBUTE);
                 if (ctx.isAt(NS_XACML, TAG_NAME_ATTRIBUTE_VALUE)) {
-                    value =
-                        cleanup(ctx.parseElementText(NS_XACML,
-                            TAG_NAME_ATTRIBUTE_VALUE));
+                    value = cleanup(ctx.parseElementText(NS_XACML, TAG_NAME_ATTRIBUTE_VALUE));
                 }
                 else {
-                    throw new JiBXException("{" + NS_XACML
-                        + "}AttributeValue expected but found: {"
-                        + ctx.getElementNamespace() + "}"
-                        + ctx.getElementName());
+                    throw new JiBXException("{" + NS_XACML + "}AttributeValue expected but found: {"
+                        + ctx.getElementNamespace() + "}" + ctx.getElementName());
                 }
                 attributes.add(new Attribute(id, null, null, AttributeFactory
                     .getInstance().createValue(dataType, value)));
@@ -215,8 +201,7 @@ public class PDPRequestsMarshaller extends MarshallingBase
     }
 
     @Override
-    public void marshal(Object obj, IMarshallingContext ictx)
-        throws JiBXException {
+    public void marshal(Object obj, IMarshallingContext ictx) throws JiBXException {
 
         if (!(obj instanceof Requests)) {
             throw new JiBXException("Invalid object type for marshaller");
@@ -228,11 +213,8 @@ public class PDPRequestsMarshaller extends MarshallingBase
         MarshallingContext ctx = (MarshallingContext) ictx;
         Requests requests = (Requests) obj;
 
-        int[] urisIndex =
-            new int[] { findNamespace(ctx, getUri()),
-                findNamespace(ctx, NS_XACML) };
-        String[] prefixIndex =
-            new String[] { NS_REQUESTS_PREFIX, NS_XACML_PREFIX };
+        int[] urisIndex = new int[] { findNamespace(ctx, getUri()), findNamespace(ctx, NS_XACML) };
+        String[] prefixIndex = new String[] { NS_REQUESTS_PREFIX, NS_XACML_PREFIX };
 
         ctx.startTagNamespaces(urisIndex[0], getName(), urisIndex, prefixIndex);
         ctx.closeStartContent();
@@ -244,8 +226,7 @@ public class PDPRequestsMarshaller extends MarshallingBase
                 Subject subject = (Subject) subjectObj;
 
                 ctx.startTagAttributes(urisIndex[1], TAG_NAME_SUBJECT);
-                ctx.attribute(0, ATTR_NAME_SUBJECT_CATEGORY, subject
-                    .getCategory().toString());
+                ctx.attribute(0, ATTR_NAME_SUBJECT_CATEGORY, subject.getCategory().toString());
                 ctx.closeStartContent();
 
                 serializeAttributes(urisIndex[1], subject.getAttributes(), ctx);
@@ -262,8 +243,7 @@ public class PDPRequestsMarshaller extends MarshallingBase
             ctx.endTag(urisIndex[1], TAG_NAME_ACTION);
 
             ctx.startTag(urisIndex[1], TAG_NAME_ENVIRONMENT);
-            serializeAttributes(urisIndex[1],
-                request.getEnvironmentAttributes(), ctx);
+            serializeAttributes(urisIndex[1], request.getEnvironmentAttributes(), ctx);
             ctx.endTag(urisIndex[1], TAG_NAME_ENVIRONMENT);
 
             ctx.endTag(urisIndex[1], TAG_NAME_REQUEST);
@@ -277,18 +257,15 @@ public class PDPRequestsMarshaller extends MarshallingBase
      * @param ctx
      * @throws JiBXException
      */
-    private void serializeAttributes(
-        final int tagIndex, final Set<?> attributes,
-        final MarshallingContext ctx) throws JiBXException {
+    private void serializeAttributes(final int tagIndex, final Set<?> attributes, final MarshallingContext ctx)
+        throws JiBXException {
 
         for (Object attrObj : attributes) {
             Attribute attribute = (Attribute) attrObj;
 
             ctx.startTagAttributes(tagIndex, TAG_NAME_ATTRIBUTE);
-            ctx.attribute(0, ATTR_NAME_ATTRIBUTE_ID, attribute
-                .getId().toString());
-            ctx.attribute(0, ATTR_NAME_DATA_TYPE, attribute
-                .getType().toString());
+            ctx.attribute(0, ATTR_NAME_ATTRIBUTE_ID, attribute.getId().toString());
+            ctx.attribute(0, ATTR_NAME_DATA_TYPE, attribute.getType().toString());
 
             ctx.startTag(tagIndex, TAG_NAME_ATTRIBUTE_VALUE);
 

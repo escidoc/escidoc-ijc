@@ -53,8 +53,7 @@ import de.escidoc.core.om.ContentRelationHandlerServiceLocator;
  */
 public class SoapContentRelationHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapContentRelationHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapContentRelationHandlerClient.class);
 
     private ContentRelationHandler soapClient = null;
 
@@ -71,8 +70,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapContentRelationHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapContentRelationHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -85,8 +83,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapContentRelationHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapContentRelationHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -101,8 +98,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#assignObjectPid(java.lang.String,
      *      java.lang.String)
      */
-    public String assignObjectPid(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String assignObjectPid(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -123,8 +120,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#create(java.lang.String)
      */
-    public String create(final String contentRelation) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String contentRelation) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -144,8 +141,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -164,8 +160,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -188,8 +183,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String context)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String context) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -211,8 +206,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#lock(java.lang.String,
      *      java.lang.String)
      */
-    public String lock(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String lock(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -234,8 +229,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#unlock(java.lang.String,
      *      java.lang.String)
      */
-    public String unlock(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String unlock(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -257,8 +252,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#release(java.lang.String,
      *      java.lang.String)
      */
-    public String release(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String release(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -279,8 +274,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#revise(java.lang.String,java.lang.String)
      */
-    public String revise(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String revise(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -302,8 +297,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#submit(java.lang.String,
      *      java.lang.String)
      */
-    public String submit(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String submit(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -323,8 +318,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentRelations(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public String retrieveContentRelations(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(request, true);
@@ -340,8 +334,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentRelations(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentRelations(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request);
 
@@ -356,8 +350,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentRelations(
-        final HashMap<String, String[]> filter) throws EscidocException,
+    public String retrieveContentRelations(final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -382,11 +375,8 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 ContentRelationHandlerServiceLocator serviceLocator =
                     new ContentRelationHandlerServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getContentRelationHandlerServiceAddress());
-                soapClient =
-                    serviceLocator.getContentRelationHandlerService(url);
+                URL url = getHandlerServiceURL(serviceLocator.getContentRelationHandlerServiceAddress());
+                soapClient = serviceLocator.getContentRelationHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }

@@ -24,6 +24,6 @@ public interface ReportHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Report retrieve(final ReportParameters reportParameters)
-        throws EscidocException, InternalClientException, TransportException;
+    Report retrieve(final ReportParameters reportParameters) throws EscidocException, InternalClientException,
+        TransportException;
 }

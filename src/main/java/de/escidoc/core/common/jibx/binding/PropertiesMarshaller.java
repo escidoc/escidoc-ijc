@@ -20,8 +20,7 @@ import de.escidoc.core.resources.common.Properties;
  * @author MVO
  * 
  */
-public class PropertiesMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class PropertiesMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
     private static final String TAG_NAME_ENTRY = "entry";
 
@@ -62,8 +61,7 @@ public class PropertiesMarshaller extends MarshallingBase
      * @see org.jibx.runtime.IUnmarshaller#unmarshal(java.lang.Object,
      * org.jibx.runtime.IUnmarshallingContext)
      */
-    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
         if (!(ictx instanceof UnmarshallingContext)) {
             throw new JiBXException("Unexpected unmarshalling context type.");
@@ -93,15 +91,13 @@ public class PropertiesMarshaller extends MarshallingBase
      * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object,
      * org.jibx.runtime.IMarshallingContext)
      */
-    public void marshal(final Object obj, final IMarshallingContext ictx)
-        throws JiBXException {
+    public void marshal(final Object obj, final IMarshallingContext ictx) throws JiBXException {
 
         if (!(obj instanceof Properties)) {
             throw new JiBXException("Invalid object type for marshaller");
         }
         if (!(ictx instanceof MarshallingContext)) {
-            throw new JiBXException(
-                "Invalid marshalling context type for marshaller");
+            throw new JiBXException("Invalid marshalling context type for marshaller");
         }
 
         MarshallingContext ctx = (MarshallingContext) ictx;

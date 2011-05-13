@@ -55,8 +55,7 @@ public class ContentStream extends NamedSubResource {
      * @param storage
      * @param mimeType
      */
-    public ContentStream(final String name, final String storage,
-        final String mimeType) {
+    public ContentStream(final String name, final String storage, final String mimeType) {
         super(name);
         checkNotNull(storage);
         checkNotNull(mimeType);

@@ -55,19 +55,15 @@ import de.escidoc.core.resources.sm.ad.TimeReductionFieldType;
  * @author MVO
  * 
  */
-public class FieldMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class FieldMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
     private static final String TAG_INFO_FIELD = "info-field";
 
-    private static final String TAG_TIME_REDUCTION_FIELD =
-        "time-reduction-field";
+    private static final String TAG_TIME_REDUCTION_FIELD = "time-reduction-field";
 
-    private static final String TAG_COUNT_CUMULATION_FIELD =
-        "count-cumulation-field";
+    private static final String TAG_COUNT_CUMULATION_FIELD = "count-cumulation-field";
 
-    private static final String TAG_DIFF_CUMULATION_FIELD =
-        "difference-cumulation-field";
+    private static final String TAG_DIFF_CUMULATION_FIELD = "difference-cumulation-field";
 
     private static final String TAG_NAME = "name";
 
@@ -96,8 +92,7 @@ public class FieldMarshaller extends MarshallingBase
      * IUnmarshallingContext)
      */
     @Override
-    public boolean isPresent(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx) throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -108,12 +103,10 @@ public class FieldMarshaller extends MarshallingBase
      * org.jibx.runtime.IUnmarshallingContext)
      */
     @Override
-    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
         if (!(ictx instanceof UnmarshallingContext))
-            throw new IllegalArgumentException(
-                "UnmarshallingContext is not of expected type.");
+            throw new IllegalArgumentException("UnmarshallingContext is not of expected type.");
 
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
         Field field = null;
@@ -129,9 +122,7 @@ public class FieldMarshaller extends MarshallingBase
             String type = ctx.parseElementText(getUri(), TAG_TYPE);
             String xPath = ctx.parseElementText(getUri(), TAG_XPATH);
 
-            field =
-                new InfoField(name, feed, getEnumValue(InfoFieldType.class,
-                    type), xPath);
+            field = new InfoField(name, feed, getEnumValue(InfoFieldType.class, type), xPath);
 
             ctx.parsePastEndTag(getUri(), TAG_INFO_FIELD);
         }
@@ -146,9 +137,7 @@ public class FieldMarshaller extends MarshallingBase
             // xPath is optional here
             String xPath = ctx.parseElementText(getUri(), TAG_XPATH, null);
 
-            field =
-                new TimeReductionField(name, feed, getEnumValue(
-                    TimeReductionFieldType.class, reduceTo), xPath);
+            field = new TimeReductionField(name, feed, getEnumValue(TimeReductionFieldType.class, reduceTo), xPath);
 
             ctx.parsePastEndTag(getUri(), TAG_TIME_REDUCTION_FIELD);
         }
@@ -197,14 +186,12 @@ public class FieldMarshaller extends MarshallingBase
      * org.jibx.runtime.IMarshallingContext)
      */
     @Override
-    public void marshal(final Object obj, final IMarshallingContext ictx)
-        throws JiBXException {
+    public void marshal(final Object obj, final IMarshallingContext ictx) throws JiBXException {
 
         if (!(obj instanceof Field))
             throw new JiBXException("Invalid object type for marshaller");
         if (!(ictx instanceof MarshallingContext))
-            throw new JiBXException(
-                "Invalid MarshallingContext type for marshaller");
+            throw new JiBXException("Invalid MarshallingContext type for marshaller");
 
         MarshallingContext ctx = (MarshallingContext) ictx;
         Field field = (Field) obj;
@@ -214,8 +201,7 @@ public class FieldMarshaller extends MarshallingBase
         switch (field.getType()) {
             case INFO: {
                 InfoField iField = (InfoField) field;
-                ctx.startTagAttributes(getIndex(), TAG_INFO_FIELD).attribute(0,
-                    ATTR_FEED, iField.getFeed());
+                ctx.startTagAttributes(getIndex(), TAG_INFO_FIELD).attribute(0, ATTR_FEED, iField.getFeed());
                 ctx.closeStartContent();
 
                 ctx.startTag(getIndex(), TAG_NAME);
@@ -235,8 +221,7 @@ public class FieldMarshaller extends MarshallingBase
             }
             case TIME_REDUCTION: {
                 TimeReductionField tField = (TimeReductionField) field;
-                ctx.startTagAttributes(getIndex(), TAG_TIME_REDUCTION_FIELD)
-                    .attribute(0, ATTR_FEED, tField.getFeed());
+                ctx.startTagAttributes(getIndex(), TAG_TIME_REDUCTION_FIELD).attribute(0, ATTR_FEED, tField.getFeed());
                 ctx.closeStartContent();
 
                 ctx.startTag(getIndex(), TAG_NAME);
@@ -269,10 +254,8 @@ public class FieldMarshaller extends MarshallingBase
                 break;
             }
             case DIFFERENCE_CUMULATION: {
-                DifferenceCumulationField dField =
-                    (DifferenceCumulationField) field;
-                ctx.startTagAttributes(getIndex(), TAG_DIFF_CUMULATION_FIELD)
-                    .attribute(0, ATTR_FEED, dField.getFeed());
+                DifferenceCumulationField dField = (DifferenceCumulationField) field;
+                ctx.startTagAttributes(getIndex(), TAG_DIFF_CUMULATION_FIELD).attribute(0, ATTR_FEED, dField.getFeed());
                 ctx.closeStartContent();
 
                 ctx.startTag(getIndex(), TAG_NAME);

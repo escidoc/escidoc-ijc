@@ -75,10 +75,8 @@ public class PdpHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         pdpc = new PolicyDecisionPointHandlerClient(auth.getServiceAddress());
         pdpc.setHandle(auth.getHandle());
     }
@@ -98,11 +96,9 @@ public class PdpHandlerClientTest {
     @Test
     public void testMarshalling() throws Exception {
         String xml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load(TransportProtocol.REST.name().toLowerCase()
-                    + "/aa/pdp/requests.xml"));
-        Marshaller<Requests> m =
-            MarshallerFactory.getInstance().getMarshaller(Requests.class);
+            EscidocClientTestBase.getXmlFileAsString(Template.load(TransportProtocol.REST.name().toLowerCase()
+                + "/aa/pdp/requests.xml"));
+        Marshaller<Requests> m = MarshallerFactory.getInstance().getMarshaller(Requests.class);
 
         Requests requests = m.unmarshalDocument(xml);
         m.marshalDocument(requests);
@@ -121,8 +117,7 @@ public class PdpHandlerClientTest {
         // request 1
         Set<Attribute> attributes = new HashSet<Attribute>();
 
-        attributes.add(new Attribute(new URI(
-            "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
+        attributes.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
             new StringAttribute("escidoc:user1")));
         // new StringAttribute(EscidocClientTestBase.getStaticAdminUserId())));
 
@@ -130,48 +125,33 @@ public class PdpHandlerClientTest {
         subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attributes));
 
         Set<Attribute> resourceAttrs = new HashSet<Attribute>();
-        resourceAttrs.add(new Attribute(new URI(
-            "urn:oasis:names:tc:xacml:1.0:resource:resource-id"), null, null,
-            new StringAttribute(EscidocClientTestBase
-                .getStaticOrganizationalUnitId())));
+        resourceAttrs.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:resource:resource-id"), null, null,
+            new StringAttribute(EscidocClientTestBase.getStaticOrganizationalUnitId())));
 
         Set<Attribute> actionAttrs = new HashSet<Attribute>();
-        actionAttrs
-            .add(new Attribute(
-                new URI("urn:oasis:names:tc:xacml:1.0:action:action-id"),
-                null,
-                null,
-                new StringAttribute(
-                    "info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
+        actionAttrs.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:action:action-id"), null, null,
+            new StringAttribute("info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
 
-        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs,
-            Requests.DEFAULT_ENVIRONMENT));
+        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs, Requests.DEFAULT_ENVIRONMENT));
 
         // request 2 - invalid request
         attributes = new HashSet<Attribute>();
-        attributes.add(new Attribute(new URI(
-            "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
+        attributes.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
             new StringAttribute("escidoc:user42")));
         subjects = new HashSet<Subject>();
         subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attributes));
 
         resourceAttrs = new HashSet<Attribute>();
-        resourceAttrs.add(new Attribute(new URI(
-            "info:escidoc/names:aa:1.0:resource:object-type-new"), null, null,
+        resourceAttrs.add(new Attribute(new URI("info:escidoc/names:aa:1.0:resource:object-type-new"), null, null,
             new StringAttribute("item")));
-        resourceAttrs.add(new Attribute(new URI(
-            "info:escidoc/names:aa:1.0:resource:item:context-new"), null, null,
+        resourceAttrs.add(new Attribute(new URI("info:escidoc/names:aa:1.0:resource:item:context-new"), null, null,
             new StringAttribute("escidoc:persistent3")));
 
         actionAttrs = new HashSet<Attribute>();
-        actionAttrs
-            .add(new Attribute(new URI(
-                "urn:oasis:names:tc:xacml:1.0:action:action-id"), null, null,
-                new StringAttribute(
-                    "info:escidoc/names:aa:1.0:action:create-item")));
+        actionAttrs.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:action:action-id"), null, null,
+            new StringAttribute("info:escidoc/names:aa:1.0:action:create-item")));
 
-        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs,
-            Requests.DEFAULT_ENVIRONMENT));
+        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs, Requests.DEFAULT_ENVIRONMENT));
 
         // Response
         Results results = pdpc.evaluate(requests);
@@ -186,10 +166,8 @@ public class PdpHandlerClientTest {
             RequestCtx requestCtx = itRequest.next();
 
             // there should be only one resultCtx inside most times
-            for (Iterator<?> it2 =
-                result.getResponseCtx().getResults().iterator(); it2.hasNext();) {
-                com.sun.xacml.ctx.Result resultCtx =
-                    (com.sun.xacml.ctx.Result) it2.next();
+            for (Iterator<?> it2 = result.getResponseCtx().getResults().iterator(); it2.hasNext();) {
+                com.sun.xacml.ctx.Result resultCtx = (com.sun.xacml.ctx.Result) it2.next();
 
                 if (result.getInterpretedDecision() == Decision.PERMIT) {
 
@@ -199,14 +177,9 @@ public class PdpHandlerClientTest {
                     Set<Attribute> resAttrs = requestCtx.getResource();
 
                     for (Attribute attribute : resAttrs) {
-                        if (attribute
-                            .getId()
-                            .toString()
-                            .equals(
-                                "urn:oasis:names:tc:xacml:1.0:resource:resource-id")) {
+                        if (attribute.getId().toString().equals("urn:oasis:names:tc:xacml:1.0:resource:resource-id")) {
 
-                            assertTrue(resultCtx.getResource().equals(
-                                attribute.getValue().encode()));
+                            assertTrue(resultCtx.getResource().equals(attribute.getValue().encode()));
                         }
                     }
                 }
@@ -231,40 +204,30 @@ public class PdpHandlerClientTest {
 
         // subject 1 - admin
         Set<Attribute> attrs01 = new HashSet<Attribute>();
-        attrs01.add(new Attribute(new URI(
-            "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
+        attrs01.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
             new StringAttribute("escidoc:user1")));
 
         subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attrs01));
 
         // subject 2 - test user without grants
         Set<Attribute> attrs02 = new HashSet<Attribute>();
-        attrs02.add(new Attribute(new URI(
-            "urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
+        attrs02.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:subject:subject-id"), null, null,
             new StringAttribute("escidoc:test")));
 
         subjects.add(new Subject(Subject.DEFAULT_CATEGORY, attrs02));
 
         // resource
         Set<Attribute> resourceAttrs = new HashSet<Attribute>();
-        resourceAttrs.add(new Attribute(new URI(
-            "urn:oasis:names:tc:xacml:1.0:resource:resource-id"), null, null,
-            new StringAttribute(EscidocClientTestBase
-                .getStaticOrganizationalUnitId())));
+        resourceAttrs.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:resource:resource-id"), null, null,
+            new StringAttribute(EscidocClientTestBase.getStaticOrganizationalUnitId())));
 
         // action
         Set<Attribute> actionAttrs = new HashSet<Attribute>();
-        actionAttrs
-            .add(new Attribute(
-                new URI("urn:oasis:names:tc:xacml:1.0:action:action-id"),
-                null,
-                null,
-                new StringAttribute(
-                    "info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
+        actionAttrs.add(new Attribute(new URI("urn:oasis:names:tc:xacml:1.0:action:action-id"), null, null,
+            new StringAttribute("info:escidoc/names:aa:1.0:action:retrieve-organizational-unit")));
 
         // request with default environment
-        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs,
-            Requests.DEFAULT_ENVIRONMENT));
+        requests.add(new RequestCtx(subjects, resourceAttrs, actionAttrs, Requests.DEFAULT_ENVIRONMENT));
 
         // Response
         Results results = pdpc.evaluate(requests);

@@ -18,8 +18,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public interface ReportDefinitionHandler
-    extends de.escidoc.core.sm.ReportDefinitionHandler {
+public interface ReportDefinitionHandler extends de.escidoc.core.sm.ReportDefinitionHandler {
 
     /**
      * 
@@ -32,10 +31,8 @@ public interface ReportDefinitionHandler
      * @throws InvalidXmlException
      * @throws MissingMethodParameterException
      */
-    String retrieveReportDefinitions(SearchRetrieveRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException;
+    String retrieveReportDefinitions(SearchRetrieveRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException;
 
     /**
      * 
@@ -48,8 +45,6 @@ public interface ReportDefinitionHandler
      * @throws InvalidXmlException
      * @throws MissingMethodParameterException
      */
-    String retrieveReportDefinitions(ExplainRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException;
+    String retrieveReportDefinitions(ExplainRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException;
 }

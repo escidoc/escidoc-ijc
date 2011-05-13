@@ -46,8 +46,7 @@ import de.escidoc.core.client.rest.RestStagingHandlerClient;
  * @author SWA
  * 
  */
-public class StagingHandlerClient
-    extends AbstractHandlerClient<RestStagingHandlerClient>
+public class StagingHandlerClient extends AbstractHandlerClient<RestStagingHandlerClient>
     implements StagingHandlerClientInterface {
 
     /**
@@ -90,8 +89,7 @@ public class StagingHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public URL upload(final File f) throws EscidocException,
-        InternalClientException, TransportException {
+    public URL upload(final File f) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(f);
 
@@ -112,8 +110,7 @@ public class StagingHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public URL upload(final InputStream ins) throws EscidocException,
-        InternalClientException, TransportException {
+    public URL upload(final InputStream ins) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(ins);
 
@@ -121,8 +118,7 @@ public class StagingHandlerClient
     }
 
     @Override
-    protected RestStagingHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestStagingHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestStagingHandlerClient(getServiceAddress());
     }
 }

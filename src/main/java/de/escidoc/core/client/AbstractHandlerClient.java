@@ -20,8 +20,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 public abstract class AbstractHandlerClient<T extends RestClientBase> {
 
-    private static final Logger LOG = Logger
-        .getLogger(AbstractHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(AbstractHandlerClient.class);
 
     private String handle;
 
@@ -92,12 +91,9 @@ public abstract class AbstractHandlerClient<T extends RestClientBase> {
      * @return
      * @throws InternalClientException
      */
-    protected String marshalTaskParam(final TaskParam taskParam)
-        throws InternalClientException {
+    protected String marshalTaskParam(final TaskParam taskParam) throws InternalClientException {
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(TaskParam.class)
-            .marshalDocument(taskParam);
+        return MarshallerFactory.getInstance().getMarshaller(TaskParam.class).marshalDocument(taskParam);
     }
 
     /**
@@ -136,8 +132,7 @@ public abstract class AbstractHandlerClient<T extends RestClientBase> {
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected <U> List<U> getSearchRetrieveResponseAsList(
-        final Class<U> resource, final SearchRetrieveResponse response) {
+    protected <U> List<U> getSearchRetrieveResponseAsList(final Class<U> resource, final SearchRetrieveResponse response) {
 
         checkNotNull(resource);
         checkNotNull(response);
@@ -176,6 +171,5 @@ public abstract class AbstractHandlerClient<T extends RestClientBase> {
      * @return The REST instance of the handler client.
      * @throws InternalClientException
      */
-    protected abstract T getRestHandlerClientInstance()
-        throws InternalClientException;
+    protected abstract T getRestHandlerClientInstance() throws InternalClientException;
 }

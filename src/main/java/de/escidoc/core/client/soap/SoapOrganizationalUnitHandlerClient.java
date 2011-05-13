@@ -53,8 +53,7 @@ import de.escidoc.core.oum.OrganizationalUnitHandlerServiceLocator;
  */
 public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(SoapOrganizationalUnitHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapOrganizationalUnitHandlerClient.class);
 
     private OrganizationalUnitHandler soapClient = null;
 
@@ -71,8 +70,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapOrganizationalUnitHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapOrganizationalUnitHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -85,8 +83,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapOrganizationalUnitHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapOrganizationalUnitHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -99,12 +96,11 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#create(java.lang.String)
      */
-    public String create(final String organizationalUnit)
-        throws EscidocException, InternalClientException, TransportException {
+    public String create(final String organizationalUnit) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (organizationalUnit == null)
-            throw new IllegalArgumentException(
-                "organizationalUnit must not be null.");
+            throw new IllegalArgumentException("organizationalUnit must not be null.");
 
         String result = null;
         try {
@@ -124,8 +120,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -147,8 +142,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -174,12 +168,11 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String organizationalUnit)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String organizationalUnit) throws EscidocException,
+        InternalClientException, TransportException {
 
         if (organizationalUnit == null)
-            throw new IllegalArgumentException(
-                "organizationalUnit must not be null.");
+            throw new IllegalArgumentException("organizationalUnit must not be null.");
 
         String result = null;
         try {
@@ -209,8 +202,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String updateParents(final String ouId, final String xmlOfParents)
-        throws EscidocException, InternalClientException, TransportException {
+    public String updateParents(final String ouId, final String xmlOfParents) throws EscidocException,
+        InternalClientException, TransportException {
 
         if (ouId == null)
             throw new IllegalArgumentException("ouId must not be null.");
@@ -271,8 +264,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveChildObjects(java.lang.String)
      */
-    public String retrieveChildObjects(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveChildObjects(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -295,8 +288,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveOrganizationalUnits(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+    public String retrieveOrganizationalUnits(final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(filter, true);
@@ -311,8 +303,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveOrganizationalUnits(
-        final HashMap<String, String[]> filter) throws EscidocException,
+    public String retrieveOrganizationalUnits(final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -333,8 +324,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveOrganizationalUnits(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveOrganizationalUnits(final ExplainRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(filter);
         return retrieveOrganizationalUnits(getEscidoc12Filter(filter));
@@ -358,8 +349,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveParentObjects(java.lang.String)
      */
-    public String retrieveParentObjects(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveParentObjects(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -392,8 +383,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveParentObjects(java.lang.String)
      */
-    public String retrieveParents(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveParents(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -429,8 +419,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrievePathList(java.lang.String)
      */
-    public String retrievePathList(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrievePathList(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -463,8 +453,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveSuccessors(java.lang.String)
      */
-    public String retrieveSuccessors(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveSuccessors(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -488,8 +478,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String open(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String open(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -515,8 +505,8 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String close(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String close(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -544,13 +534,9 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             if (soapClient == null) {
                 OrganizationalUnitHandlerServiceLocator serviceLocator =
-                    new OrganizationalUnitHandlerServiceLocator(
-                        getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getOrganizationalUnitHandlerServiceAddress());
-                soapClient =
-                    serviceLocator.getOrganizationalUnitHandlerService(url);
+                    new OrganizationalUnitHandlerServiceLocator(getEngineConfig());
+                URL url = getHandlerServiceURL(serviceLocator.getOrganizationalUnitHandlerServiceAddress());
+                soapClient = serviceLocator.getOrganizationalUnitHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }

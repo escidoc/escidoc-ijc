@@ -17,8 +17,7 @@ import org.jibx.runtime.impl.UnmarshallingContext;
  * 
  * 
  */
-public class FilterMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class FilterMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
     private static final String ID_ELEMENT_NAME = "id";
 
@@ -51,8 +50,7 @@ public class FilterMarshaller extends MarshallingBase
      * org.jibx.runtime.IMarshallingContext)
      */
     @Override
-    public void marshal(final Object obj, final IMarshallingContext ictx)
-        throws JiBXException {
+    public void marshal(final Object obj, final IMarshallingContext ictx) throws JiBXException {
         if (!(obj instanceof de.escidoc.core.resources.common.Filter)) {
             throw new JiBXException("Invalid object type for marshaller");
         }
@@ -61,12 +59,10 @@ public class FilterMarshaller extends MarshallingBase
         }
         else {
             MarshallingContext ctx = (MarshallingContext) ictx;
-            de.escidoc.core.resources.common.Filter filter =
-                (de.escidoc.core.resources.common.Filter) obj;
+            de.escidoc.core.resources.common.Filter filter = (de.escidoc.core.resources.common.Filter) obj;
 
             if (filter.getName() != null) {
-                ctx.startTagAttributes(getIndex(), getName()).attribute(0,
-                    NAME_ATTRIBUTE_NAME, filter.getName());
+                ctx.startTagAttributes(getIndex(), getName()).attribute(0, NAME_ATTRIBUTE_NAME, filter.getName());
             }
             else {
                 ctx.startTag(getIndex(), getName());
@@ -96,8 +92,7 @@ public class FilterMarshaller extends MarshallingBase
      * IUnmarshallingContext)
      */
     @Override
-    public boolean isPresent(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx) throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -108,11 +103,9 @@ public class FilterMarshaller extends MarshallingBase
      * org.jibx.runtime.IUnmarshallingContext)
      */
     @Override
-    public Object unmarshal(final Object arg0, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object arg0, final IUnmarshallingContext ictx) throws JiBXException {
 
-        de.escidoc.core.resources.common.Filter result =
-            (de.escidoc.core.resources.common.Filter) arg0;
+        de.escidoc.core.resources.common.Filter result = (de.escidoc.core.resources.common.Filter) arg0;
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
 
         if (arg0 == null) {
@@ -123,8 +116,7 @@ public class FilterMarshaller extends MarshallingBase
 
         ctx.parsePastStartTag(getUri(), getName());
         result.setValue(ctx.parseContentText());
-        if (ctx.isStart()
-            && FilterMarshaller.ID_ELEMENT_NAME.equals(ctx.getName())) {
+        if (ctx.isStart() && FilterMarshaller.ID_ELEMENT_NAME.equals(ctx.getName())) {
             Collection<String> ids = new LinkedList<String>();
             while (FilterMarshaller.ID_ELEMENT_NAME.equals(ctx.getName())) {
                 if (ctx.isStart()) {

@@ -22,8 +22,7 @@ import de.escidoc.core.resources.sm.StringParameter;
  * @author MVO
  * 
  */
-public class ParameterMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class ParameterMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
     private static final String TAG_NAME_DATE = "datevalue";
 
@@ -39,8 +38,7 @@ public class ParameterMarshaller extends MarshallingBase
      * @param index
      * @param name
      */
-    public ParameterMarshaller(final String uri, final int index,
-        final String name) {
+    public ParameterMarshaller(final String uri, final int index, final String name) {
         super(uri, index, name);
     }
 
@@ -51,8 +49,7 @@ public class ParameterMarshaller extends MarshallingBase
      * IUnmarshallingContext)
      */
     @Override
-    public boolean isPresent(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx) throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -63,12 +60,10 @@ public class ParameterMarshaller extends MarshallingBase
      * org.jibx.runtime.IUnmarshallingContext)
      */
     @Override
-    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
         if (!(ictx instanceof UnmarshallingContext))
-            throw new IllegalArgumentException(
-                "UnmarshallingContext is not of expected type.");
+            throw new IllegalArgumentException("UnmarshallingContext is not of expected type.");
 
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
         Parameter<?> p = null;
@@ -81,18 +76,15 @@ public class ParameterMarshaller extends MarshallingBase
             p = new StringParameter(name, value);
         }
         else if (ctx.isAt(getUri(), TAG_NAME_DECIMAL)) {
-            Float value =
-                Float.valueOf(ctx.parseElementText(getUri(), TAG_NAME_DECIMAL));
+            Float value = Float.valueOf(ctx.parseElementText(getUri(), TAG_NAME_DECIMAL));
             p = new DecimalParameter(name, value);
         }
         else if (ctx.isAt(getUri(), TAG_NAME_DATE)) {
-            DateTime value =
-                new DateTime(ctx.parseElementText(getUri(), TAG_NAME_DATE));
+            DateTime value = new DateTime(ctx.parseElementText(getUri(), TAG_NAME_DATE));
             p = new DateParameter(name, value);
         }
         else {
-            throw new JiBXException("Unexpected element {"
-                + ctx.getElementNamespace() + "}" + ctx.getElementName());
+            throw new JiBXException("Unexpected element {" + ctx.getElementNamespace() + "}" + ctx.getElementName());
         }
 
         ctx.parsePastEndTag(getUri(), getName());
@@ -117,19 +109,16 @@ public class ParameterMarshaller extends MarshallingBase
      * org.jibx.runtime.IMarshallingContext)
      */
     @Override
-    public void marshal(final Object obj, final IMarshallingContext ictx)
-        throws JiBXException {
+    public void marshal(final Object obj, final IMarshallingContext ictx) throws JiBXException {
         if (!(obj instanceof Parameter))
             throw new JiBXException("Invalid object type for marshaller");
         if (!(ictx instanceof MarshallingContext))
-            throw new JiBXException(
-                "Invalid MarshallingContext type for marshaller");
+            throw new JiBXException("Invalid MarshallingContext type for marshaller");
 
         MarshallingContext ctx = (MarshallingContext) ictx;
         Parameter<?> p = (Parameter<?>) obj;
 
-        ctx.startTagAttributes(getIndex(), getName()).attribute(0,
-            ATTR_NAME_NAME, p.getName());
+        ctx.startTagAttributes(getIndex(), getName()).attribute(0, ATTR_NAME_NAME, p.getName());
         ctx.closeStartContent();
 
         switch (p.getParameterType()) {

@@ -21,8 +21,7 @@ import de.escidoc.core.resources.sb.search.SearchResult;
  * @author
  * 
  */
-public class SearchResultMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class SearchResultMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
     public static final String TAG_NAME_SCORE = "score";
 
@@ -41,8 +40,7 @@ public class SearchResultMarshaller extends MarshallingBase
      * @param index
      * @param name
      */
-    public SearchResultMarshaller(final String uri, final int index,
-        final String name) {
+    public SearchResultMarshaller(final String uri, final int index, final String name) {
 
         super(uri, index, name);
     }
@@ -72,8 +70,7 @@ public class SearchResultMarshaller extends MarshallingBase
      *      org.jibx.runtime.IMarshallingContext)
      */
     @Override
-    public void marshal(final Object obj, final IMarshallingContext ictx)
-        throws JiBXException {
+    public void marshal(final Object obj, final IMarshallingContext ictx) throws JiBXException {
 
         MarshallingContext ctx = checkMarshaller(ictx);
         SearchResult record = checkObject(SearchResult.class, obj);
@@ -128,8 +125,7 @@ public class SearchResultMarshaller extends MarshallingBase
      * IUnmarshallingContext)
      */
     @Override
-    public boolean isPresent(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx) throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -144,8 +140,7 @@ public class SearchResultMarshaller extends MarshallingBase
      *      org.jibx.runtime.IUnmarshallingContext)
      */
     @Override
-    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
         /*
          * ignore obj since the instance of SearchResultRecord will be created
@@ -156,9 +151,7 @@ public class SearchResultMarshaller extends MarshallingBase
 
         SearchResult result = null;
 
-        String base =
-            ctx.attributeText("http://www.w3.org/XML/1998/namespace", "base",
-                null);
+        String base = ctx.attributeText("http://www.w3.org/XML/1998/namespace", "base", null);
         Float score = null;
         Highlight highlight = null;
 
@@ -166,8 +159,7 @@ public class SearchResultMarshaller extends MarshallingBase
 
         // optional
         if (ctx.isAt(getUri(), TAG_NAME_SCORE)) {
-            score =
-                Float.valueOf(ctx.parseElementText(getUri(), TAG_NAME_SCORE));
+            score = Float.valueOf(ctx.parseElementText(getUri(), TAG_NAME_SCORE));
         }
         // optional
         if (ctx.isAt(getUri(), TAG_NAME_HIGHLIGHT)) {

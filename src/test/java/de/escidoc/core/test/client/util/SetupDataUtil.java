@@ -104,10 +104,8 @@ public class SetupDataUtil {
      * @throws EscidocException
      * @throws TransportException
      */
-    public static OrganizationalUnit createOrganizationalUnit(
-        final Authentication auth, final boolean setToOpen)
-        throws InternalClientException, ParserConfigurationException,
-        EscidocException, TransportException {
+    public static OrganizationalUnit createOrganizationalUnit(final Authentication auth, final boolean setToOpen)
+        throws InternalClientException, ParserConfigurationException, EscidocException, TransportException {
 
         final String ouName = "name" + System.currentTimeMillis();
         final String ouDescription = "Just a generic organizational unit.";
@@ -132,15 +130,12 @@ public class SetupDataUtil {
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element title =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        Element title = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         title.setTextContent(ouName);
         mdRecordContent.appendChild(title);
 
         // dc:description
-        Element description =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/",
-                "description");
+        Element description = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         description.setTextContent(ouDescription);
         mdRecordContent.appendChild(description);
         mdRecord.setContent(mdRecordContent);
@@ -150,8 +145,7 @@ public class SetupDataUtil {
 
         organizationalUnit.setMetadataRecords(mdRecords);
 
-        OrganizationalUnitHandlerClientInterface ouhc =
-            new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+        OrganizationalUnitHandlerClientInterface ouhc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ouhc.setHandle(auth.getHandle());
 
         organizationalUnit = ouhc.create(organizationalUnit);
@@ -159,8 +153,7 @@ public class SetupDataUtil {
         if (setToOpen) {
             TaskParam tp = new TaskParam();
             tp.setComment("Open OU just after create");
-            tp.setLastModificationDate(organizationalUnit
-                .getLastModificationDate());
+            tp.setLastModificationDate(organizationalUnit.getLastModificationDate());
 
             Result result = ouhc.open(organizationalUnit.getObjid(), tp);
             // get latest status of OU
@@ -179,8 +172,7 @@ public class SetupDataUtil {
      * @throws EscidocClientException
      */
     public static UserAccount createUserWithDepositorRole(
-        final Authentication auth, final String password,
-        final Reference assignOn) throws EscidocClientException {
+        final Authentication auth, final String password, final Reference assignOn) throws EscidocClientException {
 
         UserAccount ua = new UserAccount();
 
@@ -193,8 +185,7 @@ public class SetupDataUtil {
         ua.setProperties(properties);
 
         // Get service handler (with authentication)
-        UserAccountHandlerClientInterface uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
 
         // create
@@ -202,8 +193,7 @@ public class SetupDataUtil {
 
         // update password
         TaskParam taskParam = new TaskParam();
-        taskParam
-            .setLastModificationDate(userAccount.getLastModificationDate());
+        taskParam.setLastModificationDate(userAccount.getLastModificationDate());
         taskParam.setPassword(password);
         uac.updatePassword(userAccount.getObjid(), taskParam);
 
@@ -233,11 +223,10 @@ public class SetupDataUtil {
      * @throws EscidocClientException
      */
     public static Context createContext(
-        final Authentication auth, final OrganizationalUnit organizationalUnit,
-        final boolean setToOpen) throws EscidocClientException {
+        final Authentication auth, final OrganizationalUnit organizationalUnit, final boolean setToOpen)
+        throws EscidocClientException {
 
-        ContextHandlerClientInterface cc =
-            new ContextHandlerClient(auth.getServiceAddress());
+        ContextHandlerClientInterface cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Context context = new Context();
@@ -247,10 +236,8 @@ public class SetupDataUtil {
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs =
-            new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef(organizationalUnit
-            .getObjid()));
+        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        organizationalUnitRefs.add(new OrganizationalUnitRef(organizationalUnit.getObjid()));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
@@ -285,10 +272,8 @@ public class SetupDataUtil {
      * @throws EscidocClientException
      * @throws ParserConfigurationException
      */
-    public static Item createItem(
-        final Authentication auth, final Context context,
-        final ContentModel contentModel) throws EscidocClientException,
-        ParserConfigurationException {
+    public static Item createItem(final Authentication auth, final Context context, final ContentModel contentModel)
+        throws EscidocClientException, ParserConfigurationException {
 
         return createItem(auth, context.getObjid(), contentModel.getObjid());
     }
@@ -306,16 +291,13 @@ public class SetupDataUtil {
      * @throws EscidocClientException
      * @throws ParserConfigurationException
      */
-    public static Item createItem(
-        final Authentication auth, final String contextId,
-        final String contentModelId) throws EscidocClientException,
-        ParserConfigurationException {
+    public static Item createItem(final Authentication auth, final String contextId, final String contentModelId)
+        throws EscidocClientException, ParserConfigurationException {
 
         Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(contextId));
-        item.getProperties().setContentModel(
-            new ContentModelRef(contentModelId));
+        item.getProperties().setContentModel(new ContentModelRef(contentModelId));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -323,8 +305,7 @@ public class SetupDataUtil {
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
-        ItemHandlerClientInterface ihc =
-            new ItemHandlerClient(auth.getServiceAddress());
+        ItemHandlerClientInterface ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
 
         return ihc.create(item);
@@ -342,11 +323,10 @@ public class SetupDataUtil {
      *             Thrown if value for XSLT of resource definition is not a
      *             valid URI
      */
-    public static ContentModel createContentModel(final Authentication auth)
-        throws EscidocClientException, URISyntaxException {
+    public static ContentModel createContentModel(final Authentication auth) throws EscidocClientException,
+        URISyntaxException {
 
-        ContentModelHandlerClientInterface cc =
-            new ContentModelHandlerClient(auth.getServiceAddress());
+        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         ContentModel contentModel = new ContentModel();
@@ -360,8 +340,7 @@ public class SetupDataUtil {
         ResourceDefinition rd1 = new ResourceDefinition();
         rd1.setName("transX" + System.nanoTime());
         rd1.setMetadataRecordName("escidoc");
-        rd1.setXslt(new Xslt(
-            "http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
+        rd1.setXslt(new Xslt("http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
         ResourceDefinitions rds = new ResourceDefinitions();
         rds.add(rd1);
         contentModel.setResourceDefinitions(rds);

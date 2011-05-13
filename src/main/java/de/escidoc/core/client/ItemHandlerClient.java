@@ -69,8 +69,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA
  * 
  */
-public class ItemHandlerClient
-    extends AbstractHandlerClient<RestItemHandlerClient>
+public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClient>
     implements ItemHandlerClientInterface {
 
     /**
@@ -99,8 +98,7 @@ public class ItemHandlerClient
     }
 
     @Override
-    protected RestItemHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestItemHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestItemHandlerClient(getServiceAddress());
     }
 
@@ -118,13 +116,11 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Item create(final Item item) throws EscidocException,
-        InternalClientException, TransportException {
+    public Item create(final Item item) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(item);
 
-        Marshaller<Item> m =
-            MarshallerFactory.getInstance().getMarshaller(Item.class);
+        Marshaller<Item> m = MarshallerFactory.getInstance().getMarshaller(Item.class);
 
         String xml = getClient().create(m.marshalDocument(item));
 
@@ -147,14 +143,13 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Component createComponent(final String id, final Component component)
-        throws EscidocException, InternalClientException, TransportException {
+    public Component createComponent(final String id, final Component component) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(id);
         checkNotNull(component);
 
-        Marshaller<Component> m =
-            MarshallerFactory.getInstance().getMarshaller(Component.class);
+        Marshaller<Component> m = MarshallerFactory.getInstance().getMarshaller(Component.class);
 
         String xml = getClient().create(m.marshalDocument(component));
 
@@ -175,13 +170,11 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Item retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public Item retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String xml = getClient().retrieve(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Item.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Item.class).unmarshalDocument(xml);
     }
 
     /**
@@ -198,15 +191,12 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public SearchRetrieveResponse retrieveItems(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public SearchRetrieveResponse retrieveItems(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         String xml = getClient().retrieveItems(request);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /*
@@ -216,12 +206,10 @@ public class ItemHandlerClient
      * retrieveItemsAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public List<Item> retrieveItemsAsList(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public List<Item> retrieveItemsAsList(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        return getSearchRetrieveResponseAsList(Item.class,
-            retrieveItems(request));
+        return getSearchRetrieveResponseAsList(Item.class, retrieveItems(request));
     }
 
     /**
@@ -238,14 +226,12 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public ExplainResponse retrieveItems(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public ExplainResponse retrieveItems(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         String xml = getClient().retrieveItems(request);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ExplainResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
     /**
@@ -262,16 +248,14 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Relations retrieveRelations(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public Relations retrieveRelations(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieveRelations(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Relations.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Relations.class).unmarshalDocument(xml);
     }
 
     /**
@@ -282,15 +266,13 @@ public class ItemHandlerClient
      * @throws TransportException
      */
     @Override
-    public ContainerList retrieveParents(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public ContainerList retrieveParents(final String id) throws EscidocException, InternalClientException,
+        TransportException {
         checkNotNull(id);
 
         String xml = getClient().retrieveParents(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ContainerList.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ContainerList.class).unmarshalDocument(xml);
     }
 
     /**
@@ -307,16 +289,14 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public VersionHistory retrieveVersionHistory(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public VersionHistory retrieveVersionHistory(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieveVersionHistory(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(VersionHistory.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(VersionHistory.class).unmarshalDocument(xml);
     }
 
     /**
@@ -333,8 +313,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public VersionHistory retrieveVersionHistory(final Item item)
-        throws EscidocException, InternalClientException, TransportException {
+    public VersionHistory retrieveVersionHistory(final Item item) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(item);
 
@@ -354,8 +334,7 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
@@ -376,16 +355,13 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Item update(final Item item) throws EscidocException,
-        InternalClientException, TransportException {
+    public Item update(final Item item) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(item);
 
-        Marshaller<Item> m =
-            MarshallerFactory.getInstance().getMarshaller(Item.class);
+        Marshaller<Item> m = MarshallerFactory.getInstance().getMarshaller(Item.class);
 
-        String xml =
-            getClient().update(item.getObjid(), m.marshalDocument(item));
+        String xml = getClient().update(item.getObjid(), m.marshalDocument(item));
 
         return m.unmarshalDocument(xml);
     }
@@ -410,16 +386,15 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result submit(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result submit(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().submit(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -438,8 +413,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result submit(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result submit(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(item);
 
@@ -462,16 +437,15 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result release(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result release(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().release(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -490,8 +464,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result release(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result release(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(item);
 
@@ -514,16 +488,15 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result revise(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result revise(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().revise(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -542,8 +515,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result revise(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result revise(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(item);
 
@@ -566,16 +539,15 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result withdraw(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result withdraw(final String id, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().withdraw(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -594,8 +566,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result withdraw(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result withdraw(final Item item, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(item);
 
@@ -618,16 +590,15 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result lock(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result lock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().lock(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -646,8 +617,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result lock(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result lock(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(item);
 
@@ -670,16 +641,15 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result unlock(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result unlock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().unlock(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -698,8 +668,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result unlock(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result unlock(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(item);
 
@@ -726,17 +696,15 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result assignVersionPid(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result assignVersionPid(final String id, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getClient().assignVersionPid(id, marshalTaskParam(taskParam));
+        String xml = getClient().assignVersionPid(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -755,8 +723,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result assignVersionPid(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result assignVersionPid(final Item item, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(item);
 
@@ -779,17 +747,15 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result assignObjectPid(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result assignObjectPid(final String id, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getClient().assignObjectPid(id, marshalTaskParam(taskParam));
+        String xml = getClient().assignObjectPid(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -808,8 +774,8 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result assignObjectPid(final Item item, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result assignObjectPid(final Item item, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(item);
 
@@ -834,20 +800,16 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result assignContentPid(
-        final String id, final String componentId, final TaskParam taskParam)
+    public Result assignContentPid(final String id, final String componentId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
         checkNotNull(componentId);
         checkNotNull(taskParam);
 
-        String xml =
-            getClient().assignContentPid(id, componentId,
-                marshalTaskParam(taskParam));
+        String xml = getClient().assignContentPid(id, componentId, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -868,8 +830,7 @@ public class ItemHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result assignContentPid(
-        final Item item, final String componentId, final TaskParam taskParam)
+    public Result assignContentPid(final Item item, final String componentId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(item);
@@ -885,14 +846,12 @@ public class ItemHandlerClient
      * (java.lang.String)
      */
     @Override
-    public ItemProperties retrieveProperties(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public ItemProperties retrieveProperties(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String xml = getClient().retrieveProperties(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ItemProperties.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ItemProperties.class).unmarshalDocument(xml);
     }
 
     /*
@@ -903,16 +862,14 @@ public class ItemHandlerClient
      * (java.lang.String)
      */
     @Override
-    public MetadataRecords retrieveMdRecords(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public MetadataRecords retrieveMdRecords(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieveMdRecords(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(MetadataRecords.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(MetadataRecords.class).unmarshalDocument(xml);
     }
 
     /*
@@ -923,8 +880,7 @@ public class ItemHandlerClient
      * (java.lang.String, java.lang.String)
      */
     @Override
-    public MetadataRecord retrieveMdRecord(
-        final String id, final String mdRecordId) throws EscidocException,
+    public MetadataRecord retrieveMdRecord(final String id, final String mdRecordId) throws EscidocException,
         InternalClientException, TransportException {
 
         checkNotNull(id);
@@ -932,9 +888,7 @@ public class ItemHandlerClient
 
         String xml = getClient().retrieveMdRecord(id, mdRecordId);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(MetadataRecord.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class).unmarshalDocument(xml);
     }
 
     /*
@@ -944,16 +898,14 @@ public class ItemHandlerClient
      * retrieveContentStreams(java.lang.String)
      */
     @Override
-    public ContentStreams retrieveContentStreams(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public ContentStreams retrieveContentStreams(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieveContentStreams(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ContentStreams.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ContentStreams.class).unmarshalDocument(xml);
     }
 
     /*
@@ -963,8 +915,7 @@ public class ItemHandlerClient
      * retrieveContentStream(java.lang.String, java.lang.String)
      */
     @Override
-    public ContentStream retrieveContentStream(
-        final String id, final String name) throws EscidocException,
+    public ContentStream retrieveContentStream(final String id, final String name) throws EscidocException,
         InternalClientException, TransportException {
 
         checkNotNull(id);
@@ -972,9 +923,7 @@ public class ItemHandlerClient
 
         String xml = getClient().retrieveContentStream(id, name);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ContentStream.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ContentStream.class).unmarshalDocument(xml);
     }
 
     /*
@@ -984,8 +933,7 @@ public class ItemHandlerClient
      * retrieveContentStreamContent(java.lang.String, java.lang.String)
      */
     @Override
-    public HttpInputStream retrieveContentStreamContent(
-        final String id, final String name) throws EscidocException,
+    public HttpInputStream retrieveContentStreamContent(final String id, final String name) throws EscidocException,
         InternalClientException, TransportException {
 
         checkNotNull(id);
@@ -1002,16 +950,15 @@ public class ItemHandlerClient
      * (java.lang.String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
-    public Item moveToContext(final String id, final TaskParam param)
-        throws EscidocException, InternalClientException, TransportException {
+    public Item moveToContext(final String id, final TaskParam param) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(param);
 
         String xml = getClient().moveToContext(id, marshalTaskParam(param));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Item.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Item.class).unmarshalDocument(xml);
     }
 
     /*
@@ -1023,8 +970,8 @@ public class ItemHandlerClient
      * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
-    public Item moveToContext(final Item item, final TaskParam param)
-        throws EscidocException, InternalClientException, TransportException {
+    public Item moveToContext(final Item item, final TaskParam param) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(item);
 
@@ -1038,16 +985,14 @@ public class ItemHandlerClient
      * retrieveComponents(java.lang.String)
      */
     @Override
-    public Components retrieveComponents(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public Components retrieveComponents(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieveComponents(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Components.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Components.class).unmarshalDocument(xml);
     }
 
     /*
@@ -1057,8 +1002,7 @@ public class ItemHandlerClient
      * retrieveComponent(java.lang.String, java.lang.String)
      */
     @Override
-    public Component retrieveComponent(
-        final String itemId, final String componentId) throws EscidocException,
+    public Component retrieveComponent(final String itemId, final String componentId) throws EscidocException,
         InternalClientException, TransportException {
 
         checkNotNull(itemId);
@@ -1066,21 +1010,18 @@ public class ItemHandlerClient
 
         String xml = getClient().retrieveComponent(itemId, componentId);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Component.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Component.class).unmarshalDocument(xml);
     }
 
     @Override
-    public void deleteComponent(final String itemId, final String componentId)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deleteComponent(final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public Component updateComponent(
-        final String id, final String componentId, final String xmlData)
+    public Component updateComponent(final String id, final String componentId, final String xmlData)
         throws EscidocException, InternalClientException, TransportException {
         // TODO Auto-generated method stub
         return null;
@@ -1093,19 +1034,15 @@ public class ItemHandlerClient
      * retrieveComponentProperties(java.lang.String, java.lang.String)
      */
     @Override
-    public ComponentProperties retrieveComponentProperties(
-        final String itemId, final String componentId) throws EscidocException,
-        InternalClientException, TransportException {
+    public ComponentProperties retrieveComponentProperties(final String itemId, final String componentId)
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        String xml =
-            getClient().retrieveComponentProperties(itemId, componentId);
+        String xml = getClient().retrieveComponentProperties(itemId, componentId);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ComponentProperties.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ComponentProperties.class).unmarshalDocument(xml);
     }
 
     /*
@@ -1115,19 +1052,15 @@ public class ItemHandlerClient
      * retrieveComponentMdRecords(java.lang.String, java.lang.String)
      */
     @Override
-    public MetadataRecords retrieveComponentMdRecords(
-        final String itemId, final String componentId) throws EscidocException,
-        InternalClientException, TransportException {
+    public MetadataRecords retrieveComponentMdRecords(final String itemId, final String componentId)
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        String xml =
-            getClient().retrieveComponentMdRecords(itemId, componentId);
+        String xml = getClient().retrieveComponentMdRecords(itemId, componentId);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(MetadataRecords.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(MetadataRecords.class).unmarshalDocument(xml);
     }
 
     /*
@@ -1139,20 +1072,16 @@ public class ItemHandlerClient
      */
     @Override
     public MetadataRecord retrieveComponentMdRecord(
-        final String itemId, final String componentId, final String mdRecordId)
-        throws EscidocException, InternalClientException, TransportException {
+        final String itemId, final String componentId, final String mdRecordId) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
         checkNotNull(mdRecordId);
 
-        String xml =
-            getClient().retrieveComponentMdRecord(itemId, componentId,
-                mdRecordId);
+        String xml = getClient().retrieveComponentMdRecord(itemId, componentId, mdRecordId);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(MetadataRecord.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class).unmarshalDocument(xml);
     }
 
     /*
@@ -1163,8 +1092,7 @@ public class ItemHandlerClient
      * (java.lang.String, java.lang.String)
      */
     @Override
-    public HttpInputStream retrieveContent(
-        final String itemId, final String componentId) throws EscidocException,
+    public HttpInputStream retrieveContent(final String itemId, final String componentId) throws EscidocException,
         InternalClientException, TransportException {
 
         checkNotNull(itemId);
@@ -1183,15 +1111,13 @@ public class ItemHandlerClient
      */
     @Override
     public HttpInputStream retrieveContent(
-        final String itemId, final String componentId,
-        final String transformer, final Map<String, String[]> transParams)
+        final String itemId, final String componentId, final String transformer, final Map<String, String[]> transParams)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
         checkNotNull(transformer);
 
-        return getClient().retrieveContent(itemId, componentId, transformer,
-            transParams);
+        return getClient().retrieveContent(itemId, componentId, transformer, transParams);
     }
 }

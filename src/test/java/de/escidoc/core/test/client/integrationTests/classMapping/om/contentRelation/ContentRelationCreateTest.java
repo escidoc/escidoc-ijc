@@ -69,10 +69,8 @@ public class ContentRelationCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentRelationHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -197,13 +195,9 @@ public class ContentRelationCreateTest {
 
         contentRelation.setProperties(properties);
 
-        contentRelation
-            .setType(new URI(
-                "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        contentRelation.setObject(new ItemRef(EscidocClientTestBase
-            .getStaticItemId()));
+        contentRelation.setType(new URI("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
+        contentRelation.setSubject(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        contentRelation.setObject(new ItemRef(EscidocClientTestBase.getStaticItemId()));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
@@ -216,13 +210,9 @@ public class ContentRelationCreateTest {
         ContentRelation createdCR = cc.create(contentRelation);
 
         assertNotNull("Object id is null", createdCR.getObjid());
-        assertEquals("Relation type differ", contentRelation.getType(),
-            createdCR.getType());
-        assertEquals("Subjects differ",
-            contentRelation.getSubject().getObjid(), createdCR
-                .getSubject().getObjid());
-        assertEquals("Objects differ", contentRelation.getObject().getObjid(),
-            createdCR.getObject().getObjid());
+        assertEquals("Relation type differ", contentRelation.getType(), createdCR.getType());
+        assertEquals("Subjects differ", contentRelation.getSubject().getObjid(), createdCR.getSubject().getObjid());
+        assertEquals("Objects differ", contentRelation.getObject().getObjid(), createdCR.getObject().getObjid());
     }
 
     /**
@@ -241,13 +231,9 @@ public class ContentRelationCreateTest {
 
         contentRelation.setProperties(properties);
 
-        contentRelation
-            .setType(new URI(
-                "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        contentRelation.setObject(new ItemRef(EscidocClientTestBase
-            .getStaticItemId()));
+        contentRelation.setType(new URI("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
+        contentRelation.setSubject(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        contentRelation.setObject(new ItemRef(EscidocClientTestBase.getStaticItemId()));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
@@ -266,18 +252,14 @@ public class ContentRelationCreateTest {
         ContentRelation createdCR = cc.create(contentRelation);
 
         assertNotNull("Object id is null", createdCR.getObjid());
-        assertEquals("Relation type differ", contentRelation.getType(),
-            createdCR.getType());
-        assertEquals("Subjects differ",
-            contentRelation.getSubject().getObjid(), createdCR
-                .getSubject().getObjid());
-        assertEquals("Objects differ", contentRelation.getObject().getObjid(),
-            createdCR.getObject().getObjid());
+        assertEquals("Relation type differ", contentRelation.getType(), createdCR.getType());
+        assertEquals("Subjects differ", contentRelation.getSubject().getObjid(), createdCR.getSubject().getObjid());
+        assertEquals("Objects differ", contentRelation.getObject().getObjid(), createdCR.getObject().getObjid());
 
         // compare the new created ContentRelation with the ContentRelation from
         // the request
-        assertEquals("Number of md records differ", contentRelation
-            .getMetadataRecords().size(), createdCR.getMetadataRecords().size());
+        assertEquals("Number of md records differ", contentRelation.getMetadataRecords().size(), createdCR
+            .getMetadataRecords().size());
     }
 
     /**
@@ -297,13 +279,9 @@ public class ContentRelationCreateTest {
 
         contentRelation.setProperties(properties);
 
-        contentRelation
-            .setType(new URI(
-                "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
-        contentRelation.setSubject(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        contentRelation.setObject(new ItemRef(EscidocClientTestBase
-            .getStaticItemId()));
+        contentRelation.setType(new URI("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
+        contentRelation.setSubject(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        contentRelation.setObject(new ItemRef(EscidocClientTestBase.getStaticItemId()));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();
@@ -325,20 +303,15 @@ public class ContentRelationCreateTest {
         // check ContentRelation
         // compare timestamps
         DateTime lmdResult = result.getLastModificationDate();
-        ContentRelation retrievedContentRelation =
-            cc.retrieve(contentRelation.getObjid());
-        DateTime lmdRetrievedContentRelation =
-            retrievedContentRelation.getLastModificationDate();
+        ContentRelation retrievedContentRelation = cc.retrieve(contentRelation.getObjid());
+        DateTime lmdRetrievedContentRelation = retrievedContentRelation.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedContentRelation,
-            lmdResult);
+        assertEquals("Timestamps differ", lmdRetrievedContentRelation, lmdResult);
 
         // assign object PID ---------------------------------------------------
         TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl(new URL(
-            "http://url.to.the.solution/path/for/this/resource/"
-                + System.nanoTime()));
+        taskParam.setUrl(new URL("http://url.to.the.solution/path/for/this/resource/" + System.nanoTime()));
         taskParam.setComment("Object for test");
 
         result = cc.assignObjectPid(contentRelation, taskParam);
@@ -346,11 +319,9 @@ public class ContentRelationCreateTest {
         // compare timestamps
         lmdResult = result.getLastModificationDate();
         retrievedContentRelation = cc.retrieve(contentRelation.getObjid());
-        lmdRetrievedContentRelation =
-            retrievedContentRelation.getLastModificationDate();
+        lmdRetrievedContentRelation = retrievedContentRelation.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedContentRelation,
-            lmdResult);
+        assertEquals("Timestamps differ", lmdRetrievedContentRelation, lmdResult);
 
         // TODO:
         // assign version PID --------------------------------------------------

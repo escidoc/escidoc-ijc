@@ -23,8 +23,6 @@ public interface PreprocessingHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    void preprocess(
-        final String aggregationDefinitionId,
-        final PreprocessingInformation info) throws EscidocException,
+    void preprocess(final String aggregationDefinitionId, final PreprocessingInformation info) throws EscidocException,
         InternalClientException, TransportException;
 }

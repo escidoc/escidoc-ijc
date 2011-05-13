@@ -60,8 +60,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public class SoapSearchHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapSearchHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapSearchHandlerClient.class);
 
     private SRWPort searchSoapClient = null;
 
@@ -80,8 +79,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapSearchHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapSearchHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -94,8 +92,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapSearchHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapSearchHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -110,10 +107,8 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public ExplainResponseType explain(
-        final ExplainRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public ExplainResponseType explain(final ExplainRequestType request, final String database)
+        throws EscidocClientException, InternalClientException, TransportException {
 
         evalRequest(request);
 
@@ -139,10 +134,8 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public SearchRetrieveResponseType search(
-        final SearchRetrieveRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public SearchRetrieveResponseType search(final SearchRetrieveRequestType request, final String database)
+        throws EscidocClientException, InternalClientException, TransportException {
 
         evalRequest(request, false);
 
@@ -168,10 +161,8 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public ScanResponseType scan(
-        final ScanRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public ScanResponseType scan(final ScanRequestType request, final String database) throws EscidocClientException,
+        InternalClientException, TransportException {
 
         evalRequest(request, false);
 
@@ -193,15 +184,12 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      * @return
      * @throws InternalClientException
      */
-    public ExplainPort getExplainClient(final String database)
-        throws InternalClientException {
+    public ExplainPort getExplainClient(final String database) throws InternalClientException {
         try {
             if (explainSoapClient == null) {
                 SRWSampleServiceLocator service = new SRWSampleServiceLocator();
                 if (database != null) {
-                    URL url =
-                        getHandlerServiceURL(service.getExplainSOAPAddress(),
-                            database);
+                    URL url = getHandlerServiceURL(service.getExplainSOAPAddress(), database);
                     explainSoapClient = service.getExplainSOAP(url);
                 }
                 else {
@@ -224,17 +212,14 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      * @return
      * @throws InternalClientException
      */
-    public SRWPort getSearchClient(final String database)
-        throws InternalClientException {
+    public SRWPort getSearchClient(final String database) throws InternalClientException {
 
         if (searchSoapClient == null) {
             SRWSampleServiceLocator service = new SRWSampleServiceLocator();
 
             String db = database;
             if (db == null) {
-                db =
-                    ConfigurationProvider.getInstance().getProperty(
-                        ConfigurationProvider.PROP_SEARCH_DATABASE);
+                db = ConfigurationProvider.getInstance().getProperty(ConfigurationProvider.PROP_SEARCH_DATABASE);
             }
             try {
                 if (db == null) {
@@ -261,8 +246,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
      * @return
      * @throws InternalClientException
      */
-    protected URL getHandlerServiceURL(
-        final String handlerServiceAddress, final String database)
+    protected URL getHandlerServiceURL(final String handlerServiceAddress, final String database)
         throws InternalClientException {
         // address="http://localhost:8080/srw/search/escidoc_all?wsdl";
         URL url;

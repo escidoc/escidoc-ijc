@@ -52,8 +52,7 @@ import de.escidoc.core.client.rest.serviceLocator.OrganizationalUnitRestServiceL
  */
 public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestOrganizationalUnitHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestOrganizationalUnitHandlerClient.class);
 
     private OrganizationalUnitHandler restClient = null;
 
@@ -70,8 +69,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestOrganizationalUnitHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestOrganizationalUnitHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -84,8 +82,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestOrganizationalUnitHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestOrganizationalUnitHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -98,12 +95,11 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#create(java.lang.String)
      */
-    public String create(final String organizationalUnit)
-        throws EscidocException, InternalClientException, TransportException {
+    public String create(final String organizationalUnit) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (organizationalUnit == null)
-            throw new IllegalArgumentException(
-                "organizationalUnit must not be null.");
+            throw new IllegalArgumentException("organizationalUnit must not be null.");
 
         String result = null;
         try {
@@ -124,8 +120,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -148,8 +143,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -177,8 +171,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String ouXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String ouXml) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -213,8 +207,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String updateParents(final String ouId, final String xmlOfParents)
-        throws EscidocException, InternalClientException, TransportException {
+    public String updateParents(final String ouId, final String xmlOfParents) throws EscidocException,
+        InternalClientException, TransportException {
 
         if (ouId == null)
             throw new IllegalArgumentException("ouId must not be null.");
@@ -249,8 +243,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveChildObjects(java.lang.String)
      */
-    public String retrieveChildObjects(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveChildObjects(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -275,8 +269,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveOrganizationalUnits(java.lang.String)
      */
     @Deprecated
-    public String retrieveOrganizationalUnits(
-        final HashMap<String, String[]> filter) throws EscidocException,
+    public String retrieveOrganizationalUnits(final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -297,8 +290,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveOrganizationalUnits(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+    public String retrieveOrganizationalUnits(final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(filter, true);
@@ -321,8 +313,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveOrganizationalUnits(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveOrganizationalUnits(final ExplainRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         if (filter == null)
             throw new IllegalArgumentException("filter must not be null.");
@@ -355,8 +347,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveParentObjects(java.lang.String)
      */
-    public String retrieveParentObjects(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveParentObjects(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -389,8 +381,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveParentObjects(java.lang.String)
      */
-    public String retrieveParents(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveParents(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -426,8 +417,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      *             e
      * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrievePathList(java.lang.String)
      */
-    public String retrievePathList(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrievePathList(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -451,8 +442,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String open(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String open(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -478,8 +469,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String close(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String close(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -503,8 +494,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveProperties(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveProperties(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -526,8 +517,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMdRecords(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveMdRecords(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -550,8 +541,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMdRecord(final String id, final String mdRecordId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveMdRecord(final String id, final String mdRecordId) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(id);
         checkNotNull(mdRecordId);
@@ -573,8 +564,8 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveSuccessors(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveSuccessors(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
@@ -598,8 +589,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            OrganizationalUnitRestServiceLocator serviceLocator =
-                new OrganizationalUnitRestServiceLocator();
+            OrganizationalUnitRestServiceLocator serviceLocator = new OrganizationalUnitRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

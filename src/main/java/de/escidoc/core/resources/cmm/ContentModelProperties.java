@@ -54,8 +54,8 @@ import de.escidoc.core.resources.interfaces.common.Version;
  * 
  */
 public class ContentModelProperties extends CommonProperties
-    implements PublicStatusProperties, NameProperties, DescriptionProperties,
-    LockingProperties, PidProperties, VersionProperties {
+    implements PublicStatusProperties, NameProperties, DescriptionProperties, LockingProperties, PidProperties,
+    VersionProperties {
 
     private String name;
 
@@ -358,12 +358,10 @@ public class ContentModelProperties extends CommonProperties
             version.generateXLinkHref(ResourceType.CONTENT_MODEL.getPath());
         }
         if (latestVersion != null) {
-            latestVersion.generateXLinkHref(ResourceType.CONTENT_MODEL
-                .getPath());
+            latestVersion.generateXLinkHref(ResourceType.CONTENT_MODEL.getPath());
         }
         if (latestRelease != null) {
-            latestRelease.generateXLinkHref(ResourceType.CONTENT_MODEL
-                .getPath());
+            latestRelease.generateXLinkHref(ResourceType.CONTENT_MODEL.getPath());
         }
     }
 }

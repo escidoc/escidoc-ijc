@@ -22,18 +22,14 @@ import de.escidoc.core.om.IngestHandler;
  * @author SWA
  * 
  */
-public class IngestRestServiceLocator extends RestServiceMethod
-    implements IngestHandler {
+public class IngestRestServiceLocator extends RestServiceMethod implements IngestHandler {
 
     public static final String PATH = "/ir/ingest";
 
     @Override
-    public String ingest(final String resourceXml) throws RemoteException,
-        OptimisticLockingException, SystemException,
-        MissingMethodParameterException, LockingException,
-        InvalidStatusException, AuthenticationException,
-        StreamNotFoundException, AuthorizationException,
-        ResourceNotFoundException, InvalidXmlException {
+    public String ingest(final String resourceXml) throws RemoteException, OptimisticLockingException, SystemException,
+        MissingMethodParameterException, LockingException, InvalidStatusException, AuthenticationException,
+        StreamNotFoundException, AuthorizationException, ResourceNotFoundException, InvalidXmlException {
 
         checkNotNull(resourceXml);
 

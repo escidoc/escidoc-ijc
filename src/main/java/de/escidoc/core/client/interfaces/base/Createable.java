@@ -27,6 +27,5 @@ public interface Createable<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
-    T create(T resource) throws EscidocException, InternalClientException,
-        TransportException;
+    T create(T resource) throws EscidocException, InternalClientException, TransportException;
 }

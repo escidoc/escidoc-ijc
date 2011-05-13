@@ -209,12 +209,10 @@ public class ContentRelation extends GenericResource {
             if (mdRecords != null) {
                 mdRecords.generateXLinkHref(getXLinkHref());
             }
-            if (subject != null && subject.getResourceType() != null
-                && subject.getResourceType().isRootResource()) {
+            if (subject != null && subject.getResourceType() != null && subject.getResourceType().isRootResource()) {
                 genXLinkHref(subject, subject.getResourceType(), null);
             }
-            if (object != null && object.getResourceType() != null
-                && object.getResourceType().isRootResource()) {
+            if (object != null && object.getResourceType() != null && object.getResourceType().isRootResource()) {
                 genXLinkHref(object, object.getResourceType(), null);
             }
         }

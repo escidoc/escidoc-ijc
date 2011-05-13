@@ -54,10 +54,8 @@ public class UserAccountTestRest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uahc = new RestUserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
     }
@@ -77,23 +75,17 @@ public class UserAccountTestRest {
     public void testCreateAndRetrieveSuccessfulUserAccount() throws Exception {
         // load XML template of organizational unit
         String resourceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/"
-                    + "escidoc_useraccount_for_create.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
-        resourceXml =
-            resourceXml.replace("###EMAIL###", System.nanoTime()
-                + "-test@escidoc.org");
-        resourceXml =
-            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
-        resourceXml =
-            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###EMAIL###", System.nanoTime() + "-test@escidoc.org");
+        resourceXml = resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
 
         String cAccountXml = uahc.create(resourceXml);
 
-        String[] objidLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         uahc.retrieve(objidLmd[0]);
     }
@@ -108,21 +100,17 @@ public class UserAccountTestRest {
     public void testDeleteUserAccount() throws Exception {
         // load XML template of organizational unit
         String resourceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/"
-                    + "escidoc_useraccount_for_create.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
-        resourceXml =
-            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
-        resourceXml =
-            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
 
         String cAccountXml = uahc.create(resourceXml);
 
         // delete
-        String[] objidLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         uahc.delete(objidLmd[0]);
 

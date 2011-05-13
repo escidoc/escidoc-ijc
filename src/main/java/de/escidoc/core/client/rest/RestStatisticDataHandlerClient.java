@@ -20,8 +20,7 @@ import de.escidoc.core.sm.StatisticDataHandler;
  */
 public class RestStatisticDataHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestStatisticDataHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestStatisticDataHandlerClient.class);
 
     private StatisticDataHandler client;
 
@@ -38,8 +37,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestStatisticDataHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestStatisticDataHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -52,8 +50,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestStatisticDataHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestStatisticDataHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -64,8 +61,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public void create(final String xml) throws EscidocException, InternalClientException, TransportException {
 
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
@@ -87,8 +83,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
     public StatisticDataHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            StatisticDataRestServiceLocator serviceLocator =
-                new StatisticDataRestServiceLocator();
+            StatisticDataRestServiceLocator serviceLocator = new StatisticDataRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

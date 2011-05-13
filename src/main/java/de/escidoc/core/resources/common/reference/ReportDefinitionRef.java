@@ -23,8 +23,7 @@ public class ReportDefinitionRef extends Reference {
      * @param title
      * @param type
      */
-    public ReportDefinitionRef(final String href, final String title,
-        final XLinkType type) {
+    public ReportDefinitionRef(final String href, final String title, final XLinkType type) {
         super(href, title, type);
     }
 

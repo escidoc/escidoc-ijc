@@ -13,8 +13,7 @@ import de.escidoc.core.resources.common.Result;
  * @author MVO
  * 
  */
-public class LoadExamplesResult
-    extends MessagesResult<LoadExamplesResult.Entry> {
+public class LoadExamplesResult extends MessagesResult<LoadExamplesResult.Entry> {
 
     private static final long serialVersionUID = 556659402548830140L;
 
@@ -30,8 +29,7 @@ public class LoadExamplesResult
      * 
      */
     @Override
-    protected Entry extractMessage(
-        final Element messageNode, final int messageCount) {
+    protected Entry extractMessage(final Element messageNode, final int messageCount) {
         final String message = messageNode.getTextContent();
         final String type = message.substring(8, message.indexOf(':'));
         final String objid = message.substring(message.indexOf(':') + 2);
@@ -58,8 +56,7 @@ public class LoadExamplesResult
          * @param type
          * @param message
          */
-        public Entry(final String objid, final ResourceType type,
-            final String message) {
+        public Entry(final String objid, final ResourceType type, final String message) {
             this.objid = objid;
             this.type = type;
             this.message = message;
@@ -91,8 +88,7 @@ public class LoadExamplesResult
 
         @Override
         public String toString() {
-            return "Entry [message=" + message + ", objid=" + objid + ", type="
-                + type + "]";
+            return "Entry [message=" + message + ", objid=" + objid + ", type=" + type + "]";
         }
 
     }

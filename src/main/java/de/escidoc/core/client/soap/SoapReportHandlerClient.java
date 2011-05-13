@@ -22,8 +22,7 @@ import de.escidoc.core.sm.ReportHandlerServiceLocator;
  */
 public class SoapReportHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(SoapReportHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapReportHandlerClient.class);
 
     private ReportHandler client;
 
@@ -38,8 +37,7 @@ public class SoapReportHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapReportHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapReportHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -51,8 +49,7 @@ public class SoapReportHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapReportHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapReportHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -64,8 +61,7 @@ public class SoapReportHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String xml) throws EscidocException, InternalClientException, TransportException {
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
 
@@ -87,11 +83,8 @@ public class SoapReportHandlerClient extends SoapClientBase {
     @Override
     public ReportHandler getClient() throws InternalClientException {
         if (client == null) {
-            ReportHandlerServiceLocator serviceLocator =
-                new ReportHandlerServiceLocator(getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getReportHandlerServiceAddress());
+            ReportHandlerServiceLocator serviceLocator = new ReportHandlerServiceLocator(getEngineConfig());
+            URL url = getHandlerServiceURL(serviceLocator.getReportHandlerServiceAddress());
             try {
                 client = serviceLocator.getReportHandlerService(url);
             }

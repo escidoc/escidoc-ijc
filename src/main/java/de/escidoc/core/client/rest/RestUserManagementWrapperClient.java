@@ -20,8 +20,7 @@ import de.escidoc.core.client.rest.serviceLocator.UserManagementWrapperRestServi
  */
 public class RestUserManagementWrapperClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestUserManagementWrapperClient.class);
+    private static final Logger LOG = Logger.getLogger(RestUserManagementWrapperClient.class);
 
     private UserManagementWrapper restClient = null;
 
@@ -38,8 +37,7 @@ public class RestUserManagementWrapperClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestUserManagementWrapperClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestUserManagementWrapperClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -52,8 +50,7 @@ public class RestUserManagementWrapperClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestUserManagementWrapperClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestUserManagementWrapperClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -63,8 +60,7 @@ public class RestUserManagementWrapperClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
+    public void logout() throws EscidocException, InternalClientException, TransportException {
         try {
             getClient().logout();
         }
@@ -82,8 +78,7 @@ public class RestUserManagementWrapperClient extends RestClientBase {
     public UserManagementWrapper getClient() throws InternalClientException {
 
         if (restClient == null) {
-            UserManagementWrapperRestServiceLocator serviceLocator =
-                new UserManagementWrapperRestServiceLocator();
+            UserManagementWrapperRestServiceLocator serviceLocator = new UserManagementWrapperRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

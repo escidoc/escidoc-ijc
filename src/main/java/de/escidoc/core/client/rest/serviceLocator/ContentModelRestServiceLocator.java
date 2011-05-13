@@ -72,8 +72,7 @@ import de.escidoc.core.resources.HttpInputStream;
  * @author SWA
  * 
  */
-public class ContentModelRestServiceLocator extends RestServiceMethod
-    implements ContentModelHandler {
+public class ContentModelRestServiceLocator extends RestServiceMethod implements ContentModelHandler {
 
     public static final String PATH = "/cmm/content-model";
 
@@ -93,11 +92,9 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.ContentModelHandler#delete(String)
      */
     @Override
-    public void delete(final String contentModelId) throws RemoteException,
-        SystemException, LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        ContentModelNotFoundException, AlreadyPublishedException,
-        AuthorizationException {
+    public void delete(final String contentModelId) throws RemoteException, SystemException, LockingException,
+        MissingMethodParameterException, InvalidStatusException, AuthenticationException,
+        ContentModelNotFoundException, AlreadyPublishedException, AuthorizationException {
 
         checkNotNull(contentModelId);
 
@@ -131,16 +128,13 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.ContentModelHandler#create(String)
      */
     @Override
-    public String create(final String contentModelXml) throws RemoteException,
-        SystemException, MissingAttributeValueException,
-        MissingContentException, MissingMdRecordException,
-        ReferencedResourceNotFoundException, AuthenticationException,
-        AuthorizationException, ContentModelNotFoundException,
-        InvalidContentException, RelationPredicateNotFoundException,
-        ReadonlyAttributeViolationException, FileNotFoundException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyElementViolationException, ContentModelNotFoundException,
-        InvalidXmlException, MissingElementValueException {
+    public String create(final String contentModelXml) throws RemoteException, SystemException,
+        MissingAttributeValueException, MissingContentException, MissingMdRecordException,
+        ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
+        ContentModelNotFoundException, InvalidContentException, RelationPredicateNotFoundException,
+        ReadonlyAttributeViolationException, FileNotFoundException, MissingMethodParameterException,
+        InvalidStatusException, ReadonlyElementViolationException, ContentModelNotFoundException, InvalidXmlException,
+        MissingElementValueException {
 
         checkNotNull(contentModelXml);
 
@@ -180,19 +174,14 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.ContentModelHandler#update(String, String)
      */
     @Override
-    public String update(
-        final String contentModelId, final String contentModelXml)
-        throws RemoteException, SystemException, MissingLicenceException,
-        ReadonlyVersionException, LockingException, ComponentNotFoundException,
-        MissingContentException, MissingAttributeValueException,
-        AlreadyExistsException, InvalidContentException,
-        MissingMdRecordException, ReferencedResourceNotFoundException,
-        AuthenticationException, AuthorizationException,
-        ContentModelNotFoundException, InvalidContentException,
-        OptimisticLockingException, RelationPredicateNotFoundException,
-        FileNotFoundException, MissingMethodParameterException,
-        NotPublishedException, InvalidStatusException,
-        ReadonlyViolationException, InvalidXmlException {
+    public String update(final String contentModelId, final String contentModelXml) throws RemoteException,
+        SystemException, MissingLicenceException, ReadonlyVersionException, LockingException,
+        ComponentNotFoundException, MissingContentException, MissingAttributeValueException, AlreadyExistsException,
+        InvalidContentException, MissingMdRecordException, ReferencedResourceNotFoundException,
+        AuthenticationException, AuthorizationException, ContentModelNotFoundException, InvalidContentException,
+        OptimisticLockingException, RelationPredicateNotFoundException, FileNotFoundException,
+        MissingMethodParameterException, NotPublishedException, InvalidStatusException, ReadonlyViolationException,
+        InvalidXmlException {
 
         checkNotNull(contentModelId);
         checkNotNull(contentModelXml);
@@ -212,10 +201,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @throws AuthorizationException
      */
     @Override
-    public String retrieve(final String contentModelId) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ContentModelNotFoundException,
-        AuthorizationException {
+    public String retrieve(final String contentModelId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
 
@@ -223,18 +210,14 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveContentStream(
-        final String contentModelId, final String contentStreamName)
-        throws RemoteException, SystemException,
-        ContentStreamNotFoundException, MissingMethodParameterException,
-        AuthenticationException, ContentModelNotFoundException,
-        AuthorizationException {
+    public String retrieveContentStream(final String contentModelId, final String contentStreamName)
+        throws RemoteException, SystemException, ContentStreamNotFoundException, MissingMethodParameterException,
+        AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
         checkNotNull(contentStreamName);
 
-        return get(PATH + "/" + contentModelId
-            + "/content-streams/content-stream/" + contentStreamName);
+        return get(PATH + "/" + contentModelId + "/content-streams/content-stream/" + contentStreamName);
     }
 
     /**
@@ -252,25 +235,19 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @throws InvalidStatusException
      */
     @Override
-    public HttpInputStream retrieveContentStreamContent(
-        final String contentModelId, final String contentStreamName)
-        throws RemoteException, ContentModelNotFoundException, SystemException,
-        AuthenticationException, AuthorizationException,
-        MissingMethodParameterException, ContentStreamNotFoundException,
-        InvalidStatusException {
+    public HttpInputStream retrieveContentStreamContent(final String contentModelId, final String contentStreamName)
+        throws RemoteException, ContentModelNotFoundException, SystemException, AuthenticationException,
+        AuthorizationException, MissingMethodParameterException, ContentStreamNotFoundException, InvalidStatusException {
 
         checkNotNull(contentModelId);
         checkNotNull(contentStreamName);
 
-        return getStream(PATH + "/" + contentModelId
-            + "/content-streams/content-stream/" + contentStreamName);
+        return getStream(PATH + "/" + contentModelId + "/content-streams/content-stream/" + contentStreamName);
     }
 
     @Override
-    public String retrieveContentStreams(final String contentModelId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ContentModelNotFoundException, AuthorizationException {
+    public String retrieveContentStreams(final String contentModelId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
 
@@ -278,10 +255,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveProperties(final String contentModelId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ContentModelNotFoundException, AuthorizationException {
+    public String retrieveProperties(final String contentModelId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
 
@@ -289,21 +264,19 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveVersionHistory(final String contentModelId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ContentModelNotFoundException, AuthorizationException {
+    public String retrieveVersionHistory(final String contentModelId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
 
         return get(PATH + "/" + contentModelId + "/version-history");
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
     @Deprecated
-    public String retrieveContentModels(final HashMap parameterMap)
-        throws RemoteException, SystemException, InvalidSearchQueryException {
+    public String retrieveContentModels(final HashMap parameterMap) throws RemoteException, SystemException,
+        InvalidSearchQueryException {
 
         return get(PATH + "s", parameterMap);
     }
@@ -316,10 +289,9 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @throws RemoteException
      */
     @Override
-    public String retrieveContentModels(final SearchRetrieveRequestType request)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveContentModels(final SearchRetrieveRequestType request) throws RemoteException,
+        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(request);
         return get(PATH + "s" + getEscidoc12Filter(request));
@@ -333,10 +305,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod
      * @throws RemoteException
      */
     @Override
-    public String retrieveContentModels(final ExplainRequestType request)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveContentModels(final ExplainRequestType request) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(request);
         return get(PATH + "s" + getEscidoc12Filter(request));

@@ -55,8 +55,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public interface ContentModelHandlerClientInterface
-    extends HandlerService, CrudService<ContentModel>,
-    PropertiesService<ContentModel, ContentModelProperties>,
+    extends HandlerService, CrudService<ContentModel>, PropertiesService<ContentModel, ContentModelProperties>,
     VersionableResourceService<ContentModel>, ContentStreamService {
 
     /**
@@ -67,8 +66,7 @@ public interface ContentModelHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveContentModels(
-        SearchRetrieveRequestType request) throws EscidocException,
+    SearchRetrieveResponse retrieveContentModels(SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -79,8 +77,8 @@ public interface ContentModelHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveContentModels(ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveContentModels(ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -90,8 +88,7 @@ public interface ContentModelHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<ContentModel> retrieveContentModelsAsList(
-        SearchRetrieveRequestType request) throws EscidocException,
+    List<ContentModel> retrieveContentModelsAsList(SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 
 }

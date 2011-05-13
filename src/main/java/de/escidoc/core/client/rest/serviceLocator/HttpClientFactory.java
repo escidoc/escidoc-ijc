@@ -29,12 +29,10 @@ public class HttpClientFactory {
 
     private static final Logger LOG = Logger.getLogger(HttpClientFactory.class);
 
-    private static final Pattern HTTP_HOST_PATTERN = Pattern
-        .compile("^(?:(.*)://)?([^:]*)(?::(\\d*))?$");
+    private static final Pattern HTTP_HOST_PATTERN = Pattern.compile("^(?:(.*)://)?([^:]*)(?::(\\d*))?$");
 
     private static final Pattern INET_ADDRESS_PATTERN =
-        Pattern
-            .compile("^(?:(.*)/)?(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
+        Pattern.compile("^(?:(.*)/)?(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
 
     private static HttpClient client;
 
@@ -55,8 +53,8 @@ public class HttpClientFactory {
     }
 
     /**
-	 * 
-	 */
+     * 
+     */
     private static void createHttpClient() {
         params = new BasicHttpParams();
 
@@ -72,36 +70,25 @@ public class HttpClientFactory {
 
             // custom custom... HttpRoute can be constructed from HttpHost...
             if (cp.getProperty(ConfigurationProvider.HTTP_ROUTE_FORCED_ROUTE) != null) {
-                String data =
-                    cp
-                        .getProperty(ConfigurationProvider.HTTP_ROUTE_FORCED_ROUTE);
+                String data = cp.getProperty(ConfigurationProvider.HTTP_ROUTE_FORCED_ROUTE);
                 HttpHost httpHost = getHttpHostFromString(data);
                 if (httpHost != null) {
                     HttpRoute httpRoute = new HttpRoute(httpHost);
-                    params.setParameter(
-                        ConfigurationProvider.HTTP_ROUTE_FORCED_ROUTE,
-                        httpRoute);
+                    params.setParameter(ConfigurationProvider.HTTP_ROUTE_FORCED_ROUTE, httpRoute);
                 }
             }
 
             // custom custom... ConnPerRouteBean can be constructed using an
             // integer as default max per route
-            if (cp
-                .getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_MAX_PER_ROUTE) != null) {
+            if (cp.getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_MAX_PER_ROUTE) != null) {
                 try {
                     int maxPerRoute =
-                        Integer
-                            .parseInt(cp
-                                .getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_MAX_PER_ROUTE));
-                    ConnPerRouteBean connPerRouteBean =
-                        new ConnPerRouteBean(maxPerRoute);
-                    params.setParameter(
-                        ConfigurationProvider.HTTP_CONN_MANAGER_MAX_PER_ROUTE,
-                        connPerRouteBean);
+                        Integer.parseInt(cp.getProperty(ConfigurationProvider.HTTP_CONN_MANAGER_MAX_PER_ROUTE));
+                    ConnPerRouteBean connPerRouteBean = new ConnPerRouteBean(maxPerRoute);
+                    params.setParameter(ConfigurationProvider.HTTP_CONN_MANAGER_MAX_PER_ROUTE, connPerRouteBean);
                 }
                 catch (NumberFormatException e) {
-                    LOG.debug("Could not load property: "
-                        + ConfigurationProvider.HTTP_CONN_MANAGER_MAX_PER_ROUTE
+                    LOG.debug("Could not load property: " + ConfigurationProvider.HTTP_CONN_MANAGER_MAX_PER_ROUTE
                         + " (property ignored)", e);
                 }
             }
@@ -111,66 +98,48 @@ public class HttpClientFactory {
             // <SimpleDateFormatCompliantString>
             int i = 0;
             LinkedList<String> datePatterns = new LinkedList<String>();
-            while (cp
-                .getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS
-                    + i) != null) {
-                String data =
-                    cp
-                        .getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS
-                            + i);
+            while (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS + i) != null) {
+                String data = cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS + i);
                 try {
                     new SimpleDateFormat(data);
                     datePatterns.add(data);
                 }
                 catch (IllegalArgumentException e) {
                     // Pattern does not comply to SimpleDateFormat
-                    LOG
-                        .debug(
-                            "Could not load property: "
-                                + ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS
-                                + i + " (property ignored)", e);
+                    LOG.debug("Could not load property: " + ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS + i
+                        + " (property ignored)", e);
                 }
                 i++;
             }
             if (datePatterns.size() > 0) {
-                params.setParameter(
-                    ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS,
-                    datePatterns);
+                params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_COOKIE_DATEPATTERNS, datePatterns);
             }
 
             // Collection of Header-Objects
             // consecutively numbered properties
             // <headerName>:<headerValue>
             int j = 0;
-            LinkedList<BasicHeader> defaultHeaders =
-                new LinkedList<BasicHeader>();
+            LinkedList<BasicHeader> defaultHeaders = new LinkedList<BasicHeader>();
 
-            while (cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HEADERS
-                + j) != null) {
-                String data =
-                    cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HEADERS
-                        + j);
+            while (cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HEADERS + j) != null) {
+                String data = cp.getProperty(ConfigurationProvider.HTTP_DEFAULT_HEADERS + j);
                 String[] tmp = data.split(":");
                 try {
                     defaultHeaders.add(new BasicHeader(tmp[0], tmp[1]));
                 }
                 catch (IndexOutOfBoundsException e) {
-                    LOG.debug("Could not load property: "
-                        + ConfigurationProvider.HTTP_DEFAULT_HEADERS + j
+                    LOG.debug("Could not load property: " + ConfigurationProvider.HTTP_DEFAULT_HEADERS + j
                         + " (property ignored)", e);
                 }
                 j++;
             }
             if (defaultHeaders.size() > 0) {
-                params.setParameter(ConfigurationProvider.HTTP_DEFAULT_HEADERS,
-                    defaultHeaders);
+                params.setParameter(ConfigurationProvider.HTTP_DEFAULT_HEADERS, defaultHeaders);
             }
 
             // custom format for InetAddress [<hostname>/]<ipAddress>
             if (cp.getProperty(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS) != null) {
-                String data =
-                    cp
-                        .getProperty(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS);
+                String data = cp.getProperty(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS);
 
                 Matcher m = INET_ADDRESS_PATTERN.matcher(data);
                 if (m.find()) {
@@ -182,46 +151,33 @@ public class HttpClientFactory {
                     ipaddr[3] = Byte.parseByte(m.group(5));
 
                     try {
-                        InetAddress inetAddress =
-                            InetAddress.getByAddress(hostname, ipaddr);
-                        params.setParameter(
-                            ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS,
-                            inetAddress);
+                        InetAddress inetAddress = InetAddress.getByAddress(hostname, ipaddr);
+                        params.setParameter(ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS, inetAddress);
                     }
                     catch (UnknownHostException e) {
-                        LOG.debug("Could not load property: "
-                            + ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS
+                        LOG.debug("Could not load property: " + ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS
                             + " (property ignored)");
                     }
                 }
                 else {
-                    LOG.debug("Could not load property: "
-                        + ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS
+                    LOG.debug("Could not load property: " + ConfigurationProvider.HTTP_ROUTE_LOCAL_ADDRESS
                         + " (property ignored)");
                 }
             }
 
             // custom format for ProtocolVersion <protocol>/<major>.<minor>
             if (cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION) != null) {
-                String data =
-                    cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION);
+                String data = cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION);
 
                 try {
                     String protocol = data.substring(0, data.indexOf("/"));
-                    int major =
-                        Integer.parseInt(data.substring(data.indexOf("/") + 1,
-                            data.indexOf(".")));
-                    int minor =
-                        Integer.parseInt(data.substring(data.indexOf(".") + 1,
-                            data.length()));
-                    ProtocolVersion pv =
-                        new ProtocolVersion(protocol, major, minor);
-                    params.setParameter(
-                        ConfigurationProvider.HTTP_PROTOCOL_VERSION, pv);
+                    int major = Integer.parseInt(data.substring(data.indexOf("/") + 1, data.indexOf(".")));
+                    int minor = Integer.parseInt(data.substring(data.indexOf(".") + 1, data.length()));
+                    ProtocolVersion pv = new ProtocolVersion(protocol, major, minor);
+                    params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_VERSION, pv);
                 }
                 catch (NumberFormatException e) {
-                    LOG.debug("Could not load property: "
-                        + ConfigurationProvider.HTTP_PROTOCOL_VERSION
+                    LOG.debug("Could not load property: " + ConfigurationProvider.HTTP_PROTOCOL_VERSION
                         + " (property ignored)", e);
                 }
             }
@@ -268,10 +224,7 @@ public class HttpClientFactory {
         }
         catch (InternalClientException e) {
             // Error during ConfigurationProvider.getInstance()
-            LOG
-                .debug(
-                    "Error getting Instance of ConfigurationProvider. No properties loaded.",
-                    e);
+            LOG.debug("Error getting Instance of ConfigurationProvider. No properties loaded.", e);
         }
 
         client = new DefaultHttpClient(getConnectionManager(params), params);
@@ -294,15 +247,13 @@ public class HttpClientFactory {
                     port = Integer.parseInt(m.group(3));
                 }
                 catch (NumberFormatException e) {
-                    LOG.debug("Could not load property: " + input
-                        + " (property ignored)", e);
+                    LOG.debug("Could not load property: " + input + " (property ignored)", e);
                 }
             }
             httpHost = new HttpHost(hostname, port, scheme);
         }
         else {
-            LOG.debug("Could not load property: " + input
-                + " (property ignored)");
+            LOG.debug("Could not load property: " + input + " (property ignored)");
         }
 
         return httpHost;
@@ -326,8 +277,7 @@ public class HttpClientFactory {
      */
     private static final void setBooleanProperty(final String propertyName) {
         if (cp.getProperty(propertyName) != null) {
-            params.setParameter(propertyName,
-                Boolean.parseBoolean(cp.getProperty(propertyName)));
+            params.setParameter(propertyName, Boolean.parseBoolean(cp.getProperty(propertyName)));
         }
     }
 
@@ -346,12 +296,10 @@ public class HttpClientFactory {
     private static final void setIntProperty(final String propertyName) {
         if (cp.getProperty(propertyName) != null) {
             try {
-                params.setParameter(propertyName,
-                    Integer.parseInt(cp.getProperty(propertyName)));
+                params.setParameter(propertyName, Integer.parseInt(cp.getProperty(propertyName)));
             }
             catch (NumberFormatException e) {
-                LOG.debug("Could not load property: " + propertyName
-                    + " (property ignored)", e);
+                LOG.debug("Could not load property: " + propertyName + " (property ignored)", e);
             }
         }
     }
@@ -362,12 +310,10 @@ public class HttpClientFactory {
     private static final void setLongProperty(final String propertyName) {
         if (cp.getProperty(propertyName) != null) {
             try {
-                params.setParameter(propertyName,
-                    Long.parseLong(cp.getProperty(propertyName)));
+                params.setParameter(propertyName, Long.parseLong(cp.getProperty(propertyName)));
             }
             catch (NumberFormatException e) {
-                LOG.debug("Could not load property: " + propertyName
-                    + " (property ignored)", e);
+                LOG.debug("Could not load property: " + propertyName + " (property ignored)", e);
             }
         }
     }
@@ -376,15 +322,12 @@ public class HttpClientFactory {
      * @param params
      * @return
      */
-    private static final ThreadSafeClientConnManager getConnectionManager(
-        final HttpParams params) {
+    private static final ThreadSafeClientConnManager getConnectionManager(final HttpParams params) {
         if (connectionManager == null) {
             SchemeRegistry schemeRegistry = new SchemeRegistry();
-            schemeRegistry.register(new Scheme("http", PlainSocketFactory
-                .getSocketFactory(), 80));
+            schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
-            connectionManager =
-                new ThreadSafeClientConnManager(params, schemeRegistry);
+            connectionManager = new ThreadSafeClientConnManager(params, schemeRegistry);
         }
         return connectionManager;
     }

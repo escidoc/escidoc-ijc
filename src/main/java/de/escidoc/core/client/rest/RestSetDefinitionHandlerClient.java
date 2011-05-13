@@ -26,8 +26,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
 
     private SetDefinitionHandler client;
 
-    private static final Logger LOG = Logger
-        .getLogger(RestSetDefinitionHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestSetDefinitionHandlerClient.class);
 
     /**
      * @throws InternalClientException
@@ -40,8 +39,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestSetDefinitionHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestSetDefinitionHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -53,8 +51,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestSetDefinitionHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestSetDefinitionHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -66,8 +63,8 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveSetDefinitions(final HashMap<String, String> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveSetDefinitions(final HashMap<String, String> filter) throws EscidocException,
+        InternalClientException, TransportException {
         String result = null;
         try {
             result = getClient().retrieveSetDefinitions(filter);
@@ -85,8 +82,8 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveSetDefinitions(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveSetDefinitions(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
 
@@ -107,8 +104,8 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveSetDefinitions(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveSetDefinitions(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request);
 
@@ -128,8 +125,8 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void delete(final String setDefinitionId) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String setDefinitionId) throws EscidocException, InternalClientException,
+        TransportException {
 
         try {
             getClient().delete(setDefinitionId);
@@ -146,8 +143,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String create(final String xmlData) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String xmlData) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -167,8 +163,8 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String update(final String setDefinitionId, final String xmlData)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String setDefinitionId, final String xmlData) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -187,8 +183,8 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String setDefinitionId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieve(final String setDefinitionId) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -209,8 +205,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
     public SetDefinitionHandler getClient() throws InternalClientException {
         if (client == null) {
 
-            SetDefinitionRestServiceLocator serviceLocator =
-                new SetDefinitionRestServiceLocator();
+            SetDefinitionRestServiceLocator serviceLocator = new SetDefinitionRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             client = serviceLocator;

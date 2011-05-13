@@ -32,9 +32,7 @@ public class ResourceResolver extends ContentResolver<Resource> {
 
             if (type.getNamespace() != null) {
 
-                entries.put(
-                    new TagEntry(type.getXmlValue(), type.getNamespace()),
-                    type.getResourceClass());
+                entries.put(new TagEntry(type.getXmlValue(), type.getNamespace()), type.getResourceClass());
             }
         }
     }
@@ -46,21 +44,16 @@ public class ResourceResolver extends ContentResolver<Resource> {
      * getContentInstance(java.lang.Class, java.lang.String)
      */
     @Override
-    public Resource getContentInstance(
-        final Class<? extends Resource> clazz, final String xmlTextFragment) {
+    public Resource getContentInstance(final Class<? extends Resource> clazz, final String xmlTextFragment) {
 
         // TODO check if marshaller works that way.
 
         try {
-            return MarshallerFactory
-                .getInstance().getMarshaller(clazz)
-                .unmarshalDocument(xmlTextFragment);
+            return MarshallerFactory.getInstance().getMarshaller(clazz).unmarshalDocument(xmlTextFragment);
         }
         catch (InternalClientException e) {
             if (LOG.isDebugEnabled())
-                LOG
-                    .debug("Failed to unmarshal search-result content to resource: "
-                        + clazz.getName());
+                LOG.debug("Failed to unmarshal search-result content to resource: " + clazz.getName());
         }
         return null;
     }

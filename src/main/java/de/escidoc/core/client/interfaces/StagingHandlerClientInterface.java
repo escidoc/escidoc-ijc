@@ -53,8 +53,7 @@ public interface StagingHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    URL upload(final File f) throws EscidocException, InternalClientException,
-        TransportException;
+    URL upload(final File f) throws EscidocException, InternalClientException, TransportException;
 
     /**
      * Upload a resource.
@@ -64,6 +63,5 @@ public interface StagingHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    URL upload(final InputStream in) throws EscidocException,
-        InternalClientException, TransportException;
+    URL upload(final InputStream in) throws EscidocException, InternalClientException, TransportException;
 }

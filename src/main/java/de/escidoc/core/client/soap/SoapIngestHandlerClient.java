@@ -49,8 +49,7 @@ import de.escidoc.core.om.IngestHandlerServiceLocator;
  */
 public class SoapIngestHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapIngestHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapIngestHandlerClient.class);
 
     private IngestHandler soapClient = null;
 
@@ -67,8 +66,7 @@ public class SoapIngestHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapIngestHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapIngestHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -81,8 +79,7 @@ public class SoapIngestHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapIngestHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapIngestHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -94,8 +91,7 @@ public class SoapIngestHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String ingest(final String resourceXml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String ingest(final String resourceXml) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -117,11 +113,8 @@ public class SoapIngestHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                IngestHandlerServiceLocator serviceLocator =
-                    new IngestHandlerServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getIngestHandlerServiceAddress());
+                IngestHandlerServiceLocator serviceLocator = new IngestHandlerServiceLocator(getEngineConfig());
+                URL url = getHandlerServiceURL(serviceLocator.getIngestHandlerServiceAddress());
                 soapClient = serviceLocator.getIngestHandlerService(url);
                 registerPWCallback(soapClient);
             }

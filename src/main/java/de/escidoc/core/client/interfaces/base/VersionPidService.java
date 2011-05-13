@@ -24,8 +24,8 @@ public interface VersionPidService<T> extends ObjectPidService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result assignVersionPid(final T resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result assignVersionPid(final T resource, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -36,6 +36,6 @@ public interface VersionPidService<T> extends ObjectPidService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result assignVersionPid(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result assignVersionPid(final String id, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 }

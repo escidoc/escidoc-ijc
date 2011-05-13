@@ -41,8 +41,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * 
  */
 @JiBX
-public class UserAccount extends GenericResource
-    implements Referenceable<UserAccountRef> {
+public class UserAccount extends GenericResource implements Referenceable<UserAccountRef> {
 
     private UserAccountProperties properties;
 

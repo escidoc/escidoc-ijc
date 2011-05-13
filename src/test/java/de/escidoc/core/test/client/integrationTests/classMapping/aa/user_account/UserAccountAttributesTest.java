@@ -61,10 +61,8 @@ public class UserAccountAttributesTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uahc = new UserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
     }
@@ -101,20 +99,14 @@ public class UserAccountAttributesTest {
         Attribute uaAttrib = new Attribute("AttributeName", "AttributeValue");
 
         Attribute createAttrib = uahc.createAttribute(objId, uaAttrib);
-        assertEquals("Attribute name differs", uaAttrib.getName(),
-            createAttrib.getName());
-        assertEquals("Attribute value differs", uaAttrib.getValue(),
-            createAttrib.getValue());
+        assertEquals("Attribute name differs", uaAttrib.getName(), createAttrib.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(), createAttrib.getValue());
 
         // retrieve
-        Attribute attribute =
-            uahc.retrieveAttribute(objId, createAttrib.getObjid());
-        assertEquals("Attribute name differs", uaAttrib.getName(),
-            attribute.getName());
-        assertEquals("Attribute value differs", uaAttrib.getValue(),
-            attribute.getValue());
-        assertEquals("Objid differs", createAttrib.getObjid(),
-            attribute.getObjid());
+        Attribute attribute = uahc.retrieveAttribute(objId, createAttrib.getObjid());
+        assertEquals("Attribute name differs", uaAttrib.getName(), attribute.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(), attribute.getValue());
+        assertEquals("Objid differs", createAttrib.getObjid(), attribute.getObjid());
     }
 
     /**
@@ -143,31 +135,24 @@ public class UserAccountAttributesTest {
         Attribute uaAttrib = new Attribute("AttributeName", "AttributeValue");
 
         Attribute createdAttrib = uahc.createAttribute(objId, uaAttrib);
-        assertEquals("Attribute name differs", uaAttrib.getName(),
-            createdAttrib.getName());
-        assertEquals("Attribute value differs", uaAttrib.getValue(),
-            createdAttrib.getValue());
+        assertEquals("Attribute name differs", uaAttrib.getName(), createdAttrib.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(), createdAttrib.getValue());
 
         // update Attribute
         createdAttrib.setValue("AttributeValue2");
 
         Attribute updatedAttrib = uahc.updateAttribute(objId, createdAttrib);
 
-        assertEquals("Attribute name differs", createdAttrib.getObjid(),
-            updatedAttrib.getObjid());
-        assertEquals("Attribute name differs", createdAttrib.getName(),
-            updatedAttrib.getName());
-        assertEquals("Attribute value differs", createdAttrib.getValue(),
-            updatedAttrib.getValue());
+        assertEquals("Attribute name differs", createdAttrib.getObjid(), updatedAttrib.getObjid());
+        assertEquals("Attribute name differs", createdAttrib.getName(), updatedAttrib.getName());
+        assertEquals("Attribute value differs", createdAttrib.getValue(), updatedAttrib.getValue());
 
         // retrieve
         Attributes attributes = uahc.retrieveAttributes(objId);
         assertTrue("Wrong number of attributes", attributes.size() == 1);
         Attribute p = attributes.iterator().next();
-        assertEquals("Attribute name differs", updatedAttrib.getName(),
-            p.getName());
-        assertEquals("Attribute value differs", updatedAttrib.getValue(),
-            p.getValue());
+        assertEquals("Attribute name differs", updatedAttrib.getName(), p.getName());
+        assertEquals("Attribute value differs", updatedAttrib.getValue(), p.getValue());
     }
 
     /**
@@ -197,10 +182,8 @@ public class UserAccountAttributesTest {
         Attribute uaAttrib = new Attribute("AttributeName", "AttributeValue");
 
         Attribute createAttrib = uahc.createAttribute(objId, uaAttrib);
-        assertEquals("Attribute name differs", uaAttrib.getName(),
-            createAttrib.getName());
-        assertEquals("Attribute value differs", uaAttrib.getValue(),
-            createAttrib.getValue());
+        assertEquals("Attribute name differs", uaAttrib.getName(), createAttrib.getName());
+        assertEquals("Attribute value differs", uaAttrib.getValue(), createAttrib.getValue());
 
         uahc.deleteAttribute(objId, createAttrib.getObjid());
 

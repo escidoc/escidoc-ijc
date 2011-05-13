@@ -20,8 +20,7 @@ import de.escidoc.core.client.rest.serviceLocator.PolicyDecisionPointRestService
  */
 public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(RestPolicyDecisionPointHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestPolicyDecisionPointHandlerClient.class);
 
     private PolicyDecisionPoint restClient;
 
@@ -29,8 +28,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
      * 
      * @throws InternalClientException
      */
-    public RestPolicyDecisionPointHandlerClient()
-        throws InternalClientException {
+    public RestPolicyDecisionPointHandlerClient() throws InternalClientException {
         super();
     }
 
@@ -39,8 +37,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestPolicyDecisionPointHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestPolicyDecisionPointHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -53,8 +50,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestPolicyDecisionPointHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestPolicyDecisionPointHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -66,8 +62,8 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String evaluate(final String requestsXml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String evaluate(final String requestsXml) throws EscidocException, InternalClientException,
+        TransportException {
 
         try {
             return getClient().evaluate(requestsXml);
@@ -87,8 +83,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
     public PolicyDecisionPoint getClient() throws InternalClientException {
         if (restClient == null) {
 
-            PolicyDecisionPointRestServiceLocator serviceLocator =
-                new PolicyDecisionPointRestServiceLocator();
+            PolicyDecisionPointRestServiceLocator serviceLocator = new PolicyDecisionPointRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

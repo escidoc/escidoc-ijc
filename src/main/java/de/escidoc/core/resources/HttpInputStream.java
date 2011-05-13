@@ -34,13 +34,12 @@ public class HttpInputStream extends InputStream {
      * @throws IllegalStateException
      * @throws IOException
      */
-    public HttpInputStream(final HttpRequestBase requestBase,
-        final HttpResponse response) throws IllegalStateException, IOException {
+    public HttpInputStream(final HttpRequestBase requestBase, final HttpResponse response)
+        throws IllegalStateException, IOException {
 
         this.requestBase = requestBase;
         this.inputStream = response.getEntity().getContent();
-        this.contentEncoding =
-            response.getEntity().getContentEncoding().getValue();
+        this.contentEncoding = response.getEntity().getContentEncoding().getValue();
         this.contentType = response.getEntity().getContentType().getValue();
         this.contentLength = response.getEntity().getContentLength();
         this.response = response;
@@ -57,8 +56,7 @@ public class HttpInputStream extends InputStream {
     }
 
     @Override
-    public int read(final byte b[], final int off, final int len)
-        throws IOException {
+    public int read(final byte b[], final int off, final int len) throws IOException {
         return inputStream.read(b, off, len);
     }
 

@@ -44,8 +44,7 @@ import de.escidoc.core.client.rest.RestIngestHandlerClient;
  * @author KST
  * 
  */
-public class IngestHandlerClient
-    extends AbstractHandlerClient<RestIngestHandlerClient>
+public class IngestHandlerClient extends AbstractHandlerClient<RestIngestHandlerClient>
     implements IngestHandlerClientInterface {
 
     /**
@@ -88,8 +87,7 @@ public class IngestHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public String ingest(final String resourceXml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String ingest(final String resourceXml) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(resourceXml);
 
@@ -97,8 +95,7 @@ public class IngestHandlerClient
     }
 
     @Override
-    protected RestIngestHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestIngestHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestIngestHandlerClient(getServiceAddress());
     }
 }

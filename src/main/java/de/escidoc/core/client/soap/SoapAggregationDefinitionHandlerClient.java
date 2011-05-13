@@ -26,16 +26,14 @@ import de.escidoc.core.sm.AggregationDefinitionHandlerServiceLocator;
  */
 public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(SoapAggregationDefinitionHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapAggregationDefinitionHandlerClient.class);
 
     private AggregationDefinitionHandler client;
 
     /**
      * @throws InternalClientException
      */
-    public SoapAggregationDefinitionHandlerClient()
-        throws InternalClientException {
+    public SoapAggregationDefinitionHandlerClient() throws InternalClientException {
         super();
     }
 
@@ -43,8 +41,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapAggregationDefinitionHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapAggregationDefinitionHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -56,8 +53,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapAggregationDefinitionHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapAggregationDefinitionHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -68,8 +64,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -90,8 +85,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String xml) throws EscidocException, InternalClientException, TransportException {
 
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
@@ -113,8 +107,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -136,8 +129,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAggregationDefinitions(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public String retrieveAggregationDefinitions(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(request, true);
@@ -151,8 +143,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAggregationDefinitions(
-        final ExplainRequestType request) throws EscidocException,
+    public String retrieveAggregationDefinitions(final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(request);
@@ -166,8 +157,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAggregationDefinitions(
-        final HashMap<String, String[]> filter) throws EscidocException,
+    public String retrieveAggregationDefinitions(final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String resultXml = null;
@@ -186,18 +176,13 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override
-    public AggregationDefinitionHandler getClient()
-        throws InternalClientException {
+    public AggregationDefinitionHandler getClient() throws InternalClientException {
         if (client == null) {
             AggregationDefinitionHandlerServiceLocator serviceLocator =
-                new AggregationDefinitionHandlerServiceLocator(
-                    getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getAggregationDefinitionHandlerServiceAddress());
+                new AggregationDefinitionHandlerServiceLocator(getEngineConfig());
+            URL url = getHandlerServiceURL(serviceLocator.getAggregationDefinitionHandlerServiceAddress());
             try {
-                client =
-                    serviceLocator.getAggregationDefinitionHandlerService(url);
+                client = serviceLocator.getAggregationDefinitionHandlerService(url);
             }
             catch (ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);

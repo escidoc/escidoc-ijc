@@ -25,8 +25,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author MVO
  * 
  */
-public interface UserGroupHandlerClientInterface
-    extends HandlerService, CrudService<UserGroup>, Activatable<UserGroup> {
+public interface UserGroupHandlerClientInterface extends HandlerService, CrudService<UserGroup>, Activatable<UserGroup> {
 
     /**
      * @param groupId
@@ -35,86 +34,84 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Grants retrieveCurrentGrants(final String groupId) throws EscidocException,
+    Grants retrieveCurrentGrants(final String groupId) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * @param group
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Grants retrieveCurrentGrants(final UserGroup group) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * @param groupId
+     * @param grantXML
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Grant createGrant(final String groupId, final Grant grant) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * @param group
+     * @param grantXML
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Grant createGrant(final UserGroup group, final Grant grant) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * @param groupId
+     * @param grantId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Grant retrieveGrant(final String groupId, final String grantId) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * @param group
+     * @param grantId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Grant retrieveGrant(final UserGroup group, final String grantId) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * @param groupId
+     * @param grantId
+     * @param taskParam
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    void revokeGrant(final String groupId, final String grantId, final TaskParam taskParam) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
      * @param group
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    Grants retrieveCurrentGrants(final UserGroup group)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * @param groupId
-     * @param grantXML
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    Grant createGrant(final String groupId, final Grant grant)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * @param group
-     * @param grantXML
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    Grant createGrant(final UserGroup group, final Grant grant)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * @param groupId
-     * @param grantId
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    Grant retrieveGrant(final String groupId, final String grantId)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * @param group
-     * @param grantId
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    Grant retrieveGrant(final UserGroup group, final String grantId)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * @param groupId
      * @param grantId
      * @param taskParam
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    void revokeGrant(
-        final String groupId, final String grantId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * @param group
-     * @param grantId
-     * @param taskParam
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    void revokeGrant(
-        final UserGroup group, final String grantId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    void revokeGrant(final UserGroup group, final String grantId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param groupId
@@ -123,8 +120,8 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    void revokeGrants(final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    void revokeGrants(final String groupId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param group
@@ -133,8 +130,8 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    void revokeGrants(final UserGroup group, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    void revokeGrants(final UserGroup group, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     // /**
     // * @param filter
@@ -153,8 +150,7 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveUserGroups(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    SearchRetrieveResponse retrieveUserGroups(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -164,8 +160,7 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<UserGroup> retrieveUserGroupsAsList(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    List<UserGroup> retrieveUserGroupsAsList(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -175,8 +170,8 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveUserGroups(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveUserGroups(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param groupId
@@ -186,8 +181,8 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    UserGroup addSelectors(final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    UserGroup addSelectors(final String groupId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param group
@@ -197,8 +192,8 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    UserGroup addSelectors(final UserGroup group, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    UserGroup addSelectors(final UserGroup group, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param groupId
@@ -208,8 +203,8 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    UserGroup removeSelectors(final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    UserGroup removeSelectors(final String groupId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * @param group
@@ -219,6 +214,6 @@ public interface UserGroupHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    UserGroup removeSelectors(final UserGroup group, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    UserGroup removeSelectors(final UserGroup group, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 }

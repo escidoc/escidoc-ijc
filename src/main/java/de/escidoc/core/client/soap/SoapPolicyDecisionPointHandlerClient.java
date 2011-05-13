@@ -50,8 +50,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapPolicyDecisionPointHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapPolicyDecisionPointHandlerClient.class);
 
     private PolicyDecisionPoint soapClient = null;
 
@@ -59,8 +58,7 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
      * 
      * @throws InternalClientException
      */
-    public SoapPolicyDecisionPointHandlerClient()
-        throws InternalClientException {
+    public SoapPolicyDecisionPointHandlerClient() throws InternalClientException {
         super();
     }
 
@@ -69,8 +67,7 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapPolicyDecisionPointHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapPolicyDecisionPointHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -83,8 +80,7 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapPolicyDecisionPointHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapPolicyDecisionPointHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -96,8 +92,8 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String evaluate(final String requestsXml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String evaluate(final String requestsXml) throws EscidocException, InternalClientException,
+        TransportException {
         String result = null;
         try {
             result = getClient().evaluate(requestsXml);
@@ -120,9 +116,7 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 PolicyDecisionPointServiceLocator serviceLocator =
                     new PolicyDecisionPointServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getPolicyDecisionPointServiceAddress());
+                URL url = getHandlerServiceURL(serviceLocator.getPolicyDecisionPointServiceAddress());
                 soapClient = serviceLocator.getPolicyDecisionPointService(url);
                 registerPWCallback(soapClient);
             }

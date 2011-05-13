@@ -71,10 +71,8 @@ public class ContainerHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -96,10 +94,8 @@ public class ContainerHandlerClientTest {
         // create first a Container
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord("escidoc");
@@ -117,9 +113,7 @@ public class ContainerHandlerClientTest {
         // retrieve the created Container
         Container container = cc.retrieve(objid);
 
-        MarshallerFactory
-            .getInstance(cc.getTransport()).getMarshaller(Container.class)
-            .marshalDocument(container);
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Container.class).marshalDocument(container);
     }
 
     /**
@@ -142,8 +136,7 @@ public class ContainerHandlerClientTest {
     @Test
     public void testRetrieveContainers() throws Exception {
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request
-            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
+        request.setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
         List<Container> containerList = cc.retrieveContainersAsList(request);
 
@@ -161,10 +154,8 @@ public class ContainerHandlerClientTest {
     public void testRetrieveMembers() throws Exception {
         Container containerNew = new Container();
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         containerNew.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord("escidoc");
@@ -179,16 +170,12 @@ public class ContainerHandlerClientTest {
         Container createdContainer = cc.create(containerNew);
         String objid = createdContainer.getObjid();
         Container container = cc.retrieve(objid);
-        MarshallerFactory
-            .getInstance(cc.getTransport()).getMarshaller(Container.class)
-            .marshalDocument(container);
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Container.class).marshalDocument(container);
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request
-            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
+        request.setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        List<VersionableResource> memberList =
-            cc.retrieveMembersAsList(objid, request);
+        List<VersionableResource> memberList = cc.retrieveMembersAsList(objid, request);
 
         // FIXME check containerList
         assertNotNull(memberList);

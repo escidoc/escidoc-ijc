@@ -27,8 +27,7 @@ public class DatabaseInfoText {
 
     }
 
-    protected DatabaseInfoText(final String lang, final boolean isPrimary,
-        final String value) {
+    protected DatabaseInfoText(final String lang, final boolean isPrimary, final String value) {
         this.lang = lang;
         this.isPrimary = isPrimary;
         this.value = value;

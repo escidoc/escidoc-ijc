@@ -31,8 +31,7 @@ public class AggregationDefinitionRef extends Reference {
      * @param xLinkHref
      * @param xLinkTitle
      */
-    public AggregationDefinitionRef(final String xLinkHref,
-        final String xLinkTitle) {
+    public AggregationDefinitionRef(final String xLinkHref, final String xLinkTitle) {
         super(xLinkHref, xLinkTitle);
     }
 

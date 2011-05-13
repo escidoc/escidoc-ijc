@@ -62,10 +62,8 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public interface ContainerHandlerClientInterface
-    extends HandlerService, CrudService<Container>,
-    VersionableResourceService<Container>, LockingService<Container>,
-    VersionPidService<Container>, ResourceStatusService<Container>,
-    RelationsService {
+    extends HandlerService, CrudService<Container>, VersionableResourceService<Container>, LockingService<Container>,
+    VersionPidService<Container>, ResourceStatusService<Container>, RelationsService {
 
     /**
      * 
@@ -75,8 +73,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveContainers(SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    SearchRetrieveResponse retrieveContainers(SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -86,8 +84,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveContainers(ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveContainers(ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -97,8 +95,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<Container> retrieveContainersAsList(SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    List<Container> retrieveContainersAsList(SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -108,8 +106,7 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    StructMap retrieveStructMap(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    StructMap retrieveStructMap(final String id) throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
@@ -119,8 +116,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    StructMap retrieveStructMap(final Container container)
-        throws EscidocException, InternalClientException, TransportException;
+    StructMap retrieveStructMap(final Container container) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * @param id
@@ -129,8 +126,7 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ContainerList retrieveParents(String id) throws EscidocException,
-        InternalClientException, TransportException;
+    ContainerList retrieveParents(String id) throws EscidocException, InternalClientException, TransportException;
 
     /**
      * Creates a container as a sub-resource of this container.
@@ -142,9 +138,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Container createContainer(
-        final Container container, final Container subContainer)
-        throws EscidocException, InternalClientException, TransportException;
+    Container createContainer(final Container container, final Container subContainer) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * Creates a container as a sub-resource of this container.
@@ -156,26 +151,25 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Container createContainer(
-        final String containerId, final Container container)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * Creates an item as a sub-resource of this container.
-     * 
-     * @param id
-     * @param item
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    Item createItem(final String id, final Item item) throws EscidocException,
+    Container createContainer(final String containerId, final Container container) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
      * Creates an item as a sub-resource of this container.
      * 
+     * @param id
+     * @param item
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Item createItem(final String id, final Item item) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * Creates an item as a sub-resource of this container.
+     * 
      * @param container
      * @param item
      * @return
@@ -183,8 +177,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Item createItem(final Container container, final Item item)
-        throws EscidocException, InternalClientException, TransportException;
+    Item createItem(final Container container, final Item item) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -195,8 +189,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Container addContentRelations(final String id, TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Container addContentRelations(final String id, TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -207,8 +201,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Container addContentRelations(final Container container, TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Container addContentRelations(final Container container, TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -219,8 +213,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Container removeContentRelations(final String id, TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Container removeContentRelations(final String id, TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -231,9 +225,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Container removeContentRelations(
-        final Container container, TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Container removeContentRelations(final Container container, TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -244,8 +237,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result addMembers(final String id, TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result addMembers(final String id, TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -256,8 +249,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result addMembers(final Container container, TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result addMembers(final Container container, TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -268,8 +261,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result removeMembers(final String id, TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result removeMembers(final String id, TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -280,8 +273,8 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result removeMembers(final Container container, TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result removeMembers(final Container container, TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * Retrieve Members (Filter for Members).
@@ -298,8 +291,7 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    SearchRetrieveResponse retrieveMembers(
-        final String id, final SearchRetrieveRequestType filter)
+    SearchRetrieveResponse retrieveMembers(final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -310,8 +302,7 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<VersionableResource> retrieveMembersAsList(
-        final String id, final SearchRetrieveRequestType filter)
+    List<VersionableResource> retrieveMembersAsList(final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -322,8 +313,7 @@ public interface ContainerHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<VersionableResource> retrieveMembersAsList(
-        final Container container, final SearchRetrieveRequestType filter)
+    List<VersionableResource> retrieveMembersAsList(final Container container, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -341,8 +331,7 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    SearchRetrieveResponse retrieveMembers(
-        final Container container, final SearchRetrieveRequestType filter)
+    SearchRetrieveResponse retrieveMembers(final Container container, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -360,9 +349,8 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    ExplainResponse retrieveMembers(
-        final String id, final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveMembers(final String id, final ExplainRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * Retrieve Members (Filter for Members).
@@ -379,7 +367,6 @@ public interface ContainerHandlerClientInterface
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    ExplainResponse retrieveMembers(
-        final Container container, final ExplainRequestType filter)
+    ExplainResponse retrieveMembers(final Container container, final ExplainRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 }

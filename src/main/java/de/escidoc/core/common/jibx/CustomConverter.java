@@ -61,8 +61,7 @@ public class CustomConverter {
      * @throws MalformedURLException
      *             Thrown if text is not a valid URL
      */
-    public static URL deserializeURL(final String text)
-        throws MalformedURLException {
+    public static URL deserializeURL(final String text) throws MalformedURLException {
 
         if (text == null) {
             return null;

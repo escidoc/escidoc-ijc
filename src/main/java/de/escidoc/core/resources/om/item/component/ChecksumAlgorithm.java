@@ -11,8 +11,7 @@ import de.escidoc.core.resources.interfaces.XmlCompatibleEnum;
  */
 public enum ChecksumAlgorithm implements XmlCompatibleEnum {
 
-    MD5, SHA_1("SHA-1"), SHA_256("SHA-256"), SHA_384("SHA-384"), SHA_512(
-        "SHA-512"), HAVAL, TIGER, WHIRLPOOL, DISABLED;
+    MD5, SHA_1("SHA-1"), SHA_256("SHA-256"), SHA_384("SHA-384"), SHA_512("SHA-512"), HAVAL, TIGER, WHIRLPOOL, DISABLED;
 
     private final String xmlValue;
 

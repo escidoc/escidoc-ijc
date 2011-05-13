@@ -23,8 +23,7 @@ import de.escidoc.core.resources.sm.report.ReportDefinitionList;
  * @author MVO
  * 
  */
-public interface ReportDefinitionHandlerClientInterface
-    extends HandlerService, CrudService<ReportDefinition> {
+public interface ReportDefinitionHandlerClientInterface extends HandlerService, CrudService<ReportDefinition> {
 
     /**
      * 
@@ -34,32 +33,30 @@ public interface ReportDefinitionHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveReportDefinitions(final ExplainRequestType request)
+    ExplainResponse retrieveReportDefinitions(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    SearchRetrieveResponse retrieveReportDefinitions(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    List<ReportDefinition> retrieveReportDefinitionsAsList(final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param request
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    SearchRetrieveResponse retrieveReportDefinitions(
-        final SearchRetrieveRequestType request) throws EscidocException,
-        InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param request
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    List<ReportDefinition> retrieveReportDefinitionsAsList(
-        final SearchRetrieveRequestType request) throws EscidocException,
-        InternalClientException, TransportException;
 
     /**
      * @param filter
@@ -69,6 +66,6 @@ public interface ReportDefinitionHandlerClientInterface
      * @throws TransportException
      */
     @SuppressWarnings("rawtypes")
-    ReportDefinitionList retrieveReportDefinitions(final HashMap filter)
-        throws EscidocException, InternalClientException, TransportException;
+    ReportDefinitionList retrieveReportDefinitions(final HashMap filter) throws EscidocException,
+        InternalClientException, TransportException;
 }

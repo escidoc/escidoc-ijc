@@ -61,9 +61,8 @@ import de.escidoc.core.resources.interfaces.common.Version;
  */
 @JiBX
 public class ContainerProperties extends CommonProperties
-    implements PublicStatusProperties, NameProperties, DescriptionProperties,
-    ContextProperties, LockingProperties, PidProperties, VersionProperties,
-    ContentModelSpecificProperties {
+    implements PublicStatusProperties, NameProperties, DescriptionProperties, ContextProperties, LockingProperties,
+    PidProperties, VersionProperties, ContentModelSpecificProperties {
 
     private String description;
 
@@ -380,8 +379,7 @@ public class ContainerProperties extends CommonProperties
      * .common.properties.ContentModelSpecific)
      */
     @Override
-    public void setContentModelSpecific(
-        final ContentModelSpecific contentModelSpecific) {
+    public void setContentModelSpecific(final ContentModelSpecific contentModelSpecific) {
         this.contentModelSpecific = contentModelSpecific;
     }
 

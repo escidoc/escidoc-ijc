@@ -20,8 +20,7 @@ import de.escidoc.core.sm.PreprocessingHandler;
  */
 public class RestPreprocessingHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestPreprocessingHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestPreprocessingHandlerClient.class);
 
     private PreprocessingHandler client;
 
@@ -38,8 +37,7 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestPreprocessingHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestPreprocessingHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -52,8 +50,7 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestPreprocessingHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestPreprocessingHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -65,13 +62,11 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void preprocess(
-        final String aggregationDefinitionId, final String xmlData)
-        throws EscidocException, InternalClientException, TransportException {
+    public void preprocess(final String aggregationDefinitionId, final String xmlData) throws EscidocException,
+        InternalClientException, TransportException {
 
         if (aggregationDefinitionId == null)
-            throw new IllegalArgumentException(
-                "aggregationDefinitionId must not be null.");
+            throw new IllegalArgumentException("aggregationDefinitionId must not be null.");
         if (xmlData == null)
             throw new IllegalArgumentException("xmlData must not be null.");
 
@@ -92,8 +87,7 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
     public PreprocessingHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            PreprocessingRestServiceLocator serviceLocator =
-                new PreprocessingRestServiceLocator();
+            PreprocessingRestServiceLocator serviceLocator = new PreprocessingRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

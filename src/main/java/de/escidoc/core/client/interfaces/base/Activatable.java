@@ -21,8 +21,8 @@ public interface Activatable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    void activate(final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    void activate(final String groupId, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * @param resource
@@ -31,8 +31,8 @@ public interface Activatable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    void activate(final T resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    void activate(final T resource, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * @param groupId
@@ -41,8 +41,8 @@ public interface Activatable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    void deactivate(final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    void deactivate(final String groupId, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * @param resource
@@ -51,6 +51,6 @@ public interface Activatable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    void deactivate(final T resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    void deactivate(final T resource, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 }

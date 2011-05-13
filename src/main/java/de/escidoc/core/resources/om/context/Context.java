@@ -41,8 +41,7 @@ import de.escidoc.core.resources.common.reference.Referenceable;
  * 
  */
 @JiBX
-public class Context extends GenericResource
-    implements Referenceable<ContextRef> {
+public class Context extends GenericResource implements Referenceable<ContextRef> {
 
     private AdminDescriptors adminDescriptors;
 

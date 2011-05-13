@@ -24,32 +24,22 @@ import de.escidoc.core.resources.HttpInputStream;
  */
 public interface ItemHandler extends de.escidoc.core.om.ItemHandler {
 
-    String retrieveItems(final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveItems(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    String retrieveItems(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveItems(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    HttpInputStream retrieveContentStreamContent(
-        final String itemId, final String contentStreamId)
-        throws RemoteException, SystemException,
-        ContentStreamNotFoundException, MissingMethodParameterException,
+    HttpInputStream retrieveContentStreamContent(final String itemId, final String contentStreamId)
+        throws RemoteException, SystemException, ContentStreamNotFoundException, MissingMethodParameterException,
         AuthenticationException, ItemNotFoundException, AuthorizationException;
 
-    HttpInputStream retrieveContent(
-        final String itemId, final String componentId) throws RemoteException,
-        SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
+    HttpInputStream retrieveContent(final String itemId, final String componentId) throws RemoteException,
+        SystemException, ComponentNotFoundException, MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException;
 
     HttpInputStream retrieveContent(
-        final String itemId, final String componentId,
-        final String transformer, final Map<String, String[]> transParams)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException;
+        final String itemId, final String componentId, final String transformer, final Map<String, String[]> transParams)
+        throws RemoteException, SystemException, ComponentNotFoundException, MissingMethodParameterException,
+        AuthenticationException, ItemNotFoundException, AuthorizationException;
 }

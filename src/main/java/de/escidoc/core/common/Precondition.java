@@ -14,8 +14,7 @@ import org.jibx.runtime.JiBXException;
  */
 public class Precondition {
 
-    protected static final String EX_INVALID_OBJ_TYPE =
-        "Unexpected object type. Expected: ";
+    protected static final String EX_INVALID_OBJ_TYPE = "Unexpected object type. Expected: ";
 
     private Precondition() {
         // no instance
@@ -52,8 +51,7 @@ public class Precondition {
 
         if (param == null) {
             if (errorMsg == null || errorMsg.isEmpty())
-                throw new IllegalArgumentException(
-                    "CheckNotNull failed: The specified argument must not be null.");
+                throw new IllegalArgumentException("CheckNotNull failed: The specified argument must not be null.");
             else
                 throw new IllegalArgumentException(errorMsg);
         }
@@ -73,8 +71,7 @@ public class Precondition {
      * @param errorMsg
      * @return
      */
-    public static final String checkNotEmpty(
-        final String value, final String errorMsg) {
+    public static final String checkNotEmpty(final String value, final String errorMsg) {
 
         if (checkNotNull(value).isEmpty()) {
             if (errorMsg == null || errorMsg.isEmpty())
@@ -105,8 +102,7 @@ public class Precondition {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static final <T> T checkObject(
-        final Class<T> type, final Object obj, final String errorMsg) {
+    public static final <T> T checkObject(final Class<T> type, final Object obj, final String errorMsg) {
 
         checkNotNull(type);
         checkNotNull(obj);
@@ -125,8 +121,7 @@ public class Precondition {
      * @param pattern
      * @param value
      */
-    public static final String validateString(
-        final Pattern pattern, final String value) {
+    public static final String validateString(final Pattern pattern, final String value) {
 
         checkNotNull(pattern);
         checkNotNull(value);
@@ -136,8 +131,7 @@ public class Precondition {
             return value;
         }
         else {
-            throw new IllegalArgumentException(
-                "The string does not match the pattern: " + pattern.toString());
+            throw new IllegalArgumentException("The string does not match the pattern: " + pattern.toString());
         }
     }
 }

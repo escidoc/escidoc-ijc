@@ -57,8 +57,8 @@ import de.escidoc.core.resources.interfaces.common.Version;
  * 
  */
 public class ItemProperties extends CommonProperties
-    implements PublicStatusProperties, ContextProperties, PidProperties,
-    VersionProperties, ContentModelSpecificProperties, LockingProperties {
+    implements PublicStatusProperties, ContextProperties, PidProperties, VersionProperties,
+    ContentModelSpecificProperties, LockingProperties {
 
     private ItemRef origin;
 
@@ -373,8 +373,7 @@ public class ItemProperties extends CommonProperties
      * .common.properties.ContentModelSpecific)
      */
     @Override
-    public void setContentModelSpecific(
-        final ContentModelSpecific contentModelSpecific) {
+    public void setContentModelSpecific(final ContentModelSpecific contentModelSpecific) {
         this.contentModelSpecific = contentModelSpecific;
     }
 

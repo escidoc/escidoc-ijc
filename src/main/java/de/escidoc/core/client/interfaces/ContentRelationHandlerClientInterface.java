@@ -58,11 +58,9 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public interface ContentRelationHandlerClientInterface
-    extends HandlerService, CrudService<ContentRelation>,
-    LockingService<ContentRelation>, Releasable<ContentRelation>,
+    extends HandlerService, CrudService<ContentRelation>, LockingService<ContentRelation>, Releasable<ContentRelation>,
     Revisable<ContentRelation>, Submittable<ContentRelation>,
-    PropertiesService<ContentRelation, ContentRelationProperties>,
-    ObjectPidService<ContentRelation> {
+    PropertiesService<ContentRelation, ContentRelationProperties>, ObjectPidService<ContentRelation> {
 
     /**
      * 
@@ -72,8 +70,7 @@ public interface ContentRelationHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveContentRelations(
-        SearchRetrieveRequestType request) throws EscidocException,
+    SearchRetrieveResponse retrieveContentRelations(SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -84,8 +81,8 @@ public interface ContentRelationHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveContentRelations(ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveContentRelations(ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -95,7 +92,6 @@ public interface ContentRelationHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<ContentRelation> retrieveContentRelationsAsList(
-        SearchRetrieveRequestType request) throws EscidocException,
+    List<ContentRelation> retrieveContentRelationsAsList(SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 }

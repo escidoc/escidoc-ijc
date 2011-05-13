@@ -19,16 +19,13 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class PolicyDecisionPointRestServiceLocator extends RestServiceMethod
-    implements PolicyDecisionPoint {
+public class PolicyDecisionPointRestServiceLocator extends RestServiceMethod implements PolicyDecisionPoint {
 
     public static final String PATH = "/aa/pdp";
 
     @Override
-    public String evaluate(final String requestsXml) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        ResourceNotFoundException, InvalidXmlException,
-        MissingMethodParameterException {
+    public String evaluate(final String requestsXml) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, ResourceNotFoundException, InvalidXmlException, MissingMethodParameterException {
 
         checkNotNull(requestsXml);
 

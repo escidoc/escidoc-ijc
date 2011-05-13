@@ -28,8 +28,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author MVO
  * 
  */
-public class UserGroupHandlerClient
-    extends AbstractHandlerClient<RestUserGroupHandlerClient>
+public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupHandlerClient>
     implements UserGroupHandlerClientInterface {
 
     /**
@@ -65,8 +64,7 @@ public class UserGroupHandlerClient
      * ()
      */
     @Override
-    protected RestUserGroupHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestUserGroupHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestUserGroupHandlerClient(getServiceAddress());
     }
 
@@ -77,16 +75,14 @@ public class UserGroupHandlerClient
      * retrieveCurrentGrants(java.lang.String)
      */
     @Override
-    public Grants retrieveCurrentGrants(final String userGroupId)
-        throws EscidocException, InternalClientException, TransportException {
+    public Grants retrieveCurrentGrants(final String userGroupId) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(userGroupId);
 
-        Marshaller<Grants> m =
-            MarshallerFactory.getInstance().getMarshaller(Grants.class);
+        Marshaller<Grants> m = MarshallerFactory.getInstance().getMarshaller(Grants.class);
 
-        return m.unmarshalDocument(getClient().retrieveCurrentGrants(
-            userGroupId));
+        return m.unmarshalDocument(getClient().retrieveCurrentGrants(userGroupId));
     }
 
     /*
@@ -97,16 +93,14 @@ public class UserGroupHandlerClient
      * )
      */
     @Override
-    public UserGroup create(final UserGroup resource) throws EscidocException,
-        InternalClientException, TransportException {
+    public UserGroup create(final UserGroup resource) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(resource);
 
-        Marshaller<UserGroup> m =
-            MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
+        Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
-        return m.unmarshalDocument(getClient().create(
-            m.marshalDocument(resource)));
+        return m.unmarshalDocument(getClient().create(m.marshalDocument(resource)));
     }
 
     /*
@@ -117,14 +111,12 @@ public class UserGroupHandlerClient
      * .String)
      */
     @Override
-    public UserGroup retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public UserGroup retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(UserGroup.class)
-            .unmarshalDocument(getClient().retrieve(id));
+        return MarshallerFactory.getInstance().getMarshaller(UserGroup.class).unmarshalDocument(
+            getClient().retrieve(id));
     }
 
     /*
@@ -134,8 +126,7 @@ public class UserGroupHandlerClient
      * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
@@ -149,16 +140,14 @@ public class UserGroupHandlerClient
      * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
-    public UserGroup update(final UserGroup resource) throws EscidocException,
-        InternalClientException, TransportException {
+    public UserGroup update(final UserGroup resource) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(resource);
 
-        Marshaller<UserGroup> m =
-            MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
+        Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
-        return m.unmarshalDocument(getClient().update(resource.getObjid(),
-            m.marshalDocument(resource)));
+        return m.unmarshalDocument(getClient().update(resource.getObjid(), m.marshalDocument(resource)));
     }
 
     /*
@@ -169,8 +158,8 @@ public class UserGroupHandlerClient
      * .String, java.lang.String)
      */
     @Override
-    public void activate(final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void activate(final String groupId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(groupId);
         checkNotNull(taskParam);
@@ -186,8 +175,8 @@ public class UserGroupHandlerClient
      * .Object, java.lang.String)
      */
     @Override
-    public void activate(final UserGroup resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void activate(final UserGroup resource, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(resource);
 
@@ -202,8 +191,8 @@ public class UserGroupHandlerClient
      * .String, java.lang.String)
      */
     @Override
-    public void deactivate(final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deactivate(final String groupId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(groupId);
         checkNotNull(taskParam);
@@ -219,8 +208,8 @@ public class UserGroupHandlerClient
      * .Object, java.lang.String)
      */
     @Override
-    public void deactivate(final UserGroup resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deactivate(final UserGroup resource, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(resource);
 
@@ -234,8 +223,8 @@ public class UserGroupHandlerClient
      * retrieveCurrentGrants(de.escidoc.core.resources.aa.usergroup.UserGroup)
      */
     @Override
-    public Grants retrieveCurrentGrants(final UserGroup group)
-        throws EscidocException, InternalClientException, TransportException {
+    public Grants retrieveCurrentGrants(final UserGroup group) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(group);
 
@@ -250,17 +239,15 @@ public class UserGroupHandlerClient
      * (java.lang.String, java.lang.String)
      */
     @Override
-    public Grant createGrant(final String groupId, final Grant grant)
-        throws EscidocException, InternalClientException, TransportException {
+    public Grant createGrant(final String groupId, final Grant grant) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(groupId);
         checkNotNull(grant);
 
-        Marshaller<Grant> m =
-            MarshallerFactory.getInstance().getMarshaller(Grant.class);
+        Marshaller<Grant> m = MarshallerFactory.getInstance().getMarshaller(Grant.class);
 
-        return m.unmarshalDocument(getClient().createGrant(groupId,
-            m.marshalDocument(grant)));
+        return m.unmarshalDocument(getClient().createGrant(groupId, m.marshalDocument(grant)));
     }
 
     /*
@@ -271,8 +258,8 @@ public class UserGroupHandlerClient
      * (de.escidoc.core.resources.aa.usergroup.UserGroup, java.lang.String)
      */
     @Override
-    public Grant createGrant(final UserGroup group, final Grant grant)
-        throws EscidocException, InternalClientException, TransportException {
+    public Grant createGrant(final UserGroup group, final Grant grant) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(group);
 
@@ -286,14 +273,13 @@ public class UserGroupHandlerClient
      * retrieveGrant(java.lang.String, java.lang.String)
      */
     @Override
-    public Grant retrieveGrant(final String groupId, final String grantId)
-        throws EscidocException, InternalClientException, TransportException {
+    public Grant retrieveGrant(final String groupId, final String grantId) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(groupId);
         checkNotNull(grantId);
 
-        Marshaller<Grant> m =
-            MarshallerFactory.getInstance().getMarshaller(Grant.class);
+        Marshaller<Grant> m = MarshallerFactory.getInstance().getMarshaller(Grant.class);
 
         return m.unmarshalDocument(getClient().retrieveGrant(groupId, grantId));
     }
@@ -306,8 +292,8 @@ public class UserGroupHandlerClient
      * java.lang.String)
      */
     @Override
-    public Grant retrieveGrant(final UserGroup group, final String grantId)
-        throws EscidocException, InternalClientException, TransportException {
+    public Grant retrieveGrant(final UserGroup group, final String grantId) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(group);
 
@@ -322,8 +308,7 @@ public class UserGroupHandlerClient
      * (java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void revokeGrant(
-        final String groupId, final String grantId, final TaskParam taskParam)
+    public void revokeGrant(final String groupId, final String grantId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(groupId);
@@ -342,8 +327,7 @@ public class UserGroupHandlerClient
      * java.lang.String)
      */
     @Override
-    public void revokeGrant(
-        final UserGroup group, final String grantId, final TaskParam taskParam)
+    public void revokeGrant(final UserGroup group, final String grantId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(group);
@@ -358,8 +342,8 @@ public class UserGroupHandlerClient
      * revokeGrants(java.lang.String, java.lang.String)
      */
     @Override
-    public void revokeGrants(final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void revokeGrants(final String groupId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(groupId);
         checkNotNull(taskParam);
@@ -375,8 +359,8 @@ public class UserGroupHandlerClient
      * java.lang.String)
      */
     @Override
-    public void revokeGrants(final UserGroup group, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void revokeGrants(final UserGroup group, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(group);
 
@@ -390,15 +374,13 @@ public class UserGroupHandlerClient
      * retrieveUserGroups(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public SearchRetrieveResponse retrieveUserGroups(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public SearchRetrieveResponse retrieveUserGroups(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         checkNotNull(request);
 
         Marshaller<SearchRetrieveResponse> m =
-            MarshallerFactory.getInstance().getMarshaller(
-                SearchRetrieveResponse.class);
+            MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class);
 
         return m.unmarshalDocument(getClient().retrieveUserGroups(request));
     }
@@ -410,12 +392,10 @@ public class UserGroupHandlerClient
      * retrieveUserGroupsAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public List<UserGroup> retrieveUserGroupsAsList(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public List<UserGroup> retrieveUserGroupsAsList(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        return getSearchRetrieveResponseAsList(UserGroup.class,
-            retrieveUserGroups(request));
+        return getSearchRetrieveResponseAsList(UserGroup.class, retrieveUserGroups(request));
     }
 
     /*
@@ -425,14 +405,12 @@ public class UserGroupHandlerClient
      * retrieveUserGroups(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
-    public ExplainResponse retrieveUserGroups(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public ExplainResponse retrieveUserGroups(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(request);
 
-        Marshaller<ExplainResponse> m =
-            MarshallerFactory
-                .getInstance().getMarshaller(ExplainResponse.class);
+        Marshaller<ExplainResponse> m = MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class);
 
         return m.unmarshalDocument(getClient().retrieveUserGroups(request));
     }
@@ -444,18 +422,15 @@ public class UserGroupHandlerClient
      * addSelectors(java.lang.String, java.lang.String)
      */
     @Override
-    public UserGroup addSelectors(
-        final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public UserGroup addSelectors(final String groupId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(groupId);
         checkNotNull(taskParam);
 
-        Marshaller<UserGroup> m =
-            MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
+        Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
-        return m.unmarshalDocument(getClient().addSelectors(groupId,
-            marshalTaskParam(taskParam)));
+        return m.unmarshalDocument(getClient().addSelectors(groupId, marshalTaskParam(taskParam)));
     }
 
     /*
@@ -466,9 +441,8 @@ public class UserGroupHandlerClient
      * java.lang.String)
      */
     @Override
-    public UserGroup addSelectors(
-        final UserGroup group, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public UserGroup addSelectors(final UserGroup group, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(group);
 
@@ -482,18 +456,15 @@ public class UserGroupHandlerClient
      * removeSelectors(java.lang.String, java.lang.String)
      */
     @Override
-    public UserGroup removeSelectors(
-        final String groupId, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public UserGroup removeSelectors(final String groupId, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(groupId);
         checkNotNull(taskParam);
 
-        Marshaller<UserGroup> m =
-            MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
+        Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
-        return m.unmarshalDocument(getClient().removeSelectors(groupId,
-            marshalTaskParam(taskParam)));
+        return m.unmarshalDocument(getClient().removeSelectors(groupId, marshalTaskParam(taskParam)));
     }
 
     /*
@@ -504,9 +475,8 @@ public class UserGroupHandlerClient
      * java.lang.String)
      */
     @Override
-    public UserGroup removeSelectors(
-        final UserGroup group, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public UserGroup removeSelectors(final UserGroup group, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(group);
 

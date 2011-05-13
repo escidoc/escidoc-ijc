@@ -11,8 +11,7 @@ import de.escidoc.core.common.exceptions.remote.application.security.Authenticat
 import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
 
-public interface SetDefinitionHandler
-    extends de.escidoc.core.oai.SetDefinitionHandler {
+public interface SetDefinitionHandler extends de.escidoc.core.oai.SetDefinitionHandler {
 
     /**
      * @param request
@@ -24,9 +23,8 @@ public interface SetDefinitionHandler
      * @throws AuthenticationException
      * @throws MissingMethodParameterException
      */
-    public String retrieveSetDefinitions(final SearchRetrieveRequestType request)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
+    public String retrieveSetDefinitions(final SearchRetrieveRequestType request) throws RemoteException,
+        SystemException, InvalidSearchQueryException, AuthorizationException, AuthenticationException,
         MissingMethodParameterException;
 
     /**
@@ -39,8 +37,6 @@ public interface SetDefinitionHandler
      * @throws AuthenticationException
      * @throws MissingMethodParameterException
      */
-    public String retrieveSetDefinitions(final ExplainRequestType request)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException;
+    public String retrieveSetDefinitions(final ExplainRequestType request) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException;
 }

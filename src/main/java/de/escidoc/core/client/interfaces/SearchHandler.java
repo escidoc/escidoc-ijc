@@ -23,8 +23,7 @@ public interface SearchHandler {
      * @return
      * @throws RemoteException
      */
-    String explain(final ExplainRequestType explainRequestType)
-        throws RemoteException;
+    String explain(final ExplainRequestType explainRequestType) throws RemoteException;
 
     /**
      * 
@@ -33,8 +32,8 @@ public interface SearchHandler {
      * @return
      * @throws RemoteException
      */
-    String search(final SearchRetrieveRequestType searchRequestType)
-        throws RemoteException, UnsupportedEncodingException;
+    String search(final SearchRetrieveRequestType searchRequestType) throws RemoteException,
+        UnsupportedEncodingException;
 
     /**
      * 
@@ -43,6 +42,5 @@ public interface SearchHandler {
      * @return
      * @throws RemoteException
      */
-    String scan(final ScanRequestType scanRequestType) throws RemoteException,
-        UnsupportedEncodingException;
+    String scan(final ScanRequestType scanRequestType) throws RemoteException, UnsupportedEncodingException;
 }

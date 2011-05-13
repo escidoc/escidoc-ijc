@@ -22,6 +22,5 @@ public interface StatisticDataHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    void create(final StatisticData statisticData) throws EscidocException,
-        InternalClientException, TransportException;
+    void create(final StatisticData statisticData) throws EscidocException, InternalClientException, TransportException;
 }

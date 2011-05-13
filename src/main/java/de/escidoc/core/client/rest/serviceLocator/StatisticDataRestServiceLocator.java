@@ -17,8 +17,7 @@ import de.escidoc.core.sm.StatisticDataHandler;
  * @author MVO
  * 
  */
-public class StatisticDataRestServiceLocator extends RestServiceMethod
-    implements StatisticDataHandler {
+public class StatisticDataRestServiceLocator extends RestServiceMethod implements StatisticDataHandler {
 
     public static final String PATH = "/statistic/statistic-data";
 
@@ -28,9 +27,8 @@ public class StatisticDataRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.StatisticDataHandler#create(java.lang.String)
      */
     @Override
-    public void create(final String xml) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public void create(final String xml) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(xml);
 

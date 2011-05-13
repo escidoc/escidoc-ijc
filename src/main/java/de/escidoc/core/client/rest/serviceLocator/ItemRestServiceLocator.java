@@ -52,8 +52,7 @@ import de.escidoc.core.resources.HttpInputStream;
  * @author SWA
  * 
  */
-public class ItemRestServiceLocator extends RestServiceMethod
-    implements ItemHandler {
+public class ItemRestServiceLocator extends RestServiceMethod implements ItemHandler {
 
     public static final String PATH = "/ir/item";
 
@@ -73,9 +72,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.ItemHandler#delete(java.lang.String)
      */
     @Override
-    public void delete(final String itemId) throws RemoteException,
-        SystemException, LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException, ItemNotFoundException,
+    public void delete(final String itemId) throws RemoteException, SystemException, LockingException,
+        MissingMethodParameterException, InvalidStatusException, AuthenticationException, ItemNotFoundException,
         AlreadyPublishedException, AuthorizationException {
 
         checkNotNull(itemId);
@@ -110,16 +108,12 @@ public class ItemRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.ItemHandler#create(java.lang.String)
      */
     @Override
-    public String create(final String itemXml) throws RemoteException,
-        SystemException, MissingAttributeValueException,
-        MissingContentException, MissingMdRecordException,
-        ReferencedResourceNotFoundException, AuthenticationException,
-        AuthorizationException, ContextNotFoundException,
-        InvalidContentException, RelationPredicateNotFoundException,
-        ReadonlyAttributeViolationException, FileNotFoundException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyElementViolationException, ContentModelNotFoundException,
-        InvalidXmlException, MissingElementValueException {
+    public String create(final String itemXml) throws RemoteException, SystemException, MissingAttributeValueException,
+        MissingContentException, MissingMdRecordException, ReferencedResourceNotFoundException,
+        AuthenticationException, AuthorizationException, ContextNotFoundException, InvalidContentException,
+        RelationPredicateNotFoundException, ReadonlyAttributeViolationException, FileNotFoundException,
+        MissingMethodParameterException, InvalidStatusException, ReadonlyElementViolationException,
+        ContentModelNotFoundException, InvalidXmlException, MissingElementValueException {
 
         checkNotNull(itemXml);
 
@@ -160,17 +154,13 @@ public class ItemRestServiceLocator extends RestServiceMethod
      *      java.lang.String)
      */
     @Override
-    public String update(final String itemId, final String itemXml)
-        throws RemoteException, SystemException, MissingLicenceException,
-        ReadonlyVersionException, LockingException, ComponentNotFoundException,
-        MissingContentException, MissingAttributeValueException,
-        AlreadyExistsException, InvalidContextException,
-        MissingMdRecordException, ReferencedResourceNotFoundException,
-        AuthenticationException, AuthorizationException, ItemNotFoundException,
-        InvalidContentException, OptimisticLockingException,
-        RelationPredicateNotFoundException, FileNotFoundException,
-        MissingMethodParameterException, NotPublishedException,
-        InvalidStatusException, ReadonlyViolationException, InvalidXmlException {
+    public String update(final String itemId, final String itemXml) throws RemoteException, SystemException,
+        MissingLicenceException, ReadonlyVersionException, LockingException, ComponentNotFoundException,
+        MissingContentException, MissingAttributeValueException, AlreadyExistsException, InvalidContextException,
+        MissingMdRecordException, ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
+        ItemNotFoundException, InvalidContentException, OptimisticLockingException, RelationPredicateNotFoundException,
+        FileNotFoundException, MissingMethodParameterException, NotPublishedException, InvalidStatusException,
+        ReadonlyViolationException, InvalidXmlException {
 
         checkNotNull(itemId);
         checkNotNull(itemXml);
@@ -179,11 +169,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String lock(final String itemId, final String userId)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException,
-        InvalidContentException, InvalidXmlException {
+    public String lock(final String itemId, final String userId) throws RemoteException, OptimisticLockingException,
+        SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException, InvalidContentException, InvalidXmlException {
 
         checkNotNull(itemId);
 
@@ -191,11 +179,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String unlock(final String itemId, final String userId)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException,
-        InvalidXmlException {
+    public String unlock(final String itemId, final String userId) throws RemoteException, OptimisticLockingException,
+        SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(itemId);
         checkNotNull(userId);
@@ -204,12 +190,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String release(final String itemId, final String param)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        ReadonlyVersionException, LockingException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException, InvalidXmlException {
+    public String release(final String itemId, final String param) throws RemoteException, OptimisticLockingException,
+        SystemException, ReadonlyVersionException, LockingException, MissingMethodParameterException,
+        InvalidStatusException, ReadonlyViolationException, AuthenticationException, ItemNotFoundException,
+        AuthorizationException, InvalidXmlException {
 
         checkNotNull(itemId);
 
@@ -217,9 +201,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieve(final String itemId) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException {
+    public String retrieve(final String itemId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
 
@@ -227,12 +210,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String submit(final String itemId, final String param)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        ReadonlyVersionException, LockingException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException, InvalidXmlException {
+    public String submit(final String itemId, final String param) throws RemoteException, OptimisticLockingException,
+        SystemException, ReadonlyVersionException, LockingException, MissingMethodParameterException,
+        InvalidStatusException, ReadonlyViolationException, AuthenticationException, ItemNotFoundException,
+        AuthorizationException, InvalidXmlException {
 
         checkNotNull(itemId);
 
@@ -240,15 +221,11 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String createComponent(final String itemId, final String componentXml)
-        throws RemoteException, SystemException,
-        MissingAttributeValueException, MissingContentException,
-        LockingException, AuthenticationException, ItemNotFoundException,
-        AuthorizationException, InvalidContentException,
-        OptimisticLockingException, FileNotFoundException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, InvalidXmlException,
-        MissingElementValueException {
+    public String createComponent(final String itemId, final String componentXml) throws RemoteException,
+        SystemException, MissingAttributeValueException, MissingContentException, LockingException,
+        AuthenticationException, ItemNotFoundException, AuthorizationException, InvalidContentException,
+        OptimisticLockingException, FileNotFoundException, MissingMethodParameterException, InvalidStatusException,
+        ReadonlyViolationException, InvalidXmlException, MissingElementValueException {
 
         checkNotNull(itemId);
         checkNotNull(componentXml);
@@ -257,10 +234,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveComponent(
-        final String itemId, final String componentId) throws RemoteException,
-        SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
+    public String retrieveComponent(final String itemId, final String componentId) throws RemoteException,
+        SystemException, ComponentNotFoundException, MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
@@ -270,60 +245,47 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveComponentMdRecords(
-        final String itemId, final String componentId) throws RemoteException,
-        SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
+    public String retrieveComponentMdRecords(final String itemId, final String componentId) throws RemoteException,
+        SystemException, ComponentNotFoundException, MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return get(PATH + "/" + itemId + "/components/component/" + componentId
-            + "/md-records");
+        return get(PATH + "/" + itemId + "/components/component/" + componentId + "/md-records");
     }
 
     @Override
-    public String retrieveComponentMdRecord(
-        final String itemId, final String componentId, final String mdRecordId)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException,
-        MdRecordNotFoundException {
+    public String retrieveComponentMdRecord(final String itemId, final String componentId, final String mdRecordId)
+        throws RemoteException, SystemException, ComponentNotFoundException, MissingMethodParameterException,
+        AuthenticationException, ItemNotFoundException, AuthorizationException, MdRecordNotFoundException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
         checkNotNull(mdRecordId);
 
-        return get(PATH + "/" + itemId + "/components/component/" + componentId
-            + "/md-records/md-record/" + mdRecordId);
+        return get(PATH + "/" + itemId + "/components/component/" + componentId + "/md-records/md-record/" + mdRecordId);
     }
 
     @Override
-    public String updateComponent(
-        final String itemId, final String componentId, final String componentXml)
-        throws RemoteException, SystemException, ReadonlyVersionException,
-        MissingContentException, ComponentNotFoundException, LockingException,
-        MissingAttributeValueException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException, InvalidContentException,
-        OptimisticLockingException, FileNotFoundException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, InvalidXmlException {
+    public String updateComponent(final String itemId, final String componentId, final String componentXml)
+        throws RemoteException, SystemException, ReadonlyVersionException, MissingContentException,
+        ComponentNotFoundException, LockingException, MissingAttributeValueException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException, InvalidContentException, OptimisticLockingException,
+        FileNotFoundException, MissingMethodParameterException, InvalidStatusException, ReadonlyViolationException,
+        InvalidXmlException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
         checkNotNull(componentXml);
 
-        return put(
-            PATH + "/" + itemId + "/components/component/" + componentId,
-            componentXml);
+        return put(PATH + "/" + itemId + "/components/component/" + componentId, componentXml);
     }
 
     @Override
-    public String retrieveComponents(final String itemId)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException {
+    public String retrieveComponents(final String itemId) throws RemoteException, SystemException,
+        ComponentNotFoundException, MissingMethodParameterException, AuthenticationException, ItemNotFoundException,
+        AuthorizationException {
 
         checkNotNull(itemId);
 
@@ -331,17 +293,14 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveComponentProperties(
-        final String itemId, final String componentId) throws RemoteException,
-        SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
+    public String retrieveComponentProperties(final String itemId, final String componentId) throws RemoteException,
+        SystemException, ComponentNotFoundException, MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return get(PATH + "/" + itemId + "/components/component/" + componentId
-            + "/properties");
+        return get(PATH + "/" + itemId + "/components/component/" + componentId + "/properties");
     }
 
     /**
@@ -364,12 +323,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
      */
     @Override
     @Deprecated
-    public String createMetadataRecord(
-        final String itemId, final String mdRecordXml) throws RemoteException,
-        SystemException, LockingException, MissingAttributeValueException,
-        MissingMethodParameterException, InvalidStatusException,
-        AuthenticationException, XmlSchemaNotFoundException,
-        ItemNotFoundException, AuthorizationException, InvalidXmlException {
+    public String createMetadataRecord(final String itemId, final String mdRecordXml) throws RemoteException,
+        SystemException, LockingException, MissingAttributeValueException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException, XmlSchemaNotFoundException, ItemNotFoundException,
+        AuthorizationException, InvalidXmlException {
 
         checkNotNull(itemId);
         checkNotNull(mdRecordXml);
@@ -378,11 +335,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String createMdRecord(final String itemId, final String mdRecordXml)
-        throws RemoteException, SystemException, LockingException,
-        MissingAttributeValueException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        XmlSchemaNotFoundException, ItemNotFoundException,
+    public String createMdRecord(final String itemId, final String mdRecordXml) throws RemoteException,
+        SystemException, LockingException, MissingAttributeValueException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException, XmlSchemaNotFoundException, ItemNotFoundException,
         AuthorizationException, InvalidXmlException {
 
         checkNotNull(itemId);
@@ -391,11 +346,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveMdRecord(final String itemId, final String mdRecordId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException,
-        MdRecordNotFoundException {
+    public String retrieveMdRecord(final String itemId, final String mdRecordId) throws RemoteException,
+        SystemException, MissingMethodParameterException, AuthenticationException, ItemNotFoundException,
+        AuthorizationException, MdRecordNotFoundException {
 
         checkNotNull(itemId);
         checkNotNull(mdRecordId);
@@ -404,29 +357,22 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String updateMdRecord(
-        final String itemId, final String mdRecordId, final String mdRecordXml)
-        throws RemoteException, SystemException, ReadonlyVersionException,
-        LockingException, AuthenticationException, XmlSchemaNotFoundException,
-        ItemNotFoundException, AuthorizationException, InvalidContentException,
-        OptimisticLockingException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyViolationException,
-        MdRecordNotFoundException, InvalidXmlException {
+    public String updateMdRecord(final String itemId, final String mdRecordId, final String mdRecordXml)
+        throws RemoteException, SystemException, ReadonlyVersionException, LockingException, AuthenticationException,
+        XmlSchemaNotFoundException, ItemNotFoundException, AuthorizationException, InvalidContentException,
+        OptimisticLockingException, MissingMethodParameterException, InvalidStatusException,
+        ReadonlyViolationException, MdRecordNotFoundException, InvalidXmlException {
 
         checkNotNull(itemId);
         checkNotNull(mdRecordId);
         checkNotNull(mdRecordXml);
 
-        return post(
-            PATH + "/" + itemId + "/md-records/md-record/" + mdRecordId,
-            mdRecordXml);
+        return post(PATH + "/" + itemId + "/md-records/md-record/" + mdRecordId, mdRecordXml);
     }
 
     @Override
-    public String retrieveMdRecords(final String itemId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException {
+    public String retrieveMdRecords(final String itemId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
 
@@ -434,10 +380,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveContentStreams(final String itemId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException {
+    public String retrieveContentStreams(final String itemId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
 
@@ -445,54 +389,43 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveContentStream(
-        final String itemId, final String contentStreamId)
-        throws RemoteException, SystemException,
-        ContentStreamNotFoundException, MissingMethodParameterException,
+    public String retrieveContentStream(final String itemId, final String contentStreamId) throws RemoteException,
+        SystemException, ContentStreamNotFoundException, MissingMethodParameterException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException {
+
+        checkNotNull(itemId);
+        checkNotNull(contentStreamId);
+
+        return get(PATH + "/" + itemId + "/content-streams/content-stream/" + contentStreamId);
+    }
+
+    @Override
+    public HttpInputStream retrieveContentStreamContent(final String itemId, final String contentStreamId)
+        throws RemoteException, SystemException, ContentStreamNotFoundException, MissingMethodParameterException,
         AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
         checkNotNull(contentStreamId);
 
-        return get(PATH + "/" + itemId + "/content-streams/content-stream/"
-            + contentStreamId);
+        return getStream(PATH + "/" + itemId + "/content-streams/content-stream/" + contentStreamId + "/content");
     }
 
     @Override
-    public HttpInputStream retrieveContentStreamContent(
-        final String itemId, final String contentStreamId)
-        throws RemoteException, SystemException,
-        ContentStreamNotFoundException, MissingMethodParameterException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException {
-
-        checkNotNull(itemId);
-        checkNotNull(contentStreamId);
-
-        return getStream(PATH + "/" + itemId
-            + "/content-streams/content-stream/" + contentStreamId + "/content");
-    }
-
-    @Override
-    public HttpInputStream retrieveContent(
-        final String itemId, final String componentId) throws RemoteException,
-        SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
+    public HttpInputStream retrieveContent(final String itemId, final String componentId) throws RemoteException,
+        SystemException, ComponentNotFoundException, MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return getStream(PATH + "/" + itemId + "/components/component/"
-            + componentId + "/content");
+        return getStream(PATH + "/" + itemId + "/components/component/" + componentId + "/content");
     }
 
     @Override
     public HttpInputStream retrieveContent(
-        final String itemId, final String componentId,
-        final String transformer, final Map<String, String[]> transParams)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException {
+        final String itemId, final String componentId, final String transformer, final Map<String, String[]> transParams)
+        throws RemoteException, SystemException, ComponentNotFoundException, MissingMethodParameterException,
+        AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
@@ -501,15 +434,13 @@ public class ItemRestServiceLocator extends RestServiceMethod
         String params = getGetParams(transParams);
         params = params == null ? "" : "?" + params;
 
-        return getStream(PATH + "/" + itemId + "/components/component/"
-            + componentId + "/content/" + transformer + params);
+        return getStream(PATH + "/" + itemId + "/components/component/" + componentId + "/content/" + transformer
+            + params);
     }
 
     @Override
-    public String retrieveProperties(final String itemId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException {
+    public String retrieveProperties(final String itemId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
 
@@ -517,10 +448,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveVersionHistory(final String itemId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException {
+    public String retrieveVersionHistory(final String itemId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
 
@@ -528,10 +457,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveRelations(final String itemId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException {
+    public String retrieveRelations(final String itemId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
 
@@ -539,13 +466,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String revise(final String itemId, final String taskParam)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        ReadonlyVersionException, LockingException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, AuthenticationException,
-        AuthorizationException, ItemNotFoundException, InvalidContentException,
-        InvalidXmlException {
+    public String revise(final String itemId, final String taskParam) throws RemoteException,
+        OptimisticLockingException, SystemException, ReadonlyVersionException, LockingException,
+        MissingMethodParameterException, InvalidStatusException, ReadonlyViolationException, AuthenticationException,
+        AuthorizationException, ItemNotFoundException, InvalidContentException, InvalidXmlException {
 
         checkNotNull(itemId);
 
@@ -553,13 +477,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String withdraw(final String itemId, final String taskParam)
-        throws RemoteException, SystemException, ReadonlyVersionException,
-        LockingException, AlreadyWithdrawnException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException,
-        OptimisticLockingException, MissingMethodParameterException,
-        NotPublishedException, InvalidStatusException,
-        ReadonlyViolationException, InvalidXmlException {
+    public String withdraw(final String itemId, final String taskParam) throws RemoteException, SystemException,
+        ReadonlyVersionException, LockingException, AlreadyWithdrawnException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException, OptimisticLockingException, MissingMethodParameterException,
+        NotPublishedException, InvalidStatusException, ReadonlyViolationException, InvalidXmlException {
 
         checkNotNull(itemId);
 
@@ -567,11 +488,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public void deleteComponent(final String itemId, final String componentId)
-        throws RemoteException, SystemException, ComponentNotFoundException,
-        LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException, ItemNotFoundException,
-        AuthorizationException {
+    public void deleteComponent(final String itemId, final String componentId) throws RemoteException, SystemException,
+        ComponentNotFoundException, LockingException, MissingMethodParameterException, InvalidStatusException,
+        AuthenticationException, ItemNotFoundException, AuthorizationException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
@@ -580,11 +499,9 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String moveToContext(final String id, final String taskParam)
-        throws RemoteException, SystemException, LockingException,
-        MissingMethodParameterException, InvalidStatusException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException,
-        ContextNotFoundException, InvalidContentException {
+    public String moveToContext(final String id, final String taskParam) throws RemoteException, SystemException,
+        LockingException, MissingMethodParameterException, InvalidStatusException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException, ContextNotFoundException, InvalidContentException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
@@ -592,21 +509,18 @@ public class ItemRestServiceLocator extends RestServiceMethod
         return post(PATH + "/" + id + "/move-to-context", taskParam);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
     @Deprecated
-    public String retrieveItems(final HashMap filter) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
+    public String retrieveItems(final HashMap filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         return get(PATH + "s", filter);
     }
 
     @Override
-    public String retrieveItems(final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveItems(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
 
@@ -614,10 +528,8 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveItems(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveItems(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
 
@@ -625,11 +537,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String assignVersionPid(final String itemId, final String taskParam)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException, ItemNotFoundException,
-        AuthorizationException, InvalidXmlException {
+    public String assignVersionPid(final String itemId, final String taskParam) throws RemoteException,
+        OptimisticLockingException, SystemException, LockingException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException, ItemNotFoundException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(itemId);
 
@@ -637,11 +548,10 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String assignObjectPid(final String itemId, final String taskParam)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException, ItemNotFoundException,
-        AuthorizationException, InvalidXmlException {
+    public String assignObjectPid(final String itemId, final String taskParam) throws RemoteException,
+        OptimisticLockingException, SystemException, LockingException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException, ItemNotFoundException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(itemId);
 
@@ -649,31 +559,23 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String assignContentPid(
-        final String itemId, final String componentId, final String taskParam)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        ComponentNotFoundException, InvalidStatusException,
-        AuthenticationException, ItemNotFoundException, AuthorizationException,
-        InvalidXmlException {
+    public String assignContentPid(final String itemId, final String componentId, final String taskParam)
+        throws RemoteException, OptimisticLockingException, SystemException, LockingException,
+        MissingMethodParameterException, ComponentNotFoundException, InvalidStatusException, AuthenticationException,
+        ItemNotFoundException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return post(PATH + "/" + itemId + "/components/component/"
-            + componentId + "/assign-content-pid", taskParam);
+        return post(PATH + "/" + itemId + "/components/component/" + componentId + "/assign-content-pid", taskParam);
     }
 
     @Override
-    public String addContentRelations(
-        final String itemId, final String taskParam) throws RemoteException,
-        SystemException, ReadonlyVersionException, LockingException,
-        AlreadyExistsException, AuthenticationException,
-        ReferencedResourceNotFoundException, AuthorizationException,
-        ItemNotFoundException, InvalidContentException,
-        OptimisticLockingException, RelationPredicateNotFoundException,
-        ReadonlyAttributeViolationException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyViolationException,
+    public String addContentRelations(final String itemId, final String taskParam) throws RemoteException,
+        SystemException, ReadonlyVersionException, LockingException, AlreadyExistsException, AuthenticationException,
+        ReferencedResourceNotFoundException, AuthorizationException, ItemNotFoundException, InvalidContentException,
+        OptimisticLockingException, RelationPredicateNotFoundException, ReadonlyAttributeViolationException,
+        MissingMethodParameterException, InvalidStatusException, ReadonlyViolationException,
         MissingElementValueException, InvalidXmlException {
 
         checkNotNull(itemId);
@@ -682,26 +584,20 @@ public class ItemRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String removeContentRelations(
-        final String itemId, final String taskParam) throws RemoteException,
-        SystemException, ContentRelationNotFoundException,
-        ReadonlyVersionException, LockingException, AuthenticationException,
-        ItemNotFoundException, AuthorizationException, InvalidContentException,
-        OptimisticLockingException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyViolationException,
-        AlreadyDeletedException, InvalidXmlException,
-        MissingElementValueException {
+    public String removeContentRelations(final String itemId, final String taskParam) throws RemoteException,
+        SystemException, ContentRelationNotFoundException, ReadonlyVersionException, LockingException,
+        AuthenticationException, ItemNotFoundException, AuthorizationException, InvalidContentException,
+        OptimisticLockingException, MissingMethodParameterException, InvalidStatusException,
+        ReadonlyViolationException, AlreadyDeletedException, InvalidXmlException, MissingElementValueException {
 
         checkNotNull(itemId);
 
-        return post(PATH + "/" + itemId + "/content-relations/remove",
-            taskParam);
+        return post(PATH + "/" + itemId + "/content-relations/remove", taskParam);
     }
 
     @Override
-    public String retrieveParents(final String itemId) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        ItemNotFoundException, MissingMethodParameterException {
+    public String retrieveParents(final String itemId) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, ItemNotFoundException, MissingMethodParameterException {
 
         checkNotNull(itemId);
 

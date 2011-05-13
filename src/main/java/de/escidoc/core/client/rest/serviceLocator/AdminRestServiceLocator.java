@@ -19,8 +19,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class AdminRestServiceLocator extends RestServiceMethod
-    implements de.escidoc.core.adm.AdminHandler {
+public class AdminRestServiceLocator extends RestServiceMethod implements de.escidoc.core.adm.AdminHandler {
 
     public static final String PATH = "/adm/admin";
 
@@ -30,9 +29,8 @@ public class AdminRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.adm.AdminHandler#deleteObjects(java.lang.String)
      */
     @Override
-    public String deleteObjects(final String taskParam) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        InvalidXmlException {
+    public String deleteObjects(final String taskParam) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException {
         return post(PATH + "/deleteobjects", taskParam);
     }
 
@@ -42,8 +40,8 @@ public class AdminRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.adm.AdminHandler#getPurgeStatus()
      */
     @Override
-    public String getPurgeStatus() throws RemoteException, SystemException,
-        AuthorizationException, AuthenticationException {
+    public String getPurgeStatus() throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException {
         return get(PATH + "/deleteobjects");
     }
 
@@ -53,8 +51,8 @@ public class AdminRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.adm.AdminHandler#getReindexStatus()
      */
     @Override
-    public String getReindexStatus() throws RemoteException, SystemException,
-        AuthorizationException, AuthenticationException {
+    public String getReindexStatus() throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException {
         return get(PATH + "/reindex");
     }
 
@@ -65,9 +63,8 @@ public class AdminRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.adm.AdminHandler#decreaseReindexStatus(java.lang.String)
      */
     @Override
-    public void decreaseReindexStatus(final String taskParam)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException {
+    public void decreaseReindexStatus(final String taskParam) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException {
         post(PATH + "/decrease-reindex-status", taskParam);
     }
 
@@ -78,15 +75,13 @@ public class AdminRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String reindex(final String clearIndex, final String indexNamePrefix)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException {
+    public String reindex(final String clearIndex, final String indexNamePrefix) throws RemoteException,
+        SystemException, InvalidSearchQueryException, AuthorizationException, AuthenticationException {
 
         checkNotNull(clearIndex);
         checkNotNull(indexNamePrefix);
 
-        return post(PATH + "/reindex/" + clearIndex + "/"
-            + indexNamePrefix, "");
+        return post(PATH + "/reindex/" + clearIndex + "/" + indexNamePrefix, "");
     }
 
     /*
@@ -95,8 +90,8 @@ public class AdminRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.adm.AdminHandler#getRepositoryInfo()
      */
     @Override
-    public String getRepositoryInfo() throws RemoteException, SystemException,
-        AuthorizationException, AuthenticationException {
+    public String getRepositoryInfo() throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException {
         return get(PATH + "/get-repository-info");
     }
 
@@ -106,9 +101,8 @@ public class AdminRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.adm.AdminHandler#loadExamples(java.lang.String)
      */
     @Override
-    public String loadExamples(final String exampleSet) throws RemoteException,
-        SystemException, InvalidSearchQueryException, AuthorizationException,
-        AuthenticationException {
+    public String loadExamples(final String exampleSet) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException {
 
         checkNotNull(exampleSet);
 
@@ -121,8 +115,8 @@ public class AdminRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.adm.AdminHandler#getIndexConfiguration()
      */
     @Override
-    public String getIndexConfiguration() throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException {
+    public String getIndexConfiguration() throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException {
         return get(PATH + "/get-index-configuration");
     }
 

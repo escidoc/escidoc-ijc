@@ -47,8 +47,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA
  * 
  */
-public interface RoleHandlerClientInterface
-    extends HandlerService, CrudService<Role> {
+public interface RoleHandlerClientInterface extends HandlerService, CrudService<Role> {
 
     /**
      * 
@@ -58,8 +57,8 @@ public interface RoleHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveRoles(SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException;
+    SearchRetrieveResponse retrieveRoles(SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -69,8 +68,8 @@ public interface RoleHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<Role> retrieveRolesAsList(SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException;
+    List<Role> retrieveRolesAsList(SearchRetrieveRequestType filter) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -80,6 +79,6 @@ public interface RoleHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveRoles(final ExplainRequestType explain)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveRoles(final ExplainRequestType explain) throws EscidocException, InternalClientException,
+        TransportException;
 }

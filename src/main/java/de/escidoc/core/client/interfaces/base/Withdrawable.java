@@ -24,8 +24,7 @@ public interface Withdrawable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result withdraw(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
+    Result withdraw(final String id, final TaskParam taskParam) throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
@@ -37,7 +36,6 @@ public interface Withdrawable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result withdraw(final T resource, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    Result withdraw(final T resource, final TaskParam taskParam) throws EscidocClientException,
+        InternalClientException, TransportException;
 }

@@ -100,7 +100,7 @@ import java.lang.annotation.Target;
  * 
  * @author MVO
  */
-@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD })
+@Target( { ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD })
 @Retention(RetentionPolicy.SOURCE)
 @Documented
 public @interface JiBX {

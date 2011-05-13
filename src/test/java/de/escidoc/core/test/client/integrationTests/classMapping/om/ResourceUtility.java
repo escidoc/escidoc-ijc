@@ -34,8 +34,7 @@ public class ResourceUtility {
      * @throws ParserConfigurationException
      *             Thrown if instance of DocumentBuiler failed to create.
      */
-    public static MetadataRecord getMdRecord(final String name)
-        throws ParserConfigurationException {
+    public static MetadataRecord getMdRecord(final String name) throws ParserConfigurationException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -55,8 +54,7 @@ public class ResourceUtility {
      * @return ContentModelSpecific with some content
      * @throws ParserConfigurationException
      */
-    public static ContentModelSpecific getContentModelSpecific()
-        throws ParserConfigurationException {
+    public static ContentModelSpecific getContentModelSpecific() throws ParserConfigurationException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -84,8 +82,7 @@ public class ResourceUtility {
      */
     public static File createFileWithRandomContent() throws IOException {
 
-        File temp =
-            File.createTempFile("escidoc-binary-content-example", ".tmp");
+        File temp = File.createTempFile("escidoc-binary-content-example", ".tmp");
         temp.deleteOnExit();
 
         // Write to temp file

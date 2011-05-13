@@ -18,8 +18,7 @@ public class SimpleMessagesResult extends MessagesResult<String> {
     }
 
     @Override
-    protected String extractMessage(
-        final Element messageNode, final int messageCount) {
+    protected String extractMessage(final Element messageNode, final int messageCount) {
         return messageNode.getTextContent();
     }
 

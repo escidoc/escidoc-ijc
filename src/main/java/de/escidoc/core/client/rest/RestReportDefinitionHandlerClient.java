@@ -24,8 +24,7 @@ import de.escidoc.core.client.rest.serviceLocator.ReportDefinitionRestServiceLoc
  */
 public class RestReportDefinitionHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestReportDefinitionHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestReportDefinitionHandlerClient.class);
 
     private ReportDefinitionHandler client;
 
@@ -42,8 +41,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestReportDefinitionHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestReportDefinitionHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -56,8 +54,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestReportDefinitionHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestReportDefinitionHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -68,8 +65,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -90,8 +86,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String xml) throws EscidocException, InternalClientException, TransportException {
 
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
@@ -115,8 +110,8 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String update(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String xml) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -141,8 +136,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -166,8 +160,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     @Deprecated
-    public String retrieveReportDefinitions(
-        final HashMap<String, String[]> filter) throws EscidocException,
+    public String retrieveReportDefinitions(final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String xml = null;
@@ -188,8 +181,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveReportDefinitions(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public String retrieveReportDefinitions(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(request, true);
@@ -212,8 +204,8 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveReportDefinitions(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveReportDefinitions(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request);
 
@@ -236,8 +228,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
     public ReportDefinitionHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            ReportDefinitionRestServiceLocator serviceLocator =
-                new ReportDefinitionRestServiceLocator();
+            ReportDefinitionRestServiceLocator serviceLocator = new ReportDefinitionRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

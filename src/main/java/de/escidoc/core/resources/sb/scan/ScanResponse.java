@@ -19,8 +19,8 @@ public class ScanResponse extends Response {
     private Collection<Term> terms = new LinkedList<Term>();
 
     /**
-	 * 
-	 */
+     * 
+     */
     protected ScanResponse() {
         super();
     }

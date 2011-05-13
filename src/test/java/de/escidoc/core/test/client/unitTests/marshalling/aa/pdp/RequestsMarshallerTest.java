@@ -39,8 +39,8 @@ public class RequestsMarshallerTest extends MarshallerTestBase<Requests> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public RequestsMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
+    public RequestsMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
+        SAXException {
         super(Requests.class, BASE, XSD, "requests.xml", transport);
     }
 
@@ -58,19 +58,15 @@ public class RequestsMarshallerTest extends MarshallerTestBase<Requests> {
         assertTrue(it.hasNext());
         Subject subject = (Subject) it.next();
 
-        assertXPath(path + "/xacml-context:Subject/@SubjectCategory",
-            subject.getCategory());
+        assertXPath(path + "/xacml-context:Subject/@SubjectCategory", subject.getCategory());
 
         // RequestCtx.Subject.Attribute
-        validateAttribute(path + "/xacml-context:Subject",
-            subject.getAttributes());
+        validateAttribute(path + "/xacml-context:Subject", subject.getAttributes());
 
         // RequestCtx.Resource.Attribute
-        validateAttribute(path + "/xacml-context:Resource", obj
-            .get(0).getResource());
+        validateAttribute(path + "/xacml-context:Resource", obj.get(0).getResource());
 
-        validateAttribute(path + "/xacml-context:Action", obj
-            .get(0).getAction());
+        validateAttribute(path + "/xacml-context:Action", obj.get(0).getAction());
     }
 
     /**
@@ -79,22 +75,17 @@ public class RequestsMarshallerTest extends MarshallerTestBase<Requests> {
      * @throws DOMException
      * @throws TransformerException
      */
-    private void validateAttribute(
-        final String xPathContext, final Set<?> attributes)
-        throws DOMException, TransformerException {
+    private void validateAttribute(final String xPathContext, final Set<?> attributes) throws DOMException,
+        TransformerException {
 
         assertNotNull(attributes);
         Iterator<?> it = attributes.iterator();
         assertTrue(it.hasNext());
         Attribute attr = (Attribute) it.next();
 
-        assertXPath(xPathContext + "/xacml-context:Attribute/@AttributeId",
-            attr.getId());
-        assertXPath(xPathContext + "/xacml-context:Attribute/@DataType",
-            attr.getType());
-        assertXPath(xPathContext
-            + "/xacml-context:Attribute/xacml-context:AttributeValue", attr
-            .getValue().encode());
+        assertXPath(xPathContext + "/xacml-context:Attribute/@AttributeId", attr.getId());
+        assertXPath(xPathContext + "/xacml-context:Attribute/@DataType", attr.getType());
+        assertXPath(xPathContext + "/xacml-context:Attribute/xacml-context:AttributeValue", attr.getValue().encode());
         // TODO test missing getters on RequestCtx.Subject.Attribute
     }
 
@@ -104,8 +95,7 @@ public class RequestsMarshallerTest extends MarshallerTestBase<Requests> {
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final Requests obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final Requests obj) throws Exception {
         // nothing to do
     }
 }

@@ -30,10 +30,8 @@ public class RetrieveST {
     public void init() {
         try {
             auth =
-                new Authentication(
-                    EscidocClientTestBase.getDefaultInfrastructureURL(),
-                    EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                    EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+                new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                    EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
             cc = new ContentModelHandlerClient(auth.getServiceAddress());
             cc.setHandle(auth.getHandle());
@@ -50,11 +48,9 @@ public class RetrieveST {
     @After
     public void post() throws Exception {
         LOG.debug("Test result: "
-            + (!failed ? "Test successful" : "Test failed!\n"
-                + exceptionCount
+            + (!failed ? "Test successful" : "Test failed!\n" + exceptionCount
                 + " Exceptions thrown\nFirst Exception:\n"
-                + (firstException != null ? firstException.getMessage()
-                    : "null")));
+                + (firstException != null ? firstException.getMessage() : "null")));
         auth.logout();
     }
 

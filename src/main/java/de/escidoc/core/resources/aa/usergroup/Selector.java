@@ -24,8 +24,7 @@ public class Selector extends Reference {
      * @param name
      * @param type
      */
-    public Selector(final String content, final String name,
-        final SelectorType type) {
+    public Selector(final String content, final String name, final SelectorType type) {
         this.content = content;
         this.name = name;
         this.type = type;

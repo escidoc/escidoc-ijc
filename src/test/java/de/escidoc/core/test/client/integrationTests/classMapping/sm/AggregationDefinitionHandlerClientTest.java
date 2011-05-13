@@ -71,11 +71,9 @@ public class AggregationDefinitionHandlerClientTest {
 
     private static final String FIELD_DIFF_SESSIONS = "sessions";
 
-    private static final String FIELD_INFO_PAGE_XPATH =
-        "//parameter[@name=\"page\"]/stringvalue";
+    private static final String FIELD_INFO_PAGE_XPATH = "//parameter[@name=\"page\"]/stringvalue";
 
-    private static final String FIELD_DIFF_SESSIONS_XPATH =
-        "//parameter[@name=\"session_id\"]/stringvalue";
+    private static final String FIELD_DIFF_SESSIONS_XPATH = "//parameter[@name=\"session_id\"]/stringvalue";
 
     private static final String IDX_NAME = "time_idx";
 
@@ -84,10 +82,8 @@ public class AggregationDefinitionHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         adhc = new AggregationDefinitionHandlerClient(auth.getServiceAddress());
         adhc.setHandle(auth.getHandle());
 
@@ -122,19 +118,15 @@ public class AggregationDefinitionHandlerClientTest {
         assertEquals("", ad.getScope(), adCreated.getScope());
 
         assertNotNull("StatisticData is null.", adCreated.getStatisticData());
-        assertNotNull("StatisticTable is null.", adCreated
-            .getStatisticData().getStatisticTable());
+        assertNotNull("StatisticTable is null.", adCreated.getStatisticData().getStatisticTable());
         // assertNotNull("",
         // ad.getStatisticData().getStatisticTable().getXPath());
-        assertNotNull("AggregationTables is null.",
-            adCreated.getAggregationTables());
-        assertTrue("AggregationTables size is not 1.", adCreated
-            .getAggregationTables().size() == 1);
+        assertNotNull("AggregationTables is null.", adCreated.getAggregationTables());
+        assertTrue("AggregationTables size is not 1.", adCreated.getAggregationTables().size() == 1);
 
         for (AggregationTable table : adCreated.getAggregationTables()) {
             assertNotNull("Table name should not be null.", table.getName());
-            assertTrue("Incorrect table name.",
-                table.getName().endsWith(AD_TABLE_NAME));
+            assertTrue("Incorrect table name.", table.getName().endsWith(AD_TABLE_NAME));
 
             assertNotNull("Fields is null.", table.getFields());
             assertTrue("Fields size is not 2.", table.getFields().size() == 5);
@@ -145,55 +137,44 @@ public class AggregationDefinitionHandlerClientTest {
             assertTrue(fieldEntry.getType() == FieldType.INFO);
             InfoField field = (InfoField) fieldEntry;
 
-            assertEquals("Incorrect field name.", FIELD_INFO_PAGE,
-                field.getName());
+            assertEquals("Incorrect field name.", FIELD_INFO_PAGE, field.getName());
             assertEquals("Incorrect feed.", FEED, field.getFeed());
-            assertTrue("Wrong field type.",
-                InfoFieldType.TEXT == field.getInfoFieldType());
-            assertEquals("Incorrect xPath.", FIELD_INFO_PAGE_XPATH,
-                field.getXPath());
+            assertTrue("Wrong field type.", InfoFieldType.TEXT == field.getInfoFieldType());
+            assertEquals("Incorrect xPath.", FIELD_INFO_PAGE_XPATH, field.getXPath());
 
             fieldEntry = it.next();
             // time reduction field
             assertTrue(fieldEntry.getType() == FieldType.TIME_REDUCTION);
             TimeReductionField timeField = (TimeReductionField) fieldEntry;
 
-            assertEquals("Incorrect field name.", FIELD_TIME_MONTH,
-                timeField.getName());
+            assertEquals("Incorrect field name.", FIELD_TIME_MONTH, timeField.getName());
             assertEquals("Incorrect feed.", FEED, timeField.getFeed());
-            assertTrue("Wrong field type.",
-                TimeReductionFieldType.MONTH == timeField.getReduceTo());
+            assertTrue("Wrong field type.", TimeReductionFieldType.MONTH == timeField.getReduceTo());
 
             fieldEntry = it.next();
             // time reduction field
             assertTrue(fieldEntry.getType() == FieldType.TIME_REDUCTION);
             TimeReductionField timeField2 = (TimeReductionField) fieldEntry;
 
-            assertEquals("Incorrect field name.", FIELD_TIME_YEAR,
-                timeField2.getName());
+            assertEquals("Incorrect field name.", FIELD_TIME_YEAR, timeField2.getName());
             assertEquals("Incorrect feed.", FEED, timeField2.getFeed());
-            assertTrue("Wrong field type.",
-                TimeReductionFieldType.YEAR == timeField2.getReduceTo());
+            assertTrue("Wrong field type.", TimeReductionFieldType.YEAR == timeField2.getReduceTo());
 
             fieldEntry = it.next();
             // count cumulation field
             assertTrue(fieldEntry.getType() == FieldType.COUNT_CUMULATION);
             CountCumulationField countField = (CountCumulationField) fieldEntry;
 
-            assertEquals("Incorrect field name.", FIELD_CUMUL_REQUESTS,
-                countField.getName());
+            assertEquals("Incorrect field name.", FIELD_CUMUL_REQUESTS, countField.getName());
 
             fieldEntry = it.next();
             // time reduction field
             assertTrue(fieldEntry.getType() == FieldType.DIFFERENCE_CUMULATION);
-            DifferenceCumulationField diffField =
-                (DifferenceCumulationField) fieldEntry;
+            DifferenceCumulationField diffField = (DifferenceCumulationField) fieldEntry;
 
-            assertEquals("Incorrect field name.", FIELD_DIFF_SESSIONS,
-                diffField.getName());
+            assertEquals("Incorrect field name.", FIELD_DIFF_SESSIONS, diffField.getName());
             assertEquals("Incorrect feed.", FEED, diffField.getFeed());
-            assertEquals("Incorrect xPath.", FIELD_DIFF_SESSIONS_XPATH,
-                diffField.getXPath());
+            assertEquals("Incorrect xPath.", FIELD_DIFF_SESSIONS_XPATH, diffField.getXPath());
         }
     }
 
@@ -217,37 +198,28 @@ public class AggregationDefinitionHandlerClientTest {
         AggregationDefinition createdAD02 = adhc.create(ad02);
 
         // check AD01
-        assertNotNull("AggregationTables must not be null.",
-            createdAD01.getAggregationTables());
-        assertFalse("No tables found in AggregationDefinition.", createdAD01
-            .getAggregationTables().isEmpty());
+        assertNotNull("AggregationTables must not be null.", createdAD01.getAggregationTables());
+        assertFalse("No tables found in AggregationDefinition.", createdAD01.getAggregationTables().isEmpty());
 
-        AggregationTable t01 =
-            createdAD01.getAggregationTables().iterator().next();
+        AggregationTable t01 = createdAD01.getAggregationTables().iterator().next();
 
         assertNotNull("", t01.getName());
-        assertFalse(
-            "Supplied table name should not be equals to the returned table name!",
-            t01.getName().equals(AD_TABLE_NAME));
+        assertFalse("Supplied table name should not be equals to the returned table name!", t01.getName().equals(
+            AD_TABLE_NAME));
 
         // check AD02
-        assertNotNull("AggregationTables must not be null.",
-            createdAD02.getAggregationTables());
-        assertFalse("No tables found in AggregationDefinition.", createdAD02
-            .getAggregationTables().isEmpty());
+        assertNotNull("AggregationTables must not be null.", createdAD02.getAggregationTables());
+        assertFalse("No tables found in AggregationDefinition.", createdAD02.getAggregationTables().isEmpty());
 
-        AggregationTable t02 =
-            createdAD02.getAggregationTables().iterator().next();
+        AggregationTable t02 = createdAD02.getAggregationTables().iterator().next();
 
         assertNotNull("", t02.getName());
-        assertFalse(
-            "Supplied table name should not be equals to the returned table name!",
-            t02.getName().equals(AD_TABLE_NAME));
+        assertFalse("Supplied table name should not be equals to the returned table name!", t02.getName().equals(
+            AD_TABLE_NAME));
 
         // check AD01 vs AD02
-        assertFalse(
-            "Table names of both AggregationDefinition objects should niot be equals.",
-            t01.getName().equals(t02.getName()));
+        assertFalse("Table names of both AggregationDefinition objects should niot be equals.", t01.getName().equals(
+            t02.getName()));
     }
 
     /**
@@ -256,8 +228,7 @@ public class AggregationDefinitionHandlerClientTest {
      */
     @Test
     public void testDelete01() throws Exception {
-        AggregationDefinition ad =
-            defineValidAD("ad_test_" + System.currentTimeMillis(), "table_name");
+        AggregationDefinition ad = defineValidAD("ad_test_" + System.currentTimeMillis(), "table_name");
         AggregationDefinition createdAd = adhc.create(ad);
 
         assertNotNull("Objid should not be null.", createdAd.getObjid());
@@ -271,8 +242,7 @@ public class AggregationDefinitionHandlerClientTest {
      */
     @Test
     public void testExplain() throws Exception {
-        AggregationDefinition ad =
-            defineValidAD("ad_test_" + System.currentTimeMillis(), "table_name");
+        AggregationDefinition ad = defineValidAD("ad_test_" + System.currentTimeMillis(), "table_name");
         AggregationDefinition createdAd = adhc.create(ad);
 
         assertNotNull("Objid should not be null.", createdAd.getObjid());
@@ -283,10 +253,8 @@ public class AggregationDefinitionHandlerClientTest {
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertNotNull("No index definitions found", explain.getIndexInfo());
-        assertNotNull("No index definitions found", explain
-            .getIndexInfo().getIndexes());
-        assertTrue("No index definitions found", explain
-            .getIndexInfo().getIndexes().size() > 0);
+        assertNotNull("No index definitions found", explain.getIndexInfo().getIndexes());
+        assertTrue("No index definitions found", explain.getIndexInfo().getIndexes().size() > 0);
     }
 
     /**
@@ -295,41 +263,32 @@ public class AggregationDefinitionHandlerClientTest {
      */
     @Test
     public void testFilter() throws Exception {
-        AggregationDefinition ad =
-            defineValidAD("ad_test_" + System.currentTimeMillis(), "table_name");
+        AggregationDefinition ad = defineValidAD("ad_test_" + System.currentTimeMillis(), "table_name");
         AggregationDefinition createdAd = adhc.create(ad);
 
         assertNotNull("Objid should not be null.", createdAd.getObjid());
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request.setQuery("\"http://purl.org/dc/elements/1.1/identifier\"="
-            + createdAd.getObjid());
-        SearchRetrieveResponse response =
-            adhc.retrieveAggregationDefinitions(request);
+        request.setQuery("\"http://purl.org/dc/elements/1.1/identifier\"=" + createdAd.getObjid());
+        SearchRetrieveResponse response = adhc.retrieveAggregationDefinitions(request);
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
-        assertTrue("Wrong number of matching records",
-            response.getNumberOfMatchingRecords() >= 1);
-        assertTrue("Wrong number of resulting records",
-            response.getNumberOfResultingRecords() >= 1);
-        assertEquals("Wrong record position", 1, response
-            .getRecords().iterator().next().getRecordPosition().intValue());
+        assertTrue("Wrong number of matching records", response.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records", response.getNumberOfResultingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response.getRecords().iterator().next().getRecordPosition().intValue());
 
-        Collection<String> ids =
-            new ArrayList<String>(response.getNumberOfResultingRecords());
+        Collection<String> ids = new ArrayList<String>(response.getNumberOfResultingRecords());
         for (SearchResultRecord record : response.getRecords()) {
             SearchResult recordData = record.getRecordData();
 
             if (recordData.getContent() instanceof AggregationDefinition) {
 
-                AggregationDefinition data =
-                    (AggregationDefinition) recordData.getContent();
+                AggregationDefinition data = (AggregationDefinition) recordData.getContent();
                 if (data != null)
                     ids.add(data.getObjid());
             }
         }
-        assertTrue("Created AggregationDefinition missing in list",
-            ids.contains(createdAd.getObjid()));
+        assertTrue("Created AggregationDefinition missing in list", ids.contains(createdAd.getObjid()));
     }
 
     /**
@@ -337,8 +296,7 @@ public class AggregationDefinitionHandlerClientTest {
      * 
      * @return
      */
-    private final AggregationDefinition defineValidAD(
-        final String name, final String tableName) {
+    private final AggregationDefinition defineValidAD(final String name, final String tableName) {
         return defineValidAD(name, tableName, scopeId);
     }
 
@@ -353,31 +311,20 @@ public class AggregationDefinitionHandlerClientTest {
         final String name, final String tableName, final String scopeId) {
 
         StatisticData statData = new StatisticData(new StatisticTable());
-        AggregationDefinition ad =
-            new AggregationDefinition(name, new ScopeRef(scopeId), statData);
+        AggregationDefinition ad = new AggregationDefinition(name, new ScopeRef(scopeId), statData);
         AggregationTable at = new AggregationTable(tableName);
 
-        at.getFields().add(
-            new InfoField(FIELD_INFO_PAGE, FEED, InfoFieldType.TEXT,
-                FIELD_INFO_PAGE_XPATH));
+        at.getFields().add(new InfoField(FIELD_INFO_PAGE, FEED, InfoFieldType.TEXT, FIELD_INFO_PAGE_XPATH));
 
-        at.getFields().add(
-            new TimeReductionField(FIELD_TIME_MONTH, FEED,
-                TimeReductionFieldType.MONTH));
+        at.getFields().add(new TimeReductionField(FIELD_TIME_MONTH, FEED, TimeReductionFieldType.MONTH));
 
-        at.getFields().add(
-            new TimeReductionField(FIELD_TIME_YEAR, FEED,
-                TimeReductionFieldType.YEAR));
+        at.getFields().add(new TimeReductionField(FIELD_TIME_YEAR, FEED, TimeReductionFieldType.YEAR));
 
         at.getFields().add(new CountCumulationField(FIELD_CUMUL_REQUESTS));
 
-        at.getFields().add(
-            new DifferenceCumulationField(FIELD_DIFF_SESSIONS, FEED,
-                FIELD_DIFF_SESSIONS_XPATH));
+        at.getFields().add(new DifferenceCumulationField(FIELD_DIFF_SESSIONS, FEED, FIELD_DIFF_SESSIONS_XPATH));
 
-        at.getIndexes().add(
-            new Index(IDX_NAME, Arrays.asList(new String[] { FIELD_TIME_MONTH,
-                FIELD_TIME_YEAR })));
+        at.getIndexes().add(new Index(IDX_NAME, Arrays.asList(new String[] { FIELD_TIME_MONTH, FIELD_TIME_YEAR })));
 
         ad.getAggregationTables().add(at);
         return ad;
@@ -391,13 +338,11 @@ public class AggregationDefinitionHandlerClientTest {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String createScope(final ScopeType type) throws EscidocException,
-        InternalClientException, TransportException {
-        Scope scope =
-            new Scope("AdminScope @" + System.currentTimeMillis(), type);
+    private String createScope(final ScopeType type) throws EscidocException, InternalClientException,
+        TransportException {
+        Scope scope = new Scope("AdminScope @" + System.currentTimeMillis(), type);
 
-        ScopeHandlerClient shc =
-            new ScopeHandlerClient(auth.getServiceAddress());
+        ScopeHandlerClient shc = new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
 
         return shc.create(scope).getObjid();

@@ -58,8 +58,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA
  * 
  */
-public class SearchHandlerClient
-    extends AbstractHandlerClient<RestSearchHandlerClient>
+public class SearchHandlerClient extends AbstractHandlerClient<RestSearchHandlerClient>
     implements SearchHandlerClientInterface {
 
     /**
@@ -96,18 +95,14 @@ public class SearchHandlerClient
      * (gov.loc.www.zing.srw.ExplainRequestType, java.lang.String)
      */
     @Override
-    public ExplainResponse explain(
-        final ExplainRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public ExplainResponse explain(final ExplainRequestType request, final String database)
+        throws EscidocClientException, InternalClientException, TransportException {
 
         checkNotNull(request);
 
         String xml = getClient().explain(request, database);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ExplainResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
 
     }
 
@@ -119,10 +114,8 @@ public class SearchHandlerClient
      * (java.lang.String, java.lang.String)
      */
     @Override
-    public SearchRetrieveResponse search(
-        final String query, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public SearchRetrieveResponse search(final String query, final String database) throws EscidocClientException,
+        InternalClientException, TransportException {
 
         return search(query, null, null, null, null, null, database);
     }
@@ -137,13 +130,10 @@ public class SearchHandlerClient
      */
     @Override
     public SearchRetrieveResponse search(
-        final String query, final Integer startRecord,
-        final Integer maximumRecords, final String sortKeys,
-        final String database) throws EscidocClientException,
-        InternalClientException, TransportException {
+        final String query, final Integer startRecord, final Integer maximumRecords, final String sortKeys,
+        final String database) throws EscidocClientException, InternalClientException, TransportException {
 
-        return search(query, startRecord, maximumRecords, sortKeys, null, null,
-            database);
+        return search(query, startRecord, maximumRecords, sortKeys, null, null, database);
     }
 
     /*
@@ -156,11 +146,9 @@ public class SearchHandlerClient
      */
     @Override
     public SearchRetrieveResponse search(
-        final String query, final Integer startRecord,
-        final Integer maximumRecords, final String sortKeys,
-        final String stylesheetURI, final String version, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+        final String query, final Integer startRecord, final Integer maximumRecords, final String sortKeys,
+        final String stylesheetURI, final String version, final String database) throws EscidocClientException,
+        InternalClientException, TransportException {
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
 
@@ -178,12 +166,10 @@ public class SearchHandlerClient
             }
         }
         if (maximumRecords != null && maximumRecords.intValue() >= 0) {
-            request.setMaximumRecords(new NonNegativeInteger(Integer.toString(
-                maximumRecords.intValue(), 10)));
+            request.setMaximumRecords(new NonNegativeInteger(Integer.toString(maximumRecords.intValue(), 10)));
         }
         if (startRecord != null && startRecord.intValue() >= 1) {
-            request.setStartRecord(new PositiveInteger(Integer.toString(
-                startRecord.intValue(), 10)));
+            request.setStartRecord(new PositiveInteger(Integer.toString(startRecord.intValue(), 10)));
         }
 
         return search(request, database);
@@ -197,18 +183,14 @@ public class SearchHandlerClient
      * (gov.loc.www.zing.srw.SearchRetrieveRequestType, java.lang.String)
      */
     @Override
-    public SearchRetrieveResponse search(
-        final SearchRetrieveRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public SearchRetrieveResponse search(final SearchRetrieveRequestType request, final String database)
+        throws EscidocClientException, InternalClientException, TransportException {
 
         checkNotNull(request);
 
         String xml = getClient().search(request, database);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
 
     }
 
@@ -220,21 +202,17 @@ public class SearchHandlerClient
      * .loc.www.zing.srw.ScanRequestType, java.lang.String)
      */
     @Override
-    public ScanResponse scan(
-        final ScanRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public ScanResponse scan(final ScanRequestType request, final String database) throws EscidocClientException,
+        InternalClientException, TransportException {
 
         checkNotNull(request);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ScanResponse.class)
-            .unmarshalDocument(getClient().scan(request, database));
+        return MarshallerFactory.getInstance().getMarshaller(ScanResponse.class).unmarshalDocument(
+            getClient().scan(request, database));
     }
 
     @Override
-    protected RestSearchHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestSearchHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestSearchHandlerClient(getServiceAddress());
     }
 }

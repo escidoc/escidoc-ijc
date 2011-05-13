@@ -65,7 +65,7 @@ public class UserAccountPreferencesTestRest {
     public void post() throws Exception {
         auth.logout();
     }
-    
+
     /**
      * Test to create and retrieve user account preferences.
      * 
@@ -76,41 +76,31 @@ public class UserAccountPreferencesTestRest {
     public void testPreferences01() throws Exception {
         // create User Account
         String resourceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/"
-                    + "escidoc_useraccount_for_create.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
-        resourceXml =
-            resourceXml.replace("###EMAIL###", System.nanoTime()
-                + "-test@escidoc.org");
-        resourceXml =
-            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
-        resourceXml =
-            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###EMAIL###", System.nanoTime() + "-test@escidoc.org");
+        resourceXml = resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
 
         String cAccountXml = uahc.create(resourceXml);
 
-        String[] objidLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Preference
         String preferenceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/" + "useraccount_preference.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "useraccount_preference.xml"));
 
         String createXml = uahc.createPreference(objidLmd[0], preferenceXml);
-        assertTrue("Missing preferencce",
-            createXml.contains("KeyForTestCreate"));
-        assertTrue("Missing preferencce",
-            createXml.contains("ValueForTestCreate"));
+        assertTrue("Missing preferencce", createXml.contains("KeyForTestCreate"));
+        assertTrue("Missing preferencce", createXml.contains("ValueForTestCreate"));
 
         // retrieve
         String preferencesXml = uahc.retrievePreferences(objidLmd[0]);
-        assertTrue("Missing preferencce",
-            preferencesXml.contains("KeyForTestCreate"));
-        assertTrue("Missing preferencce",
-            preferencesXml.contains("ValueForTestCreate"));
+        assertTrue("Missing preferencce", preferencesXml.contains("KeyForTestCreate"));
+        assertTrue("Missing preferencce", preferencesXml.contains("ValueForTestCreate"));
     }
 
     /**
@@ -123,49 +113,37 @@ public class UserAccountPreferencesTestRest {
     public void testUpdatePreference01() throws Exception {
         // create User Account
         String resourceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/"
-                    + "escidoc_useraccount_for_create.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
-        resourceXml =
-            resourceXml.replace("###EMAIL###", System.nanoTime()
-                + "-test@escidoc.org");
-        resourceXml =
-            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
-        resourceXml =
-            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###EMAIL###", System.nanoTime() + "-test@escidoc.org");
+        resourceXml = resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
 
         String cAccountXml = uahc.create(resourceXml);
 
-        String[] objidLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Preference
         String preferenceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/" + "useraccount_preference.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "useraccount_preference.xml"));
 
         uahc.createPreference(objidLmd[0], preferenceXml);
         String createdXml = uahc.retrievePreferences(objidLmd[0]);
 
         // update Preference
-        String newPreferencesXml =
-            createdXml.replace("ValueForTestCreate", "ValueForTestUpdate");
+        String newPreferencesXml = createdXml.replace("ValueForTestCreate", "ValueForTestUpdate");
 
-        String updatedXml =
-            uahc.updatePreferences(objidLmd[0], newPreferencesXml);
-        assertTrue("Missing preferencce",
-            updatedXml.contains("KeyForTestCreate"));
-        assertTrue("Missing preferencce",
-            updatedXml.contains("ValueForTestUpdate"));
+        String updatedXml = uahc.updatePreferences(objidLmd[0], newPreferencesXml);
+        assertTrue("Missing preferencce", updatedXml.contains("KeyForTestCreate"));
+        assertTrue("Missing preferencce", updatedXml.contains("ValueForTestUpdate"));
 
         // retrieve
         String preferencesXml = uahc.retrievePreferences(objidLmd[0]);
-        assertTrue("Missing preferencce",
-            preferencesXml.contains("KeyForTestCreate"));
-        assertTrue("Missing preferencce",
-            preferencesXml.contains("ValueForTestUpdate"));
+        assertTrue("Missing preferencce", preferencesXml.contains("KeyForTestCreate"));
+        assertTrue("Missing preferencce", preferencesXml.contains("ValueForTestUpdate"));
     }
 
     /**
@@ -178,38 +156,30 @@ public class UserAccountPreferencesTestRest {
     public void testDeletePreference01() throws Exception {
         // create User Account
         String resourceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/"
-                    + "escidoc_useraccount_for_create.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
-        resourceXml =
-            resourceXml.replace("###EMAIL###", System.nanoTime()
-                + "-test@escidoc.org");
-        resourceXml =
-            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
-        resourceXml =
-            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###EMAIL###", System.nanoTime() + "-test@escidoc.org");
+        resourceXml = resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
 
         String cAccountXml = uahc.create(resourceXml);
 
-        String[] objidLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Preference
         String preferenceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/" + "useraccount_preference.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "useraccount_preference.xml"));
 
         uahc.createPreference(objidLmd[0], preferenceXml);
 
         uahc.deletePreference(objidLmd[0], "KeyForTestCreate");
 
         String updatedXml = uahc.retrievePreferences(objidLmd[0]);
-        assertFalse("Missing preferencce",
-            updatedXml.contains("KeyForTestCreate"));
-        assertFalse("Missing preferencce",
-            updatedXml.contains("ValueForTestUpdate"));
+        assertFalse("Missing preferencce", updatedXml.contains("KeyForTestCreate"));
+        assertFalse("Missing preferencce", updatedXml.contains("ValueForTestUpdate"));
 
     }
 }

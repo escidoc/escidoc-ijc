@@ -26,8 +26,7 @@ public class ItemMemberRef extends MemberRef {
      * @param title
      * @param type
      */
-    public ItemMemberRef(final String href, final String title,
-        final XLinkType type) {
+    public ItemMemberRef(final String href, final String title, final XLinkType type) {
         super(href, title, type);
     }
 

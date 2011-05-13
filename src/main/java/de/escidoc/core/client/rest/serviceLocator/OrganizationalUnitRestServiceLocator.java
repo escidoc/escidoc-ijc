@@ -47,17 +47,14 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author SWA
  * 
  */
-public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
-    implements OrganizationalUnitHandler {
+public class OrganizationalUnitRestServiceLocator extends RestServiceMethod implements OrganizationalUnitHandler {
 
     public static final String PATH = "/oum/organizational-unit";
 
     @Override
-    public String close(final String ouId, final String taskParam)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String close(final String ouId, final String taskParam) throws RemoteException, OptimisticLockingException,
+        SystemException, OrganizationalUnitNotFoundException, MissingMethodParameterException, InvalidStatusException,
+        AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(ouId);
 
@@ -65,11 +62,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String open(final String ouId, final String taskParam)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String open(final String ouId, final String taskParam) throws RemoteException, OptimisticLockingException,
+        SystemException, OrganizationalUnitNotFoundException, MissingMethodParameterException, InvalidStatusException,
+        AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(ouId);
 
@@ -77,12 +72,10 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String updateParents(final String ouId, final String xmlOfParents)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException,
-        OrganizationalUnitHierarchyViolationException, InvalidStatusException,
-        AuthenticationException, AuthorizationException, InvalidXmlException,
-        MissingElementValueException {
+    public String updateParents(final String ouId, final String xmlOfParents) throws RemoteException,
+        OptimisticLockingException, SystemException, OrganizationalUnitNotFoundException,
+        MissingMethodParameterException, OrganizationalUnitHierarchyViolationException, InvalidStatusException,
+        AuthenticationException, AuthorizationException, InvalidXmlException, MissingElementValueException {
 
         checkNotNull(ouId);
         checkNotNull(xmlOfParents);
@@ -91,9 +84,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveParents(final String ouId) throws RemoteException,
-        SystemException, OrganizationalUnitNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
+    public String retrieveParents(final String ouId) throws RemoteException, SystemException,
+        OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
         checkNotNull(ouId);
@@ -102,10 +94,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveParentObjects(final String ouId)
-        throws java.rmi.RemoteException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException {
+    public String retrieveParentObjects(final String ouId) throws java.rmi.RemoteException, SystemException,
+        OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
+        AuthorizationException {
 
         checkNotNull(ouId);
 
@@ -113,10 +104,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveChildObjects(final String ouId)
-        throws java.rmi.RemoteException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException {
+    public String retrieveChildObjects(final String ouId) throws java.rmi.RemoteException, SystemException,
+        OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
+        AuthorizationException {
 
         checkNotNull(ouId);
 
@@ -124,9 +114,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrievePathList(final String ouId) throws RemoteException,
-        SystemException, OrganizationalUnitNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
+    public String retrievePathList(final String ouId) throws RemoteException, SystemException,
+        OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
         checkNotNull(ouId);
@@ -134,22 +123,19 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         return get(PATH + "/" + ouId + "/resources/path-list");
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
     @Deprecated
-    public String retrieveOrganizationalUnits(final HashMap filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveOrganizationalUnits(final HashMap filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         return get(PATH + "s", filter);
     }
 
     @Override
-    public String retrieveOrganizationalUnits(
-        final SearchRetrieveRequestType request) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
+    public String retrieveOrganizationalUnits(final SearchRetrieveRequestType request) throws RemoteException,
+        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(request);
 
@@ -157,10 +143,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveOrganizationalUnits(final ExplainRequestType request)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveOrganizationalUnits(final ExplainRequestType request) throws RemoteException,
+        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(request);
 
@@ -168,11 +153,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public void delete(final String ouId) throws RemoteException,
-        SystemException, LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        OrganizationalUnitNotFoundException, AlreadyPublishedException,
-        AuthorizationException {
+    public void delete(final String ouId) throws RemoteException, SystemException, LockingException,
+        MissingMethodParameterException, InvalidStatusException, AuthenticationException,
+        OrganizationalUnitNotFoundException, AlreadyPublishedException, AuthorizationException {
 
         checkNotNull(ouId);
 
@@ -206,17 +189,13 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.OrganizationalUnitHandler#create(String)
      */
     @Override
-    public String create(final String organizationalUnitXml)
-        throws RemoteException, SystemException,
-        MissingAttributeValueException, MissingContentException,
-        MissingMdRecordException, ReferencedResourceNotFoundException,
-        AuthenticationException, AuthorizationException,
-        ContextNotFoundException, InvalidContentException,
-        RelationPredicateNotFoundException,
-        ReadonlyAttributeViolationException, FileNotFoundException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyElementViolationException, ContentModelNotFoundException,
-        InvalidXmlException, MissingElementValueException {
+    public String create(final String organizationalUnitXml) throws RemoteException, SystemException,
+        MissingAttributeValueException, MissingContentException, MissingMdRecordException,
+        ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException, ContextNotFoundException,
+        InvalidContentException, RelationPredicateNotFoundException, ReadonlyAttributeViolationException,
+        FileNotFoundException, MissingMethodParameterException, InvalidStatusException,
+        ReadonlyElementViolationException, ContentModelNotFoundException, InvalidXmlException,
+        MissingElementValueException {
 
         checkNotNull(organizationalUnitXml);
 
@@ -256,18 +235,14 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.OrganizationalUnitHandler#update(String, String)
      */
     @Override
-    public String update(final String ouId, final String organizationalUnitXml)
-        throws RemoteException, SystemException, MissingLicenceException,
-        ReadonlyVersionException, LockingException, ComponentNotFoundException,
-        MissingContentException, MissingAttributeValueException,
-        AlreadyExistsException, InvalidContextException,
-        MissingMdRecordException, ReferencedResourceNotFoundException,
-        AuthenticationException, AuthorizationException,
-        OrganizationalUnitNotFoundException, InvalidContentException,
-        OptimisticLockingException, RelationPredicateNotFoundException,
-        FileNotFoundException, MissingMethodParameterException,
-        NotPublishedException, InvalidStatusException,
-        ReadonlyViolationException, InvalidXmlException {
+    public String update(final String ouId, final String organizationalUnitXml) throws RemoteException,
+        SystemException, MissingLicenceException, ReadonlyVersionException, LockingException,
+        ComponentNotFoundException, MissingContentException, MissingAttributeValueException, AlreadyExistsException,
+        InvalidContextException, MissingMdRecordException, ReferencedResourceNotFoundException,
+        AuthenticationException, AuthorizationException, OrganizationalUnitNotFoundException, InvalidContentException,
+        OptimisticLockingException, RelationPredicateNotFoundException, FileNotFoundException,
+        MissingMethodParameterException, NotPublishedException, InvalidStatusException, ReadonlyViolationException,
+        InvalidXmlException {
 
         checkNotNull(ouId);
         checkNotNull(organizationalUnitXml);
@@ -278,11 +253,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     /**
      * FIXME: No such method supported by the interface?
      */
-    public String lock(final String ouId, final String userId)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        AuthenticationException, OrganizationalUnitNotFoundException,
-        AuthorizationException, InvalidContentException, InvalidXmlException {
+    public String lock(final String ouId, final String userId) throws RemoteException, OptimisticLockingException,
+        SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
+        OrganizationalUnitNotFoundException, AuthorizationException, InvalidContentException, InvalidXmlException {
 
         checkNotNull(ouId);
         checkNotNull(userId);
@@ -293,11 +266,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     /**
      * FIXME: No such method supported by the interface?
      */
-    public String unlock(final String ouId, final String userId)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        LockingException, MissingMethodParameterException,
-        AuthenticationException, OrganizationalUnitNotFoundException,
-        AuthorizationException, InvalidXmlException {
+    public String unlock(final String ouId, final String userId) throws RemoteException, OptimisticLockingException,
+        SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
+        OrganizationalUnitNotFoundException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(ouId);
         checkNotNull(userId);
@@ -313,10 +284,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      * @return XML representation of Organizational Unit
      */
     @Override
-    public String retrieve(final String ouId) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, OrganizationalUnitNotFoundException,
-        AuthorizationException {
+    public String retrieve(final String ouId) throws RemoteException, SystemException, MissingMethodParameterException,
+        AuthenticationException, OrganizationalUnitNotFoundException, AuthorizationException {
 
         checkNotNull(ouId);
 
@@ -331,9 +300,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      * @return list of successors
      */
     @Override
-    public String retrieveSuccessors(final String ouId) throws RemoteException,
-        SystemException, OrganizationalUnitNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
+    public String retrieveSuccessors(final String ouId) throws RemoteException, SystemException,
+        OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
         checkNotNull(ouId);
@@ -341,11 +309,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
         return get(PATH + "/" + ouId + "/resources/successors");
     };
 
-    public String createMdRecord(final String ouId, final String mdRecordXml)
-        throws RemoteException, SystemException, LockingException,
-        MissingAttributeValueException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
+    public String createMdRecord(final String ouId, final String mdRecordXml) throws RemoteException, SystemException,
+        LockingException, MissingAttributeValueException, MissingMethodParameterException, InvalidStatusException,
+        AuthenticationException, XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
         AuthorizationException, InvalidXmlException {
 
         checkNotNull(ouId);
@@ -355,11 +321,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveMdRecord(final String ouId, final String mdRecordId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        OrganizationalUnitNotFoundException, AuthorizationException,
-        MdRecordNotFoundException {
+    public String retrieveMdRecord(final String ouId, final String mdRecordId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, OrganizationalUnitNotFoundException,
+        AuthorizationException, MdRecordNotFoundException {
 
         checkNotNull(ouId);
         checkNotNull(mdRecordId);
@@ -371,10 +335,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
      * FIXME: Is there any need for this method?
      */
     @Override
-    public String updateMdRecords(final String ouId, final String mdRecordsXml)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException,
+    public String updateMdRecords(final String ouId, final String mdRecordsXml) throws RemoteException,
+        OptimisticLockingException, SystemException, OrganizationalUnitNotFoundException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException,
         MissingElementValueException {
 
         checkNotNull(ouId);
@@ -384,9 +347,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveMdRecords(final String ouId) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, OrganizationalUnitNotFoundException,
+    public String retrieveMdRecords(final String ouId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
 
         checkNotNull(ouId);
@@ -395,9 +357,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveProperties(final String ouId) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, OrganizationalUnitNotFoundException,
+    public String retrieveProperties(final String ouId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException {
 
         checkNotNull(ouId);

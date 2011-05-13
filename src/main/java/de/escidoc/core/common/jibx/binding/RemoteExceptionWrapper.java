@@ -21,8 +21,7 @@ public class RemoteExceptionWrapper {
      */
     public RemoteExceptionWrapper(final RemoteException remoteException) {
         if (remoteException == null)
-            throw new IllegalArgumentException(
-                "remoteException must not be null.");
+            throw new IllegalArgumentException("remoteException must not be null.");
 
         this.remoteException = remoteException;
     }

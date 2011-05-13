@@ -42,19 +42,16 @@ import de.escidoc.core.resources.sb.RecordPacking;
  * @author MVO
  * 
  */
-public class RecordDataMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class RecordDataMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
-    private static final Logger LOG = Logger
-        .getLogger(RecordDataMarshaller.class);
+    private static final Logger LOG = Logger.getLogger(RecordDataMarshaller.class);
 
     /**
      * @param uri
      * @param index
      * @param name
      */
-    public RecordDataMarshaller(final String uri, final int index,
-        final String name) {
+    public RecordDataMarshaller(final String uri, final int index, final String name) {
         super(uri, index, name);
     }
 
@@ -65,8 +62,7 @@ public class RecordDataMarshaller extends MarshallingBase
      * IUnmarshallingContext)
      */
     @Override
-    public boolean isPresent(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx) throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -77,8 +73,7 @@ public class RecordDataMarshaller extends MarshallingBase
      * org.jibx.runtime.IUnmarshallingContext)
      */
     @Override
-    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
         UnmarshallingContext ctx = checkUnmarshaller(ictx);
         Record<?> record = checkObject(Record.class, ictx.getStackTop());
@@ -96,9 +91,8 @@ public class RecordDataMarshaller extends MarshallingBase
 
         if (ctx.isStart() && ctx.getElementName() != null) {
             if (record.getRecordPacking() == RecordPacking.STRING) {
-                LOG.debug("WARNING: The content of element {" + getUri() + "}"
-                    + getName() + " was expected to be of recordPacking type "
-                    + RecordPacking.STRING);
+                LOG.debug("WARNING: The content of element {" + getUri() + "}" + getName()
+                    + " was expected to be of recordPacking type " + RecordPacking.STRING);
             }
             /*
              * If the content of recordData is XML keep parsing it in the same
@@ -108,9 +102,8 @@ public class RecordDataMarshaller extends MarshallingBase
         }
         else {
             if (record.getRecordPacking() == RecordPacking.XML) {
-                LOG.debug("WARNING: The content of element {" + getUri() + "}"
-                    + getName() + " was expected to be of recordPacking type "
-                    + RecordPacking.XML);
+                LOG.debug("WARNING: The content of element {" + getUri() + "}" + getName()
+                    + " was expected to be of recordPacking type " + RecordPacking.XML);
             }
             /*
              * If the content of recordData is a escaped String, get the String,
@@ -119,9 +112,8 @@ public class RecordDataMarshaller extends MarshallingBase
              */
             String bindingName = ctx.getFactory().getBindingName();
             if (bindingName == null) {
-                throw new JiBXException(
-                    "Unable to unmarshal SearchResultRecordRecord. "
-                        + "No TransportProtocol defined for unmarshalling.");
+                throw new JiBXException("Unable to unmarshal SearchResultRecordRecord. "
+                    + "No TransportProtocol defined for unmarshalling.");
             }
 
             try {
@@ -131,9 +123,8 @@ public class RecordDataMarshaller extends MarshallingBase
                  */
                 result =
                     MarshallerFactory
-                        .getInstance(TransportProtocol.REST)
-                        .getMarshaller(record.getClass())
-                        .unmarshalDocument(contentText);
+                        .getInstance(TransportProtocol.REST).getMarshaller(record.getClass()).unmarshalDocument(
+                            contentText);
             }
             catch (InternalClientException e) {
                 throw new JiBXException(e.getMessage(), e);
@@ -162,8 +153,7 @@ public class RecordDataMarshaller extends MarshallingBase
      * org.jibx.runtime.IMarshallingContext)
      */
     @Override
-    public void marshal(final Object arg0, final IMarshallingContext arg1)
-        throws JiBXException {
+    public void marshal(final Object arg0, final IMarshallingContext arg1) throws JiBXException {
         throw new UnsupportedOperationException(EX_MARSH_NOT_SUPPORTED);
     }
 }

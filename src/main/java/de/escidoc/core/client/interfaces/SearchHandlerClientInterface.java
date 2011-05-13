@@ -62,10 +62,8 @@ public interface SearchHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse explain(
-        final ExplainRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    ExplainResponse explain(final ExplainRequestType request, final String database) throws EscidocClientException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -80,9 +78,8 @@ public interface SearchHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse search(final String query, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    SearchRetrieveResponse search(final String query, final String database) throws EscidocClientException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -105,10 +102,8 @@ public interface SearchHandlerClientInterface extends HandlerService {
      * @throws TransportException
      */
     SearchRetrieveResponse search(
-        final String query, final Integer startRecord,
-        final Integer maximumRecords, final String sortKeys,
-        final String database) throws EscidocClientException,
-        InternalClientException, TransportException;
+        final String query, final Integer startRecord, final Integer maximumRecords, final String sortKeys,
+        final String database) throws EscidocClientException, InternalClientException, TransportException;
 
     /**
      * 
@@ -134,11 +129,9 @@ public interface SearchHandlerClientInterface extends HandlerService {
      * @throws TransportException
      */
     SearchRetrieveResponse search(
-        final String query, final Integer startRecord,
-        final Integer maximumRecords, final String sortKeys,
-        final String stylesheetURI, final String version, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+        final String query, final Integer startRecord, final Integer maximumRecords, final String sortKeys,
+        final String stylesheetURI, final String version, final String database) throws EscidocClientException,
+        InternalClientException, TransportException;
 
     /**
      * @param request
@@ -151,10 +144,8 @@ public interface SearchHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse search(
-        final SearchRetrieveRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    SearchRetrieveResponse search(final SearchRetrieveRequestType request, final String database)
+        throws EscidocClientException, InternalClientException, TransportException;
 
     /**
      * @param request
@@ -167,8 +158,7 @@ public interface SearchHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    ScanResponse scan(final ScanRequestType request, final String database)
-        throws EscidocClientException, InternalClientException,
-        TransportException;
+    ScanResponse scan(final ScanRequestType request, final String database) throws EscidocClientException,
+        InternalClientException, TransportException;
 
 }

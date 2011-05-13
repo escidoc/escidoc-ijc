@@ -66,10 +66,8 @@ public class OuDeleteTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }
@@ -106,13 +104,11 @@ public class OuDeleteTest {
      * @throws SAXException
      * @throws IOException
      */
-    private OrganizationalUnit createOu() throws ParserConfigurationException,
-        SAXException, IOException {
+    private OrganizationalUnit createOu() throws ParserConfigurationException, SAXException, IOException {
 
         // create OU
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -120,13 +116,10 @@ public class OuDeleteTest {
         MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         String str =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                + "<ou:organization-details "
-                + "xmlns:ou=\"http://escidoc.mpg.de/"
-                + "metadataprofile/schema/0.1/organization\">\n"
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<ou:organization-details "
+                + "xmlns:ou=\"http://escidoc.mpg.de/" + "metadataprofile/schema/0.1/organization\">\n"
                 + "<dc:title xmlns:dc=\"http://purl.org/dc/elements/1.1/\">"
-                + "Generic Organizational Unit</dc:title>\n"
-                + "</ou:organization-details>";
+                + "Generic Organizational Unit</dc:title>\n" + "</ou:organization-details>";
         InputStream in = new ByteArrayInputStream(str.getBytes());
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

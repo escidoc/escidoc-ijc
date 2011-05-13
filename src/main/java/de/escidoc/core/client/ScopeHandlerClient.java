@@ -25,8 +25,7 @@ import de.escidoc.core.resources.sm.scope.Scope;
  * @author MVO
  * 
  */
-public class ScopeHandlerClient
-    extends AbstractHandlerClient<RestScopeHandlerClient>
+public class ScopeHandlerClient extends AbstractHandlerClient<RestScopeHandlerClient>
     implements ScopeHandlerClientInterface {
 
     /**
@@ -62,8 +61,7 @@ public class ScopeHandlerClient
      * @throws TransportException
      */
     @Override
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
@@ -79,13 +77,11 @@ public class ScopeHandlerClient
      * )
      */
     @Override
-    public Scope create(final Scope scope) throws EscidocException,
-        InternalClientException, TransportException {
+    public Scope create(final Scope scope) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(scope);
 
-        Marshaller<Scope> m =
-            MarshallerFactory.getInstance().getMarshaller(Scope.class);
+        Marshaller<Scope> m = MarshallerFactory.getInstance().getMarshaller(Scope.class);
 
         String xml = getClient().create(m.marshalDocument(scope));
 
@@ -99,16 +95,13 @@ public class ScopeHandlerClient
      * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
-    public Scope update(final Scope scope) throws EscidocException,
-        InternalClientException, TransportException {
+    public Scope update(final Scope scope) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(scope);
 
-        Marshaller<Scope> m =
-            MarshallerFactory.getInstance().getMarshaller(Scope.class);
+        Marshaller<Scope> m = MarshallerFactory.getInstance().getMarshaller(Scope.class);
 
-        String xml =
-            getClient().update(scope.getObjid(), m.marshalDocument(scope));
+        String xml = getClient().update(scope.getObjid(), m.marshalDocument(scope));
 
         return m.unmarshalDocument(xml);
     }
@@ -121,15 +114,13 @@ public class ScopeHandlerClient
      * @throws TransportException
      */
     @Override
-    public Scope retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public Scope retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieve(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Scope.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Scope.class).unmarshalDocument(xml);
     }
 
     /**
@@ -140,17 +131,14 @@ public class ScopeHandlerClient
      * @throws TransportException
      */
     @Override
-    public SearchRetrieveResponse retrieveScopes(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public SearchRetrieveResponse retrieveScopes(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         checkNotNull(request);
 
         String xml = getClient().retrieveScopes(request);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /*
@@ -160,12 +148,10 @@ public class ScopeHandlerClient
      * retrieveScopesAsList(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public List<Scope> retrieveScopesAsList(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public List<Scope> retrieveScopesAsList(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        return getSearchRetrieveResponseAsList(Scope.class,
-            retrieveScopes(request));
+        return getSearchRetrieveResponseAsList(Scope.class, retrieveScopes(request));
     }
 
     /**
@@ -176,21 +162,18 @@ public class ScopeHandlerClient
      * @throws TransportException
      */
     @Override
-    public ExplainResponse retrieveScopes(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public ExplainResponse retrieveScopes(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(request);
 
         String xml = getClient().retrieveScopes(request);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ExplainResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
     @Override
-    protected RestScopeHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestScopeHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestScopeHandlerClient(getServiceAddress());
     }
 }

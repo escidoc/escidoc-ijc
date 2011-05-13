@@ -24,8 +24,8 @@ import de.escidoc.core.resources.sm.ad.AggregationDefinition;
  * 
  */
 public interface AggregationDefinitionHandlerClientInterface
-    extends HandlerService, Createable<AggregationDefinition>,
-    Retrievable<AggregationDefinition>, Deletable<AggregationDefinition> {
+    extends HandlerService, Createable<AggregationDefinition>, Retrievable<AggregationDefinition>,
+    Deletable<AggregationDefinition> {
 
     /**
      * 
@@ -35,8 +35,7 @@ public interface AggregationDefinitionHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveAggregationDefinitions(
-        SearchRetrieveRequestType request) throws EscidocException,
+    SearchRetrieveResponse retrieveAggregationDefinitions(SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -47,18 +46,17 @@ public interface AggregationDefinitionHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveAggregationDefinitions(ExplainRequestType request)
+    ExplainResponse retrieveAggregationDefinitions(ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    List<AggregationDefinition> retrieveAggregationDefinitionsAsList(SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param request
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    List<AggregationDefinition> retrieveAggregationDefinitionsAsList(
-        SearchRetrieveRequestType request) throws EscidocException,
-        InternalClientException, TransportException;
 }

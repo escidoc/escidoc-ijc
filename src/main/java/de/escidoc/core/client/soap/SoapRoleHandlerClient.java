@@ -53,8 +53,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapRoleHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapRoleHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapRoleHandlerClient.class);
 
     private RoleHandler soapClient = null;
 
@@ -71,8 +70,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapRoleHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapRoleHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -84,8 +82,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapRoleHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapRoleHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -98,8 +95,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#create(java.lang.String)
      */
-    public String create(final String context) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String context) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -119,8 +115,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -130,8 +125,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         }
     }
 
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -151,8 +145,8 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveRoles(final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveRoles(final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(filter, true);
         return retrieveRoles(getEscidoc12Filter(filter));
@@ -166,8 +160,8 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveRoles(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveRoles(final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -187,8 +181,8 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveRoles(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveRoles(final ExplainRequestType filter) throws EscidocException, InternalClientException,
+        TransportException {
 
         evalRequest(filter);
         return retrieveRoles(getEscidoc12Filter(filter));
@@ -205,8 +199,8 @@ public class SoapRoleHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String context)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String context) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -226,11 +220,8 @@ public class SoapRoleHandlerClient extends SoapClientBase {
     @Override
     public RoleHandler getClient() throws InternalClientException {
         if (soapClient == null) {
-            RoleHandlerServiceLocator serviceLocator =
-                new RoleHandlerServiceLocator(getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getRoleHandlerServiceAddress());
+            RoleHandlerServiceLocator serviceLocator = new RoleHandlerServiceLocator(getEngineConfig());
+            URL url = getHandlerServiceURL(serviceLocator.getRoleHandlerServiceAddress());
             try {
                 soapClient = serviceLocator.getRoleHandlerService(url);
             }

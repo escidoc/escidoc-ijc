@@ -94,10 +94,8 @@ public class ItemCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -178,8 +176,7 @@ public class ItemCreateTest {
     public void testCreateItem05() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.setProperties(properties);
         ihc.create(item);
     }
@@ -195,8 +192,7 @@ public class ItemCreateTest {
     public void testCreateItem06() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         item.setMetadataRecords(mdRecords);
@@ -217,8 +213,7 @@ public class ItemCreateTest {
     public void testCreateItem08() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.setProperties(properties);
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord("escidoc");
@@ -241,8 +236,7 @@ public class ItemCreateTest {
     public void testCreateItem09() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -281,12 +275,8 @@ public class ItemCreateTest {
     public void testCreateItem10() throws Exception {
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -307,10 +297,9 @@ public class ItemCreateTest {
         String objId = createdItem.getObjid();
 
         assertNotNull("Object id is null", objId);
-        assertEquals(item.getProperties().getContext().getObjid(), createdItem
-            .getProperties().getContext().getObjid());
-        assertEquals(item.getProperties().getContentModel().getObjid(),
-            createdItem.getProperties().getContentModel().getObjid());
+        assertEquals(item.getProperties().getContext().getObjid(), createdItem.getProperties().getContext().getObjid());
+        assertEquals(item.getProperties().getContentModel().getObjid(), createdItem
+            .getProperties().getContentModel().getObjid());
     }
 
     /**
@@ -323,12 +312,8 @@ public class ItemCreateTest {
     public void testMultipleMetadataRecords01() throws Exception {
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -353,12 +338,10 @@ public class ItemCreateTest {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(item.getProperties().getContext().getObjid(), createdItem
-            .getProperties().getContext().getObjid());
-        assertEquals(item.getProperties().getContentModel().getObjid(),
-            createdItem.getProperties().getContentModel().getObjid());
-        assertEquals(item.getMetadataRecords().size(), createdItem
-            .getMetadataRecords().size());
+        assertEquals(item.getProperties().getContext().getObjid(), createdItem.getProperties().getContext().getObjid());
+        assertEquals(item.getProperties().getContentModel().getObjid(), createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem.getMetadataRecords().size());
     }
 
     /**
@@ -370,12 +353,8 @@ public class ItemCreateTest {
     public void testMDRecordsDeletion01() throws Exception {
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -393,12 +372,10 @@ public class ItemCreateTest {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem
-            .getProperties().getContext().getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
-            createdItem.getProperties().getContentModel().getObjid());
-        assertEquals(item.getMetadataRecords().size(), createdItem
-            .getMetadataRecords().size());
+        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem.getProperties().getContext().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(), createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem.getMetadataRecords().size());
 
         // delete md-record
         createdItem.getMetadataRecords().del(mdrecord2.getName());
@@ -407,10 +384,9 @@ public class ItemCreateTest {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem
-            .getProperties().getContext().getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
-            updatedItem.getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem.getProperties().getContext().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(), updatedItem
+            .getProperties().getContentModel().getObjid());
         assertEquals(1, updatedItem.getMetadataRecords().size());
     }
 
@@ -423,12 +399,8 @@ public class ItemCreateTest {
     public void testMDRecordsDeletion02() throws Exception {
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -446,12 +418,10 @@ public class ItemCreateTest {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem
-            .getProperties().getContext().getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
-            createdItem.getProperties().getContentModel().getObjid());
-        assertEquals(item.getMetadataRecords().size(), createdItem
-            .getMetadataRecords().size());
+        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem.getProperties().getContext().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(), createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem.getMetadataRecords().size());
 
         // delete required md-record
         createdItem.getMetadataRecords().del(mdrecord1.getName());
@@ -460,10 +430,9 @@ public class ItemCreateTest {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem
-            .getProperties().getContext().getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
-            updatedItem.getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem.getProperties().getContext().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(), updatedItem
+            .getProperties().getContentModel().getObjid());
         assertEquals(1, updatedItem.getMetadataRecords().size());
     }
 
@@ -476,12 +445,8 @@ public class ItemCreateTest {
     public void testMDRecordsDeletion03() throws Exception {
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -499,12 +464,10 @@ public class ItemCreateTest {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem
-            .getProperties().getContext().getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
-            createdItem.getProperties().getContentModel().getObjid());
-        assertEquals(item.getMetadataRecords().size(), createdItem
-            .getMetadataRecords().size());
+        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem.getProperties().getContext().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(), createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem.getMetadataRecords().size());
 
         // delete all md-record entries
         createdItem.getMetadataRecords().del(mdrecord1.getName());
@@ -522,12 +485,8 @@ public class ItemCreateTest {
     public void testMDRecordsDeletion04() throws Exception {
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -545,12 +504,10 @@ public class ItemCreateTest {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem
-            .getProperties().getContext().getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
-            createdItem.getProperties().getContentModel().getObjid());
-        assertEquals(item.getMetadataRecords().size(), createdItem
-            .getMetadataRecords().size());
+        assertEquals(EscidocClientTestBase.getStaticContextId(), createdItem.getProperties().getContext().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(), createdItem
+            .getProperties().getContentModel().getObjid());
+        assertEquals(item.getMetadataRecords().size(), createdItem.getMetadataRecords().size());
 
         // delete md-records
         createdItem.setMetadataRecords(null);
@@ -559,10 +516,9 @@ public class ItemCreateTest {
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem
-            .getProperties().getContext().getObjid());
-        assertEquals(EscidocClientTestBase.getStaticContentModelId(),
-            updatedItem.getProperties().getContentModel().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContextId(), updatedItem.getProperties().getContext().getObjid());
+        assertEquals(EscidocClientTestBase.getStaticContentModelId(), updatedItem
+            .getProperties().getContentModel().getObjid());
         assertNull(updatedItem.getMetadataRecords());
     }
 
@@ -577,10 +533,8 @@ public class ItemCreateTest {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
 
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -626,9 +580,7 @@ public class ItemCreateTest {
         components.add(component);
         item.setComponents(components);
 
-        Marshaller<Item> m =
-            MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(
-                Item.class);
+        Marshaller<Item> m = MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
         m.marshalDocument(item);
 
         Item createdItem = ihc.create(item);
@@ -647,12 +599,9 @@ public class ItemCreateTest {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
-        properties.setContentModelSpecific(ResourceUtility
-            .getContentModelSpecific());
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
+        properties.setContentModelSpecific(ResourceUtility.getContentModelSpecific());
         item.setProperties(properties);
 
         // Md-Record
@@ -677,9 +626,7 @@ public class ItemCreateTest {
         component.setContent(content);
 
         // only for debug
-        Marshaller<Item> m =
-            MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(
-                Item.class);
+        Marshaller<Item> m = MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
         m.marshalDocument(item);
 
         Item createdItem = ihc.create(item);
@@ -710,15 +657,12 @@ public class ItemCreateTest {
         Item retrievedItem = ihc.retrieve(item.getObjid());
         DateTime lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem,
-            result.getLastModificationDate());
+        assertEquals("Timestamps differ", lmdRetrievedItem, result.getLastModificationDate());
 
         // assign object PID ---------------------------------------------------
         taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl(new URL(
-            "http://url.to.the.solution/path/for/this/resource/"
-                + System.nanoTime()));
+        taskParam.setUrl(new URL("http://url.to.the.solution/path/for/this/resource/" + System.nanoTime()));
         taskParam.setComment("Test Object PID");
 
         result = ihc.assignObjectPid(item, taskParam);
@@ -727,15 +671,12 @@ public class ItemCreateTest {
         retrievedItem = ihc.retrieve(item.getObjid());
         lmdRetrievedItem = retrievedItem.getLastModificationDate();
 
-        assertEquals("Timestamps differ", lmdRetrievedItem,
-            result.getLastModificationDate());
+        assertEquals("Timestamps differ", lmdRetrievedItem, result.getLastModificationDate());
 
         // assign version PID --------------------------------------------------
         taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl(new URL(
-            "http://url.to.the.solution/path/for/this/resource/"
-                + System.nanoTime()));
+        taskParam.setUrl(new URL("http://url.to.the.solution/path/for/this/resource/" + System.nanoTime()));
         taskParam.setComment("Test Version PID");
 
         result = ihc.assignVersionPid(item, taskParam);
@@ -765,20 +706,15 @@ public class ItemCreateTest {
         // create file with random content
         File file = ResourceUtility.createFileWithRandomContent();
 
-        StagingHandlerClientInterface sthc =
-            new StagingHandlerClient(auth.getServiceAddress());
+        StagingHandlerClientInterface sthc = new StagingHandlerClient(auth.getServiceAddress());
         sthc.setHandle(auth.getHandle());
 
         URL contentRef = sthc.upload(file);
 
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -819,21 +755,17 @@ public class ItemCreateTest {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private Item createItem() throws EscidocClientException,
-        InternalClientException, TransportException,
+    private Item createItem() throws EscidocClientException, InternalClientException, TransportException,
         ParserConfigurationException {
 
         Item item = new Item();
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
-        properties.setContentModelSpecific(ResourceUtility
-            .getContentModelSpecific());
+        properties.setContentModelSpecific(ResourceUtility.getContentModelSpecific());
         item.setProperties(properties);
 
         // Md-Record

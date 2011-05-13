@@ -19,13 +19,9 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  */
 public interface RoleHandler extends de.escidoc.core.aa.RoleHandler {
 
-    String retrieveRoles(final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveRoles(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    String retrieveRoles(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveRoles(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 }

@@ -80,10 +80,8 @@ public class OuCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }
@@ -148,8 +146,7 @@ public class OuCreateTest {
     @Test(expected = MissingElementValueException.class)
     public void testCreateOrganizationalUnit03() throws Exception {
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
@@ -179,8 +176,7 @@ public class OuCreateTest {
     @Test(expected = MissingElementValueException.class)
     public void testCreateOrganizationalUnit04() throws Exception {
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -212,19 +208,17 @@ public class OuCreateTest {
         final String ouName = "Generic Organizational Unit";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         String str =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                + "<ou:organization-details "
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<ou:organization-details "
                 + "xmlns:ou=\"http://escidoc.mpg.de/metadataprofile/schema/0.1/organization\">\n"
-                + "<dc:title xmlns:dc=\"http://purl.org/dc/elements/1.1/\">"
-                + ouName + "</dc:title>\n" + "</ou:organization-details>";
+                + "<dc:title xmlns:dc=\"http://purl.org/dc/elements/1.1/\">" + ouName + "</dc:title>\n"
+                + "</ou:organization-details>";
         InputStream in = new ByteArrayInputStream(str.getBytes());
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -239,8 +233,7 @@ public class OuCreateTest {
         OrganizationalUnit createdOU = ohc.create(organizationalUnit);
 
         // assert values of created OU
-        assertEquals("Name of OU wrong", createdOU.getProperties().getName(),
-            ouName);
+        assertEquals("Name of OU wrong", createdOU.getProperties().getName(), ouName);
     }
 
     /**
@@ -258,8 +251,7 @@ public class OuCreateTest {
         final String ouDescription = "Just a generic organizational unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
@@ -277,15 +269,12 @@ public class OuCreateTest {
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element title =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        Element title = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         title.setTextContent(ouName);
         mdRecordContent.appendChild(title);
 
         // dc:description
-        Element description =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/",
-                "description");
+        Element description = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         description.setTextContent(ouDescription);
         mdRecordContent.appendChild(description);
         mdRecord.setContent(mdRecordContent);
@@ -299,10 +288,8 @@ public class OuCreateTest {
         OrganizationalUnit createdOU = ohc.create(organizationalUnit);
 
         // assert values of created OU
-        assertEquals("Name of OU wrong", createdOU.getProperties().getName(),
-            ouName);
-        assertEquals("Description of OU wrong", createdOU
-            .getProperties().getDescription(), ouDescription);
+        assertEquals("Name of OU wrong", createdOU.getProperties().getName(), ouName);
+        assertEquals("Description of OU wrong", createdOU.getProperties().getDescription(), ouDescription);
     }
 
     /**
@@ -316,21 +303,17 @@ public class OuCreateTest {
     @Test
     public void testCreateOrganizationalUnit07() throws Exception {
 
-        final String ouName =
-            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord =
-            createMdRecordDC("escidoc", "organization-details", ouName,
-                ouDescription);
+        MetadataRecord mdRecord = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
         mdRecords.add(mdRecord);
         organizationalUnit.setMetadataRecords(mdRecords);
@@ -346,15 +329,11 @@ public class OuCreateTest {
         OrganizationalUnit childOU = ohc.create(organizationalUnit);
 
         // assert values of created OU
-        assertEquals("Name of OU wrong", childOU.getProperties().getName(),
-            ouName);
-        assertEquals("Description of OU wrong", childOU
-            .getProperties().getDescription(), ouDescription);
+        assertEquals("Name of OU wrong", childOU.getProperties().getName(), ouName);
+        assertEquals("Description of OU wrong", childOU.getProperties().getDescription(), ouDescription);
 
-        assertEquals("Number of parents wrong", childOU.getParents().size(),
-            parents.size());
-        assertEquals("Wrong parent objid", childOU
-            .getParents().iterator().next().getObjid(), parents
+        assertEquals("Number of parents wrong", childOU.getParents().size(), parents.size());
+        assertEquals("Wrong parent objid", childOU.getParents().iterator().next().getObjid(), parents
             .iterator().next().getObjid());
 
     }
@@ -374,17 +353,14 @@ public class OuCreateTest {
         final String ou1Description = "The fist OU of a test. ";
 
         final String ou2Name = "Test OU 2 " + System.currentTimeMillis();
-        final String ou2Description =
-            "The second OU of a test. " + System.currentTimeMillis();
+        final String ou2Description = "The second OU of a test. " + System.currentTimeMillis();
 
         // OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         ou1.setProperties(properties);
 
-        MetadataRecord mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", ou1Name, ou1Description);
+        MetadataRecord mdRecord = createMdRecordDC("escidoc", "myMdRecord", ou1Name, ou1Description);
 
         MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
@@ -395,20 +371,17 @@ public class OuCreateTest {
 
         // OU 2
         OrganizationalUnit ou2 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties2 =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties2 = new OrganizationalUnitProperties();
         ou2.setProperties(properties2);
 
         // set OU1 Predecessor of OU2
         Predecessors predecessors = new Predecessors();
 
-        Predecessor predecessor =
-            new Predecessor(ou1.getObjid(), PredecessorForm.REPLACEMENT);
+        Predecessor predecessor = new Predecessor(ou1.getObjid(), PredecessorForm.REPLACEMENT);
         predecessors.add(predecessor);
         ou2.setPredecessors(predecessors);
 
-        mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", ou2Name, ou2Description);
+        mdRecord = createMdRecordDC("escidoc", "myMdRecord", ou2Name, ou2Description);
 
         mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
@@ -418,8 +391,7 @@ public class OuCreateTest {
         ou2 = ohc.create(ou2);
 
         // assert OU values
-        assertEquals("Wrong predecessor", ou2
-            .getPredecessors().iterator().next().getObjid(), ou1.getObjid());
+        assertEquals("Wrong predecessor", ou2.getPredecessors().iterator().next().getObjid(), ou1.getObjid());
         assertEquals("Wrong predecessor", 1, ou2.getPredecessors().size());
     }
 
@@ -436,24 +408,19 @@ public class OuCreateTest {
         final String ou1Description = "The fist OU of a test. ";
 
         final String ou2Name = "Test OU 2 " + System.currentTimeMillis();
-        final String ou2Description =
-            "The second OU of a test. " + System.currentTimeMillis();
+        final String ou2Description = "The second OU of a test. " + System.currentTimeMillis();
 
         final String ou3Name = "Test OU 3 " + System.currentTimeMillis();
-        final String ou3Description =
-            "The third OU of a test. " + System.currentTimeMillis();
+        final String ou3Description = "The third OU of a test. " + System.currentTimeMillis();
 
         final String ou4Name = "Test OU 4 " + System.currentTimeMillis();
-        final String ou4Description =
-            "The forth OU of a test. " + System.currentTimeMillis();
+        final String ou4Description = "The forth OU of a test. " + System.currentTimeMillis();
 
         // create OU 1
         OrganizationalUnit ou1 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         ou1.setProperties(properties);
-        MetadataRecord mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", ou1Name, ou1Description);
+        MetadataRecord mdRecord = createMdRecordDC("escidoc", "myMdRecord", ou1Name, ou1Description);
         MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
         ou1.setMetadataRecords(mdRecords);
@@ -461,11 +428,9 @@ public class OuCreateTest {
 
         // create OU 2
         OrganizationalUnit ou2 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties2 =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties2 = new OrganizationalUnitProperties();
         ou2.setProperties(properties2);
-        mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", ou2Name, ou2Description);
+        mdRecord = createMdRecordDC("escidoc", "myMdRecord", ou2Name, ou2Description);
         mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
         ou2.setMetadataRecords(mdRecords);
@@ -473,11 +438,9 @@ public class OuCreateTest {
 
         // create OU 3
         OrganizationalUnit ou3 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties3 =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties3 = new OrganizationalUnitProperties();
         ou3.setProperties(properties3);
-        mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", ou3Name, ou3Description);
+        mdRecord = createMdRecordDC("escidoc", "myMdRecord", ou3Name, ou3Description);
         mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
         ou3.setMetadataRecords(mdRecords);
@@ -485,8 +448,7 @@ public class OuCreateTest {
 
         // create OU 4
         OrganizationalUnit ou4 = new OrganizationalUnit();
-        OrganizationalUnitProperties properties4 =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties4 = new OrganizationalUnitProperties();
 
         Parents parents = new Parents();
         parents.add(new Parent(ou1.getObjid()));
@@ -495,16 +457,14 @@ public class OuCreateTest {
         ou4.setParents(parents);
 
         ou4.setProperties(properties4);
-        mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord", ou4Name, ou4Description);
+        mdRecord = createMdRecordDC("escidoc", "myMdRecord", ou4Name, ou4Description);
         mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
         ou4.setMetadataRecords(mdRecords);
         ou4 = ohc.create(ou4);
 
         // retrieve parent objects
-        List<OrganizationalUnit> ouList =
-            ohc.retrieveParentObjectsAsList(ou4.getObjid());
+        List<OrganizationalUnit> ouList = ohc.retrieveParentObjectsAsList(ou4.getObjid());
 
         assertEquals("Wrong number ob OUs in List", 3, ouList.size());
 
@@ -520,25 +480,19 @@ public class OuCreateTest {
      */
     @Test
     public void testMDRecordsDeletion01() throws Exception {
-        final String ouName =
-            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord1 =
-            createMdRecordDC("escidoc", "organization-details", ouName,
-                ouDescription);
+        MetadataRecord mdRecord1 = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
-        MetadataRecord mdRecord2 =
-            createMdRecordDC("mytest", "organization-details2", ouName,
-                ouDescription);
+        MetadataRecord mdRecord2 = createMdRecordDC("mytest", "organization-details2", ouName, ouDescription);
 
         mdRecords.add(mdRecord1);
         mdRecords.add(mdRecord2);
@@ -549,8 +503,7 @@ public class OuCreateTest {
 
         // assert values of created OU
         assertEquals("Name of OU wrong", ou.getProperties().getName(), ouName);
-        assertEquals("Description of OU wrong", ou
-            .getProperties().getDescription(), ouDescription);
+        assertEquals("Description of OU wrong", ou.getProperties().getDescription(), ouDescription);
         assertEquals(2, ou.getMetadataRecords().size());
 
         // delete md-record
@@ -559,10 +512,8 @@ public class OuCreateTest {
         OrganizationalUnit updatedOU = ohc.update(ou);
 
         // assert values of created OU
-        assertEquals("Name of OU wrong", updatedOU.getProperties().getName(),
-            ouName);
-        assertEquals("Description of OU wrong", updatedOU
-            .getProperties().getDescription(), ouDescription);
+        assertEquals("Name of OU wrong", updatedOU.getProperties().getName(), ouName);
+        assertEquals("Description of OU wrong", updatedOU.getProperties().getDescription(), ouDescription);
         assertEquals(1, updatedOU.getMetadataRecords().size());
     }
 
@@ -576,25 +527,19 @@ public class OuCreateTest {
     @Ignore("INFR-1016")
     @Test(expected = MissingMdRecordException.class)
     public void testMDRecordsDeletion02() throws Exception {
-        final String ouName =
-            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord1 =
-            createMdRecordDC("escidoc", "organization-details", ouName,
-                ouDescription);
+        MetadataRecord mdRecord1 = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
-        MetadataRecord mdRecord2 =
-            createMdRecordDC("mytest", "organization-details2", ouName,
-                ouDescription);
+        MetadataRecord mdRecord2 = createMdRecordDC("mytest", "organization-details2", ouName, ouDescription);
 
         mdRecords.add(mdRecord1);
         mdRecords.add(mdRecord2);
@@ -605,8 +550,7 @@ public class OuCreateTest {
 
         // assert values of created OU
         assertEquals("Name of OU wrong", ou.getProperties().getName(), ouName);
-        assertEquals("Description of OU wrong", ou
-            .getProperties().getDescription(), ouDescription);
+        assertEquals("Description of OU wrong", ou.getProperties().getDescription(), ouDescription);
         assertEquals(2, ou.getMetadataRecords().size());
 
         // delete md-record
@@ -623,25 +567,19 @@ public class OuCreateTest {
     @Ignore("INFR-1016")
     @Test(expected = InvalidXmlException.class)
     public void testMDRecordsDeletion03() throws Exception {
-        final String ouName =
-            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord1 =
-            createMdRecordDC("escidoc", "organization-details", ouName,
-                ouDescription);
+        MetadataRecord mdRecord1 = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
-        MetadataRecord mdRecord2 =
-            createMdRecordDC("mytest", "organization-details2", ouName,
-                ouDescription);
+        MetadataRecord mdRecord2 = createMdRecordDC("mytest", "organization-details2", ouName, ouDescription);
 
         mdRecords.add(mdRecord1);
         mdRecords.add(mdRecord2);
@@ -652,8 +590,7 @@ public class OuCreateTest {
 
         // assert values of created OU
         assertEquals("Name of OU wrong", ou.getProperties().getName(), ouName);
-        assertEquals("Description of OU wrong", ou
-            .getProperties().getDescription(), ouDescription);
+        assertEquals("Description of OU wrong", ou.getProperties().getDescription(), ouDescription);
         assertEquals(2, ou.getMetadataRecords().size());
 
         // delete md-record
@@ -670,25 +607,19 @@ public class OuCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testMDRecordsDeletion04() throws Exception {
-        final String ouName =
-            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord1 =
-            createMdRecordDC("escidoc", "organization-details", ouName,
-                ouDescription);
+        MetadataRecord mdRecord1 = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
-        MetadataRecord mdRecord2 =
-            createMdRecordDC("mytest", "organization-details2", ouName,
-                ouDescription);
+        MetadataRecord mdRecord2 = createMdRecordDC("mytest", "organization-details2", ouName, ouDescription);
 
         mdRecords.add(mdRecord1);
         mdRecords.add(mdRecord2);
@@ -699,8 +630,7 @@ public class OuCreateTest {
 
         // assert values of created OU
         assertEquals("Name of OU wrong", ou.getProperties().getName(), ouName);
-        assertEquals("Description of OU wrong", ou
-            .getProperties().getDescription(), ouDescription);
+        assertEquals("Description of OU wrong", ou.getProperties().getDescription(), ouDescription);
         assertEquals(2, ou.getMetadataRecords().size());
 
         // delete md-records
@@ -718,22 +648,20 @@ public class OuCreateTest {
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecord mdRecord =
-            createMdRecordDC("escidoc", "myMdRecord",
-                "Test OU " + System.currentTimeMillis(),
+            createMdRecordDC("escidoc", "myMdRecord", "Test OU " + System.currentTimeMillis(),
                 "The fist OU of a test. ");
 
         MetadataRecord mdRecord2 =
-            createMdRecordDC("md-record2", "mySecondMdRecord", "Test OU "
-                + System.currentTimeMillis(), "22222222222222222222222");
+            createMdRecordDC("md-record2", "mySecondMdRecord", "Test OU " + System.currentTimeMillis(),
+                "22222222222222222222222");
 
         MetadataRecord mdRecord3 =
-            createMdRecordDC("md-record3", "myThirdMdRecord", "Test OU "
-                + System.currentTimeMillis(), "some-other-stuff");
+            createMdRecordDC("md-record3", "myThirdMdRecord", "Test OU " + System.currentTimeMillis(),
+                "some-other-stuff");
 
         MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
@@ -742,26 +670,24 @@ public class OuCreateTest {
 
         organizationalUnit.setMetadataRecords(mdRecords);
 
-        OrganizationalUnit createdOrganizationalUnit =
-            ohc.create(organizationalUnit);
+        OrganizationalUnit createdOrganizationalUnit = ohc.create(organizationalUnit);
 
         // compare the new created OrganizationalUnit with the
         // OrganizationalUnit from the request
         String objId = createdOrganizationalUnit.getObjid();
         assertNotNull("Object id is null", objId);
 
-        Asserts.assertMdRecords(organizationalUnit.getMetadataRecords(),
-            createdOrganizationalUnit.getMetadataRecords());
+        Asserts
+            .assertMdRecords(organizationalUnit.getMetadataRecords(), createdOrganizationalUnit.getMetadataRecords());
 
         // now delete some metadataRecords
         createdOrganizationalUnit.getMetadataRecords().del("md-record2");
-        OrganizationalUnit updatedOrganizationalUnit1 =
-            ohc.update(createdOrganizationalUnit);
+        OrganizationalUnit updatedOrganizationalUnit1 = ohc.update(createdOrganizationalUnit);
 
         assertNotNull("Object id is null", objId);
 
-        Asserts.assertMdRecords(createdOrganizationalUnit.getMetadataRecords(),
-            updatedOrganizationalUnit1.getMetadataRecords());
+        Asserts.assertMdRecords(createdOrganizationalUnit.getMetadataRecords(), updatedOrganizationalUnit1
+            .getMetadataRecords());
     }
 
     /**
@@ -780,8 +706,7 @@ public class OuCreateTest {
      *             If instantiation of DocumentBuilder fail
      */
     private MetadataRecord createMdRecordDC(
-        final String mdRecordName, final String rootElementName,
-        final String title, final String description)
+        final String mdRecordName, final String rootElementName, final String title, final String description)
         throws ParserConfigurationException {
 
         // md-record
@@ -798,16 +723,13 @@ public class OuCreateTest {
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element titleElmt =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
         titleElmt.setTextContent(title);
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
-        Element descriptionElmt =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/",
-                "description");
+        Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
         descriptionElmt.setTextContent(description);
         mdRecordContent.appendChild(descriptionElmt);

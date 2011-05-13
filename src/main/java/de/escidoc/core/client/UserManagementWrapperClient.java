@@ -44,8 +44,7 @@ import de.escidoc.core.client.rest.RestUserManagementWrapperClient;
  * @author SWA
  * 
  */
-public class UserManagementWrapperClient
-    extends AbstractHandlerClient<RestUserManagementWrapperClient>
+public class UserManagementWrapperClient extends AbstractHandlerClient<RestUserManagementWrapperClient>
     implements UserManagementWrapperClientInterface {
 
     /**
@@ -83,16 +82,14 @@ public class UserManagementWrapperClient
      * #logout()
      */
     @Override
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
+    public void logout() throws EscidocException, InternalClientException, TransportException {
 
         getClient().logout();
 
     }
 
     @Override
-    protected RestUserManagementWrapperClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestUserManagementWrapperClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestUserManagementWrapperClient(getServiceAddress());
     }
 }

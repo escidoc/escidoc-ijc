@@ -21,8 +21,8 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  */
 @JiBX
 public class UserGroupProperties
-    implements CreateProperties, ModifyProperties, NameProperties,
-    DescriptionProperties, TypeProperties, ActiveProperties {
+    implements CreateProperties, ModifyProperties, NameProperties, DescriptionProperties, TypeProperties,
+    ActiveProperties {
 
     private DateTime creationDate;
 

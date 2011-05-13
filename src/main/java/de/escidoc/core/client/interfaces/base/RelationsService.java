@@ -23,6 +23,5 @@ public interface RelationsService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Relations retrieveRelations(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    Relations retrieveRelations(final String id) throws EscidocException, InternalClientException, TransportException;
 }

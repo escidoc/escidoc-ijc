@@ -22,8 +22,7 @@ import org.jibx.runtime.impl.UnmarshallingContext;
  * @author MVO
  * 
  */
-public class ExceptionMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class ExceptionMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
     private static final String TAG_TITLE = "title";
 
@@ -46,18 +45,16 @@ public class ExceptionMarshaller extends MarshallingBase
      * <li>group 5: line number</li>
      * </ul>
      */
-    private static final Pattern STACK_TRACE_ELEMENT_PATTERN = Pattern
-        .compile("\\s*(.+)([$]|[.])([^$^.]+)[(]([^:]+):(\\d+)[)]\\s*");
+    private static final Pattern STACK_TRACE_ELEMENT_PATTERN =
+        Pattern.compile("\\s*(.+)([$]|[.])([^$^.]+)[(]([^:]+):(\\d+)[)]\\s*");
 
     /**
      * Common denominator of package names for exceptions inheriting from
      * AxisFault.
      */
-    private static final String PREFIX_REMOTE =
-        "de.escidoc.core.common.exceptions.remote";
+    private static final String PREFIX_REMOTE = "de.escidoc.core.common.exceptions.remote";
 
-    private static final String PREFIX_COMMON =
-        "de.escidoc.core.common.exceptions";
+    private static final String PREFIX_COMMON = "de.escidoc.core.common.exceptions";
 
     /**
      * Non-aliased constructor
@@ -71,8 +68,7 @@ public class ExceptionMarshaller extends MarshallingBase
      * @param index
      * @param name
      */
-    public ExceptionMarshaller(final String uri, final int index,
-        final String name) {
+    public ExceptionMarshaller(final String uri, final int index, final String name) {
         super(uri, index, name);
     }
 
@@ -83,8 +79,7 @@ public class ExceptionMarshaller extends MarshallingBase
      * IUnmarshallingContext)
      */
     @Override
-    public boolean isPresent(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx) throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -105,15 +100,12 @@ public class ExceptionMarshaller extends MarshallingBase
      * org.jibx.runtime.IUnmarshallingContext)
      */
     @Override
-    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
         if (!(ictx instanceof UnmarshallingContext))
-            throw new IllegalArgumentException(
-                "UnmarshallingContext is not of expected type.");
+            throw new IllegalArgumentException("UnmarshallingContext is not of expected type.");
         if (ictx.getUserContext() == null)
-            throw new IllegalArgumentException(
-                "No user context object available.");
+            throw new IllegalArgumentException("No user context object available.");
         if (!(ictx.getUserContext() instanceof HttpStatusInfo))
             throw new IllegalArgumentException(
                 "Unexpected type of the supplied user context object. Expected HttpStatusInfo class.");
@@ -123,8 +115,7 @@ public class ExceptionMarshaller extends MarshallingBase
 
         // wrap the result into a wrapper-class since we are not able
         // to compile JiBX into java.rmi.RemoteException.
-        return new RemoteExceptionWrapper((RemoteException) parseException(ctx,
-            httpInfo, true));
+        return new RemoteExceptionWrapper((RemoteException) parseException(ctx, httpInfo, true));
     }
 
     /**
@@ -136,8 +127,8 @@ public class ExceptionMarshaller extends MarshallingBase
      * @throws JiBXException
      */
     private Exception parseException(
-        final UnmarshallingContext ctx, final HttpStatusInfo httpInfo,
-        final boolean isRootException) throws JiBXException {
+        final UnmarshallingContext ctx, final HttpStatusInfo httpInfo, final boolean isRootException)
+        throws JiBXException {
 
         Exception result = null;
         String message = null;
@@ -212,8 +203,7 @@ public class ExceptionMarshaller extends MarshallingBase
      * @throws JiBXException
      */
     private Exception createInstance(
-        final String className, final String message,
-        final HttpStatusInfo httpInfo, final boolean isRootException)
+        final String className, final String message, final HttpStatusInfo httpInfo, final boolean isRootException)
         throws JiBXException {
         Exception result = null;
         try {
@@ -231,8 +221,7 @@ public class ExceptionMarshaller extends MarshallingBase
                 if (isRootException) {
                     // the root Exception must be a RemoteException
                     throw new ClassNotFoundException(
-                        "Root Exception must be a RemoteException or does not exists in the class-path.",
-                        e);
+                        "Root Exception must be a RemoteException or does not exists in the class-path.", e);
                 }
                 else {
                     // use a simple Exception class instead for non-root
@@ -250,25 +239,18 @@ public class ExceptionMarshaller extends MarshallingBase
             if (de.escidoc.core.common.exceptions.remote.application.security.SecurityException.class
                 .isAssignableFrom(exClass)) {
                 Constructor<?> constructor =
-                    exClass.getDeclaredConstructor(new Class[] { int.class,
-                        String.class, String.class, String.class });
+                    exClass.getDeclaredConstructor(new Class[] { int.class, String.class, String.class, String.class });
                 result =
-                    (RemoteException) constructor.newInstance(
-                        httpInfo.getStatusCode(), null, message,
-                        httpInfo.getRedirectLocation());
+                    (RemoteException) constructor.newInstance(httpInfo.getStatusCode(), null, message, httpInfo
+                        .getRedirectLocation());
             }
             else if (RemoteException.class.isAssignableFrom(exClass)) {
                 Constructor<?> constructor =
-                    exClass.getDeclaredConstructor(new Class[] { int.class,
-                        String.class, String.class });
-                result =
-                    (RemoteException) constructor.newInstance(
-                        httpInfo.getStatusCode(), null, message);
+                    exClass.getDeclaredConstructor(new Class[] { int.class, String.class, String.class });
+                result = (RemoteException) constructor.newInstance(httpInfo.getStatusCode(), null, message);
             }
             else {
-                Constructor<?> constructor =
-                    exClass
-                        .getDeclaredConstructor(new Class[] { String.class });
+                Constructor<?> constructor = exClass.getDeclaredConstructor(new Class[] { String.class });
                 result = (Exception) constructor.newInstance(message);
             }
         }
@@ -292,8 +274,7 @@ public class ExceptionMarshaller extends MarshallingBase
 
             Matcher m = STACK_TRACE_ELEMENT_PATTERN.matcher(line);
             if (m.find()) {
-                list.add(new StackTraceElement(m.group(1), m.group(3), m
-                    .group(4), new Integer(m.group(5)).intValue()));
+                list.add(new StackTraceElement(m.group(1), m.group(3), m.group(4), new Integer(m.group(5)).intValue()));
             }
 
         }
@@ -307,10 +288,8 @@ public class ExceptionMarshaller extends MarshallingBase
      * org.jibx.runtime.IMarshallingContext)
      */
     @Override
-    public void marshal(final Object obj, final IMarshallingContext ictx)
-        throws JiBXException {
-        throw new UnsupportedOperationException(
-            "Marshalling of Exceptions not supported.");
+    public void marshal(final Object obj, final IMarshallingContext ictx) throws JiBXException {
+        throw new UnsupportedOperationException("Marshalling of Exceptions not supported.");
     }
 
 }

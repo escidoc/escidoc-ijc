@@ -7,8 +7,7 @@ package de.escidoc.core.resources;
  * @author Marko Voß
  * 
  */
-public abstract class ResourceList<E extends Resource>
-    extends XLinkResourceList<E> {
+public abstract class ResourceList<E extends Resource> extends XLinkResourceList<E> {
 
     /**
      * 

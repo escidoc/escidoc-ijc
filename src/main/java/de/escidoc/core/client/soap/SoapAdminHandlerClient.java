@@ -22,8 +22,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapAdminHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapAdminHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapAdminHandlerClient.class);
 
     private AdminHandler soapClient = null;
 
@@ -40,8 +39,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @param serviceAdress
      * @throws InternalClientException
      */
-    public SoapAdminHandlerClient(final URL serviceAdress)
-        throws InternalClientException {
+    public SoapAdminHandlerClient(final URL serviceAdress) throws InternalClientException {
         super(serviceAdress);
     }
 
@@ -54,8 +52,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapAdminHandlerClient(final String serviceAdress)
-        throws InternalClientException {
+    public SoapAdminHandlerClient(final String serviceAdress) throws InternalClientException {
         super(serviceAdress);
     }
 
@@ -67,8 +64,8 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String deleteObjects(final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String deleteObjects(final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
         try {
             return getClient().deleteObjects(taskParam);
         }
@@ -85,8 +82,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getPurgeStatus() throws EscidocException,
-        InternalClientException, TransportException {
+    public String getPurgeStatus() throws EscidocException, InternalClientException, TransportException {
         try {
             return getClient().getPurgeStatus();
         }
@@ -103,8 +99,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getReindexStatus() throws EscidocException,
-        InternalClientException, TransportException {
+    public String getReindexStatus() throws EscidocException, InternalClientException, TransportException {
         try {
             return getClient().getReindexStatus();
         }
@@ -123,11 +118,10 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String reindex(final boolean clearIndex, final String indexNamePrefix)
-        throws EscidocException, InternalClientException, TransportException {
+    public String reindex(final boolean clearIndex, final String indexNamePrefix) throws EscidocException,
+        InternalClientException, TransportException {
         try {
-            return getClient().reindex(clearIndex ? "true" : "false",
-                indexNamePrefix);
+            return getClient().reindex(clearIndex ? "true" : "false", indexNamePrefix);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
@@ -142,8 +136,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getRepositoryInfo() throws EscidocException,
-        InternalClientException, TransportException {
+    public String getRepositoryInfo() throws EscidocException, InternalClientException, TransportException {
         try {
             return getClient().getRepositoryInfo();
         }
@@ -161,8 +154,8 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String loadExamples(final String exampleSet)
-        throws EscidocException, InternalClientException, TransportException {
+    public String loadExamples(final String exampleSet) throws EscidocException, InternalClientException,
+        TransportException {
         try {
             return getClient().loadExamples(exampleSet);
         }
@@ -179,8 +172,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String getIndexConfiguration() throws EscidocException,
-        InternalClientException, TransportException {
+    public String getIndexConfiguration() throws EscidocException, InternalClientException, TransportException {
         try {
             return getClient().getIndexConfiguration();
         }
@@ -199,11 +191,8 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public AdminHandler getClient() throws InternalClientException {
         try {
             if (soapClient == null) {
-                AdminHandlerServiceLocator serviceLocator =
-                    new AdminHandlerServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getAdminHandlerServiceAddress());
+                AdminHandlerServiceLocator serviceLocator = new AdminHandlerServiceLocator(getEngineConfig());
+                URL url = getHandlerServiceURL(serviceLocator.getAdminHandlerServiceAddress());
                 soapClient = serviceLocator.getAdminHandlerService(url);
                 registerPWCallback(soapClient);
             }

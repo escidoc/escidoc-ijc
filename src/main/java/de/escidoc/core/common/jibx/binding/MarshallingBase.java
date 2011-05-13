@@ -26,23 +26,17 @@ import de.escidoc.core.resources.interfaces.XmlCompatibleEnum;
  */
 public class MarshallingBase {
 
-    private static final String EX_UNEXPECTED_MARSH_CTX =
-        "Unexpected marshalling context type.";
+    private static final String EX_UNEXPECTED_MARSH_CTX = "Unexpected marshalling context type.";
 
-    private static final String EX_UNEXPECTED_UNMARSH_CTX =
-        "Unexpected unmarshalling context type.";
+    private static final String EX_UNEXPECTED_UNMARSH_CTX = "Unexpected unmarshalling context type.";
 
-    protected static final String EX_MARSH_NOT_SUPPORTED =
-        "Marshalling not supported.";
+    protected static final String EX_MARSH_NOT_SUPPORTED = "Marshalling not supported.";
 
-    protected static final String EX_UNMARSH_NOT_SUPPORTED =
-        "Unmarshalling not supported.";
+    protected static final String EX_UNMARSH_NOT_SUPPORTED = "Unmarshalling not supported.";
 
-    private static final Pattern CDATA_PATTERN = Pattern
-        .compile("<!\\[CDATA.*\\]\\]>");
+    private static final Pattern CDATA_PATTERN = Pattern.compile("<!\\[CDATA.*\\]\\]>");
 
-    private static final Pattern XML_DECLARATION_PATTERN = Pattern
-        .compile("<\\?xml.*\\?>");
+    private static final Pattern XML_DECLARATION_PATTERN = Pattern.compile("<\\?xml.*\\?>");
 
     protected static final String SIZE_ATTRIBUTE_NAME = "size";
 
@@ -54,8 +48,7 @@ public class MarshallingBase {
 
     protected static final String XLINK_HREF_ATTRIBUTE_NAME = "href";
 
-    protected static final String XLINK_NAMESPACE =
-        "http://www.w3.org/1999/xlink";
+    protected static final String XLINK_NAMESPACE = "http://www.w3.org/1999/xlink";
 
     private final String uri;
 
@@ -84,8 +77,7 @@ public class MarshallingBase {
      * @return
      * @throws JiBXException
      */
-    protected String getContentOfElementAsXml(
-        final IUnmarshallingContext ictx, final String element)
+    protected String getContentOfElementAsXml(final IUnmarshallingContext ictx, final String element)
         throws JiBXException {
         StringBuffer result = new StringBuffer();
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
@@ -103,14 +95,12 @@ public class MarshallingBase {
                  * since we are generating a xml text here, we have to encode
                  * the content again. There is no way to get the origin text.
                  */
-                result.append(XmlUtility.escapeForbiddenXmlCharacters(ctx
-                    .accumulateText()));
+                result.append(XmlUtility.escapeForbiddenXmlCharacters(ctx.accumulateText()));
             }
             else if (ctx.isEnd()) {
                 if (!element.equals(ctx.getElementName())) {
                     result.append(getEndElement(ictx));
-                    ctx.parsePastEndTag(ctx.getNamespace(),
-                        ctx.getElementName());
+                    ctx.parsePastEndTag(ctx.getNamespace(), ctx.getElementName());
                 }
                 else {
                     finished = true;
@@ -125,8 +115,7 @@ public class MarshallingBase {
      * @return
      * @throws JiBXException
      */
-    protected String getElementAsXml(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    protected String getElementAsXml(final IUnmarshallingContext ictx) throws JiBXException {
 
         if (!ictx.isStart())
             throw new JiBXException("Expected start tag.");
@@ -141,27 +130,23 @@ public class MarshallingBase {
         while (!finished) {
             if (ctx.isStart()) {
                 result = result.append(getStartElement(ictx));
-                ctx.parsePastStartTag(ctx.getElementNamespace(),
-                    ctx.getElementName());
+                ctx.parsePastStartTag(ctx.getElementNamespace(), ctx.getElementName());
                 /*
                  * The woodstox parser returns text content as decoded text and
                  * since we are generating a xml text here, we have to encode
                  * the content again. There is no way to get the origin text.
                  */
-                result.append(XmlUtility.escapeForbiddenXmlCharacters(ctx
-                    .accumulateText()));
+                result.append(XmlUtility.escapeForbiddenXmlCharacters(ctx.accumulateText()));
             }
             else if (ctx.isEnd()) {
 
                 result.append(getEndElement(ictx));
 
-                if (root.equals(ctx.getElementName()) && rootNS != null
-                    && rootNS.equals(ctx.getElementNamespace())) {
+                if (root.equals(ctx.getElementName()) && rootNS != null && rootNS.equals(ctx.getElementNamespace())) {
 
                     finished = true;
                 }
-                ctx.parsePastEndTag(ctx.getElementNamespace(),
-                    ctx.getElementName());
+                ctx.parsePastEndTag(ctx.getElementNamespace(), ctx.getElementName());
             }
         }
         return result.toString();
@@ -174,8 +159,7 @@ public class MarshallingBase {
      * @return
      * @throws JiBXException
      */
-    private StringBuffer getStartElement(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    private StringBuffer getStartElement(final IUnmarshallingContext ictx) throws JiBXException {
         StringBuffer result = new StringBuffer("<");
 
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
@@ -197,8 +181,7 @@ public class MarshallingBase {
             if (currentNSPrefix != null && currentNSPrefix.length() != 0) {
                 namespaces.append(":").append(currentNSPrefix);
             }
-            namespaces
-                .append("=\"").append(ctx.getNamespaceUri(i)).append("\"");
+            namespaces.append("=\"").append(ctx.getNamespaceUri(i)).append("\"");
         }
         result.append(namespaces);
 
@@ -210,9 +193,7 @@ public class MarshallingBase {
             if (attrPrefix != null && attrPrefix.length() != 0) {
                 attributes.append(attrPrefix).append(":");
             }
-            attributes
-                .append(ctx.getAttributeName(i)).append("=\"")
-                .append(ctx.getAttributeValue(i)).append("\"");
+            attributes.append(ctx.getAttributeName(i)).append("=\"").append(ctx.getAttributeValue(i)).append("\"");
         }
         result.append(attributes);
 
@@ -244,8 +225,7 @@ public class MarshallingBase {
      * @return
      * @throws JiBXException
      */
-    private StringBuffer getEndElement(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    private StringBuffer getEndElement(final IUnmarshallingContext ictx) throws JiBXException {
         StringBuffer result = new StringBuffer("</");
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
 
@@ -268,9 +248,8 @@ public class MarshallingBase {
      * @throws JiBXException
      * @throws IOException
      */
-    public void setContentWhileMarshalling(
-        final MarshallingContext ctx, final String content)
-        throws JiBXException, IOException {
+    public void setContentWhileMarshalling(final MarshallingContext ctx, final String content) throws JiBXException,
+        IOException {
         String modifiedContentArray[] = null;
         String modifiedContent = null;
         Matcher xmlDeclaration = XML_DECLARATION_PATTERN.matcher(content);
@@ -340,8 +319,7 @@ public class MarshallingBase {
      * @param namespace
      * @return
      */
-    protected int findNamespace(
-        final MarshallingContext ctx, final String namespace) {
+    protected int findNamespace(final MarshallingContext ctx, final String namespace) {
 
         for (int i = 0; i < ctx.getNamespaces().length; i++) {
             if (ctx.getNamespaces()[i].equals(namespace))
@@ -355,11 +333,10 @@ public class MarshallingBase {
      * @return
      * @throws JiBXException
      */
-    protected static final UnmarshallingContext checkUnmarshaller(
-        final IUnmarshallingContext ictx) throws JiBXException {
+    protected static final UnmarshallingContext checkUnmarshaller(final IUnmarshallingContext ictx)
+        throws JiBXException {
 
-        return checkObject(UnmarshallingContext.class, ictx,
-            EX_UNEXPECTED_UNMARSH_CTX);
+        return checkObject(UnmarshallingContext.class, ictx, EX_UNEXPECTED_UNMARSH_CTX);
     }
 
     /**
@@ -367,11 +344,9 @@ public class MarshallingBase {
      * @return
      * @throws JiBXException
      */
-    protected static final MarshallingContext checkMarshaller(
-        final IMarshallingContext ictx) throws JiBXException {
+    protected static final MarshallingContext checkMarshaller(final IMarshallingContext ictx) throws JiBXException {
 
-        return checkObject(MarshallingContext.class, ictx,
-            EX_UNEXPECTED_MARSH_CTX);
+        return checkObject(MarshallingContext.class, ictx, EX_UNEXPECTED_MARSH_CTX);
     }
 
     /**
@@ -391,7 +366,6 @@ public class MarshallingBase {
                 return t;
         }
 
-        throw new IllegalArgumentException("No enum const " + enumClass + "."
-            + value);
+        throw new IllegalArgumentException("No enum const " + enumClass + "." + value);
     }
 }

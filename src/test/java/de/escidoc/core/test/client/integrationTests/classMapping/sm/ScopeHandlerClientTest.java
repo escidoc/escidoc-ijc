@@ -50,29 +50,21 @@ public class ScopeHandlerClientTest {
      */
     @Test
     public void testCreateScope01() throws Exception {
-        Scope normalScope =
-            new Scope("NormalScope @ " + System.currentTimeMillis(),
-                ScopeType.NORMAL);
+        Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
 
-        Scope adminScope =
-            new Scope("AdminScope @ " + System.currentTimeMillis(),
-                ScopeType.ADMIN);
+        Scope adminScope = new Scope("AdminScope @ " + System.currentTimeMillis(), ScopeType.ADMIN);
 
         Scope resultScope = shc.create(normalScope);
 
         assertNotNull("Objid should not be null", resultScope.getObjid());
-        assertEquals("Name is not equals", normalScope.getName(),
-            resultScope.getName());
-        assertEquals("ScopeType is not equals", normalScope.getScopeType(),
-            resultScope.getScopeType());
+        assertEquals("Name is not equals", normalScope.getName(), resultScope.getName());
+        assertEquals("ScopeType is not equals", normalScope.getScopeType(), resultScope.getScopeType());
 
         resultScope = shc.create(adminScope);
 
         assertNotNull("Objid should not be null", resultScope.getObjid());
-        assertEquals("Name is not equals", adminScope.getName(),
-            resultScope.getName());
-        assertEquals("ScopeType is not equals", adminScope.getScopeType(),
-            resultScope.getScopeType());
+        assertEquals("Name is not equals", adminScope.getName(), resultScope.getName());
+        assertEquals("ScopeType is not equals", adminScope.getScopeType(), resultScope.getScopeType());
     }
 
     /**
@@ -81,9 +73,7 @@ public class ScopeHandlerClientTest {
      */
     @Test
     public void testDelete01() throws Exception {
-        Scope normalScope =
-            new Scope("NormalScope @ " + System.currentTimeMillis(),
-                ScopeType.NORMAL);
+        Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
         Scope createdScope = shc.create(normalScope);
 
         assertNotNull("Objid should not be null.", createdScope.getObjid());
@@ -99,21 +89,19 @@ public class ScopeHandlerClientTest {
     @Ignore
     @Test
     public void testDelete02() throws Exception {
-        Scope normalScope =
-            new Scope("NormalScope @ " + System.currentTimeMillis(),
-                ScopeType.NORMAL);
+        Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
         Scope createdScope = shc.create(normalScope);
 
         assertNotNull("Objid should not be null.", createdScope.getObjid());
 
         // Create an aggregation definition referring to this scope.
         AggregationDefinitionHandlerClient c =
-            new AggregationDefinitionHandlerClient(
-                EscidocClientTestBase.getDefaultInfrastructureURL());
+            new AggregationDefinitionHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
         c.setHandle(auth.getHandle());
 
-        c.create(AggregationDefinitionHandlerClientTest.defineValidAD(
-            "ad-test", "test_table", createdScope.getObjid()));
+        c
+            .create(AggregationDefinitionHandlerClientTest.defineValidAD("ad-test", "test_table", createdScope
+                .getObjid()));
 
         // delete scope
         shc.delete(createdScope.getObjid());

@@ -24,8 +24,7 @@ public interface Revisable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result revise(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
+    Result revise(final String id, final TaskParam taskParam) throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
@@ -37,7 +36,6 @@ public interface Revisable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result revise(final T resource, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
+    Result revise(final T resource, final TaskParam taskParam) throws EscidocClientException, InternalClientException,
         TransportException;
 }

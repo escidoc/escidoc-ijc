@@ -12,8 +12,7 @@ import de.escidoc.core.common.exceptions.remote.application.security.Authorizati
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
 import de.escidoc.core.sm.PreprocessingHandler;
 
-public class PreprocessingRestServiceLocator extends RestServiceMethod
-    implements PreprocessingHandler {
+public class PreprocessingRestServiceLocator extends RestServiceMethod implements PreprocessingHandler {
 
     public static final String PATH = "/statistic/preprocessing";
 
@@ -24,11 +23,9 @@ public class PreprocessingRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public void preprocess(
-        final String aggregationDefinitionId, final String xmlData)
-        throws RemoteException, XmlSchemaValidationException, SystemException,
-        XmlCorruptedException, AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public void preprocess(final String aggregationDefinitionId, final String xmlData) throws RemoteException,
+        XmlSchemaValidationException, SystemException, XmlCorruptedException, AuthorizationException,
+        AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(aggregationDefinitionId);
         checkNotNull(xmlData);

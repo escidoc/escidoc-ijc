@@ -10,16 +10,14 @@ package de.escidoc.core.client.exceptions.application.violated;
 import java.lang.reflect.Field;
 
 public class AlreadyDeletedException
-    extends
-    de.escidoc.core.client.exceptions.application.violated.RuleViolationException
+    extends de.escidoc.core.client.exceptions.application.violated.RuleViolationException
     implements java.io.Serializable {
     public AlreadyDeletedException(String message, Throwable cause) {
         super(message, cause);
         try {
             Class te = AlreadyDeletedException.class;
             Class cE =
-                Class.forName(te.getName().replace(
-                    "de.escidoc.core.client.exceptions",
+                Class.forName(te.getName().replace("de.escidoc.core.client.exceptions",
                     "de.escidoc.core.common.exceptions.remote"));
             Field[] tF = te.getDeclaredFields();
             Field[] cF = cE.getDeclaredFields();
@@ -37,8 +35,7 @@ public class AlreadyDeletedException
     public AlreadyDeletedException() {
     }
 
-    public AlreadyDeletedException(int httpStatusCode,
-        java.lang.String httpStatusLine, java.lang.String httpStatusMsg) {
+    public AlreadyDeletedException(int httpStatusCode, java.lang.String httpStatusLine, java.lang.String httpStatusMsg) {
         super(httpStatusCode, httpStatusLine, httpStatusMsg);
     }
 
@@ -76,13 +73,11 @@ public class AlreadyDeletedException
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(AlreadyDeletedException.class,
-            true);
+        new org.apache.axis.description.TypeDesc(AlreadyDeletedException.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName(
-            "http://violated.application.exceptions.common.core.escidoc.de",
-            "AlreadyDeletedException"));
+            "http://violated.application.exceptions.common.core.escidoc.de", "AlreadyDeletedException"));
     }
 
     /**
@@ -96,28 +91,22 @@ public class AlreadyDeletedException
      * Get Custom Serializer
      */
     public static org.apache.axis.encoding.Serializer getSerializer(
-        java.lang.String mechType, java.lang.Class _javaType,
-        javax.xml.namespace.QName _xmlType) {
-        return new org.apache.axis.encoding.ser.BeanSerializer(_javaType,
-            _xmlType, typeDesc);
+        java.lang.String mechType, java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
+        return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
     }
 
     /**
      * Get Custom Deserializer
      */
     public static org.apache.axis.encoding.Deserializer getDeserializer(
-        java.lang.String mechType, java.lang.Class _javaType,
-        javax.xml.namespace.QName _xmlType) {
-        return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType,
-            _xmlType, typeDesc);
+        java.lang.String mechType, java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
+        return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
     }
 
     /**
      * Writes the exception data to the faultDetails
      */
-    public void writeDetails(
-        javax.xml.namespace.QName qname,
-        org.apache.axis.encoding.SerializationContext context)
+    public void writeDetails(javax.xml.namespace.QName qname, org.apache.axis.encoding.SerializationContext context)
         throws java.io.IOException {
         context.serialize(qname, null, this);
     }

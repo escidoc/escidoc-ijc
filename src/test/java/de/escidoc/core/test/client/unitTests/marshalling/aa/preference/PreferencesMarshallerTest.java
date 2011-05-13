@@ -31,10 +31,9 @@ public class PreferencesMarshallerTest extends MarshallerTestBase<Preferences> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public PreferencesMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
-        super(Preferences.class, BASE, XSD, "preferences_complete.xml",
-            transport);
+    public PreferencesMarshallerTest(final TransportProtocol transport) throws IOException,
+        ParserConfigurationException, SAXException {
+        super(Preferences.class, BASE, XSD, "preferences_complete.xml", transport);
     }
 
     @Override
@@ -60,16 +59,13 @@ public class PreferencesMarshallerTest extends MarshallerTestBase<Preferences> {
      * @throws TransformerException
      * @throws DOMException
      */
-    private void validatePreference(
-        final String xPathContext, final Preferences preferences,
-        final int index) throws DOMException, TransformerException {
+    private void validatePreference(final String xPathContext, final Preferences preferences, final int index)
+        throws DOMException, TransformerException {
 
-        String path =
-            xPathContext + "/preferences:preference[" + (index + 1) + "]";
+        String path = xPathContext + "/preferences:preference[" + (index + 1) + "]";
 
         // Preferences within an attributes-tag may not have a LMD set.
-        assertDateTime(path + "/@last-modification-date", preferences
-            .get(index).getLastModificationDate(), false);
+        assertDateTime(path + "/@last-modification-date", preferences.get(index).getLastModificationDate(), false);
 
         assertXPath(path + "/@name", preferences.get(index).getName());
         assertXPath(path, preferences.get(index).getValue());
@@ -81,8 +77,7 @@ public class PreferencesMarshallerTest extends MarshallerTestBase<Preferences> {
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final Preferences obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final Preferences obj) throws Exception {
         // TODO Auto-generated method stub
     }
 }

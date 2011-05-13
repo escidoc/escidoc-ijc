@@ -24,8 +24,8 @@ public interface LockingService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result lock(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result lock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -36,8 +36,8 @@ public interface LockingService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result lock(final T resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result lock(final T resource, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -48,8 +48,8 @@ public interface LockingService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result unlock(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result unlock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -60,6 +60,6 @@ public interface LockingService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result unlock(final T resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result unlock(final T resource, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 }

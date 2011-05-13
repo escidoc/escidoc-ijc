@@ -35,8 +35,7 @@ public class SearchRetrieveResponse extends Response {
     // TODO
     private Object extraResponseData;
 
-    private final List<SearchResultRecord> records =
-        new LinkedList<SearchResultRecord>();
+    private final List<SearchResultRecord> records = new LinkedList<SearchResultRecord>();
 
     @JiBX
     protected SearchRetrieveResponse() {

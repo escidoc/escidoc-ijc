@@ -51,8 +51,7 @@ import de.escidoc.core.client.rest.serviceLocator.ContainerRestServiceLocator;
  */
 public class RestContainerHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestContainerHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestContainerHandlerClient.class);
 
     private ContainerHandler restClient;
 
@@ -69,8 +68,7 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestContainerHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestContainerHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -83,8 +81,7 @@ public class RestContainerHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestContainerHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestContainerHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -100,8 +97,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String addContentRelations(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String addContentRelations(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -128,8 +125,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      *             Thrown if a failure on transport level occurs
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#create(java.lang.String)
      */
-    public String create(final String containerXml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String containerXml) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -149,8 +146,7 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -169,8 +165,7 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -193,8 +188,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String item)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String item) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -216,8 +211,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#release(java.lang.String,
      *      java.lang.String)
      */
-    public String release(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String release(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -238,8 +233,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#revise(java.lang.String,java.lang.String)
      */
-    public String revise(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String revise(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -261,8 +256,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#submit(java.lang.String,
      *      java.lang.String)
      */
-    public String submit(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String submit(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -284,8 +279,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#submit(java.lang.String,
      *      java.lang.String)
      */
-    public String withdraw(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String withdraw(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -308,8 +303,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#assignVersionPid(java.lang.String,
      *      java.lang.String)
      */
-    public String assignVersionPid(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String assignVersionPid(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -332,8 +327,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#assignObjectPid(java.lang.String,
      *      java.lang.String)
      */
-    public String assignObjectPid(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String assignObjectPid(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -354,8 +349,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#retrieveVersionHistory(java.lang.String)
      */
-    public String retrieveVersionHistory(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveVersionHistory(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -377,8 +372,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#lock(java.lang.String,
      *      java.lang.String)
      */
-    public String lock(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String lock(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -400,8 +395,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContainerHandlerInterface#unlock(java.lang.String,
      *      java.lang.String)
      */
-    public String unlock(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String unlock(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -421,8 +416,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String removeContentRelations(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String removeContentRelations(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -442,8 +437,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String addMembers(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String addMembers(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -463,8 +458,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String removeMembers(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String removeMembers(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -484,8 +479,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String createItem(final String id, final String itemXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createItem(final String id, final String itemXml) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -509,8 +504,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String createContainer(final String id, final String containerXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createContainer(final String id, final String containerXml) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -530,8 +525,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveStructMap(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveStructMap(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -551,8 +546,7 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMembers(
-        final String contextId, final SearchRetrieveRequestType filter)
+    public String retrieveMembers(final String contextId, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
@@ -573,9 +567,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMembers(
-        final String contextId, final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveMembers(final String contextId, final ExplainRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -595,8 +588,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContainers(final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContainers(final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(filter, true);
 
@@ -619,8 +612,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     @Deprecated
-    public String retrieveContainers(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContainers(final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -640,8 +633,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContainers(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContainers(final ExplainRequestType filter) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -667,8 +660,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown if in case of failure on transport level.
      */
-    public String retrieveRelations(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveRelations(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -687,8 +680,8 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveParents(final String containerId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveParents(final String containerId) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -711,8 +704,7 @@ public class RestContainerHandlerClient extends RestClientBase {
 
         if (this.restClient == null) {
 
-            ContainerRestServiceLocator serviceLocator =
-                new ContainerRestServiceLocator();
+            ContainerRestServiceLocator serviceLocator = new ContainerRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             this.restClient = serviceLocator;

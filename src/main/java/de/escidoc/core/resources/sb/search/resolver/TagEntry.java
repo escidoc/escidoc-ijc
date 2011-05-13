@@ -58,8 +58,7 @@ public class TagEntry {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result =
-            prime * result + (namespace == null ? 0 : namespace.hashCode());
+        result = prime * result + (namespace == null ? 0 : namespace.hashCode());
         result = prime * result + (tagName == null ? 0 : tagName.hashCode());
         return result;
     }

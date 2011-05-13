@@ -52,8 +52,7 @@ public interface VersionableResourceService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    VersionHistory retrieveVersionHistory(final String id)
-        throws EscidocClientException, InternalClientException,
+    VersionHistory retrieveVersionHistory(final String id) throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
@@ -64,7 +63,6 @@ public interface VersionableResourceService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    VersionHistory retrieveVersionHistory(final T resource)
-        throws EscidocClientException, InternalClientException,
+    VersionHistory retrieveVersionHistory(final T resource) throws EscidocClientException, InternalClientException,
         TransportException;
 }

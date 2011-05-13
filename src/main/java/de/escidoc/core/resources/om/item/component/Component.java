@@ -135,8 +135,7 @@ public class Component extends GenericResource {
          */
         if (parentPath != null) {
             if (getXLinkHref() == null) {
-                setXLinkHref(parentPath
-                    + ResourceType.COMPONENT.getPath(getObjid()));
+                setXLinkHref(parentPath + ResourceType.COMPONENT.getPath(getObjid()));
             }
 
             if (properties != null) {

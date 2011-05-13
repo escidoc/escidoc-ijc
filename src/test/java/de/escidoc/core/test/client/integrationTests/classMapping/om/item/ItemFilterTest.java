@@ -75,10 +75,8 @@ public class ItemFilterTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -98,8 +96,7 @@ public class ItemFilterTest {
     @Test
     public void testRetrieveItems() throws Exception {
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request
-            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=non-existing-user");
+        request.setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=non-existing-user");
 
         List<Item> itemList = ihc.retrieveItemsAsList(request);
 
@@ -120,10 +117,8 @@ public class ItemFilterTest {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
@@ -145,9 +140,7 @@ public class ItemFilterTest {
         // now check if at least this Item is in the list
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery("\"/properties/creation-date\"=\""
-            + createdItem
-                .getProperties().getCreationDate().withZone(DateTimeZone.UTC)
-                .toString() + "\"");
+            + createdItem.getProperties().getCreationDate().withZone(DateTimeZone.UTC).toString() + "\"");
 
         List<Item> itemList = ihc.retrieveItemsAsList(request);
 
@@ -161,8 +154,7 @@ public class ItemFilterTest {
             idList.add(n.getObjid());
         }
 
-        assertTrue("Created Item missing in list",
-            idList.contains(createdItem.getObjid()));
+        assertTrue("Created Item missing in list", idList.contains(createdItem.getObjid()));
 
     }
 }

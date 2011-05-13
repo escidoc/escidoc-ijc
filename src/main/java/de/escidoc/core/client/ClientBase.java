@@ -85,8 +85,7 @@ public abstract class ClientBase {
      * @deprecated Use {@link ClientBase#ClientBase(URL)} instead.
      */
     @Deprecated
-    public ClientBase(final String serviceAddress)
-        throws InternalClientException {
+    public ClientBase(final String serviceAddress) throws InternalClientException {
         URL url;
         try {
             url = new URL(serviceAddress);
@@ -114,24 +113,18 @@ public abstract class ClientBase {
      * @throws InternalClientException
      *             Thrown if address is not a valid URL.
      */
-    private void setServiceAddress(final URL address)
-        throws InternalClientException {
+    private void setServiceAddress(final URL address) throws InternalClientException {
 
         if (address == null) {
             String serviceAddress =
-                "http://"
-                    + getConfiguration().getProperty(
-                        ConfigurationProvider.PROP_SERVER_NAME)
-                    + ":"
-                    + getConfiguration().getProperty(
-                        ConfigurationProvider.PROP_SERVER_PORT);
+                "http://" + getConfiguration().getProperty(ConfigurationProvider.PROP_SERVER_NAME) + ":"
+                    + getConfiguration().getProperty(ConfigurationProvider.PROP_SERVER_PORT);
 
             try {
                 this.serviceAddress = new URL(serviceAddress);
             }
             catch (MalformedURLException e) {
-                throw new InternalClientException(
-                    "Invalid service endpoint in configuration file.", e);
+                throw new InternalClientException("Invalid service endpoint in configuration file.", e);
             }
         }
         else {
@@ -146,8 +139,7 @@ public abstract class ClientBase {
      * @throws InternalClientException
      *             Thrown if loading of configuration failed.
      */
-    protected ConfigurationProvider getConfiguration()
-        throws InternalClientException {
+    protected ConfigurationProvider getConfiguration() throws InternalClientException {
 
         return ConfigurationProvider.getInstance();
     }
@@ -176,8 +168,8 @@ public abstract class ClientBase {
      *             Thrown if in case of failure on transport level.
      */
     @Deprecated
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public DateTime getLastModificationDate(final String id) throws EscidocException, InternalClientException,
+        TransportException {
         throw new UnsupportedOperationException("Method no longer supported.");
     }
 
@@ -210,18 +202,15 @@ public abstract class ClientBase {
      *            SRW SearchRetrieveRequest
      * @return data structure for filter requests for eSciDoc (version 1.2)
      */
-    protected HashMap<String, String[]> getEscidoc12Filter(
-        final SearchRetrieveRequestType filter) {
+    protected HashMap<String, String[]> getEscidoc12Filter(final SearchRetrieveRequestType filter) {
 
         HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
 
         if (filter.getMaximumRecords() != null) {
-            filter12.put("maximumRecords",
-                new String[] { String.valueOf(filter.getMaximumRecords()) });
+            filter12.put("maximumRecords", new String[] { String.valueOf(filter.getMaximumRecords()) });
         }
         if (filter.getStartRecord() != null) {
-            filter12.put("startRecord",
-                new String[] { String.valueOf(filter.getStartRecord()) });
+            filter12.put("startRecord", new String[] { String.valueOf(filter.getStartRecord()) });
         }
         if (filter.getQuery() != null) {
             filter12.put("query", new String[] { filter.getQuery() });
@@ -242,8 +231,7 @@ public abstract class ClientBase {
      *            SRW ExplainRequest
      * @return data structure for filter requests for eSciDoc (version 1.2)
      */
-    protected HashMap<String, String[]> getEscidoc12Filter(
-        final ExplainRequestType filter) {
+    protected HashMap<String, String[]> getEscidoc12Filter(final ExplainRequestType filter) {
 
         HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
 
@@ -267,8 +255,7 @@ public abstract class ClientBase {
      * 
      * @param request
      */
-    protected void evalRequest(
-        final SearchRetrieveRequestType request, final boolean nullQueryAllowed) {
+    protected void evalRequest(final SearchRetrieveRequestType request, final boolean nullQueryAllowed) {
 
         if (request == null)
             throw new IllegalArgumentException("Request must not be null.");
@@ -278,8 +265,7 @@ public abstract class ClientBase {
         if (request.getVersion() == null || request.getVersion().isEmpty()) {
             request.setVersion("1.1");
         }
-        if (request.getRecordPacking() == null
-            || request.getRecordPacking().isEmpty()) {
+        if (request.getRecordPacking() == null || request.getRecordPacking().isEmpty()) {
             request.setRecordPacking("string");
         }
     }
@@ -288,8 +274,7 @@ public abstract class ClientBase {
      * 
      * @param request
      */
-    protected void evalRequest(
-        final ScanRequestType request, final boolean nullQueryAllowed) {
+    protected void evalRequest(final ScanRequestType request, final boolean nullQueryAllowed) {
 
         if (request == null)
             throw new IllegalArgumentException("Request must not be null.");
@@ -320,8 +305,7 @@ public abstract class ClientBase {
         if (request.getVersion() == null || request.getVersion().isEmpty()) {
             request.setVersion("1.1");
         }
-        if (request.getRecordPacking() == null
-            || request.getRecordPacking().isEmpty()) {
+        if (request.getRecordPacking() == null || request.getRecordPacking().isEmpty()) {
             request.setRecordPacking("string");
         }
     }

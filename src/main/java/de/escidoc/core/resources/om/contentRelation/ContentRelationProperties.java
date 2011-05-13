@@ -50,8 +50,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  */
 @JiBX
 public class ContentRelationProperties extends CommonProperties
-    implements ModifyProperties, PublicStatusProperties, DescriptionProperties,
-    LockingProperties, PidProperties {
+    implements ModifyProperties, PublicStatusProperties, DescriptionProperties, LockingProperties, PidProperties {
 
     private String description;
 

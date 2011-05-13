@@ -35,8 +35,7 @@ public class PositiveInteger extends NonNegativeInteger {
      * @param certainty
      * @param rnd
      */
-    public PositiveInteger(final int bitLength, final int certainty,
-        final Random rnd) {
+    public PositiveInteger(final int bitLength, final int certainty, final Random rnd) {
         super(bitLength, certainty, rnd);
         validate(ONE);
     }

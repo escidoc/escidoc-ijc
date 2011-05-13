@@ -78,10 +78,8 @@ public class ItemFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -105,10 +103,8 @@ public class ItemFilterVersion12Test {
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertNotNull("No index definitions found", explain.getIndexInfo());
-        assertNotNull("No index definitions found", explain
-            .getIndexInfo().getIndexes());
-        assertTrue("No index definitions found", explain
-            .getIndexInfo().getIndexes().size() > 0);
+        assertNotNull("No index definitions found", explain.getIndexInfo().getIndexes());
+        assertTrue("No index definitions found", explain.getIndexInfo().getIndexes().size() > 0);
     }
 
     /**
@@ -125,10 +121,8 @@ public class ItemFilterVersion12Test {
 
         // Properties
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         // properties.setContentModelSpecific(getContentModelSpecific());
         item.setProperties(properties);
 
@@ -151,22 +145,16 @@ public class ItemFilterVersion12Test {
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
         srwFilter.setQuery("\"/properties/creation-date\"=\""
-            + createdItem
-                .getLastModificationDate().withZone(DateTimeZone.UTC)
-                .toString() + "\"");
+            + createdItem.getLastModificationDate().withZone(DateTimeZone.UTC).toString() + "\"");
 
         SearchRetrieveResponse response = ihc.retrieveItems(srwFilter);
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
-        assertTrue("Wrong number of matching records",
-            response.getNumberOfMatchingRecords() >= 1);
-        assertTrue("Wrong number of resulting records",
-            response.getNumberOfResultingRecords() >= 1);
-        assertEquals("Wrong record position", 1, response
-            .getRecords().iterator().next().getRecordPosition().intValue());
+        assertTrue("Wrong number of matching records", response.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records", response.getNumberOfResultingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response.getRecords().iterator().next().getRecordPosition().intValue());
 
-        Collection<String> itemIds =
-            new ArrayList<String>(response.getNumberOfResultingRecords());
+        Collection<String> itemIds = new ArrayList<String>(response.getNumberOfResultingRecords());
         for (SearchResultRecord record : response.getRecords()) {
             SearchResult result = record.getRecordData();
 
@@ -178,7 +166,6 @@ public class ItemFilterVersion12Test {
             }
         }
 
-        assertTrue("Created Item missing in list",
-            itemIds.contains(createdItem.getObjid()));
+        assertTrue("Created Item missing in list", itemIds.contains(createdItem.getObjid()));
     }
 }

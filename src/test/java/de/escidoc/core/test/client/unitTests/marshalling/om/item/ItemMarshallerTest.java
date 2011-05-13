@@ -32,8 +32,8 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ItemMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
+    public ItemMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
+        SAXException {
         super(Item.class, BASE, XSD, "item_complete.xml", transport);
     }
 
@@ -52,75 +52,53 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
 
         // Item
         assertResource("/escidocItem:item", obj);
-        assertDateTime("/escidocItem:item/@last-modification-date",
-            obj.getLastModificationDate());
+        assertDateTime("/escidocItem:item/@last-modification-date", obj.getLastModificationDate());
 
         // ItemProperties
         assertNotNull(obj.getProperties());
         String path = "/escidocItem:item/escidocItem:properties";
         assertXLinkResource(path, obj.getProperties());
-        assertDateTime(path + "/prop:creation-date", obj
-            .getProperties().getCreationDate());
-        assertResource(path + "/srel:created-by", obj
-            .getProperties().getCreatedBy());
-        assertEnum(path + "/prop:public-status", obj
-            .getProperties().getPublicStatus());
-        assertXPath(path + "/prop:public-status-comment", obj
-            .getProperties().getPublicStatusComment());
+        assertDateTime(path + "/prop:creation-date", obj.getProperties().getCreationDate());
+        assertResource(path + "/srel:created-by", obj.getProperties().getCreatedBy());
+        assertEnum(path + "/prop:public-status", obj.getProperties().getPublicStatus());
+        assertXPath(path + "/prop:public-status-comment", obj.getProperties().getPublicStatusComment());
         assertResource(path + "/srel:context", obj.getProperties().getContext());
-        assertResource(path + "/srel:content-model", obj
-            .getProperties().getContentModel());
-        assertEnum(path + "/prop:lock-status", obj
-            .getProperties().getLockStatus());
-        assertDateTime(path + "/prop:lock-date", obj
-            .getProperties().getLockDate());
-        assertResource(path + "/srel:lock-owner", obj
-            .getProperties().getLockOwner());
+        assertResource(path + "/srel:content-model", obj.getProperties().getContentModel());
+        assertEnum(path + "/prop:lock-status", obj.getProperties().getLockStatus());
+        assertDateTime(path + "/prop:lock-date", obj.getProperties().getLockDate());
+        assertResource(path + "/srel:lock-owner", obj.getProperties().getLockOwner());
         assertXPath(path + "/prop:pid", obj.getProperties().getPid());
 
         // Item.Properties.Version
         assertNotNull(obj.getProperties().getVersion());
         path = "/escidocItem:item/escidocItem:properties/prop:version";
         assertResource(path, (VersionImpl) obj.getProperties().getVersion());
-        assertXPath(path + "/version:number", obj
-            .getProperties().getVersion().getNumber());
-        assertDateTime(path + "/version:date", obj
-            .getProperties().getVersion().getDate());
-        assertXPath(path + "/version:status", obj
-            .getProperties().getVersion().getStatus());
-        assertResource(path + "/srel:modified-by", obj
-            .getProperties().getVersion().getModifiedBy());
-        assertXPath(path + "/version:comment", obj
-            .getProperties().getVersion().getComment());
-        assertXPath(path + "/version:pid", obj
-            .getProperties().getVersion().getPid());
+        assertXPath(path + "/version:number", obj.getProperties().getVersion().getNumber());
+        assertDateTime(path + "/version:date", obj.getProperties().getVersion().getDate());
+        assertXPath(path + "/version:status", obj.getProperties().getVersion().getStatus());
+        assertResource(path + "/srel:modified-by", obj.getProperties().getVersion().getModifiedBy());
+        assertXPath(path + "/version:comment", obj.getProperties().getVersion().getComment());
+        assertXPath(path + "/version:pid", obj.getProperties().getVersion().getPid());
 
         // Item.Properties.LatestVersion
         assertNotNull(obj.getProperties().getLatestVersion());
-        assertResource(
-            "/escidocItem:item/escidocItem:properties/prop:latest-version",
-            (VersionImpl) obj.getProperties().getLatestVersion());
-        assertXPath(
-            "/escidocItem:item/escidocItem:properties/prop:latest-version/version:number",
-            obj.getProperties().getLatestVersion().getNumber());
-        assertDateTime(
-            "/escidocItem:item/escidocItem:properties/prop:latest-version/version:date",
-            obj.getProperties().getLatestVersion().getDate());
+        assertResource("/escidocItem:item/escidocItem:properties/prop:latest-version", (VersionImpl) obj
+            .getProperties().getLatestVersion());
+        assertXPath("/escidocItem:item/escidocItem:properties/prop:latest-version/version:number", obj
+            .getProperties().getLatestVersion().getNumber());
+        assertDateTime("/escidocItem:item/escidocItem:properties/prop:latest-version/version:date", obj
+            .getProperties().getLatestVersion().getDate());
 
         // Item.Properties.LatestRelease
         assertNotNull(obj.getProperties().getLatestRelease());
-        assertResource(
-            "/escidocItem:item/escidocItem:properties/prop:latest-release",
-            (VersionImpl) obj.getProperties().getLatestRelease());
-        assertXPath(
-            "/escidocItem:item/escidocItem:properties/prop:latest-release/release:number",
-            obj.getProperties().getLatestRelease().getNumber());
-        assertDateTime(
-            "/escidocItem:item/escidocItem:properties/prop:latest-release/release:date",
-            obj.getProperties().getLatestRelease().getDate());
-        assertXPath(
-            "/escidocItem:item/escidocItem:properties/prop:latest-release/release:pid",
-            obj.getProperties().getLatestRelease().getPid());
+        assertResource("/escidocItem:item/escidocItem:properties/prop:latest-release", (VersionImpl) obj
+            .getProperties().getLatestRelease());
+        assertXPath("/escidocItem:item/escidocItem:properties/prop:latest-release/release:number", obj
+            .getProperties().getLatestRelease().getNumber());
+        assertDateTime("/escidocItem:item/escidocItem:properties/prop:latest-release/release:date", obj
+            .getProperties().getLatestRelease().getDate());
+        assertXPath("/escidocItem:item/escidocItem:properties/prop:latest-release/release:pid", obj
+            .getProperties().getLatestRelease().getPid());
 
         // Item.Properties.CMS
         assertNotNull(obj.getProperties().getContentModelSpecific());
@@ -128,70 +106,52 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
 
         // Item.MdRecords
         assertNotNull(obj.getMetadataRecords());
-        assertXLinkList(
-            "/escidocItem:item/escidocMetadataRecords:md-records",
-            obj.getMetadataRecords());
+        assertXLinkList("/escidocItem:item/escidocMetadataRecords:md-records", obj.getMetadataRecords());
 
         // Item.MdRecords.MdRecord[1]
-        assertMdRecord("/escidocItem:item/escidocMetadataRecords:md-records",
-            obj.getMetadataRecords(), 0);
+        assertMdRecord("/escidocItem:item/escidocMetadataRecords:md-records", obj.getMetadataRecords(), 0);
 
         // Item.ContentStreams
         assertNotNull(obj.getContentStreams());
-        assertXLinkList(
-            "/escidocItem:item/escidocContentStreams:content-streams",
-            obj.getContentStreams());
+        assertXLinkList("/escidocItem:item/escidocContentStreams:content-streams", obj.getContentStreams());
         // TODO
 
         // Item.Components
         assertNotNull(obj.getComponents());
-        assertXLinkList(
-            "/escidocItem:item/escidocComponents:components",
-            obj.getComponents());
+        assertXLinkList("/escidocItem:item/escidocComponents:components", obj.getComponents());
 
         // Item.Components.Component[1]
-        String componentXPath =
-            "/escidocItem:item/escidocComponents:components/escidocComponents:component[1]";
+        String componentXPath = "/escidocItem:item/escidocComponents:components/escidocComponents:component[1]";
         assertResource(componentXPath, obj.getComponents().get(0));
 
         // Item.Components.Component[1].Properties
         assertNotNull(obj.getComponents().get(0).getProperties());
-        assertXLinkResource(componentXPath + "/escidocComponents:properties",
-            obj.getComponents().get(0).getProperties());
-        assertDateTime(componentXPath
-            + "/escidocComponents:properties/prop:creation-date", obj
+        assertXLinkResource(componentXPath + "/escidocComponents:properties", obj
+            .getComponents().get(0).getProperties());
+        assertDateTime(componentXPath + "/escidocComponents:properties/prop:creation-date", obj
             .getComponents().get(0).getProperties().getCreationDate());
-        assertResource(componentXPath
-            + "/escidocComponents:properties/srel:created-by", obj
+        assertResource(componentXPath + "/escidocComponents:properties/srel:created-by", obj
             .getComponents().get(0).getProperties().getCreatedBy());
-        assertXPath(componentXPath
-            + "/escidocComponents:properties/prop:valid-status", obj
+        assertXPath(componentXPath + "/escidocComponents:properties/prop:valid-status", obj
             .getComponents().get(0).getProperties().getValidStatus());
-        assertXPath(componentXPath
-            + "/escidocComponents:properties/prop:visibility", obj
+        assertXPath(componentXPath + "/escidocComponents:properties/prop:visibility", obj
             .getComponents().get(0).getProperties().getVisibility());
-        assertXPath(componentXPath + "/escidocComponents:properties/prop:pid",
-            obj.getComponents().get(0).getProperties().getPid());
-        assertXPath(componentXPath
-            + "/escidocComponents:properties/prop:content-category", obj
+        assertXPath(componentXPath + "/escidocComponents:properties/prop:pid", obj
+            .getComponents().get(0).getProperties().getPid());
+        assertXPath(componentXPath + "/escidocComponents:properties/prop:content-category", obj
             .getComponents().get(0).getProperties().getContentCategory());
-        assertXPath(componentXPath
-            + "/escidocComponents:properties/prop:file-name", obj
+        assertXPath(componentXPath + "/escidocComponents:properties/prop:file-name", obj
             .getComponents().get(0).getProperties().getFileName());
-        assertXPath(componentXPath
-            + "/escidocComponents:properties/prop:mime-type", obj
+        assertXPath(componentXPath + "/escidocComponents:properties/prop:mime-type", obj
             .getComponents().get(0).getProperties().getMimeType());
-        assertXPath(componentXPath
-            + "/escidocComponents:properties/prop:checksum", obj
+        assertXPath(componentXPath + "/escidocComponents:properties/prop:checksum", obj
             .getComponents().get(0).getProperties().getChecksum());
-        assertXPath(componentXPath
-            + "/escidocComponents:properties/prop:checksum-algorithm", obj
+        assertXPath(componentXPath + "/escidocComponents:properties/prop:checksum-algorithm", obj
             .getComponents().get(0).getProperties().getChecksumAlgorithm());
 
         // Item.Components.Component[1].Content
         assertNotNull(obj.getComponents().get(0).getContent());
-        assertXLinkResource(componentXPath + "/escidocComponents:content", obj
-            .getComponents().get(0).getContent());
+        assertXLinkResource(componentXPath + "/escidocComponents:content", obj.getComponents().get(0).getContent());
         assertEnum(componentXPath + "/escidocComponents:content/@storage", obj
             .getComponents().get(0).getContent().getStorage());
         assertXPath(componentXPath + "/escidocComponents:content", obj
@@ -199,27 +159,21 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
 
         // Item.Components.Component[1].MdRecords
         assertNotNull(obj.getComponents().get(0).getMetadataRecords());
-        assertXLinkList(componentXPath
-            + "/escidocMetadataRecords:md-records", obj
+        assertXLinkList(componentXPath + "/escidocMetadataRecords:md-records", obj
             .getComponents().get(0).getMetadataRecords());
-        assertNamedSubResource(
-            componentXPath
-                + "/escidocMetadataRecords:md-records/escidocMetadataRecords:md-record[1]",
-            obj.getComponents().get(0).getMetadataRecords().get(0));
+        assertNamedSubResource(componentXPath
+            + "/escidocMetadataRecords:md-records/escidocMetadataRecords:md-record[1]", obj
+            .getComponents().get(0).getMetadataRecords().get(0));
         // TODO validate DOM
 
         // Item.Relations
         assertNotNull(obj.getRelations());
-        assertXLinkList("/escidocItem:item/relations:relations",
-            obj.getRelations());
+        assertXLinkList("/escidocItem:item/relations:relations", obj.getRelations());
 
         // Item.Relations.Relation[1]
-        assertResource(
-            "/escidocItem:item/relations:relations/relations:relation[1]", obj
-                .getRelations().get(0), false);
-        assertXPath(
-            "/escidocItem:item/relations:relations/relations:relation[1]/@predicate",
-            obj.getRelations().get(0).getPredicate());
+        assertResource("/escidocItem:item/relations:relations/relations:relation[1]", obj.getRelations().get(0), false);
+        assertXPath("/escidocItem:item/relations:relations/relations:relation[1]/@predicate", obj
+            .getRelations().get(0).getPredicate());
     }
 
     /*

@@ -25,8 +25,7 @@ import de.escidoc.core.resources.sm.ad.AggregationDefinition;
  * @author MVO
  * 
  */
-public class AggregationDefinitionHandlerClient
-    extends AbstractHandlerClient<RestAggregationDefinitionHandlerClient>
+public class AggregationDefinitionHandlerClient extends AbstractHandlerClient<RestAggregationDefinitionHandlerClient>
     implements AggregationDefinitionHandlerClientInterface {
 
     /**
@@ -63,8 +62,7 @@ public class AggregationDefinitionHandlerClient
      * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
@@ -79,14 +77,13 @@ public class AggregationDefinitionHandlerClient
      * )
      */
     @Override
-    public AggregationDefinition create(final AggregationDefinition agDefinition)
-        throws EscidocException, InternalClientException, TransportException {
+    public AggregationDefinition create(final AggregationDefinition agDefinition) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(agDefinition);
 
         Marshaller<AggregationDefinition> m =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(
-                AggregationDefinition.class);
+            MarshallerFactory.getInstance(getTransport()).getMarshaller(AggregationDefinition.class);
 
         String xml = getClient().create(m.marshalDocument(agDefinition));
         return m.unmarshalDocument(xml);
@@ -100,15 +97,13 @@ public class AggregationDefinitionHandlerClient
      * .String)
      */
     @Override
-    public AggregationDefinition retrieve(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public AggregationDefinition retrieve(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieve(id);
-        return MarshallerFactory
-            .getInstance().getMarshaller(AggregationDefinition.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(AggregationDefinition.class).unmarshalDocument(xml);
     }
 
     /*
@@ -121,14 +116,11 @@ public class AggregationDefinitionHandlerClient
      * )
      */
     @Override
-    public SearchRetrieveResponse retrieveAggregationDefinitions(
-        final SearchRetrieveRequestType request) throws EscidocException,
-        InternalClientException, TransportException {
+    public SearchRetrieveResponse retrieveAggregationDefinitions(final SearchRetrieveRequestType request)
+        throws EscidocException, InternalClientException, TransportException {
 
         String xml = getClient().retrieveAggregationDefinitions(request);
-        return MarshallerFactory
-            .getInstance().getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /*
@@ -140,12 +132,10 @@ public class AggregationDefinitionHandlerClient
      * SearchRetrieveRequestType)
      */
     @Override
-    public List<AggregationDefinition> retrieveAggregationDefinitionsAsList(
-        final SearchRetrieveRequestType request) throws EscidocException,
-        InternalClientException, TransportException {
+    public List<AggregationDefinition> retrieveAggregationDefinitionsAsList(final SearchRetrieveRequestType request)
+        throws EscidocException, InternalClientException, TransportException {
 
-        return getSearchRetrieveResponseAsList(AggregationDefinition.class,
-            retrieveAggregationDefinitions(request));
+        return getSearchRetrieveResponseAsList(AggregationDefinition.class, retrieveAggregationDefinitions(request));
     }
 
     /*
@@ -156,14 +146,11 @@ public class AggregationDefinitionHandlerClient
      * #retrieveAggregationDefinitions(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
-    public ExplainResponse retrieveAggregationDefinitions(
-        final ExplainRequestType request) throws EscidocException,
+    public ExplainResponse retrieveAggregationDefinitions(final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         String xml = getClient().retrieveAggregationDefinitions(request);
-        return MarshallerFactory
-            .getInstance().getMarshaller(ExplainResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
     /*
@@ -174,8 +161,7 @@ public class AggregationDefinitionHandlerClient
      * ()
      */
     @Override
-    protected RestAggregationDefinitionHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestAggregationDefinitionHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestAggregationDefinitionHandlerClient(getServiceAddress());
     }
 }

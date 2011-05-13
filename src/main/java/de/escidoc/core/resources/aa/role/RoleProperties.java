@@ -45,9 +45,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * 
  */
 @JiBX
-public class RoleProperties
-    implements CreateProperties, ModifyProperties, NameProperties,
-    DescriptionProperties {
+public class RoleProperties implements CreateProperties, ModifyProperties, NameProperties, DescriptionProperties {
 
     private UserAccountRef createdBy;
 

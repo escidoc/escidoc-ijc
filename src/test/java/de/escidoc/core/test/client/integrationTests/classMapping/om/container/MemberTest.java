@@ -81,10 +81,8 @@ public class MemberTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -119,8 +117,7 @@ public class MemberTest {
 
         Container updatedContainer = cc.retrieve(container.getObjid());
 
-        assertEquals("Wrong member count", 1, updatedContainer
-            .getStructMap().size());
+        assertEquals("Wrong member count", 1, updatedContainer.getStructMap().size());
 
         Iterator<MemberRef> it = updatedContainer.getStructMap().iterator();
         assertEquals("Wrong member ref", item.getObjid(), it.next().getObjid());
@@ -160,8 +157,7 @@ public class MemberTest {
 
         Container updatedContainer = cc.retrieve(container.getObjid());
 
-        assertEquals("Wrong member count", 6, updatedContainer
-            .getStructMap().size());
+        assertEquals("Wrong member count", 6, updatedContainer.getStructMap().size());
 
         /*
          * compare objids of members
@@ -222,8 +218,7 @@ public class MemberTest {
 
         Container updatedContainer = cc.retrieve(container.getObjid());
 
-        assertEquals("Wrong member count", 6, updatedContainer
-            .getStructMap().size());
+        assertEquals("Wrong member count", 6, updatedContainer.getStructMap().size());
 
         /*
          * compare objids of members
@@ -249,8 +244,7 @@ public class MemberTest {
 
         // task oriented methods take values via task param
         TaskParam taskParam2 = new TaskParam();
-        taskParam2.setLastModificationDate(updatedContainer
-            .getLastModificationDate());
+        taskParam2.setLastModificationDate(updatedContainer.getLastModificationDate());
         taskParam2.addResourceRef(item3.getObjid());
         taskParam2.addResourceRef(item6.getObjid());
 
@@ -259,8 +253,7 @@ public class MemberTest {
 
         Container updatedContainer2 = cc.retrieve(container.getObjid());
 
-        assertEquals("Wrong member count", 4, updatedContainer2
-            .getStructMap().size());
+        assertEquals("Wrong member count", 4, updatedContainer2.getStructMap().size());
 
         /*
          * compare objids of members
@@ -292,18 +285,16 @@ public class MemberTest {
      * @throws ParserConfigurationException
      * @throws EscidocClientException
      */
-    private Container createContainer(final ContainerHandlerClientInterface cc)
-        throws ParserConfigurationException, EscidocClientException {
+    private Container createContainer(final ContainerHandlerClientInterface cc) throws ParserConfigurationException,
+        EscidocClientException {
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        ContextRef cRef =
-            new ContextRef(EscidocClientTestBase.getStaticContextId());
+        ContextRef cRef = new ContextRef(EscidocClientTestBase.getStaticContextId());
         properties.setContext(cRef);
-        ContentModelRef cmRef =
-            new ContentModelRef(EscidocClientTestBase.getStaticContentModelId());
+        ContentModelRef cmRef = new ContentModelRef(EscidocClientTestBase.getStaticContentModelId());
         properties.setContentModel(cmRef);
         container.setProperties(properties);
 
@@ -326,17 +317,13 @@ public class MemberTest {
      * @throws EscidocException
      * @throws TransportException
      */
-    private Item createItem() throws ParserConfigurationException,
-        InternalClientException, EscidocException, TransportException {
+    private Item createItem() throws ParserConfigurationException, InternalClientException, EscidocException,
+        TransportException {
 
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -345,8 +332,7 @@ public class MemberTest {
         item.setMetadataRecords(mdRecords);
 
         // login
-        ItemHandlerClientInterface ihc =
-            new ItemHandlerClient(auth.getServiceAddress());
+        ItemHandlerClientInterface ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
 
         // create
@@ -363,8 +349,7 @@ public class MemberTest {
      * @return MetadataRecord
      * @throws ParserConfigurationException
      */
-    private static MetadataRecord getMdRecord(final String name)
-        throws ParserConfigurationException {
+    private static MetadataRecord getMdRecord(final String name) throws ParserConfigurationException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();

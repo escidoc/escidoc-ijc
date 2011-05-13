@@ -18,15 +18,13 @@ import de.escidoc.core.common.exceptions.remote.application.security.Authorizati
  * @author SWA
  * 
  */
-public class StagingRestServiceLocator extends RestServiceMethod
-    implements StagingHandler {
+public class StagingRestServiceLocator extends RestServiceMethod implements StagingHandler {
 
     public static final String PATH = "/st/staging-file";
 
     @Override
-    public String upload(final File f) throws RemoteException,
-        AuthenticationException, AuthorizationException, FileNotFoundException,
-        IOException {
+    public String upload(final File f) throws RemoteException, AuthenticationException, AuthorizationException,
+        FileNotFoundException, IOException {
 
         checkNotNull(f);
 
@@ -34,8 +32,8 @@ public class StagingRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String upload(final InputStream ins) throws RemoteException,
-        AuthenticationException, AuthorizationException, FileNotFoundException {
+    public String upload(final InputStream ins) throws RemoteException, AuthenticationException,
+        AuthorizationException, FileNotFoundException {
 
         checkNotNull(ins);
 

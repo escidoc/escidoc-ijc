@@ -27,8 +27,7 @@ import de.escidoc.core.sm.ReportDefinitionHandlerServiceLocator;
  */
 public class SoapReportDefinitionHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(SoapReportDefinitionHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapReportDefinitionHandlerClient.class);
 
     private ReportDefinitionHandler client;
 
@@ -45,8 +44,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapReportDefinitionHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapReportDefinitionHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -59,8 +57,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapReportDefinitionHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapReportDefinitionHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -71,8 +68,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -93,8 +89,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String xml) throws EscidocException, InternalClientException, TransportException {
 
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
@@ -118,8 +113,8 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String update(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String xml) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -144,8 +139,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -168,8 +162,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveReportDefinitions(
-        final HashMap<String, String[]> filter) throws EscidocException,
+    public String retrieveReportDefinitions(final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -190,8 +183,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveReportDefinitions(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public String retrieveReportDefinitions(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(request, true);
@@ -206,8 +198,8 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveReportDefinitions(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveReportDefinitions(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request);
         return retrieveReportDefinitions(getEscidoc12Filter(request));
@@ -224,9 +216,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         if (client == null) {
             ReportDefinitionHandlerServiceLocator serviceLocator =
                 new ReportDefinitionHandlerServiceLocator(getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getReportDefinitionHandlerServiceAddress());
+            URL url = getHandlerServiceURL(serviceLocator.getReportDefinitionHandlerServiceAddress());
             try {
                 client = serviceLocator.getReportDefinitionHandlerService(url);
             }
@@ -247,8 +237,8 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
      * )
      */
     @Override
-    public DateTime getLastModificationDate(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public DateTime getLastModificationDate(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         throw new UnsupportedOperationException("Method not supported.");
     }

@@ -40,8 +40,7 @@ import de.escidoc.core.resources.common.reference.Referenceable;
  * @author SWA
  * 
  */
-public class ContentModel extends VersionableResource
-    implements Referenceable<ContentModelRef> {
+public class ContentModel extends VersionableResource implements Referenceable<ContentModelRef> {
 
     private ContentModelProperties properties;
 
@@ -84,8 +83,7 @@ public class ContentModel extends VersionableResource
      * @param metadataRecordDefinitions
      *            The MetadataRecordDefinitions.
      */
-    public void setMetadataRecordDefinitions(
-        final MetadataRecordDefinitions metadataRecordDefinitions) {
+    public void setMetadataRecordDefinitions(final MetadataRecordDefinitions metadataRecordDefinitions) {
         this.metadataRecordDefinitions = metadataRecordDefinitions;
     }
 
@@ -107,8 +105,7 @@ public class ContentModel extends VersionableResource
      * @param resourceDefinitions
      *            The resource definitions
      */
-    public void setResourceDefinitions(
-        final ResourceDefinitions resourceDefinitions) {
+    public void setResourceDefinitions(final ResourceDefinitions resourceDefinitions) {
         this.resourceDefinitions = resourceDefinitions;
     }
 

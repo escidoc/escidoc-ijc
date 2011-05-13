@@ -59,14 +59,12 @@ public abstract class MarshallerTestBase<T> {
 
     private final Class<T> clazz;
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
-        new DateTimeFormatter();
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = new DateTimeFormatter();
 
     private static final EnumFormatter ENUM_FORMATTER = new EnumFormatter();
 
-    private static final Collection<Object[]> PARAMETERS = Arrays
-        .asList(new Object[][] { { TransportProtocol.REST },
-            { TransportProtocol.SOAP } });
+    private static final Collection<Object[]> PARAMETERS =
+        Arrays.asList(new Object[][] { { TransportProtocol.REST }, { TransportProtocol.SOAP } });
 
     private final TransportProtocol transport;
 
@@ -77,12 +75,10 @@ public abstract class MarshallerTestBase<T> {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public MarshallerTestBase(final Class<T> clazz, final String basePath,
-        final String xsdVersion, final String resourceFile,
-        final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        this.xml =
-            loadResourceFile(transport, basePath, xsdVersion, resourceFile);
+    public MarshallerTestBase(final Class<T> clazz, final String basePath, final String xsdVersion,
+        final String resourceFile, final TransportProtocol transport) throws IOException, ParserConfigurationException,
+        SAXException {
+        this.xml = loadResourceFile(transport, basePath, xsdVersion, resourceFile);
         this.originDoc = XmlUtility.getDocument(this.xml, true);
         this.clazz = clazz;
         this.transport = transport;
@@ -94,13 +90,12 @@ public abstract class MarshallerTestBase<T> {
      * @throws IOException
      */
     private final String loadResourceFile(
-        final TransportProtocol transport, final String basePath,
-        final String xsdVersion, final String resourceFile) throws IOException {
+        final TransportProtocol transport, final String basePath, final String xsdVersion, final String resourceFile)
+        throws IOException {
 
         checkNotEmpty(resourceFile);
 
-        InputStream in =
-            Template.loadMockup(transport, basePath, xsdVersion, resourceFile);
+        InputStream in = Template.loadMockup(transport, basePath, xsdVersion, resourceFile);
 
         checkNotNull(in);
 
@@ -109,8 +104,7 @@ public abstract class MarshallerTestBase<T> {
         int read = -1;
 
         try {
-            BufferedReader reader =
-                new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 
             while ((read = reader.read(buffer)) != -1) {
                 sb.append(buffer, 0, read);
@@ -184,8 +178,7 @@ public abstract class MarshallerTestBase<T> {
     /**
      * @param obj
      */
-    protected abstract void testResourceWithoutSubResources(T obj)
-        throws Exception;
+    protected abstract void testResourceWithoutSubResources(T obj) throws Exception;
 
     /**
      * @param <U>
@@ -194,9 +187,7 @@ public abstract class MarshallerTestBase<T> {
      * @return
      * @throws InternalClientException
      */
-    protected <U> U getTestSubResource(
-        final Class<U> subClazz, final U subResource)
-        throws InternalClientException {
+    protected <U> U getTestSubResource(final Class<U> subClazz, final U subResource) throws InternalClientException {
 
         Marshaller<U> m = Marshaller.getMarshaller(subClazz);
         return m.unmarshalDocument(m.marshalDocument(subResource));
@@ -209,8 +200,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertXPath(
-        final String xPath, final Object valueToCheck) throws DOMException,
+    protected final void assertXPath(final String xPath, final Object valueToCheck) throws DOMException,
         TransformerException {
 
         assertXPath(xPath, valueToCheck, null);
@@ -223,8 +213,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertXPath(
-        final String xPath, final Object valueToCheck, final boolean strict)
+    protected final void assertXPath(final String xPath, final Object valueToCheck, final boolean strict)
         throws DOMException, TransformerException {
 
         assertXPath(xPath, valueToCheck, null, strict);
@@ -237,8 +226,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final <U> void assertXPath(
-        final String xPath, final U valueToCheck, final Formatter<U> formatter)
+    protected final <U> void assertXPath(final String xPath, final U valueToCheck, final Formatter<U> formatter)
         throws DOMException, TransformerException {
 
         assertXPath(xPath, valueToCheck, formatter, true);
@@ -254,14 +242,12 @@ public abstract class MarshallerTestBase<T> {
      * @throws TransformerException
      */
     protected final <U> void assertXPath(
-        final String xPath, final U valueToCheck, final Formatter<U> formatter,
-        final boolean strict) throws DOMException, TransformerException {
+        final String xPath, final U valueToCheck, final Formatter<U> formatter, final boolean strict)
+        throws DOMException, TransformerException {
 
         checkNotNull(xPath);
 
-        Node node =
-            XPathAPI.selectSingleNode(getDocument(), xPath, getDocument()
-                .getDocumentElement());
+        Node node = XPathAPI.selectSingleNode(getDocument(), xPath, getDocument().getDocumentElement());
 
         if (strict) {
             assertNotNull("No node found for XPath: " + xPath, node);
@@ -269,15 +255,13 @@ public abstract class MarshallerTestBase<T> {
         String content = node == null ? null : node.getTextContent();
 
         if (content != null) {
-            assertNotNull("Object value is null for XPath: " + xPath,
-                valueToCheck);
+            assertNotNull("Object value is null for XPath: " + xPath, valueToCheck);
 
             if (formatter != null) {
                 content = formatter.format(content, valueToCheck);
             }
 
-            assertEquals("Object value does not equal content for XPath: "
-                + xPath, content, valueToCheck.toString());
+            assertEquals("Object value does not equal content for XPath: " + xPath, content, valueToCheck.toString());
         }
     }
 
@@ -287,8 +271,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertResource(
-        final String xPathContext, final Resource res) throws DOMException,
+    protected final void assertResource(final String xPathContext, final Resource res) throws DOMException,
         TransformerException {
 
         assertResource(xPathContext, res, true);
@@ -301,8 +284,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertResource(
-        final String xPathContext, final Resource res, final boolean checkXLink)
+    protected final void assertResource(final String xPathContext, final Resource res, final boolean checkXLink)
         throws DOMException, TransformerException {
 
         checkNotNull(xPathContext);
@@ -329,9 +311,8 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertXLinkResource(
-        final String xPathContext, final XLinkResource res)
-        throws DOMException, TransformerException {
+    protected final void assertXLinkResource(final String xPathContext, final XLinkResource res) throws DOMException,
+        TransformerException {
 
         assertXLinkResource(xPathContext, res, false);
     }
@@ -344,18 +325,16 @@ public abstract class MarshallerTestBase<T> {
      * @throws TransformerException
      */
     protected final void assertXLinkResource(
-        final String xPathContext, final XLinkResource res,
-        final boolean checkAlways) throws DOMException, TransformerException {
+        final String xPathContext, final XLinkResource res, final boolean checkAlways) throws DOMException,
+        TransformerException {
 
         checkNotNull(xPathContext);
         checkNotNull(res);
 
         if (checkAlways || transport == TransportProtocol.REST) {
             assertXPath(xPathContext + "/@xlink:href", res.getXLinkHref(), true);
-            assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(),
-                false);
-            assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(),
-                false);
+            assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(), false);
+            assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(), false);
         }
     }
 
@@ -365,8 +344,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertXLinkList(
-        final String xPathContext, final XLinkList<?> res) throws DOMException,
+    protected final void assertXLinkList(final String xPathContext, final XLinkList<?> res) throws DOMException,
         TransformerException {
 
         checkNotNull(xPathContext);
@@ -374,17 +352,14 @@ public abstract class MarshallerTestBase<T> {
 
         if (transport == TransportProtocol.REST) {
             assertXPath(xPathContext + "/@xlink:href", res.getXLinkHref(), true);
-            assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(),
-                false);
-            assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(),
-                false);
+            assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(), false);
+            assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(), false);
         }
         else if (transport == TransportProtocol.SOAP) {
             assertNotNull(res.getXLinkHref());
         }
 
-        assertDateTime(xPathContext + "/@last-modification-date",
-            res.getLastModificationDate(), false);
+        assertDateTime(xPathContext + "/@last-modification-date", res.getLastModificationDate(), false);
     }
 
     /**
@@ -393,8 +368,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertNamedSubResource(
-        final String xPathContext, final NamedSubResource res)
+    protected final void assertNamedSubResource(final String xPathContext, final NamedSubResource res)
         throws DOMException, TransformerException {
 
         checkNotNull(xPathContext);
@@ -410,9 +384,8 @@ public abstract class MarshallerTestBase<T> {
      * @throws TransformerException
      * @throws DOMException
      */
-    protected final void assertEnum(
-        final String xPathContext, final XmlCompatibleEnum e)
-        throws DOMException, TransformerException {
+    protected final void assertEnum(final String xPathContext, final XmlCompatibleEnum e) throws DOMException,
+        TransformerException {
 
         assertXPath(xPathContext, e, ENUM_FORMATTER);
     }
@@ -423,8 +396,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertDateTime(
-        final String xPathContext, final DateTime date) throws DOMException,
+    protected final void assertDateTime(final String xPathContext, final DateTime date) throws DOMException,
         TransformerException {
 
         assertDateTime(xPathContext, date, true);
@@ -437,8 +409,7 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertDateTime(
-        final String xPathContext, final DateTime date, final boolean strict)
+    protected final void assertDateTime(final String xPathContext, final DateTime date, final boolean strict)
         throws DOMException, TransformerException {
 
         assertXPath(xPathContext, date, DATE_TIME_FORMATTER, strict);
@@ -450,26 +421,20 @@ public abstract class MarshallerTestBase<T> {
      * @throws DOMException
      * @throws TransformerException
      */
-    protected final void assertMdRecord(
-        final String xPathMdRecords, final MetadataRecords records,
-        final int index) throws DOMException, TransformerException {
+    protected final void assertMdRecord(final String xPathMdRecords, final MetadataRecords records, final int index)
+        throws DOMException, TransformerException {
 
         checkNotNull(xPathMdRecords);
         checkNotNull(records);
 
-        String xPathMdRecord =
-            xPathMdRecords.substring(xPathMdRecords.lastIndexOf('/'),
-                xPathMdRecords.length() - 1);
-        xPathMdRecord =
-            xPathMdRecords + xPathMdRecord + "[" + (index + 1) + "]";
+        String xPathMdRecord = xPathMdRecords.substring(xPathMdRecords.lastIndexOf('/'), xPathMdRecords.length() - 1);
+        xPathMdRecord = xPathMdRecords + xPathMdRecord + "[" + (index + 1) + "]";
 
         assertNamedSubResource(xPathMdRecord, records.get(index));
 
         // optional checks
-        assertXPath(xPathMdRecord + "/@md-type",
-            records.get(index).getMdType(), false);
-        assertXPath(xPathMdRecord + "/@schema", records.get(index).getSchema(),
-            false);
+        assertXPath(xPathMdRecord + "/@md-type", records.get(index).getMdType(), false);
+        assertXPath(xPathMdRecord + "/@schema", records.get(index).getSchema(), false);
 
         // TODO: validate DOM content
     }
@@ -530,8 +495,8 @@ public abstract class MarshallerTestBase<T> {
                 }
             }
 
-            throw new IllegalStateException("Unable to format XML value '"
-                + value + "' for enumeration '" + e.getClass().getName() + "'");
+            throw new IllegalStateException("Unable to format XML value '" + value + "' for enumeration '"
+                + e.getClass().getName() + "'");
         }
     }
 }

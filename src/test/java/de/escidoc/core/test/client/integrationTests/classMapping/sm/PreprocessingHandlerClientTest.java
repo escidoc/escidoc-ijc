@@ -48,14 +48,12 @@ public class PreprocessingHandlerClientTest {
     @Test
     public void testPreprocessing() throws Exception {
         Marshaller<PreprocessingInformation> m =
-            MarshallerFactory.getInstance().getMarshaller(
-                PreprocessingInformation.class);
+            MarshallerFactory.getInstance().getMarshaller(PreprocessingInformation.class);
 
         DateTime today = new DateTime();
         DateTime tomorrow = today.plusDays(1);
 
-        PreprocessingInformation info =
-            new PreprocessingInformation(today, tomorrow);
+        PreprocessingInformation info = new PreprocessingInformation(today, tomorrow);
 
         String xml = m.marshalDocument(info);
         m.unmarshalDocument(xml);

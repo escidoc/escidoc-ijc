@@ -25,8 +25,7 @@ public class InfoField extends StatisticsField {
      * @param type
      * @param xPath
      */
-    public InfoField(final String name, final String feed,
-        final InfoFieldType type, final String xPath) {
+    public InfoField(final String name, final String feed, final InfoFieldType type, final String xPath) {
         super(name, feed);
 
         if (type == null)

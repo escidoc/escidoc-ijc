@@ -124,8 +124,7 @@ public class Attribute extends GenericResource {
     @Override
     public void generateXLinkHref(final String parentPath) {
         if (parentPath != null && getXLinkHref() == null) {
-            setXLinkHref(parentPath
-                + ResourceType.USERACCOUNT_ATTRIBUTE.getPath(getObjid()));
+            setXLinkHref(parentPath + ResourceType.USERACCOUNT_ATTRIBUTE.getPath(getObjid()));
         }
     }
 }

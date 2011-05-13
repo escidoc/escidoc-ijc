@@ -25,8 +25,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class ScopeRestServiceLocator extends RestServiceMethod
-    implements ScopeHandler {
+public class ScopeRestServiceLocator extends RestServiceMethod implements ScopeHandler {
 
     public static final String PATH = "/statistic/scope";
 
@@ -36,9 +35,8 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ScopeHandler#delete(java.lang.String)
      */
     @Override
-    public void delete(final String id) throws RemoteException,
-        SystemException, AuthorizationException, ScopeNotFoundException,
-        AuthenticationException, MissingMethodParameterException {
+    public void delete(final String id) throws RemoteException, SystemException, AuthorizationException,
+        ScopeNotFoundException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(id);
 
@@ -51,10 +49,8 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ScopeHandler#create(java.lang.String)
      */
     @Override
-    public String create(final String xml) throws RemoteException,
-        XmlSchemaValidationException, SystemException, XmlCorruptedException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String create(final String xml) throws RemoteException, XmlSchemaValidationException, SystemException,
+        XmlCorruptedException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(xml);
 
@@ -68,9 +64,8 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String update(final String id, final String xml)
-        throws RemoteException, XmlSchemaValidationException, SystemException,
-        XmlCorruptedException, AuthorizationException, ScopeNotFoundException,
+    public String update(final String id, final String xml) throws RemoteException, XmlSchemaValidationException,
+        SystemException, XmlCorruptedException, AuthorizationException, ScopeNotFoundException,
         AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(id);
@@ -85,9 +80,8 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ScopeHandler#retrieve(java.lang.String)
      */
     @Override
-    public String retrieve(final String id) throws RemoteException,
-        SystemException, AuthorizationException, ScopeNotFoundException,
-        AuthenticationException, MissingMethodParameterException {
+    public String retrieve(final String id) throws RemoteException, SystemException, AuthorizationException,
+        ScopeNotFoundException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(id);
 
@@ -100,11 +94,10 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ScopeHandler#retrieveScopes(java.util.HashMap)
      */
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Deprecated
-    public String retrieveScopes(final HashMap filter) throws RemoteException,
-        SystemException, InvalidSearchQueryException, AuthorizationException,
-        AuthenticationException, MissingMethodParameterException {
+    public String retrieveScopes(final HashMap filter) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         return get(PATH + "s", filter);
     }
@@ -117,10 +110,8 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * .www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public String retrieveScopes(final SearchRetrieveRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException {
+    public String retrieveScopes(final SearchRetrieveRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException {
 
         checkNotNull(request);
 
@@ -135,10 +126,8 @@ public class ScopeRestServiceLocator extends RestServiceMethod
      * .www.zing.srw.ExplainRequestType)
      */
     @Override
-    public String retrieveScopes(final ExplainRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException {
+    public String retrieveScopes(final ExplainRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException {
 
         checkNotNull(request);
 

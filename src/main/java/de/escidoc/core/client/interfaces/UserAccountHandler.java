@@ -17,27 +17,18 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author SWA
  * 
  */
-public interface UserAccountHandler
-    extends de.escidoc.core.aa.UserAccountHandler {
+public interface UserAccountHandler extends de.escidoc.core.aa.UserAccountHandler {
 
-    String retrieveUserAccounts(final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveUserAccounts(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    String retrieveUserAccounts(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveUserAccounts(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    String retrieveGrants(final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveGrants(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    String retrieveGrants(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveGrants(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
 }

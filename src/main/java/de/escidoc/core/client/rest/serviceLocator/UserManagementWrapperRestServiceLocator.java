@@ -13,8 +13,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class UserManagementWrapperRestServiceLocator extends RestServiceMethod
-    implements UserManagementWrapper {
+public class UserManagementWrapperRestServiceLocator extends RestServiceMethod implements UserManagementWrapper {
 
     /*
      * (non-Javadoc)
@@ -22,8 +21,7 @@ public class UserManagementWrapperRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.aa.UserManagementWrapper#logout()
      */
     @Override
-    public void logout() throws RemoteException, SystemException,
-        AuthenticationException {
+    public void logout() throws RemoteException, SystemException, AuthenticationException {
         get("/aa/logout");
     }
 
@@ -35,8 +33,8 @@ public class UserManagementWrapperRestServiceLocator extends RestServiceMethod
      * .String, java.lang.String)
      */
     @Override
-    public String login(final String username, final String password)
-        throws SystemException, RemoteException, AuthenticationException {
+    public String login(final String username, final String password) throws SystemException, RemoteException,
+        AuthenticationException {
         return authenticate(username, password);
     }
 
@@ -48,10 +46,9 @@ public class UserManagementWrapperRestServiceLocator extends RestServiceMethod
      * .lang.String)
      */
     @Override
-    public void initHandleExpiryTimestamp(final String handle)
-        throws RemoteException, SystemException, AuthenticationException {
+    public void initHandleExpiryTimestamp(final String handle) throws RemoteException, SystemException,
+        AuthenticationException {
 
-        throw new UnsupportedOperationException(
-            "Method should not be supported for client applications.");
+        throw new UnsupportedOperationException("Method should not be supported for client applications.");
     }
 }

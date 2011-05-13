@@ -27,8 +27,7 @@ public class TimeReductionField extends StatisticsField {
      * @param feed
      * @param reduceTo
      */
-    public TimeReductionField(final String name, final String feed,
-        final TimeReductionFieldType reduceTo) {
+    public TimeReductionField(final String name, final String feed, final TimeReductionFieldType reduceTo) {
 
         super(name, feed);
 
@@ -45,8 +44,8 @@ public class TimeReductionField extends StatisticsField {
      * @param reduceTo
      * @param xPath
      */
-    public TimeReductionField(final String name, final String feed,
-        final TimeReductionFieldType reduceTo, final String xPath) {
+    public TimeReductionField(final String name, final String feed, final TimeReductionFieldType reduceTo,
+        final String xPath) {
 
         this(name, feed, reduceTo);
 

@@ -73,10 +73,8 @@ public class OrganizationalUnitHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }
@@ -107,13 +105,10 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieve01() throws Exception {
-        OrganizationalUnit organizationUnit =
-            ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
+        OrganizationalUnit organizationUnit = ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
-        MarshallerFactory
-            .getInstance(ohc.getTransport())
-            .getMarshaller(OrganizationalUnit.class)
-            .marshalDocument(organizationUnit);
+        MarshallerFactory.getInstance(ohc.getTransport()).getMarshaller(OrganizationalUnit.class).marshalDocument(
+            organizationUnit);
     }
 
     /**
@@ -127,13 +122,11 @@ public class OrganizationalUnitHandlerClientTest {
     @Ignore("INFR-1057")
     @Test
     public void testRetrieveUpdate() throws Exception {
-        OrganizationalUnit ou =
-            ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
+        OrganizationalUnit ou = ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
         OrganizationalUnit updatedOU = ohc.update(ou);
 
-        assertEquals("", ou.getLastModificationDate(),
-            updatedOU.getLastModificationDate());
+        assertEquals("", ou.getLastModificationDate(), updatedOU.getLastModificationDate());
     }
 
     /**
@@ -144,8 +137,7 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieveChildObjects() throws Exception {
-        ohc.retrieveChildObjects(EscidocClientTestBase
-            .getStaticOrganizationalUnitId());
+        ohc.retrieveChildObjects(EscidocClientTestBase.getStaticOrganizationalUnitId());
     }
 
     /**
@@ -157,21 +149,17 @@ public class OrganizationalUnitHandlerClientTest {
     @Test
     public void testRetrieveOrganizationalUnits() throws Exception {
 
-        final String ouName =
-            "Generic Organizational Unit " + System.currentTimeMillis();
+        final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord =
-            createMdRecordDC("escidoc", "organization-details", ouName,
-                ouDescription);
+        MetadataRecord mdRecord = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
         mdRecords.add(mdRecord);
         organizationalUnit.setMetadataRecords(mdRecords);
@@ -180,23 +168,19 @@ public class OrganizationalUnitHandlerClientTest {
         OrganizationalUnit ou = ohc.create(organizationalUnit);
 
         // just getting a valid objid of a user
-        UserAccountHandlerClient uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
+        UserAccountHandlerClient uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
-        OrganizationalUnitHandlerClientInterface ic =
-            new OrganizationalUnitHandlerClient();
+        OrganizationalUnitHandlerClientInterface ic = new OrganizationalUnitHandlerClient();
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
 
-        List<OrganizationalUnit> ouList =
-            ic.retrieveOrganizationalUnitsAsList(request);
+        List<OrganizationalUnit> ouList = ic.retrieveOrganizationalUnitsAsList(request);
 
         assertNotNull("No result list returned.", ouList);
-        assertTrue("result list is empty, try another filter",
-            ouList.size() != 0);
+        assertTrue("result list is empty, try another filter", ouList.size() != 0);
     }
 
     /**
@@ -215,8 +199,7 @@ public class OrganizationalUnitHandlerClientTest {
      *             If instantiation of DocumentBuilder fail
      */
     private MetadataRecord createMdRecordDC(
-        final String mdRecordName, final String rootElementName,
-        final String title, final String description)
+        final String mdRecordName, final String rootElementName, final String title, final String description)
         throws ParserConfigurationException {
 
         // md-record
@@ -233,16 +216,13 @@ public class OrganizationalUnitHandlerClientTest {
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element titleElmt =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
         titleElmt.setTextContent(title);
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
-        Element descriptionElmt =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/",
-                "description");
+        Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
         descriptionElmt.setTextContent(description);
         mdRecordContent.appendChild(descriptionElmt);

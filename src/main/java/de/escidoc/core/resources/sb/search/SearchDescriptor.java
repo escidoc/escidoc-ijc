@@ -20,8 +20,7 @@ public final class SearchDescriptor {
      * LinkedList used as a Stack. {@link java.util.Stack} class has
      * synchronized methods and therefore won't be used here.
      */
-    private static final Deque<ContentResolver<?>> RESOLVERS =
-        new LinkedList<ContentResolver<?>>();
+    private static final Deque<ContentResolver<?>> RESOLVERS = new LinkedList<ContentResolver<?>>();
 
     static {
         registerResolver(new ResourceResolver());

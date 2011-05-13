@@ -85,11 +85,9 @@ public class AuthenticationTest {
      * @throws Exception
      */
     @Test(expected = AuthenticationException.class)
-    public void shouldThrowAnAuthenticationExceptionAfterUnsuccesfulLogin()
-        throws Exception {
+    public void shouldThrowAnAuthenticationExceptionAfterUnsuccesfulLogin() throws Exception {
 
-        new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
-            "Foo", "");
+        new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(), "Foo", "");
 
     }
 
@@ -100,14 +98,10 @@ public class AuthenticationTest {
     @Test
     public void testAuthentication01() throws Exception {
         Authentication auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClientInterface ih =
-            new ItemHandlerClient(
-                EscidocClientTestBase.getDefaultInfrastructureURL());
+        ItemHandlerClientInterface ih = new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
         ih.setHandle(auth.getHandle());
         ih.retrieve(EscidocClientTestBase.getStaticItemId());
         auth.logout();
@@ -120,25 +114,19 @@ public class AuthenticationTest {
     @Test
     public void testAuthentication02() throws Exception {
         Authentication auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
         auth.logout();
 
-        ItemHandlerClientInterface ih =
-            new ItemHandlerClient(
-                EscidocClientTestBase.getDefaultInfrastructureURL());
+        ItemHandlerClientInterface ih = new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
         ih.setHandle(auth.getHandle());
 
         try {
             ih.retrieve(EscidocClientTestBase.getStaticItemId());
         }
         catch (AuthenticationException e) {
-            assertTrue(
-                "AuthenticationException does not contain redirectLocation",
-                e.getRedirectLocation() != null);
+            assertTrue("AuthenticationException does not contain redirectLocation", e.getRedirectLocation() != null);
             try {
                 new URL(e.getRedirectLocation());
             }
@@ -164,12 +152,11 @@ public class AuthenticationTest {
      * @throws EscidocClientException
      * @throws MalformedURLException
      */
-    private Context createNewContext() throws ParserConfigurationException,
-        EscidocClientException, MalformedURLException {
+    private Context createNewContext() throws ParserConfigurationException, EscidocClientException,
+        MalformedURLException {
 
         ContextHandlerClientInterface cc =
-            new ContextHandlerClient(
-                EscidocClientTestBase.getDefaultInfrastructureURL());
+            new ContextHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
 
         final Context context = new Context();
         final ContextProperties properties = new ContextProperties();
@@ -178,19 +165,15 @@ public class AuthenticationTest {
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        final OrganizationalUnitRefs organizationalUnitRefs =
-            new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef(
-            EscidocClientTestBase.getStaticOrganizationalUnitId()));
+        final OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
         final AdminDescriptors adminDescriptors = new AdminDescriptors();
-        final AdminDescriptor adminDescriptor =
-            new AdminDescriptor("AdminDescriptorDemoName");
-        final DocumentBuilderFactory factory =
-            DocumentBuilderFactory.newInstance();
+        final AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document doc = builder.newDocument();
         final Element element = doc.createElementNS(null, "admin-descriptor");

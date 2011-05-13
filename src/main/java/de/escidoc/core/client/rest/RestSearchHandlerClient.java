@@ -26,8 +26,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public class RestSearchHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestSearchHandlerClient.class.getName());
+    private static final Logger LOG = Logger.getLogger(RestSearchHandlerClient.class.getName());
 
     private SearchHandler restClient = null;
 
@@ -44,8 +43,7 @@ public class RestSearchHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestSearchHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestSearchHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -58,8 +56,7 @@ public class RestSearchHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestSearchHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestSearchHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -72,9 +69,8 @@ public class RestSearchHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String explain(
-        final ExplainRequestType request, final String database)
-        throws EscidocException, InternalClientException, TransportException {
+    public String explain(final ExplainRequestType request, final String database) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request);
 
@@ -97,9 +93,8 @@ public class RestSearchHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String search(
-        final SearchRetrieveRequestType request, final String database)
-        throws EscidocException, InternalClientException, TransportException {
+    public String search(final SearchRetrieveRequestType request, final String database) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, false);
 
@@ -122,8 +117,8 @@ public class RestSearchHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String scan(final ScanRequestType request, final String database)
-        throws EscidocException, InternalClientException, TransportException {
+    public String scan(final ScanRequestType request, final String database) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, false);
 
@@ -143,20 +138,16 @@ public class RestSearchHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
-    public SearchHandler getRestClient(final String database)
-        throws InternalClientException {
+    public SearchHandler getRestClient(final String database) throws InternalClientException {
 
         if (restClient == null) {
 
-            SearchRestServiceLocator serviceLocator =
-                new SearchRestServiceLocator();
+            SearchRestServiceLocator serviceLocator = new SearchRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
 
             String db = database;
             if (db == null) {
-                db =
-                    ConfigurationProvider.getInstance().getProperty(
-                        ConfigurationProvider.PROP_SEARCH_DATABASE);
+                db = ConfigurationProvider.getInstance().getProperty(ConfigurationProvider.PROP_SEARCH_DATABASE);
             }
 
             serviceLocator.setDatabase(db);

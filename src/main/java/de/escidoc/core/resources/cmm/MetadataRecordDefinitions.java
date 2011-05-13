@@ -37,8 +37,7 @@ import java.util.LinkedList;
  * @author SWA
  * 
  */
-public class MetadataRecordDefinitions
-    extends LinkedList<MetadataRecordDefinition> {
+public class MetadataRecordDefinitions extends LinkedList<MetadataRecordDefinition> {
 
     /**
      * 

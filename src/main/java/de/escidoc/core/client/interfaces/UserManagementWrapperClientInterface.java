@@ -13,6 +13,5 @@ public interface UserManagementWrapperClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    void logout() throws EscidocException, InternalClientException,
-        TransportException;
+    void logout() throws EscidocException, InternalClientException, TransportException;
 }

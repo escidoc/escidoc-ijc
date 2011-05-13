@@ -51,8 +51,7 @@ import de.escidoc.core.client.rest.serviceLocator.RoleRestServiceLocator;
  */
 public class RestRoleHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestRoleHandlerClient.class.getName());
+    private static final Logger LOG = Logger.getLogger(RestRoleHandlerClient.class.getName());
 
     private RoleHandler restClient = null;
 
@@ -69,8 +68,7 @@ public class RestRoleHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestRoleHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestRoleHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -82,8 +80,7 @@ public class RestRoleHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestRoleHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestRoleHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -100,8 +97,7 @@ public class RestRoleHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String create(final String role) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String role) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -125,8 +121,7 @@ public class RestRoleHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -149,8 +144,7 @@ public class RestRoleHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -177,8 +171,8 @@ public class RestRoleHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String update(final String id, final String roleXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String roleXml) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -202,8 +196,8 @@ public class RestRoleHandlerClient extends RestClientBase {
      *             Thrown in case of failures on transport level.
      */
     @Deprecated
-    public String retrieveRoles(final HashMap<String, String[]> taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveRoles(final HashMap<String, String[]> taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -223,8 +217,8 @@ public class RestRoleHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveRoles(final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveRoles(final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(filter, true);
 
@@ -246,8 +240,8 @@ public class RestRoleHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveRoles(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveRoles(final ExplainRequestType filter) throws EscidocException, InternalClientException,
+        TransportException {
 
         evalRequest(filter);
 
@@ -271,8 +265,7 @@ public class RestRoleHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            RoleRestServiceLocator serviceLocator =
-                new RoleRestServiceLocator();
+            RoleRestServiceLocator serviceLocator = new RoleRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

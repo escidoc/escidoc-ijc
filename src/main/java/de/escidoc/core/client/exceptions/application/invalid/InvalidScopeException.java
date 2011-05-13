@@ -18,9 +18,7 @@ import org.apache.axis.encoding.ser.BeanSerializer;
  * @author MVO
  * 
  */
-public class InvalidScopeException
-    extends
-    de.escidoc.core.client.exceptions.application.invalid.ValidationException
+public class InvalidScopeException extends de.escidoc.core.client.exceptions.application.invalid.ValidationException
     implements java.io.Serializable {
 
     public InvalidScopeException(final String message, final Throwable cause) {
@@ -28,8 +26,7 @@ public class InvalidScopeException
         try {
             Class<?> te = InvalidScopeException.class;
             Class<?> cE =
-                Class.forName(te.getName().replace(
-                    "de.escidoc.core.client.exceptions",
+                Class.forName(te.getName().replace("de.escidoc.core.client.exceptions",
                     "de.escidoc.core.common.exceptions.remote"));
             Field[] tF = te.getDeclaredFields();
             Field[] cF = cE.getDeclaredFields();
@@ -47,8 +44,7 @@ public class InvalidScopeException
     public InvalidScopeException() {
     }
 
-    public InvalidScopeException(final int httpStatusCode,
-        final String httpStatusLine, final String httpStatusMsg) {
+    public InvalidScopeException(final int httpStatusCode, final String httpStatusLine, final String httpStatusMsg) {
         super(httpStatusCode, httpStatusLine, httpStatusMsg);
     }
 
@@ -87,12 +83,10 @@ public class InvalidScopeException
     }
 
     // Type metadata
-    private static TypeDesc typeDesc = new TypeDesc(
-        InvalidScopeException.class, true);
+    private static TypeDesc typeDesc = new TypeDesc(InvalidScopeException.class, true);
 
     static {
-        typeDesc.setXmlType(new QName(
-            "http://invalid.application.exceptions.common.core.escidoc.de",
+        typeDesc.setXmlType(new QName("http://invalid.application.exceptions.common.core.escidoc.de",
             "InvalidScopeException"));
     }
 
@@ -114,8 +108,7 @@ public class InvalidScopeException
     /**
      * Get Custom Deserializer
      */
-    public static Deserializer getDeserializer(
-        final String mechType, final Class<?> _javaType, final QName _xmlType) {
+    public static Deserializer getDeserializer(final String mechType, final Class<?> _javaType, final QName _xmlType) {
         return new BeanDeserializer(_javaType, _xmlType, typeDesc);
     }
 
@@ -123,9 +116,8 @@ public class InvalidScopeException
      * Writes the exception data to the faultDetails
      */
     @Override
-    public void writeDetails(
-        final javax.xml.namespace.QName qname,
-        final SerializationContext context) throws IOException {
+    public void writeDetails(final javax.xml.namespace.QName qname, final SerializationContext context)
+        throws IOException {
         context.serialize(qname, null, this);
     }
 }

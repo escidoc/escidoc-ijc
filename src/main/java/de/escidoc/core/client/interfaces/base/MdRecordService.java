@@ -22,8 +22,8 @@ public interface MdRecordService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    MetadataRecords retrieveMdRecords(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    MetadataRecords retrieveMdRecords(final String id) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -34,7 +34,7 @@ public interface MdRecordService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    MetadataRecord retrieveMdRecord(final String id, final String mdRecordId)
-        throws EscidocException, InternalClientException, TransportException;
+    MetadataRecord retrieveMdRecord(final String id, final String mdRecordId) throws EscidocException,
+        InternalClientException, TransportException;
 
 }

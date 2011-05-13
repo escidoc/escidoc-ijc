@@ -52,8 +52,7 @@ import de.escidoc.core.cmm.ContentModelHandlerServiceLocator;
  */
 public class SoapContentModelHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapContentModelHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapContentModelHandlerClient.class);
 
     private ContentModelHandler soapClient = null;
 
@@ -70,8 +69,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapContentModelHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapContentModelHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -84,8 +82,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapContentModelHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapContentModelHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -98,8 +95,8 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#create(java.lang.String)
      */
-    public String create(final String contentModel) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String contentModel) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -119,8 +116,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -139,8 +135,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -163,8 +158,8 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentModelHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String contentModel)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String contentModel) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -184,8 +179,8 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentModels(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentModels(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request);
 
@@ -200,8 +195,8 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentModels(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentModels(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
 
@@ -216,8 +211,8 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentModels(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentModels(final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
         String result = null;
         try {
             result = getClient().retrieveContentModels(filter);
@@ -240,9 +235,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
             if (soapClient == null) {
                 ContentModelHandlerServiceLocator serviceLocator =
                     new ContentModelHandlerServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getContentModelHandlerServiceAddress());
+                URL url = getHandlerServiceURL(serviceLocator.getContentModelHandlerServiceAddress());
                 soapClient = serviceLocator.getContentModelHandlerService(url);
                 registerPWCallback(soapClient);
             }

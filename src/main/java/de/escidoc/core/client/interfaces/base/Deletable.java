@@ -26,6 +26,5 @@ public interface Deletable<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
-    void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    void delete(final String id) throws EscidocException, InternalClientException, TransportException;
 }

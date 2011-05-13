@@ -31,8 +31,8 @@ public class ContextMarshallerTest extends MarshallerTestBase<Context> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ContextMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
+    public ContextMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
+        SAXException {
         super(Context.class, BASE, XSD, "context_complete.xml", transport);
     }
 
@@ -51,38 +51,25 @@ public class ContextMarshallerTest extends MarshallerTestBase<Context> {
 
         // Context
         assertResource("/escidocContext:context", obj);
-        assertDateTime("/escidocContext:context/@last-modification-date",
-            obj.getLastModificationDate());
+        assertDateTime("/escidocContext:context/@last-modification-date", obj.getLastModificationDate());
 
         // ContextProperties
         assertNotNull(obj.getProperties());
-        assertXLinkResource(
-            "/escidocContext:context/escidocContext:properties",
-            obj.getProperties());
-        assertDateTime(
-            "/escidocContext:context/escidocContext:properties/prop:creation-date",
-            obj.getProperties().getCreationDate());
-        assertResource(
-            "/escidocContext:context/escidocContext:properties/srel:created-by",
-            obj.getProperties().getCreatedBy());
-        assertResource(
-            "/escidocContext:context/escidocContext:properties/srel:modified-by",
-            obj.getProperties().getModifiedBy());
-        assertEnum(
-            "/escidocContext:context/escidocContext:properties/prop:public-status",
-            obj.getProperties().getPublicStatus());
-        assertXPath(
-            "/escidocContext:context/escidocContext:properties/prop:public-status-comment",
-            obj.getProperties().getPublicStatusComment());
-        assertXPath(
-            "/escidocContext:context/escidocContext:properties/prop:name", obj
-                .getProperties().getName());
-        assertXPath(
-            "/escidocContext:context/escidocContext:properties/prop:description",
-            obj.getProperties().getDescription());
-        assertXPath(
-            "/escidocContext:context/escidocContext:properties/prop:type", obj
-                .getProperties().getType());
+        assertXLinkResource("/escidocContext:context/escidocContext:properties", obj.getProperties());
+        assertDateTime("/escidocContext:context/escidocContext:properties/prop:creation-date", obj
+            .getProperties().getCreationDate());
+        assertResource("/escidocContext:context/escidocContext:properties/srel:created-by", obj
+            .getProperties().getCreatedBy());
+        assertResource("/escidocContext:context/escidocContext:properties/srel:modified-by", obj
+            .getProperties().getModifiedBy());
+        assertEnum("/escidocContext:context/escidocContext:properties/prop:public-status", obj
+            .getProperties().getPublicStatus());
+        assertXPath("/escidocContext:context/escidocContext:properties/prop:public-status-comment", obj
+            .getProperties().getPublicStatusComment());
+        assertXPath("/escidocContext:context/escidocContext:properties/prop:name", obj.getProperties().getName());
+        assertXPath("/escidocContext:context/escidocContext:properties/prop:description", obj
+            .getProperties().getDescription());
+        assertXPath("/escidocContext:context/escidocContext:properties/prop:type", obj.getProperties().getType());
 
         // ContextProperties.OrganizationalUnitRefs
         assertNotNull(obj.getProperties().getOrganizationalUnitRefs());
@@ -92,14 +79,12 @@ public class ContextMarshallerTest extends MarshallerTestBase<Context> {
 
         // Context.AdminDescriptors
         assertNotNull(obj.getAdminDescriptors());
-        assertXLinkList(
-            "/escidocContext:context/escidocContext:admin-descriptors",
-            obj.getAdminDescriptors());
+        assertXLinkList("/escidocContext:context/escidocContext:admin-descriptors", obj.getAdminDescriptors());
 
         // Context.AdminDescriptors.AdminDescriptor[1]
         assertNamedSubResource(
-            "/escidocContext:context/escidocContext:admin-descriptors/escidocContext:admin-descriptor[1]",
-            obj.getAdminDescriptors().get(0));
+            "/escidocContext:context/escidocContext:admin-descriptors/escidocContext:admin-descriptor[1]", obj
+                .getAdminDescriptors().get(0));
         // TODO validate DOM
     }
 
@@ -123,8 +108,7 @@ public class ContextMarshallerTest extends MarshallerTestBase<Context> {
      * testResourceWithoutSubResources(java.lang.Object)
      */
     @Override
-    protected void testResourceWithoutSubResources(final Context obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final Context obj) throws Exception {
         // TODO Auto-generated method stub
 
     }

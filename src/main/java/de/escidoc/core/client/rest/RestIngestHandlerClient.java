@@ -47,8 +47,7 @@ import de.escidoc.core.om.IngestHandler;
  */
 public class RestIngestHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestIngestHandlerClient.class.getName());
+    private static final Logger LOG = Logger.getLogger(RestIngestHandlerClient.class.getName());
 
     private IngestHandler restClient = null;
 
@@ -65,8 +64,7 @@ public class RestIngestHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestIngestHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestIngestHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -79,8 +77,7 @@ public class RestIngestHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestIngestHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestIngestHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -98,8 +95,7 @@ public class RestIngestHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String ingest(final String resourceXml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String ingest(final String resourceXml) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -121,8 +117,7 @@ public class RestIngestHandlerClient extends RestClientBase {
     @Override
     public IngestHandler getClient() throws InternalClientException {
         if (restClient == null) {
-            IngestRestServiceLocator serviceLocator =
-                new IngestRestServiceLocator();
+            IngestRestServiceLocator serviceLocator = new IngestRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

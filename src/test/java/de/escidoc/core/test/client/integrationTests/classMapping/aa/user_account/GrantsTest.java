@@ -77,10 +77,8 @@ public class GrantsTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uahc = new UserAccountHandlerClient(auth.getServiceAddress());
         uahc.setHandle(auth.getHandle());
     }
@@ -122,9 +120,8 @@ public class GrantsTest {
 
         Grant createdGrant = uahc.createGrant(objId, grant);
 
-        assertEquals("Missing role in grant",
-            "escidoc:role-system-administrator", createdGrant
-                .getGrantProperties().getRole().getObjid());
+        assertEquals("Missing role in grant", "escidoc:role-system-administrator", createdGrant
+            .getGrantProperties().getRole().getObjid());
 
         Grants grants = uahc.retrieveCurrentGrants(objId);
         assertTrue(grants.size() > 0);
@@ -146,18 +143,13 @@ public class GrantsTest {
     @Test
     public void testCreateGrant02() throws Exception {
         // create Item
-        ItemHandlerClientInterface ihc =
-            new ItemHandlerClient(auth.getServiceAddress());
+        ItemHandlerClientInterface ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
 
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -196,15 +188,13 @@ public class GrantsTest {
 
         Grant createdGrant = uahc.createGrant(objId, grant);
 
-        assertEquals("Missing Role in Grant", roleId, createdGrant
-            .getGrantProperties().getRole().getObjid());
-        assertEquals("Missing Assinged-On", createdItem.getObjid(),
-            createdGrant.getGrantProperties().getAssignedOn().getObjid());
+        assertEquals("Missing Role in Grant", roleId, createdGrant.getGrantProperties().getRole().getObjid());
+        assertEquals("Missing Assinged-On", createdItem.getObjid(), createdGrant
+            .getGrantProperties().getAssignedOn().getObjid());
 
         Grants grants = uahc.retrieveCurrentGrants(objId);
         assertTrue("No Grants", grants.size() > 0);
-        assertEquals("Missing Grant", createdGrant.getObjid(), grants
-            .iterator().next().getObjid());
+        assertEquals("Missing Grant", createdGrant.getObjid(), grants.iterator().next().getObjid());
         assertEquals("Missing Assigned-On", createdItem.getObjid(), grants
             .iterator().next().getGrantProperties().getAssignedOn().getObjid());
     }
@@ -279,8 +269,7 @@ public class GrantsTest {
         uahc.revokeGrant(objId, createdGrant.getObjid(), tp);
 
         Grant revokedGrant = uahc.retrieveGrant(objId, createdGrant.getObjid());
-        assertEquals("Revoked by differs", uahc
-            .retrieveCurrentUser().getObjid(), revokedGrant
+        assertEquals("Revoked by differs", uahc.retrieveCurrentUser().getObjid(), revokedGrant
             .getGrantProperties().getRevokedBy().getObjid());
     }
 

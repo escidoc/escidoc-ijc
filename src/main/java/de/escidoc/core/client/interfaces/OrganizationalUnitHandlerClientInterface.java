@@ -56,10 +56,8 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * 
  */
 public interface OrganizationalUnitHandlerClientInterface
-    extends HandlerService, CrudService<OrganizationalUnit>,
-    OpenCloseService<OrganizationalUnit>,
-    PropertiesService<OrganizationalUnit, OrganizationalUnitProperties>,
-    MdRecordService {
+    extends HandlerService, CrudService<OrganizationalUnit>, OpenCloseService<OrganizationalUnit>,
+    PropertiesService<OrganizationalUnit, OrganizationalUnitProperties>, MdRecordService {
 
     /**
      * 
@@ -69,8 +67,8 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveParentObjects(final String id)
-        throws EscidocException, InternalClientException, TransportException;
+    SearchRetrieveResponse retrieveParentObjects(final String id) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * @param id
@@ -79,104 +77,7 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<OrganizationalUnit> retrieveParentObjectsAsList(final String id)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param ou
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    SearchRetrieveResponse retrieveParentObjects(final OrganizationalUnit ou)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * @param ou
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    List<OrganizationalUnit> retrieveParentObjectsAsList(OrganizationalUnit ou)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    OrganizationalUnitList retrieveSuccessors(final String id)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param ou
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    OrganizationalUnitList retrieveSuccessors(final OrganizationalUnit ou)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    SearchRetrieveResponse retrieveChildObjects(final String id)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * @param ou
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public List<OrganizationalUnit> retrieveChildObjectsAsList(
-        final OrganizationalUnit ou) throws EscidocException,
-        InternalClientException, TransportException;
-
-    /**
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    List<OrganizationalUnit> retrieveChildObjectsAsList(final String id)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param ou
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    SearchRetrieveResponse retrieveChildObjects(final OrganizationalUnit ou)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    PathList retrievePathList(final String id) throws EscidocException,
+    List<OrganizationalUnit> retrieveParentObjectsAsList(final String id) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -187,8 +88,103 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    PathList retrievePathList(final OrganizationalUnit ou)
-        throws EscidocException, InternalClientException, TransportException;
+    SearchRetrieveResponse retrieveParentObjects(final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * @param ou
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    List<OrganizationalUnit> retrieveParentObjectsAsList(OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    OrganizationalUnitList retrieveSuccessors(final String id) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * 
+     * @param ou
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    OrganizationalUnitList retrieveSuccessors(final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    SearchRetrieveResponse retrieveChildObjects(final String id) throws EscidocException, InternalClientException,
+        TransportException;
+
+    /**
+     * @param ou
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public List<OrganizationalUnit> retrieveChildObjectsAsList(final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    List<OrganizationalUnit> retrieveChildObjectsAsList(final String id) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param ou
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    SearchRetrieveResponse retrieveChildObjects(final OrganizationalUnit ou) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    PathList retrievePathList(final String id) throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param ou
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    PathList retrievePathList(final OrganizationalUnit ou) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -198,8 +194,8 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveOrganizationalUnits(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveOrganizationalUnits(final ExplainRequestType filter) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -209,8 +205,7 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveOrganizationalUnits(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+    SearchRetrieveResponse retrieveOrganizationalUnits(final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -230,9 +225,8 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<OrganizationalUnit> retrieveOrganizationalUnitsAsList(
-        final SearchRetrieveRequestType filter) throws EscidocException,
-        InternalClientException, TransportException;
+    List<OrganizationalUnit> retrieveOrganizationalUnitsAsList(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * Updates the parents of an Organizational Unit.<br/>
@@ -250,8 +244,8 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Parents updateParents(final String id, final Parents parents)
-        throws EscidocException, InternalClientException, TransportException;
+    Parents updateParents(final String id, final Parents parents) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * Updates the parents of an Organizational Unit.<br/>
@@ -298,8 +292,8 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Parents updateParents(final OrganizationalUnit ou, final Parents parents)
-        throws EscidocException, InternalClientException, TransportException;
+    Parents updateParents(final OrganizationalUnit ou, final Parents parents) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -309,8 +303,7 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Parents retrieveParents(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    Parents retrieveParents(final String id) throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
@@ -320,6 +313,6 @@ public interface OrganizationalUnitHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Parents retrieveParents(final OrganizationalUnit ou)
-        throws EscidocException, InternalClientException, TransportException;
+    Parents retrieveParents(final OrganizationalUnit ou) throws EscidocException, InternalClientException,
+        TransportException;
 }

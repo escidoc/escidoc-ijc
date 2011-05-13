@@ -110,17 +110,14 @@ public class SurrogateItemCreateTest {
 
         // -------------------------------------------------
         // Create Organizational Unit (and set status to open)
-        OrganizationalUnit organizationalUnit =
-            SetupDataUtil.createOrganizationalUnit(auth, true);
+        OrganizationalUnit organizationalUnit = SetupDataUtil.createOrganizationalUnit(auth, true);
 
         // -------------------------------------------------
         // create Context 1
-        Context context1 =
-            SetupDataUtil.createContext(auth, organizationalUnit, true);
+        Context context1 = SetupDataUtil.createContext(auth, organizationalUnit, true);
 
         // create Context 2
-        Context context2 =
-            SetupDataUtil.createContext(auth, organizationalUnit, true);
+        Context context2 = SetupDataUtil.createContext(auth, organizationalUnit, true);
 
         // -------------------------------------------------
         // create Content Model
@@ -130,33 +127,25 @@ public class SurrogateItemCreateTest {
         // Create User Account
         String password = String.valueOf(System.nanoTime());
 
-        UserAccount userAccount =
-            SetupDataUtil.createUserWithDepositorRole(auth, password,
-                context1.getReference());
+        UserAccount userAccount = SetupDataUtil.createUserWithDepositorRole(auth, password, context1.getReference());
 
-        UserAccount userAccount2 =
-            SetupDataUtil.createUserWithDepositorRole(auth, password,
-                context2.getReference());
+        UserAccount userAccount2 = SetupDataUtil.createUserWithDepositorRole(auth, password, context2.getReference());
 
         // -------------------------------------------------
         // create origin Item
 
         // authenticate User Account
         Authentication depositorAuth =
-            new Authentication(auth.getServiceAddress(), userAccount
-                .getProperties().getLoginName(), password);
+            new Authentication(auth.getServiceAddress(), userAccount.getProperties().getLoginName(), password);
 
         // create
-        ItemHandlerClientInterface ihc =
-            new ItemHandlerClient(depositorAuth.getServiceAddress());
+        ItemHandlerClientInterface ihc = new ItemHandlerClient(depositorAuth.getServiceAddress());
         ihc.setHandle(depositorAuth.getHandle());
 
         Item originItem = new Item();
 
-        originItem.getProperties().setContext(
-            new ContextRef(context1.getObjid()));
-        originItem.getProperties().setContentModel(
-            new ContentModelRef(contentModel.getObjid()));
+        originItem.getProperties().setContext(new ContextRef(context1.getObjid()));
+        originItem.getProperties().setContentModel(new ContentModelRef(contentModel.getObjid()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -180,9 +169,7 @@ public class SurrogateItemCreateTest {
         // assign object PID ---------------------------------------------------
         taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl(new URL(
-            "http://url.to.the.solution/path/for/this/resource/"
-                + System.nanoTime()));
+        taskParam.setUrl(new URL("http://url.to.the.solution/path/for/this/resource/" + System.nanoTime()));
         taskParam.setComment("Test Object PID");
 
         result = ihc.assignObjectPid(originItem, taskParam);
@@ -190,9 +177,7 @@ public class SurrogateItemCreateTest {
         // assign version PID --------------------------------------------------
         taskParam = new TaskParam();
         taskParam.setLastModificationDate(result.getLastModificationDate());
-        taskParam.setUrl(new URL(
-            "http://url.to.the.solution/path/for/this/resource/"
-                + System.nanoTime()));
+        taskParam.setUrl(new URL("http://url.to.the.solution/path/for/this/resource/" + System.nanoTime()));
         taskParam.setComment("Test Version PID");
 
         result = ihc.assignVersionPid(originItem, taskParam);
@@ -208,19 +193,15 @@ public class SurrogateItemCreateTest {
         // prepare a new Item as Surrogate Item
         // authenticate User Account
         Authentication depositorAuth2 =
-            new Authentication(auth.getServiceAddress(), userAccount2
-                .getProperties().getLoginName(), password);
+            new Authentication(auth.getServiceAddress(), userAccount2.getProperties().getLoginName(), password);
 
-        ItemHandlerClientInterface ihc2 =
-            new ItemHandlerClient(depositorAuth2.getServiceAddress());
+        ItemHandlerClientInterface ihc2 = new ItemHandlerClient(depositorAuth2.getServiceAddress());
         ihc2.setHandle(depositorAuth2.getHandle());
 
         Item surrogateItem = new Item();
 
-        surrogateItem.getProperties().setContext(
-            new ContextRef(context2.getObjid()));
-        surrogateItem.getProperties().setContentModel(
-            new ContentModelRef(contentModel.getObjid()));
+        surrogateItem.getProperties().setContext(new ContextRef(context2.getObjid()));
+        surrogateItem.getProperties().setContentModel(new ContentModelRef(contentModel.getObjid()));
 
         // Metadata Record(s)
         mdRecords = new MetadataRecords();
@@ -228,18 +209,15 @@ public class SurrogateItemCreateTest {
         mdRecords.add(mdrecord);
         surrogateItem.setMetadataRecords(mdRecords);
 
-        surrogateItem.getProperties().setOrigin(
-            new ItemRef(originItem.getObjid()));
+        surrogateItem.getProperties().setOrigin(new ItemRef(originItem.getObjid()));
         surrogateItem = ihc2.create(surrogateItem);
 
         /*
          * compare the Surrogate Item with the origin Item
          */
-        assertThat("Context refererence does not differ", originItem
-            .getProperties().getContext().getObjid(), not(surrogateItem
-            .getProperties().getContext().getObjid()));
-        assertEquals("Number of metadata records differ", originItem
-            .getMetadataRecords().size(), surrogateItem
+        assertThat("Context refererence does not differ", originItem.getProperties().getContext().getObjid(),
+            not(surrogateItem.getProperties().getContext().getObjid()));
+        assertEquals("Number of metadata records differ", originItem.getMetadataRecords().size(), surrogateItem
             .getMetadataRecords().size());
     }
 }

@@ -43,8 +43,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * 
  */
 public class OrganizationalUnitProperties extends CommonProperties
-    implements ModifyProperties, PublicStatusProperties, NameProperties,
-    DescriptionProperties {
+    implements ModifyProperties, PublicStatusProperties, NameProperties, DescriptionProperties {
 
     private UserAccountRef modifiedBy;
 

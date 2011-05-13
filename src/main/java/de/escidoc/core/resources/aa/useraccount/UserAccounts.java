@@ -39,8 +39,7 @@ import java.util.LinkedList;
  */
 public class UserAccounts {
 
-    private final Collection<UserAccount> userAccounts =
-        new LinkedList<UserAccount>();
+    private final Collection<UserAccount> userAccounts = new LinkedList<UserAccount>();
 
     /**
      * Get Collection of User Account.

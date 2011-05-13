@@ -71,10 +71,8 @@ public class ItemUpdateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -111,18 +109,16 @@ public class ItemUpdateTest {
         // compare the new created Item with the Item from the request
         String objId = updatedItem.getObjid();
         assertNotNull("Object id is null", objId);
-        assertEquals(item.getProperties().getContext().getObjid(), updatedItem
-            .getProperties().getContext().getObjid());
-        assertEquals(item.getProperties().getContentModel().getObjid(),
-            updatedItem.getProperties().getContentModel().getObjid());
+        assertEquals(item.getProperties().getContext().getObjid(), updatedItem.getProperties().getContext().getObjid());
+        assertEquals(item.getProperties().getContentModel().getObjid(), updatedItem
+            .getProperties().getContentModel().getObjid());
 
         // we operate with the same user, so the modifier has to be equal to the
         // creator.
-        assertEquals(updatedItem.getProperties().getCreatedBy().getObjid(),
-            updatedItem.getProperties().getVersion().getModifiedBy().getObjid());
+        assertEquals(updatedItem.getProperties().getCreatedBy().getObjid(), updatedItem
+            .getProperties().getVersion().getModifiedBy().getObjid());
 
-        Asserts.assertMdRecords(item.getMetadataRecords(),
-            updatedItem.getMetadataRecords());
+        Asserts.assertMdRecords(item.getMetadataRecords(), updatedItem.getMetadataRecords());
 
     }
 
@@ -135,10 +131,8 @@ public class ItemUpdateTest {
     private Item createItem() throws Exception {
         Item item = new Item();
         ItemProperties properties = new ItemProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();

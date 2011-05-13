@@ -13,8 +13,7 @@ import java.util.Map;
  */
 public abstract class ContentResolver<T> {
 
-    private final Map<TagEntry, Class<? extends T>> contentDefinitions =
-        new HashMap<TagEntry, Class<? extends T>>();
+    private final Map<TagEntry, Class<? extends T>> contentDefinitions = new HashMap<TagEntry, Class<? extends T>>();
 
     /**
      * 
@@ -30,11 +29,9 @@ public abstract class ContentResolver<T> {
      * @param namespace
      * @return
      */
-    public final T resolve(
-        final String tagName, final URI namespace, final String xmlTextFragment) {
+    public final T resolve(final String tagName, final URI namespace, final String xmlTextFragment) {
 
-        Class<? extends T> clazz =
-            contentDefinitions.get(new TagEntry(tagName, namespace));
+        Class<? extends T> clazz = contentDefinitions.get(new TagEntry(tagName, namespace));
 
         if (clazz != null)
             return getContentInstance(clazz, xmlTextFragment);
@@ -47,6 +44,5 @@ public abstract class ContentResolver<T> {
      * @param data
      * @return
      */
-    public abstract T getContentInstance(
-        final Class<? extends T> clazz, final String xmlTextFragment);
+    public abstract T getContentInstance(final Class<? extends T> clazz, final String xmlTextFragment);
 }

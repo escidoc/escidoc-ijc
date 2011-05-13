@@ -22,23 +22,15 @@ import de.escidoc.core.resources.HttpInputStream;
  * @author MVO
  * 
  */
-public interface ContentModelHandler
-    extends de.escidoc.core.cmm.ContentModelHandler {
+public interface ContentModelHandler extends de.escidoc.core.cmm.ContentModelHandler {
 
-    String retrieveContentModels(final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveContentModels(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    String retrieveContentModels(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveContentModels(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    HttpInputStream retrieveContentStreamContent(
-        String contentModelId, String contentStreamName)
-        throws RemoteException, ContentModelNotFoundException, SystemException,
-        AuthenticationException, AuthorizationException,
-        MissingMethodParameterException, ContentStreamNotFoundException,
-        InvalidStatusException;
+    HttpInputStream retrieveContentStreamContent(String contentModelId, String contentStreamName)
+        throws RemoteException, ContentModelNotFoundException, SystemException, AuthenticationException,
+        AuthorizationException, MissingMethodParameterException, ContentStreamNotFoundException, InvalidStatusException;
 }

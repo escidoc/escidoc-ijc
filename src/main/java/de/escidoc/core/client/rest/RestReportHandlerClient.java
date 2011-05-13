@@ -20,8 +20,7 @@ import de.escidoc.core.sm.ReportHandler;
  */
 public class RestReportHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestReportHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestReportHandlerClient.class);
 
     private ReportHandler client;
 
@@ -36,8 +35,7 @@ public class RestReportHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestReportHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestReportHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -49,8 +47,7 @@ public class RestReportHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestReportHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestReportHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -62,8 +59,7 @@ public class RestReportHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String xml) throws EscidocException, InternalClientException, TransportException {
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
 
@@ -86,8 +82,7 @@ public class RestReportHandlerClient extends RestClientBase {
     public ReportHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            ReportRestServiceLocator serviceLocator =
-                new ReportRestServiceLocator();
+            ReportRestServiceLocator serviceLocator = new ReportRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

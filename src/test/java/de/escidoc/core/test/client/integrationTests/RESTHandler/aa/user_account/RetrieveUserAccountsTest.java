@@ -40,8 +40,7 @@ public class RetrieveUserAccountsTest {
     }
 
     @Test
-    public void ShouldReturnUserAccount() throws InternalClientException,
-        TransportException, EscidocClientException {
+    public void ShouldReturnUserAccount() throws InternalClientException, TransportException, EscidocClientException {
 
         String objid = createTestUserAccount();
         assertNotNull(objid);
@@ -49,8 +48,7 @@ public class RetrieveUserAccountsTest {
         final String createdUser = uahc.retrieve(objid);
 
         Marshaller<UserAccount> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST)
-                .getMarshaller(UserAccount.class);
+            MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(UserAccount.class);
         UserAccount user = m.unmarshalDocument(createdUser);
         assertNotNull("Object Id should not be null. ", user.getObjid());
     }
@@ -62,8 +60,7 @@ public class RetrieveUserAccountsTest {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String createTestUserAccount() throws EscidocException,
-        InternalClientException, TransportException {
+    private String createTestUserAccount() throws EscidocException, InternalClientException, TransportException {
 
         UserAccount ua = new UserAccount();
         UserAccountProperties properties = new UserAccountProperties();
@@ -73,8 +70,7 @@ public class RetrieveUserAccountsTest {
         ua.setProperties(properties);
 
         Marshaller<UserAccount> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST)
-                .getMarshaller(UserAccount.class);
+            MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(UserAccount.class);
         String xml = m.marshalDocument(ua);
 
         xml = uahc.create(xml);

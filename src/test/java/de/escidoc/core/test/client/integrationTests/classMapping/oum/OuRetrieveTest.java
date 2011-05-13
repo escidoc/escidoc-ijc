@@ -77,8 +77,7 @@ public class OuRetrieveTest {
      */
     @Test
     public void testRetrieveExampleOu01() throws Exception {
-        OrganizationalUnit ou =
-            ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
+        OrganizationalUnit ou = ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
         MetadataRecord mdRecord = ou.getMetadataRecords().get("escidoc");
         assertNotNull(ou.getMetadataRecords().get("escidoc"));

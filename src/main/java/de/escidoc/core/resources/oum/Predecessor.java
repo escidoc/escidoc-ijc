@@ -68,8 +68,7 @@ public class Predecessor extends OrganizationalUnitRef {
      * @param form
      *            succession form
      */
-    public Predecessor(final String xLinkHref, final String xLinkTitle,
-        final PredecessorForm form) {
+    public Predecessor(final String xLinkHref, final String xLinkTitle, final PredecessorForm form) {
         super(xLinkHref, xLinkTitle);
 
         checkNotNull(form);

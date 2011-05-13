@@ -18,17 +18,12 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author SWA
  * 
  */
-public interface ContentRelationHandler
-    extends de.escidoc.core.om.ContentRelationHandler {
+public interface ContentRelationHandler extends de.escidoc.core.om.ContentRelationHandler {
 
-    String retrieveContentRelations(final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveContentRelations(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
-    String retrieveContentRelations(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String retrieveContentRelations(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
 }

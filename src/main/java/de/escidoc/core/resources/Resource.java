@@ -44,8 +44,7 @@ public abstract class Resource extends XLinkResource {
      * @param xLinkTitle
      * @param xLinkType
      */
-    protected Resource(final String xLinkHref, final String xLinkTitle,
-        final XLinkType xLinkType) {
+    protected Resource(final String xLinkHref, final String xLinkTitle, final XLinkType xLinkType) {
         identifier = new Identifier(xLinkHref, xLinkTitle, xLinkType);
     }
 
@@ -163,8 +162,7 @@ public abstract class Resource extends XLinkResource {
      * 
      */
     protected void validateIdentifier() {
-        if (identifier != null && identifier.objid == null
-            && identifier.href == null) {
+        if (identifier != null && identifier.objid == null && identifier.href == null) {
             identifier = null;
         }
     }
@@ -179,8 +177,7 @@ public abstract class Resource extends XLinkResource {
      * @param prefix
      * @return the generated HREF
      */
-    protected static final String genXLinkHref(
-        final Resource resource, final ResourceType type, final String prefix) {
+    protected static final String genXLinkHref(final Resource resource, final ResourceType type, final String prefix) {
 
         if (resource != null && resource.getXLinkHref() == null) {
 
@@ -205,16 +202,13 @@ public abstract class Resource extends XLinkResource {
      * @param prefix
      * @return the generated HREF
      */
-    protected static final String genXLinkHref(
-        final Resource resource, final String prefix) {
+    protected static final String genXLinkHref(final Resource resource, final String prefix) {
 
         if (resource != null && resource.getXLinkHref() == null) {
 
-            if (resource.getResourceType() != null
-                && resource.getObjid() != null) {
+            if (resource.getResourceType() != null && resource.getObjid() != null) {
 
-                String href =
-                    resource.getResourceType().getPath(resource.getObjid());
+                String href = resource.getResourceType().getPath(resource.getObjid());
                 if (prefix != null)
                     href = prefix + href;
                 resource.setXLinkHref(href);
@@ -237,8 +231,7 @@ public abstract class Resource extends XLinkResource {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result =
-            prime * result + (identifier == null ? 0 : identifier.hashCode());
+        result = prime * result + (identifier == null ? 0 : identifier.hashCode());
         return result;
     }
 
@@ -299,8 +292,7 @@ public abstract class Resource extends XLinkResource {
          * @param title
          * @param type
          */
-        public Identifier(final String href, final String title,
-            final XLinkType type) {
+        public Identifier(final String href, final String title, final XLinkType type) {
             checkNotNull(href);
             this.href = href;
             this.title = title;
@@ -394,10 +386,8 @@ public abstract class Resource extends XLinkResource {
          * @return
          */
         protected String genXLink() {
-            if (href == null && getResourceType() != null
-                && getResourceType().isRootResource())
-                return new StringBuilder(getResourceType().getPath())
-                    .append('/').append(objid).toString();
+            if (href == null && getResourceType() != null && getResourceType().isRootResource())
+                return new StringBuilder(getResourceType().getPath()).append('/').append(objid).toString();
             return null;
         }
 
@@ -417,10 +407,7 @@ public abstract class Resource extends XLinkResource {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result =
-                prime
-                    * result
-                    + (this.getObjid() == null ? 0 : this.getObjid().hashCode());
+            result = prime * result + (this.getObjid() == null ? 0 : this.getObjid().hashCode());
             return result;
         }
 

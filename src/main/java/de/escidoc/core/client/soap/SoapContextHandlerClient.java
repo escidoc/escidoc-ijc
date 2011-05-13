@@ -54,8 +54,7 @@ import de.escidoc.core.om.ContextHandlerServiceLocator;
  */
 public class SoapContextHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapContextHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapContextHandlerClient.class);
 
     private ContextHandler soapClient = null;
 
@@ -72,8 +71,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapContextHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapContextHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -86,8 +84,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapContextHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapContextHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -100,8 +97,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#create(java.lang.String)
      */
-    public String create(final String context) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String context) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -121,8 +117,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -141,8 +136,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -165,8 +159,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String context)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String context) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -186,8 +180,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#lock(java.lang.String)
      */
-    public String open(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String open(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -207,8 +201,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#unlock(java.lang.String)
      */
-    public String close(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String close(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -229,8 +223,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAdminDescriptor(final String id, final String name)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveAdminDescriptor(final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -250,8 +244,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAdminDescriptors(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveAdminDescriptors(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -271,8 +265,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContexts(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContexts(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
 
@@ -287,8 +281,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContexts(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContexts(final ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException {
 
         evalRequest(request);
 
@@ -303,8 +297,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContexts(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContexts(final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -324,9 +318,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMembers(
-        final String id, final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveMembers(final String id, final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
 
@@ -341,9 +334,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMembers(
-        final String id, final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveMembers(final String id, final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(id);
 
@@ -365,9 +357,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMembers(
-        final String id, final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveMembers(final String id, final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request);
 
@@ -383,11 +374,8 @@ public class SoapContextHandlerClient extends SoapClientBase {
     public ContextHandler getClient() throws InternalClientException {
 
         if (soapClient == null) {
-            ContextHandlerServiceLocator serviceLocator =
-                new ContextHandlerServiceLocator(getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getContextHandlerServiceAddress());
+            ContextHandlerServiceLocator serviceLocator = new ContextHandlerServiceLocator(getEngineConfig());
+            URL url = getHandlerServiceURL(serviceLocator.getContextHandlerServiceAddress());
             try {
                 soapClient = serviceLocator.getContextHandlerService(url);
             }

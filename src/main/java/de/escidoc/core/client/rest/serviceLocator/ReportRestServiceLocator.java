@@ -20,8 +20,7 @@ import de.escidoc.core.sm.ReportHandler;
  * @author MVO
  * 
  */
-public class ReportRestServiceLocator extends RestServiceMethod
-    implements ReportHandler {
+public class ReportRestServiceLocator extends RestServiceMethod implements ReportHandler {
 
     public static String PATH = "/statistic/report";
 
@@ -31,10 +30,9 @@ public class ReportRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ReportHandler#retrieve(java.lang.String)
      */
     @Override
-    public String retrieve(final String xml) throws RemoteException,
-        SystemException, InvalidSqlException, AuthorizationException,
-        AuthenticationException, ReportDefinitionNotFoundException,
-        InvalidXmlException, MissingMethodParameterException {
+    public String retrieve(final String xml) throws RemoteException, SystemException, InvalidSqlException,
+        AuthorizationException, AuthenticationException, ReportDefinitionNotFoundException, InvalidXmlException,
+        MissingMethodParameterException {
 
         checkNotNull(xml);
 

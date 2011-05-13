@@ -56,8 +56,7 @@ import de.escidoc.core.resources.sm.scope.Scope;
 public class MarshallerFactory {
 
     // AA
-    public static final Class<UserAccount> CLASS_USER_ACCOUNT =
-        UserAccount.class;
+    public static final Class<UserAccount> CLASS_USER_ACCOUNT = UserAccount.class;
 
     public static final Class<Requests> CLASS_PDP_REQUESTS = Requests.class;
 
@@ -65,8 +64,7 @@ public class MarshallerFactory {
 
     public static final Class<Role> CLASS_ROLE = Role.class;
 
-    public static final Class<UserAccountProperties> CLASS_USER_ACCOUNT_PROPERTIES =
-        UserAccountProperties.class;
+    public static final Class<UserAccountProperties> CLASS_USER_ACCOUNT_PROPERTIES = UserAccountProperties.class;
 
     public static final Class<Grant> CLASS_GRANT = Grant.class;
 
@@ -78,19 +76,16 @@ public class MarshallerFactory {
 
     public static final Class<Preference> CLASS_PREFERENCE = Preference.class;
 
-    public static final Class<Preferences> CLASS_PREFERENCES =
-        Preferences.class;
+    public static final Class<Preferences> CLASS_PREFERENCES = Preferences.class;
 
-    public static final Class<UserAccounts> CLASS_USER_ACCOUNTS =
-        UserAccounts.class;
+    public static final Class<UserAccounts> CLASS_USER_ACCOUNTS = UserAccounts.class;
 
     public static final Class<Roles> CLASS_ROLES = Roles.class;
 
     // OM
     public static final Class<Context> CLASS_CONTEXT = Context.class;
 
-    public static final Class<ContentModel> CLASS_CONTENT_MODEL =
-        ContentModel.class;
+    public static final Class<ContentModel> CLASS_CONTENT_MODEL = ContentModel.class;
 
     public static final Class<MemberList> CLASS_MEMBER_LIST = MemberList.class;
 
@@ -100,23 +95,18 @@ public class MarshallerFactory {
 
     public static final Class<Component> CLASS_COMPONENT = Component.class;
 
-    public static final Class<ContentRelation> CLASS_CONTENT_RELATION =
-        ContentRelation.class;
+    public static final Class<ContentRelation> CLASS_CONTENT_RELATION = ContentRelation.class;
 
     public static final Class<ItemList> CLASS_ITEM_LIST = ItemList.class;
 
-    public static final Class<ContainerList> CLASS_CONTAINER_LIST =
-        ContainerList.class;
+    public static final Class<ContainerList> CLASS_CONTAINER_LIST = ContainerList.class;
 
-    public static final Class<ContextList> CLASS_CONTEXT_LIST =
-        ContextList.class;
+    public static final Class<ContextList> CLASS_CONTEXT_LIST = ContextList.class;
 
     // OUM
-    public static final Class<OrganizationalUnit> CLASS_ORGANIZATIONAL_UNIT =
-        OrganizationalUnit.class;
+    public static final Class<OrganizationalUnit> CLASS_ORGANIZATIONAL_UNIT = OrganizationalUnit.class;
 
-    public static final Class<OrganizationalUnitList> CLASS_ORGANIZATIONAL_UNIT_LIST =
-        OrganizationalUnitList.class;
+    public static final Class<OrganizationalUnitList> CLASS_ORGANIZATIONAL_UNIT_LIST = OrganizationalUnitList.class;
 
     public static final Class<PathList> CLASS_PATH_LIST = PathList.class;
 
@@ -130,38 +120,29 @@ public class MarshallerFactory {
 
     public static final Class<Properties> CLASS_PROPERTIES = Properties.class;
 
-    public static final Class<VersionHistory> CLASS_VERSION_HISTORY =
-        VersionHistory.class;
+    public static final Class<VersionHistory> CLASS_VERSION_HISTORY = VersionHistory.class;
 
     public static final Class<StructMap> CLASS_STRUCT_MAP = StructMap.class;
 
-    public static final Class<AdminDescriptor> CLASS_ADMIN_DESCRIPTOR =
-        AdminDescriptor.class;
+    public static final Class<AdminDescriptor> CLASS_ADMIN_DESCRIPTOR = AdminDescriptor.class;
 
-    public static final Class<AdminDescriptors> CLASS_ADMIN_DESCRIPTORS =
-        AdminDescriptors.class;
+    public static final Class<AdminDescriptors> CLASS_ADMIN_DESCRIPTORS = AdminDescriptors.class;
 
-    public static final Class<MetadataRecords> CLASS_METADATA_RECORDS =
-        MetadataRecords.class;
+    public static final Class<MetadataRecords> CLASS_METADATA_RECORDS = MetadataRecords.class;
 
-    public static final Class<MetadataRecord> CLASS_METADATA_RECORD =
-        MetadataRecord.class;
+    public static final Class<MetadataRecord> CLASS_METADATA_RECORD = MetadataRecord.class;
 
     public static final Class<Relations> CLASS_RELATIONS = Relations.class;
 
     // SRW/U
 
-    public static final Class<SearchResult> CLASS_SEARCH_RESULT_RECORD =
-        SearchResult.class;
+    public static final Class<SearchResult> CLASS_SEARCH_RESULT_RECORD = SearchResult.class;
 
-    public static final Class<ExplainResponse> CLASS_EXPLAIN_RESPONSE =
-        ExplainResponse.class;
+    public static final Class<ExplainResponse> CLASS_EXPLAIN_RESPONSE = ExplainResponse.class;
 
-    public static final Class<ScanResponse> CLASS_SCAN_RESPONSE =
-        ScanResponse.class;
+    public static final Class<ScanResponse> CLASS_SCAN_RESPONSE = ScanResponse.class;
 
-    public static final Class<SearchRetrieveResponse> CLASS_SEARCH_RETRIEVE_RESPONSE =
-        SearchRetrieveResponse.class;
+    public static final Class<SearchRetrieveResponse> CLASS_SEARCH_RETRIEVE_RESPONSE = SearchRetrieveResponse.class;
 
     // COMMON
 
@@ -183,8 +164,7 @@ public class MarshallerFactory {
     /**
      * The HashMap to store the Marshaller instances.
      */
-    private HashMap<Class<?>, Marshaller<?>> marshallers =
-        new HashMap<Class<?>, Marshaller<?>>();
+    private HashMap<Class<?>, Marshaller<?>> marshallers = new HashMap<Class<?>, Marshaller<?>>();
 
     /**
      * 
@@ -203,24 +183,17 @@ public class MarshallerFactory {
      *         transport protocol REST since CLIB 1.3.
      * @throws InternalClientException
      */
-    public static final MarshallerFactory getInstance()
-        throws InternalClientException {
+    public static final MarshallerFactory getInstance() throws InternalClientException {
 
-        if (marshallerFactoryMap
-            .get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL) == null) {
+        if (marshallerFactoryMap.get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL) == null) {
 
-            MarshallerFactory resultFactory =
-                new MarshallerFactory(
-                    ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
+            MarshallerFactory resultFactory = new MarshallerFactory(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
 
-            marshallerFactoryMap
-                .put(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL,
-                    resultFactory);
+            marshallerFactoryMap.put(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL, resultFactory);
 
             return resultFactory;
         }
-        return marshallerFactoryMap
-            .get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
+        return marshallerFactoryMap.get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
     }
 
     /**
@@ -231,8 +204,7 @@ public class MarshallerFactory {
      * @return
      * @throws InternalClientException
      */
-    public static final MarshallerFactory getInstance(
-        final TransportProtocol transport) throws InternalClientException {
+    public static final MarshallerFactory getInstance(final TransportProtocol transport) throws InternalClientException {
 
         if (marshallerFactoryMap.get(transport) == null) {
             MarshallerFactory resultFactory = new MarshallerFactory(transport);

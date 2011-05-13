@@ -12,8 +12,7 @@ import de.escidoc.core.client.TransportProtocol;
  * @author MVO
  * 
  */
-public abstract class XLinkResourceList<E extends XLinkResource>
-    extends XLinkList<E> {
+public abstract class XLinkResourceList<E extends XLinkResource> extends XLinkList<E> {
 
     private static final long serialVersionUID = 8240386975522360182L;
 

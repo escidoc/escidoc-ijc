@@ -23,8 +23,7 @@ import de.escidoc.core.client.rest.serviceLocator.AggregationDefinitionRestServi
  */
 public class RestAggregationDefinitionHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestAggregationDefinitionHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestAggregationDefinitionHandlerClient.class);
 
     private AggregationDefinitionHandler client;
 
@@ -32,8 +31,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * 
      * @throws InternalClientException
      */
-    public RestAggregationDefinitionHandlerClient()
-        throws InternalClientException {
+    public RestAggregationDefinitionHandlerClient() throws InternalClientException {
         super();
     }
 
@@ -42,8 +40,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestAggregationDefinitionHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestAggregationDefinitionHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -56,8 +53,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestAggregationDefinitionHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestAggregationDefinitionHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -68,8 +64,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -90,8 +85,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String xml) throws EscidocException, InternalClientException, TransportException {
 
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
@@ -113,8 +107,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -136,8 +129,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAggregationDefinitions(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    public String retrieveAggregationDefinitions(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(request, true);
@@ -159,8 +151,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAggregationDefinitions(
-        final ExplainRequestType request) throws EscidocException,
+    public String retrieveAggregationDefinitions(final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(request);
@@ -181,12 +172,10 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override
-    public AggregationDefinitionHandler getClient()
-        throws InternalClientException {
+    public AggregationDefinitionHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            AggregationDefinitionRestServiceLocator serviceLocator =
-                new AggregationDefinitionRestServiceLocator();
+            AggregationDefinitionRestServiceLocator serviceLocator = new AggregationDefinitionRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

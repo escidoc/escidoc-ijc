@@ -78,10 +78,8 @@ public class ContentRelationFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentRelationHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -102,13 +100,11 @@ public class ContentRelationFilterVersion12Test {
     public void testExplain() throws Exception {
         cc.create(createContentRelation());
 
-        ExplainResponse response =
-            cc.retrieveContentRelations(new ExplainRequestType());
+        ExplainResponse response = cc.retrieveContentRelations(new ExplainRequestType());
         Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
-        assertTrue("No index definitions found", explain
-            .getIndexInfo().getIndexes().size() > 0);
+        assertTrue("No index definitions found", explain.getIndexInfo().getIndexes().size() > 0);
     }
 
     /**
@@ -133,13 +129,10 @@ public class ContentRelationFilterVersion12Test {
         request.setQuery("\"/properties/public-status\"=\"pending\"");
 
         SearchRetrieveResponse res = cc.retrieveContentRelations(request);
-        Collection<ContentRelation> results =
-            cc.retrieveContentRelationsAsList(request);
+        Collection<ContentRelation> results = cc.retrieveContentRelationsAsList(request);
 
-        assertTrue("Wrong number of matching records",
-            res.getNumberOfMatchingRecords() >= 1);
-        assertTrue("Wrong number of resulting records for asList",
-            results.size() >= 1);
+        assertTrue("Wrong number of matching records", res.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records for asList", results.size() >= 1);
         assertTrue("", res.getNumberOfResultingRecords() == results.size());
     }
 
@@ -152,9 +145,8 @@ public class ContentRelationFilterVersion12Test {
      * @throws EscidocException
      * @throws TransportException
      */
-    private ContentRelation createContentRelation() throws URISyntaxException,
-        ParserConfigurationException, TransportException, EscidocException,
-        InternalClientException {
+    private ContentRelation createContentRelation() throws URISyntaxException, ParserConfigurationException,
+        TransportException, EscidocException, InternalClientException {
         ContentRelation contentRelation = new ContentRelation();
 
         // properties
@@ -163,14 +155,10 @@ public class ContentRelationFilterVersion12Test {
 
         contentRelation.setProperties(properties);
 
-        contentRelation
-            .setType(new URI(
-                "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
+        contentRelation.setType(new URI("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#hasPart"));
 
-        contentRelation.setSubject(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        contentRelation.setObject(new ItemRef(EscidocClientTestBase
-            .getStaticItemId()));
+        contentRelation.setSubject(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        contentRelation.setObject(new ItemRef(EscidocClientTestBase.getStaticItemId()));
 
         // md-record
         MetadataRecords mdRecords = new MetadataRecords();

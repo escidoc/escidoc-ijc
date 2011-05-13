@@ -74,8 +74,7 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  */
 public class ItemHandlerClientTest {
 
-    private static final Logger LOG = Logger
-        .getLogger(ItemHandlerClientTest.class);
+    private static final Logger LOG = Logger.getLogger(ItemHandlerClientTest.class);
 
     private Authentication auth;
 
@@ -84,10 +83,8 @@ public class ItemHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -108,9 +105,7 @@ public class ItemHandlerClientTest {
     public void testRetrieve01() throws Exception {
 
         Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
-        MarshallerFactory
-            .getInstance(ihc.getTransport()).getMarshaller(Item.class)
-            .marshalDocument(item);
+        MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class).marshalDocument(item);
     }
 
     /**
@@ -137,8 +132,7 @@ public class ItemHandlerClientTest {
         Item resultItem = ihc.create(item);
 
         TaskParam taskParam =
-            getTaskParam(resultItem.getLastModificationDate(), "Submit Item "
-                + resultItem.getObjid());
+            getTaskParam(resultItem.getLastModificationDate(), "Submit Item " + resultItem.getObjid());
 
         Result result = ihc.submit(resultItem.getObjid(), taskParam);
 
@@ -161,11 +155,10 @@ public class ItemHandlerClientTest {
 
         VersionHistory vh1 = ihc.retrieveVersionHistory(item2.getObjid());
 
-        assertEquals("WOV has wrong number of versions in WOV of Item '"
-            + item2.getObjid() + "'", 1, vh1.getVersions().size());
-        assertEquals("Wrong timestamp in Item '" + item2.getObjid() + "'",
-            item2.getProperties().getCreationDate(), vh1
-                .getVersions().iterator().next().getTimestamp());
+        assertEquals("WOV has wrong number of versions in WOV of Item '" + item2.getObjid() + "'", 1, vh1
+            .getVersions().size());
+        assertEquals("Wrong timestamp in Item '" + item2.getObjid() + "'", item2.getProperties().getCreationDate(), vh1
+            .getVersions().iterator().next().getTimestamp());
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -212,11 +205,9 @@ public class ItemHandlerClientTest {
         // asserts
         assertNotNull("AssignObjectPid returns null", pidResult);
         assertTrue("AssignObjectPid returns empty result", !pidResult.isEmpty());
-        assertTrue("AssignObjectPid returns invalid result", pidResult
-            .get(0).getNodeName().equals("pid"));
+        assertTrue("AssignObjectPid returns invalid result", pidResult.get(0).getNodeName().equals("pid"));
         LOG.debug(pidResult.get(0).getTextContent());
-        assertTrue("AssignObjectPid returns invalid result", !pidResult
-            .get(0).getTextContent().isEmpty());
+        assertTrue("AssignObjectPid returns invalid result", !pidResult.get(0).getTextContent().isEmpty());
 
         // retrieve
         resultItem = ihc.retrieve(resultItem.getObjid());
@@ -245,16 +236,12 @@ public class ItemHandlerClientTest {
      * @throws InternalClientException
      * @throws ParserConfigurationException
      */
-    private Item createBasicItem() throws TransportException, EscidocException,
-        InternalClientException, ParserConfigurationException {
+    private Item createBasicItem() throws TransportException, EscidocException, InternalClientException,
+        ParserConfigurationException {
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -281,8 +268,7 @@ public class ItemHandlerClientTest {
      *            Set comment for task oriented operation.
      * @return The prepared TaskParam
      */
-    private TaskParam getTaskParam(
-        final DateTime lastModificationDate, final String comment) {
+    private TaskParam getTaskParam(final DateTime lastModificationDate, final String comment) {
 
         TaskParam result = new TaskParam();
         result.setLastModificationDate(lastModificationDate);

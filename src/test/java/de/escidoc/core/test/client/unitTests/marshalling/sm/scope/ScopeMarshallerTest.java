@@ -29,16 +29,15 @@ public class ScopeMarshallerTest extends MarshallerTestBase<Scope> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ScopeMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
+    public ScopeMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
+        SAXException {
         super(Scope.class, BASE, XSD, "scope_complete.xml", transport);
     }
 
     @Override
     protected void validate(final Scope obj) throws Exception {
         assertResource("/scope:scope", obj);
-        assertDateTime("/scope:scope/@last-modification-date",
-            obj.getLastModificationDate());
+        assertDateTime("/scope:scope/@last-modification-date", obj.getLastModificationDate());
         assertXPath("/scope:scope/scope:name", obj.getName());
         assertEnum("/scope:scope/scope:type", obj.getScopeType());
     }
@@ -49,8 +48,7 @@ public class ScopeMarshallerTest extends MarshallerTestBase<Scope> {
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final Scope obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final Scope obj) throws Exception {
         // TODO Auto-generated method stub
     }
 }

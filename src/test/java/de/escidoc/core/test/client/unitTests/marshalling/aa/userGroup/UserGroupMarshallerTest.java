@@ -31,8 +31,8 @@ public class UserGroupMarshallerTest extends MarshallerTestBase<UserGroup> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public UserGroupMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
+    public UserGroupMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
+        SAXException {
         super(UserGroup.class, BASE, XSD, "user-group_complete.xml", transport);
     }
 
@@ -44,30 +44,24 @@ public class UserGroupMarshallerTest extends MarshallerTestBase<UserGroup> {
 
         // UserGroup
         assertResource("/user-group:user-group", obj);
-        assertDateTime("/user-group:user-group/@last-modification-date",
-            obj.getLastModificationDate());
+        assertDateTime("/user-group:user-group/@last-modification-date", obj.getLastModificationDate());
 
         // UserGroupProperties
         String path = "/user-group:user-group/user-group:properties";
         assertNotNull(obj.getProperties());
 
-        assertDateTime(path + "/prop:creation-date", obj
-            .getProperties().getCreationDate());
-        assertResource(path + "/srel:created-by", obj
-            .getProperties().getCreatedBy());
-        assertResource(path + "/srel:modified-by", obj
-            .getProperties().getModifiedBy());
+        assertDateTime(path + "/prop:creation-date", obj.getProperties().getCreationDate());
+        assertResource(path + "/srel:created-by", obj.getProperties().getCreatedBy());
+        assertResource(path + "/srel:modified-by", obj.getProperties().getModifiedBy());
         assertXPath(path + "/prop:email", obj.getProperties().getEmail());
         assertXPath(path + "/prop:name", obj.getProperties().getName());
         assertXPath(path + "/prop:label", obj.getProperties().getLabel());
-        assertXPath(path + "/prop:description", obj
-            .getProperties().getDescription());
+        assertXPath(path + "/prop:description", obj.getProperties().getDescription());
         assertXPath(path + "/prop:type", obj.getProperties().getType());
         assertXPath(path + "/prop:active", obj.getProperties().isActive());
 
         // Selectors
-        path =
-            "/user-group:user-group/user-group:selectors/user-group:selector[1]";
+        path = "/user-group:user-group/user-group:selectors/user-group:selector[1]";
 
         assertNotNull(obj.getSelectors());
         assertNotNull(obj.getSelectors().get(0));
@@ -89,8 +83,7 @@ public class UserGroupMarshallerTest extends MarshallerTestBase<UserGroup> {
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final UserGroup obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final UserGroup obj) throws Exception {
         // TODO Auto-generated method stub
     }
 }

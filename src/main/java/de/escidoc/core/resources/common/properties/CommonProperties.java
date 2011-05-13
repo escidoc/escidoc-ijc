@@ -14,8 +14,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * @author MVO
  * 
  */
-public abstract class CommonProperties extends XLinkResource
-    implements CreateProperties {
+public abstract class CommonProperties extends XLinkResource implements CreateProperties {
 
     private DateTime creationDate;
 

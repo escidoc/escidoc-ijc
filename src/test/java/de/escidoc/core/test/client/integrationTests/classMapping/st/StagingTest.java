@@ -58,7 +58,7 @@ public class StagingTest {
     private Authentication auth;
 
     private StagingHandlerClientInterface sthc;
-    
+
     @Before
     public void init() throws Exception {
         auth =
@@ -72,7 +72,7 @@ public class StagingTest {
     public void post() throws Exception {
         auth.logout();
     }
-    
+
     /**
      * Test to search repository.
      * 
@@ -95,10 +95,9 @@ public class StagingTest {
         }
 
         inputStream = Template.load("/soap/om/item/0.6/item.xml");
-        
+
         String localFile = "";
-        BufferedReader in =
-            new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         try {
             String line;
             while ((line = in.readLine()) != null) {

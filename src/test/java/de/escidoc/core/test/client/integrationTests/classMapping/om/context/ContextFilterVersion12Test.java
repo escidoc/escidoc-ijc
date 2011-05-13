@@ -79,10 +79,8 @@ public class ContextFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -101,14 +99,12 @@ public class ContextFilterVersion12Test {
      */
     @Test
     public void testExplain() throws Exception {
-        ExplainResponse response =
-            cc.retrieveContexts(new ExplainRequestType());
+        ExplainResponse response = cc.retrieveContexts(new ExplainRequestType());
         Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertNotNull("No index definitions found", explain.getIndexInfo());
-        assertTrue("No index definitions found", explain
-            .getIndexInfo().getIndexes().size() > 0);
+        assertTrue("No index definitions found", explain.getIndexInfo().getIndexes().size() > 0);
     }
 
     /**
@@ -125,17 +121,14 @@ public class ContextFilterVersion12Test {
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
         srwFilter.setQuery("\"/properties/creation-date\"=\""
-            + createdContext.getLastModificationDate().withZone(
-                DateTimeZone.UTC) + "\"");
+            + createdContext.getLastModificationDate().withZone(DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
 
         assertEquals("Wrong version number", "1.1", contextList.getVersion());
-        assertTrue("Wrong number of matching records",
-            contextList.getNumberOfMatchingRecords() >= 1);
-        assertTrue("Wrong number of resulting records",
-            contextList.getNumberOfResultingRecords() >= 1);
+        assertTrue("Wrong number of matching records", contextList.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records", contextList.getNumberOfResultingRecords() >= 1);
         assertEquals("Wrong record position", 1, contextList
             .getRecords().iterator().next().getRecordPosition().intValue());
     }
@@ -148,8 +141,8 @@ public class ContextFilterVersion12Test {
      * @throws EscidocException
      * @throws TransportException
      */
-    private Context createContext() throws ParserConfigurationException,
-        TransportException, EscidocException, InternalClientException {
+    private Context createContext() throws ParserConfigurationException, TransportException, EscidocException,
+        InternalClientException {
         Context context = new Context();
         ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
@@ -157,18 +150,15 @@ public class ContextFilterVersion12Test {
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs =
-            new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef(
-            EscidocClientTestBase.getStaticOrganizationalUnitId()));
+        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor =
-            new AdminDescriptor("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();

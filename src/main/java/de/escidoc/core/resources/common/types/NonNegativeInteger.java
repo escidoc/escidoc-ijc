@@ -36,8 +36,7 @@ public class NonNegativeInteger extends BigInteger {
      * @param certainty
      * @param rnd
      */
-    public NonNegativeInteger(final int bitLength, final int certainty,
-        final Random rnd) {
+    public NonNegativeInteger(final int bitLength, final int certainty, final Random rnd) {
         super(bitLength, certainty, rnd);
         validate(ZERO);
     }
@@ -73,7 +72,6 @@ public class NonNegativeInteger extends BigInteger {
      */
     protected final void validate(final BigInteger compare) {
         if (compareTo(compare) < 0)
-            throw new NumberFormatException("Value must be greater or equals: "
-                + compare + "; " + this);
+            throw new NumberFormatException("Value must be greater or equals: " + compare + "; " + this);
     }
 }

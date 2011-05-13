@@ -26,8 +26,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
 
     private UserGroupHandler client;
 
-    private static final Logger LOG = Logger
-        .getLogger(RestUserGroupHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestUserGroupHandlerClient.class);
 
     /**
      * @throws InternalClientException
@@ -40,8 +39,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestUserGroupHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestUserGroupHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -53,8 +51,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestUserGroupHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestUserGroupHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -65,8 +62,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveCurrentGrants(final String userGroupId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveCurrentGrants(final String userGroupId) throws EscidocException, InternalClientException,
+        TransportException {
         String result = null;
         try {
             result = getClient().retrieveCurrentGrants(userGroupId);
@@ -85,8 +82,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String createGrant(final String groupId, final String grantXML)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createGrant(final String groupId, final String grantXML) throws EscidocException,
+        InternalClientException, TransportException {
         String result = null;
         try {
             result = getClient().createGrant(groupId, grantXML);
@@ -105,8 +102,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveGrant(final String groupId, final String grantId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveGrant(final String groupId, final String grantId) throws EscidocException,
+        InternalClientException, TransportException {
         String result = null;
         try {
             result = getClient().retrieveGrant(groupId, grantId);
@@ -125,8 +122,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void revokeGrant(
-        final String groupId, final String grantId, final String taskParam)
+    public void revokeGrant(final String groupId, final String grantId, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
         try {
             getClient().revokeGrant(groupId, grantId, taskParam);
@@ -143,8 +139,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void revokeGrants(final String groupId, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void revokeGrants(final String groupId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
         try {
             getClient().revokeGrants(groupId, taskParam);
         }
@@ -160,8 +156,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveUserGroups(final HashMap<String, String> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveUserGroups(final HashMap<String, String> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -180,8 +176,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveUserGroups(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveUserGroups(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
 
@@ -202,8 +198,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveUserGroups(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveUserGroups(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request);
 
@@ -225,8 +221,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String addSelectors(final String groupId, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String addSelectors(final String groupId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -246,8 +242,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String removeSelectors(final String groupId, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String removeSelectors(final String groupId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -265,8 +261,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void delete(final String groupId) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String groupId) throws EscidocException, InternalClientException, TransportException {
         try {
             getClient().delete(groupId);
         }
@@ -282,8 +277,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String create(final String xmlData) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String xmlData) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -303,8 +297,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String update(final String groupId, final String xmlData)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String groupId, final String xmlData) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -323,8 +317,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void activate(final String groupId, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void activate(final String groupId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         try {
             getClient().activate(groupId, taskParam);
@@ -341,8 +335,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String groupId) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String groupId) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -361,8 +354,8 @@ public class RestUserGroupHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void deactivate(final String groupId, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deactivate(final String groupId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         try {
             getClient().deactivate(groupId, taskParam);
@@ -382,8 +375,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
 
         if (client == null) {
 
-            UserGroupRestServiceLocator serviceLocator =
-                new UserGroupRestServiceLocator();
+            UserGroupRestServiceLocator serviceLocator = new UserGroupRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             client = serviceLocator;

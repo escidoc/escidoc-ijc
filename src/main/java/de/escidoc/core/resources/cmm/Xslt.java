@@ -34,8 +34,7 @@ public class Xslt extends XLinkResource {
      * @param xLinkTitle
      * @param xLinkType
      */
-    public Xslt(final String xLinkHref, final String xLinkTitle,
-        final XLinkType xLinkType) {
+    public Xslt(final String xLinkHref, final String xLinkTitle, final XLinkType xLinkType) {
 
         checkNotNull(xLinkHref);
 

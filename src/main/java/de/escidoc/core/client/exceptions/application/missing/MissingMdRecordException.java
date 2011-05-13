@@ -10,16 +10,14 @@ package de.escidoc.core.client.exceptions.application.missing;
 import java.lang.reflect.Field;
 
 public class MissingMdRecordException
-    extends
-    de.escidoc.core.client.exceptions.application.missing.MissingParameterException
+    extends de.escidoc.core.client.exceptions.application.missing.MissingParameterException
     implements java.io.Serializable {
     public MissingMdRecordException(String message, Throwable cause) {
         super(message, cause);
         try {
             Class te = MissingMdRecordException.class;
             Class cE =
-                Class.forName(te.getName().replace(
-                    "de.escidoc.core.client.exceptions",
+                Class.forName(te.getName().replace("de.escidoc.core.client.exceptions",
                     "de.escidoc.core.common.exceptions.remote"));
             Field[] tF = te.getDeclaredFields();
             Field[] cF = cE.getDeclaredFields();
@@ -37,8 +35,7 @@ public class MissingMdRecordException
     public MissingMdRecordException() {
     }
 
-    public MissingMdRecordException(int httpStatusCode,
-        java.lang.String httpStatusLine, java.lang.String httpStatusMsg) {
+    public MissingMdRecordException(int httpStatusCode, java.lang.String httpStatusLine, java.lang.String httpStatusMsg) {
         super(httpStatusCode, httpStatusLine, httpStatusMsg);
     }
 
@@ -76,13 +73,11 @@ public class MissingMdRecordException
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(
-            MissingMdRecordException.class, true);
+        new org.apache.axis.description.TypeDesc(MissingMdRecordException.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName(
-            "http://missing.application.exceptions.common.core.escidoc.de",
-            "MissingMdRecordException"));
+            "http://missing.application.exceptions.common.core.escidoc.de", "MissingMdRecordException"));
     }
 
     /**
@@ -96,28 +91,22 @@ public class MissingMdRecordException
      * Get Custom Serializer
      */
     public static org.apache.axis.encoding.Serializer getSerializer(
-        java.lang.String mechType, java.lang.Class _javaType,
-        javax.xml.namespace.QName _xmlType) {
-        return new org.apache.axis.encoding.ser.BeanSerializer(_javaType,
-            _xmlType, typeDesc);
+        java.lang.String mechType, java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
+        return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
     }
 
     /**
      * Get Custom Deserializer
      */
     public static org.apache.axis.encoding.Deserializer getDeserializer(
-        java.lang.String mechType, java.lang.Class _javaType,
-        javax.xml.namespace.QName _xmlType) {
-        return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType,
-            _xmlType, typeDesc);
+        java.lang.String mechType, java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
+        return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
     }
 
     /**
      * Writes the exception data to the faultDetails
      */
-    public void writeDetails(
-        javax.xml.namespace.QName qname,
-        org.apache.axis.encoding.SerializationContext context)
+    public void writeDetails(javax.xml.namespace.QName qname, org.apache.axis.encoding.SerializationContext context)
         throws java.io.IOException {
         context.serialize(qname, null, this);
     }

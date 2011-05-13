@@ -130,8 +130,7 @@ public abstract class NamedSubResource extends XLinkResource {
      *            the lastModificationDate to set
      */
     public void setLastModificationDate(final DateTime lastModificationDate) {
-        this.lastModificationDate =
-            DateTimeUtility.normalize(lastModificationDate);
+        this.lastModificationDate = DateTimeUtility.normalize(lastModificationDate);
     }
 
     /**
@@ -196,8 +195,7 @@ public abstract class NamedSubResource extends XLinkResource {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result =
-            prime * result + (identifier == null ? 0 : identifier.hashCode());
+        result = prime * result + (identifier == null ? 0 : identifier.hashCode());
         return result;
     }
 
@@ -229,8 +227,7 @@ public abstract class NamedSubResource extends XLinkResource {
      */
     protected void validateIdentifier() {
         if (identifier != null && identifier.name == null) {
-            throw new IllegalStateException(
-                "No name present in NameIdentifier.");
+            throw new IllegalStateException("No name present in NameIdentifier.");
         }
     }
 
@@ -269,8 +266,7 @@ public abstract class NamedSubResource extends XLinkResource {
          * @param title
          * @param type
          */
-        NameIdentifier(final String href, final String title,
-            final XLinkType type) {
+        NameIdentifier(final String href, final String title, final XLinkType type) {
             checkNotNull(href);
             this.href = href;
             this.title = title;

@@ -50,6 +50,5 @@ public interface IngestHandlerClientInterface extends HandlerService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    String ingest(final String resourceXml) throws EscidocException,
-        InternalClientException, TransportException;
+    String ingest(final String resourceXml) throws EscidocException, InternalClientException, TransportException;
 }

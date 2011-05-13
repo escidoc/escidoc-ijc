@@ -80,9 +80,8 @@ public class Authentication {
      * @throws IOException
      *             Thrown if Authentication failed.
      */
-    public Authentication(final URL serviceAddress, final String username,
-        final String password) throws AuthenticationException,
-        TransportException {
+    public Authentication(final URL serviceAddress, final String username, final String password)
+        throws AuthenticationException, TransportException {
 
         login(serviceAddress, username, password);
     }
@@ -98,9 +97,8 @@ public class Authentication {
      *             instead.
      */
     @Deprecated
-    public Authentication(final String serviceAddress, final String username,
-        final String password) throws AuthenticationException,
-        TransportException {
+    public Authentication(final String serviceAddress, final String username, final String password)
+        throws AuthenticationException, TransportException {
 
         URL url;
         try {
@@ -156,16 +154,14 @@ public class Authentication {
      * @throws IOException
      *             Thrown if Authentication failed.
      */
-    public String login(
-        final URL serviceUrl, final String username, final String password)
-        throws TransportException, AuthenticationException {
+    public String login(final URL serviceUrl, final String username, final String password) throws TransportException,
+        AuthenticationException {
 
         this.serviceAddress = URLUtility.unifyAddress(serviceUrl);
         this.username = username;
 
         try {
-            this.handle =
-                getClient().getClient().getClient().login(username, password);
+            this.handle = getClient().getClient().getClient().login(username, password);
         }
         catch (SystemException e) {
             throw new TransportException(e.getMessage(), e);
@@ -191,8 +187,7 @@ public class Authentication {
      *             instead.
      */
     @Deprecated
-    public String login(
-        final String serviceUrl, final String username, final String password)
+    public String login(final String serviceUrl, final String username, final String password)
         throws TransportException, AuthenticationException {
 
         URL url;
@@ -213,13 +208,11 @@ public class Authentication {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
+    public void logout() throws EscidocException, InternalClientException, TransportException {
         getClient().logout();
     }
 
-    private UserManagementWrapperClient getClient()
-        throws InternalClientException {
+    private UserManagementWrapperClient getClient() throws InternalClientException {
         if (userManagement == null) {
             userManagement = new UserManagementWrapperClient(serviceAddress);
             userManagement.setHandle(handle);

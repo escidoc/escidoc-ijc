@@ -50,8 +50,7 @@ public abstract class VersionableResource extends GenericResource {
      * @return number of version
      */
     public int getVersionNumber() {
-        return this.identifier == null ? 0 : ((VersionedIdentifier) identifier)
-            .getVersionNumber();
+        return this.identifier == null ? 0 : ((VersionedIdentifier) identifier).getVersionNumber();
     }
 
     /**
@@ -59,8 +58,7 @@ public abstract class VersionableResource extends GenericResource {
      *         number.
      */
     public boolean hasVersionNumber() {
-        return this.identifier == null ? false
-            : ((VersionedIdentifier) identifier).hasVersionNumber();
+        return this.identifier == null ? false : ((VersionedIdentifier) identifier).hasVersionNumber();
     }
 
     /**

@@ -22,8 +22,8 @@ public class PreprocessingInformation {
 
     private static final DateTimeFormatter formatter =
         new DateTimeFormatterBuilder()
-            .appendYear(4, 4).appendLiteral('-').appendMonthOfYear(2)
-            .appendLiteral('-').appendDayOfMonth(2).toFormatter();
+            .appendYear(4, 4).appendLiteral('-').appendMonthOfYear(2).appendLiteral('-').appendDayOfMonth(2)
+            .toFormatter();
 
     /**
      * Default constructor.
@@ -44,8 +44,7 @@ public class PreprocessingInformation {
      * @param startDate
      * @param endDate
      */
-    public PreprocessingInformation(final DateTime startDate,
-        final DateTime endDate) {
+    public PreprocessingInformation(final DateTime startDate, final DateTime endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }

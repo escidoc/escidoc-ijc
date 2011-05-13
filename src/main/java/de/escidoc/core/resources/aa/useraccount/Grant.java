@@ -102,11 +102,9 @@ public class Grant extends GenericResource implements Referenceable<GrantRef> {
              * AssignedOn cannot be generated if ResourceType is null or not a
              * root resource.
              */
-            if (properties.getAssignedOn() != null
-                && properties.getAssignedOn().getObjid() != null
+            if (properties.getAssignedOn() != null && properties.getAssignedOn().getObjid() != null
                 && properties.getAssignedOn().getResourceType() != null
-                && properties
-                    .getAssignedOn().getResourceType().isRootResource()) {
+                && properties.getAssignedOn().getResourceType().isRootResource()) {
 
                 genXLinkHref(properties.getAssignedOn(), null);
             }

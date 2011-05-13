@@ -18,16 +18,11 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public interface AggregationDefinitionHandler
-    extends de.escidoc.core.sm.AggregationDefinitionHandler {
+public interface AggregationDefinitionHandler extends de.escidoc.core.sm.AggregationDefinitionHandler {
 
-    String retrieveAggregationDefinitions(SearchRetrieveRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException;
+    String retrieveAggregationDefinitions(SearchRetrieveRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException;
 
-    String retrieveAggregationDefinitions(ExplainRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException;
+    String retrieveAggregationDefinitions(ExplainRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException;
 }

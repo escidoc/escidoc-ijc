@@ -75,14 +75,12 @@ public class ContentModelTestRest {
     public void testRetrieveContentModel01() throws Exception {
         // load XML template of organizational unit
         String ouXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/om/content-model/0.1/content-model.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/om/content-model/0.1/content-model.xml"));
         // create
         String crtdOuXML = rcmhc.create(ouXml);
 
-        MarshallerFactory
-            .getInstance(TransportProtocol.REST)
-            .getMarshaller(ContentModel.class).unmarshalDocument(crtdOuXML);
+        MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(ContentModel.class).unmarshalDocument(
+            crtdOuXML);
     }
 
 }

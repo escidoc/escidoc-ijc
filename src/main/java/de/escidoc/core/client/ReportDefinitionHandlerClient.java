@@ -27,8 +27,7 @@ import de.escidoc.core.resources.sm.report.ReportDefinitionList;
  * @author MVO
  * 
  */
-public class ReportDefinitionHandlerClient
-    extends AbstractHandlerClient<RestReportDefinitionHandlerClient>
+public class ReportDefinitionHandlerClient extends AbstractHandlerClient<RestReportDefinitionHandlerClient>
     implements ReportDefinitionHandlerClientInterface {
 
     /**
@@ -66,8 +65,7 @@ public class ReportDefinitionHandlerClient
      * @throws TransportException
      */
     @Override
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
@@ -82,14 +80,12 @@ public class ReportDefinitionHandlerClient
      * )
      */
     @Override
-    public ReportDefinition create(final ReportDefinition reportDefinition)
-        throws EscidocException, InternalClientException, TransportException {
+    public ReportDefinition create(final ReportDefinition reportDefinition) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(reportDefinition);
 
-        Marshaller<ReportDefinition> m =
-            MarshallerFactory.getInstance().getMarshaller(
-                ReportDefinition.class);
+        Marshaller<ReportDefinition> m = MarshallerFactory.getInstance().getMarshaller(ReportDefinition.class);
 
         String xml = getClient().create(m.marshalDocument(reportDefinition));
 
@@ -103,18 +99,14 @@ public class ReportDefinitionHandlerClient
      * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
-    public ReportDefinition update(final ReportDefinition reportDefinition)
-        throws EscidocException, InternalClientException, TransportException {
+    public ReportDefinition update(final ReportDefinition reportDefinition) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(reportDefinition);
 
-        Marshaller<ReportDefinition> m =
-            MarshallerFactory.getInstance().getMarshaller(
-                ReportDefinition.class);
+        Marshaller<ReportDefinition> m = MarshallerFactory.getInstance().getMarshaller(ReportDefinition.class);
 
-        String xml =
-            getClient().update(reportDefinition.getObjid(),
-                m.marshalDocument(reportDefinition));
+        String xml = getClient().update(reportDefinition.getObjid(), m.marshalDocument(reportDefinition));
 
         return m.unmarshalDocument(xml);
     }
@@ -128,16 +120,14 @@ public class ReportDefinitionHandlerClient
      * @throws TransportException
      */
     @Override
-    public ReportDefinition retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public ReportDefinition retrieve(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieve(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ReportDefinition.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ReportDefinition.class).unmarshalDocument(xml);
     }
 
     /**
@@ -154,17 +144,15 @@ public class ReportDefinitionHandlerClient
      */
     @Override
     @Deprecated
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public ReportDefinitionList retrieveReportDefinitions(final HashMap filter)
-        throws EscidocException, InternalClientException, TransportException {
+    @SuppressWarnings( { "rawtypes", "unchecked" })
+    public ReportDefinitionList retrieveReportDefinitions(final HashMap filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(filter);
 
         String xml = getClient().retrieveReportDefinitions(filter);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ReportDefinitionList.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ReportDefinitionList.class).unmarshalDocument(xml);
     }
 
     /**
@@ -176,26 +164,21 @@ public class ReportDefinitionHandlerClient
      * @throws TransportException
      */
     @Override
-    public SearchRetrieveResponse retrieveReportDefinitions(
-        final SearchRetrieveRequestType request) throws EscidocException,
-        InternalClientException, TransportException {
+    public SearchRetrieveResponse retrieveReportDefinitions(final SearchRetrieveRequestType request)
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(request);
 
         String xml = getClient().retrieveReportDefinitions(request);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     @Override
-    public List<ReportDefinition> retrieveReportDefinitionsAsList(
-        final SearchRetrieveRequestType request) throws EscidocException,
-        InternalClientException, TransportException {
+    public List<ReportDefinition> retrieveReportDefinitionsAsList(final SearchRetrieveRequestType request)
+        throws EscidocException, InternalClientException, TransportException {
 
-        return getSearchRetrieveResponseAsList(ReportDefinition.class,
-            retrieveReportDefinitions(request));
+        return getSearchRetrieveResponseAsList(ReportDefinition.class, retrieveReportDefinitions(request));
     }
 
     /**
@@ -207,17 +190,14 @@ public class ReportDefinitionHandlerClient
      * @throws TransportException
      */
     @Override
-    public ExplainResponse retrieveReportDefinitions(
-        final ExplainRequestType request) throws EscidocException,
+    public ExplainResponse retrieveReportDefinitions(final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
         checkNotNull(request);
 
         String xml = getClient().retrieveReportDefinitions(request);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ExplainResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
     /*
@@ -228,8 +208,7 @@ public class ReportDefinitionHandlerClient
      * ()
      */
     @Override
-    protected RestReportDefinitionHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestReportDefinitionHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestReportDefinitionHandlerClient(getServiceAddress());
     }
 }

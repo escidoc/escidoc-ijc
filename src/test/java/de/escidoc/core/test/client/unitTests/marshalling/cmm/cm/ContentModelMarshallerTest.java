@@ -20,8 +20,7 @@ import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
  * @author Marko Voß
  * 
  */
-public class ContentModelMarshallerTest
-    extends MarshallerTestBase<ContentModel> {
+public class ContentModelMarshallerTest extends MarshallerTestBase<ContentModel> {
 
     private static final String BASE = "cmm/cm";
 
@@ -33,10 +32,9 @@ public class ContentModelMarshallerTest
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ContentModelMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
-        super(ContentModel.class, BASE, XSD, "content-model_complete.xml",
-            transport);
+    public ContentModelMarshallerTest(final TransportProtocol transport) throws IOException,
+        ParserConfigurationException, SAXException {
+        super(ContentModel.class, BASE, XSD, "content-model_complete.xml", transport);
     }
 
     @Override
@@ -47,71 +45,46 @@ public class ContentModelMarshallerTest
 
         // ContentModel
         assertResource("/escidocContentModel:content-model", obj);
-        assertDateTime(
-            "/escidocContentModel:content-model/@last-modification-date",
-            obj.getLastModificationDate());
+        assertDateTime("/escidocContentModel:content-model/@last-modification-date", obj.getLastModificationDate());
 
         // ContentModelProperties
-        String path =
-            "/escidocContentModel:content-model/escidocContentModel:properties";
+        String path = "/escidocContentModel:content-model/escidocContentModel:properties";
         assertNotNull(obj.getProperties());
         assertXLinkResource(path, obj.getProperties());
 
         assertXPath(path + "/prop:name", obj.getProperties().getName());
-        assertXPath(path + "/prop:description", obj
-            .getProperties().getDescription());
-        assertDateTime(path + "/prop:creation-date", obj
-            .getProperties().getCreationDate());
-        assertResource(path + "/srel:created-by", obj
-            .getProperties().getCreatedBy());
-        assertEnum(path + "/prop:public-status", obj
-            .getProperties().getPublicStatus());
-        assertXPath(path + "/prop:public-status-comment", obj
-            .getProperties().getPublicStatusComment());
-        assertEnum(path + "/prop:lock-status", obj
-            .getProperties().getLockStatus());
-        assertDateTime(path + "/prop:lock-date", obj
-            .getProperties().getLockDate());
-        assertResource(path + "/srel:lock-owner", obj
-            .getProperties().getLockOwner());
+        assertXPath(path + "/prop:description", obj.getProperties().getDescription());
+        assertDateTime(path + "/prop:creation-date", obj.getProperties().getCreationDate());
+        assertResource(path + "/srel:created-by", obj.getProperties().getCreatedBy());
+        assertEnum(path + "/prop:public-status", obj.getProperties().getPublicStatus());
+        assertXPath(path + "/prop:public-status-comment", obj.getProperties().getPublicStatusComment());
+        assertEnum(path + "/prop:lock-status", obj.getProperties().getLockStatus());
+        assertDateTime(path + "/prop:lock-date", obj.getProperties().getLockDate());
+        assertResource(path + "/srel:lock-owner", obj.getProperties().getLockOwner());
         assertXPath(path + "/prop:pid", obj.getProperties().getPid());
 
         // ContentModelProperties.Version
         assertNotNull(obj.getProperties().getVersion());
-        assertResource(path + "/prop:version", (VersionImpl) obj
-            .getProperties().getVersion());
-        assertXPath(path + "/prop:version/version:number", obj
-            .getProperties().getVersion().getNumber());
-        assertDateTime(path + "/prop:version/version:date", obj
-            .getProperties().getVersion().getDate());
-        assertXPath(path + "/prop:version/version:status", obj
-            .getProperties().getVersion().getStatus());
-        assertResource(path + "/prop:version/srel:modified-by", obj
-            .getProperties().getVersion().getModifiedBy());
-        assertXPath(path + "/prop:version/version:comment", obj
-            .getProperties().getVersion().getComment());
-        assertXPath(path + "/prop:version/version:pid", obj
-            .getProperties().getVersion().getPid());
+        assertResource(path + "/prop:version", (VersionImpl) obj.getProperties().getVersion());
+        assertXPath(path + "/prop:version/version:number", obj.getProperties().getVersion().getNumber());
+        assertDateTime(path + "/prop:version/version:date", obj.getProperties().getVersion().getDate());
+        assertXPath(path + "/prop:version/version:status", obj.getProperties().getVersion().getStatus());
+        assertResource(path + "/prop:version/srel:modified-by", obj.getProperties().getVersion().getModifiedBy());
+        assertXPath(path + "/prop:version/version:comment", obj.getProperties().getVersion().getComment());
+        assertXPath(path + "/prop:version/version:pid", obj.getProperties().getVersion().getPid());
 
         // ContentModelProperties.LatestVersion
         assertNotNull(obj.getProperties().getLatestVersion());
-        assertResource(path + "/prop:latest-version", (VersionImpl) obj
-            .getProperties().getLatestVersion());
-        assertXPath(path + "/prop:latest-version/version:number", obj
-            .getProperties().getLatestVersion().getNumber());
-        assertDateTime(path + "/prop:latest-version/version:date", obj
-            .getProperties().getLatestVersion().getDate());
+        assertResource(path + "/prop:latest-version", (VersionImpl) obj.getProperties().getLatestVersion());
+        assertXPath(path + "/prop:latest-version/version:number", obj.getProperties().getLatestVersion().getNumber());
+        assertDateTime(path + "/prop:latest-version/version:date", obj.getProperties().getLatestVersion().getDate());
 
         // ContentModelProperties.LatestRelease
         assertNotNull(obj.getProperties().getLatestRelease());
-        assertResource(path + "/prop:latest-release", (VersionImpl) obj
-            .getProperties().getLatestRelease());
-        assertXPath(path + "/prop:latest-release/release:number", obj
-            .getProperties().getLatestRelease().getNumber());
-        assertDateTime(path + "/prop:latest-release/release:date", obj
-            .getProperties().getLatestRelease().getDate());
-        assertXPath(path + "/prop:latest-release/release:pid", obj
-            .getProperties().getLatestRelease().getPid());
+        assertResource(path + "/prop:latest-release", (VersionImpl) obj.getProperties().getLatestRelease());
+        assertXPath(path + "/prop:latest-release/release:number", obj.getProperties().getLatestRelease().getNumber());
+        assertDateTime(path + "/prop:latest-release/release:date", obj.getProperties().getLatestRelease().getDate());
+        assertXPath(path + "/prop:latest-release/release:pid", obj.getProperties().getLatestRelease().getPid());
 
         // MdRecordDefinitions
         assertNotNull(obj.getMetadataRecordDefinitions());
@@ -149,8 +122,7 @@ public class ContentModelMarshallerTest
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final ContentModel obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final ContentModel obj) throws Exception {
         // TODO Auto-generated method stub
     }
 }

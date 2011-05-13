@@ -24,8 +24,8 @@ public class RoleMarshallerTest extends MarshallerTestBase<Role> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public RoleMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
+    public RoleMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
+        SAXException {
         super(Role.class, BASE, XSD, "role_complete.xml", transport);
     }
 
@@ -37,22 +37,17 @@ public class RoleMarshallerTest extends MarshallerTestBase<Role> {
 
         // Role
         assertResource("/role:role", obj);
-        assertDateTime("/role:role/@last-modification-date",
-            obj.getLastModificationDate());
+        assertDateTime("/role:role/@last-modification-date", obj.getLastModificationDate());
 
         // RoleProperties
         String path = "/role:role/role:properties";
         assertNotNull(obj.getProperties());
 
-        assertDateTime(path + "/prop:creation-date", obj
-            .getProperties().getCreationDate());
-        assertResource(path + "/srel:created-by", obj
-            .getProperties().getCreatedBy());
-        assertResource(path + "/srel:modified-by", obj
-            .getProperties().getModifiedBy());
+        assertDateTime(path + "/prop:creation-date", obj.getProperties().getCreationDate());
+        assertResource(path + "/srel:created-by", obj.getProperties().getCreatedBy());
+        assertResource(path + "/srel:modified-by", obj.getProperties().getModifiedBy());
         assertXPath(path + "/prop:name", obj.getProperties().getName());
-        assertXPath(path + "/prop:description", obj
-            .getProperties().getDescription());
+        assertXPath(path + "/prop:description", obj.getProperties().getDescription());
 
         // Scope
         path = "/role:role/role:scope";
@@ -65,9 +60,8 @@ public class RoleMarshallerTest extends MarshallerTestBase<Role> {
             .getScope().getScopeDefinitions().get(0).getResourceType());
         assertXPath(path + "/role:scope-def[1]/@relation-attribute-id", obj
             .getScope().getScopeDefinitions().get(0).getRelationAttributeId());
-        assertEnum(path + "/role:scope-def[1]/@relation-attribute-object-type",
-            obj.getScope().getScopeDefinitions().get(0)
-                .getRelationAttributeObjectType());
+        assertEnum(path + "/role:scope-def[1]/@relation-attribute-object-type", obj
+            .getScope().getScopeDefinitions().get(0).getRelationAttributeObjectType());
 
         // XACML
         assertNotNull(obj.getPolicyOrPolicySet());
@@ -80,8 +74,7 @@ public class RoleMarshallerTest extends MarshallerTestBase<Role> {
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final Role obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final Role obj) throws Exception {
         // TODO Auto-generated method stub
     }
 }

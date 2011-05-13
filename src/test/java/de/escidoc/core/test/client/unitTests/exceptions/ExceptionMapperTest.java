@@ -22,8 +22,7 @@ import de.escidoc.core.client.exceptions.application.invalid.ContextNotEmptyExce
  */
 public class ExceptionMapperTest {
 
-    private static final Logger LOG = Logger
-        .getLogger(ExceptionMapperTest.class);
+    private static final Logger LOG = Logger.getLogger(ExceptionMapperTest.class);
 
     /**
      * 
@@ -52,8 +51,8 @@ public class ExceptionMapperTest {
     @Test
     public void testMapEscidocException() {
         de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException cne =
-            new de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException(
-                123, "123 error", "The context is not empty");
+            new de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException(123, "123 error",
+                "The context is not empty");
         Exception cause = new IndexOutOfBoundsException("foo != bar");
         cne.detail = cause;
         try {
@@ -81,8 +80,7 @@ public class ExceptionMapperTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testMapEscidocException2() {
-        de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException cne =
-            null;
+        de.escidoc.core.common.exceptions.remote.application.invalid.ContextNotEmptyException cne = null;
         try {
             ExceptionMapper.map(cne, LOG);
             fail("expected exception");

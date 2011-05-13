@@ -44,8 +44,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * 
  */
 public class ContextProperties extends CommonProperties
-    implements ModifyProperties, PublicStatusProperties, NameProperties,
-    DescriptionProperties, TypeProperties {
+    implements ModifyProperties, PublicStatusProperties, NameProperties, DescriptionProperties, TypeProperties {
 
     private UserAccountRef modifiedBy;
 
@@ -224,8 +223,7 @@ public class ContextProperties extends CommonProperties
      *            The new OrganizationalUnitRefs (resource references) of
      *            Context.
      */
-    public void setOrganizationalUnitRefs(
-        final OrganizationalUnitRefs organizationalUnitRefs) {
+    public void setOrganizationalUnitRefs(final OrganizationalUnitRefs organizationalUnitRefs) {
         this.organizationalUnitRefs = organizationalUnitRefs;
     }
 }

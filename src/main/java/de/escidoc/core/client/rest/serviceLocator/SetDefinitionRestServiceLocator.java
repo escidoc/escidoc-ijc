@@ -25,8 +25,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class SetDefinitionRestServiceLocator extends RestServiceMethod
-    implements SetDefinitionHandler {
+public class SetDefinitionRestServiceLocator extends RestServiceMethod implements SetDefinitionHandler {
 
     public static final String PATH = "/oai/set-definition";
 
@@ -37,12 +36,10 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.oai.SetDefinitionHandler#retrieveSetDefinitions(java.
      * util.HashMap)
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings( { "unchecked", "rawtypes" })
     @Override
-    public String retrieveSetDefinitions(final HashMap filter)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieveSetDefinitions(final HashMap filter) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         return get(PATH + "s", filter);
     }
@@ -55,9 +52,8 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod
      * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public String retrieveSetDefinitions(final SearchRetrieveRequestType request)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
+    public String retrieveSetDefinitions(final SearchRetrieveRequestType request) throws RemoteException,
+        SystemException, InvalidSearchQueryException, AuthorizationException, AuthenticationException,
         MissingMethodParameterException {
 
         checkNotNull(request);
@@ -73,10 +69,8 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod
      * (gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
-    public String retrieveSetDefinitions(final ExplainRequestType request)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieveSetDefinitions(final ExplainRequestType request) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(request);
 
@@ -89,9 +83,8 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.oai.SetDefinitionHandler#delete(java.lang.String)
      */
     @Override
-    public void delete(final String setDefinitionId) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        ResourceNotFoundException, MissingMethodParameterException {
+    public void delete(final String setDefinitionId) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, ResourceNotFoundException, MissingMethodParameterException {
 
         checkNotNull(setDefinitionId);
 
@@ -104,9 +97,8 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.oai.SetDefinitionHandler#create(java.lang.String)
      */
     @Override
-    public String create(final String xmlData) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        UniqueConstraintViolationException, InvalidXmlException,
+    public String create(final String xmlData) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, UniqueConstraintViolationException, InvalidXmlException,
         MissingMethodParameterException {
 
         checkNotNull(xmlData);
@@ -121,9 +113,8 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String update(final String setDefinitionId, final String xmlData)
-        throws RemoteException, OptimisticLockingException, SystemException,
-        AuthorizationException, AuthenticationException,
+    public String update(final String setDefinitionId, final String xmlData) throws RemoteException,
+        OptimisticLockingException, SystemException, AuthorizationException, AuthenticationException,
         ResourceNotFoundException, MissingMethodParameterException {
 
         checkNotNull(setDefinitionId);
@@ -137,10 +128,8 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.oai.SetDefinitionHandler#retrieve(java.lang.String)
      */
     @Override
-    public String retrieve(final String setDefinitionId)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, ResourceNotFoundException,
-        MissingMethodParameterException {
+    public String retrieve(final String setDefinitionId) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, ResourceNotFoundException, MissingMethodParameterException {
 
         checkNotNull(setDefinitionId);
         return get(PATH + "/" + setDefinitionId);

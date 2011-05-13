@@ -19,9 +19,8 @@ import de.escidoc.core.client.TransportProtocol;
 @RunWith(Parameterized.class)
 public abstract class AbstractParameterizedTestBase {
 
-    private static final Collection<Object[]> PARAMETERS = Arrays
-        .asList(new Object[][] { { TransportProtocol.SOAP },
-            { TransportProtocol.REST } });
+    private static final Collection<Object[]> PARAMETERS =
+        Arrays.asList(new Object[][] { { TransportProtocol.SOAP }, { TransportProtocol.REST } });
 
     protected final TransportProtocol transport;
 

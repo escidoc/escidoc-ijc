@@ -50,8 +50,7 @@ import de.escidoc.core.client.rest.serviceLocator.UserAccountRestServiceLocator;
  */
 public class RestUserAccountHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestUserAccountHandlerClient.class.getName());
+    private static final Logger LOG = Logger.getLogger(RestUserAccountHandlerClient.class.getName());
 
     private UserAccountHandler restClient = null;
 
@@ -68,8 +67,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestUserAccountHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestUserAccountHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -82,8 +80,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestUserAccountHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestUserAccountHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -96,8 +93,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void activate(final String userId, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void activate(final String userId, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
         try {
             getClient().activate(userId, taskParam);
         }
@@ -115,8 +112,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#create(java.lang.String)
      */
-    public String create(final String resourceXml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String resourceXml) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -136,8 +132,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -155,8 +150,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void deactivate(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deactivate(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         try {
             getClient().deactivate(id, taskParam);
@@ -175,8 +170,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -199,8 +193,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String userAccountXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String userAccountXml) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -223,8 +217,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public void updatePassword(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void updatePassword(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         try {
             getClient().updatePassword(id, taskParam);
@@ -242,8 +236,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveUserAccounts(final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveUserAccounts(final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -263,8 +257,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveUserAccounts(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveUserAccounts(final ExplainRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(filter);
 
@@ -286,8 +280,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveGrants(final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveGrants(final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -307,8 +301,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveGrants(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveGrants(final ExplainRequestType filter) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -335,8 +329,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface
      *      #createGrant(java.lang.String, java.lang.String)
      */
-    public String createGrant(final String objid, final String resourceXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createGrant(final String objid, final String resourceXml) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -362,9 +356,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void revokeGrant(
-        final String objid, final String grantId, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void revokeGrant(final String objid, final String grantId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         try {
             getClient().revokeGrant(objid, grantId, taskParam);
@@ -387,9 +380,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String createPreference(
-        final String objid, final String preferenceXML)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createPreference(final String objid, final String preferenceXML) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -414,8 +406,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void deletePreference(final String objid, final String key)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deletePreference(final String objid, final String key) throws EscidocException,
+        InternalClientException, TransportException {
 
         try {
             getClient().deletePreference(objid, key);
@@ -440,8 +432,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String updatePreference(
-        final String objid, final String key, final String preferenceXML)
+    public String updatePreference(final String objid, final String key, final String preferenceXML)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
@@ -454,9 +445,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         return result;
     }
 
-    public String updatePreferences(
-        final String objid, final String preferencesXML)
-        throws EscidocException, InternalClientException, TransportException {
+    public String updatePreferences(final String objid, final String preferencesXML) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -468,8 +458,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         return result;
     }
 
-    public String retrievePreference(final String objid, final String key)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrievePreference(final String objid, final String key) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -492,8 +482,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrievePreferences(final String objid)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrievePreferences(final String objid) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -518,8 +508,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String createAttribute(final String objid, final String preferenceXML)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createAttribute(final String objid, final String preferenceXML) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -543,8 +533,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void deleteAttribute(final String objid, final String attributeId)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deleteAttribute(final String objid, final String attributeId) throws EscidocException,
+        InternalClientException, TransportException {
 
         try {
             getClient().deleteAttribute(objid, attributeId);
@@ -569,14 +559,12 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String updateAttribute(
-        final String objid, final String attributeId, final String attributeXML)
+    public String updateAttribute(final String objid, final String attributeId, final String attributeXML)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result =
-                getClient().updateAttribute(objid, attributeId, attributeXML);
+            result = getClient().updateAttribute(objid, attributeId, attributeXML);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
@@ -612,8 +600,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAttribute(final String objid, final String attributeId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveAttribute(final String objid, final String attributeId) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -636,8 +624,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAttributes(final String objid)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveAttributes(final String objid) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -663,9 +651,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveNamedAttributes(
-        final String objid, final String attributeName)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveNamedAttributes(final String objid, final String attributeName) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -686,8 +673,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveCurrentUser() throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveCurrentUser() throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -710,8 +696,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveCurrentGrants(final String userId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveCurrentGrants(final String userId) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -736,8 +722,8 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveGrant(final String userId, final String grantId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveGrant(final String userId, final String grantId) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -759,8 +745,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            UserAccountRestServiceLocator serviceLocator =
-                new UserAccountRestServiceLocator();
+            UserAccountRestServiceLocator serviceLocator = new UserAccountRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

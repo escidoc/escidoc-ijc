@@ -19,8 +19,7 @@ import de.escidoc.core.resources.sb.search.resolver.ContentResolver;
  */
 public class SearchResult {
 
-    private static final Logger LOG = Logger
-        .getLogger(SearchResult.class);
+    private static final Logger LOG = Logger.getLogger(SearchResult.class);
 
     private Float score;
 
@@ -48,8 +47,7 @@ public class SearchResult {
      * </ul>
      */
     private static final Pattern tagNameWithPrefix =
-        Pattern
-            .compile("<(?:([^>^:^\\s]*):)?([^>^\\s]+?)(\\s(?:[^>]*?(xmlns[:]\\1[=]([\"']{1})(.*?)\\5))?[^>]*)?>");
+        Pattern.compile("<(?:([^>^:^\\s]*):)?([^>^\\s]+?)(\\s(?:[^>]*?(xmlns[:]\\1[=]([\"']{1})(.*?)\\5))?[^>]*)?>");
 
     /**
      * @param score
@@ -57,8 +55,8 @@ public class SearchResult {
      * @param contentTextFragment
      * @param base
      */
-    public SearchResult(final Float score, final Highlight highlight,
-        final String contentTextFragment, final String base) {
+    public SearchResult(final Float score, final Highlight highlight, final String contentTextFragment,
+        final String base) {
 
         checkNotEmpty(contentTextFragment);
 
@@ -137,11 +135,9 @@ public class SearchResult {
                 }
             }
 
-            for (ContentResolver<?> contentResolver : SearchDescriptor
-                .getResolvers()) {
+            for (ContentResolver<?> contentResolver : SearchDescriptor.getResolvers()) {
 
-                Object result =
-                    contentResolver.resolve(tagname, ns, contentTextFragment);
+                Object result = contentResolver.resolve(tagname, ns, contentTextFragment);
                 if (result != null) {
                     content = result;
                     contentTextFragment = null;

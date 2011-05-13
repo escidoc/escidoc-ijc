@@ -44,8 +44,7 @@ import de.escidoc.core.resources.common.structmap.StructMap;
  * 
  */
 @JiBX
-public class Container extends VersionableResource
-    implements Referenceable<ContainerRef> {
+public class Container extends VersionableResource implements Referenceable<ContainerRef> {
 
     private MetadataRecords mdRecords;
 

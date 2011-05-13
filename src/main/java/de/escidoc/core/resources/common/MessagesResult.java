@@ -29,6 +29,5 @@ public abstract class MessagesResult<T> extends LinkedList<T> {
         }
     }
 
-    protected abstract T extractMessage(
-        final Element messageNode, final int messageCount);
+    protected abstract T extractMessage(final Element messageNode, final int messageCount);
 }

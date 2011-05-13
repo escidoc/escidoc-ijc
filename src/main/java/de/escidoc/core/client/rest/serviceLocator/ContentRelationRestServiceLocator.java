@@ -72,8 +72,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author SWA
  * 
  */
-public class ContentRelationRestServiceLocator extends RestServiceMethod
-    implements ContentRelationHandler {
+public class ContentRelationRestServiceLocator extends RestServiceMethod implements ContentRelationHandler {
 
     public static final String PATH = "/ir/content-relation";
 
@@ -83,17 +82,13 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.ContentRelationHandler#create(java.lang.String)
      */
     @Override
-    public String create(final String contentRelationXml)
-        throws RemoteException, SystemException,
-        MissingAttributeValueException, MissingContentException,
-        MissingMdRecordException, ReferencedResourceNotFoundException,
-        AuthenticationException, AuthorizationException,
-        ContentRelationNotFoundException, InvalidContentException,
-        RelationPredicateNotFoundException,
-        ReadonlyAttributeViolationException, FileNotFoundException,
-        MissingMethodParameterException, InvalidStatusException,
-        ReadonlyElementViolationException, ContentModelNotFoundException,
-        InvalidXmlException, MissingElementValueException {
+    public String create(final String contentRelationXml) throws RemoteException, SystemException,
+        MissingAttributeValueException, MissingContentException, MissingMdRecordException,
+        ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
+        ContentRelationNotFoundException, InvalidContentException, RelationPredicateNotFoundException,
+        ReadonlyAttributeViolationException, FileNotFoundException, MissingMethodParameterException,
+        InvalidStatusException, ReadonlyElementViolationException, ContentModelNotFoundException, InvalidXmlException,
+        MissingElementValueException {
 
         checkNotNull(contentRelationXml);
 
@@ -116,11 +111,9 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.ContentRelationHandler#delete(String)
      */
     @Override
-    public void delete(final String contentRelationId) throws RemoteException,
-        SystemException, LockingException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException,
-        ContentRelationNotFoundException, AlreadyPublishedException,
-        AuthorizationException {
+    public void delete(final String contentRelationId) throws RemoteException, SystemException, LockingException,
+        MissingMethodParameterException, InvalidStatusException, AuthenticationException,
+        ContentRelationNotFoundException, AlreadyPublishedException, AuthorizationException {
 
         checkNotNull(contentRelationId);
 
@@ -160,18 +153,13 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.om.ContentRelationHandler#update(String, String)
      */
     @Override
-    public String update(
-        final String contentRelationId, final String contentRelationXml)
-        throws RemoteException, SystemException, MissingLicenceException,
-        ReadonlyVersionException, LockingException, ComponentNotFoundException,
-        MissingContentException, MissingAttributeValueException,
-        AlreadyExistsException, MissingMdRecordException,
-        ReferencedResourceNotFoundException, AuthenticationException,
-        AuthorizationException, ContentRelationNotFoundException,
-        InvalidContentException, OptimisticLockingException,
-        RelationPredicateNotFoundException, FileNotFoundException,
-        MissingMethodParameterException, NotPublishedException,
-        InvalidStatusException, ReadonlyViolationException, InvalidXmlException {
+    public String update(final String contentRelationId, final String contentRelationXml) throws RemoteException,
+        SystemException, MissingLicenceException, ReadonlyVersionException, LockingException,
+        ComponentNotFoundException, MissingContentException, MissingAttributeValueException, AlreadyExistsException,
+        MissingMdRecordException, ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
+        ContentRelationNotFoundException, InvalidContentException, OptimisticLockingException,
+        RelationPredicateNotFoundException, FileNotFoundException, MissingMethodParameterException,
+        NotPublishedException, InvalidStatusException, ReadonlyViolationException, InvalidXmlException {
 
         checkNotNull(contentRelationId);
         checkNotNull(contentRelationXml);
@@ -180,10 +168,9 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieve(final String contentRelationId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ContentRelationNotFoundException, AuthorizationException {
+    public String retrieve(final String contentRelationId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ContentRelationNotFoundException,
+        AuthorizationException {
 
         checkNotNull(contentRelationId);
 
@@ -191,40 +178,34 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveProperties(final String contentRelationId)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        ContentRelationNotFoundException, AuthorizationException {
+    public String retrieveProperties(final String contentRelationId) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, ContentRelationNotFoundException,
+        AuthorizationException {
 
         checkNotNull(contentRelationId);
 
         return get(PATH + "/" + contentRelationId + "/properties");
     }
 
-    public String retrieveContentRelations(final String filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveContentRelations(final String filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         return post(PATH + "s/filter", filter);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
     @Deprecated
-    public String retrieveContentRelations(final HashMap filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveContentRelations(final HashMap filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         return get(PATH + "s", filter);
     }
 
     @Override
-    public String retrieveContentRelations(
-        final SearchRetrieveRequestType filter) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
+    public String retrieveContentRelations(final SearchRetrieveRequestType filter) throws RemoteException,
+        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(filter);
 
@@ -232,10 +213,8 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveContentRelations(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveContentRelations(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
 
@@ -243,26 +222,21 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String assignObjectPid(
-        final String contentRelationId, final String taskParam)
-        throws RemoteException, OptimisticLockingException,
-        PidAlreadyAssignedException, ContentRelationNotFoundException,
-        SystemException, MissingMethodParameterException, LockingException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
+    public String assignObjectPid(final String contentRelationId, final String taskParam) throws RemoteException,
+        OptimisticLockingException, PidAlreadyAssignedException, ContentRelationNotFoundException, SystemException,
+        MissingMethodParameterException, LockingException, AuthenticationException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(contentRelationId);
 
-        return post(PATH + "/" + contentRelationId + "/assign-object-pid",
-            taskParam);
+        return post(PATH + "/" + contentRelationId + "/assign-object-pid", taskParam);
     }
 
     @Override
-    public String lock(final String contentRelationId, final String taskParam)
-        throws RemoteException, OptimisticLockingException,
-        ContentRelationNotFoundException, SystemException,
-        MissingMethodParameterException, LockingException,
-        InvalidStatusException, AuthenticationException,
-        AuthorizationException, InvalidXmlException, InvalidContentException {
+    public String lock(final String contentRelationId, final String taskParam) throws RemoteException,
+        OptimisticLockingException, ContentRelationNotFoundException, SystemException, MissingMethodParameterException,
+        LockingException, InvalidStatusException, AuthenticationException, AuthorizationException, InvalidXmlException,
+        InvalidContentException {
 
         checkNotNull(contentRelationId);
 
@@ -270,12 +244,10 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String unlock(final String contentRelationId, final String taskParam)
-        throws java.rmi.RemoteException, OptimisticLockingException,
-        ContentRelationNotFoundException, SystemException,
-        MissingMethodParameterException, LockingException,
-        InvalidStatusException, AuthenticationException,
-        AuthorizationException, InvalidXmlException, InvalidContentException {
+    public String unlock(final String contentRelationId, final String taskParam) throws java.rmi.RemoteException,
+        OptimisticLockingException, ContentRelationNotFoundException, SystemException, MissingMethodParameterException,
+        LockingException, InvalidStatusException, AuthenticationException, AuthorizationException, InvalidXmlException,
+        InvalidContentException {
 
         checkNotNull(contentRelationId);
 
@@ -283,12 +255,10 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String submit(final String contentRelationId, final String taskParam)
-        throws RemoteException, OptimisticLockingException,
-        ContentRelationNotFoundException, SystemException,
-        MissingMethodParameterException, LockingException,
-        InvalidStatusException, AuthenticationException,
-        AuthorizationException, InvalidXmlException, InvalidContentException {
+    public String submit(final String contentRelationId, final String taskParam) throws RemoteException,
+        OptimisticLockingException, ContentRelationNotFoundException, SystemException, MissingMethodParameterException,
+        LockingException, InvalidStatusException, AuthenticationException, AuthorizationException, InvalidXmlException,
+        InvalidContentException {
 
         checkNotNull(contentRelationId);
 
@@ -296,12 +266,10 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String release(final String contentRelationId, final String taskParam)
-        throws RemoteException, OptimisticLockingException,
-        ContentRelationNotFoundException, SystemException,
-        MissingMethodParameterException, LockingException,
-        InvalidStatusException, AuthenticationException,
-        AuthorizationException, InvalidXmlException, InvalidContentException {
+    public String release(final String contentRelationId, final String taskParam) throws RemoteException,
+        OptimisticLockingException, ContentRelationNotFoundException, SystemException, MissingMethodParameterException,
+        LockingException, InvalidStatusException, AuthenticationException, AuthorizationException, InvalidXmlException,
+        InvalidContentException {
 
         checkNotNull(contentRelationId);
 
@@ -309,24 +277,20 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveMdRecord(
-        final String contentRelationId, final String mdRecordId)
-        throws RemoteException, ContentRelationNotFoundException,
-        SystemException, AuthenticationException, AuthorizationException,
+    public String retrieveMdRecord(final String contentRelationId, final String mdRecordId) throws RemoteException,
+        ContentRelationNotFoundException, SystemException, AuthenticationException, AuthorizationException,
         MdRecordNotFoundException {
 
         checkNotNull(contentRelationId);
         checkNotNull(mdRecordId);
 
-        return get(PATH + "/" + contentRelationId + "/md-records/md-record/"
-            + mdRecordId);
+        return get(PATH + "/" + contentRelationId + "/md-records/md-record/" + mdRecordId);
 
     }
 
     @Override
-    public String retrieveMdRecords(final String contentRelationId)
-        throws RemoteException, ContentRelationNotFoundException,
-        SystemException, AuthenticationException, AuthorizationException {
+    public String retrieveMdRecords(final String contentRelationId) throws RemoteException,
+        ContentRelationNotFoundException, SystemException, AuthenticationException, AuthorizationException {
 
         checkNotNull(contentRelationId);
 
@@ -334,12 +298,10 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String revise(final String contentRelationId, final String taskParam)
-        throws RemoteException, OptimisticLockingException,
-        ContentRelationNotFoundException, SystemException,
-        MissingMethodParameterException, LockingException,
-        InvalidStatusException, AuthenticationException,
-        AuthorizationException, InvalidXmlException, InvalidContentException {
+    public String revise(final String contentRelationId, final String taskParam) throws RemoteException,
+        OptimisticLockingException, ContentRelationNotFoundException, SystemException, MissingMethodParameterException,
+        LockingException, InvalidStatusException, AuthenticationException, AuthorizationException, InvalidXmlException,
+        InvalidContentException {
 
         checkNotNull(contentRelationId);
 
@@ -347,17 +309,16 @@ public class ContentRelationRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveRegisteredPredicates() throws RemoteException,
-        SystemException, InvalidXmlException, InvalidContentException {
+    public String retrieveRegisteredPredicates() throws RemoteException, SystemException, InvalidXmlException,
+        InvalidContentException {
 
         return get(PATH + "s/retrieve-registered-predicates");
 
     }
 
     @Override
-    public String retrieveResources(final String contentRelationId)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, ContentRelationNotFoundException,
+    public String retrieveResources(final String contentRelationId) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, ContentRelationNotFoundException,
         MissingMethodParameterException {
 
         checkNotNull(contentRelationId);

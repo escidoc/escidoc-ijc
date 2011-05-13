@@ -22,8 +22,7 @@ import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
  * @author Marko Voß
  * 
  */
-public class ReportParametersMarshallerTest
-    extends MarshallerTestBase<ReportParameters> {
+public class ReportParametersMarshallerTest extends MarshallerTestBase<ReportParameters> {
 
     private static final String BASE = "sm/reportParameter";
 
@@ -35,54 +34,41 @@ public class ReportParametersMarshallerTest
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ReportParametersMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
-        super(ReportParameters.class, BASE, XSD,
-            "report-parameters_complete.xml", transport);
+    public ReportParametersMarshallerTest(final TransportProtocol transport) throws IOException,
+        ParserConfigurationException, SAXException {
+        super(ReportParameters.class, BASE, XSD, "report-parameters_complete.xml", transport);
     }
 
     @Override
     protected void validate(final ReportParameters obj) throws Exception {
-        assertResource("/report:report-parameters/report:report-definition",
-            obj.getReportDefinition());
+        assertResource("/report:report-parameters/report:report-definition", obj.getReportDefinition());
 
         String path = "/report:report-parameters/report:parameter";
 
         assertNotNull(obj.getParameters());
         assertNotNull(obj.getParameters().get(0));
-        assertTrue(obj
-            .getParameters().get(0).getParameterType()
-            .equals(ParameterType.DATE));
+        assertTrue(obj.getParameters().get(0).getParameterType().equals(ParameterType.DATE));
         assertXPath(path + "[1]/@name", obj.getParameters().get(0).getName());
-        assertDateTime(path + "[1]/report:datevalue", ((DateParameter) obj
-            .getParameters().get(0)).getValue());
+        assertDateTime(path + "[1]/report:datevalue", ((DateParameter) obj.getParameters().get(0)).getValue());
 
         assertNotNull(obj.getParameters().get(1));
-        assertTrue(obj
-            .getParameters().get(1).getParameterType()
-            .equals(ParameterType.STRING));
+        assertTrue(obj.getParameters().get(1).getParameterType().equals(ParameterType.STRING));
         assertXPath(path + "[2]/@name", obj.getParameters().get(1).getName());
-        assertXPath(path + "[2]/report:stringvalue", obj
-            .getParameters().get(1).getValue());
+        assertXPath(path + "[2]/report:stringvalue", obj.getParameters().get(1).getValue());
 
         assertNotNull(obj.getParameters().get(2));
-        assertTrue(obj
-            .getParameters().get(2).getParameterType()
-            .equals(ParameterType.DECIMAL));
+        assertTrue(obj.getParameters().get(2).getParameterType().equals(ParameterType.DECIMAL));
         assertXPath(path + "[3]/@name", obj.getParameters().get(2).getName());
-        assertXPath(path + "[3]/report:decimalvalue", obj
-            .getParameters().get(2).getValue());
+        assertXPath(path + "[3]/report:decimalvalue", obj.getParameters().get(2).getValue());
     }
 
     @Override
-    protected void testSubResources(final ReportParameters obj)
-        throws Exception {
+    protected void testSubResources(final ReportParameters obj) throws Exception {
         // TODO Auto-generated method stub
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final ReportParameters obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final ReportParameters obj) throws Exception {
         // TODO Auto-generated method stub
     }
 }

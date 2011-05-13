@@ -69,8 +69,7 @@ public class ScopeDef {
      * @param relationAttributeId
      * @param relationAttributeObjectType
      */
-    public ScopeDef(final ResourceType resourceType,
-        final String relationAttributeId,
+    public ScopeDef(final ResourceType resourceType, final String relationAttributeId,
         final ResourceType relationAttributeObjectType) {
 
         checkNotNull(resourceType);

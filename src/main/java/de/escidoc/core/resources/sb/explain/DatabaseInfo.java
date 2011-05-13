@@ -19,8 +19,7 @@ public class DatabaseInfo {
 
     private List<DatabaseInfoText> titles = new LinkedList<DatabaseInfoText>();
 
-    private List<DatabaseInfoText> descriptions =
-        new LinkedList<DatabaseInfoText>();;
+    private List<DatabaseInfoText> descriptions = new LinkedList<DatabaseInfoText>();;
 
     private String contact;
 

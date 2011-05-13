@@ -60,8 +60,7 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  */
 public class AdminHandlerClientTest {
 
-    private static final Logger LOG = Logger
-        .getLogger(AdminHandlerClientTest.class);
+    private static final Logger LOG = Logger.getLogger(AdminHandlerClientTest.class);
 
     private Authentication auth;
 
@@ -74,10 +73,8 @@ public class AdminHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ahc = new AdminHandlerClient(auth.getServiceAddress());
         ahc.setHandle(auth.getHandle());
     }
@@ -119,43 +116,30 @@ public class AdminHandlerClientTest {
     public void testRepositoryInfo() throws Exception {
         RepositoryInfo info = ahc.getRepositoryInfo();
         // evaluate result
-        assertNotNull(
-            RepositoryInfo.KEY_ESCIDOC_CORE_ADMIN_EMAIL + " is null.",
-            info.get(RepositoryInfo.KEY_ESCIDOC_CORE_ADMIN_EMAIL));
-        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_BASEURL + " is null.",
-            info.get(RepositoryInfo.KEY_ESCIDOC_CORE_BASEURL));
-        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_BUILD + " is null.",
-            info.get(RepositoryInfo.KEY_ESCIDOC_CORE_BUILD));
-        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_DATABASE_CONSISTENT
-            + " is null.",
-            info.get(RepositoryInfo.KEY_ESCIDOC_CORE_DATABASE_CONSISTENT));
-        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_DATABASE_VERSION
-            + " is null.",
-            info.get(RepositoryInfo.KEY_ESCIDOC_CORE_DATABASE_VERSION));
-        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_EARLIEST_DATE
-            + " is null.",
-            info.get(RepositoryInfo.KEY_ESCIDOC_CORE_EARLIEST_DATE));
-        assertNotNull(
-            RepositoryInfo.KEY_ESCIDOC_CORE_OM_CONTENT_CHECKSUM_ALGORITHM
-                + " is null.",
-            info
-                .get(RepositoryInfo.KEY_ESCIDOC_CORE_OM_CONTENT_CHECKSUM_ALGORITHM));
-        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_REPOSITORY_NAME
-            + " is null.",
-            info.get(RepositoryInfo.KEY_ESCIDOC_CORE_REPOSITORY_NAME));
-        assertNotNull(RepositoryInfo.KEY_GSEARCH_URL + " is null.",
-            info.get(RepositoryInfo.KEY_GSEARCH_URL));
-        assertNotNull(RepositoryInfo.KEY_SCHEMA_CONTAINER + " is null.",
-            info.get(RepositoryInfo.KEY_SCHEMA_CONTAINER));
-        assertNotNull(RepositoryInfo.KEY_SCHEMA_CONTEXT + " is null.",
-            info.get(RepositoryInfo.KEY_SCHEMA_CONTEXT));
-        assertNotNull(RepositoryInfo.KEY_SCHEMA_ITEM + " is null.",
-            info.get(RepositoryInfo.KEY_SCHEMA_ITEM));
-        assertNotNull(RepositoryInfo.KEY_SCHEMA_ORGANIZATIONAL_UNIT
-            + " is null.",
-            info.get(RepositoryInfo.KEY_SCHEMA_ORGANIZATIONAL_UNIT));
-        assertNotNull(RepositoryInfo.KEY_SCHEMA_USER_ACCOUNT + " is null.",
-            info.get(RepositoryInfo.KEY_SCHEMA_USER_ACCOUNT));
+        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_ADMIN_EMAIL + " is null.", info
+            .get(RepositoryInfo.KEY_ESCIDOC_CORE_ADMIN_EMAIL));
+        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_BASEURL + " is null.", info
+            .get(RepositoryInfo.KEY_ESCIDOC_CORE_BASEURL));
+        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_BUILD + " is null.", info
+            .get(RepositoryInfo.KEY_ESCIDOC_CORE_BUILD));
+        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_DATABASE_CONSISTENT + " is null.", info
+            .get(RepositoryInfo.KEY_ESCIDOC_CORE_DATABASE_CONSISTENT));
+        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_DATABASE_VERSION + " is null.", info
+            .get(RepositoryInfo.KEY_ESCIDOC_CORE_DATABASE_VERSION));
+        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_EARLIEST_DATE + " is null.", info
+            .get(RepositoryInfo.KEY_ESCIDOC_CORE_EARLIEST_DATE));
+        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_OM_CONTENT_CHECKSUM_ALGORITHM + " is null.", info
+            .get(RepositoryInfo.KEY_ESCIDOC_CORE_OM_CONTENT_CHECKSUM_ALGORITHM));
+        assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_REPOSITORY_NAME + " is null.", info
+            .get(RepositoryInfo.KEY_ESCIDOC_CORE_REPOSITORY_NAME));
+        assertNotNull(RepositoryInfo.KEY_GSEARCH_URL + " is null.", info.get(RepositoryInfo.KEY_GSEARCH_URL));
+        assertNotNull(RepositoryInfo.KEY_SCHEMA_CONTAINER + " is null.", info.get(RepositoryInfo.KEY_SCHEMA_CONTAINER));
+        assertNotNull(RepositoryInfo.KEY_SCHEMA_CONTEXT + " is null.", info.get(RepositoryInfo.KEY_SCHEMA_CONTEXT));
+        assertNotNull(RepositoryInfo.KEY_SCHEMA_ITEM + " is null.", info.get(RepositoryInfo.KEY_SCHEMA_ITEM));
+        assertNotNull(RepositoryInfo.KEY_SCHEMA_ORGANIZATIONAL_UNIT + " is null.", info
+            .get(RepositoryInfo.KEY_SCHEMA_ORGANIZATIONAL_UNIT));
+        assertNotNull(RepositoryInfo.KEY_SCHEMA_USER_ACCOUNT + " is null.", info
+            .get(RepositoryInfo.KEY_SCHEMA_USER_ACCOUNT));
     }
 
     /**
@@ -250,16 +234,13 @@ public class AdminHandlerClientTest {
     public void testPurge() throws Exception {
         // create some data to delete
         // initialize handler clients
-        ItemHandlerClientInterface ih =
-            new ItemHandlerClient(auth.getServiceAddress());
+        ItemHandlerClientInterface ih = new ItemHandlerClient(auth.getServiceAddress());
         ih.setHandle(auth.getHandle());
 
-        OrganizationalUnitHandlerClientInterface oh =
-            new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+        OrganizationalUnitHandlerClientInterface oh = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         oh.setHandle(auth.getHandle());
 
-        ContainerHandlerClientInterface ch =
-            new ContainerHandlerClient(auth.getServiceAddress());
+        ContainerHandlerClientInterface ch = new ContainerHandlerClient(auth.getServiceAddress());
         ch.setHandle(auth.getHandle());
 
         Collection<String> ids = new LinkedList<String>();
@@ -358,17 +339,12 @@ public class AdminHandlerClientTest {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private String createItem(final ItemHandlerClientInterface handler)
-        throws EscidocException, InternalClientException, TransportException,
-        ParserConfigurationException {
+    private String createItem(final ItemHandlerClientInterface handler) throws EscidocException,
+        InternalClientException, TransportException, ParserConfigurationException {
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
         MetadataRecords mdRecords = new MetadataRecords();
@@ -389,18 +365,15 @@ public class AdminHandlerClientTest {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private String createContainer(final ContainerHandlerClientInterface handler)
-        throws EscidocException, InternalClientException, TransportException,
-        ParserConfigurationException {
+    private String createContainer(final ContainerHandlerClientInterface handler) throws EscidocException,
+        InternalClientException, TransportException, ParserConfigurationException {
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         container.setProperties(properties);
 
@@ -422,25 +395,19 @@ public class AdminHandlerClientTest {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private String createOrganizationalUnit(
-        final OrganizationalUnitHandlerClientInterface handler)
-        throws EscidocException, InternalClientException, TransportException,
-        ParserConfigurationException {
-        final String ouName =
-            "Generic Organizational Unit " + System.currentTimeMillis();
+    private String createOrganizationalUnit(final OrganizationalUnitHandlerClientInterface handler)
+        throws EscidocException, InternalClientException, TransportException, ParserConfigurationException {
+        final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord =
-            createMdRecordDC("escidoc", "organization-details", ouName,
-                ouDescription);
+        MetadataRecord mdRecord = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
         mdRecords.add(mdRecord);
         organizationalUnit.setMetadataRecords(mdRecords);
@@ -464,8 +431,7 @@ public class AdminHandlerClientTest {
      *             If instantiation of DocumentBuilder fail
      */
     private MetadataRecord createMdRecordDC(
-        final String mdRecordName, final String rootElementName,
-        final String title, final String description)
+        final String mdRecordName, final String rootElementName, final String title, final String description)
         throws ParserConfigurationException {
 
         // md-record
@@ -482,16 +448,13 @@ public class AdminHandlerClientTest {
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element titleElmt =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
         titleElmt.setTextContent(title);
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
-        Element descriptionElmt =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/",
-                "description");
+        Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
         descriptionElmt.setTextContent(description);
         mdRecordContent.appendChild(descriptionElmt);

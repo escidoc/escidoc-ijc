@@ -67,10 +67,8 @@ public class ContextCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -141,8 +139,7 @@ public class ContextCreateTest {
         ContextProperties properties = new ContextProperties();
         context.setProperties(properties);
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor =
-            new AdminDescriptor("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -172,17 +169,14 @@ public class ContextCreateTest {
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs =
-            new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef(
-            EscidocClientTestBase.getStaticOrganizationalUnitId()));
+        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor =
-            new AdminDescriptor("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -211,18 +205,15 @@ public class ContextCreateTest {
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs =
-            new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef(
-            EscidocClientTestBase.getStaticOrganizationalUnitId()));
+        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor =
-            new AdminDescriptor("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -235,12 +226,9 @@ public class ContextCreateTest {
         // create
         Context createdContext = cc.create(context);
 
-        assertEquals("Name differs", context.getProperties().getName(),
-            createdContext.getProperties().getName());
-        assertEquals("Description differs", context
-            .getProperties().getDescription(), createdContext
+        assertEquals("Name differs", context.getProperties().getName(), createdContext.getProperties().getName());
+        assertEquals("Description differs", context.getProperties().getDescription(), createdContext
             .getProperties().getDescription());
-        assertEquals("Wrong number of admin-descriptors", 1, createdContext
-            .getAdminDescriptors().size());
+        assertEquals("Wrong number of admin-descriptors", 1, createdContext.getAdminDescriptors().size());
     }
 }

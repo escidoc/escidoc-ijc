@@ -38,8 +38,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class UserGroupRestServiceLocator extends RestServiceMethod
-    implements UserGroupHandler {
+public class UserGroupRestServiceLocator extends RestServiceMethod implements UserGroupHandler {
 
     public static final String PATH = "/aa/user-group";
 
@@ -50,11 +49,10 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.aa.UserGroupHandler#retrieveResources(java.lang.String)
      */
     @Override
-    public String retrieveResources(final String groupId)
-        throws RemoteException, SystemException, UserGroupNotFoundException {
+    public String retrieveResources(final String groupId) throws RemoteException, SystemException,
+        UserGroupNotFoundException {
         // TODO
-        throw new UnsupportedOperationException(
-            "Method retrieveResources not supported.");
+        throw new UnsupportedOperationException("Method retrieveResources not supported.");
     }
 
     /*
@@ -65,10 +63,8 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * )
      */
     @Override
-    public String retrieveCurrentGrants(final String userGroupId)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, UserGroupNotFoundException,
-        MissingMethodParameterException {
+    public String retrieveCurrentGrants(final String userGroupId) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, UserGroupNotFoundException, MissingMethodParameterException {
 
         checkNotNull(userGroupId);
 
@@ -82,11 +78,9 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String createGrant(final String groupId, final String grantXML)
-        throws RemoteException, RoleNotFoundException,
-        XmlSchemaValidationException, SystemException, XmlCorruptedException,
-        AuthorizationException, AuthenticationException,
-        AlreadyExistsException, UserGroupNotFoundException,
+    public String createGrant(final String groupId, final String grantXML) throws RemoteException,
+        RoleNotFoundException, XmlSchemaValidationException, SystemException, XmlCorruptedException,
+        AuthorizationException, AuthenticationException, AlreadyExistsException, UserGroupNotFoundException,
         InvalidScopeException, MissingMethodParameterException {
 
         checkNotNull(groupId);
@@ -102,10 +96,9 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String retrieveGrant(final String groupId, final String grantId)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, GrantNotFoundException,
-        UserGroupNotFoundException, MissingMethodParameterException {
+    public String retrieveGrant(final String groupId, final String grantId) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, GrantNotFoundException, UserGroupNotFoundException,
+        MissingMethodParameterException {
 
         checkNotNull(groupId);
         checkNotNull(grantId);
@@ -119,20 +112,16 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String, java.lang.String)
      */
     @Override
-    public void revokeGrant(
-        final String groupId, final String grantId, final String taskParam)
-        throws RemoteException, MissingAttributeValueException,
-        SystemException, XmlCorruptedException, AlreadyRevokedException,
-        AuthorizationException, AuthenticationException,
-        GrantNotFoundException, UserGroupNotFoundException,
+    public void revokeGrant(final String groupId, final String grantId, final String taskParam) throws RemoteException,
+        MissingAttributeValueException, SystemException, XmlCorruptedException, AlreadyRevokedException,
+        AuthorizationException, AuthenticationException, GrantNotFoundException, UserGroupNotFoundException,
         MissingMethodParameterException {
 
         checkNotNull(groupId);
         checkNotNull(grantId);
         checkNotNull(taskParam);
 
-        post(PATH + "/" + groupId + "/resources/grants/grant/" + grantId
-            + "/revoke-grant", taskParam);
+        post(PATH + "/" + groupId + "/resources/grants/grant/" + grantId + "/revoke-grant", taskParam);
     }
 
     /*
@@ -142,18 +131,15 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public void revokeGrants(final String groupId, final String taskParam)
-        throws RemoteException, MissingAttributeValueException,
-        SystemException, XmlCorruptedException, AlreadyRevokedException,
-        AuthorizationException, AuthenticationException,
-        GrantNotFoundException, UserGroupNotFoundException,
+    public void revokeGrants(final String groupId, final String taskParam) throws RemoteException,
+        MissingAttributeValueException, SystemException, XmlCorruptedException, AlreadyRevokedException,
+        AuthorizationException, AuthenticationException, GrantNotFoundException, UserGroupNotFoundException,
         MissingMethodParameterException {
 
         checkNotNull(groupId);
         checkNotNull(taskParam);
 
-        post(PATH + "/" + groupId + "/resources/grants/revoke-grants",
-            taskParam);
+        post(PATH + "/" + groupId + "/resources/grants/revoke-grants", taskParam);
     }
 
     /*
@@ -162,12 +148,10 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * @see
      * de.escidoc.core.aa.UserGroupHandler#retrieveUserGroups(java.util.HashMap)
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
-    public String retrieveUserGroups(final HashMap filter)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieveUserGroups(final HashMap filter) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         return get(PATH + "s", filter);
     }
@@ -180,10 +164,8 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public String retrieveUserGroups(final SearchRetrieveRequestType request)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieveUserGroups(final SearchRetrieveRequestType request) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(request);
 
@@ -198,10 +180,8 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * (gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
-    public String retrieveUserGroups(final ExplainRequestType request)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieveUserGroups(final ExplainRequestType request) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(request);
 
@@ -215,12 +195,10 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String addSelectors(final String groupId, final String taskParam)
-        throws RemoteException, InvalidContentException, SystemException,
-        OptimisticLockingException, XmlSchemaValidationException,
-        XmlCorruptedException, UserAccountNotFoundException,
-        AuthorizationException, OrganizationalUnitNotFoundException,
-        AuthenticationException, UserGroupHierarchyViolationException,
+    public String addSelectors(final String groupId, final String taskParam) throws RemoteException,
+        InvalidContentException, SystemException, OptimisticLockingException, XmlSchemaValidationException,
+        XmlCorruptedException, UserAccountNotFoundException, AuthorizationException,
+        OrganizationalUnitNotFoundException, AuthenticationException, UserGroupHierarchyViolationException,
         UserGroupNotFoundException, MissingMethodParameterException {
 
         checkNotNull(groupId);
@@ -237,12 +215,10 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String removeSelectors(final String groupId, final String taskParam)
-        throws RemoteException, XmlSchemaValidationException, SystemException,
-        OptimisticLockingException, XmlCorruptedException,
-        UserAccountNotFoundException, AuthorizationException,
-        OrganizationalUnitNotFoundException, AuthenticationException,
-        UserGroupNotFoundException, MissingMethodParameterException {
+    public String removeSelectors(final String groupId, final String taskParam) throws RemoteException,
+        XmlSchemaValidationException, SystemException, OptimisticLockingException, XmlCorruptedException,
+        UserAccountNotFoundException, AuthorizationException, OrganizationalUnitNotFoundException,
+        AuthenticationException, UserGroupNotFoundException, MissingMethodParameterException {
 
         checkNotNull(groupId);
         checkNotNull(taskParam);
@@ -255,9 +231,8 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.aa.UserGroupHandler#delete(java.lang.String)
      */
     @Override
-    public void delete(final String groupId) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        UserGroupNotFoundException, MissingMethodParameterException {
+    public void delete(final String groupId) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, UserGroupNotFoundException, MissingMethodParameterException {
 
         checkNotNull(groupId);
 
@@ -270,10 +245,9 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.aa.UserGroupHandler#create(java.lang.String)
      */
     @Override
-    public String create(final String xmlData) throws RemoteException,
-        XmlSchemaValidationException, SystemException, XmlCorruptedException,
-        AuthorizationException, AuthenticationException,
-        UniqueConstraintViolationException, MissingMethodParameterException {
+    public String create(final String xmlData) throws RemoteException, XmlSchemaValidationException, SystemException,
+        XmlCorruptedException, AuthorizationException, AuthenticationException, UniqueConstraintViolationException,
+        MissingMethodParameterException {
 
         checkNotNull(xmlData);
 
@@ -287,11 +261,9 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String update(final String groupId, final String xmlData)
-        throws RemoteException, XmlSchemaValidationException,
-        MissingAttributeValueException, OptimisticLockingException,
-        SystemException, XmlCorruptedException, AuthorizationException,
-        AuthenticationException, UniqueConstraintViolationException,
+    public String update(final String groupId, final String xmlData) throws RemoteException,
+        XmlSchemaValidationException, MissingAttributeValueException, OptimisticLockingException, SystemException,
+        XmlCorruptedException, AuthorizationException, AuthenticationException, UniqueConstraintViolationException,
         UserGroupNotFoundException, MissingMethodParameterException {
 
         checkNotNull(groupId);
@@ -307,12 +279,9 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public void activate(final String groupId, final String taskParam)
-        throws RemoteException, AlreadyActiveException,
-        MissingAttributeValueException, OptimisticLockingException,
-        SystemException, XmlCorruptedException, AuthorizationException,
-        AuthenticationException, UserGroupNotFoundException,
-        MissingMethodParameterException {
+    public void activate(final String groupId, final String taskParam) throws RemoteException, AlreadyActiveException,
+        MissingAttributeValueException, OptimisticLockingException, SystemException, XmlCorruptedException,
+        AuthorizationException, AuthenticationException, UserGroupNotFoundException, MissingMethodParameterException {
 
         checkNotNull(groupId);
         checkNotNull(taskParam);
@@ -327,9 +296,8 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.aa.UserGroupHandler#retrieve(java.lang.String)
      */
     @Override
-    public String retrieve(final String groupId) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        UserGroupNotFoundException, MissingMethodParameterException {
+    public String retrieve(final String groupId) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, UserGroupNotFoundException, MissingMethodParameterException {
 
         checkNotNull(groupId);
 
@@ -343,11 +311,9 @@ public class UserGroupRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public void deactivate(final String groupId, final String taskParam)
-        throws RemoteException, AlreadyDeactiveException,
-        MissingAttributeValueException, OptimisticLockingException,
-        SystemException, XmlCorruptedException, AuthorizationException,
-        AuthenticationException, UserGroupNotFoundException,
+    public void deactivate(final String groupId, final String taskParam) throws RemoteException,
+        AlreadyDeactiveException, MissingAttributeValueException, OptimisticLockingException, SystemException,
+        XmlCorruptedException, AuthorizationException, AuthenticationException, UserGroupNotFoundException,
         MissingMethodParameterException {
 
         checkNotNull(groupId);

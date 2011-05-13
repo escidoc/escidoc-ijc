@@ -16,8 +16,7 @@ import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
  * @author MVO
  * 
  */
-public abstract class RestClientBase extends ClientBase
-    implements RestCallbackHandler {
+public abstract class RestClientBase extends ClientBase implements RestCallbackHandler {
 
     public static final String ESCIDOC_COOKIE_ENTRY = "escidocCookie";
 
@@ -39,8 +38,7 @@ public abstract class RestClientBase extends ClientBase
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
      */
-    public RestClientBase(final URL serviceAddress)
-        throws InternalClientException {
+    public RestClientBase(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -51,8 +49,7 @@ public abstract class RestClientBase extends ClientBase
      * @deprecated Use {@link RestClientBase#RestClientBase(URL)} instead.
      */
     @Deprecated
-    public RestClientBase(final String serviceAddress)
-        throws InternalClientException {
+    public RestClientBase(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

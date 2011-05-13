@@ -100,14 +100,12 @@ public class UserAccountFilterVersion12Test {
         // create
         uac.create(ua);
 
-        ExplainResponse response =
-            uac.retrieveUserAccounts(new ExplainRequestType());
+        ExplainResponse response = uac.retrieveUserAccounts(new ExplainRequestType());
 
         Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
-        assertTrue("No index definitions found", explain
-            .getIndexInfo().getIndexes().size() > 0);
+        assertTrue("No index definitions found", explain.getIndexInfo().getIndexes().size() > 0);
     }
 
     /**
@@ -134,24 +132,17 @@ public class UserAccountFilterVersion12Test {
         UserAccount createdUa = uac.create(ua);
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter
-            .setQuery("\"http://escidoc.de/core/01/properties/creation-date\"=\""
-                + createdUa
-                    .getProperties().getCreationDate()
-                    .withZone(DateTimeZone.UTC) + "\"");
+        srwFilter.setQuery("\"http://escidoc.de/core/01/properties/creation-date\"=\""
+            + createdUa.getProperties().getCreationDate().withZone(DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse response = uac.retrieveUserAccounts(srwFilter);
 
-        Collection<UserAccount> userAccountList =
-            uac.retrieveUserAccountsAsList(srwFilter);
+        Collection<UserAccount> userAccountList = uac.retrieveUserAccountsAsList(srwFilter);
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
-        assertTrue("Wrong number of matching records",
-            response.getNumberOfMatchingRecords() >= 1);
-        assertEquals("Wrong record position", 1, response
-            .getRecords().iterator().next().getRecordPosition().intValue());
-        assertTrue("Different resulting records",
-            userAccountList.size() == response.getNumberOfResultingRecords());
+        assertTrue("Wrong number of matching records", response.getNumberOfMatchingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response.getRecords().iterator().next().getRecordPosition().intValue());
+        assertTrue("Different resulting records", userAccountList.size() == response.getNumberOfResultingRecords());
     }
 }

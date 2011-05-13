@@ -26,8 +26,7 @@ public class ContainerMemberRef extends MemberRef {
      * @param title
      * @param type
      */
-    public ContainerMemberRef(final String href, final String title,
-        final XLinkType type) {
+    public ContainerMemberRef(final String href, final String title, final XLinkType type) {
         super(href, title, type);
     }
 

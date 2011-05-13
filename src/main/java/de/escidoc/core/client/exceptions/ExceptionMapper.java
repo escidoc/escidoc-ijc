@@ -25,23 +25,20 @@ public class ExceptionMapper extends Exception {
      * Common denominator of package names for exceptions inheriting from
      * AxisFault.
      */
-    private static final String PREFIX_REMOTE =
-        "de.escidoc.core.common.exceptions.remote";
+    private static final String PREFIX_REMOTE = "de.escidoc.core.common.exceptions.remote";
 
     /**
      * Common denominator of package names for exceptions inheriting from
      * {@link EscidocClientException}.
      */
-    private static final String PREFIX_CLIENT =
-        "de.escidoc.core.client.exceptions";
+    private static final String PREFIX_CLIENT = "de.escidoc.core.client.exceptions";
 
     /**
      *
      */
     private static final long serialVersionUID = 263830560183559829L;
 
-    private static final Logger LOGGER = Logger
-        .getLogger(ExceptionMapper.class);
+    private static final Logger LOGGER = Logger.getLogger(ExceptionMapper.class);
 
     /**
      * Maps exceptions to an acceptable exception type.
@@ -73,8 +70,8 @@ public class ExceptionMapper extends Exception {
      *             if any of the parameters <code>exception</code> or
      *             <code>log</code> is null.
      */
-    public static void map(final Exception exception, final Logger log)
-        throws EscidocException, InternalClientException, TransportException {
+    public static void map(final Exception exception, final Logger log) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(exception);
         checkNotNull(log);
@@ -108,16 +105,14 @@ public class ExceptionMapper extends Exception {
      * @throws EscidocException
      */
     public static void constructEscidocException(
-        final String exceptionXml, final int statusCode,
-        final String redirectLocation) throws SystemException, RemoteException {
+        final String exceptionXml, final int statusCode, final String redirectLocation) throws SystemException,
+        RemoteException {
 
         RemoteExceptionWrapper result = null;
 
         try {
             Marshaller<RemoteExceptionWrapper> m =
-                MarshallerFactory
-                    .getInstance(TransportProtocol.REST).getMarshaller(
-                        RemoteExceptionWrapper.class);
+                MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(RemoteExceptionWrapper.class);
             m.setUserContext(new HttpStatusInfo(statusCode, redirectLocation));
             result = m.unmarshalDocument(exceptionXml);
         }
@@ -136,20 +131,14 @@ public class ExceptionMapper extends Exception {
      * @throws EscidocException
      */
     private static void constructEscidocException(
-        final de.escidoc.core.common.exceptions.remote.EscidocException commonE)
-        throws InternalClientException, EscidocException {
+        final de.escidoc.core.common.exceptions.remote.EscidocException commonE) throws InternalClientException,
+        EscidocException {
 
         EscidocException result = null;
         try {
-            Class<?>[] parameterTypes =
-                new Class[] { String.class, Throwable.class };
-            Class<?> exClass =
-                Class
-                    .forName(commonE
-                        .getClass().getName()
-                        .replace(PREFIX_REMOTE, PREFIX_CLIENT));
-            Constructor<?> constructor =
-                exClass.getDeclaredConstructor(parameterTypes);
+            Class<?>[] parameterTypes = new Class[] { String.class, Throwable.class };
+            Class<?> exClass = Class.forName(commonE.getClass().getName().replace(PREFIX_REMOTE, PREFIX_CLIENT));
+            Constructor<?> constructor = exClass.getDeclaredConstructor(parameterTypes);
 
             String msg = commonE.getMessage();
             if (msg == null) {

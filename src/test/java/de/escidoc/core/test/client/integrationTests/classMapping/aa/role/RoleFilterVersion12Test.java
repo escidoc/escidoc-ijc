@@ -87,10 +87,8 @@ public class RoleFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rc = new RoleHandlerClient(auth.getServiceAddress());
         rc.setHandle(auth.getHandle());
     }
@@ -116,8 +114,7 @@ public class RoleFilterVersion12Test {
         Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
-        assertTrue("No index definitions found", explain
-            .getIndexInfo().getIndexes().size() > 0);
+        assertTrue("No index definitions found", explain.getIndexInfo().getIndexes().size() > 0);
     }
 
     /**
@@ -133,11 +130,8 @@ public class RoleFilterVersion12Test {
         // now check if at least this Container is in the list
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter
-            .setQuery("\"http://escidoc.de/core/01/properties/creation-date\"=\""
-                + createdRole
-                    .getProperties().getCreationDate()
-                    .withZone(DateTimeZone.UTC) + "\"");
+        srwFilter.setQuery("\"http://escidoc.de/core/01/properties/creation-date\"=\""
+            + createdRole.getProperties().getCreationDate().withZone(DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
         srwFilter.setRecordPacking(RecordPacking.XML.toString());
         evaluateResponse(srwFilter);
@@ -151,20 +145,17 @@ public class RoleFilterVersion12Test {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private void evaluateResponse(final SearchRetrieveRequestType srwFilter)
-        throws EscidocException, InternalClientException, TransportException {
+    private void evaluateResponse(final SearchRetrieveRequestType srwFilter) throws EscidocException,
+        InternalClientException, TransportException {
 
         SearchRetrieveResponse response = rc.retrieveRoles(srwFilter);
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
-        assertTrue("Wrong number of matching records",
-            response.getNumberOfMatchingRecords() >= 1);
-        assertEquals("Wrong record position", 1, response
-            .getRecords().iterator().next().getRecordPosition().intValue());
+        assertTrue("Wrong number of matching records", response.getNumberOfMatchingRecords() >= 1);
+        assertEquals("Wrong record position", 1, response.getRecords().iterator().next().getRecordPosition().intValue());
 
         Collection<Role> roles = rc.retrieveRolesAsList(srwFilter);
-        assertTrue("Different number of resulting records",
-            response.getNumberOfResultingRecords() == roles.size());
+        assertTrue("Different number of resulting records", response.getNumberOfResultingRecords() == roles.size());
     }
 
     /**
@@ -183,8 +174,7 @@ public class RoleFilterVersion12Test {
      * 
      * @throws Exception
      */
-    private Role createRole() throws ParserConfigurationException,
-        SAXException, IOException, InternalClientException {
+    private Role createRole() throws ParserConfigurationException, SAXException, IOException, InternalClientException {
 
         Role role = new Role();
 
@@ -197,13 +187,10 @@ public class RoleFilterVersion12Test {
         Scope scope = new Scope();
         // context -> item scope
         ScopeDef scopeDef1 =
-            new ScopeDef(ResourceType.ITEM,
-                "info:escidoc/names:aa:1.0:resource:item:context",
-                ResourceType.CONTEXT);
+            new ScopeDef(ResourceType.ITEM, "info:escidoc/names:aa:1.0:resource:item:context", ResourceType.CONTEXT);
         // context -> container scope
         ScopeDef scopeDef2 =
-            new ScopeDef(ResourceType.CONTAINER,
-                "info:escidoc/names:aa:1.0:resource:container:context",
+            new ScopeDef(ResourceType.CONTAINER, "info:escidoc/names:aa:1.0:resource:container:context",
                 ResourceType.CONTEXT);
 
         List<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
@@ -218,15 +205,14 @@ public class RoleFilterVersion12Test {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc =
-            builder.parse(Template.load(TransportProtocol.REST
-                .name().toLowerCase() + "/aa/role/policy_for_create.xml"));
+            builder
+                .parse(Template.load(TransportProtocol.REST.name().toLowerCase() + "/aa/role/policy_for_create.xml"));
         Element root = doc.getDocumentElement();
 
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m =
-            MarshallerFactory.getInstance().getMarshaller(Role.class);
+        Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
 
         String xml = m.marshalDocument(role);
 

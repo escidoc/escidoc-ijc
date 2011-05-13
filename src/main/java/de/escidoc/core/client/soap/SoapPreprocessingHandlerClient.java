@@ -22,8 +22,7 @@ import de.escidoc.core.sm.PreprocessingHandlerServiceLocator;
  */
 public class SoapPreprocessingHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(SoapPreprocessingHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapPreprocessingHandlerClient.class);
 
     private PreprocessingHandler client;
 
@@ -40,8 +39,7 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapPreprocessingHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapPreprocessingHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -54,8 +52,7 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapPreprocessingHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapPreprocessingHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -66,13 +63,11 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
      * @param xmlData
      *            preprocessing-information as xml in statistic-data schema.
      */
-    public void preprocess(
-        final String aggregationDefinitionId, final String xmlData)
-        throws EscidocException, InternalClientException, TransportException {
+    public void preprocess(final String aggregationDefinitionId, final String xmlData) throws EscidocException,
+        InternalClientException, TransportException {
 
         if (aggregationDefinitionId == null)
-            throw new IllegalArgumentException(
-                "aggregationDefinitionId must not be null.");
+            throw new IllegalArgumentException("aggregationDefinitionId must not be null.");
         if (xmlData == null)
             throw new IllegalArgumentException("xmlData must not be null.");
 
@@ -89,9 +84,7 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
         if (client == null) {
             PreprocessingHandlerServiceLocator serviceLocator =
                 new PreprocessingHandlerServiceLocator(getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getPreprocessingHandlerServiceAddress());
+            URL url = getHandlerServiceURL(serviceLocator.getPreprocessingHandlerServiceAddress());
             try {
                 client = serviceLocator.getPreprocessingHandlerService(url);
             }

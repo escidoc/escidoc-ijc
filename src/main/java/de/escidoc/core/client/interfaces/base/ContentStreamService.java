@@ -22,8 +22,8 @@ public interface ContentStreamService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    ContentStreams retrieveContentStreams(final String id)
-        throws EscidocException, InternalClientException, TransportException;
+    ContentStreams retrieveContentStreams(final String id) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -34,8 +34,8 @@ public interface ContentStreamService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    ContentStream retrieveContentStream(final String id, final String name)
-        throws EscidocException, InternalClientException, TransportException;
+    ContentStream retrieveContentStream(final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -46,7 +46,6 @@ public interface ContentStreamService {
      * @throws InternalClientException
      * @throws TransportException
      */
-    HttpInputStream retrieveContentStreamContent(
-        final String id, final String name) throws EscidocException,
+    HttpInputStream retrieveContentStreamContent(final String id, final String name) throws EscidocException,
         InternalClientException, TransportException;
 }

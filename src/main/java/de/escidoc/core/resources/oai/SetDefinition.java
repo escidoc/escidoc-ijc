@@ -25,8 +25,7 @@ public class SetDefinition extends GenericResource {
 
     private String query;
 
-    private static final Pattern SET_SPEC_TYPE = Pattern
-        .compile("[A-Za-z0-9\\-_\\.!~\\*'\\(\\)]+");
+    private static final Pattern SET_SPEC_TYPE = Pattern.compile("[A-Za-z0-9\\-_\\.!~\\*'\\(\\)]+");
 
     /**
      * JiBX-Constructor

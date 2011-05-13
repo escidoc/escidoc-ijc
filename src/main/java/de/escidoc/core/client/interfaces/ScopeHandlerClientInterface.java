@@ -21,8 +21,7 @@ import de.escidoc.core.resources.sm.scope.Scope;
  * @author MVO
  * 
  */
-public interface ScopeHandlerClientInterface
-    extends HandlerService, CrudService<Scope> {
+public interface ScopeHandlerClientInterface extends HandlerService, CrudService<Scope> {
 
     /**
      * 
@@ -32,8 +31,7 @@ public interface ScopeHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveScopes(
-        final SearchRetrieveRequestType request) throws EscidocException,
+    SearchRetrieveResponse retrieveScopes(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -44,8 +42,8 @@ public interface ScopeHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<Scope> retrieveScopesAsList(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    List<Scope> retrieveScopesAsList(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -55,6 +53,6 @@ public interface ScopeHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveScopes(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveScopes(final ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException;
 }

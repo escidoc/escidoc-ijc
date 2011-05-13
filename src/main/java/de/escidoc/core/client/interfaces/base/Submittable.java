@@ -25,8 +25,7 @@ public interface Submittable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result submit(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
+    Result submit(final String id, final TaskParam taskParam) throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
@@ -38,7 +37,6 @@ public interface Submittable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result submit(final T resource, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
+    Result submit(final T resource, final TaskParam taskParam) throws EscidocClientException, InternalClientException,
         TransportException;
 }

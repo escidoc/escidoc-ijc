@@ -53,10 +53,8 @@ public class OuParentsTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ohc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ohc.setHandle(auth.getHandle());
     }
@@ -84,12 +82,8 @@ public class OuParentsTest {
     @Test
     public void testParentsUpdate01() throws Exception {
 
-        OrganizationalUnit ouParent =
-            createOU("parent OU @ " + System.currentTimeMillis(),
-                "parent description");
-        OrganizationalUnit ouChild =
-            createOU("child OU @ " + System.currentTimeMillis(),
-                "child description");
+        OrganizationalUnit ouParent = createOU("parent OU @ " + System.currentTimeMillis(), "parent description");
+        OrganizationalUnit ouChild = createOU("child OU @ " + System.currentTimeMillis(), "child description");
 
         Parents p = new Parents();
         p.add(new Parent(ouParent.getObjid()));
@@ -101,12 +95,10 @@ public class OuParentsTest {
         // test parents
         assertNotNull(ouChildNew.getParents());
         assertTrue(ouChildNew.getParents().size() == 1);
-        assertEquals(p.get(0).getObjid(), ouChildNew
-            .getParents().get(0).getObjid());
+        assertEquals(p.get(0).getObjid(), ouChildNew.getParents().get(0).getObjid());
 
         // test if parents children got updated
-        List<OrganizationalUnit> ouChildren =
-            ohc.retrieveChildObjectsAsList(ouParent.getObjid());
+        List<OrganizationalUnit> ouChildren = ohc.retrieveChildObjectsAsList(ouParent.getObjid());
 
         assertTrue(ouChildren.size() == 1);
         assertEquals(ouChildNew.getObjid(), ouChildren.get(0).getObjid());
@@ -132,15 +124,9 @@ public class OuParentsTest {
     @Test
     public void testParentsUpdate02() throws Exception {
 
-        OrganizationalUnit A =
-            createOU("OU A @ " + System.currentTimeMillis(),
-                "parent description");
-        OrganizationalUnit B =
-            createOU("OU B @ " + System.currentTimeMillis(),
-                "child description");
-        OrganizationalUnit C =
-            createOU("OU C @ " + System.currentTimeMillis(),
-                "child description");
+        OrganizationalUnit A = createOU("OU A @ " + System.currentTimeMillis(), "parent description");
+        OrganizationalUnit B = createOU("OU B @ " + System.currentTimeMillis(), "child description");
+        OrganizationalUnit C = createOU("OU C @ " + System.currentTimeMillis(), "child description");
 
         Parents B2A = new Parents();
         B2A.add(new Parent(A.getObjid()));
@@ -183,15 +169,9 @@ public class OuParentsTest {
     @Test(expected = OptimisticLockingException.class)
     public void testParentsUpdate03() throws Exception {
 
-        OrganizationalUnit A =
-            createOU("OU A @ " + System.currentTimeMillis(),
-                "parent description");
-        OrganizationalUnit B =
-            createOU("OU B @ " + System.currentTimeMillis(),
-                "child description");
-        OrganizationalUnit C =
-            createOU("OU C @ " + System.currentTimeMillis(),
-                "child description");
+        OrganizationalUnit A = createOU("OU A @ " + System.currentTimeMillis(), "parent description");
+        OrganizationalUnit B = createOU("OU B @ " + System.currentTimeMillis(), "child description");
+        OrganizationalUnit C = createOU("OU C @ " + System.currentTimeMillis(), "child description");
 
         Parents B2A = new Parents();
         B2A.add(new Parent(A.getObjid()));
@@ -222,14 +202,11 @@ public class OuParentsTest {
      * @throws TransportException
      * @throws ParserConfigurationException
      */
-    private OrganizationalUnit createOU(
-        final String name, final String description) throws EscidocException,
-        InternalClientException, TransportException,
-        ParserConfigurationException {
+    private OrganizationalUnit createOU(final String name, final String description) throws EscidocException,
+        InternalClientException, TransportException, ParserConfigurationException {
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName(name);
         organizationalUnit.setProperties(properties);
 
@@ -251,8 +228,7 @@ public class OuParentsTest {
      * @throws ParserConfigurationException
      */
     private MetadataRecord createMdRecordDC(
-        final String mdRecordName, final String rootElementName,
-        final String title, final String description)
+        final String mdRecordName, final String rootElementName, final String title, final String description)
         throws ParserConfigurationException {
 
         // md-record
@@ -269,16 +245,13 @@ public class OuParentsTest {
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element titleElmt =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
         titleElmt.setTextContent(title);
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
-        Element descriptionElmt =
-            doc.createElementNS("http://purl.org/dc/elements/1.1/",
-                "description");
+        Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
         descriptionElmt.setTextContent(description);
         mdRecordContent.appendChild(descriptionElmt);

@@ -71,10 +71,8 @@ public class IngestTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
     }
 
     @After
@@ -91,22 +89,15 @@ public class IngestTest {
     @Test
     public void testIngestItem01() throws Exception {
 
-        RestItemHandlerClient ihc =
-            new RestItemHandlerClient(auth.getServiceAddress());
+        RestItemHandlerClient ihc = new RestItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
 
-        Marshaller<Item> m =
-            MarshallerFactory
-                .getInstance(TransportProtocol.REST).getMarshaller(Item.class);
+        Marshaller<Item> m = MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Item.class);
 
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
         ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
@@ -129,8 +120,7 @@ public class IngestTest {
         String itemXml = ihc.retrieve(objId);
 
         // ingest Item
-        RestIngestHandlerClient inhc =
-            new RestIngestHandlerClient(auth.getServiceAddress());
+        RestIngestHandlerClient inhc = new RestIngestHandlerClient(auth.getServiceAddress());
         inhc.setHandle(auth.getHandle());
 
         inhc.ingest(itemXml);
@@ -144,23 +134,17 @@ public class IngestTest {
      */
     @Test
     public void testIngestContainer01() throws Exception {
-        RestContainerHandlerClient cc =
-            new RestContainerHandlerClient(auth.getServiceAddress());
+        RestContainerHandlerClient cc = new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
-        Marshaller<Container> m =
-            MarshallerFactory
-                .getInstance(TransportProtocol.REST).getMarshaller(
-                    Container.class);
+        Marshaller<Container> m = MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Container.class);
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -196,8 +180,7 @@ public class IngestTest {
         String containerXml = cc.retrieve(objId);
 
         // ingest Item
-        RestIngestHandlerClient rihc =
-            new RestIngestHandlerClient(auth.getServiceAddress());
+        RestIngestHandlerClient rihc = new RestIngestHandlerClient(auth.getServiceAddress());
         rihc.setHandle(auth.getHandle());
 
         rihc.ingest(containerXml);
@@ -205,23 +188,17 @@ public class IngestTest {
 
     @Test
     public void testIngestContainer02() throws Exception {
-        RestContainerHandlerClient cc =
-            new RestContainerHandlerClient(auth.getServiceAddress());
+        RestContainerHandlerClient cc = new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
-        Marshaller<Container> m =
-            MarshallerFactory
-                .getInstance(TransportProtocol.REST).getMarshaller(
-                    Container.class);
+        Marshaller<Container> m = MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Container.class);
 
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -251,8 +228,7 @@ public class IngestTest {
         String resultXml = m.marshalDocument(container);
 
         // ingest Item
-        RestIngestHandlerClient rihc =
-            new RestIngestHandlerClient(auth.getServiceAddress());
+        RestIngestHandlerClient rihc = new RestIngestHandlerClient(auth.getServiceAddress());
         rihc.setHandle(auth.getHandle());
 
         rihc.ingest(resultXml);

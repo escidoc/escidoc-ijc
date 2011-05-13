@@ -27,13 +27,11 @@ import de.escidoc.core.resources.aa.pdp.Results;
  * @author MVO
  * 
  */
-public class PDPResultsMarshaller extends MarshallingBase
-    implements IMarshaller, IUnmarshaller, IAliasable {
+public class PDPResultsMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
     public static final String NS_XACML_PREFIX = "xacml-context";
 
-    public static final String NS_XACML =
-        "urn:oasis:names:tc:xacml:1.0:context";
+    public static final String NS_XACML = "urn:oasis:names:tc:xacml:1.0:context";
 
     public static final String TAG_NAME_ESCIDOC_RESULT = "result";
 
@@ -57,14 +55,12 @@ public class PDPResultsMarshaller extends MarshallingBase
 
     // public static final String TAG_NAME_
 
-    public PDPResultsMarshaller(final String uri, final int index,
-        final String name) {
+    public PDPResultsMarshaller(final String uri, final int index, final String name) {
         super(uri, index, name);
     }
 
     @Override
-    public boolean isPresent(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx) throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -74,8 +70,7 @@ public class PDPResultsMarshaller extends MarshallingBase
     }
 
     @Override
-    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
         if (!(ictx instanceof UnmarshallingContext)) {
             throw new JiBXException("Unexpected unmarshalling context type.");
@@ -135,19 +130,16 @@ public class PDPResultsMarshaller extends MarshallingBase
      * @return
      * @throws JiBXException
      */
-    private ResponseCtx parseXACMLContent(final UnmarshallingContext ctx)
-        throws JiBXException {
+    private ResponseCtx parseXACMLContent(final UnmarshallingContext ctx) throws JiBXException {
 
         ctx.parsePastStartTag(NS_XACML, TAG_NAME_XACML_RESPONSE);
 
-        Set<com.sun.xacml.ctx.Result> xacmlResults =
-            new HashSet<com.sun.xacml.ctx.Result>();
+        Set<com.sun.xacml.ctx.Result> xacmlResults = new HashSet<com.sun.xacml.ctx.Result>();
 
         while (ctx.isAt(NS_XACML, TAG_NAME_XACML_RESULT)) {
 
             // optional
-            String resourceId =
-                ctx.attributeText(null, ATTR_NAME_XACML_RESOURCE_ID, null);
+            String resourceId = ctx.attributeText(null, ATTR_NAME_XACML_RESOURCE_ID, null);
 
             ctx.parsePastStartTag(NS_XACML, TAG_NAME_XACML_RESULT);
 
@@ -166,8 +158,7 @@ public class PDPResultsMarshaller extends MarshallingBase
                 ctx.parsePastEndTag(NS_XACML, TAG_NAME_XACML_STATUS_CODE);
             }
             else {
-                throw new JiBXException("Missing required "
-                    + TAG_NAME_XACML_STATUS_CODE + " tag.");
+                throw new JiBXException("Missing required " + TAG_NAME_XACML_STATUS_CODE + " tag.");
             }
 
             // optional
@@ -176,16 +167,13 @@ public class PDPResultsMarshaller extends MarshallingBase
             if (ctx.isAt(NS_XACML, TAG_NAME_XACML_STATUS_MESSAGE)) {
                 ctx.parsePastStartTag(NS_XACML, TAG_NAME_XACML_STATUS_MESSAGE);
 
-                statusMessage =
-                    ctx.parseContentText(NS_XACML,
-                        TAG_NAME_XACML_STATUS_MESSAGE);
+                statusMessage = ctx.parseContentText(NS_XACML, TAG_NAME_XACML_STATUS_MESSAGE);
             }
 
             ctx.parsePastEndTag(NS_XACML, TAG_NAME_XACML_STATUS);
             ctx.parsePastEndTag(NS_XACML, TAG_NAME_XACML_RESULT);
 
-            addXACMLResult(xacmlResults, statusCode, statusMessage,
-                pdpDecision, resourceId);
+            addXACMLResult(xacmlResults, statusCode, statusMessage, pdpDecision, resourceId);
         }
 
         ctx.parsePastEndTag(NS_XACML, TAG_NAME_XACML_RESPONSE);
@@ -202,9 +190,8 @@ public class PDPResultsMarshaller extends MarshallingBase
      * @param resourceId
      */
     private void addXACMLResult(
-        final Set<com.sun.xacml.ctx.Result> results, final String statusCode,
-        final String statusMessage, final String decision,
-        final String resourceId) {
+        final Set<com.sun.xacml.ctx.Result> results, final String statusCode, final String statusMessage,
+        final String decision, final String resourceId) {
 
         // construct Status object
         List<String> codes = new LinkedList<String>();
@@ -218,13 +205,11 @@ public class PDPResultsMarshaller extends MarshallingBase
                 decisionCode = i;
         }
 
-        results.add(new com.sun.xacml.ctx.Result(decisionCode, status,
-            resourceId, null));
+        results.add(new com.sun.xacml.ctx.Result(decisionCode, status, resourceId, null));
     }
 
     @Override
-    public void marshal(final Object obj, final IMarshallingContext ctx)
-        throws JiBXException {
+    public void marshal(final Object obj, final IMarshallingContext ctx) throws JiBXException {
         throw new JiBXException("Method not yet supported.");
     }
 

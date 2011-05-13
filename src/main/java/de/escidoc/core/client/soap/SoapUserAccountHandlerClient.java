@@ -54,8 +54,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapUserAccountHandlerClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapUserAccountHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapUserAccountHandlerClient.class);
 
     private UserAccountHandler soapClient = null;
 
@@ -72,8 +71,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapUserAccountHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapUserAccountHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -86,8 +84,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapUserAccountHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapUserAccountHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -100,8 +97,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#create(java.lang.String)
      */
-    public String create(final String userAccount) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String userAccount) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -121,8 +117,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -141,8 +136,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -165,8 +159,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @see de.escidoc.core.om.service.interfaces.UserAccountHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String userAccount)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String userAccount) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -189,9 +183,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void updatePassword(final String userId, final String taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public void updatePassword(final String userId, final String taskParam) throws EscidocClientException,
+        InternalClientException, TransportException {
         try {
             getClient().updatePassword(userId, taskParam);
         }
@@ -209,9 +202,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void activate(final String userId, final String taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public void activate(final String userId, final String taskParam) throws EscidocClientException,
+        InternalClientException, TransportException {
         try {
             getClient().activate(userId, taskParam);
         }
@@ -229,9 +221,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void deactivate(final String userId, final String taskParam)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public void deactivate(final String userId, final String taskParam) throws EscidocClientException,
+        InternalClientException, TransportException {
         try {
             getClient().deactivate(userId, taskParam);
         }
@@ -248,8 +239,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveCurrentUser() throws EscidocClientException,
-        InternalClientException, TransportException {
+    public String retrieveCurrentUser() throws EscidocClientException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -271,8 +261,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveCurrentGrants(final String userId)
-        throws EscidocClientException, InternalClientException,
+    public String retrieveCurrentGrants(final String userId) throws EscidocClientException, InternalClientException,
         TransportException {
 
         String result = null;
@@ -295,9 +284,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveGrant(final String userId, final String grantId)
-        throws EscidocClientException, InternalClientException,
-        TransportException {
+    public String retrieveGrant(final String userId, final String grantId) throws EscidocClientException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -322,8 +310,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String createPreference(final String id, final String preferenceXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createPreference(final String id, final String preferenceXml) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -346,8 +334,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrievePreferences(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrievePreferences(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -372,8 +360,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrievePreference(final String id, final String key)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrievePreference(final String id, final String key) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -400,9 +388,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String updatePreference(
-        final String id, final String key, final String value)
-        throws EscidocException, InternalClientException, TransportException {
+    public String updatePreference(final String id, final String key, final String value) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -427,8 +414,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String updatePreferences(final String id, final String preferencesXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String updatePreferences(final String id, final String preferencesXml) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -453,8 +440,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void deletePreference(final String id, final String key)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deletePreference(final String id, final String key) throws EscidocException, InternalClientException,
+        TransportException {
 
         try {
             getClient().deletePreference(id, key);
@@ -477,8 +464,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String createAttribute(final String id, final String attributeXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createAttribute(final String id, final String attributeXml) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -501,8 +488,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAttributes(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveAttributes(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -527,8 +514,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveAttribute(final String id, final String attributeId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveAttribute(final String id, final String attributeId) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -555,8 +542,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String updateAttribute(
-        final String id, final String attributeId, final String value)
+    public String updateAttribute(final String id, final String attributeId, final String value)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
@@ -605,8 +591,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void deleteAttribute(final String id, final String attributeId)
-        throws EscidocException, InternalClientException, TransportException {
+    public void deleteAttribute(final String id, final String attributeId) throws EscidocException,
+        InternalClientException, TransportException {
 
         try {
             getClient().deleteAttribute(id, attributeId);
@@ -630,8 +616,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveNamedAttributes(
-        final String id, final String attributeName) throws EscidocException,
+    public String retrieveNamedAttributes(final String id, final String attributeName) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -652,8 +637,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveUserAccounts(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveUserAccounts(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
 
@@ -668,8 +653,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveUserAccounts(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveUserAccounts(final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -689,8 +674,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveUserAccounts(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveUserAccounts(final ExplainRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(filter);
         return retrieveUserAccounts(getEscidoc12Filter(filter));
@@ -709,8 +694,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String createGrant(final String id, final String grantXml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String createGrant(final String id, final String grantXml) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -734,9 +719,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void revokeGrant(
-        final String id, final String grantId, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public void revokeGrant(final String id, final String grantId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         try {
             getClient().revokeGrant(id, grantId, taskParam);
@@ -754,8 +738,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveGrants(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveGrants(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
 
@@ -770,8 +754,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveGrants(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveGrants(final ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException {
 
         evalRequest(request);
 
@@ -786,8 +770,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveGrants(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveGrants(final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -807,11 +791,8 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
     @Override
     public UserAccountHandler getClient() throws InternalClientException {
         if (soapClient == null) {
-            UserAccountHandlerServiceLocator serviceLocator =
-                new UserAccountHandlerServiceLocator(getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getUserAccountHandlerServiceAddress());
+            UserAccountHandlerServiceLocator serviceLocator = new UserAccountHandlerServiceLocator(getEngineConfig());
+            URL url = getHandlerServiceURL(serviceLocator.getUserAccountHandlerServiceAddress());
             try {
                 soapClient = serviceLocator.getUserAccountHandlerService(url);
             }

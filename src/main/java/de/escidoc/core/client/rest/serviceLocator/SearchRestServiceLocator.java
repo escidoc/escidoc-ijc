@@ -17,8 +17,7 @@ import de.escidoc.core.client.interfaces.SearchHandler;
  * @author MVO
  * 
  */
-public class SearchRestServiceLocator extends RestServiceMethod
-    implements SearchHandler {
+public class SearchRestServiceLocator extends RestServiceMethod implements SearchHandler {
 
     public static final String PATH = "/srw/search";
 
@@ -32,24 +31,19 @@ public class SearchRestServiceLocator extends RestServiceMethod
      * .srw.ExplainRequestType, java.lang.String)
      */
     @Override
-    public String explain(final ExplainRequestType explainRequestType)
-        throws RemoteException {
-        return get(PATH + "/" + (this.database == null ? "" : database)
-            + "/" + getExplainRequest(explainRequestType));
+    public String explain(final ExplainRequestType explainRequestType) throws RemoteException {
+        return get(PATH + "/" + (this.database == null ? "" : database) + "/" + getExplainRequest(explainRequestType));
     }
 
     @Override
-    public String search(final SearchRetrieveRequestType searchRequestType)
-        throws RemoteException, UnsupportedEncodingException {
-        return get(PATH + "/" + (this.database == null ? "" : database)
-            + "/" + getSearchRequest(searchRequestType));
+    public String search(final SearchRetrieveRequestType searchRequestType) throws RemoteException,
+        UnsupportedEncodingException {
+        return get(PATH + "/" + (this.database == null ? "" : database) + "/" + getSearchRequest(searchRequestType));
     }
 
     @Override
-    public String scan(final ScanRequestType scanRequestType)
-        throws RemoteException, UnsupportedEncodingException {
-        return get(PATH + "/" + (this.database == null ? "" : database)
-            + "/" + getScanRequest(scanRequestType));
+    public String scan(final ScanRequestType scanRequestType) throws RemoteException, UnsupportedEncodingException {
+        return get(PATH + "/" + (this.database == null ? "" : database) + "/" + getScanRequest(scanRequestType));
     }
 
     /**
@@ -79,22 +73,17 @@ public class SearchRestServiceLocator extends RestServiceMethod
      * @return
      * @throws UnsupportedEncodingException
      */
-    private String getSearchRequest(final SearchRetrieveRequestType request)
-        throws UnsupportedEncodingException {
+    private String getSearchRequest(final SearchRetrieveRequestType request) throws UnsupportedEncodingException {
         String result = "?operation=searchRetrieve";
 
         if (request.getQuery() != null) {
-            result +=
-                "&query=" + URLEncoder.encode(request.getQuery(), "UTF-8");
+            result += "&query=" + URLEncoder.encode(request.getQuery(), "UTF-8");
         }
         if (request.getStartRecord() != null) {
-            result +=
-                "&startRecord=" + String.valueOf(request.getStartRecord());
+            result += "&startRecord=" + String.valueOf(request.getStartRecord());
         }
         if (request.getMaximumRecords() != null) {
-            result +=
-                "&maximumRecords="
-                    + String.valueOf(request.getMaximumRecords());
+            result += "&maximumRecords=" + String.valueOf(request.getMaximumRecords());
         }
         if (request.getRecordPacking() != null) {
             result += "&recordPacking=" + request.getRecordPacking();
@@ -106,8 +95,7 @@ public class SearchRestServiceLocator extends RestServiceMethod
             result += "&recordXPath=" + request.getRecordXPath();
         }
         if (request.getResultSetTTL() != null) {
-            result +=
-                "&resultSetTTL=" + String.valueOf(request.getResultSetTTL());
+            result += "&resultSetTTL=" + String.valueOf(request.getResultSetTTL());
         }
         if (request.getSortKeys() != null) {
             result += "&sortKeys=" + request.getSortKeys();
@@ -125,23 +113,17 @@ public class SearchRestServiceLocator extends RestServiceMethod
      * @return
      * @throws UnsupportedEncodingException
      */
-    private String getScanRequest(final ScanRequestType request)
-        throws UnsupportedEncodingException {
+    private String getScanRequest(final ScanRequestType request) throws UnsupportedEncodingException {
         String result = "?operation=scan";
 
         if (request.getScanClause() != null) {
-            result +=
-                "&scanClause="
-                    + URLEncoder.encode(request.getScanClause(), "UTF-8");
+            result += "&scanClause=" + URLEncoder.encode(request.getScanClause(), "UTF-8");
         }
         if (request.getResponsePosition() != null) {
-            result +=
-                "&responsePosition="
-                    + String.valueOf(request.getResponsePosition());
+            result += "&responsePosition=" + String.valueOf(request.getResponsePosition());
         }
         if (request.getMaximumTerms() != null) {
-            result +=
-                "&maximumTerms=" + String.valueOf(request.getMaximumTerms());
+            result += "&maximumTerms=" + String.valueOf(request.getMaximumTerms());
         }
         if (request.getStylesheet() != null) {
             result += "&stylesheet=" + String.valueOf(request.getStylesheet());

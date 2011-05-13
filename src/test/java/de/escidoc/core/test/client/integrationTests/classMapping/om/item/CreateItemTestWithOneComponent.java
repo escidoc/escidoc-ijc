@@ -44,8 +44,7 @@ public class CreateItemTestWithOneComponent {
 
     private static final String TEST_FILE_PATH = "./resources/escidoc.jpeg";
 
-    private static final Logger log = LoggerFactory
-        .getLogger(CreateItemTestWithOneComponent.class);
+    private static final Logger log = LoggerFactory.getLogger(CreateItemTestWithOneComponent.class);
 
     private StagingHandlerClientInterface stagingClient;
 
@@ -70,8 +69,7 @@ public class CreateItemTestWithOneComponent {
      * @throws Exception
      */
     @Test
-    public void shouldReturnNonEmptyContentXlinkHrefWhenItemIsRetrieved()
-        throws Exception {
+    public void shouldReturnNonEmptyContentXlinkHrefWhenItemIsRetrieved() throws Exception {
 
         // staging
         URL contentRef = stagingClient.upload(new File(TEST_FILE_PATH));
@@ -83,8 +81,7 @@ public class CreateItemTestWithOneComponent {
 
         final Item retrievedItem = itemClient.retrieve(objid);
         final Components components = retrievedItem.getComponents();
-        assertTrue("component size should be bigger than 0",
-            components.size() > 0);
+        assertTrue("component size should be bigger than 0", components.size() > 0);
 
         for (final Component component : components) {
             final ComponentContent content = component.getContent();
@@ -100,10 +97,8 @@ public class CreateItemTestWithOneComponent {
      */
     private void authentificate() throws EscidocClientException {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
     }
 
     /**
@@ -111,8 +106,7 @@ public class CreateItemTestWithOneComponent {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private void initStagingClient() throws EscidocException,
-        InternalClientException, TransportException {
+    private void initStagingClient() throws EscidocException, InternalClientException, TransportException {
         stagingClient = new StagingHandlerClient(auth.getServiceAddress());
         stagingClient.setHandle(auth.getHandle());
     }
@@ -133,15 +127,12 @@ public class CreateItemTestWithOneComponent {
      * @throws EscidocException
      * @throws TransportException
      */
-    private Item initItem(final URL contentRef)
-        throws ParserConfigurationException, TransportException,
+    private Item initItem(final URL contentRef) throws ParserConfigurationException, TransportException,
         EscidocException, InternalClientException {
         Item item = new Item();
         ItemProperties properties = item.getProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         setMdRecords(item);
         setComponents(item, contentRef);
         return item;
@@ -151,12 +142,10 @@ public class CreateItemTestWithOneComponent {
      * @param item
      * @throws ParserConfigurationException
      */
-    private void setMdRecords(final Item item)
-        throws ParserConfigurationException {
+    private void setMdRecords(final Item item) throws ParserConfigurationException {
         MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
-        final DocumentBuilderFactory factory =
-            DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document document = builder.newDocument();
         final Element element = document.createElementNS(null, "myMdRecord");
@@ -184,8 +173,7 @@ public class CreateItemTestWithOneComponent {
      * @param component
      * @param contentRef
      */
-    private void setComponentContent(
-        final Component component, final URL contentRef) {
+    private void setComponentContent(final Component component, final URL contentRef) {
         ComponentContent content = new ComponentContent();
         content.setXLinkHref(contentRef.toString());
         content.setStorage(StorageType.INTERNAL_MANAGED);
@@ -196,8 +184,7 @@ public class CreateItemTestWithOneComponent {
      * @param component
      * @param contentRef
      */
-    private void setComponentProperties(
-        final Component component, final URL contentRef) {
+    private void setComponentProperties(final Component component, final URL contentRef) {
         ComponentProperties properties = new ComponentProperties();
         properties.setDescription("Random content");
         properties.setFileName(contentRef.getFile());

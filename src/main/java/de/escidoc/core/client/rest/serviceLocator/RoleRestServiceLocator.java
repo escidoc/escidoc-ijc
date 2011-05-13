@@ -26,16 +26,13 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author SWA
  * 
  */
-public class RoleRestServiceLocator extends RestServiceMethod
-    implements RoleHandler {
+public class RoleRestServiceLocator extends RestServiceMethod implements RoleHandler {
 
     public static final String PATH = "/aa/role";
 
     @Override
-    public void delete(final String roleId) throws RemoteException,
-        SystemException, RoleNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, RoleInUseViolationException {
+    public void delete(final String roleId) throws RemoteException, SystemException, RoleNotFoundException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, RoleInUseViolationException {
 
         checkNotNull(roleId);
 
@@ -44,10 +41,9 @@ public class RoleRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String create(final String roleXml) throws RemoteException,
-        UniqueConstraintViolationException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String create(final String roleXml) throws RemoteException, UniqueConstraintViolationException,
+        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(roleXml);
 
@@ -55,11 +51,10 @@ public class RoleRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String update(final String roleId, final String roleXml)
-        throws RemoteException, UniqueConstraintViolationException,
-        OptimisticLockingException, SystemException, RoleNotFoundException,
-        MissingAttributeValueException, MissingMethodParameterException,
-        AuthenticationException, AuthorizationException, InvalidXmlException {
+    public String update(final String roleId, final String roleXml) throws RemoteException,
+        UniqueConstraintViolationException, OptimisticLockingException, SystemException, RoleNotFoundException,
+        MissingAttributeValueException, MissingMethodParameterException, AuthenticationException,
+        AuthorizationException, InvalidXmlException {
 
         checkNotNull(roleId);
         checkNotNull(roleXml);
@@ -68,32 +63,26 @@ public class RoleRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieve(final String roleId) throws RemoteException,
-        SystemException, RoleNotFoundException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException {
+    public String retrieve(final String roleId) throws RemoteException, SystemException, RoleNotFoundException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException {
 
         checkNotNull(roleId);
 
         return get(PATH + "/" + roleId);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
     @Deprecated
-    public String retrieveRoles(final HashMap filter) throws RemoteException,
-        SystemException, MissingMethodParameterException,
-        InvalidSearchQueryException, AuthenticationException,
-        AuthorizationException {
+    public String retrieveRoles(final HashMap filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, InvalidSearchQueryException, AuthenticationException, AuthorizationException {
 
         return get(PATH + "s", filter);
     }
 
     @Override
-    public String retrieveRoles(final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveRoles(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
 
@@ -101,10 +90,8 @@ public class RoleRestServiceLocator extends RestServiceMethod
     }
 
     @Override
-    public String retrieveRoles(final ExplainRequestType filter)
-        throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+    public String retrieveRoles(final ExplainRequestType filter) throws RemoteException, SystemException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
 

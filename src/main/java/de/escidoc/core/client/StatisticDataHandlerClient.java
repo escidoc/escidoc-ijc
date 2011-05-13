@@ -19,8 +19,7 @@ import de.escidoc.core.resources.sm.sd.StatisticData;
  * @author MVO
  * 
  */
-public class StatisticDataHandlerClient
-    extends AbstractHandlerClient<RestStatisticDataHandlerClient>
+public class StatisticDataHandlerClient extends AbstractHandlerClient<RestStatisticDataHandlerClient>
     implements StatisticDataHandlerClientInterface {
 
     /**
@@ -58,15 +57,12 @@ public class StatisticDataHandlerClient
      * #create(de.escidoc.core.resources.sm.sd.StatisticData)
      */
     @Override
-    public void create(final StatisticData statisticData)
-        throws EscidocException, InternalClientException, TransportException {
+    public void create(final StatisticData statisticData) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(statisticData);
 
-        String xml =
-            MarshallerFactory
-                .getInstance().getMarshaller(StatisticData.class)
-                .marshalDocument(statisticData);
+        String xml = MarshallerFactory.getInstance().getMarshaller(StatisticData.class).marshalDocument(statisticData);
 
         getClient().create(xml);
 
@@ -80,8 +76,7 @@ public class StatisticDataHandlerClient
      * ()
      */
     @Override
-    protected RestStatisticDataHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestStatisticDataHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestStatisticDataHandlerClient(getServiceAddress());
     }
 }

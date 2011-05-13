@@ -21,7 +21,7 @@ public interface PropertiesService<ResourceType, PropertiesType> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    PropertiesType retrieveProperties(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    PropertiesType retrieveProperties(final String id) throws EscidocException, InternalClientException,
+        TransportException;
 
 }

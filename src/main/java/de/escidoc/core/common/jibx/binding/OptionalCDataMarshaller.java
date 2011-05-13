@@ -18,8 +18,7 @@ import org.jibx.runtime.impl.UnmarshallingContext;
  * @author MVO
  * 
  */
-public class OptionalCDataMarshaller extends MarshallingBase
-    implements IAliasable, IMarshaller, IUnmarshaller {
+public class OptionalCDataMarshaller extends MarshallingBase implements IAliasable, IMarshaller, IUnmarshaller {
 
     /**
      * 
@@ -27,8 +26,7 @@ public class OptionalCDataMarshaller extends MarshallingBase
      * @param index
      * @param name
      */
-    public OptionalCDataMarshaller(final String uri, final int index,
-        final String name) {
+    public OptionalCDataMarshaller(final String uri, final int index, final String name) {
         super(uri, index, name);
     }
 
@@ -39,8 +37,7 @@ public class OptionalCDataMarshaller extends MarshallingBase
      * IUnmarshallingContext)
      */
     @Override
-    public boolean isPresent(final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public boolean isPresent(final IUnmarshallingContext ictx) throws JiBXException {
         return ictx.isAt(getUri(), getName());
     }
 
@@ -51,12 +48,10 @@ public class OptionalCDataMarshaller extends MarshallingBase
      * org.jibx.runtime.IUnmarshallingContext)
      */
     @Override
-    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx)
-        throws JiBXException {
+    public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
         if (!(ictx instanceof UnmarshallingContext))
-            throw new IllegalArgumentException(
-                "UnmarshallingContext is not of expected type.");
+            throw new IllegalArgumentException("UnmarshallingContext is not of expected type.");
 
         UnmarshallingContext ctx = (UnmarshallingContext) ictx;
         return ctx.parseElementText(getUri(), getName(), "");
@@ -79,15 +74,12 @@ public class OptionalCDataMarshaller extends MarshallingBase
      * org.jibx.runtime.IMarshallingContext)
      */
     @Override
-    public void marshal(final Object obj, final IMarshallingContext ictx)
-        throws JiBXException {
+    public void marshal(final Object obj, final IMarshallingContext ictx) throws JiBXException {
 
         if (!(ictx instanceof MarshallingContext))
-            throw new IllegalArgumentException(
-                "MarshallingContext is not of expected type.");
+            throw new IllegalArgumentException("MarshallingContext is not of expected type.");
         if (!(obj instanceof String))
-            throw new IllegalArgumentException(
-                "Supplied object must be of type java.lang.String.");
+            throw new IllegalArgumentException("Supplied object must be of type java.lang.String.");
 
         MarshallingContext ctx = (MarshallingContext) ictx;
 

@@ -51,8 +51,7 @@ import de.escidoc.core.client.rest.serviceLocator.ContentRelationRestServiceLoca
  */
 public class RestContentRelationHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestContentRelationHandlerClient.class.getName());
+    private static final Logger LOG = Logger.getLogger(RestContentRelationHandlerClient.class.getName());
 
     private ContentRelationHandler restClient = null;
 
@@ -69,8 +68,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestContentRelationHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestContentRelationHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -83,8 +81,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestContentRelationHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestContentRelationHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -100,8 +97,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String assignObjectPid(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String assignObjectPid(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -122,8 +119,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#create(java.lang.String)
      */
-    public String create(final String contentRelation) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String contentRelation) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -143,8 +140,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -163,8 +159,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -187,8 +182,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String contentRelation)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String contentRelation) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -210,8 +205,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#lock(java.lang.String,
      *      java.lang.String)
      */
-    public String lock(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String lock(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -233,8 +228,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContentRelationHandlerInterface#unlock(java.lang.String,
      *      java.lang.String)
      */
-    public String unlock(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String unlock(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -261,8 +256,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String release(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String release(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -289,8 +284,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String revise(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String revise(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -314,8 +309,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String submit(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String submit(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -335,8 +330,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentRelations(
-        final SearchRetrieveRequestType filter) throws EscidocException,
+    public String retrieveContentRelations(final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
         evalRequest(filter, true);
@@ -359,8 +353,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentRelations(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentRelations(final ExplainRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -380,8 +374,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentRelations(
-        final HashMap<String, String[]> filter) throws EscidocException,
+    public String retrieveContentRelations(final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -402,8 +395,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveResources(final String contentRelationId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveResources(final String contentRelationId) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -423,8 +416,8 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveProperties(final String contentRelationId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveProperties(final String contentRelationId) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -446,8 +439,7 @@ public class RestContentRelationHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            ContentRelationRestServiceLocator serviceLocator =
-                new ContentRelationRestServiceLocator();
+            ContentRelationRestServiceLocator serviceLocator = new ContentRelationRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

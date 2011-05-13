@@ -19,8 +19,7 @@ import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
  * @author Marko Voß
  * 
  */
-public class OrganizationalUnitMarshallerTest
-    extends MarshallerTestBase<OrganizationalUnit> {
+public class OrganizationalUnitMarshallerTest extends MarshallerTestBase<OrganizationalUnit> {
 
     private static final String BASE = "oum/ou";
 
@@ -32,10 +31,9 @@ public class OrganizationalUnitMarshallerTest
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public OrganizationalUnitMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
-        super(OrganizationalUnit.class, BASE, XSD,
-            "organizational-unit_complete.xml", transport);
+    public OrganizationalUnitMarshallerTest(final TransportProtocol transport) throws IOException,
+        ParserConfigurationException, SAXException {
+        super(OrganizationalUnit.class, BASE, XSD, "organizational-unit_complete.xml", transport);
     }
 
     @Override
@@ -47,72 +45,53 @@ public class OrganizationalUnitMarshallerTest
         // OU
         String path = "/escidocOrganizationalUnit:organizational-unit";
         assertResource(path, obj);
-        assertDateTime(path + "/@last-modification-date",
-            obj.getLastModificationDate());
+        assertDateTime(path + "/@last-modification-date", obj.getLastModificationDate());
 
         // OU.Properties
         assertNotNull(obj.getProperties());
         path = path + "/escidocOrganizationalUnit:properties";
         assertXLinkResource(path, obj.getProperties());
-        assertDateTime(path + "/prop:creation-date", obj
-            .getProperties().getCreationDate());
-        assertResource(path + "/srel:created-by", obj
-            .getProperties().getCreatedBy());
-        assertResource(path + "/srel:modified-by", obj
-            .getProperties().getModifiedBy());
-        assertEnum(path + "/prop:public-status", obj
-            .getProperties().getPublicStatus());
-        assertXPath(path + "/prop:public-status-comment", obj
-            .getProperties().getPublicStatusComment());
+        assertDateTime(path + "/prop:creation-date", obj.getProperties().getCreationDate());
+        assertResource(path + "/srel:created-by", obj.getProperties().getCreatedBy());
+        assertResource(path + "/srel:modified-by", obj.getProperties().getModifiedBy());
+        assertEnum(path + "/prop:public-status", obj.getProperties().getPublicStatus());
+        assertXPath(path + "/prop:public-status-comment", obj.getProperties().getPublicStatusComment());
         assertXPath(path + "/prop:name", obj.getProperties().getName());
-        assertXPath(path + "/prop:description", obj
-            .getProperties().getDescription());
-        assertXPath(path + "/prop:external-ids", obj
-            .getProperties().getExternalIds());
-        assertXPath(path + "/prop:has-children", obj
-            .getProperties().getHasChildren());
+        assertXPath(path + "/prop:description", obj.getProperties().getDescription());
+        assertXPath(path + "/prop:external-ids", obj.getProperties().getExternalIds());
+        assertXPath(path + "/prop:has-children", obj.getProperties().getHasChildren());
 
         path = "/escidocOrganizationalUnit:organizational-unit";
 
         // MdRecord
-        assertMdRecord(path + "/escidocMetadataRecords:md-records",
-            obj.getMetadataRecords(), 0);
+        assertMdRecord(path + "/escidocMetadataRecords:md-records", obj.getMetadataRecords(), 0);
 
         // Parents
         assertNotNull(obj.getParents());
-        assertXLinkList(path + "/escidocOrganizationalUnit:parents",
-            obj.getParents());
+        assertXLinkList(path + "/escidocOrganizationalUnit:parents", obj.getParents());
 
         // Parent[1]
-        assertResource(path
-            + "/escidocOrganizationalUnit:parents/srel:parent[1]", obj
-            .getParents().get(0));
+        assertResource(path + "/escidocOrganizationalUnit:parents/srel:parent[1]", obj.getParents().get(0));
 
         // Predecessors
         assertNotNull(obj.getPredecessors());
-        assertXLinkList(path
-            + "/escidocOrganizationalUnit:predecessors", obj.getPredecessors());
+        assertXLinkList(path + "/escidocOrganizationalUnit:predecessors", obj.getPredecessors());
 
         // Predecessor[1]
-        assertResource(path
-            + "/escidocOrganizationalUnit:predecessors/srel:predecessor[1]",
-            obj.getPredecessors().get(0));
-        assertEnum(
-            path
-                + "/escidocOrganizationalUnit:predecessors/srel:predecessor[1]/@form",
-            obj.getPredecessors().get(0).getForm());
+        assertResource(path + "/escidocOrganizationalUnit:predecessors/srel:predecessor[1]", obj.getPredecessors().get(
+            0));
+        assertEnum(path + "/escidocOrganizationalUnit:predecessors/srel:predecessor[1]/@form", obj
+            .getPredecessors().get(0).getForm());
     }
 
     @Override
-    protected void testSubResources(final OrganizationalUnit obj)
-        throws Exception {
+    protected void testSubResources(final OrganizationalUnit obj) throws Exception {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final OrganizationalUnit obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final OrganizationalUnit obj) throws Exception {
         // TODO Auto-generated method stub
 
     }

@@ -30,6 +30,5 @@ public interface Updatable<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
-    T update(T resource) throws EscidocException, InternalClientException,
-        TransportException;
+    T update(T resource) throws EscidocException, InternalClientException, TransportException;
 }

@@ -47,8 +47,7 @@ public final class HandlerClientFactory {
      * @param serviceAddress
      * @return
      */
-    public static final AdminHandlerClientInterface getAdminHandlerClient(
-        final URL serviceAddress) {
+    public static final AdminHandlerClientInterface getAdminHandlerClient(final URL serviceAddress) {
         return new AdminHandlerClient(serviceAddress);
     }
 
@@ -81,8 +80,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final ContainerHandlerClientInterface getContainerHandlerClient(
-        final URL serviceAddress) {
+    public static final ContainerHandlerClientInterface getContainerHandlerClient(final URL serviceAddress) {
         return new ContainerHandlerClient(serviceAddress);
     }
 
@@ -98,8 +96,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final ContentModelHandlerClientInterface getContentModelHandlerClient(
-        final URL serviceAddress) {
+    public static final ContentModelHandlerClientInterface getContentModelHandlerClient(final URL serviceAddress) {
         return new ContentModelHandlerClient(serviceAddress);
     }
 
@@ -115,8 +112,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final ContentRelationHandlerClientInterface getContentRelationHandlerClient(
-        final URL serviceAddress) {
+    public static final ContentRelationHandlerClientInterface getContentRelationHandlerClient(final URL serviceAddress) {
         return new ContentRelationHandlerClient(serviceAddress);
     }
 
@@ -132,8 +128,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final ContextHandlerClientInterface getContextHandlerClient(
-        final URL serviceAddress) {
+    public static final ContextHandlerClientInterface getContextHandlerClient(final URL serviceAddress) {
         return new ContextHandlerClient(serviceAddress);
     }
 
@@ -149,8 +144,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final IngestHandlerClientInterface getIngestHandlerClient(
-        final URL serviceAddress) {
+    public static final IngestHandlerClientInterface getIngestHandlerClient(final URL serviceAddress) {
         return new IngestHandlerClient(serviceAddress);
     }
 
@@ -166,8 +160,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final ItemHandlerClientInterface getItemHandlerClient(
-        final URL serviceAddress) {
+    public static final ItemHandlerClientInterface getItemHandlerClient(final URL serviceAddress) {
         return new ItemHandlerClient(serviceAddress);
     }
 
@@ -217,8 +210,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final PreprocessingHandlerClientInterface getPreprocessingHandlerClient(
-        final URL serviceAddress) {
+    public static final PreprocessingHandlerClientInterface getPreprocessingHandlerClient(final URL serviceAddress) {
         return new PreprocessingHandlerClient(serviceAddress);
     }
 
@@ -234,8 +226,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final ReportDefinitionHandlerClientInterface getReportDefinitionHandlerClient(
-        final URL serviceAddress) {
+    public static final ReportDefinitionHandlerClientInterface getReportDefinitionHandlerClient(final URL serviceAddress) {
         return new ReportDefinitionHandlerClient(serviceAddress);
     }
 
@@ -251,8 +242,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final ReportHandlerClientInterface getReportHandlerClient(
-        final URL serviceAddress) {
+    public static final ReportHandlerClientInterface getReportHandlerClient(final URL serviceAddress) {
         return new ReportHandlerClient(serviceAddress);
     }
 
@@ -268,8 +258,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final RoleHandlerClientInterface getRoleHandlerClient(
-        final URL serviceAddress) {
+    public static final RoleHandlerClientInterface getRoleHandlerClient(final URL serviceAddress) {
         return new RoleHandlerClient(serviceAddress);
     }
 
@@ -285,8 +274,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final ScopeHandlerClientInterface getScopeHandlerClient(
-        final URL serviceAddress) {
+    public static final ScopeHandlerClientInterface getScopeHandlerClient(final URL serviceAddress) {
         return new ScopeHandlerClient(serviceAddress);
     }
 
@@ -302,8 +290,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final SearchHandlerClientInterface getSearchHandlerClient(
-        final URL serviceAddress) {
+    public static final SearchHandlerClientInterface getSearchHandlerClient(final URL serviceAddress) {
         return new SearchHandlerClient(serviceAddress);
     }
 
@@ -319,8 +306,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final StagingHandlerClientInterface getStagingHandlerClient(
-        final URL serviceAddress) {
+    public static final StagingHandlerClientInterface getStagingHandlerClient(final URL serviceAddress) {
         return new StagingHandlerClient(serviceAddress);
     }
 
@@ -336,8 +322,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final StatisticDataHandlerClientInterface getStatisticDataHandlerClient(
-        final URL serviceAddress) {
+    public static final StatisticDataHandlerClientInterface getStatisticDataHandlerClient(final URL serviceAddress) {
         return new StatisticDataHandlerClient(serviceAddress);
     }
 
@@ -353,8 +338,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final UserAccountHandlerClientInterface getUserAccountHandlerClient(
-        final URL serviceAddress) {
+    public static final UserAccountHandlerClientInterface getUserAccountHandlerClient(final URL serviceAddress) {
         return new UserAccountHandlerClient(serviceAddress);
     }
 
@@ -370,8 +354,7 @@ public final class HandlerClientFactory {
      * 
      * @return
      */
-    public static final UserManagementWrapperClientInterface getUserManagementWrapperClient(
-        final URL serviceAddress) {
+    public static final UserManagementWrapperClientInterface getUserManagementWrapperClient(final URL serviceAddress) {
         return new UserManagementWrapperClient(serviceAddress);
     }
 }

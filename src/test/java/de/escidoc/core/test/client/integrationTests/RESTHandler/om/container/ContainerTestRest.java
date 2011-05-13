@@ -53,10 +53,8 @@ public class ContainerTestRest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -85,8 +83,7 @@ public class ContainerTestRest {
     @Test
     public void testCreateContainer01() throws Exception {
         // get a valid container
-        String container =
-            cc.retrieve(EscidocClientTestBase.getStaticContainerId());
+        String container = cc.retrieve(EscidocClientTestBase.getStaticContainerId());
 
         // create a new one (on basis of the retrieved)
         cc.create(container);
@@ -102,8 +99,7 @@ public class ContainerTestRest {
     @Ignore("TODO: replace fixed IDs of context and content-model in XML")
     public void testCreateContainer02() throws Exception {
         String containerXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/om/container/0.9/container01.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/om/container/0.9/container01.xml"));
 
         // create a new Item (on basis of the valid)
         String createdContainerXml = cc.create(containerXml);

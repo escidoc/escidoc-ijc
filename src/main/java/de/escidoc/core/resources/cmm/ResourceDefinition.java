@@ -28,7 +28,6 @@
  */
 package de.escidoc.core.resources.cmm;
 
-
 /**
  * Content Model resource definition
  * 

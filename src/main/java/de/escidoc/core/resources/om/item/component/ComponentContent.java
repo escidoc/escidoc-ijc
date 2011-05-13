@@ -135,8 +135,7 @@ public class ComponentContent extends Content {
      * @param base64EncodedContent
      * @return base64 decoded content as String
      */
-    public static final String decodeBinaryContent(
-        final String base64EncodedContent) {
+    public static final String decodeBinaryContent(final String base64EncodedContent) {
         return new String(Base64.decodeBase64(base64EncodedContent.getBytes()));
     }
 
@@ -145,8 +144,7 @@ public class ComponentContent extends Content {
      * @param base64EncodedContent
      * @return base64 decoded content as byte[]
      */
-    public static final byte[] decodeBinaryContent(
-        final byte[] base64EncodedContent) {
+    public static final byte[] decodeBinaryContent(final byte[] base64EncodedContent) {
         return Base64.decodeBase64(base64EncodedContent);
     }
 }

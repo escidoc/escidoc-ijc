@@ -40,10 +40,8 @@ public class VersionHistoryTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
     }
@@ -63,12 +61,8 @@ public class VersionHistoryTest {
         // create an item
         Item item = new Item();
 
-        item.getProperties().setContext(
-            new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        item.getProperties()
-            .setContentModel(
-                new ContentModelRef(EscidocClientTestBase
-                    .getStaticContentModelId()));
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
@@ -81,22 +75,15 @@ public class VersionHistoryTest {
         VersionHistory vh = ihc.retrieveVersionHistory(createdItem.getObjid());
 
         assertNotNull("", vh);
-        assertEquals("", vh.getLastModificationDate(),
-            createdItem.getLastModificationDate());
+        assertEquals("", vh.getLastModificationDate(), createdItem.getLastModificationDate());
         assertTrue("", vh.getVersions().size() == 1);
 
         // change item content
-        Document doc =
-            createdItem
-                .getMetadataRecords().get("escidoc").getContent()
-                .getOwnerDocument();
+        Document doc = createdItem.getMetadataRecords().get("escidoc").getContent().getOwnerDocument();
 
-        Node child =
-            doc.createElement("foo").appendChild(doc.createElement("bar"));
+        Node child = doc.createElement("foo").appendChild(doc.createElement("bar"));
 
-        createdItem
-            .getMetadataRecords().get("escidoc").getContent()
-            .appendChild(child);
+        createdItem.getMetadataRecords().get("escidoc").getContent().appendChild(child);
 
         Item updatedItem = ihc.update(createdItem);
 
@@ -104,8 +91,7 @@ public class VersionHistoryTest {
         vh = ihc.retrieveVersionHistory(updatedItem.getObjid());
 
         assertNotNull("", vh);
-        assertEquals("", vh.getLastModificationDate(),
-            updatedItem.getLastModificationDate());
+        assertEquals("", vh.getLastModificationDate(), updatedItem.getLastModificationDate());
         assertTrue("", vh.getVersions().size() == 2);
 
         // change status
@@ -118,8 +104,7 @@ public class VersionHistoryTest {
         vh = ihc.retrieveVersionHistory(updatedItem.getObjid());
 
         assertNotNull("", vh);
-        assertEquals("", vh.getLastModificationDate(),
-            result.getLastModificationDate());
+        assertEquals("", vh.getLastModificationDate(), result.getLastModificationDate());
         assertTrue("", vh.getVersions().size() == 2);
     }
 }

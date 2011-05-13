@@ -54,8 +54,7 @@ import de.escidoc.core.resources.HttpInputStream;
  */
 public class RestContentModelHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestContentModelHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestContentModelHandlerClient.class);
 
     private ContentModelHandler restClient;
 
@@ -72,8 +71,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestContentModelHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestContentModelHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -86,8 +84,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestContentModelHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestContentModelHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -100,8 +97,8 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#create(java.lang.String)
      */
-    public String create(final String contentModel) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String contentModel) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -121,8 +118,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#delete(java.lang.String)
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -141,8 +137,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#retrieve(java.lang.String)
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -165,8 +160,8 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#update(java.lang.String,
      *      java.lang.String)
      */
-    public String update(final String id, final String contentModel)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String contentModel) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -186,8 +181,8 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentModels(final HashMap<String, String[]> filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentModels(final HashMap<String, String[]> filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -206,8 +201,8 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws SystemException
      * @throws RemoteException
      */
-    public String retrieveContentModels(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentModels(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -226,8 +221,8 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws SystemException
      * @throws RemoteException
      */
-    public String retrieveContentModels(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentModels(final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -246,8 +241,8 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveProperties(final String contentModelId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveProperties(final String contentModelId) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -266,8 +261,8 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveVersionHistory(final String contentModelId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveVersionHistory(final String contentModelId) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -286,8 +281,8 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentStreams(final String contentModelId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentStreams(final String contentModelId) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -307,15 +302,12 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentStream(
-        final String contentModelId, final String contentStreamName)
+    public String retrieveContentStream(final String contentModelId, final String contentStreamName)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result =
-                getClient().retrieveContentStream(contentModelId,
-                    contentStreamName);
+            result = getClient().retrieveContentStream(contentModelId, contentStreamName);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
@@ -332,15 +324,12 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public HttpInputStream retrieveContentStreamContent(
-        final String contentModelId, final String contentStreamName)
+    public HttpInputStream retrieveContentStreamContent(final String contentModelId, final String contentStreamName)
         throws EscidocException, InternalClientException, TransportException {
 
         HttpInputStream result = null;
         try {
-            result =
-                getClient().retrieveContentStreamContent(contentModelId,
-                    contentStreamName);
+            result = getClient().retrieveContentStreamContent(contentModelId, contentStreamName);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
@@ -358,8 +347,7 @@ public class RestContentModelHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            ContentModelRestServiceLocator serviceLocator =
-                new ContentModelRestServiceLocator();
+            ContentModelRestServiceLocator serviceLocator = new ContentModelRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

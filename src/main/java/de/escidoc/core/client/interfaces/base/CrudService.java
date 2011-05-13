@@ -28,13 +28,11 @@
  */
 package de.escidoc.core.client.interfaces.base;
 
-
 /**
  * Basic Create, Retrieve, Update, Delete Handler.
  * 
  * @author SWA
  * @param <T>
  */
-public interface CrudService<T>
-    extends Createable<T>, Retrievable<T>, Deletable<T>, Updatable<T> {
+public interface CrudService<T> extends Createable<T>, Retrievable<T>, Deletable<T>, Updatable<T> {
 }

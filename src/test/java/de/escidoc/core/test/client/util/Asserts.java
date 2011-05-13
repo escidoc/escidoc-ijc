@@ -69,12 +69,9 @@ public class Asserts {
      * @throws Exception
      *             Thrown if both MetadataRecords not differ.
      */
-    public static void assertMdRecords(
-        final MetadataRecords master, final MetadataRecords toCompare)
-        throws Exception {
+    public static void assertMdRecords(final MetadataRecords master, final MetadataRecords toCompare) throws Exception {
 
-        assertEquals("Number of MetadataRecord(s) differs", master.size(),
-            toCompare.size());
+        assertEquals("Number of MetadataRecord(s) differs", master.size(), toCompare.size());
 
         Iterator<MetadataRecord> it = master.iterator();
 
@@ -86,38 +83,31 @@ public class Asserts {
             String masterSchema = mdMaster.getSchema();
 
             MetadataRecord mdToComp = toCompare.get(masterName);
-            assertNotNull("MetadataRecord with name '" + masterName
-                + "' is missing. ", mdToComp);
+            assertNotNull("MetadataRecord with name '" + masterName + "' is missing. ", mdToComp);
 
             String toCompareMdType = mdToComp.getMdType();
-            assertEquals("MetadataRecord types not equal.", masterMdType,
-                toCompareMdType);
+            assertEquals("MetadataRecord types not equal.", masterMdType, toCompareMdType);
 
             String toCompareSchema = mdToComp.getSchema();
-            assertEquals("MetadataRecord Schemas not equal.", masterSchema,
-                toCompareSchema);
+            assertEquals("MetadataRecord Schemas not equal.", masterSchema, toCompareSchema);
 
             Marshaller<MetadataRecord> m =
-                new Marshaller<MetadataRecord>(MetadataRecord.class,
-                    EscidocClientTestBase.getDefaultTransportProtocol().name());
-            
+                new Marshaller<MetadataRecord>(MetadataRecord.class, EscidocClientTestBase
+                    .getDefaultTransportProtocol().name());
+
             String xml1 = m.marshalDocument(mdMaster);
 
             Document mdRecordMaster = XmlUtility.getDocument(xml1);
-            Node mdRecordMasterNode =
-                XPathAPI.selectSingleNode(mdRecordMaster, "/md-record");
+            Node mdRecordMasterNode = XPathAPI.selectSingleNode(mdRecordMaster, "/md-record");
             Node mdRecordMasterContent = mdRecordMasterNode.getFirstChild();
 
             String xml2 = m.marshalDocument(mdToComp);
 
             Document mdRecordToCompare = XmlUtility.getDocument(xml2);
-            Node mdRecordToCompareNode =
-                XPathAPI.selectSingleNode(mdRecordToCompare, "/md-record");
-            Node mdRecordToCompareContent =
-                mdRecordToCompareNode.getFirstChild();
+            Node mdRecordToCompareNode = XPathAPI.selectSingleNode(mdRecordToCompare, "/md-record");
+            Node mdRecordToCompareContent = mdRecordToCompareNode.getFirstChild();
 
-            assertXmlEquals("Metadata Records differ",
-                (Node) mdRecordToCompareContent, (Node) mdRecordMasterContent);
+            assertXmlEquals("Metadata Records differ", (Node) mdRecordToCompareContent, (Node) mdRecordMasterContent);
 
         }
     }
@@ -143,25 +133,21 @@ public class Asserts {
      *             If anything fails.
      */
     public static void assertXmlEquals(
-        final String message, final Node expected, final String expectedXpath,
-        final Node toBeAsserted, final String toBeAssertedXpath)
-        throws Exception {
+        final String message, final Node expected, final String expectedXpath, final Node toBeAsserted,
+        final String toBeAssertedXpath) throws Exception {
 
         final String msg = prepareAssertionFailedMessage(message);
 
         if (expected == toBeAsserted) {
             return;
         }
-        final NodeList expectedNodes =
-            XPathAPI.selectNodeList(expected, expectedXpath);
-        final NodeList toBeAssertedNodes =
-            XPathAPI.selectNodeList(toBeAsserted, toBeAssertedXpath);
-        assertEquals(msg + "Number of selected nodes differ. ",
-            expectedNodes.getLength(), toBeAssertedNodes.getLength());
+        final NodeList expectedNodes = XPathAPI.selectNodeList(expected, expectedXpath);
+        final NodeList toBeAssertedNodes = XPathAPI.selectNodeList(toBeAsserted, toBeAssertedXpath);
+        assertEquals(msg + "Number of selected nodes differ. ", expectedNodes.getLength(), toBeAssertedNodes
+            .getLength());
         final int length = toBeAssertedNodes.getLength();
         for (int i = 0; i < length; i++) {
-            assertXmlEquals(msg + "Asserting " + (i + 1) + ". node. ",
-                expectedNodes.item(i), toBeAssertedNodes.item(i));
+            assertXmlEquals(msg + "Asserting " + (i + 1) + ". node. ", expectedNodes.item(i), toBeAssertedNodes.item(i));
         }
     }
 
@@ -182,8 +168,7 @@ public class Asserts {
      * @throws Exception
      *             If anything fails.
      */
-    public static void assertXmlEquals(
-        final String messageIn, final Node expected, final Node toBeAsserted)
+    public static void assertXmlEquals(final String messageIn, final Node expected, final Node toBeAsserted)
         throws Exception {
 
         // Assert both nodes are null or both nodes are not null
@@ -209,24 +194,21 @@ public class Asserts {
         // assert both nodes are nodes of the same node type
         // if thedocument container xslt directive than is the nodeName
         // "#document" is here compared
-        assertEquals(message + " Type of nodes are different",
-            expected.getNodeType(), toBeAsserted.getNodeType());
+        assertEquals(message + " Type of nodes are different", expected.getNodeType(), toBeAsserted.getNodeType());
 
         if (expected.getNodeType() == Node.TEXT_NODE) {
-            assertEquals(message + " Text nodes are different. ", expected
-                .getTextContent().trim(), toBeAsserted.getTextContent().trim());
+            assertEquals(message + " Text nodes are different. ", expected.getTextContent().trim(), toBeAsserted
+                .getTextContent().trim());
         }
 
         // assert attributes
         NamedNodeMap expectedAttributes = expected.getAttributes();
         NamedNodeMap toBeAssertedAttributes = toBeAsserted.getAttributes();
         if (expectedAttributes == null) {
-            assertNull(message + " Unexpected attributes. [" + nodeName + "]",
-                toBeAssertedAttributes);
+            assertNull(message + " Unexpected attributes. [" + nodeName + "]", toBeAssertedAttributes);
         }
         else {
-            assertNotNull(message + " Expected attributes. ",
-                toBeAssertedAttributes);
+            assertNotNull(message + " Expected attributes. ", toBeAssertedAttributes);
             final int expectedNumberAttributes = expectedAttributes.getLength();
             // final int toBeAssertedNumberAttributes =
             // toBeAssertedAttributes.getLength();
@@ -234,16 +216,13 @@ public class Asserts {
             // expectedNumberAttributes, toBeAssertedNumberAttributes);
             for (int i = 0; i < expectedNumberAttributes; i++) {
                 Node expectedAttribute = expectedAttributes.item(i);
-                String expectedAttributeNamespace =
-                    expectedAttribute.getNamespaceURI();
+                String expectedAttributeNamespace = expectedAttribute.getNamespaceURI();
                 Node toBeAssertedAttribute = null;
                 if (expectedAttributeNamespace != null) {
                     final String localName = expectedAttribute.getLocalName();
                     toBeAssertedAttribute =
-                        toBeAssertedAttributes.getNamedItemNS(
-                            expectedAttributeNamespace, localName);
-                    assertNotNull(message + " Expected attribute "
-                        + expectedAttribute.getNodeName(),
+                        toBeAssertedAttributes.getNamedItemNS(expectedAttributeNamespace, localName);
+                    assertNotNull(message + " Expected attribute " + expectedAttribute.getNodeName(),
                         toBeAssertedAttribute);
                 }
                 else {
@@ -254,27 +233,18 @@ public class Asserts {
                     // attribute by the node name. If this fails, xpath
                     // selection is used after extracting the expected
                     // attribute name
-                    final String expectedAttributeNodeName =
-                        expectedAttribute.getNodeName();
-                    toBeAssertedAttribute =
-                        toBeAssertedAttributes
-                            .getNamedItem(expectedAttributeNodeName);
+                    final String expectedAttributeNodeName = expectedAttribute.getNodeName();
+                    toBeAssertedAttribute = toBeAssertedAttributes.getNamedItem(expectedAttributeNodeName);
                     if (toBeAssertedAttribute == null) {
-                        final String attributeName =
-                            getLocalName(expectedAttribute);
+                        final String attributeName = getLocalName(expectedAttribute);
                         final String attributeXpath = "@" + attributeName;
-                        toBeAssertedAttribute =
-                            XPathAPI.selectSingleNode(toBeAsserted,
-                                attributeXpath);
+                        toBeAssertedAttribute = XPathAPI.selectSingleNode(toBeAsserted, attributeXpath);
                     }
-                    assertNotNull(message + " Expected attribute "
-                        + expectedAttributeNodeName, toBeAssertedAttribute);
+                    assertNotNull(message + " Expected attribute " + expectedAttributeNodeName, toBeAssertedAttribute);
                 }
 
-                assertEquals(message + " Attribute value mismatch ["
-                    + expectedAttribute.getNodeName() + "] ",
-                    expectedAttribute.getTextContent(),
-                    toBeAssertedAttribute.getTextContent());
+                assertEquals(message + " Attribute value mismatch [" + expectedAttribute.getNodeName() + "] ",
+                    expectedAttribute.getTextContent(), toBeAssertedAttribute.getTextContent());
             }
         }
 
@@ -306,15 +276,12 @@ public class Asserts {
                     }
 
                     if (toBeAssertedChild.getNodeType() == Node.ELEMENT_NODE
-                        && expectedChildName
-                            .equals(getLocalName(toBeAssertedChild))
-                        && (expectedUri == null || expectedUri
-                            .equals(toBeAssertedChild.getNamespaceURI()))) {
+                        && expectedChildName.equals(getLocalName(toBeAssertedChild))
+                        && (expectedUri == null || expectedUri.equals(toBeAssertedChild.getNamespaceURI()))) {
 
                         expectedElementAsserted = true;
                         toBeAssertedNumberElementNodes++;
-                        assertXmlEquals(message, expectedChild,
-                            toBeAssertedChild);
+                        assertXmlEquals(message, expectedChild, toBeAssertedChild);
                         // add asserted child to list of asserted children to
                         // prevent it from being asserted again.
                         previouslyAssertedChildren.add(toBeAssertedChild);
@@ -322,12 +289,8 @@ public class Asserts {
                     }
                 }
                 if (!expectedElementAsserted) {
-                    fail(new StringBuffer(message)
-                        .append(
-                            " Did not found expected corresponding element [")
-                        .append(nodeName).append(", ")
-                        .append(expectedChildName).append(", ").append(i)
-                        .append("]").toString());
+                    fail(new StringBuffer(message).append(" Did not found expected corresponding element [").append(
+                        nodeName).append(", ").append(expectedChildName).append(", ").append(i).append("]").toString());
                 }
             }
         }
@@ -345,15 +308,13 @@ public class Asserts {
 
             if (toBeAssertedChild.getNodeType() == Node.ELEMENT_NODE) {
                 fail(new StringBuffer(message)
-                    .append("Found unexpected element node [").append(nodeName)
-                    .append(", ").append(getLocalName(toBeAssertedChild))
-                    .append(", ").append(i).append("]").toString());
+                    .append("Found unexpected element node [").append(nodeName).append(", ").append(
+                        getLocalName(toBeAssertedChild)).append(", ").append(i).append("]").toString());
             }
         }
 
         // if no children have been found, text content must be compared
-        if (expectedNumberElementNodes == 0
-            && toBeAssertedNumberElementNodes == 0) {
+        if (expectedNumberElementNodes == 0 && toBeAssertedNumberElementNodes == 0) {
             String expectedContent = expected.getTextContent();
             String toBeAssertedContent = toBeAsserted.getTextContent();
             assertEquals(message, expectedContent, toBeAssertedContent);

@@ -16,8 +16,7 @@ import java.util.LinkedList;
  * 
  */
 public class ConfigInfo {
-    Collection<DefaultSetting> defaultSettings =
-        new LinkedList<DefaultSetting>();
+    Collection<DefaultSetting> defaultSettings = new LinkedList<DefaultSetting>();
 
     /**
      * Constructor for JiBX

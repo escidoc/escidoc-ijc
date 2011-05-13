@@ -28,9 +28,7 @@ public class URLUtility {
     public static final URL unifyAddress(final URL url) {
 
         String tmpServUrl =
-            url.getProtocol() + "://" + url.getHost()
-                + (url.getPort() >= 0 ? ":" + url.getPort() : "")
-                + url.getPath();
+            url.getProtocol() + "://" + url.getHost() + (url.getPort() >= 0 ? ":" + url.getPort() : "") + url.getPath();
         tmpServUrl = tmpServUrl.replaceAll("[/]*$", "");
 
         URL result = null;

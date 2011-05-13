@@ -18,8 +18,7 @@ import de.escidoc.core.resources.sm.report.ReportParameters;
  * @author MVO
  * 
  */
-public class ReportHandlerClient
-    extends AbstractHandlerClient<RestReportHandlerClient>
+public class ReportHandlerClient extends AbstractHandlerClient<RestReportHandlerClient>
     implements ReportHandlerClientInterface {
 
     /**
@@ -56,18 +55,15 @@ public class ReportHandlerClient
      * (de.escidoc.core.resources.sm.report.ReportParameters)
      */
     @Override
-    public Report retrieve(final ReportParameters reportParameters)
-        throws EscidocException, InternalClientException, TransportException {
+    public Report retrieve(final ReportParameters reportParameters) throws EscidocException, InternalClientException,
+        TransportException {
 
         String xml =
-            MarshallerFactory
-                .getInstance().getMarshaller(ReportParameters.class)
-                .marshalDocument(reportParameters);
+            MarshallerFactory.getInstance().getMarshaller(ReportParameters.class).marshalDocument(reportParameters);
 
         xml = getClient().retrieve(xml);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Report.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Report.class).unmarshalDocument(xml);
     }
 
     /*
@@ -78,8 +74,7 @@ public class ReportHandlerClient
      * ()
      */
     @Override
-    protected RestReportHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestReportHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestReportHandlerClient(getServiceAddress());
     }
 }

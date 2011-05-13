@@ -17,8 +17,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  * 
  */
 @JiBX
-public class AggregationDefinition extends Resource
-    implements Referenceable<AggregationDefinitionRef> {
+public class AggregationDefinition extends Resource implements Referenceable<AggregationDefinitionRef> {
 
     private String name;
 
@@ -41,8 +40,7 @@ public class AggregationDefinition extends Resource
      * @param aggregationTable
      * @param statisticData
      */
-    public AggregationDefinition(final String name, final ScopeRef scope,
-        final StatisticData statisticData) {
+    public AggregationDefinition(final String name, final ScopeRef scope, final StatisticData statisticData) {
 
         checkNotNull(name);
         checkNotNull(scope);

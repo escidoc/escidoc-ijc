@@ -50,8 +50,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapUserManagementWrapperClient extends SoapClientBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(SoapUserManagementWrapperClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapUserManagementWrapperClient.class);
 
     private UserManagementWrapper soapClient = null;
 
@@ -68,8 +67,7 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapUserManagementWrapperClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapUserManagementWrapperClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -82,8 +80,7 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapUserManagementWrapperClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapUserManagementWrapperClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -93,8 +90,7 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void logout() throws EscidocException, InternalClientException,
-        TransportException {
+    public void logout() throws EscidocException, InternalClientException, TransportException {
         try {
             getClient().logout();
         }
@@ -115,11 +111,8 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
             if (soapClient == null) {
                 UserManagementWrapperServiceLocator serviceLocator =
                     new UserManagementWrapperServiceLocator(getEngineConfig());
-                URL url =
-                    getHandlerServiceURL(serviceLocator
-                        .getUserManagementWrapperServiceAddress());
-                soapClient =
-                    serviceLocator.getUserManagementWrapperService(url);
+                URL url = getHandlerServiceURL(serviceLocator.getUserManagementWrapperServiceAddress());
+                soapClient = serviceLocator.getUserManagementWrapperService(url);
                 registerPWCallback(soapClient);
             }
         }

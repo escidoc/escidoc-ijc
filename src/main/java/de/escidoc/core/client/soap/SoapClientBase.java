@@ -27,16 +27,13 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  * @author MVO
  * 
  */
-public abstract class SoapClientBase extends ClientBase
-    implements CallbackHandler {
+public abstract class SoapClientBase extends ClientBase implements CallbackHandler {
 
     private static final String ESCIDOC_USER = "eSciDocUser";
 
-    private static final String ENGINE_CONFIG_FILE =
-        "clientlib_wss4j_config.wsdd";
+    private static final String ENGINE_CONFIG_FILE = "clientlib_wss4j_config.wsdd";
 
-    private static final EngineConfiguration engineConfig = new FileProvider(
-        ENGINE_CONFIG_FILE);
+    private static final EngineConfiguration engineConfig = new FileProvider(ENGINE_CONFIG_FILE);
 
     private final Logger LOG = Logger.getLogger(SoapClientBase.class);
 
@@ -58,8 +55,7 @@ public abstract class SoapClientBase extends ClientBase
      * @throws InternalClientException
      *             Thrown in case of client internal errors.
      */
-    public SoapClientBase(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapClientBase(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -70,8 +66,7 @@ public abstract class SoapClientBase extends ClientBase
      * @deprecated Use {@link SoapClientBase#SoapClientBase(URL)} instead.
      */
     @Deprecated
-    public SoapClientBase(final String serviceAddress)
-        throws InternalClientException {
+    public SoapClientBase(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -124,8 +119,7 @@ public abstract class SoapClientBase extends ClientBase
      *      (javax.security.auth.callback.Callback[])
      */
     @Override
-    public void handle(final Callback[] callbacks) throws IOException,
-        UnsupportedCallbackException {
+    public void handle(final Callback[] callbacks) throws IOException, UnsupportedCallbackException {
 
         String handle = getHandle();
 
@@ -137,8 +131,7 @@ public abstract class SoapClientBase extends ClientBase
                 }
             }
             else {
-                throw new UnsupportedCallbackException(callback,
-                    "Unrecognized Callback");
+                throw new UnsupportedCallbackException(callback, "Unrecognized Callback");
             }
         }
     }
@@ -150,8 +143,7 @@ public abstract class SoapClientBase extends ClientBase
      * @return
      * @throws InternalClientException
      */
-    protected URL getHandlerServiceURL(final String handlerServiceAddress)
-        throws InternalClientException {
+    protected URL getHandlerServiceURL(final String handlerServiceAddress) throws InternalClientException {
         String address = handlerServiceAddress;
         URL url = null;
         try {
@@ -180,16 +172,13 @@ public abstract class SoapClientBase extends ClientBase
      * @throws InternalClientException
      *             if the specified remoteService is not an instance of Stub.
      */
-    protected void registerPWCallback(final Remote remoteService)
-        throws InternalClientException {
+    protected void registerPWCallback(final Remote remoteService) throws InternalClientException {
         if (remoteService instanceof Stub) {
             Stub stub = (Stub) remoteService;
 
             stub._setProperty(WSHandlerConstants.PW_CALLBACK_REF, this);
-            stub._setProperty(WSHandlerConstants.ACTION,
-                WSHandlerConstants.USERNAME_TOKEN);
-            stub._setProperty(WSHandlerConstants.PASSWORD_TYPE,
-                WSConstants.PW_TEXT);
+            stub._setProperty(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+            stub._setProperty(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
             stub._setProperty(WSHandlerConstants.USER, ESCIDOC_USER);
             stub._setProperty("addUTElement", "Nonce Created");
         }

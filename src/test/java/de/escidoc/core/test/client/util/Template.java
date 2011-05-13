@@ -53,8 +53,7 @@ public class Template {
      * @throws FileNotFoundException
      *             If file could not be found
      */
-    public static InputStream load(final String subPath)
-        throws FileNotFoundException {
+    public static InputStream load(final String subPath) throws FileNotFoundException {
 
         if (subPath == null)
             return null;
@@ -63,8 +62,7 @@ public class Template {
             return Template.class.getResourceAsStream(TEMPLATES_PATH + subPath);
         }
         else {
-            return Template.class.getResourceAsStream(TEMPLATES_PATH + '/'
-                + subPath);
+            return Template.class.getResourceAsStream(TEMPLATES_PATH + '/' + subPath);
         }
 
         // File f = null;
@@ -85,8 +83,7 @@ public class Template {
      * @throws FileNotFoundException
      */
     public static final InputStream loadMockup(
-        final TransportProtocol transport, final String basePath,
-        final String xsdVersion, final String filename)
+        final TransportProtocol transport, final String basePath, final String xsdVersion, final String filename)
         throws FileNotFoundException {
 
         String base = null;
@@ -104,8 +101,7 @@ public class Template {
             base = "/";
         }
 
-        return load("/mockups/" + transport.name().toLowerCase() + base
-            + filename);
+        return load("/mockups/" + transport.name().toLowerCase() + base + filename);
     }
 
     /**
@@ -116,8 +112,7 @@ public class Template {
      * @throws FileNotFoundException
      */
     public static final InputStream loadMockup(
-        final TransportProtocol transport, final String basePath,
-        final String filename) throws FileNotFoundException {
+        final TransportProtocol transport, final String basePath, final String filename) throws FileNotFoundException {
 
         return loadMockup(transport, basePath, null, filename);
     }
@@ -128,8 +123,7 @@ public class Template {
      * @return
      * @throws FileNotFoundException
      */
-    public static final InputStream loadMockup(
-        final TransportProtocol transport, final String filename)
+    public static final InputStream loadMockup(final TransportProtocol transport, final String filename)
         throws FileNotFoundException {
 
         return loadMockup(transport, null, null, filename);

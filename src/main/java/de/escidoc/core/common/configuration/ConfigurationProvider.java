@@ -67,8 +67,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  */
 public final class ConfigurationProvider {
 
-    private final Logger logger = Logger.getLogger(ConfigurationProvider.class
-        .getName());
+    private final Logger logger = Logger.getLogger(ConfigurationProvider.class.getName());
 
     public static final String PROP_SERVER_NAME = "server.name";
 
@@ -85,14 +84,12 @@ public final class ConfigurationProvider {
 
     public static final String NS_IR_CONTEXT = "ns.ir.context";
 
-    public static final String NS_IR_CONTENT_RELATION =
-        "ns.ir.content-relation";
+    public static final String NS_IR_CONTENT_RELATION = "ns.ir.content-relation";
 
     public static final String NS_IR_COMPONENTS = "ns.ir.components";
 
     // OUM
-    public static final String NS_OUM_ORGANIZATIONAL_UNIT =
-        "ns.oum.organizational-unit";
+    public static final String NS_OUM_ORGANIZATIONAL_UNIT = "ns.oum.organizational-unit";
 
     // AA
     public static final String NS_AA_USER_ACCOUNT = "ns.aa.user-account";
@@ -109,14 +106,11 @@ public final class ConfigurationProvider {
     // STATISTIC
     public static final String NS_STATISTIC_SCOPE = "ns.statistic.scope";
 
-    public static final String NS_STATISTIC_REPORT_DEF =
-        "ns.statistic.report-definition";
+    public static final String NS_STATISTIC_REPORT_DEF = "ns.statistic.report-definition";
 
-    public static final String NS_STATISTIC_AGGREGATION_DEF =
-        "ns.statistic.aggregation-definition";
+    public static final String NS_STATISTIC_AGGREGATION_DEF = "ns.statistic.aggregation-definition";
 
-    public static final String NS_STATISTIC_STATISTIC_DATA =
-        "ns.statistic.statistic-data";
+    public static final String NS_STATISTIC_STATISTIC_DATA = "ns.statistic.statistic-data";
 
     // OAI
     public static final String NS_OAI_SET_DEFINITION = "ns.oai.set-definition";
@@ -127,90 +121,65 @@ public final class ConfigurationProvider {
 
     public static final String HTTP_PROTOCOL_VERSION = "http.protocol.version";
 
-    public static final String HTTP_PROTOCOL_ELEMENT_CHARSET =
-        "http.protocol.element-charset";
+    public static final String HTTP_PROTOCOL_ELEMENT_CHARSET = "http.protocol.element-charset";
 
-    public static final String HTTP_PROTOCOL_CONTENT_CHARSET =
-        "http.protocol.content-charset";
+    public static final String HTTP_PROTOCOL_CONTENT_CHARSET = "http.protocol.content-charset";
 
     public static final String HTTP_USERAGENT = "http.useragent";
 
-    public static final String HTTP_PROTOCOL_STRICT_TRANSFER_ENCODING =
-        "http.protocol.strict-transfer-encoding";
+    public static final String HTTP_PROTOCOL_STRICT_TRANSFER_ENCODING = "http.protocol.strict-transfer-encoding";
 
-    public static final String HTTP_PROTOCOL_EXPECT_CONTINUE =
-        "http.protocol.expect-continue";
+    public static final String HTTP_PROTOCOL_EXPECT_CONTINUE = "http.protocol.expect-continue";
 
-    public static final String HTTP_PROTOCOL_WAIT_FOR_CONTINUE =
-        "http.protocol.wait-for-continue";
+    public static final String HTTP_PROTOCOL_WAIT_FOR_CONTINUE = "http.protocol.wait-for-continue";
 
     public static final String HTTP_SOCKET_TIMEOUT = "http.socket.timeout";
 
     public static final String HTTP_TCP_NODELAY = "http.tcp.nodelay";
 
-    public static final String HTTP_SOCKET_BUFFER_SIZE =
-        "http.socket.buffer-size";
+    public static final String HTTP_SOCKET_BUFFER_SIZE = "http.socket.buffer-size";
 
     public static final String HTTP_SOCKET_LINGER = "http.socket.linger";
 
     public static final String HTTP_CONNECTION_TIMEOUT = "http.socket.timeout";
 
-    public static final String HTTP_CONNECTION_STALECHECK =
-        "http.connection.stalecheck";
+    public static final String HTTP_CONNECTION_STALECHECK = "http.connection.stalecheck";
 
-    public static final String HTTP_CONNECTION_MAX_LINE_LENGTH =
-        "http.connection.max-line-length";
+    public static final String HTTP_CONNECTION_MAX_LINE_LENGTH = "http.connection.max-line-length";
 
-    public static final String HTTP_CONNECTION_MAX_HEADER_COUNT =
-        "http.connection.max-header-count";
+    public static final String HTTP_CONNECTION_MAX_HEADER_COUNT = "http.connection.max-header-count";
 
-    public static final String HTTP_CONNECTION_MAX_STATUS_LINE_GARBAGE =
-        "http.connection.max-status-line-garbage";
+    public static final String HTTP_CONNECTION_MAX_STATUS_LINE_GARBAGE = "http.connection.max-status-line-garbage";
 
-    public static final String HTTP_ROUTE_DEFAULT_PROXY =
-        "http.route.default-proxy";
+    public static final String HTTP_ROUTE_DEFAULT_PROXY = "http.route.default-proxy";
 
-    public static final String HTTP_ROUTE_LOCAL_ADDRESS =
-        "http.route.local-address";
+    public static final String HTTP_ROUTE_LOCAL_ADDRESS = "http.route.local-address";
 
-    public static final String HTTP_ROUTE_FORCED_ROUTE =
-        "http.route.forced-route";
+    public static final String HTTP_ROUTE_FORCED_ROUTE = "http.route.forced-route";
 
-    public static final String HTTP_CONN_MANAGER_TIMEOUT =
-        "http.conn-manager.timeout";
+    public static final String HTTP_CONN_MANAGER_TIMEOUT = "http.conn-manager.timeout";
 
-    public static final String HTTP_CONN_MANAGER_MAX_PER_ROUTE =
-        "http.conn-manager.max-per-route";
+    public static final String HTTP_CONN_MANAGER_MAX_PER_ROUTE = "http.conn-manager.max-per-route";
 
-    public static final String HTTP_CONN_MANAGER_MAX_TOTAL =
-        "http.connmanager.max-total";
+    public static final String HTTP_CONN_MANAGER_MAX_TOTAL = "http.connmanager.max-total";
 
-    public static final String HTTP_PROTOCOL_COOKIE_DATEPATTERNS =
-        "http.cookie.date-patterns";
+    public static final String HTTP_PROTOCOL_COOKIE_DATEPATTERNS = "http.cookie.date-patterns";
 
-    public static final String HTTP_PROTOCOL_SINGLE_COOKIE_HEADER =
-        "http.protocol.single-cookie-header";
+    public static final String HTTP_PROTOCOL_SINGLE_COOKIE_HEADER = "http.protocol.single-cookie-header";
 
-    public static final String HTTP_PROTOCOL_COOKIE_POLICY =
-        "http.protocol.cookie-policy";
+    public static final String HTTP_PROTOCOL_COOKIE_POLICY = "http.protocol.cookie-policy";
 
-    public static final String HTTP_PROTOCOL_HANDLE_AUTHENTICATION =
-        "http.protocol.handle-authentication";
+    public static final String HTTP_PROTOCOL_HANDLE_AUTHENTICATION = "http.protocol.handle-authentication";
 
-    public static final String HTTP_AUTH_CREDENTIAL_CHARSET =
-        "http.auth.credential-charset";
+    public static final String HTTP_AUTH_CREDENTIAL_CHARSET = "http.auth.credential-charset";
 
-    public static final String HTTP_PROTOCOL_HANDLE_REDIRECTS =
-        "http.protocol.handle-redirects";
+    public static final String HTTP_PROTOCOL_HANDLE_REDIRECTS = "http.protocol.handle-redirects";
 
-    public static final String HTTP_PROTOCOL_REJECT_RELATIVE_REDIRECT =
-        "http.protocol.reject.relative.redirect";
+    public static final String HTTP_PROTOCOL_REJECT_RELATIVE_REDIRECT = "http.protocol.reject.relative.redirect";
 
-    public static final String HTTP_PROTOCOL_MAX_REDIRECTS =
-        "http.protocol.max-redirects";
+    public static final String HTTP_PROTOCOL_MAX_REDIRECTS = "http.protocol.max-redirects";
 
-    public static final String HTTP_PROTOCOL_ALLOW_CIRCULAR_REDIRECTS =
-        "http.protocol.allow-circular-redirects";
+    public static final String HTTP_PROTOCOL_ALLOW_CIRCULAR_REDIRECTS = "http.protocol.allow-circular-redirects";
 
     public static final String HTTP_CONNECTION_MANAGER_FACTORY_CLASS_NAME =
         "http.connection-manager.factory-class-name";
@@ -229,8 +198,7 @@ public final class ConfigurationProvider {
     @Deprecated
     public static final String PROP_SERVICE_PROTOCOL = "service_protocol";
 
-    public static final TransportProtocol DEFAULT_TRANSPORT_PROTOCOL =
-        TransportProtocol.REST;
+    public static final TransportProtocol DEFAULT_TRANSPORT_PROTOCOL = TransportProtocol.REST;
 
     public static final String PROP_SEARCH_DATABASE = "search.database";
 
@@ -273,8 +241,7 @@ public final class ConfigurationProvider {
      * 
      * @throws InternalClientException
      */
-    public static synchronized ConfigurationProvider getInstance()
-        throws InternalClientException {
+    public static synchronized ConfigurationProvider getInstance() throws InternalClientException {
         if (instance == null) {
             instance = new ConfigurationProvider();
         }
@@ -355,34 +322,29 @@ public final class ConfigurationProvider {
      * 
      * @common
      */
-    private Properties loadProperties(final String file)
-        throws InternalClientException {
+    private Properties loadProperties(final String file) throws InternalClientException {
         Properties result = new Properties();
 
         boolean failed = true;
         int noOfPaths = paths.length;
         for (int i = 0; i < noOfPaths && failed; ++i) {
             try {
-                InputStream fis =
-                    getFileInputStreamFromResource(paths[i], file);
+                InputStream fis = getFileInputStreamFromResource(paths[i], file);
                 result.load(fis);
                 failed = false;
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Load properties from file '" + file
-                        + "' with path '" + paths[i] + "'.");
+                    logger.debug("Load properties from file '" + file + "' with path '" + paths[i] + "'.");
                 }
             }
             catch (IOException e) {
                 // ignore, try again
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Failed to load properties from file '" + file
-                        + "' with path '" + paths[i] + "'.");
+                    logger.debug("Failed to load properties from file '" + file + "' with path '" + paths[i] + "'.");
                 }
             }
         }
         if (failed) {
-            throw new InternalClientException(
-                "Error loading properties from file '" + file + "'!");
+            throw new InternalClientException("Error loading properties from file '" + file + "'!");
         }
 
         return result;
@@ -398,8 +360,7 @@ public final class ConfigurationProvider {
      * @return the InputStream of the respective resource
      * @throws IOException
      */
-    private InputStream getFileInputStreamFromResource(
-        final String path, final String filename) throws IOException {
+    private InputStream getFileInputStreamFromResource(final String path, final String filename) throws IOException {
         InputStream result = null;
 
         String search = concatenatePath(path, filename);

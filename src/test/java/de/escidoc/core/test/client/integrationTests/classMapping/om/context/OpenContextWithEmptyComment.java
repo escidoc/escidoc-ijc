@@ -40,10 +40,8 @@ public class OpenContextWithEmptyComment {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -61,15 +59,13 @@ public class OpenContextWithEmptyComment {
      * @throws EscidocClientException
      */
     @Test
-    public void shouldSetPublicStatusCommentToEmpty()
-        throws ParserConfigurationException, EscidocClientException {
+    public void shouldSetPublicStatusCommentToEmpty() throws ParserConfigurationException, EscidocClientException {
         Context createdContext = createNewContext();
         openContext(createdContext, EMPTY_PUBLIC_STATUS_COMMENT);
         Context openedContext = retrieveContext(createdContext);
 
-        assertEquals("Set public status comment to empty fails.",
-            EMPTY_PUBLIC_STATUS_COMMENT, openedContext
-                .getProperties().getPublicStatusComment());
+        assertEquals("Set public status comment to empty fails.", EMPTY_PUBLIC_STATUS_COMMENT, openedContext
+            .getProperties().getPublicStatusComment());
     }
 
     /**
@@ -78,8 +74,7 @@ public class OpenContextWithEmptyComment {
      * @throws ParserConfigurationException
      * @throws EscidocClientException
      */
-    private Context createNewContext() throws ParserConfigurationException,
-        EscidocClientException {
+    private Context createNewContext() throws ParserConfigurationException, EscidocClientException {
 
         final Context context = new Context();
         final ContextProperties properties = new ContextProperties();
@@ -88,19 +83,15 @@ public class OpenContextWithEmptyComment {
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        final OrganizationalUnitRefs organizationalUnitRefs =
-            new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef(
-            EscidocClientTestBase.getStaticOrganizationalUnitId()));
+        final OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
         final AdminDescriptors adminDescriptors = new AdminDescriptors();
-        final AdminDescriptor adminDescriptor =
-            new AdminDescriptor("AdminDescriptorDemoName");
-        final DocumentBuilderFactory factory =
-            DocumentBuilderFactory.newInstance();
+        final AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document doc = builder.newDocument();
         final Element element = doc.createElementNS(null, "admin-descriptor");
@@ -121,9 +112,8 @@ public class OpenContextWithEmptyComment {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private void openContext(
-        final Context context, final String publicStatusComment)
-        throws EscidocException, InternalClientException, TransportException {
+    private void openContext(final Context context, final String publicStatusComment) throws EscidocException,
+        InternalClientException, TransportException {
         final TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(context.getLastModificationDate());
         taskParam.setComment(publicStatusComment);
@@ -136,8 +126,7 @@ public class OpenContextWithEmptyComment {
      * @return
      * @throws EscidocClientException
      */
-    private Context retrieveContext(final Context context)
-        throws EscidocClientException {
+    private Context retrieveContext(final Context context) throws EscidocClientException {
         return cc.retrieve(context.getObjid());
     }
 }

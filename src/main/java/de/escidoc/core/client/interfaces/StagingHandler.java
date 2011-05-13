@@ -31,8 +31,8 @@ public interface StagingHandler extends java.rmi.Remote {
      * @throws IOException
      *             Thrown if handling of file stream failed
      */
-    String upload(File file) throws RemoteException, AuthenticationException,
-        AuthorizationException, FileNotFoundException, IOException;
+    String upload(File file) throws RemoteException, AuthenticationException, AuthorizationException,
+        FileNotFoundException, IOException;
 
     /**
      * Uploading stream to Staging Service.
@@ -46,7 +46,7 @@ public interface StagingHandler extends java.rmi.Remote {
      * @throws AuthorizationException
      * @throws FileNotFoundException
      */
-    String upload(InputStream ins) throws RemoteException,
-        AuthenticationException, AuthorizationException, FileNotFoundException;
+    String upload(InputStream ins) throws RemoteException, AuthenticationException, AuthorizationException,
+        FileNotFoundException;
 
 }

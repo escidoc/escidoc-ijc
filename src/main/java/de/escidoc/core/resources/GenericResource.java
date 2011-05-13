@@ -30,8 +30,7 @@ public abstract class GenericResource extends Resource {
      *            the lastModificationDate to set
      */
     public void setLastModificationDate(final DateTime lastModificationDate) {
-        this.lastModificationDate =
-            DateTimeUtility.normalize(lastModificationDate);
+        this.lastModificationDate = DateTimeUtility.normalize(lastModificationDate);
     }
 
     /**

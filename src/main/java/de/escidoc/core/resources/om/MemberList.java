@@ -47,8 +47,7 @@ public class MemberList {
 
     private int numberOfRecords = -1;
 
-    private Collection<VersionableResource> members =
-        new LinkedList<VersionableResource>();
+    private Collection<VersionableResource> members = new LinkedList<VersionableResource>();
 
     public static LinkedList<VersionableResource> membersFactory() {
         return new LinkedList<VersionableResource>();

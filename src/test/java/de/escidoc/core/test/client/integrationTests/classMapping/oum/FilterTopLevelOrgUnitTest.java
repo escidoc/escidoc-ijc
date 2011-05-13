@@ -71,8 +71,7 @@ public class FilterTopLevelOrgUnitTest {
 
     private static final String IS_TOP_LEVEL = "true";
 
-    private static final String TOP_LEVEL_ORGANIZATIONAL_UNITS =
-        "top-level-organizational-units";
+    private static final String TOP_LEVEL_ORGANIZATIONAL_UNITS = "top-level-organizational-units";
 
     private Authentication auth;
 
@@ -81,12 +80,9 @@ public class FilterTopLevelOrgUnitTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
-        orgUnitClient =
-            new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+        orgUnitClient = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         orgUnitClient.setHandle(auth.getHandle());
     }
 
@@ -115,25 +111,22 @@ public class FilterTopLevelOrgUnitTest {
      * @throws InternalClientException
      * @throws EscidocException
      */
-    private void createOrgUnit() throws ParserConfigurationException,
-        SAXException, IOException, EscidocException, InternalClientException,
-        TransportException {
+    private void createOrgUnit() throws ParserConfigurationException, SAXException, IOException, EscidocException,
+        InternalClientException, TransportException {
         final String ouName = "Generic Organizational Unit";
 
         OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties =
-            new OrganizationalUnitProperties();
+        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         organizationalUnit.setProperties(properties);
 
         MetadataRecords mdRecords = new MetadataRecords();
         MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         String str =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                + "<ou:organization-details "
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<ou:organization-details "
                 + "xmlns:ou=\"http://escidoc.mpg.de/metadataprofile/schema/0.1/organization\">\n"
-                + "<dc:title xmlns:dc=\"http://purl.org/dc/elements/1.1/\">"
-                + ouName + "</dc:title>\n" + "</ou:organization-details>";
+                + "<dc:title xmlns:dc=\"http://purl.org/dc/elements/1.1/\">" + ouName + "</dc:title>\n"
+                + "</ou:organization-details>";
         InputStream in = new ByteArrayInputStream(str.getBytes());
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -153,9 +146,8 @@ public class FilterTopLevelOrgUnitTest {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private void assertThatOrgUnitExist(
-        final List<OrganizationalUnit> rootOrgUnitList)
-        throws EscidocException, InternalClientException, TransportException {
+    private void assertThatOrgUnitExist(final List<OrganizationalUnit> rootOrgUnitList) throws EscidocException,
+        InternalClientException, TransportException {
 
         assertNotNull("rootOrgUnits is null.", rootOrgUnitList);
         assertTrue("rootOrgUnits is empty.", rootOrgUnitList.size() > 0);
@@ -164,19 +156,17 @@ public class FilterTopLevelOrgUnitTest {
     /**
      * @param rootOrgUnitList
      */
-    private void assertThatOrgUnitsDoNotHaveParent(
-        final List<OrganizationalUnit> rootOrgUnitList) {
+    private void assertThatOrgUnitsDoNotHaveParent(final List<OrganizationalUnit> rootOrgUnitList) {
 
         for (final OrganizationalUnit organizationalUnit : rootOrgUnitList) {
             final Parents parents = organizationalUnit.getParents();
             assertNotNull("Parents object should exist.", parents);
-            assertTrue("Root org unit can not have parents.",
-                parents.size() == 0);
+            assertTrue("Root org unit can not have parents.", parents.size() == 0);
         }
     }
 
-    private List<OrganizationalUnit> getTopLevelOrgUnits()
-        throws EscidocException, InternalClientException, TransportException {
+    private List<OrganizationalUnit> getTopLevelOrgUnits() throws EscidocException, InternalClientException,
+        TransportException {
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery(TOP_LEVEL_ORGANIZATIONAL_UNITS + "=" + IS_TOP_LEVEL);

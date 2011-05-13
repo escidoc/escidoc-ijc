@@ -48,10 +48,8 @@ public class ReportHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rhc = new ReportHandlerClient(auth.getServiceAddress());
         rhc.setHandle(auth.getHandle());
         // create test scope
@@ -59,9 +57,7 @@ public class ReportHandlerClientTest {
         if (scopeId == null) {
             fail("Test initialization failed: scopeId is null.");
         }
-        reportDefId =
-            createReportDefinition("Report Name",
-                "select day, month from escidocaggdef1_request_stats;");
+        reportDefId = createReportDefinition("Report Name", "select day, month from escidocaggdef1_request_stats;");
         if (reportDefId == null) {
             fail("Test initialization failed: reportDefId is null.");
         }
@@ -84,15 +80,11 @@ public class ReportHandlerClientTest {
      */
     @Test
     public void testRetrieve01() throws Exception {
-        ReportParameters parameters =
-            new ReportParameters(new ReportDefinitionRef(reportDefId));
+        ReportParameters parameters = new ReportParameters(new ReportDefinitionRef(reportDefId));
 
-        Marshaller<ReportParameters> m1 =
-            MarshallerFactory.getInstance().getMarshaller(
-                ReportParameters.class);
+        Marshaller<ReportParameters> m1 = MarshallerFactory.getInstance().getMarshaller(ReportParameters.class);
 
-        Marshaller<Report> m2 =
-            MarshallerFactory.getInstance().getMarshaller(Report.class);
+        Marshaller<Report> m2 = MarshallerFactory.getInstance().getMarshaller(Report.class);
 
         String xml = m1.marshalDocument(parameters);
         m1.unmarshalDocument(xml);
@@ -111,13 +103,11 @@ public class ReportHandlerClientTest {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String createScope(final ScopeType type) throws EscidocException,
-        InternalClientException, TransportException {
-        Scope scope =
-            new Scope("AdminScope @" + System.currentTimeMillis(), type);
+    private String createScope(final ScopeType type) throws EscidocException, InternalClientException,
+        TransportException {
+        Scope scope = new Scope("AdminScope @" + System.currentTimeMillis(), type);
 
-        ScopeHandlerClient shc =
-            new ScopeHandlerClient(auth.getServiceAddress());
+        ScopeHandlerClient shc = new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
 
         return shc.create(scope).getObjid();
@@ -132,14 +122,12 @@ public class ReportHandlerClientTest {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String createReportDefinition(final String name, final String sql)
-        throws EscidocException, InternalClientException, TransportException {
-        ReportDefinitionHandlerClient rdhc =
-            new ReportDefinitionHandlerClient(auth.getServiceAddress());
+    private String createReportDefinition(final String name, final String sql) throws EscidocException,
+        InternalClientException, TransportException {
+        ReportDefinitionHandlerClient rdhc = new ReportDefinitionHandlerClient(auth.getServiceAddress());
         rdhc.setHandle(auth.getHandle());
 
-        ReportDefinition rd =
-            new ReportDefinition(name, new ScopeRef(scopeId), sql);
+        ReportDefinition rd = new ReportDefinition(name, new ScopeRef(scopeId), sql);
         return rdhc.create(rd).getObjid();
     }
 }

@@ -69,10 +69,8 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA
  */
 public interface ItemHandlerClientInterface
-    extends HandlerService, CrudService<Item>,
-    VersionableResourceService<Item>, ResourceStatusService<Item>,
-    LockingService<Item>, VersionPidService<Item>,
-    PropertiesService<Item, ItemProperties>, MdRecordService,
+    extends HandlerService, CrudService<Item>, VersionableResourceService<Item>, ResourceStatusService<Item>,
+    LockingService<Item>, VersionPidService<Item>, PropertiesService<Item, ItemProperties>, MdRecordService,
     ContentStreamService, RelationsService {
 
     /**
@@ -83,8 +81,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveItems(SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    SearchRetrieveResponse retrieveItems(SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -94,8 +92,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveItems(ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveItems(ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -105,8 +103,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<Item> retrieveItemsAsList(SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    List<Item> retrieveItemsAsList(SearchRetrieveRequestType request) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * @param id
@@ -115,8 +113,7 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ContainerList retrieveParents(String id) throws EscidocException,
-        InternalClientException, TransportException;
+    ContainerList retrieveParents(String id) throws EscidocException, InternalClientException, TransportException;
 
     /**
      * @param id
@@ -126,8 +123,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Item moveToContext(final String id, final TaskParam param)
-        throws EscidocException, InternalClientException, TransportException;
+    Item moveToContext(final String id, final TaskParam param) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -138,8 +135,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Item moveToContext(final Item item, final TaskParam param)
-        throws EscidocException, InternalClientException, TransportException;
+    Item moveToContext(final Item item, final TaskParam param) throws EscidocException, InternalClientException,
+        TransportException;
 
     /*
      * COMPONENTS
@@ -153,8 +150,7 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Components retrieveComponents(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    Components retrieveComponents(final String id) throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
@@ -165,8 +161,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Component createComponent(final String id, Component component)
-        throws EscidocException, InternalClientException, TransportException;
+    Component createComponent(final String id, Component component) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -177,8 +173,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Component retrieveComponent(final String itemId, final String componentId)
-        throws EscidocException, InternalClientException, TransportException;
+    Component retrieveComponent(final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -188,8 +184,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    void deleteComponent(final String itemId, final String componentId)
-        throws EscidocException, InternalClientException, TransportException;
+    void deleteComponent(final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -201,21 +197,7 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Component updateComponent(
-        final String id, final String componentId, final String xmlData)
-        throws EscidocException, InternalClientException, TransportException;
-
-    /**
-     * 
-     * @param itemId
-     * @param componentId
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    ComponentProperties retrieveComponentProperties(
-        final String itemId, final String componentId) throws EscidocException,
+    Component updateComponent(final String id, final String componentId, final String xmlData) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -227,8 +209,19 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    MetadataRecords retrieveComponentMdRecords(
-        final String itemId, final String componentId) throws EscidocException,
+    ComponentProperties retrieveComponentProperties(final String itemId, final String componentId)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param itemId
+     * @param componentId
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    MetadataRecords retrieveComponentMdRecords(final String itemId, final String componentId) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -241,8 +234,7 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    MetadataRecord retrieveComponentMdRecord(
-        final String id, final String componentId, final String mdRecordId)
+    MetadataRecord retrieveComponentMdRecord(final String id, final String componentId, final String mdRecordId)
         throws EscidocException, InternalClientException, TransportException;
 
     /*
@@ -258,8 +250,8 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    HttpInputStream retrieveContent(final String id, final String componentId)
-        throws EscidocException, InternalClientException, TransportException;
+    HttpInputStream retrieveContent(final String id, final String componentId) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -273,9 +265,8 @@ public interface ItemHandlerClientInterface
      * @throws TransportException
      */
     HttpInputStream retrieveContent(
-        final String id, final String contentId, final String transformer,
-        final Map<String, String[]> transParams) throws EscidocException,
-        InternalClientException, TransportException;
+        final String id, final String contentId, final String transformer, final Map<String, String[]> transParams)
+        throws EscidocException, InternalClientException, TransportException;
 
     /**
      * 
@@ -287,8 +278,7 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result assignContentPid(
-        final String id, final String componentId, final TaskParam taskParam)
+    Result assignContentPid(final String id, final String componentId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -301,7 +291,6 @@ public interface ItemHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result assignContentPid(
-        final Item item, final String componentId, final TaskParam taskParam)
+    Result assignContentPid(final Item item, final String componentId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
 }

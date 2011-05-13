@@ -20,8 +20,7 @@ import de.escidoc.core.resources.sm.preprocess.PreprocessingInformation;
  * @author MVO
  * 
  */
-public class PreprocessingHandlerClient
-    extends AbstractHandlerClient<RestPreprocessingHandlerClient>
+public class PreprocessingHandlerClient extends AbstractHandlerClient<RestPreprocessingHandlerClient>
     implements PreprocessingHandlerClientInterface {
 
     /**
@@ -60,16 +59,13 @@ public class PreprocessingHandlerClient
      * de.escidoc.core.resources.sm.preprocess.PreprocessingInformation)
      */
     @Override
-    public void preprocess(
-        final String aggregationDefinitionId,
-        final PreprocessingInformation info) throws EscidocException,
-        InternalClientException, TransportException {
+    public void preprocess(final String aggregationDefinitionId, final PreprocessingInformation info)
+        throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(aggregationDefinitionId);
 
         Marshaller<PreprocessingInformation> m =
-            MarshallerFactory.getInstance().getMarshaller(
-                PreprocessingInformation.class);
+            MarshallerFactory.getInstance().getMarshaller(PreprocessingInformation.class);
 
         String xml;
         if (info == null) {
@@ -83,8 +79,7 @@ public class PreprocessingHandlerClient
     }
 
     @Override
-    protected RestPreprocessingHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestPreprocessingHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestPreprocessingHandlerClient(getServiceAddress());
     }
 }

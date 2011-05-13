@@ -58,8 +58,7 @@ import de.escidoc.core.client.rest.serviceLocator.StagingRestServiceLocator;
  */
 public class RestStagingHandlerClient extends RestClientBase {
 
-    private final static Logger LOG = Logger
-        .getLogger(RestStagingHandlerClient.class);
+    private final static Logger LOG = Logger.getLogger(RestStagingHandlerClient.class);
 
     private StagingHandler restClient = null;
 
@@ -76,8 +75,7 @@ public class RestStagingHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestStagingHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestStagingHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -90,8 +88,7 @@ public class RestStagingHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestStagingHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestStagingHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -99,8 +96,7 @@ public class RestStagingHandlerClient extends RestClientBase {
      * Create a file on Staging Service.
      * 
      */
-    public URL upload(final File f) throws EscidocException,
-        InternalClientException, TransportException {
+    public URL upload(final File f) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -126,8 +122,7 @@ public class RestStagingHandlerClient extends RestClientBase {
      * Create a file on Staging Service.
      * 
      */
-    public URL upload(final InputStream ins) throws EscidocException,
-        InternalClientException, TransportException {
+    public URL upload(final InputStream ins) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -159,8 +154,7 @@ public class RestStagingHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            StagingRestServiceLocator serviceLocator =
-                new StagingRestServiceLocator();
+            StagingRestServiceLocator serviceLocator = new StagingRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;
@@ -176,8 +170,8 @@ public class RestStagingHandlerClient extends RestClientBase {
      * @throws SAXException
      * @throws IOException
      */
-    public static URL extractStagingUrl(final String xml)
-        throws ParserConfigurationException, SAXException, IOException {
+    public static URL extractStagingUrl(final String xml) throws ParserConfigurationException, SAXException,
+        IOException {
 
         String stagingHref;
         Element rootElement;

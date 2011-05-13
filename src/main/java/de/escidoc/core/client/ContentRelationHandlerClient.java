@@ -57,8 +57,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA
  * 
  */
-public class ContentRelationHandlerClient
-    extends AbstractHandlerClient<RestContentRelationHandlerClient>
+public class ContentRelationHandlerClient extends AbstractHandlerClient<RestContentRelationHandlerClient>
     implements ContentRelationHandlerClientInterface {
 
     /**
@@ -89,8 +88,7 @@ public class ContentRelationHandlerClient
     }
 
     @Override
-    protected RestContentRelationHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestContentRelationHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestContentRelationHandlerClient(getServiceAddress());
     }
 
@@ -108,14 +106,12 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public ContentRelation create(final ContentRelation contentRelation)
-        throws EscidocException, InternalClientException, TransportException {
+    public ContentRelation create(final ContentRelation contentRelation) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(contentRelation);
 
-        Marshaller<ContentRelation> m =
-            MarshallerFactory
-                .getInstance().getMarshaller(ContentRelation.class);
+        Marshaller<ContentRelation> m = MarshallerFactory.getInstance().getMarshaller(ContentRelation.class);
 
         String xml = getClient().create(m.marshalDocument(contentRelation));
         return m.unmarshalDocument(xml);
@@ -132,8 +128,8 @@ public class ContentRelationHandlerClient
      *             instead.
      */
     @Deprecated
-    public ContentRelation retrieve(final ContentRelation contentRelation)
-        throws EscidocException, InternalClientException, TransportException {
+    public ContentRelation retrieve(final ContentRelation contentRelation) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(contentRelation);
 
@@ -154,16 +150,14 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public ContentRelation retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public ContentRelation retrieve(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieve(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ContentRelation.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ContentRelation.class).unmarshalDocument(xml);
     }
 
     /**
@@ -179,8 +173,7 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(id);
 
@@ -201,18 +194,14 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public ContentRelation update(final ContentRelation contentRelation)
-        throws EscidocException, InternalClientException, TransportException {
+    public ContentRelation update(final ContentRelation contentRelation) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(contentRelation);
 
-        Marshaller<ContentRelation> m =
-            MarshallerFactory
-                .getInstance().getMarshaller(ContentRelation.class);
+        Marshaller<ContentRelation> m = MarshallerFactory.getInstance().getMarshaller(ContentRelation.class);
 
-        String xml =
-            getClient().update(contentRelation.getObjid(),
-                m.marshalDocument(contentRelation));
+        String xml = getClient().update(contentRelation.getObjid(), m.marshalDocument(contentRelation));
 
         return m.unmarshalDocument(xml);
     }
@@ -233,9 +222,8 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result assignObjectPid(
-        final ContentRelation cr, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result assignObjectPid(final ContentRelation cr, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(cr);
 
@@ -258,17 +246,15 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result assignObjectPid(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result assignObjectPid(final String id, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml =
-            getClient().assignObjectPid(id, marshalTaskParam(taskParam));
+        String xml = getClient().assignObjectPid(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -287,8 +273,8 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result lock(final ContentRelation cr, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result lock(final ContentRelation cr, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(cr);
 
@@ -311,16 +297,15 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result lock(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result lock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().lock(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -339,8 +324,8 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result unlock(final ContentRelation cr, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result unlock(final ContentRelation cr, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(cr);
 
@@ -363,16 +348,15 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result unlock(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result unlock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().unlock(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /*
@@ -395,16 +379,15 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result submit(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result submit(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().submit(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -423,9 +406,8 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result submit(
-        final ContentRelation contentRelation, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result submit(final ContentRelation contentRelation, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(contentRelation);
 
@@ -448,16 +430,15 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result release(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result release(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().release(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -476,9 +457,8 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result release(
-        final ContentRelation contentRelation, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result release(final ContentRelation contentRelation, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(contentRelation);
 
@@ -501,16 +481,15 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result revise(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result revise(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(id);
         checkNotNull(taskParam);
 
         String xml = getClient().revise(id, marshalTaskParam(taskParam));
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
     /**
@@ -529,9 +508,8 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public Result revise(
-        final ContentRelation contentRelation, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public Result revise(final ContentRelation contentRelation, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(contentRelation);
 
@@ -552,15 +530,12 @@ public class ContentRelationHandlerClient
      *             Thrown if in case of failure on transport level.
      */
     @Override
-    public SearchRetrieveResponse retrieveContentRelations(
-        final SearchRetrieveRequestType filter) throws EscidocException,
-        InternalClientException, TransportException {
+    public SearchRetrieveResponse retrieveContentRelations(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
 
         String xml = getClient().retrieveContentRelations(filter);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(SearchRetrieveResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
     /*
@@ -572,12 +547,10 @@ public class ContentRelationHandlerClient
      * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public List<ContentRelation> retrieveContentRelationsAsList(
-        final SearchRetrieveRequestType filter) throws EscidocException,
-        InternalClientException, TransportException {
+    public List<ContentRelation> retrieveContentRelationsAsList(final SearchRetrieveRequestType filter)
+        throws EscidocException, InternalClientException, TransportException {
 
-        return getSearchRetrieveResponseAsList(ContentRelation.class,
-            retrieveContentRelations(filter));
+        return getSearchRetrieveResponseAsList(ContentRelation.class, retrieveContentRelations(filter));
     }
 
     /*
@@ -588,15 +561,12 @@ public class ContentRelationHandlerClient
      * #retrieveContentRelations(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
-    public ExplainResponse retrieveContentRelations(
-        final ExplainRequestType filter) throws EscidocException,
+    public ExplainResponse retrieveContentRelations(final ExplainRequestType filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String xml = getClient().retrieveContentRelations(filter);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ExplainResponse.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
     /*
@@ -607,15 +577,13 @@ public class ContentRelationHandlerClient
      * (java.lang.String)
      */
     @Override
-    public ContentRelationProperties retrieveProperties(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public ContentRelationProperties retrieveProperties(final String id) throws EscidocException,
+        InternalClientException, TransportException {
 
         checkNotNull(id);
 
         String xml = getClient().retrieveProperties(id);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(ContentRelationProperties.class)
-            .unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(ContentRelationProperties.class).unmarshalDocument(xml);
     }
 }

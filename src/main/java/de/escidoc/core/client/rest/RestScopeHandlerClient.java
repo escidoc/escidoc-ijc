@@ -24,8 +24,7 @@ import de.escidoc.core.client.rest.serviceLocator.ScopeRestServiceLocator;
  */
 public class RestScopeHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestScopeHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(RestScopeHandlerClient.class);
 
     private ScopeHandler client;
 
@@ -42,8 +41,7 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestScopeHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestScopeHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -56,8 +54,7 @@ public class RestScopeHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestScopeHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestScopeHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -67,8 +64,7 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -88,8 +84,7 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String xml) throws EscidocException, InternalClientException, TransportException {
 
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
@@ -112,8 +107,8 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String update(final String id, final String xml)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String xml) throws EscidocException, InternalClientException,
+        TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -137,8 +132,7 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         if (id == null)
             throw new IllegalArgumentException("id must not be null.");
@@ -160,8 +154,8 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveScopes(final SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(request, true);
 
@@ -183,8 +177,8 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     @Deprecated
-    public String retrieveScopes(final HashMap<String, String[]> request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveScopes(final HashMap<String, String[]> request) throws EscidocException,
+        InternalClientException, TransportException {
 
         String resultXml = null;
         try {
@@ -203,8 +197,8 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveScopes(final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveScopes(final ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException {
 
         evalRequest(request);
 
@@ -227,8 +221,7 @@ public class RestScopeHandlerClient extends RestClientBase {
     public ScopeHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            ScopeRestServiceLocator serviceLocator =
-                new ScopeRestServiceLocator();
+            ScopeRestServiceLocator serviceLocator = new ScopeRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

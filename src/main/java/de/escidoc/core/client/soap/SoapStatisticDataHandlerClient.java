@@ -22,8 +22,7 @@ import de.escidoc.core.sm.StatisticDataHandlerServiceLocator;
  */
 public class SoapStatisticDataHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(SoapStatisticDataHandlerClient.class);
+    private static final Logger LOG = Logger.getLogger(SoapStatisticDataHandlerClient.class);
 
     private StatisticDataHandler client;
 
@@ -40,8 +39,7 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public SoapStatisticDataHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public SoapStatisticDataHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -54,8 +52,7 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
      *             instead.
      */
     @Deprecated
-    public SoapStatisticDataHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public SoapStatisticDataHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -66,8 +63,7 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public void create(final String xml) throws EscidocException,
-        InternalClientException, TransportException {
+    public void create(final String xml) throws EscidocException, InternalClientException, TransportException {
 
         if (xml == null)
             throw new IllegalArgumentException("xml must not be null.");
@@ -90,9 +86,7 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
         if (client == null) {
             StatisticDataHandlerServiceLocator serviceLocator =
                 new StatisticDataHandlerServiceLocator(getEngineConfig());
-            URL url =
-                getHandlerServiceURL(serviceLocator
-                    .getStatisticDataHandlerServiceAddress());
+            URL url = getHandlerServiceURL(serviceLocator.getStatisticDataHandlerServiceAddress());
             try {
                 client = serviceLocator.getStatisticDataHandlerService(url);
             }

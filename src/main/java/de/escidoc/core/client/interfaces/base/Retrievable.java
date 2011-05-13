@@ -27,6 +27,5 @@ public interface Retrievable<T> {
      * @throws TransportException
      *             Thrown in case of transport errors.
      */
-    T retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException;
+    T retrieve(final String id) throws EscidocException, InternalClientException, TransportException;
 }

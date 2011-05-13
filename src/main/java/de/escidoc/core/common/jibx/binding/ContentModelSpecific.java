@@ -1,6 +1,5 @@
 package de.escidoc.core.common.jibx.binding;
 
-
 //public class ContentModelSpecific extends MarshallingBase
 //    implements IMarshaller, IUnmarshaller, IAliasable {
 //    public ContentModelSpecific(String uri, int index, String name) {

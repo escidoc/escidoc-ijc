@@ -35,8 +35,7 @@ public class Schema extends XLinkResource {
      * @param xLinkTitle
      * @param xLinkType
      */
-    public Schema(final String xLinkHref, final String xLinkTitle,
-        final XLinkType xLinkType) {
+    public Schema(final String xLinkHref, final String xLinkTitle, final XLinkType xLinkType) {
 
         checkNotNull(xLinkHref);
 

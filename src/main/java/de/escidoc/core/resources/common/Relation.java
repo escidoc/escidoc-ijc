@@ -114,8 +114,7 @@ public class Relation extends Reference {
          * only supported, if REST is being used as the TransportProtocol.
          */
         if (getXLinkHref() != null && this.type == null) {
-            String prefixPath =
-                getXLinkHref().substring(0, getXLinkHref().lastIndexOf('/'));
+            String prefixPath = getXLinkHref().substring(0, getXLinkHref().lastIndexOf('/'));
             ResourceType type = ResourceType.getValue(prefixPath);
             if (type != null) {
                 this.type = type;

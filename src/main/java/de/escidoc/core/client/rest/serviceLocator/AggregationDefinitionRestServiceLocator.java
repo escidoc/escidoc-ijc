@@ -26,8 +26,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
-    implements AggregationDefinitionHandler {
+public class AggregationDefinitionRestServiceLocator extends RestServiceMethod implements AggregationDefinitionHandler {
 
     public static final String PATH = "/statistic/aggregation-definition";
 
@@ -38,10 +37,8 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.sm.AggregationDefinitionHandler#delete(java.lang.String)
      */
     @Override
-    public void delete(final String id) throws RemoteException,
-        SystemException, AuthorizationException,
-        AggregationDefinitionNotFoundException, AuthenticationException,
-        MissingMethodParameterException {
+    public void delete(final String id) throws RemoteException, SystemException, AuthorizationException,
+        AggregationDefinitionNotFoundException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(id);
 
@@ -55,10 +52,9 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.sm.AggregationDefinitionHandler#create(java.lang.String)
      */
     @Override
-    public String create(final String xml) throws RemoteException,
-        XmlSchemaValidationException, SystemException, XmlCorruptedException,
-        AuthorizationException, ScopeNotFoundException,
-        AuthenticationException, MissingMethodParameterException {
+    public String create(final String xml) throws RemoteException, XmlSchemaValidationException, SystemException,
+        XmlCorruptedException, AuthorizationException, ScopeNotFoundException, AuthenticationException,
+        MissingMethodParameterException {
 
         checkNotNull(xml);
 
@@ -73,10 +69,8 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * )
      */
     @Override
-    public String retrieve(final String id) throws RemoteException,
-        SystemException, AuthorizationException,
-        AggregationDefinitionNotFoundException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieve(final String id) throws RemoteException, SystemException, AuthorizationException,
+        AggregationDefinitionNotFoundException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(id);
 
@@ -90,12 +84,10 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * retrieveAggregationDefinitions(java.util.HashMap)
      */
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Deprecated
-    public String retrieveAggregationDefinitions(final HashMap filter)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieveAggregationDefinitions(final HashMap filter) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         return get(PATH + "s", filter);
     }
@@ -108,10 +100,9 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public String retrieveAggregationDefinitions(
-        final SearchRetrieveRequestType request) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        InvalidXmlException, MissingMethodParameterException {
+    public String retrieveAggregationDefinitions(final SearchRetrieveRequestType request) throws RemoteException,
+        SystemException, AuthorizationException, AuthenticationException, InvalidXmlException,
+        MissingMethodParameterException {
 
         checkNotNull(request);
 
@@ -125,10 +116,9 @@ public class AggregationDefinitionRestServiceLocator extends RestServiceMethod
      * retrieveAggregationDefinitions(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
-    public String retrieveAggregationDefinitions(
-        final ExplainRequestType request) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        InvalidXmlException, MissingMethodParameterException {
+    public String retrieveAggregationDefinitions(final ExplainRequestType request) throws RemoteException,
+        SystemException, AuthorizationException, AuthenticationException, InvalidXmlException,
+        MissingMethodParameterException {
 
         checkNotNull(request);
 

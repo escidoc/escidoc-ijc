@@ -31,10 +31,8 @@ public interface ScopeHandler extends de.escidoc.core.sm.ScopeHandler {
      * @throws InvalidXmlException
      * @throws MissingMethodParameterException
      */
-    public String retrieveScopes(SearchRetrieveRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException;
+    public String retrieveScopes(SearchRetrieveRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException;
 
     /**
      * 
@@ -47,8 +45,6 @@ public interface ScopeHandler extends de.escidoc.core.sm.ScopeHandler {
      * @throws InvalidXmlException
      * @throws MissingMethodParameterException
      */
-    public String retrieveScopes(ExplainRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException;
+    public String retrieveScopes(ExplainRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException;
 }

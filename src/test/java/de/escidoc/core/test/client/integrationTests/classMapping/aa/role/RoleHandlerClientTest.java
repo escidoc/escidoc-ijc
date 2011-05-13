@@ -83,10 +83,8 @@ public class RoleHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         rc = new RoleHandlerClient(auth.getServiceAddress());
         rc.setHandle(auth.getHandle());
     }
@@ -110,9 +108,7 @@ public class RoleHandlerClientTest {
 
         String objId = createdRole.getObjid();
 
-        MarshallerFactory
-            .getInstance(rc.getTransport()).getMarshaller(Role.class)
-            .marshalDocument(rc.retrieve(objId));
+        MarshallerFactory.getInstance(rc.getTransport()).getMarshaller(Role.class).marshalDocument(rc.retrieve(objId));
 
     }
 
@@ -151,8 +147,7 @@ public class RoleHandlerClientTest {
         catch (EscidocException e) {
             if (!(e instanceof RoleNotFoundException)) {
 
-                fail("Wrong exception.Excepted exception of type "
-                    + "RoleNotFoundException but was " + e.getClass());
+                fail("Wrong exception.Excepted exception of type " + "RoleNotFoundException but was " + e.getClass());
             }
         }
 
@@ -174,9 +169,7 @@ public class RoleHandlerClientTest {
         filterParam.setFilters(filters);
 
         // serialize data
-        MarshallerFactory
-            .getInstance().getMarshaller(TaskParam.class)
-            .marshalDocument(filterParam);
+        MarshallerFactory.getInstance().getMarshaller(TaskParam.class).marshalDocument(filterParam);
     }
 
     /**
@@ -213,8 +206,7 @@ public class RoleHandlerClientTest {
      * 
      * @throws Exception
      */
-    private Role createRole() throws ParserConfigurationException,
-        SAXException, IOException, InternalClientException {
+    private Role createRole() throws ParserConfigurationException, SAXException, IOException, InternalClientException {
 
         Role role = new Role();
 
@@ -226,12 +218,9 @@ public class RoleHandlerClientTest {
         // Scope
         Scope scope = new Scope();
         ScopeDef scopeDef1 =
-            new ScopeDef(ResourceType.ITEM,
-                "info:escidoc/names:aa:1.0:resource:item:context",
-                ResourceType.CONTEXT);
+            new ScopeDef(ResourceType.ITEM, "info:escidoc/names:aa:1.0:resource:item:context", ResourceType.CONTEXT);
         ScopeDef scopeDef2 =
-            new ScopeDef(ResourceType.CONTAINER,
-                "info:escidoc/names:aa:1.0:resource:item:context",
+            new ScopeDef(ResourceType.CONTAINER, "info:escidoc/names:aa:1.0:resource:item:context",
                 ResourceType.CONTEXT);
 
         List<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
@@ -246,15 +235,14 @@ public class RoleHandlerClientTest {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc =
-            builder.parse(Template.load(TransportProtocol.REST
-                .name().toLowerCase() + "/aa/role/policy_for_create.xml"));
+            builder
+                .parse(Template.load(TransportProtocol.REST.name().toLowerCase() + "/aa/role/policy_for_create.xml"));
         Element root = doc.getDocumentElement();
 
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m =
-            MarshallerFactory.getInstance().getMarshaller(Role.class);
+        Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
 
         String xml = m.marshalDocument(role);
 

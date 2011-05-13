@@ -49,8 +49,7 @@ import de.escidoc.core.resources.aa.pdp.Results;
  * @author SWA
  * 
  */
-public class PolicyDecisionPointHandlerClient
-    extends AbstractHandlerClient<RestPolicyDecisionPointHandlerClient>
+public class PolicyDecisionPointHandlerClient extends AbstractHandlerClient<RestPolicyDecisionPointHandlerClient>
     implements PolicyDecisionPointHandlerClientInterface {
 
     /**
@@ -88,25 +87,20 @@ public class PolicyDecisionPointHandlerClient
      * #evaluate(de.escidoc.core.resources.aa.pdp.Requests)
      */
     @Override
-    public Results evaluate(final Requests requests) throws EscidocException,
-        InternalClientException, TransportException {
+    public Results evaluate(final Requests requests) throws EscidocException, InternalClientException,
+        TransportException {
 
         checkNotNull(requests);
 
-        String xml =
-            MarshallerFactory
-                .getInstance().getMarshaller(Requests.class)
-                .marshalDocument(requests);
+        String xml = MarshallerFactory.getInstance().getMarshaller(Requests.class).marshalDocument(requests);
 
         xml = getClient().evaluate(xml);
 
-        return MarshallerFactory
-            .getInstance().getMarshaller(Results.class).unmarshalDocument(xml);
+        return MarshallerFactory.getInstance().getMarshaller(Results.class).unmarshalDocument(xml);
     }
 
     @Override
-    protected RestPolicyDecisionPointHandlerClient getRestHandlerClientInstance()
-        throws InternalClientException {
+    protected RestPolicyDecisionPointHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestPolicyDecisionPointHandlerClient(getServiceAddress());
     }
 }

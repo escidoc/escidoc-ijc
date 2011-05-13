@@ -39,10 +39,8 @@ public abstract class UserAccountElements<E> extends XLinkList<E> {
      * specified {@link Attributes#userObjid}.
      */
     public void generateXLinkHref() {
-        if (userObjid != null && getXLinkHref() == null
-            && getListXLinkPath() != null) {
-            setXLinkHref(ResourceType.USERACCOUNT.getPath(userObjid)
-                + getListXLinkPath());
+        if (userObjid != null && getXLinkHref() == null && getListXLinkPath() != null) {
+            setXLinkHref(ResourceType.USERACCOUNT.getPath(userObjid) + getListXLinkPath());
         }
     }
 }

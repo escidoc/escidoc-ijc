@@ -82,10 +82,8 @@ public class ContainerFilterVersion12Test {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -107,13 +105,11 @@ public class ContainerFilterVersion12Test {
     public void testExplain() throws Exception {
         cc.create(createContainer());
 
-        ExplainResponse response =
-            cc.retrieveContainers(new ExplainRequestType());
+        ExplainResponse response = cc.retrieveContainers(new ExplainRequestType());
         Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
-        assertTrue("No index definitions found", explain
-            .getIndexInfo().getIndexes().size() > 0);
+        assertTrue("No index definitions found", explain.getIndexInfo().getIndexes().size() > 0);
     }
 
     /**
@@ -130,23 +126,20 @@ public class ContainerFilterVersion12Test {
         // now check if at least this Container is in the list
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
         srwFilter.setQuery("\"/properties/creation-date\"=\""
-            + createdContainer.getLastModificationDate().withZone(
-                DateTimeZone.UTC) + "\"");
+            + createdContainer.getLastModificationDate().withZone(DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse containerList = cc.retrieveContainers(srwFilter);
 
         assertEquals("Wrong version number", "1.1", containerList.getVersion());
-        assertTrue("Wrong number of matching records",
-            containerList.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of matching records", containerList.getNumberOfMatchingRecords() >= 1);
         assertEquals("Wrong record position", 1, containerList
             .getRecords().iterator().next().getRecordPosition().intValue());
 
         // now check the convenience method
         Collection<Container> list = cc.retrieveContainersAsList(srwFilter);
 
-        assertTrue("Wrong number of records", list.size() == containerList
-            .getRecords().size());
+        assertTrue("Wrong number of records", list.size() == containerList.getRecords().size());
     }
 
     /**
@@ -157,16 +150,14 @@ public class ContainerFilterVersion12Test {
      * @throws EscidocException
      * @throws TransportException
      */
-    private Container createContainer() throws ParserConfigurationException,
-        TransportException, EscidocException, InternalClientException {
+    private Container createContainer() throws ParserConfigurationException, TransportException, EscidocException,
+        InternalClientException {
         Container container = new Container();
 
         // properties
         ContainerProperties properties = new ContainerProperties();
-        properties.setContext(new ContextRef(EscidocClientTestBase
-            .getStaticContextId()));
-        properties.setContentModel(new ContentModelRef(EscidocClientTestBase
-            .getStaticContentModelId()));
+        properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

@@ -68,10 +68,8 @@ public class UserAccountHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
     }
@@ -98,9 +96,8 @@ public class UserAccountHandlerClientTest {
 
         // test marshalling
         String objId = createdUa.getObjid();
-        MarshallerFactory
-            .getInstance(uac.getTransport()).getMarshaller(UserAccount.class)
-            .marshalDocument(uac.retrieve(objId));
+        MarshallerFactory.getInstance(uac.getTransport()).getMarshaller(UserAccount.class).marshalDocument(
+            uac.retrieve(objId));
     }
 
     /**
@@ -139,16 +136,14 @@ public class UserAccountHandlerClientTest {
         // update at infrastructure
         UserAccount updatedUserAccont = uac.update(createdUa);
 
-        UserAccountProperties updatedProperties =
-            updatedUserAccont.getProperties();
+        UserAccountProperties updatedProperties = updatedUserAccont.getProperties();
 
         assertEquals("new Name", updatedProperties.getName());
         assertEquals(newLoginName, updatedProperties.getLoginName());
 
         // test marshalling
-        MarshallerFactory
-            .getInstance(uac.getTransport()).getMarshaller(UserAccount.class)
-            .marshalDocument(updatedUserAccont);
+        MarshallerFactory.getInstance(uac.getTransport()).getMarshaller(UserAccount.class).marshalDocument(
+            updatedUserAccont);
     }
 
     /**
@@ -175,20 +170,17 @@ public class UserAccountHandlerClientTest {
 
         // check user account
         UserAccount deactivatedUserAccount = uac.retrieve(objId);
-        UserAccountProperties properties =
-            deactivatedUserAccount.getProperties();
+        UserAccountProperties properties = deactivatedUserAccount.getProperties();
 
         assertFalse(properties.isActive());
 
         // activate user account
-        taskParam.setLastModificationDate(deactivatedUserAccount
-            .getLastModificationDate());
+        taskParam.setLastModificationDate(deactivatedUserAccount.getLastModificationDate());
         uac.activate(objId, taskParam);
 
         // check activated user account
         UserAccount reactivatedUserAccount = uac.retrieve(objId);
-        UserAccountProperties propertiesReactivated =
-            reactivatedUserAccount.getProperties();
+        UserAccountProperties propertiesReactivated = reactivatedUserAccount.getProperties();
 
         assertTrue(propertiesReactivated.isActive());
     }
@@ -203,11 +195,9 @@ public class UserAccountHandlerClientTest {
     public void testRetrieveUserAccounts() throws Exception {
 
         SearchRetrieveRequestType request = new SearchRetrieveRequestType();
-        request
-            .setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
+        request.setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        List<UserAccount> userAccountList =
-            uac.retrieveUserAccountsAsList(request);
+        List<UserAccount> userAccountList = uac.retrieveUserAccountsAsList(request);
 
         assertNotNull("No user account list returned.", userAccountList);
     }
@@ -253,9 +243,8 @@ public class UserAccountHandlerClientTest {
 
         // FIXME there are no grant, that's why the test is bad
 
-        MarshallerFactory
-            .getInstance(uac.getTransport()).getMarshaller(Grants.class)
-            .marshalDocument(uac.retrieveCurrentGrants(objId));
+        MarshallerFactory.getInstance(uac.getTransport()).getMarshaller(Grants.class).marshalDocument(
+            uac.retrieveCurrentGrants(objId));
     }
 
     /**
@@ -285,11 +274,9 @@ public class UserAccountHandlerClientTest {
 
         // check login with a new password
         // it assumed that a user is allowed to retrieve its own account
-        Authentication auth2 =
-            new Authentication(auth.getServiceAddress(), login, password);
+        Authentication auth2 = new Authentication(auth.getServiceAddress(), login, password);
 
-        UserAccountHandlerClientInterface uac2 =
-            new UserAccountHandlerClient(auth.getServiceAddress());
+        UserAccountHandlerClientInterface uac2 = new UserAccountHandlerClient(auth.getServiceAddress());
         uac2.setHandle(auth2.getHandle());
 
         uac2.retrieve(objId);

@@ -16,21 +16,17 @@ public class Filter {
      * @param value
      * @param ids
      */
-    public Filter(final String name, final String value,
-        final Collection<String> ids) {
+    public Filter(final String name, final String value, final Collection<String> ids) {
         setName(name);
         setValue(value);
         setIds(ids);
     }
 
-    public static final String DC_BASE =
-        "http://escidoc.de/core/01/properties/";
+    public static final String DC_BASE = "http://escidoc.de/core/01/properties/";
 
-    public static final String PROPERTIES_BASE =
-        "http://escidoc.de/core/01/properties/";
+    public static final String PROPERTIES_BASE = "http://escidoc.de/core/01/properties/";
 
-    public static final String STRUCTURAL_RELATION_BASE =
-        "http://escidoc.de/core/01/structural-relations/";
+    public static final String STRUCTURAL_RELATION_BASE = "http://escidoc.de/core/01/structural-relations/";
 
     private String name = null;
 

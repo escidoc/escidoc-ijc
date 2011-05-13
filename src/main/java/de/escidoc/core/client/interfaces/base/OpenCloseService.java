@@ -27,8 +27,8 @@ public interface OpenCloseService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result open(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result open(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * Changes the state of the resource to <i>open</i>.
@@ -40,8 +40,8 @@ public interface OpenCloseService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result open(final T resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result open(final T resource, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * Changes the state of the resource to <i>close</i>.
@@ -55,8 +55,8 @@ public interface OpenCloseService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result close(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result close(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -67,6 +67,6 @@ public interface OpenCloseService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result close(final T resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result close(final T resource, final TaskParam taskParam) throws EscidocException, InternalClientException,
+        TransportException;
 }

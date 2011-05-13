@@ -76,9 +76,8 @@ public class ReportDefinitionHandlerClientTest {
 
         ReportDefinition rd =
             new ReportDefinition("Report Name", new ScopeRef(scopeId),
-                "select page,year,sum(requests) as requests,sum(sessions) as sessions"
-                    + " from " + adTableName + " where page='createItem'"
-                    + " group by page,year order by page, year;");
+                "select page,year,sum(requests) as requests,sum(sessions) as sessions" + " from " + adTableName
+                    + " where page='createItem'" + " group by page,year order by page, year;");
         rhc.create(rd);
     }
 
@@ -90,13 +89,11 @@ public class ReportDefinitionHandlerClientTest {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String createScope(final ScopeType type) throws EscidocException,
-        InternalClientException, TransportException {
-        Scope scope =
-            new Scope("AdminScope @" + System.currentTimeMillis(), type);
+    private String createScope(final ScopeType type) throws EscidocException, InternalClientException,
+        TransportException {
+        Scope scope = new Scope("AdminScope @" + System.currentTimeMillis(), type);
 
-        ScopeHandlerClient shc =
-            new ScopeHandlerClient(auth.getServiceAddress());
+        ScopeHandlerClient shc = new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
 
         return shc.create(scope).getObjid();
@@ -109,21 +106,17 @@ public class ReportDefinitionHandlerClientTest {
      * @throws InternalClientException
      * @throws TransportException
      */
-    private String[] createAD() throws EscidocException,
-        InternalClientException, TransportException {
+    private String[] createAD() throws EscidocException, InternalClientException, TransportException {
 
-        AggregationDefinitionHandlerClient ahc =
-            new AggregationDefinitionHandlerClient(auth.getServiceAddress());
+        AggregationDefinitionHandlerClient ahc = new AggregationDefinitionHandlerClient(auth.getServiceAddress());
         ahc.setHandle(auth.getHandle());
 
         AggregationDefinition a =
-            ahc.create(AggregationDefinitionHandlerClientTest.defineValidAD(
-                AD_NAME, adTableName, scopeId));
+            ahc.create(AggregationDefinitionHandlerClientTest.defineValidAD(AD_NAME, adTableName, scopeId));
 
         if (a.getAggregationTables().size() == 0)
             fail("Missing aggregation table.");
 
-        return new String[] { a.getObjid(),
-            a.getAggregationTables().iterator().next().getName() };
+        return new String[] { a.getObjid(), a.getAggregationTables().iterator().next().getName() };
     }
 }

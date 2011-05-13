@@ -30,10 +30,8 @@ public interface UserGroupHandler extends de.escidoc.core.aa.UserGroupHandler {
      * @throws AuthenticationException
      * @throws MissingMethodParameterException
      */
-    String retrieveUserGroups(final SearchRetrieveRequestType request)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException;
+    String retrieveUserGroups(final SearchRetrieveRequestType request) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException;
 
     /**
      * @param request
@@ -45,8 +43,6 @@ public interface UserGroupHandler extends de.escidoc.core.aa.UserGroupHandler {
      * @throws AuthenticationException
      * @throws MissingMethodParameterException
      */
-    String retrieveUserGroups(final ExplainRequestType request)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException;
+    String retrieveUserGroups(final ExplainRequestType request) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException;
 }

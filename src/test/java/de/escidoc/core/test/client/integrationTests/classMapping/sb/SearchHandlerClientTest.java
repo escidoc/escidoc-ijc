@@ -77,8 +77,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 @RunWith(Parameterized.class)
 public class SearchHandlerClientTest {
 
-    private static final Logger LOG = Logger
-        .getLogger(SearchHandlerClientTest.class);
+    private static final Logger LOG = Logger.getLogger(SearchHandlerClientTest.class);
 
     private static final StringBuilder out = new StringBuilder();
 
@@ -92,16 +91,13 @@ public class SearchHandlerClientTest {
 
     @Parameters
     public static Collection<?> data() {
-        return Arrays.asList(new Object[][] { { RecordPacking.XML },
-            { RecordPacking.STRING } });
+        return Arrays.asList(new Object[][] { { RecordPacking.XML }, { RecordPacking.STRING } });
     }
 
     @Before
     public void init() throws Exception {
         // No authentication required for SB
-        c =
-            new SearchHandlerClient(
-                EscidocClientTestBase.getDefaultInfrastructureURL());
+        c = new SearchHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
     }
 
     @After
@@ -198,8 +194,7 @@ public class SearchHandlerClientTest {
                 Resource res = (Resource) data.getContent();
                 assertNotNull(res.getObjid());
 
-                out.append(res.getResourceType().name() + ": ID["
-                    + res.getObjid() + "], Href[" + res.getXLinkHref()
+                out.append(res.getResourceType().name() + ": ID[" + res.getObjid() + "], Href[" + res.getXLinkHref()
                     + "], Score[" + data.getScore() + "]\n");
             }
         }
@@ -256,8 +251,7 @@ public class SearchHandlerClientTest {
 
             if (result.getContent() instanceof Item) {
                 Item item = (Item) result.getContent();
-                out.append("Item: ID[" + item.getObjid() + "], Href["
-                    + item.getXLinkHref() + "]\n");
+                out.append("Item: ID[" + item.getObjid() + "], Href[" + item.getXLinkHref() + "]\n");
             }
         }
 
@@ -276,8 +270,8 @@ public class SearchHandlerClientTest {
             out.append("]\n");
         }
 
-        assertEquals("Binding of all items within records failed.",
-            response.getNumberOfResultingRecords(), items.size());
+        assertEquals("Binding of all items within records failed.", response.getNumberOfResultingRecords(), items
+            .size());
     }
 
     /**
@@ -295,8 +289,7 @@ public class SearchHandlerClientTest {
         SearchRetrieveResponse response = c.retrieveItems(request);
 
         assertNotNull("Response should not be null.", response);
-        assertTrue("Filter should return ALL entries on empty search.",
-            response.getNumberOfMatchingRecords() > 0);
+        assertTrue("Filter should return ALL entries on empty search.", response.getNumberOfMatchingRecords() > 0);
     }
 
     /**
@@ -341,30 +334,23 @@ public class SearchHandlerClientTest {
     public void testUserdefindedSRWResult() throws Exception {
         final String objid = "escidoc:264161";
         final String srwResponse =
-            "<?xml version=\"1.0\" ?> "
-                + "<searchRetrieveResponse xmlns=\"http://www.loc.gov/zing/srw/\">"
-                + "\t<version>1.1</version>"
-                + "\t<numberOfRecords>1</numberOfRecords>"
-                + "\t<records xmlns:ns1=\"http://www.loc.gov/zing/srw/\">"
-                + "\t\t<record>"
-                + "\t\t\t<recordSchema>default</recordSchema>"
-                + "\t\t\t<recordPacking>xml</recordPacking>"
+            "<?xml version=\"1.0\" ?> " + "<searchRetrieveResponse xmlns=\"http://www.loc.gov/zing/srw/\">"
+                + "\t<version>1.1</version>" + "\t<numberOfRecords>1</numberOfRecords>"
+                + "\t<records xmlns:ns1=\"http://www.loc.gov/zing/srw/\">" + "\t\t<record>"
+                + "\t\t\t<recordSchema>default</recordSchema>" + "\t\t\t<recordPacking>xml</recordPacking>"
                 + "\t\t\t<recordData>"
                 + "\t\t\t\t<sr:search-result-record xmlns:sr=\"http://www.escidoc.de/schemas/searchresult/0.8\">"
-                + "\t\t\t\t\t<my:item xmlns:my=\"http://mytest.com\">" + objid
-                + "</my:item>" + "\t\t\t\t</sr:search-result-record>"
-                + "\t\t\t</recordData>"
-                + "\t\t\t<recordPosition>1</recordPosition>" + "\t\t</record>"
-                + "\t</records>" + "</searchRetrieveResponse>";
+                + "\t\t\t\t\t<my:item xmlns:my=\"http://mytest.com\">" + objid + "</my:item>"
+                + "\t\t\t\t</sr:search-result-record>" + "\t\t\t</recordData>"
+                + "\t\t\t<recordPosition>1</recordPosition>" + "\t\t</record>" + "\t</records>"
+                + "</searchRetrieveResponse>";
 
         // register new resolver
         SearchDescriptor.registerResolver(new MyResolver());
 
         // simulate request
         SearchRetrieveResponse response =
-            MarshallerFactory
-                .getInstance().getMarshaller(SearchRetrieveResponse.class)
-                .unmarshalDocument(srwResponse);
+            MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(srwResponse);
 
         assertTrue(response.getNumberOfResultingRecords() == 1);
 
@@ -396,14 +382,11 @@ public class SearchHandlerClientTest {
          * @throws URISyntaxException
          */
         private MyResolver() throws URISyntaxException {
-            getTagEntries()
-                .put(new TagEntry("item", new URI("http://mytest.com")),
-                    MyRef.class);
+            getTagEntries().put(new TagEntry("item", new URI("http://mytest.com")), MyRef.class);
         }
 
         @Override
-        public MyRef getContentInstance(
-            final Class<? extends MyRef> clazz, final String xmlTextFragment) {
+        public MyRef getContentInstance(final Class<? extends MyRef> clazz, final String xmlTextFragment) {
 
             /**
              * Since we only have one type of MyRef, we can ignore the first
@@ -411,14 +394,11 @@ public class SearchHandlerClientTest {
              * Map the XML to a MyRef instance here (done with some primitive
              * regexp)
              */
-            Pattern tagNameWithPrefix =
-                Pattern
-                    .compile("<(?:([^>^:^\\s]*):)?([^>^\\s]*?)(?:\\s[^<]*)?>");
+            Pattern tagNameWithPrefix = Pattern.compile("<(?:([^>^:^\\s]*):)?([^>^\\s]*?)(?:\\s[^<]*)?>");
             Matcher m = tagNameWithPrefix.matcher(xmlTextFragment);
             if (m.find()) {
                 String id =
-                    xmlTextFragment.substring(m.group(0).length(),
-                        xmlTextFragment.indexOf('<', m.group(0).length()));
+                    xmlTextFragment.substring(m.group(0).length(), xmlTextFragment.indexOf('<', m.group(0).length()));
 
                 if ("item".equals(m.group(2))) {
                     return new MyRef(id, ResourceType.ITEM);

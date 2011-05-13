@@ -67,10 +67,8 @@ public class ContentModelCreateTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContentModelHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -120,21 +118,17 @@ public class ContentModelCreateTest {
         ContentModel cmmCreated = cc.create(cmm);
 
         // asserts
-        UserAccountHandlerClientInterface uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
-        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated
-            .getProperties().getName());
-        assertEquals("Wrong description", cmm.getProperties().getDescription(),
-            cmmCreated.getProperties().getDescription());
+        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated.getProperties().getName());
+        assertEquals("Wrong description", cmm.getProperties().getDescription(), cmmCreated
+            .getProperties().getDescription());
 
-        assertEquals("Wrong number of metadata record definitions", 0, cmm
-            .getMetadataRecordDefinitions().size());
+        assertEquals("Wrong number of metadata record definitions", 0, cmm.getMetadataRecordDefinitions().size());
 
-        assertEquals("Wrong creator", me.getObjid(), cmmCreated
-            .getProperties().getCreatedBy().getObjid());
+        assertEquals("Wrong creator", me.getObjid(), cmmCreated.getProperties().getCreatedBy().getObjid());
 
     }
 
@@ -152,9 +146,7 @@ public class ContentModelCreateTest {
 
         MetadataRecordDefinition mdRecordDef = new MetadataRecordDefinition();
         mdRecordDef.setName("Name-" + System.nanoTime());
-        mdRecordDef
-            .setSchema(new Schema(
-                "http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
+        mdRecordDef.setSchema(new Schema("http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
         MetadataRecordDefinitions mdrds = new MetadataRecordDefinitions();
         mdrds.add(mdRecordDef);
         cmm.setMetadataRecordDefinitions(mdrds);
@@ -162,34 +154,25 @@ public class ContentModelCreateTest {
         ContentModel cmmCreated = cc.create(cmm);
 
         // asserts
-        UserAccountHandlerClient uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
+        UserAccountHandlerClient uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
-        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated
-            .getProperties().getName());
-        assertEquals("Wrong description", cmm.getProperties().getDescription(),
-            cmmCreated.getProperties().getDescription());
+        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated.getProperties().getName());
+        assertEquals("Wrong description", cmm.getProperties().getDescription(), cmmCreated
+            .getProperties().getDescription());
 
-        assertEquals("Wrong number of metadata record definition schema", 1,
-            cmmCreated.getMetadataRecordDefinitions().size());
+        assertEquals("Wrong number of metadata record definition schema", 1, cmmCreated
+            .getMetadataRecordDefinitions().size());
         assertEquals("Wrong metadata record definition name", cmm
-            .getMetadataRecordDefinitions().iterator().next().getName(),
-            cmmCreated
-                .getMetadataRecordDefinitions().iterator().next().getName());
-        assertEquals("Wrong metadata record definition schema",
-            "/cmm/content-model/"
-                + cmmCreated.getObjid()
-                + "/md-record-definitions/md-record-definition/"
-                + cmm
-                    .getMetadataRecordDefinitions().iterator().next().getName()
-                + "/schema/content", cmmCreated
-                .getMetadataRecordDefinitions().iterator().next().getSchema()
-                .getXLinkHref());
+            .getMetadataRecordDefinitions().iterator().next().getName(), cmmCreated
+            .getMetadataRecordDefinitions().iterator().next().getName());
+        assertEquals("Wrong metadata record definition schema", "/cmm/content-model/" + cmmCreated.getObjid()
+            + "/md-record-definitions/md-record-definition/"
+            + cmm.getMetadataRecordDefinitions().iterator().next().getName() + "/schema/content", cmmCreated
+            .getMetadataRecordDefinitions().iterator().next().getSchema().getXLinkHref());
 
-        assertEquals("Wrong creator", me.getObjid(), cmmCreated
-            .getProperties().getCreatedBy().getObjid());
+        assertEquals("Wrong creator", me.getObjid(), cmmCreated.getProperties().getCreatedBy().getObjid());
     }
 
     /**
@@ -208,26 +191,21 @@ public class ContentModelCreateTest {
         // metadata record definitions
         MetadataRecordDefinition mdRecordDef = new MetadataRecordDefinition();
         mdRecordDef.setName("Name-" + System.nanoTime());
-        mdRecordDef
-            .setSchema(new Schema(
-                "http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
+        mdRecordDef.setSchema(new Schema("http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
         MetadataRecordDefinitions mdrds = new MetadataRecordDefinitions();
         mdrds.add(mdRecordDef);
         cmm.setMetadataRecordDefinitions(mdrds);
 
         MetadataRecordDefinition mdRecordDef2 = new MetadataRecordDefinition();
         mdRecordDef2.setName("Name-" + System.nanoTime());
-        mdRecordDef2
-            .setSchema(new Schema(
-                "http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
+        mdRecordDef2.setSchema(new Schema("http://localhost:8080/xsd/rest/content-model/0.1/content-model.xsd"));
         cmm.getMetadataRecordDefinitions().add(mdRecordDef2);
 
         // resource definitions
         ResourceDefinition rd1 = new ResourceDefinition();
         rd1.setName("transX" + System.nanoTime());
         rd1.setMetadataRecordName("escidoc");
-        rd1.setXslt(new Xslt(
-            "http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
+        rd1.setXslt(new Xslt("http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
         ResourceDefinitions rds = new ResourceDefinitions();
         rds.add(rd1);
         cmm.setResourceDefinitions(rds);
@@ -241,65 +219,49 @@ public class ContentModelCreateTest {
         ContentModel cmmCreated = cc.create(cmm);
 
         // asserts
-        UserAccountHandlerClient uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
+        UserAccountHandlerClient uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
 
         UserAccount me = uac.retrieveCurrentUser();
 
-        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated
-            .getProperties().getName());
-        assertEquals("Wrong description", cmm.getProperties().getDescription(),
-            cmmCreated.getProperties().getDescription());
+        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated.getProperties().getName());
+        assertEquals("Wrong description", cmm.getProperties().getDescription(), cmmCreated
+            .getProperties().getDescription());
 
-        assertEquals("Wrong number of metadata record definition schema", 2,
-            cmmCreated.getMetadataRecordDefinitions().size());
+        assertEquals("Wrong number of metadata record definition schema", 2, cmmCreated
+            .getMetadataRecordDefinitions().size());
 
         // assert metadata record definitions
-        Iterator<MetadataRecordDefinition> it =
-            cmm.getMetadataRecordDefinitions().iterator();
+        Iterator<MetadataRecordDefinition> it = cmm.getMetadataRecordDefinitions().iterator();
 
         while (it.hasNext()) {
             MetadataRecordDefinition mrd = it.next();
-            MetadataRecordDefinition mrdCreated =
-                cmmCreated.getMetadataRecordDefinitions().get(mrd.getName());
+            MetadataRecordDefinition mrdCreated = cmmCreated.getMetadataRecordDefinitions().get(mrd.getName());
 
-            assertEquals("Wrong metadata record definition name",
-                mrd.getName(), mrdCreated.getName());
+            assertEquals("Wrong metadata record definition name", mrd.getName(), mrdCreated.getName());
 
-            assertEquals(
-                "Wrong metadata record definition schema",
-                "/cmm/content-model/" + cmmCreated.getObjid()
-                    + "/md-record-definitions/md-record-definition/"
-                    + mrd.getName() + "/schema/content", mrdCreated
-                    .getSchema().getXLinkHref());
+            assertEquals("Wrong metadata record definition schema", "/cmm/content-model/" + cmmCreated.getObjid()
+                + "/md-record-definitions/md-record-definition/" + mrd.getName() + "/schema/content", mrdCreated
+                .getSchema().getXLinkHref());
         }
 
         // assert resource definitions
-        Iterator<ResourceDefinition> it2 =
-            cmm.getResourceDefinitions().iterator();
+        Iterator<ResourceDefinition> it2 = cmm.getResourceDefinitions().iterator();
 
         while (it2.hasNext()) {
             ResourceDefinition rd = it2.next();
-            ResourceDefinition rdCreated =
-                cmmCreated.getResourceDefinitions().get(rd.getName());
+            ResourceDefinition rdCreated = cmmCreated.getResourceDefinitions().get(rd.getName());
 
-            assertEquals("Wrong metadata record definition name", rd.getName(),
-                rdCreated.getName());
+            assertEquals("Wrong metadata record definition name", rd.getName(), rdCreated.getName());
 
-            assertEquals("Wrong metadata record name",
-                rd.getMetadataRecordName(), rdCreated.getMetadataRecordName());
+            assertEquals("Wrong metadata record name", rd.getMetadataRecordName(), rdCreated.getMetadataRecordName());
 
-            assertEquals(
-                "Wrong metadata record definition schema",
-                "/cmm/content-model/" + cmmCreated.getObjid()
-                    + "/resource-definitions/resource-definition/"
-                    + rd.getName() + "/xslt/content", rdCreated
-                    .getXslt().getXLinkHref());
+            assertEquals("Wrong metadata record definition schema", "/cmm/content-model/" + cmmCreated.getObjid()
+                + "/resource-definitions/resource-definition/" + rd.getName() + "/xslt/content", rdCreated
+                .getXslt().getXLinkHref());
         }
 
-        assertEquals("Wrong creator", me.getObjid(), cmmCreated
-            .getProperties().getCreatedBy().getObjid());
+        assertEquals("Wrong creator", me.getObjid(), cmmCreated.getProperties().getCreatedBy().getObjid());
 
     }
 
@@ -318,8 +280,7 @@ public class ContentModelCreateTest {
         ResourceDefinition rd1 = new ResourceDefinition();
         rd1.setName("transX" + System.nanoTime());
         rd1.setMetadataRecordName("escidoc");
-        rd1.setXslt(new Xslt(
-            "http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
+        rd1.setXslt(new Xslt("http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
         ResourceDefinitions rds = new ResourceDefinitions();
         rds.add(rd1);
         cmm.setResourceDefinitions(rds);
@@ -327,49 +288,38 @@ public class ContentModelCreateTest {
         ContentModel cmmCreated = cc.create(cmm);
 
         // change value
-        cmmCreated
-            .getResourceDefinitions().get(0)
-            .setName(String.valueOf("UpdatedName" + System.nanoTime()));
+        cmmCreated.getResourceDefinitions().get(0).setName(String.valueOf("UpdatedName" + System.nanoTime()));
 
         // update
         ContentModel cmmUpdated = cc.update(cmmCreated);
 
         // asserts
-        UserAccountHandlerClient uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
+        UserAccountHandlerClient uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
         UserAccount me = uac.retrieveCurrentUser();
 
-        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated
-            .getProperties().getName());
+        assertEquals("Wrong name", cmm.getProperties().getName(), cmmCreated.getProperties().getName());
 
-        assertEquals("Wrong description", cmm.getProperties().getDescription(),
-            cmmCreated.getProperties().getDescription());
+        assertEquals("Wrong description", cmm.getProperties().getDescription(), cmmCreated
+            .getProperties().getDescription());
 
-        assertEquals("Wrong number of metadata record definition", 0,
-            cmmCreated.getMetadataRecordDefinitions().size());
+        assertEquals("Wrong number of metadata record definition", 0, cmmCreated.getMetadataRecordDefinitions().size());
 
-        assertEquals("Wrong number of resource definition", 1, cmmCreated
-            .getResourceDefinitions().size());
+        assertEquals("Wrong number of resource definition", 1, cmmCreated.getResourceDefinitions().size());
 
-        assertEquals("Wrong name", cmm.getProperties().getName(), cmmUpdated
-            .getProperties().getName());
+        assertEquals("Wrong name", cmm.getProperties().getName(), cmmUpdated.getProperties().getName());
 
-        assertEquals("Wrong description", cmm.getProperties().getDescription(),
-            cmmUpdated.getProperties().getDescription());
+        assertEquals("Wrong description", cmm.getProperties().getDescription(), cmmUpdated
+            .getProperties().getDescription());
 
-        assertEquals("Wrong number of metadata record definition", 0,
-            cmmUpdated.getMetadataRecordDefinitions().size());
+        assertEquals("Wrong number of metadata record definition", 0, cmmUpdated.getMetadataRecordDefinitions().size());
 
-        assertEquals("Wrong number of resource definition", 1, cmmUpdated
-            .getResourceDefinitions().size());
+        assertEquals("Wrong number of resource definition", 1, cmmUpdated.getResourceDefinitions().size());
 
-        assertEquals("Name of resource definition not updated", cmmCreated
-            .getResourceDefinitions().get(0).getName(), cmmUpdated
-            .getResourceDefinitions().get(0).getName());
+        assertEquals("Name of resource definition not updated", cmmCreated.getResourceDefinitions().get(0).getName(),
+            cmmUpdated.getResourceDefinitions().get(0).getName());
 
-        assertEquals("Wrong creator", me.getObjid(), cmmCreated
-            .getProperties().getCreatedBy().getObjid());
+        assertEquals("Wrong creator", me.getObjid(), cmmCreated.getProperties().getCreatedBy().getObjid());
 
     }
 

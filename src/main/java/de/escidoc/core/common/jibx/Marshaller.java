@@ -54,8 +54,7 @@ public class Marshaller<E> {
     @Deprecated
     public Marshaller(final Class<E> resourceClass, final String bindingName) {
         if (resourceClass == null)
-            throw new IllegalArgumentException(
-                "resourceClass must not be null.");
+            throw new IllegalArgumentException("resourceClass must not be null.");
 
         this.resourceClass = resourceClass;
         this.bindingName = bindingName;
@@ -74,8 +73,7 @@ public class Marshaller<E> {
      * @throws InternalClientException
      */
     @SuppressWarnings("unchecked")
-    public E unmarshalDocument(final String xmlDocument)
-        throws InternalClientException {
+    public E unmarshalDocument(final String xmlDocument) throws InternalClientException {
 
         if (xmlDocument == null)
             throw new IllegalArgumentException("xmlDocument must not be null.");
@@ -85,8 +83,7 @@ public class Marshaller<E> {
         try {
             IBindingFactory bfact = getBindingFactory(BINDING_IN_EXT);
             IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-            ByteArrayInputStream in =
-                new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
+            ByteArrayInputStream in = new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
 
             uctx.setDocument(in, "UTF-8");
             if (userContext != null)
@@ -98,17 +95,15 @@ public class Marshaller<E> {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
-            throw new InternalClientException(
-                "Unmarshalling from XML document to " + resourceClass.getName()
-                    + " failed! Document is not 'UTF-8' encoded! ", e);
+            throw new InternalClientException("Unmarshalling from XML document to " + resourceClass.getName()
+                + " failed! Document is not 'UTF-8' encoded! ", e);
         }
         catch (JiBXException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
-            throw new InternalClientException(
-                "Unmarshalling from XML document to " + resourceClass.getName()
-                    + " failed! ", e);
+            throw new InternalClientException("Unmarshalling from XML document to " + resourceClass.getName()
+                + " failed! ", e);
         }
         return result;
     }
@@ -126,12 +121,10 @@ public class Marshaller<E> {
      * @throws InternalClientException
      */
     @SuppressWarnings("unchecked")
-    public E unmarshalDocument(final InputStream xmlInputStream)
-        throws InternalClientException {
+    public E unmarshalDocument(final InputStream xmlInputStream) throws InternalClientException {
 
         if (xmlInputStream == null)
-            throw new IllegalArgumentException(
-                "xmlInputStream must not be null.");
+            throw new IllegalArgumentException("xmlInputStream must not be null.");
 
         E result = null;
 
@@ -147,9 +140,8 @@ public class Marshaller<E> {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
-            throw new InternalClientException(
-                "Unmarshalling from XML document to " + resourceClass.getName()
-                    + " failed! ", e);
+            throw new InternalClientException("Unmarshalling from XML document to " + resourceClass.getName()
+                + " failed! ", e);
         }
         return result;
     }
@@ -166,8 +158,7 @@ public class Marshaller<E> {
      * @return The XML representation of the class.
      * @throws InternalClientException
      */
-    public String marshalDocument(final E resource)
-        throws InternalClientException {
+    public String marshalDocument(final E resource) throws InternalClientException {
 
         if (resource == null)
             throw new IllegalArgumentException("resource must not be null.");
@@ -186,16 +177,15 @@ public class Marshaller<E> {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
-            throw new InternalClientException("Marshalling from "
-                + resourceClass.getName()
+            throw new InternalClientException("Marshalling from " + resourceClass.getName()
                 + " to XML document failed due to wrong encoding ('UTF-8')!", e);
         }
         catch (JiBXException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
-            throw new InternalClientException("Marshalling from "
-                + resourceClass.getName() + " to XML document failed! ", e);
+            throw new InternalClientException("Marshalling from " + resourceClass.getName()
+                + " to XML document failed! ", e);
         }
 
         return result;
@@ -238,8 +228,7 @@ public class Marshaller<E> {
      * @return
      * @throws JiBXException
      */
-    private IBindingFactory getBindingFactory(final String bindingNameExtension)
-        throws JiBXException {
+    private IBindingFactory getBindingFactory(final String bindingNameExtension) throws JiBXException {
         if (bindingName != null && !bindingName.isEmpty()) {
             String name = bindingName;
             if (bindingNameExtension != null) {
@@ -282,8 +271,7 @@ public class Marshaller<E> {
      * @return
      */
     @SuppressWarnings("deprecation")
-    public static final <T> Marshaller<T> getMarshaller(
-        final Class<T> clazz, final String bindingName) {
+    public static final <T> Marshaller<T> getMarshaller(final Class<T> clazz, final String bindingName) {
         return new Marshaller<T>(clazz, bindingName);
     }
 }

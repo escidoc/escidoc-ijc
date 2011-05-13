@@ -66,8 +66,7 @@ public abstract class RestServiceMethod implements RestService {
 
     private HttpClient client;
 
-    private final Collection<RestCallbackHandler> callbackHandlers =
-        new LinkedList<RestCallbackHandler>();
+    private final Collection<RestCallbackHandler> callbackHandlers = new LinkedList<RestCallbackHandler>();
 
     /**
      * Set the address of the service.
@@ -94,8 +93,7 @@ public abstract class RestServiceMethod implements RestService {
      *             Thrown if request failed.
      * @throws EscidocException
      */
-    public String put(final String path, final String content)
-        throws SystemException, RemoteException {
+    public String put(final String path, final String content) throws SystemException, RemoteException {
 
         checkNotNull(content);
 
@@ -156,8 +154,8 @@ public abstract class RestServiceMethod implements RestService {
      * @throws FileNotFoundException
      * @throws EscidocException
      */
-    public String put(final String path, final InputStream ins)
-        throws SystemException, RemoteException, FileNotFoundException {
+    public String put(final String path, final InputStream ins) throws SystemException, RemoteException,
+        FileNotFoundException {
 
         String checkedPath = checkPath(path);
 
@@ -179,8 +177,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws EscidocException
      */
-    public String post(final String path, final String content)
-        throws SystemException, RemoteException {
+    public String post(final String path, final String content) throws SystemException, RemoteException {
 
         String checkedPath = checkPath(path);
 
@@ -206,8 +203,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws EscidocException
      */
-    public String get(final String path) throws SystemException,
-        RemoteException {
+    public String get(final String path) throws SystemException, RemoteException {
 
         String checkedPath = checkPath(path);
 
@@ -223,8 +219,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws RemoteException
      */
-    public HttpInputStream getStream(final String path) throws SystemException,
-        RemoteException {
+    public HttpInputStream getStream(final String path) throws SystemException, RemoteException {
 
         String checkedPath = checkPath(path);
 
@@ -238,8 +233,7 @@ public abstract class RestServiceMethod implements RestService {
             return new HttpInputStream(get, response);
         }
         catch (IOException e) {
-            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR,
-                null, e.getMessage());
+            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
         }
     }
 
@@ -256,8 +250,7 @@ public abstract class RestServiceMethod implements RestService {
      *             thrown if an internal error occurred
      * @throws EscidocException
      */
-    public String get(final String path, final Map<String, String[]> parameters)
-        throws RemoteException {
+    public String get(final String path, final Map<String, String[]> parameters) throws RemoteException {
 
         String url = prepareUrl(path, parameters);
 
@@ -265,8 +258,7 @@ public abstract class RestServiceMethod implements RestService {
             return get(new URLCodec().encode(url));
         }
         catch (EncoderException e) {
-            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR,
-                e.getMessage(), e.toString());
+            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, e.getMessage(), e.toString());
         }
     }
 
@@ -278,8 +270,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws EscidocException
      */
-    public String del(final String path) throws SystemException,
-        RemoteException {
+    public String del(final String path) throws SystemException, RemoteException {
 
         String checkedPath = checkPath(path);
 
@@ -298,8 +289,8 @@ public abstract class RestServiceMethod implements RestService {
      *            the HttpMethodBase which is being executed.
      * @throws SystemException
      */
-    public void decideStatusCode(final HttpResponse response, final String body)
-        throws SystemException, RemoteException {
+    public void decideStatusCode(final HttpResponse response, final String body) throws SystemException,
+        RemoteException {
 
         if (response.getStatusLine().getStatusCode() / 100 != 2) {
             Header header = response.getFirstHeader("Location");
@@ -308,8 +299,7 @@ public abstract class RestServiceMethod implements RestService {
                 redirectLocation = header.getValue();
             }
 
-            ExceptionMapper.constructEscidocException(body, response
-                .getStatusLine().getStatusCode(), redirectLocation);
+            ExceptionMapper.constructEscidocException(body, response.getStatusLine().getStatusCode(), redirectLocation);
         }
 
     }
@@ -364,8 +354,7 @@ public abstract class RestServiceMethod implements RestService {
      * @return String
      * @throws IOException
      */
-    private String convertStreamToString(
-        final InputStream is, final Header contentEncoding) throws IOException {
+    private String convertStreamToString(final InputStream is, final Header contentEncoding) throws IOException {
 
         if (is == null) {
             return null;
@@ -381,8 +370,7 @@ public abstract class RestServiceMethod implements RestService {
         int read = -1;
 
         try {
-            BufferedReader reader =
-                new BufferedReader(new InputStreamReader(is, encoding));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, encoding));
 
             while ((read = reader.read(buffer)) != -1) {
                 sb.append(buffer, 0, read);
@@ -409,8 +397,7 @@ public abstract class RestServiceMethod implements RestService {
      *            The parameter map
      * @return URL with URL parameters (The URL is not URL encoded!)
      */
-    private String prepareUrl(
-        final String path, final Map<String, String[]> parameters) {
+    private String prepareUrl(final String path, final Map<String, String[]> parameters) {
 
         StringBuffer result;
         if (path == null)
@@ -452,12 +439,10 @@ public abstract class RestServiceMethod implements RestService {
         String filter12 = "?operation=searchRetrieve";
 
         if (filter.getMaximumRecords() != null) {
-            filter12 +=
-                "&maximumRecords=" + String.valueOf(filter.getMaximumRecords());
+            filter12 += "&maximumRecords=" + String.valueOf(filter.getMaximumRecords());
         }
         if (filter.getStartRecord() != null) {
-            filter12 +=
-                "&startRecord=" + String.valueOf(filter.getStartRecord());
+            filter12 += "&startRecord=" + String.valueOf(filter.getStartRecord());
         }
         if (filter.getQuery() != null) {
             filter12 += "&query=";
@@ -530,8 +515,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws RemoteException
      */
-    private final String executeRequest(final HttpUriRequest request)
-        throws SystemException, RemoteException {
+    private final String executeRequest(final HttpUriRequest request) throws SystemException, RemoteException {
 
         String result = null;
         HttpResponse response = null;
@@ -540,14 +524,11 @@ public abstract class RestServiceMethod implements RestService {
                 response = getRestClient().execute(request);
                 if (response.getEntity() != null) {
                     InputStream in = response.getEntity().getContent();
-                    result =
-                        convertStreamToString(in, response
-                            .getEntity().getContentEncoding());
+                    result = convertStreamToString(in, response.getEntity().getContentEncoding());
                 }
             }
             catch (IOException e) {
-                throw new SystemException(
-                    HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+                throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
             }
             decideStatusCode(response, result);
         }
@@ -562,8 +543,7 @@ public abstract class RestServiceMethod implements RestService {
      * @param request
      * @param response
      */
-    private final void closeConnection(
-        final HttpUriRequest request, final HttpResponse response) {
+    private final void closeConnection(final HttpUriRequest request, final HttpResponse response) {
         if (response != null && response.getEntity() != null) {
             try {
                 response.getEntity().consumeContent();
@@ -598,8 +578,8 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws AuthenticationException
      */
-    public String authenticate(final String username, final String password)
-        throws SystemException, AuthenticationException {
+    public String authenticate(final String username, final String password) throws SystemException,
+        AuthenticationException {
 
         String loginPath = checkPath("/aa/login?target=");
         String authPath = checkPath("/aa/j_spring_security_check");
@@ -641,8 +621,7 @@ public abstract class RestServiceMethod implements RestService {
             closeConnection(redirected, response);
         }
         catch (IOException e) {
-            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR,
-                null, e.getMessage());
+            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
         }
         finally {
             closeConnection(get, response);
@@ -656,9 +635,8 @@ public abstract class RestServiceMethod implements RestService {
         }
 
         if (handle == null) {
-            throw new AuthenticationException(statusCode,
-                "Authorization failed.", statusMsg, this.serviceAddress
-                    + "/aa/login");
+            throw new AuthenticationException(statusCode, "Authorization failed.", statusMsg, this.serviceAddress
+                + "/aa/login");
         }
         return handle;
     }
@@ -669,8 +647,7 @@ public abstract class RestServiceMethod implements RestService {
      * @return
      * @throws SystemException
      */
-    private String checkCookie(final HttpResponse response, final String name)
-        throws SystemException {
+    private String checkCookie(final HttpResponse response, final String name) throws SystemException {
         Header[] cookies = response.getHeaders(name);
 
         if (cookies == null || cookies.length < 1)

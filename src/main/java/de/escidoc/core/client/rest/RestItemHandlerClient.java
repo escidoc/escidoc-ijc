@@ -54,8 +54,7 @@ import de.escidoc.core.resources.HttpInputStream;
  */
 public class RestItemHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger
-        .getLogger(RestItemHandlerClient.class.getName());
+    private static final Logger LOG = Logger.getLogger(RestItemHandlerClient.class.getName());
 
     private ItemHandler restClient = null;
 
@@ -72,8 +71,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @param serviceAddress
      * @throws InternalClientException
      */
-    public RestItemHandlerClient(final URL serviceAddress)
-        throws InternalClientException {
+    public RestItemHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -85,8 +83,7 @@ public class RestItemHandlerClient extends RestClientBase {
      *             instead.
      */
     @Deprecated
-    public RestItemHandlerClient(final String serviceAddress)
-        throws InternalClientException {
+    public RestItemHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -103,8 +100,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String create(final String item) throws EscidocException,
-        InternalClientException, TransportException {
+    public String create(final String item) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -128,8 +124,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public void delete(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
 
         try {
             getClient().delete(id);
@@ -152,8 +147,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String retrieve(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -180,8 +174,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String update(final String id, final String item)
-        throws EscidocException, InternalClientException, TransportException {
+    public String update(final String id, final String item) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -208,8 +202,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String release(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String release(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -236,8 +230,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String revise(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String revise(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -261,8 +255,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String submit(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String submit(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -286,8 +280,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String withdraw(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String withdraw(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -310,8 +304,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#assignVersionPid(java.lang.String,
      *      java.lang.String)
      */
-    public String assignVersionPid(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String assignVersionPid(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -335,8 +329,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String assignObjectPid(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String assignObjectPid(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -361,8 +355,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      *             Thrown in case of failures on transport level.
      */
-    public String assignContentPid(
-        final String id, final String componentId, final String taskParam)
+    public String assignContentPid(final String id, final String componentId, final String taskParam)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
@@ -387,8 +380,8 @@ public class RestItemHandlerClient extends RestClientBase {
      *             Thrown in case of failures on transport level.
      */
     @Deprecated
-    public String retrieveItems(final HashMap<String, String[]> taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveItems(final HashMap<String, String[]> taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -408,8 +401,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveItems(final SearchRetrieveRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveItems(final SearchRetrieveRequestType filter) throws EscidocException,
+        InternalClientException, TransportException {
 
         evalRequest(filter, true);
 
@@ -431,8 +424,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveItems(final ExplainRequestType filter)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveItems(final ExplainRequestType filter) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -451,8 +444,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveComponents(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveComponents(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -472,8 +465,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveComponent(final String id, final String componentId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveComponent(final String id, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -493,8 +486,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveComponentProperties(
-        final String id, final String componentId) throws EscidocException,
+    public String retrieveComponentProperties(final String id, final String componentId) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -515,8 +507,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveComponentMdRecords(
-        final String id, final String componentId) throws EscidocException,
+    public String retrieveComponentMdRecords(final String id, final String componentId) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;
@@ -538,15 +529,12 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveComponentMdRecord(
-        final String id, final String componentId, final String mdRecordId)
+    public String retrieveComponentMdRecord(final String id, final String componentId, final String mdRecordId)
         throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
-            result =
-                getClient().retrieveComponentMdRecord(id, componentId,
-                    mdRecordId);
+            result = getClient().retrieveComponentMdRecord(id, componentId, mdRecordId);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
@@ -562,8 +550,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public HttpInputStream retrieveContent(
-        final String itemId, final String componentId) throws EscidocException,
+    public HttpInputStream retrieveContent(final String itemId, final String componentId) throws EscidocException,
         InternalClientException, TransportException {
 
         HttpInputStream result = null;
@@ -587,15 +574,12 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     public HttpInputStream retrieveContent(
-        final String itemId, final String componentId,
-        final String transformer, final Map<String, String[]> transParams)
+        final String itemId, final String componentId, final String transformer, final Map<String, String[]> transParams)
         throws EscidocException, InternalClientException, TransportException {
 
         HttpInputStream result = null;
         try {
-            result =
-                getClient().retrieveContent(itemId, componentId, transformer,
-                    transParams);
+            result = getClient().retrieveContent(itemId, componentId, transformer, transParams);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
@@ -611,8 +595,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveRelations(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveRelations(final String id) throws EscidocException, InternalClientException,
+        TransportException {
         String result = null;
         try {
             result = getClient().retrieveRelations(id);
@@ -632,8 +616,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws TransportException
      * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#retrieveVersionHistory(java.lang.String)
      */
-    public String retrieveVersionHistory(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveVersionHistory(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -652,8 +636,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveParents(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveParents(final String id) throws EscidocException, InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -673,8 +656,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String moveToContext(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String moveToContext(final String id, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -696,8 +679,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#lock(java.lang.String,
      *      java.lang.String)
      */
-    public String lock(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String lock(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -719,8 +702,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @see de.escidoc.core.om.service.interfaces.ItemHandlerInterface#unlock(java.lang.String,
      *      java.lang.String)
      */
-    public String unlock(final String id, final String taskParam)
-        throws EscidocException, InternalClientException, TransportException {
+    public String unlock(final String id, final String taskParam) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -740,8 +723,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveProperties(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveProperties(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -760,8 +743,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMdRecords(final String id) throws EscidocException,
-        InternalClientException, TransportException {
+    public String retrieveMdRecords(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -781,8 +764,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveMdRecord(final String id, final String mdRecordId)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveMdRecord(final String id, final String mdRecordId) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -801,8 +784,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentStreams(final String id)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentStreams(final String id) throws EscidocException, InternalClientException,
+        TransportException {
 
         String result = null;
         try {
@@ -822,8 +805,8 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public String retrieveContentStream(final String id, final String name)
-        throws EscidocException, InternalClientException, TransportException {
+    public String retrieveContentStream(final String id, final String name) throws EscidocException,
+        InternalClientException, TransportException {
 
         String result = null;
         try {
@@ -843,8 +826,7 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      * @throws TransportException
      */
-    public HttpInputStream retrieveContentStreamContent(
-        final String id, final String name) throws EscidocException,
+    public HttpInputStream retrieveContentStreamContent(final String id, final String name) throws EscidocException,
         InternalClientException, TransportException {
 
         HttpInputStream stream = null;
@@ -867,8 +849,7 @@ public class RestItemHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            ItemRestServiceLocator serviceLocator =
-                new ItemRestServiceLocator();
+            ItemRestServiceLocator serviceLocator = new ItemRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

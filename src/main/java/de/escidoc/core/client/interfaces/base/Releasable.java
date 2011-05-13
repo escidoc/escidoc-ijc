@@ -27,8 +27,7 @@ public interface Releasable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result release(final String id, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
+    Result release(final String id, final TaskParam taskParam) throws EscidocClientException, InternalClientException,
         TransportException;
 
     /**
@@ -40,7 +39,6 @@ public interface Releasable<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result release(final T resource, final TaskParam taskParam)
-        throws EscidocClientException, InternalClientException,
+    Result release(final T resource, final TaskParam taskParam) throws EscidocClientException, InternalClientException,
         TransportException;
 }

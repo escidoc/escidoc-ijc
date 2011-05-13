@@ -38,8 +38,7 @@ import de.escidoc.core.resources.common.properties.interfaces.PidProperties;
  * @author SWA
  * 
  */
-public class ComponentProperties extends CommonProperties
-    implements DescriptionProperties, PidProperties {
+public class ComponentProperties extends CommonProperties implements DescriptionProperties, PidProperties {
 
     private String description;
 

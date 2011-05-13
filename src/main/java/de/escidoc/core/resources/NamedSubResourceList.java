@@ -3,13 +3,11 @@
  */
 package de.escidoc.core.resources;
 
-
 /**
  * @author Marko Voß
  * 
  */
-public abstract class NamedSubResourceList<E extends NamedSubResource>
-    extends XLinkResourceList<E> {
+public abstract class NamedSubResourceList<E extends NamedSubResource> extends XLinkResourceList<E> {
 
     /**
      * 

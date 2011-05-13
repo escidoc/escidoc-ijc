@@ -75,36 +75,29 @@ public class GrantsTest {
     public void testCreateGrant01() throws Exception {
         // create User Account
         String resourceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/"
-                    + "escidoc_useraccount_for_create.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
-        resourceXml =
-            resourceXml.replace("###EMAIL###", System.nanoTime()
-                + "-test@escidoc.org");
-        resourceXml =
-            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
-        resourceXml =
-            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###EMAIL###", System.nanoTime() + "-test@escidoc.org");
+        resourceXml = resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
 
         String cAccountXml = uahc.create(resourceXml);
 
-        String[] objidLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Grant
         final String role = "/aa/role/escidoc:role-system-administrator";
         String grant =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<grants:grant\n"
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<grants:grant\n"
                 + " xmlns:grants=\"http://www.escidoc.de/schemas/grants/0.5\""
                 + " xmlns:prop=\"http://escidoc.de/core/01/properties/\""
                 + " xmlns:srel=\"http://escidoc.de/core/01/structural-relations/\""
                 + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n"
 
-                + " <grants:properties>\n" + "   <srel:role xlink:href=\""
-                + role + "\" />\n" + " </grants:properties>\n"
+                + " <grants:properties>\n" + "   <srel:role xlink:href=\"" + role + "\" />\n"
+                + " </grants:properties>\n"
 
                 + " </grants:grant>";
 
@@ -112,8 +105,7 @@ public class GrantsTest {
 
         assertTrue("Missing role in grant", createdGrant.contains(role));
 
-        String[] grantObjLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(createdGrant);
+        String[] grantObjLmd = EscidocClientTestBase.obtainObjidAndLmd(createdGrant);
 
         String grants = uahc.retrieveCurrentGrants(objidLmd[0]);
         assertTrue("Missing role", grants.contains(grantObjLmd[0]));
@@ -131,36 +123,29 @@ public class GrantsTest {
     public void testCreateGrant02() throws Exception {
         // create User Account
         String resourceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/"
-                    + "escidoc_useraccount_for_create.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
-        resourceXml =
-            resourceXml.replace("###EMAIL###", System.nanoTime()
-                + "-test@escidoc.org");
-        resourceXml =
-            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
-        resourceXml =
-            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###EMAIL###", System.nanoTime() + "-test@escidoc.org");
+        resourceXml = resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
 
         String cAccountXml = uahc.create(resourceXml);
 
-        String[] objidLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Grant
         final String role = "/aa/role/escidoc:role-system-administrator";
         String grant =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<grants:grant\n"
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<grants:grant\n"
                 + " xmlns:grants=\"http://www.escidoc.de/schemas/grants/0.5\""
                 + " xmlns:prop=\"http://escidoc.de/core/01/properties/\""
                 + " xmlns:srel=\"http://escidoc.de/core/01/structural-relations/\""
                 + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n"
 
-                + " <grants:properties>\n" + "   <srel:role xlink:href=\""
-                + role + "\" />\n" + " </grants:properties>\n"
+                + " <grants:properties>\n" + "   <srel:role xlink:href=\"" + role + "\" />\n"
+                + " </grants:properties>\n"
 
                 + " </grants:grant>";
 
@@ -168,8 +153,7 @@ public class GrantsTest {
 
         assertTrue("Missing role in grant", createdGrant.contains(role));
 
-        String[] grantObjLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(createdGrant);
+        String[] grantObjLmd = EscidocClientTestBase.obtainObjidAndLmd(createdGrant);
 
         String grants = uahc.retrieveCurrentGrants(objidLmd[0]);
         assertTrue("Missing role", grants.contains(grantObjLmd[0]));
@@ -186,28 +170,21 @@ public class GrantsTest {
     public void testDeleteGrant01() throws Exception {
         // create User Account
         String resourceXml =
-            EscidocClientTestBase.getXmlFileAsString(Template
-                .load("/rest/aa/user_account/"
-                    + "escidoc_useraccount_for_create.xml"));
+            EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/aa/user_account/"
+                + "escidoc_useraccount_for_create.xml"));
 
         // prepare template
-        resourceXml =
-            resourceXml.replace("###EMAIL###", System.nanoTime()
-                + "-test@escidoc.org");
-        resourceXml =
-            resourceXml.replace("###NAME###", System.nanoTime() + "-test");
-        resourceXml =
-            resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###EMAIL###", System.nanoTime() + "-test@escidoc.org");
+        resourceXml = resourceXml.replace("###NAME###", System.nanoTime() + "-test");
+        resourceXml = resourceXml.replace("###LOGIN###", System.nanoTime() + "-test");
 
         String cAccountXml = uahc.create(resourceXml);
 
-        String[] objidLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
+        String[] objidLmd = EscidocClientTestBase.obtainObjidAndLmd(cAccountXml);
 
         // create Grant
         String grant =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<grants:grant\n"
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<grants:grant\n"
                 + " xmlns:grants=\"http://www.escidoc.de/schemas/grants/0.5\""
                 + " xmlns:prop=\"http://escidoc.de/core/01/properties/\""
                 + " xmlns:srel=\"http://escidoc.de/core/01/structural-relations/\""
@@ -220,20 +197,16 @@ public class GrantsTest {
                 + " </grants:grant>";
 
         String createdGrant = uahc.createGrant(objidLmd[0], grant);
-        String[] grantObjLmd =
-            EscidocClientTestBase.obtainObjidAndLmd(createdGrant);
+        String[] grantObjLmd = EscidocClientTestBase.obtainObjidAndLmd(createdGrant);
 
         // delete just created Grant
         String taskParam =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<param last-modification-date=\"" + grantObjLmd[1] + "\">\n"
-                + "   <revocation-mark>Test revocation</revocation-mark>\n"
-                + "</param>";
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<param last-modification-date=\"" + grantObjLmd[1]
+                + "\">\n" + "   <revocation-mark>Test revocation</revocation-mark>\n" + "</param>";
 
         uahc.revokeGrant(objidLmd[0], grantObjLmd[0], taskParam);
 
         String revokedGrant = uahc.retrieveGrant(objidLmd[0], grantObjLmd[0]);
-        assertTrue("Missing revoke statement",
-            revokedGrant.contains("revoked-by"));
+        assertTrue("Missing revoke statement", revokedGrant.contains("revoked-by"));
     }
 }

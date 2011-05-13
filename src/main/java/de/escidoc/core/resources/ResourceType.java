@@ -17,53 +17,39 @@ import de.escidoc.core.resources.oum.OrganizationalUnit;
 public enum ResourceType implements XmlCompatibleEnum {
 
     // root resources
-    CONTEXT(de.escidoc.core.resources.om.context.Context.class, "context",
-        ConfigurationProvider.NS_IR_CONTEXT, "/ir/context"),
+    CONTEXT(de.escidoc.core.resources.om.context.Context.class, "context", ConfigurationProvider.NS_IR_CONTEXT,
+        "/ir/context"),
     //
-    ITEM(de.escidoc.core.resources.om.item.Item.class, "item",
-        ConfigurationProvider.NS_IR_ITEM, "/ir/item"),
+    ITEM(de.escidoc.core.resources.om.item.Item.class, "item", ConfigurationProvider.NS_IR_ITEM, "/ir/item"),
     //
-    CONTAINER(de.escidoc.core.resources.om.container.Container.class,
-        "container", ConfigurationProvider.NS_IR_CONTAINER, "/ir/container"),
+    CONTAINER(de.escidoc.core.resources.om.container.Container.class, "container",
+        ConfigurationProvider.NS_IR_CONTAINER, "/ir/container"),
     //
     ORGANIZATIONAL_UNIT(OrganizationalUnit.class, "organizational-unit",
-        ConfigurationProvider.NS_OUM_ORGANIZATIONAL_UNIT,
-        "/oum/organizational-unit"),
+        ConfigurationProvider.NS_OUM_ORGANIZATIONAL_UNIT, "/oum/organizational-unit"),
     //
-    USERACCOUNT(UserAccount.class, "user-account",
-        ConfigurationProvider.NS_AA_USER_ACCOUNT, "/aa/user-account"),
+    USERACCOUNT(UserAccount.class, "user-account", ConfigurationProvider.NS_AA_USER_ACCOUNT, "/aa/user-account"),
     //
-    USERGROUP(UserAccount.class, "user-group",
-        ConfigurationProvider.NS_AA_USER_GROUP, "/aa/user-group"),
+    USERGROUP(UserAccount.class, "user-group", ConfigurationProvider.NS_AA_USER_GROUP, "/aa/user-group"),
     //
-    CONTENT_MODEL(de.escidoc.core.resources.cmm.ContentModel.class,
-        "content-model", ConfigurationProvider.NS_CMM_CONTENT_MODEL,
-        "/cmm/content-model"),
+    CONTENT_MODEL(de.escidoc.core.resources.cmm.ContentModel.class, "content-model",
+        ConfigurationProvider.NS_CMM_CONTENT_MODEL, "/cmm/content-model"),
     //
-    GRANT(de.escidoc.core.resources.aa.useraccount.Grant.class, "grant",
-        ConfigurationProvider.NS_AA_GRANT, "/aa/grant"),
+    GRANT(de.escidoc.core.resources.aa.useraccount.Grant.class, "grant", ConfigurationProvider.NS_AA_GRANT, "/aa/grant"),
     //
-    ROLE(de.escidoc.core.resources.aa.role.Role.class, "role",
-        ConfigurationProvider.NS_AA_ROLE, "/aa/role"),
+    ROLE(de.escidoc.core.resources.aa.role.Role.class, "role", ConfigurationProvider.NS_AA_ROLE, "/aa/role"),
     //
-    CONTENT_RELATION(
-        de.escidoc.core.resources.om.contentRelation.ContentRelation.class,
-        "content-relation", ConfigurationProvider.NS_IR_CONTENT_RELATION,
-        "/ir/content-relation"),
+    CONTENT_RELATION(de.escidoc.core.resources.om.contentRelation.ContentRelation.class, "content-relation",
+        ConfigurationProvider.NS_IR_CONTENT_RELATION, "/ir/content-relation"),
     //
-    SCOPE(de.escidoc.core.resources.sm.scope.Scope.class, "scope",
-        ConfigurationProvider.NS_STATISTIC_SCOPE, "/statistic/scope"),
+    SCOPE(de.escidoc.core.resources.sm.scope.Scope.class, "scope", ConfigurationProvider.NS_STATISTIC_SCOPE,
+        "/statistic/scope"),
     //
-    REPORT_DEFINITION(
-        de.escidoc.core.resources.sm.report.ReportDefinition.class,
-        "report-definition", ConfigurationProvider.NS_STATISTIC_REPORT_DEF,
-        "/statistic/report-definition"),
+    REPORT_DEFINITION(de.escidoc.core.resources.sm.report.ReportDefinition.class, "report-definition",
+        ConfigurationProvider.NS_STATISTIC_REPORT_DEF, "/statistic/report-definition"),
     //
-    AGGREGATION_DEFINITION(
-        de.escidoc.core.resources.sm.ad.AggregationDefinition.class,
-        "aggregation-definition",
-        ConfigurationProvider.NS_STATISTIC_AGGREGATION_DEF,
-        "/statistic/aggregation-definition"),
+    AGGREGATION_DEFINITION(de.escidoc.core.resources.sm.ad.AggregationDefinition.class, "aggregation-definition",
+        ConfigurationProvider.NS_STATISTIC_AGGREGATION_DEF, "/statistic/aggregation-definition"),
     //
     STATISTIC_DATA("statistic-data", "/statistic/statistic-data"),
     /**
@@ -76,9 +62,8 @@ public enum ResourceType implements XmlCompatibleEnum {
      */
     PREPROCESSING("preprocessing", "/statistic/preprocessing"),
     //
-    SET_DEFINITION(de.escidoc.core.resources.oai.SetDefinition.class,
-        "set-defintion", ConfigurationProvider.NS_OAI_SET_DEFINITION,
-        "/oai/set-definition"),
+    SET_DEFINITION(de.escidoc.core.resources.oai.SetDefinition.class, "set-defintion",
+        ConfigurationProvider.NS_OAI_SET_DEFINITION, "/oai/set-definition"),
 
     /**
      * Staging-File is no real Resource since it does not exist as an object.
@@ -87,9 +72,8 @@ public enum ResourceType implements XmlCompatibleEnum {
 
     // sub resources
     //
-    COMPONENT(de.escidoc.core.resources.om.item.component.Component.class,
-        "component", ConfigurationProvider.NS_IR_COMPONENTS, "/component",
-        false),
+    COMPONENT(de.escidoc.core.resources.om.item.component.Component.class, "component",
+        ConfigurationProvider.NS_IR_COMPONENTS, "/component", false),
 
     // TODO: delete?
     USERACCOUNT_ATTRIBUTE("user-account-attribute", "/attribute");
@@ -111,8 +95,8 @@ public enum ResourceType implements XmlCompatibleEnum {
      * @param path
      * @param isRootResource
      */
-    ResourceType(final Class<? extends Resource> clazz, final String xmlValue,
-        final String nsConfig, final String path, final boolean isRootResource) {
+    ResourceType(final Class<? extends Resource> clazz, final String xmlValue, final String nsConfig,
+        final String path, final boolean isRootResource) {
 
         this.clazz = clazz;
         this.isRootResource = isRootResource;
@@ -123,9 +107,7 @@ public enum ResourceType implements XmlCompatibleEnum {
 
             URI result = null;
             try {
-                result =
-                    new URI(ConfigurationProvider.getInstance().getProperty(
-                        nsConfig));
+                result = new URI(ConfigurationProvider.getInstance().getProperty(nsConfig));
             }
             catch (InternalClientException e) {
                 Logger.getLogger(ResourceType.class).debug(e.getMessage(), e);
@@ -146,8 +128,7 @@ public enum ResourceType implements XmlCompatibleEnum {
      * @param nsConfig
      * @param path
      */
-    ResourceType(final Class<? extends Resource> clazz, final String xmlValue,
-        final String nsConfig, final String path) {
+    ResourceType(final Class<? extends Resource> clazz, final String xmlValue, final String nsConfig, final String path) {
         this(clazz, xmlValue, nsConfig, path, true);
     }
 
@@ -224,8 +205,7 @@ public enum ResourceType implements XmlCompatibleEnum {
 
         for (int i = 0; i < ResourceType.values().length; i++) {
             ResourceType type = ResourceType.values()[i];
-            if (value.equals(type.name()) || value.equals(type.getXmlValue())
-                || value.equals(type.getPath()))
+            if (value.equals(type.name()) || value.equals(type.getXmlValue()) || value.equals(type.getPath()))
                 return type;
         }
         return null;

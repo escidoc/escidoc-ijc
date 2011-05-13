@@ -74,10 +74,8 @@ public class ContextHandlerClientTest {
     @Before
     public void init() throws Exception {
         auth =
-            new Authentication(
-                EscidocClientTestBase.getDefaultInfrastructureURL(),
-                EscidocClientTestBase.SYSTEM_ADMIN_USER,
-                EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
+            new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
         cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
     }
@@ -115,17 +113,14 @@ public class ContextHandlerClientTest {
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs =
-            new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef(
-            EscidocClientTestBase.getStaticOrganizationalUnitId()));
+        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor =
-            new AdminDescriptor("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -139,9 +134,7 @@ public class ContextHandlerClientTest {
         String objid = createdContext.getObjid();
         Context retrievedContext = cc.retrieve(objid);
 
-        MarshallerFactory
-            .getInstance(cc.getTransport()).getMarshaller(Context.class)
-            .marshalDocument(retrievedContext);
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Context.class).marshalDocument(retrievedContext);
     }
 
     /**
@@ -159,17 +152,14 @@ public class ContextHandlerClientTest {
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs =
-            new OrganizationalUnitRefs();
-        organizationalUnitRefs.add(new OrganizationalUnitRef(
-            EscidocClientTestBase.getStaticOrganizationalUnitId()));
+        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
         AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor =
-            new AdminDescriptor("AdminDescriptorDemoName");
+        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
@@ -188,9 +178,7 @@ public class ContextHandlerClientTest {
 
         // update
         cc.update(retrivedContext);
-        MarshallerFactory
-            .getInstance(cc.getTransport()).getMarshaller(Context.class)
-            .marshalDocument(retrivedContext);
+        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Context.class).marshalDocument(retrivedContext);
     }
 
     /**
@@ -202,8 +190,7 @@ public class ContextHandlerClientTest {
     @Test
     public void testRetrieveMembersNew() throws Exception {
         // just getting a valid objid of a user
-        UserAccountHandlerClientInterface uac =
-            new UserAccountHandlerClient(auth.getServiceAddress());
+        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
 
         UserAccount me = uac.retrieveCurrentUser();
@@ -212,10 +199,8 @@ public class ContextHandlerClientTest {
         filter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
 
         Collection<VersionableResource> memberList =
-            cc.retrieveMembersAsList(
-                EscidocClientTestBase.getStaticContextId(), filter);
+            cc.retrieveMembersAsList(EscidocClientTestBase.getStaticContextId(), filter);
 
-        assertTrue("result list is empty, try another filter",
-            memberList.size() != 0);
+        assertTrue("result list is empty, try another filter", memberList.size() != 0);
     }
 }

@@ -49,8 +49,7 @@ public class Requests extends LinkedList<RequestCtx> {
     /**
      * Empty set as default environment.
      */
-    public static final Set<Attribute> DEFAULT_ENVIRONMENT =
-        new HashSet<Attribute>();
+    public static final Set<Attribute> DEFAULT_ENVIRONMENT = new HashSet<Attribute>();
 
     /**
      * 

@@ -24,8 +24,8 @@ public interface ObjectPidService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result assignObjectPid(final T resource, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result assignObjectPid(final T resource, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -36,6 +36,6 @@ public interface ObjectPidService<T> {
      * @throws InternalClientException
      * @throws TransportException
      */
-    Result assignObjectPid(final String id, final TaskParam taskParam)
-        throws EscidocException, InternalClientException, TransportException;
+    Result assignObjectPid(final String id, final TaskParam taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 }

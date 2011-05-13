@@ -43,9 +43,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  * @author SWA
  * 
  */
-public class UserAccountProperties
-    implements CreateProperties, ModifyProperties, NameProperties,
-    ActiveProperties {
+public class UserAccountProperties implements CreateProperties, ModifyProperties, NameProperties, ActiveProperties {
 
     private DateTime creationDate;
 

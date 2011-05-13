@@ -29,8 +29,8 @@ public class AttributesMarshallerTest extends MarshallerTestBase<Attributes> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public AttributesMarshallerTest(final TransportProtocol transport)
-        throws IOException, ParserConfigurationException, SAXException {
+    public AttributesMarshallerTest(final TransportProtocol transport) throws IOException,
+        ParserConfigurationException, SAXException {
         super(Attributes.class, BASE, XSD, "attributes_complete.xml", transport);
     }
 
@@ -42,19 +42,14 @@ public class AttributesMarshallerTest extends MarshallerTestBase<Attributes> {
         assertXPath("/attributes:attributes/@user-objid", obj.getUserObjid());
 
         // Attribute
-        assertResource("/attributes:attributes/attributes:attribute[1]",
-            obj.get(0));
+        assertResource("/attributes:attributes/attributes:attribute[1]", obj.get(0));
         // Attributes within an attributes-tag may not have a LMD set.
-        assertDateTime(
-            "/attributes:attributes/attributes:attribute[1]/@last-modification-date",
-            obj.get(0).getLastModificationDate(), false);
+        assertDateTime("/attributes:attributes/attributes:attribute[1]/@last-modification-date", obj
+            .get(0).getLastModificationDate(), false);
 
-        assertXPath("/attributes:attributes/attributes:attribute[1]/@name", obj
-            .get(0).getName());
-        assertXPath("/attributes:attributes/attributes:attribute[1]/@internal",
-            obj.get(0).isInternal());
-        assertXPath("/attributes:attributes/attributes:attribute[1]", obj
-            .get(0).getValue());
+        assertXPath("/attributes:attributes/attributes:attribute[1]/@name", obj.get(0).getName());
+        assertXPath("/attributes:attributes/attributes:attribute[1]/@internal", obj.get(0).isInternal());
+        assertXPath("/attributes:attributes/attributes:attribute[1]", obj.get(0).getValue());
     }
 
     @Override
@@ -63,8 +58,7 @@ public class AttributesMarshallerTest extends MarshallerTestBase<Attributes> {
     }
 
     @Override
-    protected void testResourceWithoutSubResources(final Attributes obj)
-        throws Exception {
+    protected void testResourceWithoutSubResources(final Attributes obj) throws Exception {
         // TODO Auto-generated method stub
     }
 }

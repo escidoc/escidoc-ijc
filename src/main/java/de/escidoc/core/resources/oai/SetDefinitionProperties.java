@@ -17,8 +17,7 @@ import de.escidoc.core.resources.common.reference.UserAccountRef;
  */
 @JiBX
 public class SetDefinitionProperties
-    implements CreateProperties, ModifyProperties, NameProperties,
-    DescriptionProperties {
+    implements CreateProperties, ModifyProperties, NameProperties, DescriptionProperties {
 
     private UserAccountRef createdBy;
 

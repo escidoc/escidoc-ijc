@@ -1,6 +1,5 @@
 package de.escidoc.core.common.jibx.binding;
 
-
 /**
  * AdminDescriptor Marshaller.
  * 

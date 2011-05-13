@@ -99,18 +99,15 @@ public class UserAccountPreferencesTest {
         Preference uaPref = new Preference("PreferenceName", "PreferenceValue");
 
         Preference createPref = uahc.createPreference(objId, uaPref);
-        assertEquals("Preference name differs", uaPref.getName(),
-            createPref.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            createPref.getValue());
+        assertEquals("Preference name differs", uaPref.getName(), createPref.getName());
+        assertEquals("Preference value differs", uaPref.getValue(), createPref.getValue());
 
         // retrieve
         Preferences preferences = uahc.retrievePreferences(objId);
         assertTrue("Wrong number of preferences", preferences.size() == 1);
         Preference p = preferences.iterator().next();
         assertEquals("Preference name differs", uaPref.getName(), p.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            p.getValue());
+        assertEquals("Preference value differs", uaPref.getValue(), p.getValue());
     }
 
     /**
@@ -140,28 +137,23 @@ public class UserAccountPreferencesTest {
         Preference uaPref = new Preference("PreferenceName", "PreferenceValue");
 
         Preference createPref = uahc.createPreference(objId, uaPref);
-        assertEquals("Preference name differs", uaPref.getName(),
-            createPref.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            createPref.getValue());
+        assertEquals("Preference name differs", uaPref.getName(), createPref.getName());
+        assertEquals("Preference value differs", uaPref.getValue(), createPref.getValue());
 
         // update Preference
         uaPref = new Preference("PreferenceName", "PreferenceValue2");
         // do not forget the last-modification-date
         uaPref.setLastModificationDate(createPref.getLastModificationDate());
         createPref = uahc.updatePreference(objId, uaPref);
-        assertEquals("Preference name differs", uaPref.getName(),
-            createPref.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            createPref.getValue());
+        assertEquals("Preference name differs", uaPref.getName(), createPref.getName());
+        assertEquals("Preference value differs", uaPref.getValue(), createPref.getValue());
 
         // retrieve
         Preferences preferences = uahc.retrievePreferences(objId);
         assertTrue("Wrong number of preferences", preferences.size() == 1);
         Preference p = preferences.iterator().next();
         assertEquals("Preference name differs", uaPref.getName(), p.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            p.getValue());
+        assertEquals("Preference value differs", uaPref.getValue(), p.getValue());
     }
 
     /**
@@ -191,10 +183,8 @@ public class UserAccountPreferencesTest {
         Preference uaPref = new Preference("PreferenceName", "PreferenceValue");
 
         Preference createPref = uahc.createPreference(objId, uaPref);
-        assertEquals("Preference name differs", uaPref.getName(),
-            createPref.getName());
-        assertEquals("Preference value differs", uaPref.getValue(),
-            createPref.getValue());
+        assertEquals("Preference name differs", uaPref.getName(), createPref.getName());
+        assertEquals("Preference value differs", uaPref.getValue(), createPref.getValue());
 
         uahc.deletePreference(objId, createPref.getName());
 

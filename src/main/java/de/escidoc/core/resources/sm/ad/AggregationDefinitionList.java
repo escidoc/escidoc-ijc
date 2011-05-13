@@ -6,11 +6,9 @@ import de.escidoc.core.resources.ResourceList;
  * @author MRO
  * 
  */
-public class AggregationDefinitionList
-    extends ResourceList<AggregationDefinition> {
+public class AggregationDefinitionList extends ResourceList<AggregationDefinition> {
 
-    private static final String AGGREGATION_DEFINITIONS_PATH =
-        "/aggregation-definitions";
+    private static final String AGGREGATION_DEFINITIONS_PATH = "/aggregation-definitions";
 
     /**
      * 

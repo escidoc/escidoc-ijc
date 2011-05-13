@@ -56,8 +56,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
  * @author SWA
  * 
  */
-public interface ContextHandlerClientInterface
-    extends HandlerService, CrudService<Context>, OpenCloseService<Context> {
+public interface ContextHandlerClientInterface extends HandlerService, CrudService<Context>, OpenCloseService<Context> {
 
     /**
      * 
@@ -67,8 +66,8 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveContexts(SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    SearchRetrieveResponse retrieveContexts(SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -78,8 +77,8 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveContexts(ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveContexts(ExplainRequestType request) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -89,8 +88,8 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<Context> retrieveContextsAsList(SearchRetrieveRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    List<Context> retrieveContextsAsList(SearchRetrieveRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -101,8 +100,8 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    AdminDescriptors retrieveAdminDescriptors(final String contextId)
-        throws EscidocException, InternalClientException, TransportException;
+    AdminDescriptors retrieveAdminDescriptors(final String contextId) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -112,8 +111,8 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    AdminDescriptors retrieveAdminDescriptors(final Context context)
-        throws EscidocException, InternalClientException, TransportException;
+    AdminDescriptors retrieveAdminDescriptors(final Context context) throws EscidocException, InternalClientException,
+        TransportException;
 
     /**
      * 
@@ -126,8 +125,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    AdminDescriptor retrieveAdminDescriptor(
-        final String contextId, final String name) throws EscidocException,
+    AdminDescriptor retrieveAdminDescriptor(final String contextId, final String name) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -139,8 +137,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    AdminDescriptor retrieveAdminDescriptor(
-        final Context context, final String name) throws EscidocException,
+    AdminDescriptor retrieveAdminDescriptor(final Context context, final String name) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
@@ -152,8 +149,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveMembers(
-        final String id, final SearchRetrieveRequestType request)
+    SearchRetrieveResponse retrieveMembers(final String id, final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -165,8 +161,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    SearchRetrieveResponse retrieveMembers(
-        final Context context, final SearchRetrieveRequestType request)
+    SearchRetrieveResponse retrieveMembers(final Context context, final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -187,8 +182,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<VersionableResource> retrieveMembersAsList(
-        final String id, final SearchRetrieveRequestType filter)
+    List<VersionableResource> retrieveMembersAsList(final String id, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -209,8 +203,7 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    List<VersionableResource> retrieveMembersAsList(
-        final Context context, final SearchRetrieveRequestType filter)
+    List<VersionableResource> retrieveMembersAsList(final Context context, final SearchRetrieveRequestType filter)
         throws EscidocException, InternalClientException, TransportException;
 
     /**
@@ -222,9 +215,8 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveMembers(
-        final String id, final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveMembers(final String id, final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 
     /**
      * 
@@ -235,7 +227,6 @@ public interface ContextHandlerClientInterface
      * @throws InternalClientException
      * @throws TransportException
      */
-    ExplainResponse retrieveMembers(
-        final Context context, final ExplainRequestType request)
-        throws EscidocException, InternalClientException, TransportException;
+    ExplainResponse retrieveMembers(final Context context, final ExplainRequestType request) throws EscidocException,
+        InternalClientException, TransportException;
 }

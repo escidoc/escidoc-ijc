@@ -3,7 +3,6 @@
  */
 package de.escidoc.core.resources.sm.ad;
 
-
 /**
  * CLIB internal enumeration.
  * 

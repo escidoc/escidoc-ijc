@@ -28,8 +28,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class ReportDefinitionRestServiceLocator extends RestServiceMethod
-    implements ReportDefinitionHandler {
+public class ReportDefinitionRestServiceLocator extends RestServiceMethod implements ReportDefinitionHandler {
 
     public static final String PATH = "/statistic/report-definition";
 
@@ -39,9 +38,8 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ReportDefinitionHandler#delete(java.lang.String)
      */
     @Override
-    public void delete(final String id) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        ReportDefinitionNotFoundException, MissingMethodParameterException {
+    public void delete(final String id) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, ReportDefinitionNotFoundException, MissingMethodParameterException {
 
         checkNotNull(id);
 
@@ -54,11 +52,9 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * @see de.escidoc.core.sm.ReportDefinitionHandler#create(java.lang.String)
      */
     @Override
-    public String create(final String xml) throws RemoteException,
-        XmlSchemaValidationException, SystemException, XmlCorruptedException,
-        InvalidSqlException, AuthorizationException, ScopeNotFoundException,
-        AuthenticationException, ScopeContextViolationException,
-        MissingMethodParameterException {
+    public String create(final String xml) throws RemoteException, XmlSchemaValidationException, SystemException,
+        XmlCorruptedException, InvalidSqlException, AuthorizationException, ScopeNotFoundException,
+        AuthenticationException, ScopeContextViolationException, MissingMethodParameterException {
 
         checkNotNull(xml);
 
@@ -72,11 +68,9 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * java.lang.String)
      */
     @Override
-    public String update(final String id, final String xml)
-        throws RemoteException, XmlSchemaValidationException, SystemException,
-        XmlCorruptedException, InvalidSqlException, AuthorizationException,
-        ScopeNotFoundException, AuthenticationException,
-        ReportDefinitionNotFoundException, ScopeContextViolationException,
+    public String update(final String id, final String xml) throws RemoteException, XmlSchemaValidationException,
+        SystemException, XmlCorruptedException, InvalidSqlException, AuthorizationException, ScopeNotFoundException,
+        AuthenticationException, ReportDefinitionNotFoundException, ScopeContextViolationException,
         MissingMethodParameterException {
 
         checkNotNull(id);
@@ -92,9 +86,8 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * de.escidoc.core.sm.ReportDefinitionHandler#retrieve(java.lang.String)
      */
     @Override
-    public String retrieve(final String id) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        ReportDefinitionNotFoundException, MissingMethodParameterException {
+    public String retrieve(final String id) throws RemoteException, SystemException, AuthorizationException,
+        AuthenticationException, ReportDefinitionNotFoundException, MissingMethodParameterException {
 
         checkNotNull(id);
 
@@ -109,12 +102,10 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * java.util.HashMap)
      */
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Deprecated
-    public String retrieveReportDefinitions(final HashMap filter)
-        throws RemoteException, SystemException, InvalidSearchQueryException,
-        AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieveReportDefinitions(final HashMap filter) throws RemoteException, SystemException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         return get(PATH + "s", filter);
     }
@@ -126,10 +117,9 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * retrieveReportDefinitions(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public String retrieveReportDefinitions(
-        final SearchRetrieveRequestType request) throws RemoteException,
-        SystemException, AuthorizationException, AuthenticationException,
-        InvalidXmlException, MissingMethodParameterException {
+    public String retrieveReportDefinitions(final SearchRetrieveRequestType request) throws RemoteException,
+        SystemException, AuthorizationException, AuthenticationException, InvalidXmlException,
+        MissingMethodParameterException {
 
         checkNotNull(request);
 
@@ -143,10 +133,8 @@ public class ReportDefinitionRestServiceLocator extends RestServiceMethod
      * retrieveReportDefinitions(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
-    public String retrieveReportDefinitions(final ExplainRequestType request)
-        throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException, InvalidXmlException,
-        MissingMethodParameterException {
+    public String retrieveReportDefinitions(final ExplainRequestType request) throws RemoteException, SystemException,
+        AuthorizationException, AuthenticationException, InvalidXmlException, MissingMethodParameterException {
 
         checkNotNull(request);
 

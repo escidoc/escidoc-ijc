@@ -22,8 +22,7 @@ public class DifferenceCumulationField extends StatisticsField {
      * @param feed
      * @param xPath
      */
-    public DifferenceCumulationField(final String name, final String feed,
-        final String xPath) {
+    public DifferenceCumulationField(final String name, final String feed, final String xPath) {
         super(name, feed);
 
         if (xPath == null)

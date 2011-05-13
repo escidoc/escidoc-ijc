@@ -34,6 +34,5 @@ package de.escidoc.core.client.interfaces.base;
  * @author SWA
  * @param <T>
  */
-public interface ResourceStatusService<T>
-    extends Releasable<T>, Revisable<T>, Submittable<T>, Withdrawable<T> {
+public interface ResourceStatusService<T> extends Releasable<T>, Revisable<T>, Submittable<T>, Withdrawable<T> {
 }

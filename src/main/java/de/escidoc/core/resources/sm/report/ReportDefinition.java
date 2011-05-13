@@ -18,8 +18,7 @@ import de.escidoc.core.resources.common.reference.ScopeRef;
  * 
  */
 @JiBX
-public class ReportDefinition extends GenericResource
-    implements Referenceable<ReportDefinitionRef> {
+public class ReportDefinition extends GenericResource implements Referenceable<ReportDefinitionRef> {
 
     private String name;
 
@@ -43,8 +42,7 @@ public class ReportDefinition extends GenericResource
      * @param sql
      * @param allowedRoles
      */
-    public ReportDefinition(final String name, final ScopeRef scope,
-        final String sql) {
+    public ReportDefinition(final String name, final ScopeRef scope, final String sql) {
         this.name = checkNotNull(name);
         this.scope = checkNotNull(scope);
         this.sql = checkNotNull(sql);
