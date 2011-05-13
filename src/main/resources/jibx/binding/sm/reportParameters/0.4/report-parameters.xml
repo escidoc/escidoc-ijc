@@ -13,7 +13,8 @@
       ns="http://www.escidoc.de/schemas/reportparameters/0.4" 
       field="reportDefinition"/>
     
-    <collection field="parameters" create-type="java.util.LinkedList" 
+    <collection field="parameters" usage="optional"
+      create-type="java.util.LinkedList" 
       item-type="de.escidoc.core.resources.sm.Parameter">
       <structure name="parameter" 
         ns="http://www.escidoc.de/schemas/reportparameters/0.4"

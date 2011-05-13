@@ -39,7 +39,7 @@
     
     <structure name="xpath" usage="optional"
       ns="http://www.escidoc.de/schemas/aggregationdefinition/0.4">
-      <value style="text" field="xPath"/>
+      <value style="text" field="xPath" usage="optional"/>
     </structure>
   </mapping>
   
