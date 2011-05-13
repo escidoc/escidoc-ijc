@@ -9,11 +9,10 @@ import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentModelHandlerClient;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface;
 import de.escidoc.core.test.client.EscidocClientTestBase;
 
-public class LastCaseExecuteManually {
+public class RetrieveST {
 
     private Authentication auth;
 
@@ -25,20 +24,19 @@ public class LastCaseExecuteManually {
 
     private Exception firstException;
 
-    private static final Logger LOG = Logger
-        .getLogger(LastCaseExecuteManually.class);
+    private static final Logger LOG = Logger.getLogger(RetrieveST.class);
 
     @Before
     public void init() {
         try {
             auth =
-                new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
+                new Authentication(
+                    EscidocClientTestBase.getDefaultInfrastructureURL(),
                     EscidocClientTestBase.SYSTEM_ADMIN_USER,
                     EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
             cc = new ContentModelHandlerClient(auth.getServiceAddress());
             cc.setHandle(auth.getHandle());
-            cc.setTransport(TransportProtocol.SOAP);
             failed = false;
             exceptionCount = 0;
             firstException = null;
