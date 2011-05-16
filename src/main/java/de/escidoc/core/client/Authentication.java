@@ -32,10 +32,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.log4j.Logger;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -53,8 +49,6 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * 
  */
 public class Authentication {
-
-    private static final Logger LOG = Logger.getLogger(Authentication.class);
 
     private String handle;
 
@@ -212,35 +206,15 @@ public class Authentication {
         getClient().logout();
     }
 
+    /**
+     * @return
+     * @throws InternalClientException
+     */
     private UserManagementWrapperClient getClient() throws InternalClientException {
         if (userManagement == null) {
             userManagement = new UserManagementWrapperClient(serviceAddress);
             userManagement.setHandle(handle);
         }
         return (UserManagementWrapperClient) userManagement;
-    }
-
-    /**
-     * Obtain handle from eSciDoc cookie.
-     * 
-     * @param cookieList
-     *            List of all received cookies.
-     * @return handle.
-     */
-    private String getEsciDocCookie(final List<String> cookieList) {
-
-        String cHandle = null;
-        // Get the user handle from the auth cookie.
-        if (cookieList != null) {
-            Iterator<String> cookieIterator = cookieList.iterator();
-            while (cookieIterator.hasNext()) {
-                String cookie = cookieIterator.next();
-                if (cookie.toLowerCase().startsWith("escidoccookie=")) {
-                    String[] parts = cookie.split(";");
-                    cHandle = parts[0].split("=")[1];
-                }
-            }
-        }
-        return cHandle;
     }
 }
