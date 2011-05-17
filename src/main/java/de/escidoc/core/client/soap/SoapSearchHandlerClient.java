@@ -258,7 +258,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         }
         String path = url.getFile();
 
-        int index = path.lastIndexOf("/");
+        int index = path.lastIndexOf('/');
         path = path.substring(0, index + 1);
         try {
             url = new URL(getServiceAddress() + path + database);
