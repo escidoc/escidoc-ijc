@@ -53,7 +53,7 @@ import de.escidoc.core.resources.sm.scope.Scope;
  * Marshaller Factory.
  * 
  */
-public class MarshallerFactory {
+public final class MarshallerFactory {
 
     // AA
     public static final Class<UserAccount> CLASS_USER_ACCOUNT = UserAccount.class;
