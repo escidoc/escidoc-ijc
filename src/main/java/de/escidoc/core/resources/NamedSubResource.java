@@ -175,7 +175,7 @@ public abstract class NamedSubResource extends XLinkResource {
      */
     protected static final NameIdentifier createIdentifier(final Object obj) {
         if (obj instanceof NamedSubResource)
-            return ((NamedSubResource) obj).new NameIdentifier();
+            return ((NamedSubResource) obj).getNameIdentifierInstance();
         throw new IllegalArgumentException();
     }
 
@@ -183,7 +183,7 @@ public abstract class NamedSubResource extends XLinkResource {
      * @return
      */
     protected NameIdentifier getNameIdentifierInstance() {
-        return this.new NameIdentifier();
+        return new NameIdentifier();
     }
 
     /*

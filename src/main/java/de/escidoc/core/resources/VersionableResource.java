@@ -78,7 +78,7 @@ public abstract class VersionableResource extends GenericResource {
      */
     @Override
     protected Identifier getIdentifierInstance() {
-        return this.new VersionedIdentifier();
+        return new VersionedIdentifier();
     }
 
     /**

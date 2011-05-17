@@ -155,7 +155,7 @@ public abstract class Resource extends XLinkResource {
      * @return an instance of the {@link Identifier}
      */
     protected Identifier getIdentifierInstance() {
-        return this.new Identifier();
+        return new Identifier();
     }
 
     /**
