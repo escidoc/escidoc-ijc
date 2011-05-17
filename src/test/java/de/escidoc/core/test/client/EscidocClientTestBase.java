@@ -57,24 +57,20 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public final class EscidocClientTestBase {
 
-    public static final String DEFAULT_INFRASTRUCTURE_HOST = "escidev6";
+    public static final String DEFAULT_INFRASTRUCTURE_HOST = "localhost";
 
     public static final String DEFAULT_INFRASTRUCTURE_PORT = "8080";
 
     public static final String DEFAULT_INFRASTRUCTURE_PATH = "";
 
-    public static final String DEFAULT_SERVICE_URL = "http://"
-        + DEFAULT_INFRASTRUCTURE_HOST + ":" + DEFAULT_INFRASTRUCTURE_PORT
-        + DEFAULT_INFRASTRUCTURE_PATH;
+    public static final String DEFAULT_SERVICE_URL = "http://" + DEFAULT_INFRASTRUCTURE_HOST + ":"
+        + DEFAULT_INFRASTRUCTURE_PORT + DEFAULT_INFRASTRUCTURE_PATH;
 
-    private static final Pattern PATTERN_OBJID_ATTRIBUTE = Pattern
-        .compile("objid=\"([^\"]*)\"");
+    private static final Pattern PATTERN_OBJID_ATTRIBUTE = Pattern.compile("objid=\"([^\"]*)\"");
 
-    private static final Pattern PATTERN_XLINK_HREF_ATTRIBUTE = Pattern
-        .compile("xlink:href=\"([^\"]*)\"");
+    private static final Pattern PATTERN_XLINK_HREF_ATTRIBUTE = Pattern.compile("xlink:href=\"([^\"]*)\"");
 
-    private static final Pattern PATTERN_LMD_ATTRIBUTE = Pattern
-        .compile("last-modification-date=\"([^\"]*)\"");
+    private static final Pattern PATTERN_LMD_ATTRIBUTE = Pattern.compile("last-modification-date=\"([^\"]*)\"");
 
     private static TransportProtocol defaultTransportProtocol;
 
@@ -93,8 +89,7 @@ public final class EscidocClientTestBase {
      * @param e
      *            The exception to be asserted.
      */
-    public static void assertExceptionType(
-        final String message, final Class<?> expectedClass, final Exception e) {
+    public static void assertExceptionType(final String message, final Class<?> expectedClass, final Exception e) {
 
         if (!e.getClass().equals(expectedClass)) {
             StringBuffer msg = new StringBuffer(message);
@@ -133,13 +128,11 @@ public final class EscidocClientTestBase {
      * @throws IOException
      *             Thrown if access to file or reading failed.
      */
-    public static String getXmlFileAsString(final InputStream in)
-        throws IOException {
+    public static String getXmlFileAsString(final InputStream in) throws IOException {
 
         // FIXME the fixed UTF-8 type let this method mark as garbage
         StringWriter writer = new StringWriter();
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(in, "UTF-8"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
         String line = reader.readLine();
         while (line != null) {
             writer.append(line + "\n");
@@ -200,8 +193,7 @@ public final class EscidocClientTestBase {
      * @param e
      *            The exception for that the stack trace shall be appended.
      */
-    private static void appendStackTrace(
-        final StringBuffer msg, final Exception e) {
+    private static void appendStackTrace(final StringBuffer msg, final Exception e) {
 
         msg.append("\n");
         msg.append(getStackTrace(e));
@@ -212,13 +204,11 @@ public final class EscidocClientTestBase {
      * @return
      * @throws InternalClientException
      */
-    public static final TransportProtocol getDefaultTransportProtocol()
-        throws InternalClientException {
+    public static final TransportProtocol getDefaultTransportProtocol() throws InternalClientException {
         if (defaultTransportProtocol == null) {
             defaultTransportProtocol =
-                TransportProtocol.valueOf(ConfigurationProvider
-                    .getInstance().getProperty(
-                        ConfigurationProvider.PROP_SERVICE_PROTOCOL));
+                TransportProtocol.valueOf(ConfigurationProvider.getInstance().getProperty(
+                    ConfigurationProvider.PROP_SERVICE_PROTOCOL));
         }
         return defaultTransportProtocol;
     }
@@ -230,14 +220,10 @@ public final class EscidocClientTestBase {
      * @throws TransformerException
      * @throws DOMException
      */
-    public static final String obtainObjidByXPath(
-        final String xPathToElement, final Document doc) throws DOMException,
+    public static final String obtainObjidByXPath(final String xPathToElement, final Document doc) throws DOMException,
         TransformerException {
         String objidOrHref =
-            XPathAPI
-                .selectSingleNode(doc,
-                    xPathToElement + "/@objid|" + xPathToElement + "/@href")
-                .getTextContent();
+            XPathAPI.selectSingleNode(doc, xPathToElement + "/@objid|" + xPathToElement + "/@href").getTextContent();
         return objidOrHref.substring(objidOrHref.lastIndexOf('/') + 1);
     }
 }

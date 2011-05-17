@@ -41,7 +41,7 @@ public class Constants {
      */
     public static final String SYSTEM_ADMIN_USER = "sysadmin";
 
-    public static final String SYSTEM_ADMIN_PASSWORD = "escidoc"; // "eSciDoc";
+    public static final String SYSTEM_ADMIN_PASSWORD = "eSciDoc";
 
     /**
      * This is definitive an invalid identifier (resource not found).
