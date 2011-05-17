@@ -16,8 +16,10 @@ import de.escidoc.core.resources.common.TaskParam;
 public interface LockingService<T> {
 
     /**
+     * Lock the resource.
      * 
      * @param id
+     *            the id of the resource to lock.
      * @param taskParam
      * @return
      * @throws EscidocException
@@ -28,8 +30,11 @@ public interface LockingService<T> {
         TransportException;
 
     /**
+     * Lock the resource.
      * 
      * @param obj
+     *            the resource to lock, which has to exists in the
+     *            infrastructure by providing the objid.
      * @param taskParam
      * @return
      * @throws EscidocException
@@ -40,8 +45,10 @@ public interface LockingService<T> {
         TransportException;
 
     /**
+     * Unlock the resource.
      * 
      * @param id
+     *            the id of the resource to unlock.
      * @param taskParam
      * @return
      * @throws EscidocException
@@ -52,8 +59,11 @@ public interface LockingService<T> {
         TransportException;
 
     /**
+     * Unlock the resource.
      * 
      * @param obj
+     *            the resource to unlock, which has to exists in the
+     *            infrastructure by providing the objid.
      * @param taskParam
      * @return
      * @throws EscidocException
