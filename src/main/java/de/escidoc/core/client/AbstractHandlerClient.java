@@ -26,7 +26,7 @@ public abstract class AbstractHandlerClient<T extends RestClientBase> {
 
     private URL serviceAddress;
 
-    protected T restHandlerClient;
+    private T restHandlerClient;
 
     /**
      * 
