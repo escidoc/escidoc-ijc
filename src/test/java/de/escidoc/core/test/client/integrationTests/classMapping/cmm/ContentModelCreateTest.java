@@ -212,7 +212,7 @@ public class ContentModelCreateTest {
 
         ResourceDefinition rd2 = new ResourceDefinition();
         rd2.setName("transX" + System.nanoTime());
-        rd2.setMetadataRecordName("ecidoc");
+        rd2.setMetadataRecordName("escidoc");
         rd2.setXslt(new Xslt("http://localhost:8080/xsl/copy.xsl"));
         cmm.getResourceDefinitions().add(rd2);
 
