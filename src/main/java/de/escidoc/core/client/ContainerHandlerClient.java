@@ -210,8 +210,25 @@ public class ContainerHandlerClient extends AbstractHandlerClient<RestContainerH
 
         checkNotNull(container);
 
+        return update(container.getObjid(), container);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public Container update(final String id, final Container container) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(container);
+
         Marshaller<Container> m = MarshallerFactory.getInstance().getMarshaller(Container.class);
-        String xml = getClient().update(container.getObjid(), m.marshalDocument(container));
+        String xml = getClient().update(id, m.marshalDocument(container));
 
         return m.unmarshalDocument(xml);
     }
@@ -715,6 +732,7 @@ public class ContainerHandlerClient extends AbstractHandlerClient<RestContainerH
         checkNotNull(id);
 
         String xml = getClient().retrieveStructMap(id);
+
         return MarshallerFactory.getInstance().getMarshaller(StructMap.class).unmarshalDocument(xml);
     }
 
