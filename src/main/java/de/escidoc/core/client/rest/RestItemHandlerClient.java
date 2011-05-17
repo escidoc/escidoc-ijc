@@ -113,6 +113,27 @@ public class RestItemHandlerClient extends RestClientBase {
     }
 
     /**
+     * @param itemId
+     * @param componentXml
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String createComponent(final String itemId, final String componentXml) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().createComponent(itemId, componentXml);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
      * Delete an Item.
      * 
      * @param id
@@ -128,6 +149,24 @@ public class RestItemHandlerClient extends RestClientBase {
 
         try {
             getClient().delete(id);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+    }
+
+    /**
+     * @param itemId
+     * @param componentId
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public void deleteComponent(final String itemId, final String componentId) throws EscidocException,
+        InternalClientException, TransportException {
+
+        try {
+            getClient().deleteComponent(itemId, componentId);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
@@ -180,6 +219,28 @@ public class RestItemHandlerClient extends RestClientBase {
         String result = null;
         try {
             result = getClient().update(id, item);
+        }
+        catch (Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * @param itemId
+     * @param componentId
+     * @param componentXml
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    public String updateComponent(final String itemId, final String componentId, final String componentXml)
+        throws EscidocException, InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().updateComponent(itemId, componentId, componentXml);
         }
         catch (Exception e) {
             ExceptionMapper.map(e, LOG);
