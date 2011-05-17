@@ -28,8 +28,6 @@
  */
 package de.escidoc.core.resources.oum;
 
-import org.joda.time.DateTime;
-
 import de.escidoc.core.resources.ResourceList;
 import de.escidoc.core.resources.interfaces.OptimisticLocking;
 
@@ -41,36 +39,12 @@ import de.escidoc.core.resources.interfaces.OptimisticLocking;
  */
 public class Parents extends ResourceList<Parent> implements OptimisticLocking {
 
-    private DateTime lmd;
-
     private static final String OU_PARENTS_PATH = "/parents";
 
     /**
      * 
      */
     private static final long serialVersionUID = -962919764840581526L;
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.interfaces.OptimisticLocking#
-     * setLastModificationDate(org.joda.time.DateTime)
-     */
-    @Override
-    public void setLastModificationDate(final DateTime lmd) {
-        this.lmd = lmd;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.escidoc.core.resources.interfaces.OptimisticLocking#
-     * getLastModificationDate()
-     */
-    @Override
-    public DateTime getLastModificationDate() {
-        return this.lmd;
-    }
 
     /*
      * (non-Javadoc)
