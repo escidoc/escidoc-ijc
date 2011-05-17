@@ -50,10 +50,6 @@ import de.escidoc.core.resources.sb.explain.ExplainResponse;
 import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 /**
- * This is the generic ContentRelationSoapHandlerClient which binds the
- * transport specific classes. The transport specification is done via
- * properties configuration of the eSciDoc client.
- * 
  * @author SWA
  * 
  */
@@ -87,23 +83,24 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         super(serviceAddress);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestContentRelationHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestContentRelationHandlerClient(getServiceAddress());
     }
 
-    /**
-     * Create ContentRelation in Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentRelation
-     *            The new ContentRelation
-     * @return The new created ContentRelation.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public ContentRelation create(final ContentRelation contentRelation) throws EscidocException,
@@ -123,9 +120,6 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
-     * @deprecated Signature convention: Use
-     *             {@link ContentRelationHandlerClient#retrieve(String)}
-     *             instead.
      */
     @Deprecated
     public ContentRelation retrieve(final ContentRelation contentRelation) throws EscidocException,
@@ -136,18 +130,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return retrieve(contentRelation.getObjid());
     }
 
-    /**
-     * Retrieve ContentRelation from Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the ContentRelation
-     * @return The ContentRelation with the provided obid.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Retrievable#retrieve(java.lang
+     * .String)
      */
     @Override
     public ContentRelation retrieve(final String id) throws EscidocException, InternalClientException,
@@ -160,17 +148,11 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return MarshallerFactory.getInstance().getMarshaller(ContentRelation.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Delete ContentRelation from Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the ContentRelation
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
     public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -180,18 +162,11 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         getClient().delete(id);
     }
 
-    /**
-     * Update ContentRelation.
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentRelation
-     *            New Representation of ContentRelation
-     * @return The updated ContentRelation.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public ContentRelation update(final ContentRelation contentRelation) throws EscidocException,
@@ -199,27 +174,36 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
 
         checkNotNull(contentRelation);
 
+        return update(contentRelation.getObjid(), contentRelation);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public ContentRelation update(final String id, final ContentRelation contentRelation) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(contentRelation);
+
         Marshaller<ContentRelation> m = MarshallerFactory.getInstance().getMarshaller(ContentRelation.class);
 
-        String xml = getClient().update(contentRelation.getObjid(), m.marshalDocument(contentRelation));
+        String xml = getClient().update(id, m.marshalDocument(contentRelation));
 
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Assign Persistent Identifier for ContentRelation (object).
+    /*
+     * (non-Javadoc)
      * 
-     * @param cr
-     *            ContentRelation
-     * @param taskParam
-     *            Task parameter to provide PID parameter.
-     * @return The updated ContentRelation.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.ObjectPidService#assignObjectPid
+     * (java.lang.Object, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result assignObjectPid(final ContentRelation cr, final TaskParam taskParam) throws EscidocException,
@@ -230,20 +214,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return assignObjectPid(cr.getObjid(), taskParam);
     }
 
-    /**
-     * Assign Persistent Identifier for ContentRelation (object).
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the ContentRelation
-     * @param taskParam
-     *            Task parameter to provide PID parameter.
-     * @return The updated ContentRelation.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.ObjectPidService#assignObjectPid
+     * (java.lang.String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam) throws EscidocException,
@@ -257,20 +233,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Lock the ContentRelation.
+    /*
+     * (non-Javadoc)
      * 
-     * @param cr
-     *            ContentRelation.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.LockingService#lock(java.lang.
+     * Object, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result lock(final ContentRelation cr, final TaskParam taskParam) throws EscidocException,
@@ -281,20 +249,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return lock(cr.getObjid(), taskParam);
     }
 
-    /**
-     * Lock the ContentRelation.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of ContentRelation.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.LockingService#lock(java.lang.
+     * String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result lock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -308,20 +268,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Unlock the ContentRelation.
+    /*
+     * (non-Javadoc)
      * 
-     * @param cr
-     *            ContentRelation.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.LockingService#unlock(java.lang
+     * .Object, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result unlock(final ContentRelation cr, final TaskParam taskParam) throws EscidocException,
@@ -332,20 +284,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return unlock(cr.getObjid(), taskParam);
     }
 
-    /**
-     * Unlock the ContentRelation.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of ContentRelation.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.LockingService#unlock(java.lang
+     * .String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result unlock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -363,20 +307,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
      * Status methods
      */
 
-    /**
-     * Set ContentRelation to status submit.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of ContentRelation.
-     * @param taskParam
-     *            TaskParameter for submit.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Submittable#submit(java.lang.String
+     * , de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result submit(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -390,20 +326,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Set ContentRelation to status submit.
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentRelation
-     *            The ContentRelation.
-     * @param taskParam
-     *            TaskParameter for submit.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Submittable#submit(java.lang.Object
+     * , de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result submit(final ContentRelation contentRelation, final TaskParam taskParam) throws EscidocException,
@@ -414,20 +342,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return submit(contentRelation.getObjid(), taskParam);
     }
 
-    /**
-     * Set ContentRelation to status released.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of ContentRelation.
-     * @param taskParam
-     *            TaskParameter for release.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Releasable#release(java.lang.String
+     * , de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result release(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -441,20 +361,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Set ContentRelation to status released.
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentRelation
-     *            The ContentRelation.
-     * @param taskParam
-     *            TaskParameter for release.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Releasable#release(java.lang.Object
+     * , de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result release(final ContentRelation contentRelation, final TaskParam taskParam) throws EscidocException,
@@ -465,20 +377,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return release(contentRelation.getObjid(), taskParam);
     }
 
-    /**
-     * Set ContentRelation to status revised.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of ContentRelation.
-     * @param taskParam
-     *            TaskParameter for revised.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Revisable#revise(java.lang.String,
+     * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result revise(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -492,20 +396,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Set ContentRelation to status revised.
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentRelation
-     *            The ContentRelation.
-     * @param taskParam
-     *            TaskParameter for revise.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Revisable#revise(java.lang.Object,
+     * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result revise(final ContentRelation contentRelation, final TaskParam taskParam) throws EscidocException,
@@ -516,18 +412,12 @@ public class ContentRelationHandlerClient extends AbstractHandlerClient<RestCont
         return revise(contentRelation.getObjid(), taskParam);
     }
 
-    /**
-     * Retrieve ContentRelations (Filter for ContentRelations).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.ContentRelationHandlerClientInterface
+     * #retrieveContentRelations(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public SearchRetrieveResponse retrieveContentRelations(final SearchRetrieveRequestType filter)
