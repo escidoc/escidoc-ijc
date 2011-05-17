@@ -13,6 +13,13 @@ import java.net.URL;
 public class CustomConverter {
 
     /**
+     * No instance allowed.
+     */
+    private CustomConverter() {
+
+    }
+
+    /**
      * Serialize URI to string.
      * 
      * @param uri
