@@ -90,23 +90,24 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         super(serviceAddress);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestContentModelHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestContentModelHandlerClient(getServiceAddress());
     }
 
-    /**
-     * Create ContentModel in Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentModel
-     *            The new ContentModel
-     * @return The new created ContentModel.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public ContentModel create(final ContentModel contentModel) throws EscidocException, InternalClientException,
@@ -121,18 +122,12 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve ContentModel from Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the ContentModel
-     * @return The ContentModel with the provided obid.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Retrievable#retrieve(java.lang
+     * .String)
      */
     @Override
     public ContentModel retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -144,17 +139,11 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return MarshallerFactory.getInstance().getMarshaller(ContentModel.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Delete ContentModel from Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the ContentModel
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
     public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -164,18 +153,11 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         getClient().delete(id);
     }
 
-    /**
-     * Update ContentModel.
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentModel
-     *            New Representation of ContentModel
-     * @return The updated ContentModel.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public ContentModel update(final ContentModel contentModel) throws EscidocException, InternalClientException,
@@ -183,13 +165,37 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
 
         checkNotNull(contentModel);
 
+        return update(contentModel.getObjid(), contentModel);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public ContentModel update(final String id, final ContentModel contentModel) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(contentModel);
+
         Marshaller<ContentModel> m = MarshallerFactory.getInstance().getMarshaller(ContentModel.class);
 
-        String xml = getClient().update(contentModel.getObjid(), m.marshalDocument(contentModel));
+        String xml = getClient().update(id, m.marshalDocument(contentModel));
 
         return m.unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface#
+     * retrieveContentModels(gov.loc.www.zing.srw.ExplainRequestType)
+     */
     @Override
     public ExplainResponse retrieveContentModels(final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
@@ -199,6 +205,13 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface#
+     * retrieveContentModels(gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
     public SearchRetrieveResponse retrieveContentModels(final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException {
@@ -208,6 +221,14 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ContentModelHandlerClientInterface#
+     * retrieveContentModelsAsList
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
     public List<ContentModel> retrieveContentModelsAsList(final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException {
@@ -215,6 +236,13 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return getSearchRetrieveResponseAsList(ContentModel.class, retrieveContentModels(request));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.PropertiesService#retrieveProperties
+     * (java.lang.String)
+     */
     @Override
     public ContentModelProperties retrieveProperties(final String id) throws EscidocException, InternalClientException,
         TransportException {
@@ -226,6 +254,12 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return MarshallerFactory.getInstance().getMarshaller(ContentModelProperties.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.base.VersionableResourceService#
+     * retrieveVersionHistory(java.lang.String)
+     */
     @Override
     public VersionHistory retrieveVersionHistory(final String id) throws EscidocClientException,
         InternalClientException, TransportException {
@@ -237,6 +271,12 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return MarshallerFactory.getInstance().getMarshaller(VersionHistory.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.base.VersionableResourceService#
+     * retrieveVersionHistory(java.lang.Object)
+     */
     @Override
     public VersionHistory retrieveVersionHistory(final ContentModel resource) throws EscidocClientException,
         InternalClientException, TransportException {
@@ -246,6 +286,12 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return retrieveVersionHistory(resource.getObjid());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.base.ContentStreamService#
+     * retrieveContentStreams(java.lang.String)
+     */
     @Override
     public ContentStreams retrieveContentStreams(final String id) throws EscidocException, InternalClientException,
         TransportException {
@@ -257,6 +303,12 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return MarshallerFactory.getInstance().getMarshaller(ContentStreams.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.base.ContentStreamService#
+     * retrieveContentStream(java.lang.String, java.lang.String)
+     */
     @Override
     public ContentStream retrieveContentStream(final String id, final String name) throws EscidocException,
         InternalClientException, TransportException {
@@ -269,6 +321,12 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         return MarshallerFactory.getInstance().getMarshaller(ContentStream.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.client.interfaces.base.ContentStreamService#
+     * retrieveContentStreamContent(java.lang.String, java.lang.String)
+     */
     @Override
     public HttpInputStream retrieveContentStreamContent(final String id, final String name) throws EscidocException,
         InternalClientException, TransportException {
