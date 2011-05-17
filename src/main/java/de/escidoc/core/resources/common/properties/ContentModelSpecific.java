@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
 @Deprecated
 public class ContentModelSpecific {
 
-    List<Element> content = new LinkedList<Element>();
+    private List<Element> content = new LinkedList<Element>();
 
     @Deprecated
     public ContentModelSpecific() {
@@ -52,7 +52,7 @@ public class ContentModelSpecific {
         return content;
     }
 
-    public void setContent(List<Element> content) {
+    public void setContent(final List<Element> content) {
         this.content = content;
     }
 
