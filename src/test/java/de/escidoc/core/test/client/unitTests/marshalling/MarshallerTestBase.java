@@ -347,16 +347,30 @@ public abstract class MarshallerTestBase<T> {
     protected final void assertXLinkList(final String xPathContext, final XLinkList<?> res) throws DOMException,
         TransformerException {
 
+        assertXLinkList(xPathContext, res, true);
+    }
+
+    /**
+     * @param xPathContext
+     * @param res
+     * @param strict
+     * @throws DOMException
+     * @throws TransformerException
+     */
+    protected final void assertXLinkList(final String xPathContext, final XLinkList<?> res, final boolean strict)
+        throws DOMException, TransformerException {
+
         checkNotNull(xPathContext);
         checkNotNull(res);
+
+        if (strict) {
+            assertNotNull(res.getXLinkHref());
+        }
 
         if (transport == TransportProtocol.REST) {
             assertXPath(xPathContext + "/@xlink:href", res.getXLinkHref(), true);
             assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(), false);
             assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(), false);
-        }
-        else if (transport == TransportProtocol.SOAP) {
-            assertNotNull(res.getXLinkHref());
         }
 
         assertDateTime(xPathContext + "/@last-modification-date", res.getLastModificationDate(), false);
