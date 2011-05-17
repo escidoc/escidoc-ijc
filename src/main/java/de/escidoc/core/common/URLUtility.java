@@ -12,10 +12,13 @@ import org.apache.log4j.Logger;
  * @author MVO
  * 
  */
-public class URLUtility {
+public final class URLUtility {
 
     private static final Logger LOG = Logger.getLogger(URLUtility.class);
 
+    /**
+     * No instance allowed.
+     */
     private URLUtility() {
 
     }

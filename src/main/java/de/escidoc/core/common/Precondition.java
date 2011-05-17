@@ -12,12 +12,15 @@ import org.jibx.runtime.JiBXException;
  * @author MVO
  * 
  */
-public class Precondition {
+public final class Precondition {
 
     protected static final String EX_INVALID_OBJ_TYPE = "Unexpected object type. Expected: ";
 
+    /**
+     * No instance allowed.
+     */
     private Precondition() {
-        // no instance
+
     }
 
     /**

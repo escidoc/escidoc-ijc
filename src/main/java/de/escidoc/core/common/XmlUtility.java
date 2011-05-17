@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  * @author SWA
  * 
  */
-public class XmlUtility {
+public final class XmlUtility {
 
     public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
@@ -78,6 +78,13 @@ public class XmlUtility {
     private static final Pattern PATTERN_ESC_APOS = Pattern.compile("(" + ESC_APOS + ")");
 
     /**
+     * No instance allowed.
+     */
+    private XmlUtility() {
+
+    }
+
+    /**
      * Get a DOM object of the XML string.
      * 
      * @param xml
@@ -110,8 +117,7 @@ public class XmlUtility {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         docBuilderFactory.setFeature("http://xml.org/sax/features/namespaces", namespaceAware);
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-        Document result = docBuilder.parse(new ByteArrayInputStream(xml.getBytes(Constants.DEFAULT_CHARSET)));
-        return result;
+        return docBuilder.parse(new ByteArrayInputStream(xml.getBytes("UTF-8")));
     }
 
     /**

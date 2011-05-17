@@ -12,6 +12,13 @@ import org.joda.time.DateTime;
 public class DateTimeUtility {
 
     /**
+     * No instance allowed.
+     */
+    private DateTimeUtility() {
+
+    }
+
+    /**
      * FIXME This method does not normalize the date, since there is wrong date
      * handling in the infrastructure, which has to be fixed first.
      * 
