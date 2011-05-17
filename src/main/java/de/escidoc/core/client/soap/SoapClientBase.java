@@ -95,8 +95,8 @@ public abstract class SoapClientBase extends ClientBase implements CallbackHandl
         String result = serviceUrl;
         if (!serviceUrl.startsWith("http://")) {
             String tmp = serviceUrl.substring(pSize);
-            if (tmp.indexOf(":") != -1) {
-                tmp = tmp.substring(tmp.indexOf(":") + tSize);
+            if (tmp.indexOf(':') != -1) {
+                tmp = tmp.substring(tmp.indexOf(':') + tSize);
                 result = "http://" + serviceUrl + tmp;
             }
         }
