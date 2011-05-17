@@ -146,21 +146,33 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
      */
 
     /**
-     * @param explain
-     * @return
+     * Retrieve UserAccounts (Filter for UserAccounts).
+     * 
+     * @param filter
+     *            Filter parameter
+     * @return ExplainRecord
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     ExplainResponse retrieveUserAccounts(final ExplainRequestType explain) throws EscidocException,
         InternalClientException, TransportException;
 
     /**
+     * Retrieve UserAccounts (Filter for UserAccounts).
+     * 
      * @param filter
-     * @return
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     SearchRetrieveResponse retrieveUserAccounts(final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException;
@@ -180,11 +192,14 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
      */
 
     /**
-     * @param userId
-     * @return
+     * Retrieve Grants of current User Account.
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     Grants retrieveCurrentGrants(final String userId) throws EscidocException, InternalClientException,
         TransportException;
@@ -248,13 +263,20 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
         InternalClientException, TransportException;
 
     /**
+     * Retrieve a Grant of current User Account by id.
      * 
      * @param userId
+     *            The objid of the User Account
      * @param grantId
-     * @return
+     *            The objid of the Grant
+     * @return The Grant
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     Grant retrieveGrant(final String userId, final String grantId) throws EscidocException, InternalClientException,
         TransportException;
@@ -272,23 +294,33 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
         TransportException;
 
     /**
+     * Retrieve Grants (Filter for Grants).
      * 
      * @param filter
-     * @return
+     *            Filter parameter
+     * @return ExplainRecord
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     ExplainResponse retrieveGrants(final ExplainRequestType filter) throws EscidocException, InternalClientException,
         TransportException;
 
     /**
+     * Retrieve Grants (Filter for Grants).
      * 
      * @param filter
-     * @return
+     *            Filter parameter
+     * @return SearchRetrieveResponseType
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     SearchRetrieveResponse retrieveGrants(final SearchRetrieveRequestType filter) throws EscidocException,
         InternalClientException, TransportException;
@@ -309,12 +341,16 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
      */
 
     /**
-     * @param userId
-     * @param attribute
-     * @return
+     * Create Attribute of User Account.
+     * 
+     * @return The created Attribute
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     Attribute createAttribute(final String userId, final Attribute attribute) throws EscidocException,
         InternalClientException, TransportException;
@@ -331,12 +367,20 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
         InternalClientException, TransportException;
 
     /**
+     * Retrieve attribute of User Account.
+     * 
      * @param userId
+     *            The objid of the user
      * @param attributeId
-     * @return
+     *            The objid of the attribute
+     * @return The attribute
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     Attribute retrieveAttribute(final String userId, final String attributeId) throws EscidocException,
         InternalClientException, TransportException;
@@ -354,11 +398,16 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
         InternalClientException, TransportException;
 
     /**
+     * Retrieve Attributes of User Account.
      * 
-     * @param userId
-     * @return
+     * @return The Attribute
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
+     * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     Attributes retrieveAttributes(final String userId) throws EscidocException, InternalClientException,
         TransportException;
@@ -444,12 +493,19 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
         throws EscidocException, InternalClientException, TransportException;
 
     /**
+     * Delete Attribute of User Account.
      * 
      * @param userId
-     * @param attribute
+     *            The objid of the user
+     * @param attributeId
+     *            The objid of the attribute
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     void deleteAttribute(final String userId, final String attributeId) throws EscidocException,
         InternalClientException, TransportException;
@@ -556,11 +612,19 @@ public interface UserAccountHandlerClientInterface extends HandlerService, CrudS
         InternalClientException, TransportException;
 
     /**
+     * Delete Preference of User Account.
+     * 
      * @param userId
+     *            The objid of the user
      * @param name
+     *            The name of the preference
+     * 
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     void deletePreference(final String userId, final String name) throws EscidocException, InternalClientException,
         TransportException;

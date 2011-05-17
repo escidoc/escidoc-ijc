@@ -115,15 +115,19 @@ public interface ContextHandlerClientInterface extends HandlerService, CrudServi
         TransportException;
 
     /**
+     * Retrieve Admin Descriptor from Context.
      * 
      * @param contextId
-     *            objid of Context.
+     *            Objid of the Context
      * @param name
-     *            Name of admin descriptor
-     * @return AdminDescriptor
+     *            Name of AdminDescriptor
+     * @return AdminDescriptor with provided name
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     AdminDescriptor retrieveAdminDescriptor(final String contextId, final String name) throws EscidocException,
         InternalClientException, TransportException;

@@ -189,15 +189,26 @@ public interface ItemHandlerClientInterface
 
     /**
      * 
-     * @param id
+     * @param itemId
      * @param componentId
-     * @param xmlData
+     * @param component
      * @return
      * @throws EscidocException
      * @throws InternalClientException
      * @throws TransportException
      */
-    Component updateComponent(final String id, final String componentId, final String xmlData) throws EscidocException,
+    Component updateComponent(final String itemId, final String componentId, final Component component)
+        throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * @param itemId
+     * @param component
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException
+     */
+    Component updateComponent(final String itemId, final Component component) throws EscidocException,
         InternalClientException, TransportException;
 
     /**

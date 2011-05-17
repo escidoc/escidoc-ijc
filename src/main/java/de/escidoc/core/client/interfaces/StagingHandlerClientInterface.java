@@ -46,22 +46,32 @@ import de.escidoc.core.client.interfaces.base.HandlerService;
 public interface StagingHandlerClientInterface extends HandlerService {
 
     /**
-     * Upload a resource.
+     * Upload a resource to the Staging Service.
      * 
-     * @return XML response
+     * @param file
+     *            The file to upload.
+     * @return URL of the uploaded resource
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     URL upload(final File f) throws EscidocException, InternalClientException, TransportException;
 
     /**
-     * Upload a resource.
+     * Upload a resource to the Staging Service.
      * 
-     * @return XML response
+     * @param in
+     *            The InputStream of the content to upload.
+     * @return URL of the uploaded content
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     URL upload(final InputStream in) throws EscidocException, InternalClientException, TransportException;
 }

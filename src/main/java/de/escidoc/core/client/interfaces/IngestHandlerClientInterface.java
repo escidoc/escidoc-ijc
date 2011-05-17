@@ -42,13 +42,17 @@ import de.escidoc.core.client.interfaces.base.HandlerService;
 public interface IngestHandlerClientInterface extends HandlerService {
 
     /**
-     * Ingest a resource.
+     * Returns the XML presentation of a resource.
      * 
      * @param resourceXml
-     * @return
+     *            XML representation of a resource.
+     * @return XML representation for ingest
      * @throws EscidocException
+     *             Thrown if an exception from framework is received.
      * @throws InternalClientException
+     *             Thrown in case of client internal errors.
      * @throws TransportException
+     *             Thrown if in case of failure on transport level.
      */
     String ingest(final String resourceXml) throws EscidocException, InternalClientException, TransportException;
 }
