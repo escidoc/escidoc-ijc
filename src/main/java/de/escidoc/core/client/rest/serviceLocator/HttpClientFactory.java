@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 
-public class HttpClientFactory {
+public final class HttpClientFactory {
 
     private static final Logger LOG = Logger.getLogger(HttpClientFactory.class);
 
@@ -41,6 +41,13 @@ public class HttpClientFactory {
     private static HttpParams params;
 
     private static ConfigurationProvider cp;
+
+    /**
+     * No instance allowed.
+     */
+    private HttpClientFactory() {
+
+    }
 
     /**
      * @return
@@ -170,9 +177,9 @@ public class HttpClientFactory {
                 String data = cp.getProperty(ConfigurationProvider.HTTP_PROTOCOL_VERSION);
 
                 try {
-                    String protocol = data.substring(0, data.indexOf("/"));
-                    int major = Integer.parseInt(data.substring(data.indexOf("/") + 1, data.indexOf(".")));
-                    int minor = Integer.parseInt(data.substring(data.indexOf(".") + 1, data.length()));
+                    String protocol = data.substring(0, data.indexOf('/'));
+                    int major = Integer.parseInt(data.substring(data.indexOf('/') + 1, data.indexOf('.')));
+                    int minor = Integer.parseInt(data.substring(data.indexOf('.') + 1, data.length()));
                     ProtocolVersion pv = new ProtocolVersion(protocol, major, minor);
                     params.setParameter(ConfigurationProvider.HTTP_PROTOCOL_VERSION, pv);
                 }
