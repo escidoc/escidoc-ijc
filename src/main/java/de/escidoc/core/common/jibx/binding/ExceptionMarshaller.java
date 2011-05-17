@@ -274,7 +274,7 @@ public class ExceptionMarshaller extends MarshallingBase implements IMarshaller,
 
             Matcher m = STACK_TRACE_ELEMENT_PATTERN.matcher(line);
             if (m.find()) {
-                list.add(new StackTraceElement(m.group(1), m.group(3), m.group(4), new Integer(m.group(5)).intValue()));
+                list.add(new StackTraceElement(m.group(1), m.group(3), m.group(4), Integer.valueOf(m.group(5))));
             }
 
         }
