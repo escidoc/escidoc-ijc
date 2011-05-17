@@ -37,10 +37,6 @@ import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
 import de.escidoc.core.client.rest.RestUserManagementWrapperClient;
 
 /**
- * This is the generic ContainerSoapContainerHandlerClient which binds the
- * transport specific classes. The transport specification is done via
- * properties configuration of the eSciDoc client.
- * 
  * @author SWA
  * 
  */
@@ -88,6 +84,13 @@ public class UserManagementWrapperClient extends AbstractHandlerClient<RestUserM
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestUserManagementWrapperClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestUserManagementWrapperClient(getServiceAddress());

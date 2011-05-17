@@ -75,18 +75,12 @@ public class StagingHandlerClient extends AbstractHandlerClient<RestStagingHandl
         super(serviceAddress);
     }
 
-    /**
-     * Upload a resource to the Staging Service.
+    /*
+     * (non-Javadoc)
      * 
-     * @param in
-     *            InputStream
-     * @return URL of resource URL of the uploaded resource
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.StagingHandlerClientInterface#upload
+     * (java.io.File)
      */
     @Override
     public URL upload(final File f) throws EscidocException, InternalClientException, TransportException {
@@ -96,18 +90,12 @@ public class StagingHandlerClient extends AbstractHandlerClient<RestStagingHandl
         return getClient().upload(f);
     }
 
-    /**
-     * Upload a resource to the Staging Service.
+    /*
+     * (non-Javadoc)
      * 
-     * @param in
-     *            InputStream
-     * @return URL of resource URL of the uploaded resource
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.StagingHandlerClientInterface#upload
+     * (java.io.InputStream)
      */
     @Override
     public URL upload(final InputStream ins) throws EscidocException, InternalClientException, TransportException {
@@ -117,6 +105,13 @@ public class StagingHandlerClient extends AbstractHandlerClient<RestStagingHandl
         return getClient().upload(ins);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestStagingHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestStagingHandlerClient(getServiceAddress());

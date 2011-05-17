@@ -211,6 +211,13 @@ public class SearchHandlerClient extends AbstractHandlerClient<RestSearchHandler
             getClient().scan(request, database));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestSearchHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestSearchHandlerClient(getServiceAddress());

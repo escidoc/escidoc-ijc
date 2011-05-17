@@ -103,17 +103,12 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return new RestUserAccountHandlerClient(getServiceAddress());
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userAccount
-     * @return
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public UserAccount create(final UserAccount userAccount) throws EscidocException, InternalClientException,
@@ -128,17 +123,12 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Retrievable#retrieve(java.lang
+     * .String)
      */
     @Override
     public UserAccount retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -150,16 +140,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(UserAccount.class).unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
     public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -170,17 +155,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
 
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param container
-     * @return
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public UserAccount update(final UserAccount userAccount) throws EscidocException, InternalClientException,
@@ -188,9 +167,26 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
 
         checkNotNull(userAccount);
 
+        return update(userAccount.getObjid(), userAccount);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public UserAccount update(final String id, final UserAccount userAccount) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(userAccount);
+
         Marshaller<UserAccount> m = MarshallerFactory.getInstance().getMarshaller(UserAccount.class);
 
-        String xml = getClient().update(userAccount.getObjid(), m.marshalDocument(userAccount));
+        String xml = getClient().update(id, m.marshalDocument(userAccount));
 
         return m.unmarshalDocument(xml);
     }
@@ -213,15 +209,12 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
 
     }
 
-    /**
-     * Activate User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#activate
+     * (java.lang.String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public void activate(final String userId, final TaskParam taskParam) throws EscidocException,
@@ -234,15 +227,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
 
     }
 
-    /**
-     * Deactivate User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * deactivate(java.lang.String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public void deactivate(final String userId, final TaskParam taskParam) throws EscidocException,
@@ -255,15 +244,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
 
     }
 
-    /**
-     * Retrieve details of current used User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveCurrentUser()
      */
     @Override
     public UserAccount retrieveCurrentUser() throws EscidocException, InternalClientException, TransportException {
@@ -273,21 +258,12 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(UserAccount.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Create Grant for User Account
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     *            The objid of the User Account
-     * @param grant
-     *            The new Grant
-     * @return The created Grant
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * createGrant(java.lang.String,
+     * de.escidoc.core.resources.aa.useraccount.Grant)
      */
     @Override
     public Grant createGrant(final String userId, final Grant grant) throws EscidocException, InternalClientException,
@@ -303,22 +279,12 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Revoke Grant for User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     *            The objid of the User Account
-     * @param grantId
-     *            The objid of the Grant
-     * @param taskParam
-     *            The task parameter
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * revokeGrant(java.lang.String, java.lang.String,
+     * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public void revokeGrant(final String userId, final String grantId, final TaskParam taskParam)
@@ -332,17 +298,12 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
 
     }
 
-    /**
-     * Create Preference of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The created Preference
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * createPreference(java.lang.String,
+     * de.escidoc.core.resources.aa.useraccount.Preference)
      */
     @Override
     public Preference createPreference(final String userId, final Preference preference) throws EscidocException,
@@ -358,21 +319,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Preference of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     *            The objid of the user
-     * @param name
-     *            The name of the Preference
-     * @return The Preference
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrievePreference(java.lang.String, java.lang.String)
      */
     @Override
     public Preference retrievePreference(final String userId, final String name) throws EscidocException,
@@ -386,17 +337,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(Preference.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Preferences of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The Preference
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrievePreferences(java.lang.String)
      */
     @Override
     public Preferences retrievePreferences(final String userId) throws EscidocException, InternalClientException,
@@ -409,19 +354,12 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(Preferences.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Update Preference of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     * @param preference
-     * @return The updated Preference
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * updatePreference(java.lang.String,
+     * de.escidoc.core.resources.aa.useraccount.Preference)
      */
     @Override
     public Preference updatePreference(final String userId, final Preference preference) throws EscidocException,
@@ -464,20 +402,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         deletePreference(userId, preference.getName());
     }
 
-    /**
-     * Delete Preference of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     *            The objid of the user
-     * @param name
-     *            The name of the preference
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * deletePreference(java.lang.String, java.lang.String)
      */
     @Override
     public void deletePreference(final String userId, final String name) throws EscidocException,
@@ -490,17 +419,12 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
 
     }
 
-    /**
-     * Create Attribute of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The created Attribute
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * createAttribute(java.lang.String,
+     * de.escidoc.core.resources.aa.useraccount.Attribute)
      */
     @Override
     public Attribute createAttribute(final String userId, final Attribute attribute) throws EscidocException,
@@ -516,21 +440,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve attribute of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     *            The objid of the user
-     * @param attributeId
-     *            The objid of the attribute
-     * @return The attribute
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveAttribute(java.lang.String, java.lang.String)
      */
     @Override
     public Attribute retrieveAttribute(final String userId, final String attributeId) throws EscidocException,
@@ -544,17 +458,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(Attribute.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Attributes of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The Attribute
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveAttributes(java.lang.String)
      */
     @Override
     public Attributes retrieveAttributes(final String userId) throws EscidocException, InternalClientException,
@@ -605,20 +513,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return updateAttribute(userId, attribute.getObjid(), attribute);
     }
 
-    /**
-     * Delete Attribute of User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     *            The objid of the user
-     * @param attributeId
-     *            The objid of the attribute
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * deleteAttribute(java.lang.String, java.lang.String)
      */
     @Override
     public void deleteAttribute(final String userId, final String attributeId) throws EscidocException,
@@ -630,15 +529,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         getClient().deleteAttribute(userId, attributeId);
     }
 
-    /**
-     * Retrieve Grants of current User Account.
+    /*
+     * (non-Javadoc)
      * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveCurrentGrants(java.lang.String)
      */
     @Override
     public Grants retrieveCurrentGrants(final String userId) throws EscidocException, InternalClientException,
@@ -651,21 +546,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(Grants.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve a Grant of current User Account by id.
+    /*
+     * (non-Javadoc)
      * 
-     * @param userId
-     *            The objid of the User Account
-     * @param grantId
-     *            The objid of the Grant
-     * @return The Grant
-     * 
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveGrant(java.lang.String, java.lang.String)
      */
     @Override
     public Grant retrieveGrant(final String userId, final String grantId) throws EscidocException,
@@ -679,18 +564,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(Grant.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve UserAccounts (Filter for UserAccounts).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveUserAccounts(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public SearchRetrieveResponse retrieveUserAccounts(final SearchRetrieveRequestType request)
@@ -717,18 +595,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return getSearchRetrieveResponseAsList(UserAccount.class, retrieveUserAccounts(request));
     }
 
-    /**
-     * Retrieve UserAccounts (Filter for UserAccounts).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return ExplainRecord
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveUserAccounts(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveUserAccounts(final ExplainRequestType request) throws EscidocException,
@@ -741,18 +612,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Grants (Filter for Grants).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveGrants(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public SearchRetrieveResponse retrieveGrants(final SearchRetrieveRequestType request) throws EscidocException,
@@ -765,18 +629,11 @@ public class UserAccountHandlerClient extends AbstractHandlerClient<RestUserAcco
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Grants (Filter for Grants).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return ExplainRecord
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.UserAccountHandlerClientInterface#
+     * retrieveGrants(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveGrants(final ExplainRequestType request) throws EscidocException,

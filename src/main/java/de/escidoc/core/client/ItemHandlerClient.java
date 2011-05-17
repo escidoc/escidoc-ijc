@@ -97,23 +97,24 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         super(serviceAddress);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestItemHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestItemHandlerClient(getServiceAddress());
     }
 
-    /**
-     * Create Item within the repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            The Item which is to create.
-     * @return The created Item
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public Item create(final Item item) throws EscidocException, InternalClientException, TransportException {
@@ -127,20 +128,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Create Component.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item where Component will be part of.
-     * @param component
-     *            The Container which is to create.
-     * @return The created Component
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#createComponent
+     * (java.lang.String, de.escidoc.core.resources.om.item.component.Component)
      */
     @Override
     public Component createComponent(final String id, final Component component) throws EscidocException,
@@ -151,23 +144,15 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
 
         Marshaller<Component> m = MarshallerFactory.getInstance().getMarshaller(Component.class);
 
-        String xml = getClient().create(m.marshalDocument(component));
-
-        return m.unmarshalDocument(xml);
+        return m.unmarshalDocument(getClient().createComponent(id, m.marshalDocument(component)));
     }
 
-    /**
-     * Retrieve Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item
-     * @return Item
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Retrievable#retrieve(java.lang
+     * .String)
      */
     @Override
     public Item retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -177,18 +162,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Item.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Items (Filter for Items).
+    /*
+     * (non-Javadoc)
      * 
-     * @param request
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#retrieveItems
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public SearchRetrieveResponse retrieveItems(final SearchRetrieveRequestType request) throws EscidocException,
@@ -212,18 +191,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return getSearchRetrieveResponseAsList(Item.class, retrieveItems(request));
     }
 
-    /**
-     * Retrieve Items (Filter for Items).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return ExplainRecord
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#retrieveItems
+     * (gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveItems(final ExplainRequestType request) throws EscidocException,
@@ -234,18 +207,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve relations of Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item
-     * @return Relations
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.RelationsService#retrieveRelations
+     * (java.lang.String)
      */
     @Override
     public Relations retrieveRelations(final String id) throws EscidocException, InternalClientException,
@@ -258,12 +225,14 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Relations.class).unmarshalDocument(xml);
     }
 
-    /**
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#retrieveParents
+     * (java.lang.String)
+     * 
+     * FIXME Delete method or change return type to SearchRetrieveResponse
      */
     @Override
     public ContainerList retrieveParents(final String id) throws EscidocException, InternalClientException,
@@ -275,18 +244,11 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(ContainerList.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve version-history of Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item
-     * @return VersionHistory
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.base.VersionableResourceService#
+     * retrieveVersionHistory(java.lang.String)
      */
     @Override
     public VersionHistory retrieveVersionHistory(final String id) throws EscidocException, InternalClientException,
@@ -299,18 +261,11 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(VersionHistory.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item
-     * @return VersionHistory
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.base.VersionableResourceService#
+     * retrieveVersionHistory(java.lang.Object)
      */
     @Override
     public VersionHistory retrieveVersionHistory(final Item item) throws EscidocException, InternalClientException,
@@ -321,17 +276,11 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return retrieveVersionHistory(item.getObjid());
     }
 
-    /**
-     * Delete Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
     public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -341,18 +290,11 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         getClient().delete(id);
     }
 
-    /**
-     * Update Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            New Item representation
-     * @return Item
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public Item update(final Item item) throws EscidocException, InternalClientException, TransportException {
@@ -361,29 +303,38 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
 
         Marshaller<Item> m = MarshallerFactory.getInstance().getMarshaller(Item.class);
 
-        String xml = getClient().update(item.getObjid(), m.marshalDocument(item));
+        return m.unmarshalDocument(getClient().update(item.getObjid(), m.marshalDocument(item)));
+    }
 
-        return m.unmarshalDocument(xml);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public Item update(final String id, final Item item) throws EscidocException, InternalClientException,
+        TransportException {
+
+        checkNotNull(id);
+        checkNotNull(item);
+
+        Marshaller<Item> m = MarshallerFactory.getInstance().getMarshaller(Item.class);
+
+        return m.unmarshalDocument(getClient().update(id, m.marshalDocument(item)));
     }
 
     /*
      * Status methods
      */
 
-    /**
-     * Set status of Item to submitted.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item
-     * @param taskParam
-     *            Task parameter to submit Item.
-     * @return Results
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Submittable#submit(java.lang.String
+     * , de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result submit(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -397,20 +348,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Set status of Item to submitted.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item
-     * @param taskParam
-     *            Task parameter to submit Item.
-     * @return Results
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Submittable#submit(java.lang.Object
+     * , de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result submit(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -421,20 +364,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return submit(item.getObjid(), taskParam);
     }
 
-    /**
-     * Set status of Item to released.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item
-     * @param taskParam
-     *            Task parameter to release Item.
-     * @return Results
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Releasable#release(java.lang.String
+     * , de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result release(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -448,20 +383,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Set status of Item to released.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item
-     * @param taskParam
-     *            Task parameter to release Item.
-     * @return Results
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Releasable#release(java.lang.Object
+     * , de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result release(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -472,20 +399,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return release(item.getObjid(), taskParam);
     }
 
-    /**
-     * Set status of Item to revised.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item
-     * @param taskParam
-     *            Task parameter to revise Item.
-     * @return Results
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Revisable#revise(java.lang.String,
+     * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result revise(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -499,20 +418,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Set status of Item to revised.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item
-     * @param taskParam
-     *            Task parameter to revise Item.
-     * @return Results
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Revisable#revise(java.lang.Object,
+     * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result revise(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -523,20 +434,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return revise(item.getObjid(), taskParam);
     }
 
-    /**
-     * Set status of Item to withdrawn.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item
-     * @param taskParam
-     *            Task parameter to withdraw Item.
-     * @return Results
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Withdrawable#withdraw(java.lang
+     * .String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result withdraw(final String id, final TaskParam taskParam) throws EscidocException,
@@ -550,20 +453,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Set status of Item to withdrawn.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item
-     * @param taskParam
-     *            Task parameter to withdraw Item.
-     * @return Results
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Withdrawable#withdraw(java.lang
+     * .Object, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result withdraw(final Item item, final TaskParam taskParam) throws EscidocException,
@@ -574,20 +469,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return withdraw(item.getObjid(), taskParam);
     }
 
-    /**
-     * Lock the Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Container.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.LockingService#lock(java.lang.
+     * String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result lock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -601,20 +488,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Lock the Container.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.LockingService#lock(java.lang.
+     * Object, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result lock(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -625,20 +504,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return lock(item.getObjid(), taskParam);
     }
 
-    /**
-     * Unlock the Container.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.LockingService#unlock(java.lang
+     * .String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result unlock(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -652,20 +523,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Unlock the Container.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.LockingService#unlock(java.lang
+     * .Object, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result unlock(final Item item, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -680,20 +543,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
      * Assign PID methods
      */
 
-    /**
-     * Assign a PID to the latest version of Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.VersionPidService#assignVersionPid
+     * (java.lang.String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result assignVersionPid(final String id, final TaskParam taskParam) throws EscidocException,
@@ -707,20 +562,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Assign a PID to the latest version of Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.VersionPidService#assignVersionPid
+     * (java.lang.Object, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result assignVersionPid(final Item item, final TaskParam taskParam) throws EscidocException,
@@ -731,20 +578,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return assignVersionPid(item.getObjid(), taskParam);
     }
 
-    /**
-     * Assign an object PID to Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.ObjectPidService#assignObjectPid
+     * (java.lang.String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result assignObjectPid(final String id, final TaskParam taskParam) throws EscidocException,
@@ -758,20 +597,12 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Assign an object PID to Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item.
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.ObjectPidService#assignObjectPid
+     * (java.lang.Object, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result assignObjectPid(final Item item, final TaskParam taskParam) throws EscidocException,
@@ -782,22 +613,13 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return assignObjectPid(item.getObjid(), taskParam);
     }
 
-    /**
-     * Assign a PID to the content of Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of Item.
-     * @param componentId
-     *            objid of Component
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#assignContentPid
+     * (java.lang.String, java.lang.String,
+     * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result assignContentPid(final String id, final String componentId, final TaskParam taskParam)
@@ -812,22 +634,13 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Assign a PID to the content of Item.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            Item.
-     * @param componentId
-     *            objid of Component
-     * @param taskParam
-     *            TaskParameter.
-     * @return Result message of method.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#assignContentPid
+     * (de.escidoc.core.resources.om.item.Item, java.lang.String,
+     * de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result assignContentPid(final Item item, final String componentId, final TaskParam taskParam)
@@ -867,9 +680,9 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveMdRecords(id);
+        Marshaller<MetadataRecords> m = MarshallerFactory.getInstance().getMarshaller(MetadataRecords.class);
 
-        return MarshallerFactory.getInstance().getMarshaller(MetadataRecords.class).unmarshalDocument(xml);
+        return m.unmarshalDocument(getClient().retrieveMdRecords(id));
     }
 
     /*
@@ -886,9 +699,9 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         checkNotNull(id);
         checkNotNull(mdRecordId);
 
-        String xml = getClient().retrieveMdRecord(id, mdRecordId);
+        Marshaller<MetadataRecord> m = MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
 
-        return MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class).unmarshalDocument(xml);
+        return m.unmarshalDocument(getClient().retrieveMdRecord(id, mdRecordId));
     }
 
     /*
@@ -903,9 +716,9 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveContentStreams(id);
+        Marshaller<ContentStreams> m = MarshallerFactory.getInstance().getMarshaller(ContentStreams.class);
 
-        return MarshallerFactory.getInstance().getMarshaller(ContentStreams.class).unmarshalDocument(xml);
+        return m.unmarshalDocument(getClient().retrieveContentStreams(id));
     }
 
     /*
@@ -921,9 +734,9 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         checkNotNull(id);
         checkNotNull(name);
 
-        String xml = getClient().retrieveContentStream(id, name);
+        Marshaller<ContentStream> m = MarshallerFactory.getInstance().getMarshaller(ContentStream.class);
 
-        return MarshallerFactory.getInstance().getMarshaller(ContentStream.class).unmarshalDocument(xml);
+        return m.unmarshalDocument(getClient().retrieveContentStream(id, name));
     }
 
     /*
@@ -990,9 +803,9 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveComponents(id);
+        Marshaller<Components> m = MarshallerFactory.getInstance().getMarshaller(Components.class);
 
-        return MarshallerFactory.getInstance().getMarshaller(Components.class).unmarshalDocument(xml);
+        return m.unmarshalDocument(getClient().retrieveComponents(id));
     }
 
     /*
@@ -1008,23 +821,63 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        String xml = getClient().retrieveComponent(itemId, componentId);
+        Marshaller<Component> m = MarshallerFactory.getInstance().getMarshaller(Component.class);
 
-        return MarshallerFactory.getInstance().getMarshaller(Component.class).unmarshalDocument(xml);
+        return m.unmarshalDocument(getClient().retrieveComponent(itemId, componentId));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#deleteComponent
+     * (java.lang.String, java.lang.String)
+     */
     @Override
     public void deleteComponent(final String itemId, final String componentId) throws EscidocException,
         InternalClientException, TransportException {
-        // TODO Auto-generated method stub
 
+        checkNotNull(itemId);
+        checkNotNull(componentId);
+
+        getClient().deleteComponent(itemId, componentId);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#updateComponent
+     * (java.lang.String, java.lang.String, java.lang.String)
+     */
     @Override
-    public Component updateComponent(final String id, final String componentId, final String xmlData)
+    public Component updateComponent(final String itemId, final String componentId, final Component component)
         throws EscidocException, InternalClientException, TransportException {
-        // TODO Auto-generated method stub
-        return null;
+
+        checkNotNull(itemId);
+        checkNotNull(componentId);
+        checkNotNull(component);
+
+        Marshaller<Component> m = MarshallerFactory.getInstance().getMarshaller(Component.class);
+
+        return m.unmarshalDocument(getClient().updateComponent(itemId, componentId, m.marshalDocument(component)));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.ItemHandlerClientInterface#updateComponent
+     * (java.lang.String, de.escidoc.core.resources.om.item.component.Component)
+     */
+    @Override
+    public Component updateComponent(final String itemId, final Component component) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(itemId);
+        checkNotNull(component);
+
+        return updateComponent(itemId, component.getObjid(), component);
     }
 
     /*
@@ -1040,9 +893,9 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        String xml = getClient().retrieveComponentProperties(itemId, componentId);
+        Marshaller<ComponentProperties> m = MarshallerFactory.getInstance().getMarshaller(ComponentProperties.class);
 
-        return MarshallerFactory.getInstance().getMarshaller(ComponentProperties.class).unmarshalDocument(xml);
+        return m.unmarshalDocument(getClient().retrieveComponentProperties(itemId, componentId));
     }
 
     /*

@@ -73,18 +73,12 @@ public class IngestHandlerClient extends AbstractHandlerClient<RestIngestHandler
         super(serviceAddress);
     }
 
-    /**
-     * Returns the XML presentation of a resource.
+    /*
+     * (non-Javadoc)
      * 
-     * @param resourceXml
-     *            XML representation of a resource.
-     * @return XML representation for ingest
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.IngestHandlerClientInterface#ingest
+     * (java.lang.String)
      */
     @Override
     public String ingest(final String resourceXml) throws EscidocException, InternalClientException, TransportException {
@@ -94,6 +88,13 @@ public class IngestHandlerClient extends AbstractHandlerClient<RestIngestHandler
         return getClient().ingest(resourceXml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestIngestHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestIngestHandlerClient(getServiceAddress());

@@ -35,7 +35,6 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.net.URL;
 import java.util.List;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -93,18 +92,24 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         super(serviceAddress);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestOrganizationalUnitHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestOrganizationalUnitHandlerClient(getServiceAddress());
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param organizationalUnit
-     * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#create(de.escidoc.core.resources.interfaces.organizationalUnit.OrganizationalUnitInterface)
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public OrganizationalUnit create(final OrganizationalUnit organizationalUnit) throws EscidocException,
@@ -119,13 +124,12 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#retrieve(java.lang.String)
+     * @see
+     * de.escidoc.core.client.interfaces.base.Retrievable#retrieve(java.lang
+     * .String)
      */
     @Override
     public OrganizationalUnit retrieve(final String id) throws EscidocException, InternalClientException,
@@ -138,15 +142,11 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         return MarshallerFactory.getInstance().getMarshaller(OrganizationalUnit.class).unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param organizationalUnit
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.client.base.CRUDService#update(java.lang.Object)
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public OrganizationalUnit update(final OrganizationalUnit organizationalUnit) throws EscidocException,
@@ -154,13 +154,38 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(organizationalUnit);
 
+        return update(organizationalUnit.getObjid(), organizationalUnit);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public OrganizationalUnit update(final String id, final OrganizationalUnit organizationalUnit)
+        throws EscidocException, InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(organizationalUnit);
+
         Marshaller<OrganizationalUnit> m = MarshallerFactory.getInstance().getMarshaller(OrganizationalUnit.class);
 
-        String xml = getClient().update(organizationalUnit.getObjid(), m.marshalDocument(organizationalUnit));
+        String xml = getClient().update(id, m.marshalDocument(organizationalUnit));
 
         return m.unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #updateParents(de.escidoc.core.resources.oum.OrganizationalUnit,
+     * de.escidoc.core.resources.oum.Parents)
+     */
     @Override
     public Parents updateParents(final OrganizationalUnit ou, final Parents parents) throws EscidocException,
         InternalClientException, TransportException {
@@ -185,17 +210,12 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @param taskParam
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#open(java.lang.String,
-     *      de.escidoc.core.resources.common.TaskParam)
+     * @see
+     * de.escidoc.core.client.interfaces.base.OpenCloseService#open(java.lang
+     * .String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result open(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -209,17 +229,12 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @param taskParam
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#close(java.lang.String,
-     *      de.escidoc.core.resources.common.TaskParam)
+     * @see
+     * de.escidoc.core.client.interfaces.base.OpenCloseService#close(java.lang
+     * .String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result close(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -233,12 +248,11 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface#delete(java.lang.String)
+     * @see
+     * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
     public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -248,13 +262,12 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         getClient().delete(id);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #retrieveParents(java.lang.String)
      */
     @Override
     public Parents retrieveParents(final String id) throws EscidocException, InternalClientException,
@@ -396,18 +409,14 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         return getSearchRetrieveResponseAsList(OrganizationalUnit.class, retrieveChildObjects(id));
     }
 
-    /**
-     * Retrieve Organizational Units (Filter for Organizational Units).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #
+     * retrieveOrganizationalUnits(gov.loc.www.zing.srw.SearchRetrieveRequestType
+     * )
      */
     @Override
     public SearchRetrieveResponse retrieveOrganizationalUnits(final SearchRetrieveRequestType request)
@@ -435,18 +444,12 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         return getSearchRetrieveResponseAsList(OrganizationalUnit.class, retrieveOrganizationalUnits(request));
     }
 
-    /**
-     * Retrieve Organizational Units (Filter for Organizational Units).
+    /*
+     * (non-Javadoc)
      * 
-     * @param request
-     *            Filter parameter
-     * @return ExplainRecord
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.OrganizationalUnitHandlerClientInterface
+     * #retrieveOrganizationalUnits(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveOrganizationalUnits(final ExplainRequestType request) throws EscidocException,

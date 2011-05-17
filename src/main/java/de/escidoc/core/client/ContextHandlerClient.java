@@ -88,23 +88,24 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         super(serviceAddress);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestContextHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestContextHandlerClient(getServiceAddress());
     }
 
-    /**
-     * Create Context in Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param context
-     *            The new Context
-     * @return The new created Context.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public Context create(final Context context) throws EscidocException, InternalClientException, TransportException {
@@ -118,18 +119,12 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Context from Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the Context
-     * @return The Context with the provided obid.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Retrievable#retrieve(java.lang
+     * .String)
      */
     @Override
     public Context retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -141,17 +136,11 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return MarshallerFactory.getInstance().getMarshaller(Context.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Delete Context from Repository.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the Context
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
     public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -161,45 +150,47 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         getClient().delete(id);
     }
 
-    /**
-     * Update Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @param context
-     *            New Representation of Context
-     * @return The updated Context.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public Context update(final Context context) throws EscidocException, InternalClientException, TransportException {
 
         checkNotNull(context);
 
+        return update(context.getObjid(), context);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public Context update(final String id, final Context context) throws EscidocException, InternalClientException,
+        TransportException {
+
+        checkNotNull(id);
+        checkNotNull(context);
+
         Marshaller<Context> m = MarshallerFactory.getInstance().getMarshaller(Context.class);
 
-        String xml = getClient().update(context.getObjid(), m.marshalDocument(context));
+        String xml = getClient().update(id, m.marshalDocument(context));
 
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Open Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the Context
-     * @param taskParam
-     *            Task parameter to set Context status to open.
-     * @return The updated Context.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.OpenCloseService#open(java.lang
+     * .String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result open(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -213,20 +204,12 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Close Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the Context
-     * @param taskParam
-     *            Task parameter to set Context status to close.
-     * @return The updated Context.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.base.OpenCloseService#close(java.lang
+     * .String, de.escidoc.core.resources.common.TaskParam)
      */
     @Override
     public Result close(final String id, final TaskParam taskParam) throws EscidocException, InternalClientException,
@@ -240,18 +223,11 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Admin Descriptors from Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the Context
-     * @return The ADminDescriptors of Context.
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.ContextHandlerClientInterface#
+     * retrieveAdminDescriptors(java.lang.String)
      */
     @Override
     public AdminDescriptors retrieveAdminDescriptors(final String id) throws EscidocException, InternalClientException,
@@ -264,20 +240,11 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return MarshallerFactory.getInstance().getMarshaller(AdminDescriptors.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Admin Descriptor from Context.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            Objid of the Context
-     * @param name
-     *            Name of AdminDescriptor
-     * @return AdminDescriptor with provided name
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.ContextHandlerClientInterface#
+     * retrieveAdminDescriptor(java.lang.String, java.lang.String)
      */
     @Override
     public AdminDescriptor retrieveAdminDescriptor(final String id, final String name) throws EscidocException,
@@ -291,18 +258,11 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return MarshallerFactory.getInstance().getMarshaller(AdminDescriptor.class).unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Contexts (Filter for Contexts).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.ContextHandlerClientInterface#
+     * retrieveContexts(gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public SearchRetrieveResponse retrieveContexts(final SearchRetrieveRequestType request) throws EscidocException,
@@ -326,18 +286,11 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return getSearchRetrieveResponseAsList(Context.class, retrieveContexts(request));
     }
 
-    /**
-     * Retrieve Contexts (Filter for Contexts).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return ExplainRecord
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see de.escidoc.core.client.interfaces.ContextHandlerClientInterface#
+     * retrieveContexts(gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveContexts(final ExplainRequestType request) throws EscidocException,
@@ -348,14 +301,12 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see de.escidoc.core.client.interfaces.ContextHandlerClientInterface#
+     * retrieveMembers(java.lang.String,
+     * gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public SearchRetrieveResponse retrieveMembers(final String id, final SearchRetrieveRequestType request)
@@ -368,14 +319,12 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see de.escidoc.core.client.interfaces.ContextHandlerClientInterface#
+     * retrieveMembersAsList(java.lang.String,
+     * gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public List<VersionableResource> retrieveMembersAsList(final String id, final SearchRetrieveRequestType request)
@@ -386,14 +335,12 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         return getSearchRetrieveResponseAsList(VersionableResource.class, retrieveMembers(id, request));
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
+     * @see de.escidoc.core.client.interfaces.ContextHandlerClientInterface#
+     * retrieveMembers(java.lang.String,
+     * gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveMembers(final String id, final ExplainRequestType request) throws EscidocException,

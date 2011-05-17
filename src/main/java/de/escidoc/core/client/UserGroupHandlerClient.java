@@ -145,9 +145,26 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
 
         checkNotNull(resource);
 
+        return update(resource.getObjid(), resource);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public UserGroup update(final String id, final UserGroup resource) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(id);
+        checkNotNull(resource);
+
         Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
-        return m.unmarshalDocument(getClient().update(resource.getObjid(), m.marshalDocument(resource)));
+        return m.unmarshalDocument(getClient().update(id, m.marshalDocument(resource)));
     }
 
     /*

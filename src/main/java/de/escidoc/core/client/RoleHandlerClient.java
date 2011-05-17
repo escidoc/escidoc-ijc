@@ -35,7 +35,6 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.net.URL;
 import java.util.List;
 
-import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
@@ -83,13 +82,12 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
         super(serviceAddress);
     }
 
-    /**
-     * Create a role.
+    /*
+     * (non-Javadoc)
      * 
-     * @param role
-     *            Role which is to create
-     * @return Role
-     * @throws EscidocClientException
+     * @see
+     * de.escidoc.core.client.interfaces.base.Createable#create(java.lang.Object
+     * )
      */
     @Override
     public Role create(final Role role) throws EscidocException, InternalClientException, TransportException {
@@ -103,13 +101,12 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#retrieve(java.lang.String)
+     * @see
+     * de.escidoc.core.client.interfaces.base.Retrievable#retrieve(java.lang
+     * .String)
      */
     @Override
     public Role retrieve(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -121,12 +118,11 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(Role.class).unmarshalDocument(xml);
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#delete(java.lang.String)
+     * @see
+     * de.escidoc.core.client.interfaces.base.Deletable#delete(java.lang.String)
      */
     @Override
     public void delete(final String id) throws EscidocException, InternalClientException, TransportException {
@@ -137,36 +133,47 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
 
     }
 
-    /**
-     * See Interface for functional description.
+    /*
+     * (non-Javadoc)
      * 
-     * @param container
-     * @return
-     * @throws EscidocClientException
-     * @see de.escidoc.core.client.interfaces.ContainerHandlerClientInterface#update(de.escidoc.core.resources.interfaces.container.ContainerInterface)
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.Object)
      */
     @Override
     public Role update(final Role role) throws EscidocException, InternalClientException, TransportException {
 
+        checkNotNull(role);
+
+        return update(role.getObjid(), role);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.base.Updatable#update(java.lang.String,
+     * java.lang.Object)
+     */
+    @Override
+    public Role update(final String id, final Role role) throws EscidocException, InternalClientException,
+        TransportException {
+
+        checkNotNull(id);
+        checkNotNull(role);
+
         Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
 
-        String xml = getClient().update(role.getObjid(), m.marshalDocument(role));
+        String xml = getClient().update(id, m.marshalDocument(role));
 
         return m.unmarshalDocument(xml);
     }
 
-    /**
-     * Retrieve Roles (Filter for Roles).
+    /*
+     * (non-Javadoc)
      * 
-     * @param request
-     *            Filter parameter
-     * @return SearchRetrieveResponseType
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.RoleHandlerClientInterface#retrieveRoles
+     * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
     public SearchRetrieveResponse retrieveRoles(final SearchRetrieveRequestType request) throws EscidocException,
@@ -192,18 +199,12 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
         return getSearchRetrieveResponseAsList(Role.class, retrieveRoles(request));
     }
 
-    /**
-     * Retrieve Roles (Filter for Roles).
+    /*
+     * (non-Javadoc)
      * 
-     * @param filter
-     *            Filter parameter
-     * @return ExplainRecord
-     * @throws EscidocException
-     *             Thrown if an exception from framework is received.
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     * @throws TransportException
-     *             Thrown if in case of failure on transport level.
+     * @see
+     * de.escidoc.core.client.interfaces.RoleHandlerClientInterface#retrieveRoles
+     * (gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
     public ExplainResponse retrieveRoles(final ExplainRequestType request) throws EscidocException,
@@ -216,6 +217,13 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.AbstractHandlerClient#getRestHandlerClientInstance
+     * ()
+     */
     @Override
     protected RestRoleHandlerClient getRestHandlerClientInstance() throws InternalClientException {
         return new RestRoleHandlerClient(getServiceAddress());
