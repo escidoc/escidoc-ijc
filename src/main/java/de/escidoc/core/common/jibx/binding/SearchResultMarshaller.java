@@ -95,9 +95,7 @@ public class SearchResultMarshaller extends MarshallingBase implements IMarshall
         // optional
         if (record.getHighlight() != null) {
             if (record.getHighlight() instanceof IMarshallable) {
-
                 ((IMarshallable) record.getHighlight()).marshal(ctx);
-
             }
             else {
                 throw new JiBXException("Mapped value is not marshallable");
