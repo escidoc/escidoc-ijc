@@ -19,7 +19,7 @@
   <mapping name="highlight" ns="http://www.escidoc.de/schemas/searchresult/0.8" 
     class="de.escidoc.core.resources.sb.search.Highlight">
     
-    <collection field="searchHits" create-type="java.util.LinkedList"
+    <collection create-type="de.escidoc.core.resources.sb.search.Highlight"
       item-type="de.escidoc.core.resources.sb.search.SearchHit">
     
       <structure name="search-hit">

@@ -1,17 +1,11 @@
 package de.escidoc.core.resources.sb.search;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
-public class Highlight {
+public class Highlight extends LinkedList<SearchHit> {
 
-    private Collection<SearchHit> searchHits = new LinkedList<SearchHit>();
-
-    public Collection<SearchHit> getSearchHits() {
-        return searchHits;
-    }
-
-    public void setSearchHit(Collection<SearchHit> searchHits) {
-        this.searchHits = searchHits;
-    }
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8376412253339781484L;
 }
