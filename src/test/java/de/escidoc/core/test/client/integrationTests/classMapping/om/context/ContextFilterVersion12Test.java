@@ -39,6 +39,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,6 +99,8 @@ public class ContextFilterVersion12Test {
      */
     @Test
     public void testExplain() throws Exception {
+        cc.create(createContext());
+
         ExplainResponse response = cc.retrieveContexts(new ExplainRequestType());
         Explain explain = response.getRecord().getRecordData();
 
@@ -119,7 +122,8 @@ public class ContextFilterVersion12Test {
         // now check if at least this Context is in the list
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/properties/creation-date\"=\"" + createdContext.getLastModificationDate() + "\"");
+        srwFilter.setQuery("\"/properties/creation-date\"=\""
+            + createdContext.getLastModificationDate().toDateTime(DateTimeZone.UTC) + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
