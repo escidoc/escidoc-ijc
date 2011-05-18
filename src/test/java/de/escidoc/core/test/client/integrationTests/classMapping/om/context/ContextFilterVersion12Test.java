@@ -39,7 +39,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
-import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -120,16 +119,17 @@ public class ContextFilterVersion12Test {
         // now check if at least this Context is in the list
 
         SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
-        srwFilter.setQuery("\"/properties/creation-date\"=\""
-            + createdContext.getLastModificationDate().withZone(DateTimeZone.UTC) + "\"");
+        srwFilter.setQuery("\"/properties/creation-date\"=\"" + createdContext.getLastModificationDate() + "\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
         SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
 
         assertEquals("Wrong version number", "1.1", contextList.getVersion());
-        assertTrue("Wrong number of matching records", contextList.getNumberOfMatchingRecords() >= 1);
-        assertTrue("Wrong number of resulting records", contextList.getNumberOfResultingRecords() >= 1);
-        assertEquals("Wrong record position", 1, contextList
+        assertTrue("Wrong number of matching records [query=" + srwFilter.getQuery() + "]",
+            contextList.getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records [query=" + srwFilter.getQuery() + "]",
+            contextList.getNumberOfResultingRecords() >= 1);
+        assertEquals("Wrong record position [query=" + srwFilter.getQuery() + "]", 1, contextList
             .getRecords().iterator().next().getRecordPosition().intValue());
     }
 
