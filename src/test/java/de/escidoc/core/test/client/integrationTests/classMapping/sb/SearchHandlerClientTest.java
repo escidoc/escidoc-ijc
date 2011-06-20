@@ -113,13 +113,13 @@ public class SearchHandlerClientTest {
     @Test
     public void testSRWExplain() throws Exception {
 
-        ExplainRequestType request = new ExplainRequestType();
+        final ExplainRequestType request = new ExplainRequestType();
         request.setRecordPacking(packing.name());
         request.setVersion("1.1");
 
-        ExplainResponse response = c.explain(request, null);
-        Record<Explain> record = response.getRecord();
-        Explain data = record.getRecordData();
+        final ExplainResponse response = c.explain(request, null);
+        final Record<Explain> record = response.getRecord();
+        final Explain data = record.getRecordData();
 
         out.append("\n=========================\n");
         out.append("testSRWExplain: ");
@@ -139,15 +139,15 @@ public class SearchHandlerClientTest {
     @Test
     public void testFilterExplain() throws Exception {
 
-        ItemHandlerClientInterface c = new ItemHandlerClient();
+        final ItemHandlerClientInterface c = new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
 
-        ExplainRequestType request = new ExplainRequestType();
+        final ExplainRequestType request = new ExplainRequestType();
         request.setVersion("1.1");
         request.setRecordPacking(packing.name());
 
-        ExplainResponse response = c.retrieveItems(request);
-        Record<Explain> record = response.getRecord();
-        Explain data = record.getRecordData();
+        final ExplainResponse response = c.retrieveItems(request);
+        final Record<Explain> record = response.getRecord();
+        final Explain data = record.getRecordData();
 
         out.append("\n=========================\n");
         out.append("testFilterExplain: ");
@@ -167,10 +167,10 @@ public class SearchHandlerClientTest {
     @Test
     public void testSRWSearch() throws Exception {
 
-        String query = "escidoc.objecttype=item";
+        final String query = "escidoc.objecttype=item";
         // "escidoc.objid=" + EscidocClientTestBase.getStaticItemId();
 
-        SearchRetrieveResponse response = c.search(query, null);
+        final SearchRetrieveResponse response = c.search(query, null);
 
         out.append("\n=========================\n");
         out.append("testSRWSearch: query=");
@@ -182,16 +182,16 @@ public class SearchHandlerClientTest {
         out.append(response.getNumberOfResultingRecords());
         out.append("\n");
 
-        for (SearchResultRecord record : response.getRecords()) {
+        for (final SearchResultRecord record : response.getRecords()) {
 
-            SearchResult data = record.getRecordData();
+            final SearchResult data = record.getRecordData();
 
             assertNotNull(data);
             assertNotNull(data.getContent());
 
             if (data.getContent() instanceof Resource) {
 
-                Resource res = (Resource) data.getContent();
+                final Resource res = (Resource) data.getContent();
                 assertNotNull(res.getObjid());
 
                 out.append(res.getResourceType().name() + ": ID[" + res.getObjid() + "], Href[" + res.getXLinkHref()
@@ -207,7 +207,7 @@ public class SearchHandlerClientTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullSearch() throws Exception {
-        String query = null;
+        final String query = null;
         SearchRetrieveResponse response = c.search(query, null);
 
         assertNotNull("Response should not be null.", response);
@@ -226,15 +226,15 @@ public class SearchHandlerClientTest {
     @Test
     public void testFilterSearch() throws Exception {
 
-        ItemHandlerClientInterface c = new ItemHandlerClient();
+        final ItemHandlerClientInterface c = new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
 
-        String query = "\"/id\"=" + EscidocClientTestBase.getStaticItemId();
+        final String query = "\"/id\"=" + EscidocClientTestBase.getStaticItemId();
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery(query);
         request.setRecordPacking(packing.name());
 
-        SearchRetrieveResponse response = c.retrieveItems(request);
+        final SearchRetrieveResponse response = c.retrieveItems(request);
 
         out.append("\n=========================\n");
         out.append("testFilterSearch [1]: query=");
@@ -246,23 +246,23 @@ public class SearchHandlerClientTest {
         out.append(response.getNumberOfResultingRecords());
         out.append("\n");
 
-        for (SearchResultRecord record : response.getRecords()) {
-            SearchResult result = record.getRecordData();
+        for (final SearchResultRecord record : response.getRecords()) {
+            final SearchResult result = record.getRecordData();
 
             if (result.getContent() instanceof Item) {
-                Item item = (Item) result.getContent();
+                final Item item = (Item) result.getContent();
                 out.append("Item: ID[" + item.getObjid() + "], Href[" + item.getXLinkHref() + "]\n");
             }
         }
 
-        Collection<Item> items = c.retrieveItemsAsList(request);
+        final Collection<Item> items = c.retrieveItemsAsList(request);
 
         out.append("\ntestFilterSearch [2]:\n");
         out.append("Results: ");
         out.append(items.size());
         out.append("\n");
 
-        for (Item item : items) {
+        for (final Item item : items) {
             out.append("Item: ID[");
             out.append(item.getObjid());
             out.append("], Href[");
@@ -281,12 +281,12 @@ public class SearchHandlerClientTest {
      */
     @Test
     public void testNullFilterSearch() throws Exception {
-        ItemHandlerClientInterface c = new ItemHandlerClient();
+        final ItemHandlerClientInterface c = new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setRecordPacking(packing.name());
 
-        SearchRetrieveResponse response = c.retrieveItems(request);
+        final SearchRetrieveResponse response = c.retrieveItems(request);
 
         assertNotNull("Response should not be null.", response);
         assertTrue("Filter should return ALL entries on empty search.", response.getNumberOfMatchingRecords() > 0);
@@ -300,10 +300,10 @@ public class SearchHandlerClientTest {
     // @Test
     public void testSearchScan() throws Exception {
 
-        ScanRequestType request = new ScanRequestType();
+        final ScanRequestType request = new ScanRequestType();
         request.setScanClause("escidoc.metadata=escidoc");
 
-        ScanResponse response = c.scan(request, null);
+        final ScanResponse response = c.scan(request, null);
 
         assertNotNull(response.getTerms());
 
@@ -313,7 +313,7 @@ public class SearchHandlerClientTest {
         out.append("\n");
         out.append("Results: ");
 
-        for (Term term : response.getTerms()) {
+        for (final Term term : response.getTerms()) {
 
             assertTrue(term.getNumberOfRecords() > 0);
             assertNotNull(term.getValue());
@@ -349,19 +349,19 @@ public class SearchHandlerClientTest {
         SearchDescriptor.registerResolver(new MyResolver());
 
         // simulate request
-        SearchRetrieveResponse response =
+        final SearchRetrieveResponse response =
             MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(srwResponse);
 
         assertTrue(response.getNumberOfResultingRecords() == 1);
 
-        for (SearchResultRecord record : response.getRecords()) {
+        for (final SearchResultRecord record : response.getRecords()) {
 
-            SearchResult result = record.getRecordData();
+            final SearchResult result = record.getRecordData();
 
             assertNotNull(result.getContent());
             assertTrue(result.getContent() instanceof MyRef);
 
-            MyRef ref = (MyRef) result.getContent();
+            final MyRef ref = (MyRef) result.getContent();
 
             assertEquals(ref.getId(), objid);
             assertTrue(ref.getResourceType() == ResourceType.ITEM);
@@ -394,10 +394,10 @@ public class SearchHandlerClientTest {
              * Map the XML to a MyRef instance here (done with some primitive
              * regexp)
              */
-            Pattern tagNameWithPrefix = Pattern.compile("<(?:([^>^:^\\s]*):)?([^>^\\s]*?)(?:\\s[^<]*)?>");
-            Matcher m = tagNameWithPrefix.matcher(xmlTextFragment);
+            final Pattern tagNameWithPrefix = Pattern.compile("<(?:([^>^:^\\s]*):)?([^>^\\s]*?)(?:\\s[^<]*)?>");
+            final Matcher m = tagNameWithPrefix.matcher(xmlTextFragment);
             if (m.find()) {
-                String id =
+                final String id =
                     xmlTextFragment.substring(m.group(0).length(), xmlTextFragment.indexOf('<', m.group(0).length()));
 
                 if ("item".equals(m.group(2))) {

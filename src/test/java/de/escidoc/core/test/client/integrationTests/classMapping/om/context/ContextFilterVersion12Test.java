@@ -129,10 +129,10 @@ public class ContextFilterVersion12Test {
         SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
 
         assertEquals("Wrong version number", "1.1", contextList.getVersion());
-        assertTrue("Wrong number of matching records [query=" + srwFilter.getQuery() + "]",
-            contextList.getNumberOfMatchingRecords() >= 1);
-        assertTrue("Wrong number of resulting records [query=" + srwFilter.getQuery() + "]",
-            contextList.getNumberOfResultingRecords() >= 1);
+        assertTrue("Wrong number of matching records [query=" + srwFilter.getQuery() + "]", contextList
+            .getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records [query=" + srwFilter.getQuery() + "]", contextList
+            .getNumberOfResultingRecords() >= 1);
         assertEquals("Wrong record position [query=" + srwFilter.getQuery() + "]", 1, contextList
             .getRecords().iterator().next().getRecordPosition().intValue());
     }

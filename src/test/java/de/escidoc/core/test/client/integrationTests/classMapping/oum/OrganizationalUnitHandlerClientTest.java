@@ -105,7 +105,7 @@ public class OrganizationalUnitHandlerClientTest {
      */
     @Test
     public void testRetrieve01() throws Exception {
-        OrganizationalUnit organizationUnit = ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
+        final OrganizationalUnit organizationUnit = ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
         MarshallerFactory.getInstance(ohc.getTransport()).getMarshaller(OrganizationalUnit.class).marshalDocument(
             organizationUnit);
@@ -122,9 +122,9 @@ public class OrganizationalUnitHandlerClientTest {
     @Ignore("INFR-1057")
     @Test
     public void testRetrieveUpdate() throws Exception {
-        OrganizationalUnit ou = ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
+        final OrganizationalUnit ou = ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
-        OrganizationalUnit updatedOU = ohc.update(ou);
+        final OrganizationalUnit updatedOU = ohc.update(ou);
 
         assertEquals("", ou.getLastModificationDate(), updatedOU.getLastModificationDate());
     }
@@ -152,32 +152,33 @@ public class OrganizationalUnitHandlerClientTest {
         final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
-        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        final OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        final OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
+        final MetadataRecord mdRecord = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
         mdRecords.add(mdRecord);
         organizationalUnit.setMetadataRecords(mdRecords);
 
         // create parent OU
-        OrganizationalUnit ou = ohc.create(organizationalUnit);
+        final OrganizationalUnit ou = ohc.create(organizationalUnit);
 
         // just getting a valid objid of a user
-        UserAccountHandlerClient uac = new UserAccountHandlerClient(auth.getServiceAddress());
+        final UserAccountHandlerClient uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
-        UserAccount me = uac.retrieveCurrentUser();
+        final UserAccount me = uac.retrieveCurrentUser();
 
-        OrganizationalUnitHandlerClientInterface ic = new OrganizationalUnitHandlerClient();
+        final OrganizationalUnitHandlerClientInterface ic =
+            new OrganizationalUnitHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
 
-        List<OrganizationalUnit> ouList = ic.retrieveOrganizationalUnitsAsList(request);
+        final List<OrganizationalUnit> ouList = ic.retrieveOrganizationalUnitsAsList(request);
 
         assertNotNull("No result list returned.", ouList);
         assertTrue("result list is empty, try another filter", ouList.size() != 0);
@@ -203,26 +204,26 @@ public class OrganizationalUnitHandlerClientTest {
         throws ParserConfigurationException {
 
         // md-record
-        MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
+        final MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         factory.setCoalescing(true);
         factory.setValidating(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
 
-        Document doc = builder.newDocument();
-        Element mdRecordContent = doc.createElementNS(null, rootElementName);
+        final Document doc = builder.newDocument();
+        final Element mdRecordContent = doc.createElementNS(null, rootElementName);
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        final Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
         titleElmt.setTextContent(title);
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
-        Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
+        final Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
         descriptionElmt.setTextContent(description);
         mdRecordContent.appendChild(descriptionElmt);

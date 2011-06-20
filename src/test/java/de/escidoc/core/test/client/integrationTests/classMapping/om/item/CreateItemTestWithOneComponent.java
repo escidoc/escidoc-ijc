@@ -72,9 +72,9 @@ public class CreateItemTestWithOneComponent {
     public void shouldReturnNonEmptyContentXlinkHrefWhenItemIsRetrieved() throws Exception {
 
         // staging
-        URL contentRef = stagingClient.upload(new File(TEST_FILE_PATH));
+        final URL contentRef = stagingClient.upload(new File(TEST_FILE_PATH));
 
-        Item item = initItem(contentRef);
+        final Item item = initItem(contentRef);
         final Item createdItem = itemClient.create(item);
         final String objid = createdItem.getObjid();
         log.info("Object ID: " + objid);
@@ -127,10 +127,10 @@ public class CreateItemTestWithOneComponent {
      * @throws EscidocException
      * @throws TransportException
      */
-    private Item initItem(final URL contentRef) throws ParserConfigurationException, TransportException,
+    public Item initItem(final URL contentRef) throws ParserConfigurationException, TransportException,
         EscidocException, InternalClientException {
-        Item item = new Item();
-        ItemProperties properties = item.getProperties();
+        final Item item = new Item();
+        final ItemProperties properties = item.getProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         setMdRecords(item);
@@ -143,7 +143,7 @@ public class CreateItemTestWithOneComponent {
      * @throws ParserConfigurationException
      */
     private void setMdRecords(final Item item) throws ParserConfigurationException {
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();
@@ -151,7 +151,7 @@ public class CreateItemTestWithOneComponent {
         final Element element = document.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
     }
@@ -161,10 +161,10 @@ public class CreateItemTestWithOneComponent {
      * @param contentRef
      */
     private void setComponents(final Item item, final URL contentRef) {
-        Component component = new Component();
+        final Component component = new Component();
         setComponentProperties(component, contentRef);
         setComponentContent(component, contentRef);
-        Components components = new Components();
+        final Components components = new Components();
         components.add(component);
         item.setComponents(components);
     }
@@ -174,7 +174,7 @@ public class CreateItemTestWithOneComponent {
      * @param contentRef
      */
     private void setComponentContent(final Component component, final URL contentRef) {
-        ComponentContent content = new ComponentContent();
+        final ComponentContent content = new ComponentContent();
         content.setXLinkHref(contentRef.toString());
         content.setStorage(StorageType.INTERNAL_MANAGED);
         component.setContent(content);
@@ -185,7 +185,7 @@ public class CreateItemTestWithOneComponent {
      * @param contentRef
      */
     private void setComponentProperties(final Component component, final URL contentRef) {
-        ComponentProperties properties = new ComponentProperties();
+        final ComponentProperties properties = new ComponentProperties();
         properties.setDescription("Random content");
         properties.setFileName(contentRef.getFile());
         properties.setVisibility("public");

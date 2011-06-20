@@ -54,7 +54,6 @@ import de.escidoc.core.client.UserAccountHandlerClient;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.resources.adm.LoadExamplesResult.Entry;
 import de.escidoc.core.resources.common.MessagesResult;
@@ -74,6 +73,10 @@ public final class EscidocClientTestBase {
     private static final Pattern PATTERN_LMD_ATTRIBUTE = Pattern.compile("last-modification-date=\"([^\"]*)\"");
 
     private static final TransportProtocol defaultTransportProtocol = TransportProtocol.REST;
+
+    private static final String ESCIDOC_HOST = "localhost";
+
+    private static final String ESCIDOC_PORT = "8080";
 
     /*
      * Static variables to store results of initial LoadExamples.
@@ -138,7 +141,7 @@ public final class EscidocClientTestBase {
     public static void assertExceptionType(final String message, final Class<?> expectedClass, final Exception e) {
 
         if (!e.getClass().equals(expectedClass)) {
-            StringBuffer msg = new StringBuffer(message);
+            final StringBuffer msg = new StringBuffer(message);
             msg.append(" expected:<");
             msg.append(expectedClass.getName());
             msg.append("> but was:<");
@@ -159,8 +162,8 @@ public final class EscidocClientTestBase {
      */
     public static String getStackTrace(final Exception e) {
 
-        StringWriter writer = new StringWriter();
-        PrintWriter printwriter = new PrintWriter(writer);
+        final StringWriter writer = new StringWriter();
+        final PrintWriter printwriter = new PrintWriter(writer);
         e.printStackTrace(printwriter);
         return writer.toString();
     }
@@ -177,8 +180,8 @@ public final class EscidocClientTestBase {
     public static String getXmlFileAsString(final InputStream in) throws IOException {
 
         // FIXME the fixed UTF-8 type let this method mark as garbage
-        StringWriter writer = new StringWriter();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+        final StringWriter writer = new StringWriter();
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
         String line = reader.readLine();
         while (line != null) {
             writer.append(line + "\n");
@@ -198,13 +201,13 @@ public final class EscidocClientTestBase {
      */
     public static String[] obtainObjidAndLmd(final String xml) {
 
-        String[] objidLmd = new String[2];
+        final String[] objidLmd = new String[2];
 
         // objid from href
         Matcher m = PATTERN_XLINK_HREF_ATTRIBUTE.matcher(xml);
         if (m.find()) {
-            String href = m.group(1);
-            int p = href.lastIndexOf("/");
+            final String href = m.group(1);
+            final int p = href.lastIndexOf("/");
             objidLmd[0] = href.substring(p + 1);
         }
         else {
@@ -264,7 +267,7 @@ public final class EscidocClientTestBase {
      */
     public static final String obtainObjidByXPath(final String xPathToElement, final Document doc) throws DOMException,
         TransformerException {
-        String objidOrHref =
+        final String objidOrHref =
             XPathAPI.selectSingleNode(doc, xPathToElement + "/@objid|" + xPathToElement + "/@href").getTextContent();
         return objidOrHref.substring(objidOrHref.lastIndexOf('/') + 1);
     }
@@ -278,13 +281,13 @@ public final class EscidocClientTestBase {
      */
     private static void loadStaticResources() throws TransportException, EscidocException, InternalClientException {
 
-        Authentication auth =
+        final Authentication auth =
             new Authentication(getDefaultInfrastructureURL(), SYSTEM_ADMIN_USER, SYSTEM_ADMIN_PASSWORD);
-        AdminHandlerClient c = new AdminHandlerClient(auth.getServiceAddress());
+        final AdminHandlerClient c = new AdminHandlerClient(auth.getServiceAddress());
         c.setHandle(auth.getHandle());
-        MessagesResult<Entry> result = c.loadExamples();
+        final MessagesResult<Entry> result = c.loadExamples();
 
-        for (Entry entry : result) {
+        for (final Entry entry : result) {
             switch (entry.getResourceType()) {
                 case ITEM:
                     exampleItemId = entry.getObjid();
@@ -386,9 +389,9 @@ public final class EscidocClientTestBase {
     public static final synchronized String getStaticAdminUserId() throws TransportException, EscidocException,
         InternalClientException {
         if (exampleAdminId == null) {
-            Authentication auth =
+            final Authentication auth =
                 new Authentication(getDefaultInfrastructureURL(), SYSTEM_ADMIN_USER, SYSTEM_ADMIN_PASSWORD);
-            UserAccountHandlerClient uhc = new UserAccountHandlerClient(auth.getServiceAddress());
+            final UserAccountHandlerClient uhc = new UserAccountHandlerClient(auth.getServiceAddress());
             uhc.setHandle(auth.getHandle());
             exampleAdminId = uhc.retrieveCurrentUser().getObjid();
         }
@@ -405,12 +408,12 @@ public final class EscidocClientTestBase {
     public static final synchronized String getStaticUserId() throws TransportException, EscidocException,
         InternalClientException {
         if (exampleUserId == null) {
-            Authentication auth =
+            final Authentication auth =
                 new Authentication(getDefaultInfrastructureURL(), SYSTEM_ADMIN_USER, SYSTEM_ADMIN_PASSWORD);
-            UserAccountHandlerClient uhc = new UserAccountHandlerClient(auth.getServiceAddress());
+            final UserAccountHandlerClient uhc = new UserAccountHandlerClient(auth.getServiceAddress());
             uhc.setHandle(auth.getHandle());
 
-            UserAccount acc = new UserAccount();
+            final UserAccount acc = new UserAccount();
 
             acc.getProperties().setActive(true);
             acc.getProperties().setLoginName("testuser");
@@ -426,7 +429,7 @@ public final class EscidocClientTestBase {
      * @throws InternalClientException
      */
     public static final String getDefaultInfrastructureHost() throws InternalClientException {
-        return ConfigurationProvider.getInstance().getProperty(ConfigurationProvider.PROP_SERVER_NAME);
+        return ESCIDOC_HOST;
     }
 
     /**
@@ -434,7 +437,7 @@ public final class EscidocClientTestBase {
      * @throws InternalClientException
      */
     public static final String getDefaultInfrastructurePort() throws InternalClientException {
-        return ConfigurationProvider.getInstance().getProperty(ConfigurationProvider.PROP_SERVER_PORT);
+        return ESCIDOC_PORT;
     }
 
     /**
@@ -444,12 +447,12 @@ public final class EscidocClientTestBase {
     public static final synchronized URL getDefaultInfrastructureURL() throws InternalClientException {
 
         if (defaultInfrastructureURL == null) {
-            String port = getDefaultInfrastructurePort();
+            final String port = getDefaultInfrastructurePort();
             try {
                 defaultInfrastructureURL =
                     new URL("http://" + getDefaultInfrastructureHost() + (port == null ? "" : ":" + port));
             }
-            catch (MalformedURLException e) {
+            catch (final MalformedURLException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
         }

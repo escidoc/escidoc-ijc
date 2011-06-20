@@ -77,7 +77,9 @@ public class IngestTest {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null) {
+            auth.logout();
+        }
     }
 
     /**
@@ -89,38 +91,38 @@ public class IngestTest {
     @Test
     public void testIngestItem01() throws Exception {
 
-        RestItemHandlerClient ihc = new RestItemHandlerClient(auth.getServiceAddress());
+        final RestItemHandlerClient ihc = new RestItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
 
-        Marshaller<Item> m = MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Item.class);
+        final Marshaller<Item> m = MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Item.class);
 
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
-        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        final ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
         // create
-        String resultXml = ihc.create(m.marshalDocument(item));
+        final String resultXml = ihc.create(m.marshalDocument(item));
 
-        Item createdItem = m.unmarshalDocument(resultXml);
+        final Item createdItem = m.unmarshalDocument(resultXml);
 
-        String objId = createdItem.getObjid();
+        final String objId = createdItem.getObjid();
 
         // organize Item
-        String itemXml = ihc.retrieve(objId);
+        final String itemXml = ihc.retrieve(objId);
 
         // ingest Item
-        RestIngestHandlerClient inhc = new RestIngestHandlerClient(auth.getServiceAddress());
+        final RestIngestHandlerClient inhc = new RestIngestHandlerClient(auth.getServiceAddress());
         inhc.setHandle(auth.getHandle());
 
         inhc.ingest(itemXml);
@@ -134,53 +136,54 @@ public class IngestTest {
      */
     @Test
     public void testIngestContainer01() throws Exception {
-        RestContainerHandlerClient cc = new RestContainerHandlerClient(auth.getServiceAddress());
+        final RestContainerHandlerClient cc = new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
-        Marshaller<Container> m = MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Container.class);
+        final Marshaller<Container> m =
+            MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Container.class);
 
-        Container container = new Container();
+        final Container container = new Container();
 
         // properties
-        ContainerProperties properties = new ContainerProperties();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element contentModelSpecific = doc.createElementNS(null, "cms");
 
-        List<Element> cmsContent = new LinkedList<Element>();
+        final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
-        ContentModelSpecific cms = new ContentModelSpecific();
+        final ContentModelSpecific cms = new ContentModelSpecific();
 
         cms.setContent(cmsContent);
 
         properties.setContentModelSpecific(cms);
         container.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
-        Document docMdRecord = builder.newDocument();
-        Element element = docMdRecord.createElementNS(null, "myMdRecord");
+        final Document docMdRecord = builder.newDocument();
+        final Element element = docMdRecord.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
-        String resultXml = cc.create(m.marshalDocument(container));
+        final String resultXml = cc.create(m.marshalDocument(container));
 
-        Container createdContainer = m.unmarshalDocument(resultXml);
-        String objId = createdContainer.getObjid();
+        final Container createdContainer = m.unmarshalDocument(resultXml);
+        final String objId = createdContainer.getObjid();
 
         // organize Container
-        String containerXml = cc.retrieve(objId);
+        final String containerXml = cc.retrieve(objId);
 
         // ingest Item
-        RestIngestHandlerClient rihc = new RestIngestHandlerClient(auth.getServiceAddress());
+        final RestIngestHandlerClient rihc = new RestIngestHandlerClient(auth.getServiceAddress());
         rihc.setHandle(auth.getHandle());
 
         rihc.ingest(containerXml);
@@ -188,47 +191,48 @@ public class IngestTest {
 
     @Test
     public void testIngestContainer02() throws Exception {
-        RestContainerHandlerClient cc = new RestContainerHandlerClient(auth.getServiceAddress());
+        final RestContainerHandlerClient cc = new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
-        Marshaller<Container> m = MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Container.class);
+        final Marshaller<Container> m =
+            MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Container.class);
 
-        Container container = new Container();
+        final Container container = new Container();
 
         // properties
-        ContainerProperties properties = new ContainerProperties();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element contentModelSpecific = doc.createElementNS(null, "cms");
 
-        List<Element> cmsContent = new LinkedList<Element>();
+        final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
-        ContentModelSpecific cms = new ContentModelSpecific();
+        final ContentModelSpecific cms = new ContentModelSpecific();
 
         cms.setContent(cmsContent);
 
         properties.setContentModelSpecific(cms);
         container.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
-        Document docMdRecord = builder.newDocument();
-        Element element = docMdRecord.createElementNS(null, "myMdRecord");
+        final Document docMdRecord = builder.newDocument();
+        final Element element = docMdRecord.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
-        String resultXml = m.marshalDocument(container);
+        final String resultXml = m.marshalDocument(container);
 
         // ingest Item
-        RestIngestHandlerClient rihc = new RestIngestHandlerClient(auth.getServiceAddress());
+        final RestIngestHandlerClient rihc = new RestIngestHandlerClient(auth.getServiceAddress());
         rihc.setHandle(auth.getHandle());
 
         rihc.ingest(resultXml);

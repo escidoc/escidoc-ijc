@@ -76,7 +76,8 @@ public class AuthenticationTest {
      */
     @Test
     public void testLogout() throws Exception {
-        UserManagementWrapperClient umw = new UserManagementWrapperClient();
+        final UserManagementWrapperClient umw =
+            new UserManagementWrapperClient(EscidocClientTestBase.getDefaultInfrastructureURL());
         umw.logout();
     }
 
@@ -97,11 +98,12 @@ public class AuthenticationTest {
      */
     @Test
     public void testAuthentication01() throws Exception {
-        Authentication auth =
+        final Authentication auth =
             new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
                 EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
-        ItemHandlerClientInterface ih = new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
+        final ItemHandlerClientInterface ih =
+            new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
         ih.setHandle(auth.getHandle());
         ih.retrieve(EscidocClientTestBase.getStaticItemId());
         auth.logout();
@@ -113,24 +115,25 @@ public class AuthenticationTest {
      */
     @Test
     public void testAuthentication02() throws Exception {
-        Authentication auth =
+        final Authentication auth =
             new Authentication(EscidocClientTestBase.getDefaultInfrastructureURL(),
                 EscidocClientTestBase.SYSTEM_ADMIN_USER, EscidocClientTestBase.SYSTEM_ADMIN_PASSWORD);
 
         auth.logout();
 
-        ItemHandlerClientInterface ih = new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
+        final ItemHandlerClientInterface ih =
+            new ItemHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
         ih.setHandle(auth.getHandle());
 
         try {
             ih.retrieve(EscidocClientTestBase.getStaticItemId());
         }
-        catch (AuthenticationException e) {
+        catch (final AuthenticationException e) {
             assertTrue("AuthenticationException does not contain redirectLocation", e.getRedirectLocation() != null);
             try {
                 new URL(e.getRedirectLocation());
             }
-            catch (MalformedURLException me) {
+            catch (final MalformedURLException me) {
                 fail("Invalid redirectLocation");
             }
         }
@@ -155,7 +158,7 @@ public class AuthenticationTest {
     private Context createNewContext() throws ParserConfigurationException, EscidocClientException,
         MalformedURLException {
 
-        ContextHandlerClientInterface cc =
+        final ContextHandlerClientInterface cc =
             new ContextHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
 
         final Context context = new Context();
