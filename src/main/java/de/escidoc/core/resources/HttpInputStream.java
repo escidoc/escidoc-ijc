@@ -3,11 +3,16 @@
  */
 package de.escidoc.core.resources;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.log4j.Logger;
 
 /**
  * @author MVO
@@ -15,17 +20,17 @@ import org.apache.http.client.methods.HttpRequestBase;
  */
 public class HttpInputStream extends InputStream {
 
+    private static final Logger LOG = Logger.getLogger(HttpInputStream.class);
+
     private final HttpRequestBase requestBase;
 
     private final HttpResponse response;
 
     private final InputStream inputStream;
 
-    private final String contentEncoding;
+    private String contentEncoding;
 
-    private final String contentType;
-
-    private final long contentLength;
+    private static final String CHARSET_PARAM = "charset";
 
     /**
      * 
@@ -37,12 +42,17 @@ public class HttpInputStream extends InputStream {
     public HttpInputStream(final HttpRequestBase requestBase, final HttpResponse response)
         throws IllegalStateException, IOException {
 
+        checkNotNull(requestBase);
+        checkNotNull(response);
+
         this.requestBase = requestBase;
-        this.inputStream = response.getEntity().getContent();
-        this.contentEncoding = response.getEntity().getContentEncoding().getValue();
-        this.contentType = response.getEntity().getContentType().getValue();
-        this.contentLength = response.getEntity().getContentLength();
         this.response = response;
+        if (response.getEntity() != null) {
+            this.inputStream = response.getEntity().getContent();
+        }
+        else {
+            this.inputStream = null;
+        }
     }
 
     /*
@@ -80,9 +90,19 @@ public class HttpInputStream extends InputStream {
         try {
             inputStream.close();
         }
+        catch (final IOException e) {
+            LOG.warn("Unable to close InputStream.", e);
+            throw e;
+        }
         finally {
             try {
-                response.getEntity().consumeContent();
+                if (response.getEntity() != null) {
+                    response.getEntity().consumeContent();
+                }
+            }
+            catch (final IOException e) {
+                LOG.warn("Unable to consumeContent of HttpResponse.", e);
+                throw e;
             }
             finally {
                 requestBase.abort();
@@ -109,6 +129,26 @@ public class HttpInputStream extends InputStream {
      * @return the contentEncoding
      */
     public String getContentEncoding() {
+        if (contentEncoding == null) {
+
+            if (hasContentEncoding()) {
+                contentEncoding = response.getEntity().getContentEncoding().getValue();
+            }
+            else if (hasContentType()) {
+
+                final Header header = response.getEntity().getContentType();
+                if (header.getElements() != null) {
+                    for (int i = 0; i < header.getElements().length; i++) {
+                        final NameValuePair pair = header.getElements()[i].getParameterByName(CHARSET_PARAM);
+                        if (pair != null) {
+                            contentEncoding = pair.getValue();
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
         return contentEncoding;
     }
 
@@ -116,13 +156,33 @@ public class HttpInputStream extends InputStream {
      * @return the contentType
      */
     public String getContentType() {
-        return contentType;
+        if (hasContentType())
+            return response.getEntity().getContentType().getValue();
+        else
+            return null;
     }
 
     /**
      * @return the contentLength
      */
     public long getContentLength() {
-        return contentLength;
+        if (response.getEntity() != null)
+            return response.getEntity().getContentLength();
+        else
+            return 0;
+    }
+
+    /**
+     * @return
+     */
+    public boolean hasContentEncoding() {
+        return response.getEntity() != null && response.getEntity().getContentEncoding() != null;
+    }
+
+    /**
+     * @return
+     */
+    public boolean hasContentType() {
+        return response.getEntity() != null && response.getEntity().getContentType() != null;
     }
 }
