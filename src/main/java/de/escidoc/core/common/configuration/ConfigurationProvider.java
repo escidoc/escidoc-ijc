@@ -69,10 +69,6 @@ public final class ConfigurationProvider {
 
     private final Logger logger = Logger.getLogger(ConfigurationProvider.class.getName());
 
-    public static final String PROP_SERVER_NAME = "server.name";
-
-    public static final String PROP_SERVER_PORT = "server.port";
-
     /*
      * Namespace configuration
      */
@@ -227,7 +223,7 @@ public final class ConfigurationProvider {
         // to load any of the optional file the directory they reside must be
         // part of the classpath
         addFile("client.properties", false);
-        String currentUser = System.getProperties().getProperty("user.name");
+        final String currentUser = System.getProperties().getProperty("user.name");
         if (currentUser != null) {
             addFile(currentUser + ".properties", false);
         }
@@ -285,19 +281,19 @@ public final class ConfigurationProvider {
      */
     private void init() throws InternalClientException {
 
-        Properties result = new Properties();
-        Iterator<String> mandatoryFilesIter = mandatoryFiles.iterator();
+        final Properties result = new Properties();
+        final Iterator<String> mandatoryFilesIter = mandatoryFiles.iterator();
         while (mandatoryFilesIter.hasNext()) {
-            String next = mandatoryFilesIter.next();
+            final String next = mandatoryFilesIter.next();
             result.putAll(loadProperties(next));
         }
-        Iterator<String> optionalFilesIter = optionalFiles.iterator();
+        final Iterator<String> optionalFilesIter = optionalFiles.iterator();
         while (optionalFilesIter.hasNext()) {
             try {
-                String next = optionalFilesIter.next();
+                final String next = optionalFilesIter.next();
                 result.putAll(loadProperties(next));
             }
-            catch (Exception e) {
+            catch (final Exception e) {
                 // ignore, it is no error if an optional properties file is not
                 // available
             }
@@ -323,20 +319,20 @@ public final class ConfigurationProvider {
      * @common
      */
     private Properties loadProperties(final String file) throws InternalClientException {
-        Properties result = new Properties();
+        final Properties result = new Properties();
 
         boolean failed = true;
-        int noOfPaths = paths.length;
+        final int noOfPaths = paths.length;
         for (int i = 0; i < noOfPaths && failed; ++i) {
             try {
-                InputStream fis = getFileInputStreamFromResource(paths[i], file);
+                final InputStream fis = getFileInputStreamFromResource(paths[i], file);
                 result.load(fis);
                 failed = false;
                 if (logger.isDebugEnabled()) {
                     logger.debug("Load properties from file '" + file + "' with path '" + paths[i] + "'.");
                 }
             }
-            catch (IOException e) {
+            catch (final IOException e) {
                 // ignore, try again
                 if (logger.isDebugEnabled()) {
                     logger.debug("Failed to load properties from file '" + file + "' with path '" + paths[i] + "'.");
@@ -363,7 +359,7 @@ public final class ConfigurationProvider {
     private InputStream getFileInputStreamFromResource(final String path, final String filename) throws IOException {
         InputStream result = null;
 
-        String search = concatenatePath(path, filename);
+        final String search = concatenatePath(path, filename);
         // search = concatenatePath(search.replace(".", "/"), filename);
         result = getClass().getResourceAsStream(search);
         if (result == null) {
