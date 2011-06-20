@@ -59,13 +59,6 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
 
     /**
      * 
-     */
-    public RoleHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public RoleHandlerClient(final URL serviceAddress) {
@@ -94,9 +87,9 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
 
         checkNotNull(role);
 
-        Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
+        final Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
 
-        String xml = getClient().create(m.marshalDocument(role));
+        final String xml = getClient().create(m.marshalDocument(role));
 
         return m.unmarshalDocument(xml);
     }
@@ -113,7 +106,7 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
 
         checkNotNull(id);
 
-        String xml = getClient().retrieve(id);
+        final String xml = getClient().retrieve(id);
 
         return MarshallerFactory.getInstance().getMarshaller(Role.class).unmarshalDocument(xml);
     }
@@ -161,9 +154,9 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
         checkNotNull(id);
         checkNotNull(role);
 
-        Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
+        final Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
 
-        String xml = getClient().update(id, m.marshalDocument(role));
+        final String xml = getClient().update(id, m.marshalDocument(role));
 
         return m.unmarshalDocument(xml);
     }
@@ -181,7 +174,7 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
 
         checkNotNull(request);
 
-        String xml = getClient().retrieveRoles(request);
+        final String xml = getClient().retrieveRoles(request);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -212,7 +205,7 @@ public class RoleHandlerClient extends AbstractHandlerClient<RestRoleHandlerClie
 
         checkNotNull(request);
 
-        String xml = getClient().retrieveRoles(request);
+        final String xml = getClient().retrieveRoles(request);
 
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }

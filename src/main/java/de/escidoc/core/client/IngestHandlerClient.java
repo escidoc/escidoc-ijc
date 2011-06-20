@@ -49,13 +49,6 @@ public class IngestHandlerClient extends AbstractHandlerClient<RestIngestHandler
 
     /**
      * 
-     */
-    public IngestHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public IngestHandlerClient(final URL serviceAddress) {

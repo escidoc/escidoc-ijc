@@ -63,13 +63,6 @@ public class SearchHandlerClient extends AbstractHandlerClient<RestSearchHandler
 
     /**
      * 
-     */
-    public SearchHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public SearchHandlerClient(final URL serviceAddress) {
@@ -100,7 +93,7 @@ public class SearchHandlerClient extends AbstractHandlerClient<RestSearchHandler
 
         checkNotNull(request);
 
-        String xml = getClient().explain(request, database);
+        final String xml = getClient().explain(request, database);
 
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
 
@@ -150,7 +143,7 @@ public class SearchHandlerClient extends AbstractHandlerClient<RestSearchHandler
         final String stylesheetURI, final String version, final String database) throws EscidocClientException,
         InternalClientException, TransportException {
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType request = new SearchRetrieveRequestType();
 
         request.setQuery(query == null ? null : query);
         request.setVersion(version == null ? "1.1" : version);
@@ -161,7 +154,7 @@ public class SearchHandlerClient extends AbstractHandlerClient<RestSearchHandler
             try {
                 request.setStylesheet(new URI(stylesheetURI));
             }
-            catch (MalformedURIException e) {
+            catch (final MalformedURIException e) {
                 throw new InternalClientException(e);
             }
         }
@@ -188,7 +181,7 @@ public class SearchHandlerClient extends AbstractHandlerClient<RestSearchHandler
 
         checkNotNull(request);
 
-        String xml = getClient().search(request, database);
+        final String xml = getClient().search(request, database);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
 

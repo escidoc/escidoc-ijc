@@ -45,13 +45,6 @@ public class UserManagementWrapperClient extends AbstractHandlerClient<RestUserM
 
     /**
      * 
-     */
-    public UserManagementWrapperClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public UserManagementWrapperClient(final URL serviceAddress) {

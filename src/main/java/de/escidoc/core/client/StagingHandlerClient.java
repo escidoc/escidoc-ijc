@@ -51,13 +51,6 @@ public class StagingHandlerClient extends AbstractHandlerClient<RestStagingHandl
 
     /**
      * 
-     */
-    public StagingHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public StagingHandlerClient(final URL serviceAddress) {

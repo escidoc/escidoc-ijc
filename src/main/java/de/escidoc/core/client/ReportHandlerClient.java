@@ -23,13 +23,6 @@ public class ReportHandlerClient extends AbstractHandlerClient<RestReportHandler
 
     /**
      * 
-     */
-    public ReportHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public ReportHandlerClient(final URL serviceAddress) {

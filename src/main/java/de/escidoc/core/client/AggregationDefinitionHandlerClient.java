@@ -30,13 +30,6 @@ public class AggregationDefinitionHandlerClient extends AbstractHandlerClient<Re
 
     /**
      * 
-     */
-    public AggregationDefinitionHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public AggregationDefinitionHandlerClient(final URL serviceAddress) {
@@ -82,10 +75,10 @@ public class AggregationDefinitionHandlerClient extends AbstractHandlerClient<Re
 
         checkNotNull(agDefinition);
 
-        Marshaller<AggregationDefinition> m =
+        final Marshaller<AggregationDefinition> m =
             MarshallerFactory.getInstance(getTransport()).getMarshaller(AggregationDefinition.class);
 
-        String xml = getClient().create(m.marshalDocument(agDefinition));
+        final String xml = getClient().create(m.marshalDocument(agDefinition));
         return m.unmarshalDocument(xml);
     }
 
@@ -102,7 +95,7 @@ public class AggregationDefinitionHandlerClient extends AbstractHandlerClient<Re
 
         checkNotNull(id);
 
-        String xml = getClient().retrieve(id);
+        final String xml = getClient().retrieve(id);
         return MarshallerFactory.getInstance().getMarshaller(AggregationDefinition.class).unmarshalDocument(xml);
     }
 
@@ -119,7 +112,7 @@ public class AggregationDefinitionHandlerClient extends AbstractHandlerClient<Re
     public SearchRetrieveResponse retrieveAggregationDefinitions(final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml = getClient().retrieveAggregationDefinitions(request);
+        final String xml = getClient().retrieveAggregationDefinitions(request);
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
 
@@ -149,7 +142,7 @@ public class AggregationDefinitionHandlerClient extends AbstractHandlerClient<Re
     public ExplainResponse retrieveAggregationDefinitions(final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = getClient().retrieveAggregationDefinitions(request);
+        final String xml = getClient().retrieveAggregationDefinitions(request);
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
 

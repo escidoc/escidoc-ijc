@@ -30,17 +30,9 @@ public abstract class AbstractHandlerClient<T extends RestClientBase> {
 
     /**
      * 
-     */
-    public AbstractHandlerClient() {
-
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public AbstractHandlerClient(final URL serviceAddress) {
-        this();
         this.serviceAddress = serviceAddress;
     }
 
@@ -54,11 +46,10 @@ public abstract class AbstractHandlerClient<T extends RestClientBase> {
      */
     @Deprecated
     public AbstractHandlerClient(final String serviceAddress) {
-        this();
         try {
             this.serviceAddress = new URL(serviceAddress);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Invalid serviceAddress.", e);
             }
@@ -137,11 +128,11 @@ public abstract class AbstractHandlerClient<T extends RestClientBase> {
         checkNotNull(resource);
         checkNotNull(response);
 
-        List<U> results = new LinkedList<U>();
+        final List<U> results = new LinkedList<U>();
 
-        for (SearchResultRecord record : response.getRecords()) {
-            SearchResult searchResult = record.getRecordData();
-            Object content = searchResult.getContent();
+        for (final SearchResultRecord record : response.getRecords()) {
+            final SearchResult searchResult = record.getRecordData();
+            final Object content = searchResult.getContent();
             if (resource.isAssignableFrom(content.getClass())) {
                 results.add((U) content);
             }

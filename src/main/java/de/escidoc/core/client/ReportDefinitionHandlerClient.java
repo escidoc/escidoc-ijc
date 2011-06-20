@@ -30,13 +30,6 @@ public class ReportDefinitionHandlerClient extends AbstractHandlerClient<RestRep
 
     /**
      * 
-     */
-    public ReportDefinitionHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public ReportDefinitionHandlerClient(final URL serviceAddress) {
@@ -83,9 +76,9 @@ public class ReportDefinitionHandlerClient extends AbstractHandlerClient<RestRep
 
         checkNotNull(reportDefinition);
 
-        Marshaller<ReportDefinition> m = MarshallerFactory.getInstance().getMarshaller(ReportDefinition.class);
+        final Marshaller<ReportDefinition> m = MarshallerFactory.getInstance().getMarshaller(ReportDefinition.class);
 
-        String xml = getClient().create(m.marshalDocument(reportDefinition));
+        final String xml = getClient().create(m.marshalDocument(reportDefinition));
 
         return m.unmarshalDocument(xml);
     }
@@ -119,9 +112,9 @@ public class ReportDefinitionHandlerClient extends AbstractHandlerClient<RestRep
         checkNotNull(id);
         checkNotNull(reportDefinition);
 
-        Marshaller<ReportDefinition> m = MarshallerFactory.getInstance().getMarshaller(ReportDefinition.class);
+        final Marshaller<ReportDefinition> m = MarshallerFactory.getInstance().getMarshaller(ReportDefinition.class);
 
-        String xml = getClient().update(id, m.marshalDocument(reportDefinition));
+        final String xml = getClient().update(id, m.marshalDocument(reportDefinition));
 
         return m.unmarshalDocument(xml);
     }
@@ -140,7 +133,7 @@ public class ReportDefinitionHandlerClient extends AbstractHandlerClient<RestRep
 
         checkNotNull(id);
 
-        String xml = getClient().retrieve(id);
+        final String xml = getClient().retrieve(id);
 
         return MarshallerFactory.getInstance().getMarshaller(ReportDefinition.class).unmarshalDocument(xml);
     }
@@ -159,7 +152,7 @@ public class ReportDefinitionHandlerClient extends AbstractHandlerClient<RestRep
 
         checkNotNull(request);
 
-        String xml = getClient().retrieveReportDefinitions(request);
+        final String xml = getClient().retrieveReportDefinitions(request);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -192,7 +185,7 @@ public class ReportDefinitionHandlerClient extends AbstractHandlerClient<RestRep
 
         checkNotNull(request);
 
-        String xml = getClient().retrieveReportDefinitions(request);
+        final String xml = getClient().retrieveReportDefinitions(request);
 
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }

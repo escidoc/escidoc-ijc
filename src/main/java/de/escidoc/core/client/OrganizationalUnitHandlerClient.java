@@ -67,13 +67,6 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
     /**
      * 
-     */
-    public OrganizationalUnitHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public OrganizationalUnitHandlerClient(final URL serviceAddress) {
@@ -117,9 +110,10 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(organizationalUnit);
 
-        Marshaller<OrganizationalUnit> m = MarshallerFactory.getInstance().getMarshaller(OrganizationalUnit.class);
+        final Marshaller<OrganizationalUnit> m =
+            MarshallerFactory.getInstance().getMarshaller(OrganizationalUnit.class);
 
-        String xml = getClient().create(m.marshalDocument(organizationalUnit));
+        final String xml = getClient().create(m.marshalDocument(organizationalUnit));
 
         return m.unmarshalDocument(xml);
     }
@@ -137,7 +131,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(id);
 
-        String xml = getClient().retrieve(id);
+        final String xml = getClient().retrieve(id);
 
         return MarshallerFactory.getInstance().getMarshaller(OrganizationalUnit.class).unmarshalDocument(xml);
     }
@@ -171,9 +165,10 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         checkNotNull(id);
         checkNotNull(organizationalUnit);
 
-        Marshaller<OrganizationalUnit> m = MarshallerFactory.getInstance().getMarshaller(OrganizationalUnit.class);
+        final Marshaller<OrganizationalUnit> m =
+            MarshallerFactory.getInstance().getMarshaller(OrganizationalUnit.class);
 
-        String xml = getClient().update(id, m.marshalDocument(organizationalUnit));
+        final String xml = getClient().update(id, m.marshalDocument(organizationalUnit));
 
         return m.unmarshalDocument(xml);
     }
@@ -203,9 +198,9 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
             }
         }
 
-        Marshaller<Parents> m = MarshallerFactory.getInstance().getMarshaller(Parents.class);
+        final Marshaller<Parents> m = MarshallerFactory.getInstance().getMarshaller(Parents.class);
 
-        String xml = getClient().updateParents(ou.getObjid(), m.marshalDocument(parents));
+        final String xml = getClient().updateParents(ou.getObjid(), m.marshalDocument(parents));
 
         return m.unmarshalDocument(xml);
     }
@@ -224,7 +219,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml = getClient().open(id, marshalTaskParam(taskParam));
+        final String xml = getClient().open(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
@@ -243,7 +238,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml = getClient().close(id, marshalTaskParam(taskParam));
+        final String xml = getClient().close(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
@@ -275,7 +270,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveParents(id);
+        final String xml = getClient().retrieveParents(id);
 
         return MarshallerFactory.getInstance().getMarshaller(Parents.class).unmarshalDocument(xml);
     }
@@ -308,7 +303,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveParentObjects(id);
+        final String xml = getClient().retrieveParentObjects(id);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -372,7 +367,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveChildObjects(id);
+        final String xml = getClient().retrieveChildObjects(id);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -424,7 +419,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(request);
 
-        String xml = getClient().retrieveOrganizationalUnits(request);
+        final String xml = getClient().retrieveOrganizationalUnits(request);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -457,7 +452,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(request);
 
-        String xml = getClient().retrieveOrganizationalUnits(request);
+        final String xml = getClient().retrieveOrganizationalUnits(request);
 
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
@@ -475,7 +470,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(id);
 
-        String xml = getClient().retrievePathList(id);
+        final String xml = getClient().retrievePathList(id);
 
         return MarshallerFactory.getInstance().getMarshaller(PathList.class).unmarshalDocument(xml);
     }
@@ -525,7 +520,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveProperties(id);
+        final String xml = getClient().retrieveProperties(id);
 
         return MarshallerFactory.getInstance().getMarshaller(OrganizationalUnitProperties.class).unmarshalDocument(xml);
     }
@@ -543,7 +538,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveMdRecords(id);
+        final String xml = getClient().retrieveMdRecords(id);
 
         return MarshallerFactory.getInstance().getMarshaller(MetadataRecords.class).unmarshalDocument(xml);
     }
@@ -562,7 +557,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         checkNotNull(id);
         checkNotNull(mdRecordId);
 
-        String xml = getClient().retrieveMdRecord(id, mdRecordId);
+        final String xml = getClient().retrieveMdRecord(id, mdRecordId);
 
         return MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class).unmarshalDocument(xml);
     }
@@ -580,7 +575,7 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveSuccessors(id);
+        final String xml = getClient().retrieveSuccessors(id);
 
         return MarshallerFactory.getInstance().getMarshaller(OrganizationalUnitList.class).unmarshalDocument(xml);
     }
@@ -631,9 +626,9 @@ public class OrganizationalUnitHandlerClient extends AbstractHandlerClient<RestO
         checkNotNull(id);
         checkNotNull(parents);
 
-        Marshaller<Parents> m = MarshallerFactory.getInstance().getMarshaller(Parents.class);
+        final Marshaller<Parents> m = MarshallerFactory.getInstance().getMarshaller(Parents.class);
 
-        String xml = getClient().updateParents(id, m.marshalDocument(parents));
+        final String xml = getClient().updateParents(id, m.marshalDocument(parents));
 
         return m.unmarshalDocument(xml);
     }

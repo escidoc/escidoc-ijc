@@ -54,13 +54,6 @@ public class PolicyDecisionPointHandlerClient extends AbstractHandlerClient<Rest
 
     /**
      * 
-     */
-    public PolicyDecisionPointHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public PolicyDecisionPointHandlerClient(final URL serviceAddress) {

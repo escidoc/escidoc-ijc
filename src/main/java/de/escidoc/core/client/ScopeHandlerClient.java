@@ -30,13 +30,6 @@ public class ScopeHandlerClient extends AbstractHandlerClient<RestScopeHandlerCl
 
     /**
      * 
-     */
-    public ScopeHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public ScopeHandlerClient(final URL serviceAddress) {
@@ -81,9 +74,9 @@ public class ScopeHandlerClient extends AbstractHandlerClient<RestScopeHandlerCl
 
         checkNotNull(scope);
 
-        Marshaller<Scope> m = MarshallerFactory.getInstance().getMarshaller(Scope.class);
+        final Marshaller<Scope> m = MarshallerFactory.getInstance().getMarshaller(Scope.class);
 
-        String xml = getClient().create(m.marshalDocument(scope));
+        final String xml = getClient().create(m.marshalDocument(scope));
 
         return m.unmarshalDocument(xml);
     }
@@ -116,9 +109,9 @@ public class ScopeHandlerClient extends AbstractHandlerClient<RestScopeHandlerCl
         checkNotNull(id);
         checkNotNull(scope);
 
-        Marshaller<Scope> m = MarshallerFactory.getInstance().getMarshaller(Scope.class);
+        final Marshaller<Scope> m = MarshallerFactory.getInstance().getMarshaller(Scope.class);
 
-        String xml = getClient().update(id, m.marshalDocument(scope));
+        final String xml = getClient().update(id, m.marshalDocument(scope));
 
         return m.unmarshalDocument(xml);
     }
@@ -135,7 +128,7 @@ public class ScopeHandlerClient extends AbstractHandlerClient<RestScopeHandlerCl
 
         checkNotNull(id);
 
-        String xml = getClient().retrieve(id);
+        final String xml = getClient().retrieve(id);
 
         return MarshallerFactory.getInstance().getMarshaller(Scope.class).unmarshalDocument(xml);
     }
@@ -153,7 +146,7 @@ public class ScopeHandlerClient extends AbstractHandlerClient<RestScopeHandlerCl
 
         checkNotNull(request);
 
-        String xml = getClient().retrieveScopes(request);
+        final String xml = getClient().retrieveScopes(request);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -184,7 +177,7 @@ public class ScopeHandlerClient extends AbstractHandlerClient<RestScopeHandlerCl
 
         checkNotNull(request);
 
-        String xml = getClient().retrieveScopes(request);
+        final String xml = getClient().retrieveScopes(request);
 
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }

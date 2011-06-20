@@ -65,13 +65,6 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
 
     /**
      * 
-     */
-    public ContentModelHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public ContentModelHandlerClient(final URL serviceAddress) {
@@ -115,9 +108,9 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
 
         checkNotNull(contentModel);
 
-        Marshaller<ContentModel> m = MarshallerFactory.getInstance().getMarshaller(ContentModel.class);
+        final Marshaller<ContentModel> m = MarshallerFactory.getInstance().getMarshaller(ContentModel.class);
 
-        String xml = getClient().create(m.marshalDocument(contentModel));
+        final String xml = getClient().create(m.marshalDocument(contentModel));
 
         return m.unmarshalDocument(xml);
     }
@@ -134,7 +127,7 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
 
         checkNotNull(id);
 
-        String xml = getClient().retrieve(id);
+        final String xml = getClient().retrieve(id);
 
         return MarshallerFactory.getInstance().getMarshaller(ContentModel.class).unmarshalDocument(xml);
     }
@@ -182,9 +175,9 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         checkNotNull(id);
         checkNotNull(contentModel);
 
-        Marshaller<ContentModel> m = MarshallerFactory.getInstance().getMarshaller(ContentModel.class);
+        final Marshaller<ContentModel> m = MarshallerFactory.getInstance().getMarshaller(ContentModel.class);
 
-        String xml = getClient().update(id, m.marshalDocument(contentModel));
+        final String xml = getClient().update(id, m.marshalDocument(contentModel));
 
         return m.unmarshalDocument(xml);
     }
@@ -200,7 +193,7 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
     public ExplainResponse retrieveContentModels(final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = getClient().retrieveContentModels(request);
+        final String xml = getClient().retrieveContentModels(request);
 
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
@@ -216,7 +209,7 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
     public SearchRetrieveResponse retrieveContentModels(final SearchRetrieveRequestType request)
         throws EscidocException, InternalClientException, TransportException {
 
-        String xml = getClient().retrieveContentModels(request);
+        final String xml = getClient().retrieveContentModels(request);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -249,7 +242,7 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveProperties(id);
+        final String xml = getClient().retrieveProperties(id);
 
         return MarshallerFactory.getInstance().getMarshaller(ContentModelProperties.class).unmarshalDocument(xml);
     }
@@ -266,7 +259,7 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveVersionHistory(id);
+        final String xml = getClient().retrieveVersionHistory(id);
 
         return MarshallerFactory.getInstance().getMarshaller(VersionHistory.class).unmarshalDocument(xml);
     }
@@ -298,7 +291,7 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveContentStreams(id);
+        final String xml = getClient().retrieveContentStreams(id);
 
         return MarshallerFactory.getInstance().getMarshaller(ContentStreams.class).unmarshalDocument(xml);
     }
@@ -316,7 +309,7 @@ public class ContentModelHandlerClient extends AbstractHandlerClient<RestContent
         checkNotNull(id);
         checkNotNull(name);
 
-        String xml = getClient().retrieveContentStream(id, name);
+        final String xml = getClient().retrieveContentStream(id, name);
 
         return MarshallerFactory.getInstance().getMarshaller(ContentStream.class).unmarshalDocument(xml);
     }

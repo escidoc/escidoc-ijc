@@ -32,13 +32,6 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
     implements UserGroupHandlerClientInterface {
 
     /**
-     * 
-     */
-    public UserGroupHandlerClient() {
-        super();
-    }
-
-    /**
      * @param serviceAddress
      */
     public UserGroupHandlerClient(final URL serviceAddress) {
@@ -80,7 +73,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
 
         checkNotNull(userGroupId);
 
-        Marshaller<Grants> m = MarshallerFactory.getInstance().getMarshaller(Grants.class);
+        final Marshaller<Grants> m = MarshallerFactory.getInstance().getMarshaller(Grants.class);
 
         return m.unmarshalDocument(getClient().retrieveCurrentGrants(userGroupId));
     }
@@ -98,7 +91,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
 
         checkNotNull(resource);
 
-        Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
+        final Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
         return m.unmarshalDocument(getClient().create(m.marshalDocument(resource)));
     }
@@ -162,7 +155,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
         checkNotNull(id);
         checkNotNull(resource);
 
-        Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
+        final Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
         return m.unmarshalDocument(getClient().update(id, m.marshalDocument(resource)));
     }
@@ -262,7 +255,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
         checkNotNull(groupId);
         checkNotNull(grant);
 
-        Marshaller<Grant> m = MarshallerFactory.getInstance().getMarshaller(Grant.class);
+        final Marshaller<Grant> m = MarshallerFactory.getInstance().getMarshaller(Grant.class);
 
         return m.unmarshalDocument(getClient().createGrant(groupId, m.marshalDocument(grant)));
     }
@@ -296,7 +289,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
         checkNotNull(groupId);
         checkNotNull(grantId);
 
-        Marshaller<Grant> m = MarshallerFactory.getInstance().getMarshaller(Grant.class);
+        final Marshaller<Grant> m = MarshallerFactory.getInstance().getMarshaller(Grant.class);
 
         return m.unmarshalDocument(getClient().retrieveGrant(groupId, grantId));
     }
@@ -396,7 +389,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
 
         checkNotNull(request);
 
-        Marshaller<SearchRetrieveResponse> m =
+        final Marshaller<SearchRetrieveResponse> m =
             MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class);
 
         return m.unmarshalDocument(getClient().retrieveUserGroups(request));
@@ -427,7 +420,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
 
         checkNotNull(request);
 
-        Marshaller<ExplainResponse> m = MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class);
+        final Marshaller<ExplainResponse> m = MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class);
 
         return m.unmarshalDocument(getClient().retrieveUserGroups(request));
     }
@@ -445,7 +438,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
         checkNotNull(groupId);
         checkNotNull(taskParam);
 
-        Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
+        final Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
         return m.unmarshalDocument(getClient().addSelectors(groupId, marshalTaskParam(taskParam)));
     }
@@ -479,7 +472,7 @@ public class UserGroupHandlerClient extends AbstractHandlerClient<RestUserGroupH
         checkNotNull(groupId);
         checkNotNull(taskParam);
 
-        Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
+        final Marshaller<UserGroup> m = MarshallerFactory.getInstance().getMarshaller(UserGroup.class);
 
         return m.unmarshalDocument(getClient().removeSelectors(groupId, marshalTaskParam(taskParam)));
     }

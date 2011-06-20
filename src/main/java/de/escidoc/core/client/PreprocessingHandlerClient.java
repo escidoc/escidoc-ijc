@@ -25,13 +25,6 @@ public class PreprocessingHandlerClient extends AbstractHandlerClient<RestPrepro
 
     /**
      * 
-     */
-    public PreprocessingHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public PreprocessingHandlerClient(final URL serviceAddress) {
@@ -64,7 +57,7 @@ public class PreprocessingHandlerClient extends AbstractHandlerClient<RestPrepro
 
         checkNotNull(aggregationDefinitionId);
 
-        Marshaller<PreprocessingInformation> m =
+        final Marshaller<PreprocessingInformation> m =
             MarshallerFactory.getInstance().getMarshaller(PreprocessingInformation.class);
 
         String xml;

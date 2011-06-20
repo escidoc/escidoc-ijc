@@ -24,13 +24,6 @@ public class StatisticDataHandlerClient extends AbstractHandlerClient<RestStatis
 
     /**
      * 
-     */
-    public StatisticDataHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public StatisticDataHandlerClient(final URL serviceAddress) {
@@ -62,7 +55,8 @@ public class StatisticDataHandlerClient extends AbstractHandlerClient<RestStatis
 
         checkNotNull(statisticData);
 
-        String xml = MarshallerFactory.getInstance().getMarshaller(StatisticData.class).marshalDocument(statisticData);
+        final String xml =
+            MarshallerFactory.getInstance().getMarshaller(StatisticData.class).marshalDocument(statisticData);
 
         getClient().create(xml);
 

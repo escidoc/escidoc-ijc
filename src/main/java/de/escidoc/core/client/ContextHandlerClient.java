@@ -64,13 +64,6 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
 
     /**
      * 
-     */
-    public ContextHandlerClient() {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      */
     public ContextHandlerClient(final URL serviceAddress) {
@@ -112,9 +105,9 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
 
         checkNotNull(context);
 
-        Marshaller<Context> m = MarshallerFactory.getInstance().getMarshaller(Context.class);
+        final Marshaller<Context> m = MarshallerFactory.getInstance().getMarshaller(Context.class);
 
-        String xml = getClient().create(m.marshalDocument(context));
+        final String xml = getClient().create(m.marshalDocument(context));
 
         return m.unmarshalDocument(xml);
     }
@@ -131,7 +124,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
 
         checkNotNull(id);
 
-        String xml = getClient().retrieve(id);
+        final String xml = getClient().retrieve(id);
 
         return MarshallerFactory.getInstance().getMarshaller(Context.class).unmarshalDocument(xml);
     }
@@ -178,9 +171,9 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         checkNotNull(id);
         checkNotNull(context);
 
-        Marshaller<Context> m = MarshallerFactory.getInstance().getMarshaller(Context.class);
+        final Marshaller<Context> m = MarshallerFactory.getInstance().getMarshaller(Context.class);
 
-        String xml = getClient().update(id, m.marshalDocument(context));
+        final String xml = getClient().update(id, m.marshalDocument(context));
 
         return m.unmarshalDocument(xml);
     }
@@ -199,7 +192,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml = getClient().open(id, marshalTaskParam(taskParam));
+        final String xml = getClient().open(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
@@ -218,7 +211,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         checkNotNull(id);
         checkNotNull(taskParam);
 
-        String xml = getClient().close(id, marshalTaskParam(taskParam));
+        final String xml = getClient().close(id, marshalTaskParam(taskParam));
 
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
@@ -235,7 +228,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveAdminDescriptors(id);
+        final String xml = getClient().retrieveAdminDescriptors(id);
 
         return MarshallerFactory.getInstance().getMarshaller(AdminDescriptors.class).unmarshalDocument(xml);
     }
@@ -253,7 +246,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
         checkNotNull(id);
         checkNotNull(name);
 
-        String xml = getClient().retrieveAdminDescriptor(id, name);
+        final String xml = getClient().retrieveAdminDescriptor(id, name);
 
         return MarshallerFactory.getInstance().getMarshaller(AdminDescriptor.class).unmarshalDocument(xml);
     }
@@ -268,7 +261,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
     public SearchRetrieveResponse retrieveContexts(final SearchRetrieveRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = getClient().retrieveContexts(request);
+        final String xml = getClient().retrieveContexts(request);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -296,7 +289,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
     public ExplainResponse retrieveContexts(final ExplainRequestType request) throws EscidocException,
         InternalClientException, TransportException {
 
-        String xml = getClient().retrieveContexts(request);
+        final String xml = getClient().retrieveContexts(request);
 
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }
@@ -314,7 +307,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveMembers(id, request);
+        final String xml = getClient().retrieveMembers(id, request);
 
         return MarshallerFactory.getInstance().getMarshaller(SearchRetrieveResponse.class).unmarshalDocument(xml);
     }
@@ -348,7 +341,7 @@ public class ContextHandlerClient extends AbstractHandlerClient<RestContextHandl
 
         checkNotNull(id);
 
-        String xml = getClient().retrieveMembers(id, request);
+        final String xml = getClient().retrieveMembers(id, request);
 
         return MarshallerFactory.getInstance().getMarshaller(ExplainResponse.class).unmarshalDocument(xml);
     }

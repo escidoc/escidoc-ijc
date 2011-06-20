@@ -28,6 +28,7 @@
  */
 package de.escidoc.core.client;
 
+import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
@@ -57,16 +58,6 @@ public abstract class ClientBase {
     private String handle;
 
     /**
-     * Create an instance of client base using the default constructor.
-     * 
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public ClientBase() throws InternalClientException {
-        setServiceAddress(null);
-    }
-
-    /**
      * Create ClientBase.
      * 
      * @param serviceAddress
@@ -90,7 +81,7 @@ public abstract class ClientBase {
         try {
             url = new URL(serviceAddress);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
             throw new InternalClientException(e);
         }
         setServiceAddress(url);
@@ -114,22 +105,8 @@ public abstract class ClientBase {
      *             Thrown if address is not a valid URL.
      */
     private void setServiceAddress(final URL address) throws InternalClientException {
-
-        if (address == null) {
-            String serviceAddress =
-                "http://" + getConfiguration().getProperty(ConfigurationProvider.PROP_SERVER_NAME) + ":"
-                    + getConfiguration().getProperty(ConfigurationProvider.PROP_SERVER_PORT);
-
-            try {
-                this.serviceAddress = new URL(serviceAddress);
-            }
-            catch (MalformedURLException e) {
-                throw new InternalClientException("Invalid service endpoint in configuration file.", e);
-            }
-        }
-        else {
-            this.serviceAddress = address;
-        }
+        checkNotNull(address);
+        this.serviceAddress = address;
     }
 
     /**
@@ -204,7 +181,7 @@ public abstract class ClientBase {
      */
     protected HashMap<String, String[]> getEscidoc12Filter(final SearchRetrieveRequestType filter) {
 
-        HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
+        final HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
 
         if (filter.getMaximumRecords() != null) {
             filter12.put("maximumRecords", new String[] { String.valueOf(filter.getMaximumRecords()) });
@@ -233,7 +210,7 @@ public abstract class ClientBase {
      */
     protected HashMap<String, String[]> getEscidoc12Filter(final ExplainRequestType filter) {
 
-        HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
+        final HashMap<String, String[]> filter12 = new HashMap<String, String[]>();
 
         if (filter.getVersion() != null) {
             filter12.put("version", new String[] { filter.getVersion() });

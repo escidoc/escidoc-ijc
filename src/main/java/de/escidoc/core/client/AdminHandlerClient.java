@@ -31,12 +31,6 @@ public class AdminHandlerClient extends AbstractHandlerClient<RestAdminHandlerCl
     implements AdminHandlerClientInterface {
 
     /**
-     */
-    public AdminHandlerClient() {
-        super();
-    }
-
-    /**
      * 
      * @param serviceAddress
      */
@@ -69,9 +63,9 @@ public class AdminHandlerClient extends AbstractHandlerClient<RestAdminHandlerCl
 
         checkNotNull(taskParam);
 
-        String xml = getClient().deleteObjects(marshalTaskParam(taskParam));
+        final String xml = getClient().deleteObjects(marshalTaskParam(taskParam));
 
-        Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        final Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
         return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
 
@@ -83,8 +77,8 @@ public class AdminHandlerClient extends AbstractHandlerClient<RestAdminHandlerCl
      */
     @Override
     public MessagesStatus getPurgeStatus() throws EscidocException, InternalClientException, TransportException {
-        String xml = getClient().getPurgeStatus();
-        Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        final String xml = getClient().getPurgeStatus();
+        final Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
         return new MessagesStatus(result);
     }
 
@@ -96,8 +90,8 @@ public class AdminHandlerClient extends AbstractHandlerClient<RestAdminHandlerCl
      */
     @Override
     public MessagesStatus getReindexStatus() throws EscidocException, InternalClientException, TransportException {
-        String xml = getClient().getReindexStatus();
-        Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        final String xml = getClient().getReindexStatus();
+        final Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
         return new MessagesStatus(result);
     }
 
@@ -115,8 +109,8 @@ public class AdminHandlerClient extends AbstractHandlerClient<RestAdminHandlerCl
 
         checkNotNull(indexNamePrefix);
 
-        String xml = getClient().reindex(clearIndex, indexNamePrefix);
-        Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        final String xml = getClient().reindex(clearIndex, indexNamePrefix);
+        final Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
         return new MessagesStatus(result, AdminStatus.STATUS_IN_PROGRESS);
     }
 
@@ -142,7 +136,7 @@ public class AdminHandlerClient extends AbstractHandlerClient<RestAdminHandlerCl
      */
     @Override
     public RepositoryInfo getRepositoryInfo() throws EscidocException, InternalClientException, TransportException {
-        String xml = getClient().getRepositoryInfo();
+        final String xml = getClient().getRepositoryInfo();
         return new RepositoryInfo(MarshallerFactory
             .getInstance().getMarshaller(Properties.class).unmarshalDocument(xml));
     }
@@ -160,8 +154,8 @@ public class AdminHandlerClient extends AbstractHandlerClient<RestAdminHandlerCl
 
         checkNotNull(exampleSet);
 
-        String xml = getClient().loadExamples(exampleSet);
-        Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+        final String xml = getClient().loadExamples(exampleSet);
+        final Result result = MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
 
         return new LoadExamplesResult(result);
     }
