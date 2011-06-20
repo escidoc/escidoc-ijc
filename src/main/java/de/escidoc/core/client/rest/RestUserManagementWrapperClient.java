@@ -26,14 +26,6 @@ public class RestUserManagementWrapperClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestUserManagementWrapperClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -64,7 +56,7 @@ public class RestUserManagementWrapperClient extends RestClientBase {
         try {
             getClient().logout();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -78,7 +70,8 @@ public class RestUserManagementWrapperClient extends RestClientBase {
     public UserManagementWrapper getClient() throws InternalClientException {
 
         if (restClient == null) {
-            UserManagementWrapperRestServiceLocator serviceLocator = new UserManagementWrapperRestServiceLocator();
+            final UserManagementWrapperRestServiceLocator serviceLocator =
+                new UserManagementWrapperRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

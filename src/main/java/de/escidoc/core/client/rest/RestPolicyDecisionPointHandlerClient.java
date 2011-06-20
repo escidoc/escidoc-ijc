@@ -26,14 +26,6 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestPolicyDecisionPointHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -68,7 +60,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
         try {
             return getClient().evaluate(requestsXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -83,7 +75,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
     public PolicyDecisionPoint getClient() throws InternalClientException {
         if (restClient == null) {
 
-            PolicyDecisionPointRestServiceLocator serviceLocator = new PolicyDecisionPointRestServiceLocator();
+            final PolicyDecisionPointRestServiceLocator serviceLocator = new PolicyDecisionPointRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

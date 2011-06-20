@@ -56,14 +56,6 @@ public class RestUserAccountHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestUserAccountHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -98,7 +90,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             getClient().activate(userId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -118,7 +110,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().create(resourceXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -137,7 +129,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -156,7 +148,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             getClient().deactivate(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -176,7 +168,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -200,7 +192,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().update(id, userAccountXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -223,7 +215,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             getClient().updatePassword(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -243,7 +235,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveUserAccounts(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -266,7 +258,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveUserAccounts(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -287,7 +279,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveGrants(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -308,7 +300,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveGrants(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -336,7 +328,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().createGrant(objid, resourceXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -362,7 +354,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             getClient().revokeGrant(objid, grantId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -387,7 +379,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().createPreference(objid, preferenceXML);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -412,7 +404,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             getClient().deletePreference(objid, key);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -439,7 +431,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().updatePreference(objid, key, preferenceXML);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -452,7 +444,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().updatePreferences(objid, preferencesXML);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -465,7 +457,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrievePreference(objid, key);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -489,7 +481,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrievePreferences(objid);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -515,7 +507,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().createAttribute(objid, preferenceXML);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -539,7 +531,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             getClient().deleteAttribute(objid, attributeId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -566,7 +558,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().updateAttribute(objid, attributeId, attributeXML);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -607,7 +599,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveAttribute(objid, attributeId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -631,7 +623,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveAttributes(objid);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -658,7 +650,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveNamedAttributes(objid, attributeName);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -679,7 +671,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveCurrentUser();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -703,7 +695,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveCurrentGrants(userId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -729,7 +721,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveGrant(userId, grantId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -745,7 +737,7 @@ public class RestUserAccountHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            UserAccountRestServiceLocator serviceLocator = new UserAccountRestServiceLocator();
+            final UserAccountRestServiceLocator serviceLocator = new UserAccountRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

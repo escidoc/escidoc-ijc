@@ -29,13 +29,6 @@ public class RestUserGroupHandlerClient extends RestClientBase {
     private static final Logger LOG = Logger.getLogger(RestUserGroupHandlerClient.class);
 
     /**
-     * @throws InternalClientException
-     */
-    public RestUserGroupHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -68,7 +61,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveCurrentGrants(userGroupId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -88,7 +81,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().createGrant(groupId, grantXML);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -108,7 +101,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveGrant(groupId, grantId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -127,7 +120,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             getClient().revokeGrant(groupId, grantId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -144,7 +137,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             getClient().revokeGrants(groupId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -163,7 +156,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveUserGroups(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -185,7 +178,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveUserGroups(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -207,7 +200,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveUserGroups(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -228,7 +221,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().addSelectors(groupId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -249,7 +242,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().removeSelectors(groupId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -265,7 +258,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             getClient().delete(groupId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -283,7 +276,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().create(xmlData);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -304,7 +297,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().update(groupId, xmlData);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -323,7 +316,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             getClient().activate(groupId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -341,7 +334,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieve(groupId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -360,7 +353,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
         try {
             getClient().deactivate(groupId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -375,7 +368,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
 
         if (client == null) {
 
-            UserGroupRestServiceLocator serviceLocator = new UserGroupRestServiceLocator();
+            final UserGroupRestServiceLocator serviceLocator = new UserGroupRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             client = serviceLocator;

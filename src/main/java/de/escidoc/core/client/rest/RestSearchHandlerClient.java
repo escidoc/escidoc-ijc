@@ -32,14 +32,6 @@ public class RestSearchHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestSearchHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -78,7 +70,7 @@ public class RestSearchHandlerClient extends RestClientBase {
         try {
             result = getRestClient(database).explain(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -102,7 +94,7 @@ public class RestSearchHandlerClient extends RestClientBase {
         try {
             result = getRestClient(database).search(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -126,7 +118,7 @@ public class RestSearchHandlerClient extends RestClientBase {
         try {
             result = getRestClient(database).scan(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -142,7 +134,7 @@ public class RestSearchHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            SearchRestServiceLocator serviceLocator = new SearchRestServiceLocator();
+            final SearchRestServiceLocator serviceLocator = new SearchRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
 
             String db = database;

@@ -26,14 +26,6 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestPreprocessingHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -73,7 +65,7 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
         try {
             getClient().preprocess(aggregationDefinitionId, xmlData);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -87,7 +79,7 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
     public PreprocessingHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            PreprocessingRestServiceLocator serviceLocator = new PreprocessingRestServiceLocator();
+            final PreprocessingRestServiceLocator serviceLocator = new PreprocessingRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

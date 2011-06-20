@@ -21,16 +21,6 @@ public abstract class RestClientBase extends ClientBase implements RestCallbackH
     public static final String ESCIDOC_COOKIE_ENTRY = "escidocCookie";
 
     /**
-     * Create an instance of client base using the default constructor.
-     * 
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public RestClientBase() throws InternalClientException {
-        super();
-    }
-
-    /**
      * Create ClientBase.
      * 
      * @param serviceAddress

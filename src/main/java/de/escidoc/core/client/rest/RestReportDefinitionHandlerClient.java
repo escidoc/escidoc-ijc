@@ -30,14 +30,6 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestReportDefinitionHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -73,7 +65,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -95,7 +87,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().create(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -122,7 +114,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().update(id, xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -145,7 +137,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
         try {
             xml = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return xml;
@@ -167,7 +159,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
         try {
             xml = getClient().retrieveReportDefinitions(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return xml;
@@ -190,7 +182,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
         try {
             xml = getClient().retrieveReportDefinitions(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return xml;
@@ -213,7 +205,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
         try {
             xml = getClient().retrieveReportDefinitions(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return xml;
@@ -228,7 +220,7 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
     public ReportDefinitionHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            ReportDefinitionRestServiceLocator serviceLocator = new ReportDefinitionRestServiceLocator();
+            final ReportDefinitionRestServiceLocator serviceLocator = new ReportDefinitionRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

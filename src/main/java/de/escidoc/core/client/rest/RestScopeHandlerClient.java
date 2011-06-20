@@ -30,14 +30,6 @@ public class RestScopeHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestScopeHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -72,7 +64,7 @@ public class RestScopeHandlerClient extends RestClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -93,7 +85,7 @@ public class RestScopeHandlerClient extends RestClientBase {
         try {
             result = getClient().create(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -119,7 +111,7 @@ public class RestScopeHandlerClient extends RestClientBase {
         try {
             result = getClient().update(id, xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -141,7 +133,7 @@ public class RestScopeHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -163,7 +155,7 @@ public class RestScopeHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().retrieveScopes(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -184,7 +176,7 @@ public class RestScopeHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().retrieveScopes(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -206,7 +198,7 @@ public class RestScopeHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().retrieveScopes(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -221,7 +213,7 @@ public class RestScopeHandlerClient extends RestClientBase {
     public ScopeHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            ScopeRestServiceLocator serviceLocator = new ScopeRestServiceLocator();
+            final ScopeRestServiceLocator serviceLocator = new ScopeRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

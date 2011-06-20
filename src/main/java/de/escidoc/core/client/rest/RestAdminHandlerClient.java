@@ -26,14 +26,6 @@ public class RestAdminHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestAdminHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -66,7 +58,7 @@ public class RestAdminHandlerClient extends RestClientBase {
         try {
             return getClient().deleteObjects(taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -82,7 +74,7 @@ public class RestAdminHandlerClient extends RestClientBase {
         try {
             return getClient().getPurgeStatus();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -98,7 +90,7 @@ public class RestAdminHandlerClient extends RestClientBase {
         try {
             return getClient().getReindexStatus();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -117,7 +109,7 @@ public class RestAdminHandlerClient extends RestClientBase {
         try {
             return getClient().reindex(clearIndex ? "true" : "false", indexNamePrefix);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -133,7 +125,7 @@ public class RestAdminHandlerClient extends RestClientBase {
         try {
             return getClient().getRepositoryInfo();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -151,7 +143,7 @@ public class RestAdminHandlerClient extends RestClientBase {
         try {
             return getClient().loadExamples(exampleSet);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -168,7 +160,7 @@ public class RestAdminHandlerClient extends RestClientBase {
         try {
             return getClient().getIndexConfiguration();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -183,7 +175,7 @@ public class RestAdminHandlerClient extends RestClientBase {
     public AdminHandler getClient() throws InternalClientException {
         if (this.restClient == null) {
 
-            AdminRestServiceLocator serviceLocator = new AdminRestServiceLocator();
+            final AdminRestServiceLocator serviceLocator = new AdminRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             this.restClient = serviceLocator;

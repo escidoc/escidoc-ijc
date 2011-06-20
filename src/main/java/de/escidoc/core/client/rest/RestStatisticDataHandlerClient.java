@@ -26,14 +26,6 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestStatisticDataHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -69,7 +61,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
         try {
             getClient().create(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -83,7 +75,7 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
     public StatisticDataHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            StatisticDataRestServiceLocator serviceLocator = new StatisticDataRestServiceLocator();
+            final StatisticDataRestServiceLocator serviceLocator = new StatisticDataRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

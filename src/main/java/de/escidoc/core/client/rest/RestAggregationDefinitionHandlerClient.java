@@ -29,14 +29,6 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestAggregationDefinitionHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -72,7 +64,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -94,7 +86,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().create(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -116,7 +108,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -138,7 +130,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().retrieveAggregationDefinitions(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -160,7 +152,7 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().retrieveAggregationDefinitions(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -175,7 +167,8 @@ public class RestAggregationDefinitionHandlerClient extends RestClientBase {
     public AggregationDefinitionHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            AggregationDefinitionRestServiceLocator serviceLocator = new AggregationDefinitionRestServiceLocator();
+            final AggregationDefinitionRestServiceLocator serviceLocator =
+                new AggregationDefinitionRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

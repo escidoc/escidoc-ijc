@@ -57,14 +57,6 @@ public class RestContainerHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestContainerHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -104,7 +96,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().addContentRelations(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -132,7 +124,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().create(containerXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -151,7 +143,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -171,7 +163,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -195,7 +187,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().update(id, item);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -218,7 +210,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().release(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -240,7 +232,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().revise(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -263,7 +255,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().submit(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -286,7 +278,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().withdraw(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -310,7 +302,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().assignVersionPid(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -334,7 +326,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().assignObjectPid(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -356,7 +348,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveVersionHistory(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -379,7 +371,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().lock(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -402,7 +394,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().unlock(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -423,7 +415,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().removeContentRelations(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -444,7 +436,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().addMembers(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -465,7 +457,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().removeMembers(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -486,7 +478,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().createItem(id, itemXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -511,7 +503,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().createContainer(id, containerXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -532,7 +524,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveStructMap(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -553,7 +545,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveMembers(contextId, filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -574,7 +566,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveMembers(contextId, filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -597,7 +589,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveContainers(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -619,7 +611,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveContainers(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -640,7 +632,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveContainers(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -667,7 +659,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveRelations(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -687,7 +679,7 @@ public class RestContainerHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveParents(containerId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -704,7 +696,7 @@ public class RestContainerHandlerClient extends RestClientBase {
 
         if (this.restClient == null) {
 
-            ContainerRestServiceLocator serviceLocator = new ContainerRestServiceLocator();
+            final ContainerRestServiceLocator serviceLocator = new ContainerRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             this.restClient = serviceLocator;

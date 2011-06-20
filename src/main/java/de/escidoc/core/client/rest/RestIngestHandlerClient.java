@@ -53,14 +53,6 @@ public class RestIngestHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestIngestHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -101,7 +93,7 @@ public class RestIngestHandlerClient extends RestClientBase {
         try {
             result = getClient().ingest(resourceXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -117,7 +109,7 @@ public class RestIngestHandlerClient extends RestClientBase {
     @Override
     public IngestHandler getClient() throws InternalClientException {
         if (restClient == null) {
-            IngestRestServiceLocator serviceLocator = new IngestRestServiceLocator();
+            final IngestRestServiceLocator serviceLocator = new IngestRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

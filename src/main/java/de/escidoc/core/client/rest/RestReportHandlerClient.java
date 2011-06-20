@@ -25,13 +25,6 @@ public class RestReportHandlerClient extends RestClientBase {
     private ReportHandler client;
 
     /**
-     * @throws InternalClientException
-     */
-    public RestReportHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -67,7 +60,7 @@ public class RestReportHandlerClient extends RestClientBase {
         try {
             resultXml = getClient().retrieve(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -82,7 +75,7 @@ public class RestReportHandlerClient extends RestClientBase {
     public ReportHandler getClient() throws InternalClientException {
         if (this.client == null) {
 
-            ReportRestServiceLocator serviceLocator = new ReportRestServiceLocator();
+            final ReportRestServiceLocator serviceLocator = new ReportRestServiceLocator();
             serviceLocator.setServiceAddress(getServiceAddress());
             serviceLocator.registerRestCallbackHandler(this);
             this.client = serviceLocator;

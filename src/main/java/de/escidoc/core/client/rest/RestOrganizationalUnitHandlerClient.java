@@ -58,14 +58,6 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestOrganizationalUnitHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -105,7 +97,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().create(organizationalUnit);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -128,7 +120,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -152,7 +144,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -183,7 +175,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().update(id, ouXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -219,7 +211,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().updateParents(ouId, xmlOfParents);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -253,7 +245,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveChildObjects(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -276,7 +268,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -299,7 +291,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -323,7 +315,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -357,7 +349,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveParentObjects(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -390,7 +382,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveParents(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -427,7 +419,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrievePathList(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -454,7 +446,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().open(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -481,7 +473,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().close(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -504,7 +496,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveProperties(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -527,7 +519,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveMdRecords(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -551,7 +543,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveMdRecord(id, mdRecordId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -573,7 +565,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveSuccessors(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -589,7 +581,7 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            OrganizationalUnitRestServiceLocator serviceLocator = new OrganizationalUnitRestServiceLocator();
+            final OrganizationalUnitRestServiceLocator serviceLocator = new OrganizationalUnitRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;

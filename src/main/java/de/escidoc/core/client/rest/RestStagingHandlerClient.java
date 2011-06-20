@@ -64,14 +64,6 @@ public class RestStagingHandlerClient extends RestClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public RestStagingHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -102,7 +94,7 @@ public class RestStagingHandlerClient extends RestClientBase {
         try {
             result = getClient().upload(f);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
 
@@ -113,7 +105,7 @@ public class RestStagingHandlerClient extends RestClientBase {
         try {
             return extractStagingUrl(result);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             throw new InternalClientException(e);
         }
     }
@@ -128,7 +120,7 @@ public class RestStagingHandlerClient extends RestClientBase {
         try {
             result = getClient().upload(ins);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
 
@@ -139,7 +131,7 @@ public class RestStagingHandlerClient extends RestClientBase {
         try {
             return extractStagingUrl(result);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             throw new InternalClientException(e);
         }
     }
@@ -154,7 +146,7 @@ public class RestStagingHandlerClient extends RestClientBase {
 
         if (restClient == null) {
 
-            StagingRestServiceLocator serviceLocator = new StagingRestServiceLocator();
+            final StagingRestServiceLocator serviceLocator = new StagingRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             restClient = serviceLocator;
@@ -176,13 +168,13 @@ public class RestStagingHandlerClient extends RestClientBase {
         String stagingHref;
         Element rootElement;
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new ByteArrayInputStream(xml.getBytes()));
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.parse(new ByteArrayInputStream(xml.getBytes()));
 
         rootElement = doc.getDocumentElement();
         stagingHref = rootElement.getAttribute("xlink:href");
-        String baseUrl = rootElement.getAttribute("xml:base");
+        final String baseUrl = rootElement.getAttribute("xml:base");
 
         return new URL(baseUrl + stagingHref);
     }

@@ -29,13 +29,6 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
     private static final Logger LOG = Logger.getLogger(RestSetDefinitionHandlerClient.class);
 
     /**
-     * @throws InternalClientException
-     */
-    public RestSetDefinitionHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -69,7 +62,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveSetDefinitions(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -91,7 +84,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveSetDefinitions(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -113,7 +106,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieveSetDefinitions(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -131,7 +124,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
         try {
             getClient().delete(setDefinitionId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -149,7 +142,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
         try {
             result = getClient().create(xmlData);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -170,7 +163,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
         try {
             result = getClient().update(setDefinitionId, xmlData);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -190,7 +183,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
         try {
             result = getClient().retrieve(setDefinitionId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -205,7 +198,7 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
     public SetDefinitionHandler getClient() throws InternalClientException {
         if (client == null) {
 
-            SetDefinitionRestServiceLocator serviceLocator = new SetDefinitionRestServiceLocator();
+            final SetDefinitionRestServiceLocator serviceLocator = new SetDefinitionRestServiceLocator();
             serviceLocator.registerRestCallbackHandler(this);
             serviceLocator.setServiceAddress(getServiceAddress());
             client = serviceLocator;
