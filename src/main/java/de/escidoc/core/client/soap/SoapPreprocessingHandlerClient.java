@@ -28,14 +28,6 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapPreprocessingHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -74,7 +66,7 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
         try {
             getClient().preprocess(aggregationDefinitionId, xmlData);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -82,13 +74,13 @@ public class SoapPreprocessingHandlerClient extends SoapClientBase {
     @Override
     public PreprocessingHandler getClient() throws InternalClientException {
         if (client == null) {
-            PreprocessingHandlerServiceLocator serviceLocator =
+            final PreprocessingHandlerServiceLocator serviceLocator =
                 new PreprocessingHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getPreprocessingHandlerServiceAddress());
+            final URL url = getHandlerServiceURL(serviceLocator.getPreprocessingHandlerServiceAddress());
             try {
                 client = serviceLocator.getPreprocessingHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(client);

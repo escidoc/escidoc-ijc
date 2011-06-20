@@ -58,14 +58,6 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapContentModelHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -102,7 +94,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(contentModel);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -121,7 +113,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -141,7 +133,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -165,7 +157,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, contentModel);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -217,7 +209,7 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveContentModels(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -233,14 +225,14 @@ public class SoapContentModelHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                ContentModelHandlerServiceLocator serviceLocator =
+                final ContentModelHandlerServiceLocator serviceLocator =
                     new ContentModelHandlerServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getContentModelHandlerServiceAddress());
+                final URL url = getHandlerServiceURL(serviceLocator.getContentModelHandlerServiceAddress());
                 soapClient = serviceLocator.getContentModelHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;

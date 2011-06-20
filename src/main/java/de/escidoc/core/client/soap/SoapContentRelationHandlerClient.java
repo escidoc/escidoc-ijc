@@ -59,14 +59,6 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapContentRelationHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -105,7 +97,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().assignObjectPid(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -127,7 +119,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(contentRelation);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -146,7 +138,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -166,7 +158,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -190,7 +182,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, context);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -213,7 +205,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().lock(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -236,7 +228,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().unlock(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -259,7 +251,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().release(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -281,7 +273,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().revise(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -304,7 +296,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().submit(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -357,7 +349,7 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveContentRelations(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -373,14 +365,14 @@ public class SoapContentRelationHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                ContentRelationHandlerServiceLocator serviceLocator =
+                final ContentRelationHandlerServiceLocator serviceLocator =
                     new ContentRelationHandlerServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getContentRelationHandlerServiceAddress());
+                final URL url = getHandlerServiceURL(serviceLocator.getContentRelationHandlerServiceAddress());
                 soapClient = serviceLocator.getContentRelationHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;

@@ -59,14 +59,6 @@ public class SoapItemHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapItemHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -101,7 +93,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(item);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -120,7 +112,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -140,7 +132,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -164,7 +156,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, item);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -187,7 +179,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().release(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -209,7 +201,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().revise(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -232,7 +224,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().submit(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -255,7 +247,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().withdraw(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -279,7 +271,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().assignVersionPid(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -303,7 +295,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().assignObjectPid(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -328,7 +320,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().assignContentPid(id, componentId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -365,7 +357,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveItems(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -407,7 +399,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveRelations(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -429,7 +421,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveVersionHistory(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -452,7 +444,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().lock(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -475,7 +467,7 @@ public class SoapItemHandlerClient extends SoapClientBase {
         try {
             result = getClient().unlock(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -491,13 +483,13 @@ public class SoapItemHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                ItemHandlerServiceLocator serviceLocator = new ItemHandlerServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getItemHandlerServiceAddress());
+                final ItemHandlerServiceLocator serviceLocator = new ItemHandlerServiceLocator(getEngineConfig());
+                final URL url = getHandlerServiceURL(serviceLocator.getItemHandlerServiceAddress());
                 soapClient = serviceLocator.getItemHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;

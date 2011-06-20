@@ -27,13 +27,6 @@ public class SoapReportHandlerClient extends SoapClientBase {
     private ReportHandler client;
 
     /**
-     * @throws InternalClientException
-     */
-    public SoapReportHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -69,7 +62,7 @@ public class SoapReportHandlerClient extends SoapClientBase {
         try {
             resultXml = getClient().retrieve(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -83,12 +76,12 @@ public class SoapReportHandlerClient extends SoapClientBase {
     @Override
     public ReportHandler getClient() throws InternalClientException {
         if (client == null) {
-            ReportHandlerServiceLocator serviceLocator = new ReportHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getReportHandlerServiceAddress());
+            final ReportHandlerServiceLocator serviceLocator = new ReportHandlerServiceLocator(getEngineConfig());
+            final URL url = getHandlerServiceURL(serviceLocator.getReportHandlerServiceAddress());
             try {
                 client = serviceLocator.getReportHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(client);

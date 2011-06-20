@@ -31,13 +31,6 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
     private AggregationDefinitionHandler client;
 
     /**
-     * @throws InternalClientException
-     */
-    public SoapAggregationDefinitionHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -72,7 +65,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -94,7 +87,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         try {
             resultXml = getClient().create(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -116,7 +109,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         try {
             resultXml = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -164,7 +157,7 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
         try {
             resultXml = getClient().retrieveAggregationDefinitions(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -178,13 +171,13 @@ public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
     @Override
     public AggregationDefinitionHandler getClient() throws InternalClientException {
         if (client == null) {
-            AggregationDefinitionHandlerServiceLocator serviceLocator =
+            final AggregationDefinitionHandlerServiceLocator serviceLocator =
                 new AggregationDefinitionHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getAggregationDefinitionHandlerServiceAddress());
+            final URL url = getHandlerServiceURL(serviceLocator.getAggregationDefinitionHandlerServiceAddress());
             try {
                 client = serviceLocator.getAggregationDefinitionHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(client);

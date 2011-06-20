@@ -28,14 +28,6 @@ public class SoapAdminHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapAdminHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAdress
      * @throws InternalClientException
      */
@@ -69,7 +61,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         try {
             return getClient().deleteObjects(taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -86,7 +78,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         try {
             return getClient().getPurgeStatus();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -103,7 +95,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         try {
             return getClient().getReindexStatus();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -123,7 +115,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         try {
             return getClient().reindex(clearIndex ? "true" : "false", indexNamePrefix);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -140,7 +132,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         try {
             return getClient().getRepositoryInfo();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -159,7 +151,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         try {
             return getClient().loadExamples(exampleSet);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -176,7 +168,7 @@ public class SoapAdminHandlerClient extends SoapClientBase {
         try {
             return getClient().getIndexConfiguration();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return null;
@@ -191,13 +183,13 @@ public class SoapAdminHandlerClient extends SoapClientBase {
     public AdminHandler getClient() throws InternalClientException {
         try {
             if (soapClient == null) {
-                AdminHandlerServiceLocator serviceLocator = new AdminHandlerServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getAdminHandlerServiceAddress());
+                final AdminHandlerServiceLocator serviceLocator = new AdminHandlerServiceLocator(getEngineConfig());
+                final URL url = getHandlerServiceURL(serviceLocator.getAdminHandlerServiceAddress());
                 soapClient = serviceLocator.getAdminHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;

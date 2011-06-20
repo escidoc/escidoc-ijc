@@ -56,14 +56,6 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapPolicyDecisionPointHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -98,7 +90,7 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
         try {
             result = getClient().evaluate(requestsXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -114,14 +106,14 @@ public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                PolicyDecisionPointServiceLocator serviceLocator =
+                final PolicyDecisionPointServiceLocator serviceLocator =
                     new PolicyDecisionPointServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getPolicyDecisionPointServiceAddress());
+                final URL url = getHandlerServiceURL(serviceLocator.getPolicyDecisionPointServiceAddress());
                 soapClient = serviceLocator.getPolicyDecisionPointService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;

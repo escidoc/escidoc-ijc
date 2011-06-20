@@ -68,14 +68,6 @@ public class SoapSearchHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapSearchHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -117,7 +109,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
             result = getExplainClient(database).explainOperation(request);
 
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -144,7 +136,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         try {
             result = getSearchClient(database).searchRetrieveOperation(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -170,7 +162,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         try {
             result = getSearchClient(database).scanOperation(request);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -187,9 +179,9 @@ public class SoapSearchHandlerClient extends SoapClientBase {
     public ExplainPort getExplainClient(final String database) throws InternalClientException {
         try {
             if (explainSoapClient == null) {
-                SRWSampleServiceLocator service = new SRWSampleServiceLocator();
+                final SRWSampleServiceLocator service = new SRWSampleServiceLocator();
                 if (database != null) {
-                    URL url = getHandlerServiceURL(service.getExplainSOAPAddress(), database);
+                    final URL url = getHandlerServiceURL(service.getExplainSOAPAddress(), database);
                     explainSoapClient = service.getExplainSOAP(url);
                 }
                 else {
@@ -198,7 +190,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
                 registerPWCallback(explainSoapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return explainSoapClient;
@@ -215,7 +207,7 @@ public class SoapSearchHandlerClient extends SoapClientBase {
     public SRWPort getSearchClient(final String database) throws InternalClientException {
 
         if (searchSoapClient == null) {
-            SRWSampleServiceLocator service = new SRWSampleServiceLocator();
+            final SRWSampleServiceLocator service = new SRWSampleServiceLocator();
 
             String db = database;
             if (db == null) {
@@ -226,11 +218,11 @@ public class SoapSearchHandlerClient extends SoapClientBase {
                     searchSoapClient = service.getSRW();
                 }
                 else {
-                    URL url = getHandlerServiceURL(service.getSRWAddress(), db);
+                    final URL url = getHandlerServiceURL(service.getSRWAddress(), db);
                     searchSoapClient = service.getSRW(url);
                 }
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(searchSoapClient);
@@ -253,17 +245,17 @@ public class SoapSearchHandlerClient extends SoapClientBase {
         try {
             url = new URL(handlerServiceAddress);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
             throw new InternalClientException(e);
         }
         String path = url.getFile();
 
-        int index = path.lastIndexOf('/');
+        final int index = path.lastIndexOf('/');
         path = path.substring(0, index + 1);
         try {
             url = new URL(getServiceAddress() + path + database);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
             throw new InternalClientException(e);
         }
         return url;

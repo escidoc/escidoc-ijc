@@ -56,14 +56,6 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapUserManagementWrapperClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -94,7 +86,7 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
         try {
             getClient().logout();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -109,14 +101,14 @@ public class SoapUserManagementWrapperClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                UserManagementWrapperServiceLocator serviceLocator =
+                final UserManagementWrapperServiceLocator serviceLocator =
                     new UserManagementWrapperServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getUserManagementWrapperServiceAddress());
+                final URL url = getHandlerServiceURL(serviceLocator.getUserManagementWrapperServiceAddress());
                 soapClient = serviceLocator.getUserManagementWrapperService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;

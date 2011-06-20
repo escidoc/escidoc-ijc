@@ -60,14 +60,6 @@ public class SoapContextHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapContextHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -103,7 +95,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(context);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -122,7 +114,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -142,7 +134,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -166,7 +158,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, context);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -187,7 +179,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().open(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -208,7 +200,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().close(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -230,7 +222,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveAdminDescriptor(id, name);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -251,7 +243,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveAdminDescriptors(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -304,7 +296,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveContexts(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -343,7 +335,7 @@ public class SoapContextHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveMembers(id, filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -374,12 +366,12 @@ public class SoapContextHandlerClient extends SoapClientBase {
     public ContextHandler getClient() throws InternalClientException {
 
         if (soapClient == null) {
-            ContextHandlerServiceLocator serviceLocator = new ContextHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getContextHandlerServiceAddress());
+            final ContextHandlerServiceLocator serviceLocator = new ContextHandlerServiceLocator(getEngineConfig());
+            final URL url = getHandlerServiceURL(serviceLocator.getContextHandlerServiceAddress());
             try {
                 soapClient = serviceLocator.getContextHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(soapClient);

@@ -33,14 +33,6 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapReportDefinitionHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -76,7 +68,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -98,7 +90,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         try {
             resultXml = getClient().create(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -125,7 +117,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         try {
             resultXml = getClient().update(id, xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -148,7 +140,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         try {
             xml = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return xml;
@@ -169,7 +161,7 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveReportDefinitions(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -214,13 +206,13 @@ public class SoapReportDefinitionHandlerClient extends SoapClientBase {
     public ReportDefinitionHandler getClient() throws InternalClientException {
 
         if (client == null) {
-            ReportDefinitionHandlerServiceLocator serviceLocator =
+            final ReportDefinitionHandlerServiceLocator serviceLocator =
                 new ReportDefinitionHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getReportDefinitionHandlerServiceAddress());
+            final URL url = getHandlerServiceURL(serviceLocator.getReportDefinitionHandlerServiceAddress());
             try {
                 client = serviceLocator.getReportDefinitionHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(client);

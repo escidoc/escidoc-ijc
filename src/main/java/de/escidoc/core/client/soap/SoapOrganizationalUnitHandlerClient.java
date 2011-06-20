@@ -59,14 +59,6 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapOrganizationalUnitHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -106,7 +98,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(organizationalUnit);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -128,7 +120,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -151,7 +143,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -178,7 +170,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, organizationalUnit);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -214,7 +206,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().updateParents(ouId, xmlOfParents);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -274,7 +266,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveChildObjects(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -310,7 +302,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveOrganizationalUnits(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -359,7 +351,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveParentObjects(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -392,7 +384,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveParents(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -429,7 +421,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrievePathList(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -463,7 +455,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveSuccessors(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -490,7 +482,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().open(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -517,7 +509,7 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
         try {
             result = getClient().close(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -533,14 +525,14 @@ public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                OrganizationalUnitHandlerServiceLocator serviceLocator =
+                final OrganizationalUnitHandlerServiceLocator serviceLocator =
                     new OrganizationalUnitHandlerServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getOrganizationalUnitHandlerServiceAddress());
+                final URL url = getHandlerServiceURL(serviceLocator.getOrganizationalUnitHandlerServiceAddress());
                 soapClient = serviceLocator.getOrganizationalUnitHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;

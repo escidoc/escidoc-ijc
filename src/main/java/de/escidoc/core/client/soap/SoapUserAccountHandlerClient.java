@@ -60,14 +60,6 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapUserAccountHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -103,7 +95,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(userAccount);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -122,7 +114,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -142,7 +134,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -166,7 +158,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, userAccount);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -188,7 +180,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             getClient().updatePassword(userId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -207,7 +199,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             getClient().activate(userId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -226,7 +218,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             getClient().deactivate(userId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -245,7 +237,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveCurrentUser();
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -268,7 +260,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveCurrentGrants(userId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -291,7 +283,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveGrant(userId, grantId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -317,7 +309,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().createPreference(id, preferenceXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -341,7 +333,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrievePreferences(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -367,7 +359,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrievePreference(id, key);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -395,7 +387,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().updatePreference(id, key, value);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -421,7 +413,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().updatePreferences(id, preferencesXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -446,7 +438,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             getClient().deletePreference(id, key);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -471,7 +463,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().createAttribute(id, attributeXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -495,7 +487,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveAttributes(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -521,7 +513,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveAttribute(id, attributeId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -549,7 +541,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().updateAttribute(id, attributeId, value);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -597,7 +589,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             getClient().deleteAttribute(id, attributeId);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -623,7 +615,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveNamedAttributes(id, attributeName);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -660,7 +652,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveUserAccounts(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -701,7 +693,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().createGrant(id, grantXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -725,7 +717,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             getClient().revokeGrant(id, grantId, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -777,7 +769,7 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveGrants(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -791,12 +783,13 @@ public class SoapUserAccountHandlerClient extends SoapClientBase {
     @Override
     public UserAccountHandler getClient() throws InternalClientException {
         if (soapClient == null) {
-            UserAccountHandlerServiceLocator serviceLocator = new UserAccountHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getUserAccountHandlerServiceAddress());
+            final UserAccountHandlerServiceLocator serviceLocator =
+                new UserAccountHandlerServiceLocator(getEngineConfig());
+            final URL url = getHandlerServiceURL(serviceLocator.getUserAccountHandlerServiceAddress());
             try {
                 soapClient = serviceLocator.getUserAccountHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(soapClient);

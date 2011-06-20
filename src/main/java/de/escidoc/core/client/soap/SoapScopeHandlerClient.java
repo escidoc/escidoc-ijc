@@ -32,14 +32,6 @@ public class SoapScopeHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapScopeHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -74,7 +66,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -95,7 +87,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -121,7 +113,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -143,7 +135,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -177,7 +169,7 @@ public class SoapScopeHandlerClient extends SoapClientBase {
         try {
             resultXml = getClient().retrieveScopes(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return resultXml;
@@ -205,12 +197,12 @@ public class SoapScopeHandlerClient extends SoapClientBase {
     @Override
     public ScopeHandler getClient() throws InternalClientException {
         if (client == null) {
-            ScopeHandlerServiceLocator serviceLocator = new ScopeHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getScopeHandlerServiceAddress());
+            final ScopeHandlerServiceLocator serviceLocator = new ScopeHandlerServiceLocator(getEngineConfig());
+            final URL url = getHandlerServiceURL(serviceLocator.getScopeHandlerServiceAddress());
             try {
                 client = serviceLocator.getScopeHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(client);

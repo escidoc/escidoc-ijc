@@ -59,14 +59,6 @@ public class SoapRoleHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapRoleHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -101,7 +93,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(context);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -120,7 +112,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -131,7 +123,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -167,7 +159,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveRoles(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -206,7 +198,7 @@ public class SoapRoleHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, context);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -220,12 +212,12 @@ public class SoapRoleHandlerClient extends SoapClientBase {
     @Override
     public RoleHandler getClient() throws InternalClientException {
         if (soapClient == null) {
-            RoleHandlerServiceLocator serviceLocator = new RoleHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getRoleHandlerServiceAddress());
+            final RoleHandlerServiceLocator serviceLocator = new RoleHandlerServiceLocator(getEngineConfig());
+            final URL url = getHandlerServiceURL(serviceLocator.getRoleHandlerServiceAddress());
             try {
                 soapClient = serviceLocator.getRoleHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(soapClient);

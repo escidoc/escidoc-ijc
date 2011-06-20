@@ -28,14 +28,6 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapStatisticDataHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -71,7 +63,7 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
         try {
             getClient().create(xml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -84,13 +76,13 @@ public class SoapStatisticDataHandlerClient extends SoapClientBase {
     @Override
     public StatisticDataHandler getClient() throws InternalClientException {
         if (client == null) {
-            StatisticDataHandlerServiceLocator serviceLocator =
+            final StatisticDataHandlerServiceLocator serviceLocator =
                 new StatisticDataHandlerServiceLocator(getEngineConfig());
-            URL url = getHandlerServiceURL(serviceLocator.getStatisticDataHandlerServiceAddress());
+            final URL url = getHandlerServiceURL(serviceLocator.getStatisticDataHandlerServiceAddress());
             try {
                 client = serviceLocator.getStatisticDataHandlerService(url);
             }
-            catch (ServiceException e) {
+            catch (final ServiceException e) {
                 throw new InternalClientException(e.getMessage(), e);
             }
             registerPWCallback(client);

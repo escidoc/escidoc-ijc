@@ -38,16 +38,6 @@ public abstract class SoapClientBase extends ClientBase implements CallbackHandl
     private final Logger LOG = Logger.getLogger(SoapClientBase.class);
 
     /**
-     * Create an instance of client base using the default constructor.
-     * 
-     * @throws InternalClientException
-     *             Thrown in case of client internal errors.
-     */
-    public SoapClientBase() throws InternalClientException {
-        super();
-    }
-
-    /**
      * Create ClientBase.
      * 
      * @param serviceAddress
@@ -121,11 +111,11 @@ public abstract class SoapClientBase extends ClientBase implements CallbackHandl
     @Override
     public void handle(final Callback[] callbacks) throws IOException, UnsupportedCallbackException {
 
-        String handle = getHandle();
+        final String handle = getHandle();
 
-        for (Callback callback : callbacks) {
+        for (final Callback callback : callbacks) {
             if (callback instanceof WSPasswordCallback) {
-                WSPasswordCallback pc = (WSPasswordCallback) callback;
+                final WSPasswordCallback pc = (WSPasswordCallback) callback;
                 if (ESCIDOC_USER.equals(pc.getIdentifier())) {
                     pc.setPassword(handle == null ? "" : handle);
                 }
@@ -149,16 +139,16 @@ public abstract class SoapClientBase extends ClientBase implements CallbackHandl
         try {
             url = new URL(address);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
             throw new InternalClientException(e);
         }
-        String path = url.getFile();
+        final String path = url.getFile();
         address = getServiceAddress() + path;
 
         try {
             url = new URL(handlerServiceAddress);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
             throw new InternalClientException(e);
         }
         return url;
@@ -174,7 +164,7 @@ public abstract class SoapClientBase extends ClientBase implements CallbackHandl
      */
     protected void registerPWCallback(final Remote remoteService) throws InternalClientException {
         if (remoteService instanceof Stub) {
-            Stub stub = (Stub) remoteService;
+            final Stub stub = (Stub) remoteService;
 
             stub._setProperty(WSHandlerConstants.PW_CALLBACK_REF, this);
             stub._setProperty(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);

@@ -59,14 +59,6 @@ public class SoapContainerHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapContainerHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -102,7 +94,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().create(container);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -121,7 +113,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             getClient().delete(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
     }
@@ -141,7 +133,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieve(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -165,7 +157,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().update(id, container);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -188,7 +180,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().release(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -210,7 +202,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().revise(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -233,7 +225,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().submit(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -256,7 +248,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().withdraw(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -280,7 +272,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().assignVersionPid(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -304,7 +296,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().assignObjectPid(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -326,7 +318,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveVersionHistory(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -349,7 +341,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().lock(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -372,7 +364,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().unlock(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -393,7 +385,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveStructMap(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -415,7 +407,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().addContentRelations(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -437,7 +429,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().removeContentRelations(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -459,7 +451,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().addMembers(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -481,7 +473,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().removeMembers(id, taskParam);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -503,7 +495,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().createContainer(id, itemXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -525,7 +517,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().createItem(id, itemXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -579,7 +571,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveContainers(filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -606,7 +598,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveRelations(id);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -656,7 +648,7 @@ public class SoapContainerHandlerClient extends SoapClientBase {
         try {
             result = getClient().retrieveMembers(contextId, filter);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -674,13 +666,14 @@ public class SoapContainerHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                ContainerHandlerServiceLocator serviceLocator = new ContainerHandlerServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getContainerHandlerServiceAddress());
+                final ContainerHandlerServiceLocator serviceLocator =
+                    new ContainerHandlerServiceLocator(getEngineConfig());
+                final URL url = getHandlerServiceURL(serviceLocator.getContainerHandlerServiceAddress());
                 soapClient = serviceLocator.getContainerHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;

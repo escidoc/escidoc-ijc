@@ -55,14 +55,6 @@ public class SoapIngestHandlerClient extends SoapClientBase {
 
     /**
      * 
-     * @throws InternalClientException
-     */
-    public SoapIngestHandlerClient() throws InternalClientException {
-        super();
-    }
-
-    /**
-     * 
      * @param serviceAddress
      * @throws InternalClientException
      */
@@ -97,7 +89,7 @@ public class SoapIngestHandlerClient extends SoapClientBase {
         try {
             result = getClient().ingest(resourceXml);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             ExceptionMapper.map(e, LOG);
         }
         return result;
@@ -113,13 +105,13 @@ public class SoapIngestHandlerClient extends SoapClientBase {
 
         try {
             if (soapClient == null) {
-                IngestHandlerServiceLocator serviceLocator = new IngestHandlerServiceLocator(getEngineConfig());
-                URL url = getHandlerServiceURL(serviceLocator.getIngestHandlerServiceAddress());
+                final IngestHandlerServiceLocator serviceLocator = new IngestHandlerServiceLocator(getEngineConfig());
+                final URL url = getHandlerServiceURL(serviceLocator.getIngestHandlerServiceAddress());
                 soapClient = serviceLocator.getIngestHandlerService(url);
                 registerPWCallback(soapClient);
             }
         }
-        catch (ServiceException e) {
+        catch (final ServiceException e) {
             throw new InternalClientException(e.getMessage(), e);
         }
         return soapClient;
