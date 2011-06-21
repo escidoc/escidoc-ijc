@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1" prefix="escidocContentRelation"/>
+	<namespace uri="http://escidoc.de/core/01/properties/" prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+  <namespace uri="http://escidoc.de/core/01/properties/version/" prefix="version"/>
+  <namespace uri="http://escidoc.de/core/01/properties/release/" prefix="release"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.om.contentRelation.ContentRelationProperties"
+    abstract="true" type-name="om.content-relation.properties">
+
+    <structure map-as="de.escidoc.core.resources.XLinkResource"/>
+
+   <value name="creation-date" usage="optional"
+      ns="http://escidoc.de/core/01/properties/" 
+      set-method="setCreationDate" get-method="getCreationDate" />
+
+    <structure name="created-by" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/"
+      set-method="setCreatedBy" get-method="getCreatedBy"/>
+
+    <structure name="modified-by" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/"
+      set-method="setModifiedBy" get-method="getModifiedBy"/>
+
+    <value name="description" usage="optional"
+      ns="http://escidoc.de/core/01/properties/" 
+      set-method="setDescription" get-method="getDescription"/>
+
+    <value name="public-status" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      field="publicStatus" enum-value-method="getXmlValue"/>
+
+    <value name="public-status-comment" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      field="publicStatusComment"/>
+
+    <value name="lock-status" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      field="lockStatus" enum-value-method="getXmlValue"/>
+      
+    <value name="lock-date" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setLockDate" get-method="getLockDate"/>
+        
+    <structure name="lock-owner" usage="optional"
+      ns="http://escidoc.de/core/01/structural-relations/"
+      set-method="setLockOwner" get-method="getLockOwner"/>
+
+    <value name="pid" usage="optional"
+      ns="http://escidoc.de/core/01/properties/"
+      set-method="setPid" get-method="getPid"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="properties" ns="http://www.escidoc.de/schemas/content-relation/0.1"
+    class="de.escidoc.core.resources.om.contentRelation.ContentRelationProperties">
+    <structure map-as="om.content-relation.properties"/>
+  </mapping>
+
+</binding>

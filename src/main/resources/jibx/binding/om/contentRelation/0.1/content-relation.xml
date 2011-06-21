@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/content-relation/0.1" prefix="escidocContentRelation" />
+  <namespace uri="http://escidoc.de/core/01/properties/" prefix="prop" />
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel" />
+  <namespace uri="http://escidoc.de/core/01/properties/version/" prefix="version"/>
+  <namespace uri="http://escidoc.de/core/01/properties/release/" prefix="release"/>
+  <namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5" prefix="escidocMetadataRecords" />
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.om.contentRelation.ContentRelation"
+    abstract="true" type-name="om.content-relation"
+    post-set="generateXLinkHref">
+
+    <structure map-as="de.escidoc.core.resources.GenericResource"/>
+
+    <structure field="properties" usage="optional"/>
+
+    <value name="type" usage="optional"
+       ns="http://www.escidoc.de/schemas/content-relation/0.1"
+       field="type"/>
+
+    <structure name="subject" usage="optional"
+      ns="http://www.escidoc.de/schemas/content-relation/0.1"
+      field="subject"/>
+
+    <structure name="object" usage="optional"
+      ns="http://www.escidoc.de/schemas/content-relation/0.1"
+      field="object"/>
+    
+    <structure field="mdRecords" usage="optional"/>
+    
+    <structure name="resources" usage="optional"
+      ns="http://www.escidoc.de/schemas/content-relation/0.1"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="content-relation" ns="http://www.escidoc.de/schemas/content-relation/0.1" 
+    class="de.escidoc.core.resources.om.contentRelation.ContentRelation">
+    <structure map-as="om.content-relation" />
+  </mapping>
+
+</binding>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding direction="output">
+
+  <!-- NAMESPACES -->
+  <!-- none -->
+
+  <!-- ABSTRACT MAPPINGS -->
+  <!-- identifier -->
+  <mapping class="de.escidoc.core.resources.Resource$Identifier"
+    abstract="true">
+    
+    <value name="objid" style="attribute" set-method="setObjid"
+      get-method="getObjid" usage="optional"/>
+  </mapping>
+  
+  <!-- resource -->
+  <mapping class="de.escidoc.core.resources.Resource" abstract="true"
+    post-set="validateIdentifier">
+    
+    <structure field="identifier" usage="optional"
+      type="de.escidoc.core.resources.Resource$Identifier"/>
+  </mapping>
+  
+  <!-- CONCRETE MAPPINGS -->
+  <!-- none -->
+  
+</binding>

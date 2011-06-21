@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sd:statistic-record xmlns:sd="http://www.escidoc.de/schemas/statistic-data/0.3"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sd:scope objid="escidoc:12234"/>
+  <sd:parameter name="datetest">
+    <sd:datevalue>2011-02-09T16:05:07.585Z</sd:datevalue>
+  </sd:parameter>
+  <sd:parameter name="stringtest">
+    <sd:stringvalue>Foo Bar</sd:stringvalue>
+  </sd:parameter>
+  <sd:parameter name="decimaltest">
+    <sd:decimalvalue>3.14</sd:decimalvalue>
+  </sd:parameter>
+</sd:statistic-record>

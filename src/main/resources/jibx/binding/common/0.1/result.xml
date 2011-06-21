@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.escidoc.de/schemas/result/0.1" prefix="result"/>
+  
+  <!-- ABSTRACT MAPPINGS -->
+  <!-- none -->
+  
+  <!-- CONCRETE MAPPINGS -->
+  <mapping name="result" ns="http://www.escidoc.de/schemas/result/0.1"
+		class="de.escidoc.core.resources.common.Result">
+	
+		<value name="last-modification-date" style="attribute" usage="optional"
+			set-method="setLastModificationDate" get-method="getLastModificationDate"/>
+			
+		<collection create-type="de.escidoc.core.resources.common.Result"
+		  item-type="org.w3c.dom.Element">
+			<structure marshaller="org.jibx.extras.DomElementMapper"
+				unmarshaller="org.jibx.extras.DomElementMapper"/>
+		</collection>
+	</mapping>
+</binding>

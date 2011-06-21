@@ -1,0 +1,56 @@
+<binding>
+  <!-- searchRetrieveResponse mapping -->
+  <mapping name="searchRetrieveResponse" ns="http://www.loc.gov/zing/srw/"
+    class="de.escidoc.core.resources.sb.search.SearchRetrieveResponse"
+    extends="de.escidoc.core.resources.sb.Response">
+
+    <namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" default="all"/>
+
+    <!-- map abstract structure -->
+    <structure map-as="de.escidoc.core.resources.sb.Response"/>
+    
+    <value name="numberOfRecords" field="numberOfRecords"/>
+    <value name="resultSetId" field="resultSetId" usage="optional"/>
+    <value name="resultSetIdleTime" field="resultSetIdleTime" usage="optional"/>
+    
+    
+    <structure name="records" usage="optional">
+      <collection field="records" create-type="java.util.LinkedList" 
+        item-type="de.escidoc.core.resources.sb.search.SearchResultRecord">
+        
+        <structure name="record" usage="optional"/>
+      </collection>
+    </structure>
+    
+    <value name="nextRecordPosition" field="nextRecordPosition" usage="optional"/>
+    <!-- TODO -->
+    <structure name="echoedSearchRetrieveRequest" usage="optional"/>
+    <structure name="diagnostics" usage="optional"/>
+    <structure name="extraResponseData" usage="optional"/>    
+  </mapping>
+  
+  <!-- Mapping for the record tag using the specific SearchResultRecordRecord 
+       class since we will always retrieve the search-retrieve-record tag as 
+       the content of the recordData tag -->
+  <mapping abstract="true" ns="http://www.loc.gov/zing/srw/" 
+    class="de.escidoc.core.resources.sb.search.SearchResultRecord">
+    
+    <namespace uri="http://www.loc.gov/zing/srw/" prefix="zs" default="all"/>
+    <namespace uri="http://www.escidoc.de/schemas/searchresult/0.8" prefix="search-result"/>
+    
+    <value name="recordSchema" field="recordSchema"/>
+    <value name="recordPacking" field="recordPacking"
+      format="RecordPacking.default"/>
+    
+    <structure name="recordData" field="recordData"
+      marshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"
+      unmarshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"/>
+      
+    <value name="recordPosition" field="recordPosition"/>
+    <!-- TODO -->
+    <structure name="extraRecordData" usage="optional"/>
+    <!--    <structure name="extraRecordData" type=""/>-->
+    
+  </mapping>
+  
+</binding>

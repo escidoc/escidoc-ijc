@@ -1,0 +1,376 @@
+<binding>
+	<!--  SOAP Binding -->
+
+	<!-- start: binding of a single item -->
+	<mapping name="item" ns="http://www.escidoc.de/schemas/item/0.7"
+		class="de.escidoc.core.resources.om.item.Item">
+		<namespace uri="http://www.escidoc.de/schemas/item/0.7"
+			prefix="escidocItem" />
+		<structure map-as="abstract-item" />
+	</mapping>
+	<!-- end: binding of a single item -->
+
+	<!-- start: binding of an item list -->
+	<mapping ns="http://www.escidoc.de/schemas/itemlist/0.7"
+		name="item-list" class="de.escidoc.core.resources.om.item.ItemList">
+		<namespace uri="http://www.escidoc.de/schemas/itemlist/0.7"
+			prefix="il" />
+		<namespace uri="http://www.escidoc.de/schemas/item/0.7"
+			prefix="escidocItem" />
+		<collection field="items"
+			factory="de.escidoc.core.resources.om.item.ItemList.itemsFactory">
+			<structure name="item"
+				ns="http://www.escidoc.de/schemas/item/0.7"
+				type="de.escidoc.core.resources.om.item.Item">
+				<structure map-as="abstract-item" />
+			</structure>
+		</collection>
+	</mapping>
+	<!-- end: binding of an item list -->
+
+	<!-- start: abstract binding of a single item -->
+	<mapping ns="http://www.escidoc.de/schemas/item/0.7"
+		class="de.escidoc.core.resources.om.item.Item" abstract="true"
+		type-name="abstract-item">
+		<namespace uri="http://www.escidoc.de/schemas/item/0.7"
+			prefix="escidocItem" />
+		<namespace uri="http://escidoc.de/core/01/properties/"
+			prefix="prop" />
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+		<namespace uri="http://escidoc.de/core/01/properties/version/"
+			prefix="version" />
+		<namespace uri="http://escidoc.de/core/01/properties/release/"
+			prefix="release" />
+		<namespace uri="http://www.escidoc.de/schemas/relations/0.3"
+			prefix="relations" />
+		<namespace
+			uri="http://www.escidoc.de/schemas/contentstreams/0.6"
+			prefix="contentStreams" />
+		<namespace
+			uri="http://www.escidoc.de/schemas/metadatarecords/0.4"
+			prefix="escidocMetadataRecords" />
+		<namespace uri="http://www.escidoc.de/schemas/components/0.7"
+			prefix="escidocComponents" />
+
+		<namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+		<!-- *****************************************
+			Root attributes 
+			****************************************** -->
+		<value name="objid" style="attribute" set-method="setObjid"
+			get-method="getObjid" usage="optional" />
+
+		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+			set-method="setLastModificationDate"
+			get-method="getLastModificationDate" usage="optional" />
+
+
+		<!-- *****************************************
+			Properties 
+			****************************************** -->
+		<structure ns="http://www.escidoc.de/schemas/item/0.7"
+			name="properties" field="properties" usage="optional">
+			<structure map-as="item-properties" usage="optional" />
+		</structure>
+
+
+		<!-- *****************************************
+			MD-Records 
+			****************************************** -->
+		<structure
+			ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
+			name="md-records"
+			type="de.escidoc.core.resources.common.MetadataRecords"
+			field="mdRecords" usage="optional">
+			<structure map-as="abstract-md-records" usage="optional" />
+		</structure>		
+		<!-- *****************************************
+			Content-Streams
+			****************************************** -->
+		<!--  structure ns="http://www.escidoc.de/schemas/contentstreams/0.6"
+			name="content-streams"
+			type="de.escidoc.core.resources.common.ContentStreams"
+			field="contentStreams" usage="optional">
+			
+			<collection
+			ns="http://www.escidoc.de/schemas/contentstreams/0.6"
+			field="contentStreams"
+			factory="de.escidoc.core.resources.common.ContentStreams.contentStreamsFactory"
+			usage="optional">
+			<structure
+			ns="http://www.escidoc.de/schemas/contentstreams/0.6"
+			name="content-stream"
+			class="de.escidoc.core.resources.common.ContentStream"
+			marshaller="de.escidoc.core.common.jibx.binding.ContentStream"
+			unmarshaller="de.escidoc.core.common.jibx.binding.ContentStream"
+			usage="optional" />
+			</collection>
+			</structure -->
+
+		<!-- *****************************************
+			Components 
+			****************************************** -->
+		<structure ns="http://www.escidoc.de/schemas/components/0.7"
+			name="components"
+			type="de.escidoc.core.resources.om.item.component.Components"
+			field="components" usage="optional">
+
+			<collection
+				ns="http://www.escidoc.de/schemas/components/0.7" field="components"
+				factory="de.escidoc.core.resources.om.item.component.Components.componentsFactory">
+				<structure
+					ns="http://www.escidoc.de/schemas/components/0.7" name="component"
+					type="de.escidoc.core.resources.om.item.component.Component">
+
+					<value name="objid" style="attribute"
+						set-method="setObjid" get-method="getObjid" usage="optional" />
+
+					<structure
+						ns="http://www.escidoc.de/schemas/components/0.7"
+						name="properties" field="properties" usage="optional"
+						type="de.escidoc.core.resources.om.item.component.ComponentProperties">
+
+						<value
+							ns="http://escidoc.de/core/01/properties/" name="creation-date" type="org.joda.time.DateTime"
+							usage="optional" set-method="setCreationDate"
+							get-method="getCreationDate" />
+
+						<structure
+							ns="http://escidoc.de/core/01/structural-relations/"
+							name="created-by" field="createdBy" usage="optional">
+
+							<value name="objid" style="attribute"
+								set-method="setObjid" get-method="getObjid" usage="optional" />
+						</structure>
+
+						<value
+							ns="http://escidoc.de/core/01/properties/" name="description"
+							field="description" usage="optional" />
+
+						<value
+							ns="http://escidoc.de/core/01/properties/" name="valid-status"
+							field="validStatus" usage="optional" />
+
+						<value
+							ns="http://escidoc.de/core/01/properties/" name="visibility"
+							field="visibility" usage="optional" />
+
+						<value
+							ns="http://escidoc.de/core/01/properties/"
+							name="content-category" field="contentCategory" usage="optional" />
+						<value
+							ns="http://escidoc.de/core/01/properties/" name="file-name"
+							field="fileName" usage="optional" />
+						<value
+							ns="http://escidoc.de/core/01/properties/" name="mime-type"
+							field="mimeType" usage="optional" />
+					</structure>
+					<structure
+						ns="http://www.escidoc.de/schemas/components/0.7" name="content"
+						type="de.escidoc.core.resources.om.item.component.ComponentContent" field="content"
+						usage="optional">
+						<value ns="http://www.w3.org/1999/xlink"
+							name="href" style="attribute" set-method="setHref"
+							get-method="getHref" usage="optional" />
+						<value ns="http://www.w3.org/1999/xlink"
+							name="title" style="attribute" set-method="setTitle"
+							get-method="getTitle" usage="optional" />
+						<value name="storage" style="attribute"
+							set-method="setStorage" get-method="getStorage" usage="optional" />
+						 <value field="base64EncodedContent" style="text"
+							set-method="setBase64EncodedContent" get-method="getBase64EncodedContent" usage="optional" />
+							
+					</structure>
+
+					<!-- *****************************************
+						MD-Records 
+						****************************************** -->
+					<structure
+						ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
+						name="md-records"
+						type="de.escidoc.core.resources.common.MetadataRecords"
+						field="mdRecords" usage="optional">
+						<structure map-as="abstract-md-records" />
+					</structure>
+					
+					<!-- <structure
+						ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
+						name="md-records"
+						type="de.escidoc.core.resources.common.MetadataRecords"
+						field="mdRecords" usage="optional">
+						
+						<collection
+						ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
+						field="mdRecords"
+						factory="de.escidoc.core.resources.common.MetadataRecords.mdRecordsFactory">
+						<structure
+						ns="http://www.escidoc.de/schemas/metadatarecords/0.4"
+						name="md-record"
+						class="de.escidoc.core.om.resources.common.MetadataRecord"
+						marshaller="de.escidoc.core.common.jibx.binding.MetadataRecord"
+						unmarshaller="de.escidoc.core.common.jibx.binding.MetadataRecord" />
+						</collection>
+						</structure> -->
+				</structure>
+			</collection>
+		</structure>
+		
+<!-- *****************************************
+			Relations 
+			****************************************** -->
+			<structure ns="http://www.escidoc.de/schemas/relations/0.3"
+			field="relations" type="de.escidoc.core.resources.common.Relations"
+			usage="optional" />
+	</mapping>
+	<!-- end: abstract binding of a single item -->
+
+	<!-- *****************************************
+		Properties binding definition
+		****************************************** -->
+	<mapping ns="http://escidoc.de/core/01/properties/"
+		class="de.escidoc.core.resources.om.item.ItemProperties"
+		abstract="true" type-name="item-properties">
+
+		<namespace uri="http://escidoc.de/core/01/properties/"
+			prefix="prop" />
+		<namespace uri="http://escidoc.de/core/01/structural-relations/"
+			prefix="srel" />
+		<namespace uri="http://escidoc.de/core/01/properties/version/"
+			prefix="version" />
+		<namespace uri="http://escidoc.de/core/01/properties/release/"
+			prefix="release" />
+
+		<value ns="http://escidoc.de/core/01/properties/" type="org.joda.time.DateTime"
+			name="creation-date" set-method="setCreationDate"
+			get-method="getCreationDate" usage="optional" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="created-by" field="createdBy" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+
+		<value ns="http://escidoc.de/core/01/properties/"
+			name="public-status" field="publicStatus" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/"
+			name="public-status-comment" field="publicStatusComment"
+			usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="name"
+			field="name" usage="optional" />
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="context" field="context" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+
+		<structure ns="http://escidoc.de/core/01/structural-relations/"
+			name="content-model" field="contentModel" usage="optional">
+			<value style="attribute" name="objid" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+		</structure>
+
+		<value ns="http://escidoc.de/core/01/properties/"
+			name="lock-status" field="lockStatus" usage="optional" />
+
+		<value ns="http://escidoc.de/core/01/properties/" name="pid"
+			set-method="setPid" get-method="getPid" usage="optional" />
+
+		<!-- *****************************************
+			Version 
+			****************************************** -->
+		<structure ns="http://escidoc.de/core/01/properties/"
+			name="version" field="version" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/version/"
+				name="number" get-method="getNumber" set-method="setNumber"
+				usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/version/" type="org.joda.time.DateTime"
+				name="date" set-method="setDate"
+				get-method="getDate" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/version/"
+				name="status" set-method="setStatus" get-method="getStatus"
+				usage="optional" />
+
+			<structure
+				ns="http://escidoc.de/core/01/structural-relations/"
+				name="modified-by" set-method="setModifiedBy"
+				get-method="getModifiedBy" usage="optional">
+
+				<value name="objid" style="attribute"
+					set-method="setObjid" get-method="getObjid" usage="optional" />
+			</structure>
+
+			<value ns="http://escidoc.de/core/01/properties/version/"
+				name="comment" set-method="setComment" get-method="getComment"
+				usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/version/"
+				name="pid" set-method="setPid" get-method="getPid" usage="optional" />
+		</structure>
+
+		<!-- *****************************************
+			Latest-Version 
+			****************************************** -->
+		<structure ns="http://escidoc.de/core/01/properties/"
+			name="latest-version" field="latestVersion" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/version/"
+				name="number" get-method="getNumber" set-method="setNumber"
+				usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/version/" type="org.joda.time.DateTime"
+				name="date" set-method="setDate"
+				get-method="getDate" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/release/"
+				name="pid" set-method="setPid" get-method="getPid" usage="optional" />
+		</structure>
+
+		<!-- *****************************************
+			Latest-Release 
+			****************************************** -->
+		<structure ns="http://escidoc.de/core/01/properties/"
+			name="latest-release" field="latestRelease" usage="optional">
+
+			<value name="objid" style="attribute" set-method="setObjid"
+				get-method="getObjid" usage="optional" />
+
+			<value ns="http://escidoc.de/core/01/properties/release/"
+				name="number" get-method="getNumber" set-method="setNumber"
+				usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/release/" type="org.joda.time.DateTime"
+				name="date" set-method="setDate"
+				get-method="getDate" usage="optional" />
+			<value ns="http://escidoc.de/core/01/properties/release/"
+				name="pid" set-method="setPid" get-method="getPid" usage="optional" />
+		</structure>
+
+		<!-- *****************************************
+			Content-Model specific 
+			****************************************** -->
+		<structure name="content-model-specific"
+			field="contentModelSpecific"
+			ns="http://escidoc.de/core/01/properties/"
+			type="de.escidoc.core.resources.common.properties.ContentModelSpecific"
+			usage="optional">
+			<structure field="content" type="java.util.List"
+				marshaller="org.jibx.extras.DomListMapper"
+				unmarshaller="org.jibx.extras.DomListMapper" usage="optional" />
+		</structure>
+		
+		
+	</mapping>
+	
+</binding>
+

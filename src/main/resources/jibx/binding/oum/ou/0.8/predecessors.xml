@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/organizationalunit/0.8" prefix="escidocOrganizationalUnit"/>
+	<namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- predecessors -->
+	<mapping class="de.escidoc.core.resources.oum.Predecessors"
+    abstract="true" type-name="oum.organizational-unit.predecessors">
+
+    <structure map-as="de.escidoc.core.resources.XLinkResourceList"/>
+
+    <collection create-type="de.escidoc.core.resources.oum.Predecessors"
+      item-type="de.escidoc.core.resources.oum.Predecessor"/>
+  </mapping>
+  
+  <!-- predecessor -->
+  <mapping class="de.escidoc.core.resources.oum.Predecessor"
+    abstract="true" type-name="oum.organizational-unit.predecessor">
+    
+    <structure map-as="de.escidoc.core.resources.common.reference.Reference"/>
+          
+    <value name="form" style="attribute" usage="optional"
+      set-method="setForm" get-method="getForm"
+      enum-value-method="getXmlValue"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- predecessors -->
+	<mapping name="predecessors"
+    ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
+    class="de.escidoc.core.resources.oum.Predecessors">
+    <structure map-as="oum.organizational-unit.predecessors"/>
+  </mapping>
+  
+  <!-- predecessor -->
+  <mapping name="predecessor"
+    ns="http://escidoc.de/core/01/structural-relations/"
+    class="de.escidoc.core.resources.oum.Predecessor">
+    <structure map-as="oum.organizational-unit.predecessor"/>
+  </mapping>
+
+</binding>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding name="SOAP_OUT" direction="output">
+  
+  <include path="common/abstract/soap/resource.out.xml"/>
+  <include path="common/abstract/soap/xlink-resource.out.xml"/>
+  <include path="common/abstract/soap/named-sub-resource.out.xml"/>
+  <include path="common/abstract/versionable-resource.xml"/>
+  <include path="common/abstract/generic-resource.xml"/>
+  <include path="common/abstract/reference.xml"/>
+  
+  <include path="modules.xml"/>
+</binding>

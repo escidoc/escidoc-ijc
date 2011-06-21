@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<escidocOrganizationalUnit:organizational-unit
+	xmlns:escidocOrganizationalUnit="http://www.escidoc.de/schemas/organizationalunit/0.8"
+	xmlns:prop="http://escidoc.de/core/01/properties/" xmlns:srel="http://escidoc.de/core/01/structural-relations/"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:escidocMetadataRecords="http://www.escidoc.de/schemas/metadatarecords/0.5"
+	xml:base="http://escidev6:8080" xlink:type="simple"
+	xlink:title="Generic Organizational Unit" xlink:href="/oum/organizational-unit/escidoc:56"
+	last-modification-date="2011-02-04T12:10:41.632Z">
+
+	<escidocOrganizationalUnit:properties
+		xlink:type="simple" xlink:title="Properties"
+		xlink:href="/oum/organizational-unit/escidoc:56/properties">
+		<prop:creation-date>2011-02-02T15:50:16.744Z</prop:creation-date>
+		<srel:created-by xlink:type="simple"
+			xlink:title="System Administrator User" xlink:href="/aa/user-account/escidoc:exuser1" />
+		<srel:modified-by xlink:type="simple"
+			xlink:title="System Administrator User" xlink:href="/aa/user-account/escidoc:exuser1" />
+		<prop:public-status>opened</prop:public-status>
+		<prop:public-status-comment>Opened Organizational Unit</prop:public-status-comment>
+		<prop:name>Generic Organizational Unit</prop:name>
+		<prop:description>Generic Organizational Unit Description</prop:description>
+		<prop:external-ids></prop:external-ids>
+		<prop:has-children>false</prop:has-children>
+	</escidocOrganizationalUnit:properties>
+
+	<escidocOrganizationalUnit:resources
+		xlink:type="simple" xlink:title="Virtual Resources"
+		xlink:href="/oum/organizational-unit/escidoc:56/resources">
+		<escidocOrganizationalUnit:parent-objects
+			xlink:type="simple" xlink:title="Parent Objects"
+			xlink:href="/oum/organizational-unit/escidoc:56/resources/parent-objects" />
+		<escidocOrganizationalUnit:child-objects
+			xlink:type="simple" xlink:title="Child Objects"
+			xlink:href="/oum/organizational-unit/escidoc:56/resources/child-objects" />
+		<escidocOrganizationalUnit:path-list
+			xlink:type="simple" xlink:title="Path-list"
+			xlink:href="/oum/organizational-unit/escidoc:56/resources/path-list" />
+		<escidocOrganizationalUnit:successor-objects
+			xlink:type="simple" xlink:title="Successors"
+			xlink:href="/oum/organizational-unit/escidoc:56/resources/successors" />
+		<escidocOrganizationalUnit:relations
+			xlink:type="simple" xlink:title="Content Relations related to this Organizational Unit"
+			xlink:href="/oum/organizational-unit/escidoc:56/resources/relations" />
+	</escidocOrganizationalUnit:resources>
+
+	<escidocMetadataRecords:md-records
+		xlink:type="simple" xlink:title="Metadata"
+		xlink:href="/oum/organizational-unit/escidoc:56/md-records">
+		<escidocMetadataRecords:md-record
+			name="escidoc" md-type="null" xlink:type="simple" xlink:title="escidoc metadata set."
+			xlink:href="/oum/organizational-unit/escidoc:56/md-records/md-record/escidoc">
+			<ou:organization-details
+				xmlns:ou="http://escidoc.mpg.de/metadataprofile/schema/0.1/organization">
+				<dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Generic Organizational Unit</dc:title>
+			</ou:organization-details>
+		</escidocMetadataRecords:md-record>
+	</escidocMetadataRecords:md-records>
+
+	<escidocOrganizationalUnit:parents
+		xlink:type="simple" xlink:title="Parents"
+		xlink:href="/oum/organizational-unit/escidoc:56/parents">
+		<srel:parent xlink:type="simple" xlink:title="Generic Organizational Unit"
+			xlink:href="/oum/organizational-unit/escidoc:55" />
+	</escidocOrganizationalUnit:parents>
+
+	<escidocOrganizationalUnit:predecessors
+		xlink:type="simple" xlink:title="Predecessors"
+		xlink:href="/oum/organizational-unit/escidoc:14/predecessors">
+		<srel:predecessor xlink:type="simple"
+			xlink:title="Test OU 1 1296661663689" xlink:href="/oum/organizational-unit/escidoc:13"
+			form="replacement"/>
+	</escidocOrganizationalUnit:predecessors>
+
+</escidocOrganizationalUnit:organizational-unit>

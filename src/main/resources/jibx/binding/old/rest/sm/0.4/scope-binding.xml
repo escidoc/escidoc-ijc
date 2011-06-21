@@ -1,0 +1,26 @@
+<binding>
+
+  <namespace uri="http://www.escidoc.de/schemas/scope/0.4"
+    default="elements" prefix="scope"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+	<mapping name="scope" ns="http://www.escidoc.de/schemas/scope/0.4"
+		class="de.escidoc.core.resources.sm.scope.Scope"
+		pre-get="genXLink">
+
+    <value ns="http://www.w3.org/1999/xlink" name="href" style="attribute" 
+      set-method="setXLinkHref" get-method="getXLinkHref" usage="optional" />
+    <value ns="http://www.w3.org/1999/xlink" name="title" style="attribute" 
+      set-method="setXLinkTitle" get-method="getXLinkTitle" usage="optional" />
+    <value ns="http://www.w3.org/1999/xlink" name="type" style="attribute" 
+      set-method="setXLinkType" get-method="getXLinkType" usage="optional" />
+
+		<structure name="name">
+			<value style="text" field="name" />
+		</structure>
+
+		<structure name="type">
+			<value style="text" field="scopeType" enum-value-method="getXmlValue"/>
+		</structure>
+	</mapping>
+</binding>

@@ -1,0 +1,69 @@
+<binding>
+
+	<format type="java.net.URL"
+               serializer="de.escidoc.core.common.jibx.CustomConverter.serializeURL"
+               deserializer="de.escidoc.core.common.jibx.CustomConverter.deserializeURL"/>
+
+	<!-- start: binding of a task param -->
+	<mapping name="param"
+		class="de.escidoc.core.resources.common.TaskParam">
+
+		<!-- *****************************************
+			Root attributes 
+			****************************************** -->
+		<value name="last-modification-date" style="attribute" type="org.joda.time.DateTime"
+			set-method="setLastModificationDate"
+			get-method="getLastModificationDate" usage="optional" />
+
+		<!-- *****************************************
+			Comment 
+			****************************************** -->
+		<value name="comment" set-method="setComment"
+			get-method="getComment" usage="optional" />
+
+		<!-- *****************************************
+			Pid 
+			****************************************** -->
+		<value name="pid" set-method="setPid" get-method="getPid"
+			usage="optional" />
+			
+			<!-- *****************************************
+			Password
+			****************************************** -->
+		<value name="password" set-method="setPassword" get-method="getPassword"
+			usage="optional" />
+			
+
+		<!-- *****************************************
+			Url 
+			****************************************** -->
+		<value name="url" set-method="setUrl" get-method="getUrl"
+			usage="optional" />
+
+		<!-- *****************************************
+			IDs 
+			****************************************** -->
+		<collection field="ids" usage="optional" create-type="java.util.LinkedList">
+			<value name="id" type="java.lang.String"/>
+		</collection>
+
+		<!-- *****************************************
+			Filter 
+			****************************************** -->
+		<collection field="filters" usage="optional"
+      create-type="java.util.LinkedList">
+			<structure name="filter" usage="optional"
+				type="de.escidoc.core.resources.common.Filter"
+					marshaller="de.escidoc.core.common.jibx.binding.FilterMarshaller"
+					unmarshaller="de.escidoc.core.common.jibx.binding.FilterMarshaller"
+				/>
+		</collection>
+		
+		<!-- *****************************************
+      keepInSync
+      ****************************************** -->
+    <value name="keepInSync" set-method="setKeepInSync" 
+      get-method="isKeepInSync" usage="optional"/> 
+	</mapping>
+	<!-- end: binding of a task param -->
+</binding>

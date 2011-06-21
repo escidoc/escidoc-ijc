@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<escidocOrganizationalUnit:organizational-unit
+	xmlns:escidocOrganizationalUnit="http://www.escidoc.de/schemas/organizationalunit/0.8"
+	xmlns:prop="http://escidoc.de/core/01/properties/" 
+	xmlns:srel="http://escidoc.de/core/01/structural-relations/"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:escidocMetadataRecords="http://www.escidoc.de/schemas/metadatarecords/0.5"
+	xml:base="http://escidev6:8080" 
+  objid="escidoc:56"
+	last-modification-date="2011-02-04T12:10:41.632Z">
+	
+	<escidocOrganizationalUnit:properties>
+		<prop:creation-date>2011-02-02T15:50:16.744Z</prop:creation-date>
+		<srel:created-by objid="escidoc:exuser1" />
+		<srel:modified-by objid="escidoc:exuser1" />
+		<prop:public-status>opened</prop:public-status>
+		<prop:public-status-comment>Opened Organizational Unit</prop:public-status-comment>
+		<prop:name>Generic Organizational Unit</prop:name>
+		<prop:description>Generic Organizational Unit Description</prop:description>
+		<prop:external-ids></prop:external-ids>
+		<prop:has-children>false</prop:has-children>
+	</escidocOrganizationalUnit:properties>
+	
+	<escidocMetadataRecords:md-records>
+		<escidocMetadataRecords:md-record name="escidoc" md-type="null">
+			<ou:organization-details
+				xmlns:ou="http://escidoc.mpg.de/metadataprofile/schema/0.1/organization">
+				<dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Generic Organizational Unit</dc:title>
+			</ou:organization-details>
+		</escidocMetadataRecords:md-record>
+	</escidocMetadataRecords:md-records>
+	
+	<escidocOrganizationalUnit:parents>
+		<srel:parent objid="escidoc:55"/>
+	</escidocOrganizationalUnit:parents>
+	
+	<escidocOrganizationalUnit:predecessors>
+    <srel:predecessor objid="escidoc:13" form="replacement"/>
+  </escidocOrganizationalUnit:predecessors>
+</escidocOrganizationalUnit:organizational-unit>
