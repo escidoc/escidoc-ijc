@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.escidoc.de/schemas/context/0.7" 
+    prefix="escidocContext"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+  <!-- ABSTRACT MAPPINGS -->
+  <!-- AdminDescriptors -->
+  <mapping class="de.escidoc.core.resources.om.context.AdminDescriptors" 
+    abstract="true" type-name="om.context.admin-descriptors">
+    
+    <structure map-as="de.escidoc.core.resources.XLinkResourceList"/>
+
+    <collection create-type="de.escidoc.core.resources.om.context.AdminDescriptors"
+      item-type="de.escidoc.core.resources.om.context.AdminDescriptor"/>
+  </mapping>
+  
+  <!-- AdminDescriptor -->
+  <mapping class="de.escidoc.core.resources.om.context.AdminDescriptor"
+    abstract="true" type-name="om.context.admin-descriptor">
+
+    <structure map-as="de.escidoc.core.resources.NamedSubResource"/>
+		
+		<structure field="content" type="org.w3c.dom.Element"
+		  marshaller="org.jibx.extras.DomElementMapper" 
+		  unmarshaller="org.jibx.extras.DomElementMapper"
+		  usage="optional"/>    
+  </mapping>
+  
+  <!-- CONCRETE MAPPINGS -->
+  <!-- AdminDescriptors -->
+  <mapping name="admin-descriptors" 
+    ns="http://www.escidoc.de/schemas/context/0.7"
+    class="de.escidoc.core.resources.om.context.AdminDescriptors">
+    <structure map-as="om.context.admin-descriptors"/>
+  </mapping>
+  
+  <!-- AdminDescriptor -->
+  <mapping name="admin-descriptor" 
+    ns="http://www.escidoc.de/schemas/context/0.7"
+    class="de.escidoc.core.resources.om.context.AdminDescriptor">
+    <structure map-as="om.context.admin-descriptor"/>
+  </mapping>
+</binding>

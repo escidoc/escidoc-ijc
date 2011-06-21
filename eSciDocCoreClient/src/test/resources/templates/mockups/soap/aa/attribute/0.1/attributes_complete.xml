@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<attributes:attributes 
+  xmlns:attributes="http://www.escidoc.de/schemas/attributes/0.1"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xml:base="http://escidev6:8080"
+	last-modification-date="2011-01-27T13:54:41.690Z"
+  user-objid="escidoc:exuser1">
+  
+	<attributes:attribute objid="escidoc:exuser1ouattribute"
+		name="o" internal="true">escidoc:ex3</attributes:attribute>
+</attributes:attributes>

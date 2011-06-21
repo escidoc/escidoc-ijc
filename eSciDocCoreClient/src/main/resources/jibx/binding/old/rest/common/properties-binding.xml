@@ -1,0 +1,5 @@
+<binding>
+  <mapping name="properties" class="de.escidoc.core.resources.common.Properties"
+    marshaller="de.escidoc.core.common.jibx.binding.PropertiesMarshaller"
+    unmarshaller="de.escidoc.core.common.jibx.binding.PropertiesMarshaller"/>/>
+</binding>

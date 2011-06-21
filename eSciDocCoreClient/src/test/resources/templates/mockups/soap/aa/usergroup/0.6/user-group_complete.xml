@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<user-group:user-group
+  xmlns:user-group="http://www.escidoc.de/schemas/usergroup/0.6"
+  xmlns:prop="http://escidoc.de/core/01/properties/"
+  xmlns:srel="http://escidoc.de/core/01/structural-relations/"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xlink:type="simple" xlink:title="User Group Title"
+  objid="escidoc:ug123"
+  last-modification-date="2010-08-11T09:06:13.482Z">
+  
+  <user-group:properties>
+    <prop:creation-date>2010-08-11T09:06:13.482Z</prop:creation-date>
+    <srel:created-by objid="escidoc:1" />
+    <srel:modified-by objid="escidoc:1" />
+    <prop:email>foo@bar.com</prop:email>
+    <prop:name>Name</prop:name>
+    <prop:label>Label</prop:label>
+    <prop:description>Description</prop:description>
+    <prop:type>Type</prop:type>
+    <prop:active>true</prop:active>
+  </user-group:properties>
+
+  <user-group:selectors>
+    <user-group:selector objid="escidoc:1233" name="Test Selector Name" type="user-attribute">
+      Test Content
+    </user-group:selector>
+  </user-group:selectors>
+</user-group:user-group>

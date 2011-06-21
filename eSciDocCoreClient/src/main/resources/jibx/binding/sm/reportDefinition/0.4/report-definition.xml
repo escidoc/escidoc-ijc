@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/reportdefinition/0.4" prefix="report-def"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.sm.report.ReportDefinition"
+    abstract="true" type-name="sm.report-definition"
+    post-set="generateXLinkHref">
+    
+    <structure map-as="de.escidoc.core.resources.GenericResource"/>
+      
+    <structure name="name" 
+      ns="http://www.escidoc.de/schemas/reportdefinition/0.4">
+      <value style="text" field="name"/>
+    </structure>
+    
+    <structure name="scope"
+      ns="http://www.escidoc.de/schemas/reportdefinition/0.4" 
+      field="scope"/>
+    
+    <structure name="sql"
+      ns="http://www.escidoc.de/schemas/reportdefinition/0.4"
+      field="sql" type="java.lang.String" 
+      marshaller="de.escidoc.core.common.jibx.binding.OptionalCDataMarshaller" 
+      unmarshaller="de.escidoc.core.common.jibx.binding.OptionalCDataMarshaller"/>
+    
+    <collection name="allowed-roles" usage="optional"
+      ns="http://www.escidoc.de/schemas/reportdefinition/0.4" 
+      field="allowedRoles" 
+      create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.common.reference.RoleRef">
+      
+      <structure name="allowed-role"
+        ns="http://www.escidoc.de/schemas/reportdefinition/0.4"/>
+    </collection>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="report-definition" 
+    ns="http://www.escidoc.de/schemas/reportdefinition/0.4"
+    class="de.escidoc.core.resources.sm.report.ReportDefinition">
+    <structure map-as="sm.report-definition"/>
+  </mapping>
+
+</binding>

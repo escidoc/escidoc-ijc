@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context:context xmlns:context="http://www.escidoc.de/schemas/context/0.7"
+	xmlns:prop="http://escidoc.de/core/01/properties/" 
+	xmlns:srel="http://escidoc.de/core/01/structural-relations/"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xlink:type="simple" xlink:href="/ir/context/escidoc:157546" 
+	last-modification-date="2010-06-08T16:25:46.663Z">
+	<context:properties>
+		<prop:creation-date>2010-06-08T16:25:46.663Z</prop:creation-date>
+		<srel:created-by xlink:type="simple" xlink:href="/aa/user-account/escidoc:exuser1" />
+		<srel:modified-by xlink:type="simple" xlink:href="/aa/user-account/escidoc:exuser1" />
+		<prop:public-status>created</prop:public-status>
+		<prop:public-status-comment>Object escidoc:157546 created.</prop:public-status-comment>
+		<prop:name>ContextName1276014346603</prop:name>
+		<prop:description>ContextDescription</prop:description>
+		<prop:type>type</prop:type>
+		<prop:organizational-units>
+			<srel:organizational-unit xlink:type="simple" xlink:href="/oum/organizational-unit/escidoc:ex3" />
+		</prop:organizational-units>
+	</context:properties>
+	
+	<context:admin-descriptors xmlns:context="http://www.escidoc.de/schemas/context/0.7"
+		last-modification-date="2010-06-08T16:25:46.663Z">
+		<context:admin-descriptor name="AdminDescriptorDemoName">
+			<admin-descriptor>Content of Admindescriptor</admin-descriptor>
+		</context:admin-descriptor>
+	</context:admin-descriptors>
+</context:context>

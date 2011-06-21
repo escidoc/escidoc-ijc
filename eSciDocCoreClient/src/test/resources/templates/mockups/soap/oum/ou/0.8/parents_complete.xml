@@ -1,0 +1,8 @@
+<escidocOrganizationalUnit:parents 
+  xmlns:escidocOrganizationalUnit="http://www.escidoc.de/schemas/organizationalunit/0.8"
+	xmlns:srel="http://escidoc.de/core/01/structural-relations/" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" 
+	xml:base="http://escidev6:8080"
+	last-modification-date="2011-02-04T11:12:26.681Z">
+	<srel:parent objid="escidoc:57" />
+</escidocOrganizationalUnit:parents>

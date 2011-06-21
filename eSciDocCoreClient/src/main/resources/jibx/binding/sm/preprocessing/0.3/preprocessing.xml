@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/preprocessinginformation/0.3" prefix="preprocessing"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.sm.preprocess.PreprocessingInformation"
+    abstract="true" type-name="sm.preprocessing">
+    
+    <structure name="start-date" usage="optional"
+      ns="http://www.escidoc.de/schemas/preprocessinginformation/0.3">
+      <value style="text" set-method="setStartDate" get-method="getStartDate"
+	      deserializer="de.escidoc.core.resources.sm.preprocess.PreprocessingInformation.deserialize"
+	      serializer="de.escidoc.core.resources.sm.preprocess.PreprocessingInformation.serialize"/>
+	  </structure>
+    
+    <structure name="end-date" usage="optional"
+      ns="http://www.escidoc.de/schemas/preprocessinginformation/0.3">
+      <value style="text" set-method="setEndDate" get-method="getEndDate"
+	      deserializer="de.escidoc.core.resources.sm.preprocess.PreprocessingInformation.deserialize"
+	      serializer="de.escidoc.core.resources.sm.preprocess.PreprocessingInformation.serialize"/>
+    </structure>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="preprocessing-information" 
+    class="de.escidoc.core.resources.sm.preprocess.PreprocessingInformation"
+    ns="http://www.escidoc.de/schemas/preprocessinginformation/0.3">
+    <structure map-as="sm.preprocessing"/>
+  </mapping>
+
+</binding>

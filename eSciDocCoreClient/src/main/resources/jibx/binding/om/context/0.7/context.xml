@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.escidoc.de/schemas/context/0.7" 
+    prefix="escidocContext"/>
+  <namespace uri="http://escidoc.de/core/01/properties/"
+    prefix="prop" />
+  <namespace uri="http://escidoc.de/core/01/structural-relations/"
+    prefix="srel" />
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+  <!-- ABSTRACT MAPPINGS -->
+  <!-- context -->
+  <mapping class="de.escidoc.core.resources.om.context.Context"
+    abstract="true" type-name="om.context"
+    post-set="generateXLinkHref">
+
+    <structure map-as="de.escidoc.core.resources.GenericResource"/>
+
+    <!-- Properties -->
+    <structure field="properties" usage="optional"/>
+
+    <!-- Resources (ignore) -->
+    <structure ns="http://www.escidoc.de/schemas/context/0.7" name="resources"
+      usage="optional"/>
+
+    <!-- AdminDescriptors -->
+    <structure field="adminDescriptors" usage="optional"/>
+  </mapping>
+  
+  <!-- CONCRETE MAPPINGS -->
+  <!-- context -->
+  <mapping name="context" ns="http://www.escidoc.de/schemas/context/0.7"
+		class="de.escidoc.core.resources.om.context.Context">
+		<structure map-as="om.context" />
+	</mapping>
+</binding>
