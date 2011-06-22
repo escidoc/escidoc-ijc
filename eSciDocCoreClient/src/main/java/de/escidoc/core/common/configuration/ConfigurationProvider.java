@@ -138,7 +138,7 @@ public final class ConfigurationProvider {
 
     public static final String HTTP_SOCKET_LINGER = "http.socket.linger";
 
-    public static final String HTTP_CONNECTION_TIMEOUT = "http.socket.timeout";
+    public static final String HTTP_CONNECTION_TIMEOUT = "http.connection.timeout";
 
     public static final String HTTP_CONNECTION_STALECHECK = "http.connection.stalecheck";
 
