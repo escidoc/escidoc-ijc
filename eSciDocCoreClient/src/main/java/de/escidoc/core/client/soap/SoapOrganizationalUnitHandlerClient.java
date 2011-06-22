@@ -36,7 +36,8 @@ import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -53,7 +54,7 @@ import de.escidoc.core.oum.OrganizationalUnitHandlerServiceLocator;
  */
 public class SoapOrganizationalUnitHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapOrganizationalUnitHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapOrganizationalUnitHandlerClient.class);
 
     private OrganizationalUnitHandler soapClient = null;
 

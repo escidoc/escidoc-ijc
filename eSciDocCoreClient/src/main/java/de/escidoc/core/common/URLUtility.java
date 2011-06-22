@@ -6,7 +6,8 @@ package de.escidoc.core.common;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author MVO
@@ -14,7 +15,7 @@ import org.apache.log4j.Logger;
  */
 public final class URLUtility {
 
-    private static final Logger LOG = Logger.getLogger(URLUtility.class);
+    private static final Logger LOG = LoggerFactory.getLogger(URLUtility.class);
 
     /**
      * No instance allowed.

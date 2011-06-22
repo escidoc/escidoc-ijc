@@ -38,11 +38,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -74,7 +75,7 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  */
 public class ItemHandlerClientTest {
 
-    private static final Logger LOG = Logger.getLogger(ItemHandlerClientTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ItemHandlerClientTest.class);
 
     private Authentication auth;
 
@@ -104,7 +105,7 @@ public class ItemHandlerClientTest {
     @Test
     public void testRetrieve01() throws Exception {
 
-        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
+        final Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
         MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class).marshalDocument(item);
     }
 
@@ -127,14 +128,14 @@ public class ItemHandlerClientTest {
      */
     @Test
     public void testCreateAndSubmit() throws Exception {
-        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
+        final Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
 
-        Item resultItem = ihc.create(item);
+        final Item resultItem = ihc.create(item);
 
-        TaskParam taskParam =
+        final TaskParam taskParam =
             getTaskParam(resultItem.getLastModificationDate(), "Submit Item " + resultItem.getObjid());
 
-        Result result = ihc.submit(resultItem.getObjid(), taskParam);
+        final Result result = ihc.submit(resultItem.getObjid(), taskParam);
 
         // check result
         result.getLastModificationDate();
@@ -149,28 +150,28 @@ public class ItemHandlerClientTest {
      */
     @Test
     public void testRetrieveVersionHistory() throws Exception {
-        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
+        final Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
 
         Item item2 = ihc.create(item);
 
-        VersionHistory vh1 = ihc.retrieveVersionHistory(item2.getObjid());
+        final VersionHistory vh1 = ihc.retrieveVersionHistory(item2.getObjid());
 
         assertEquals("WOV has wrong number of versions in WOV of Item '" + item2.getObjid() + "'", 1, vh1
             .getVersions().size());
         assertEquals("Wrong timestamp in Item '" + item2.getObjid() + "'", item2.getProperties().getCreationDate(), vh1
             .getVersions().iterator().next().getTimestamp());
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "props");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element contentModelSpecific = doc.createElementNS(null, "props");
         contentModelSpecific.setTextContent("3. 2. 1. ");
-        Element element1 = doc.createElement("some-other-stuff1");
+        final Element element1 = doc.createElement("some-other-stuff1");
         element1.setTextContent("33333333333333333333");
 
         item2 = ihc.update(item2);
 
-        VersionHistory vh2 = ihc.retrieveVersionHistory(item2.getObjid());
+        final VersionHistory vh2 = ihc.retrieveVersionHistory(item2.getObjid());
 
     }
 
@@ -186,7 +187,7 @@ public class ItemHandlerClientTest {
         Item resultItem = createBasicItem();
 
         // Item resultItem = ihc.create(item);
-        TaskParam tp = new TaskParam();
+        final TaskParam tp = new TaskParam();
         tp.setLastModificationDate(resultItem.getLastModificationDate());
 
         // submit
@@ -238,18 +239,18 @@ public class ItemHandlerClientTest {
      */
     private Item createBasicItem() throws TransportException, EscidocException, InternalClientException,
         ParserConfigurationException {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
-        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        final ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
@@ -270,7 +271,7 @@ public class ItemHandlerClientTest {
      */
     private TaskParam getTaskParam(final DateTime lastModificationDate, final String comment) {
 
-        TaskParam result = new TaskParam();
+        final TaskParam result = new TaskParam();
         result.setLastModificationDate(lastModificationDate);
         result.setComment(comment);
         if (comment == null) {

@@ -5,7 +5,8 @@ package de.escidoc.core.common.jibx.binding;
 
 import static de.escidoc.core.common.Precondition.checkObject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jibx.runtime.IAliasable;
 import org.jibx.runtime.IMarshaller;
 import org.jibx.runtime.IMarshallingContext;
@@ -44,7 +45,7 @@ import de.escidoc.core.resources.sb.RecordPacking;
  */
 public class RecordDataMarshaller extends MarshallingBase implements IMarshaller, IUnmarshaller, IAliasable {
 
-    private static final Logger LOG = Logger.getLogger(RecordDataMarshaller.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RecordDataMarshaller.class);
 
     /**
      * @param uri

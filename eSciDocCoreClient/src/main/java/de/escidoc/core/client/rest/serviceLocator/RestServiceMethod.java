@@ -41,7 +41,8 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -60,7 +61,7 @@ import de.escidoc.core.resources.HttpInputStream;
  */
 public abstract class RestServiceMethod implements RestService {
 
-    private static final Logger LOG = Logger.getLogger(RestServiceMethod.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RestServiceMethod.class);
 
     private URL serviceAddress;
 

@@ -10,7 +10,8 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.net.URL;
 import java.rmi.Remote;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -26,7 +27,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public class RestSearchHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger.getLogger(RestSearchHandlerClient.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(RestSearchHandlerClient.class.getName());
 
     private SearchHandler restClient = null;
 

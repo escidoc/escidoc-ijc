@@ -35,7 +35,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -67,7 +68,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  */
 public final class ConfigurationProvider {
 
-    private final Logger logger = Logger.getLogger(ConfigurationProvider.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigurationProvider.class.getName());
 
     /*
      * Namespace configuration
@@ -328,14 +329,14 @@ public final class ConfigurationProvider {
                 final InputStream fis = getFileInputStreamFromResource(paths[i], file);
                 result.load(fis);
                 failed = false;
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Load properties from file '" + file + "' with path '" + paths[i] + "'.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Load properties from file '" + file + "' with path '" + paths[i] + "'.");
                 }
             }
             catch (final IOException e) {
                 // ignore, try again
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Failed to load properties from file '" + file + "' with path '" + paths[i] + "'.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Failed to load properties from file '" + file + "' with path '" + paths[i] + "'.");
                 }
             }
         }

@@ -5,7 +5,8 @@ package de.escidoc.core.client.rest;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -20,7 +21,7 @@ import de.escidoc.core.sm.PreprocessingHandler;
  */
 public class RestPreprocessingHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger.getLogger(RestPreprocessingHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RestPreprocessingHandlerClient.class);
 
     private PreprocessingHandler client;
 

@@ -7,7 +7,8 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.rest.RestClientBase;
@@ -20,7 +21,7 @@ import de.escidoc.core.resources.sb.search.SearchRetrieveResponse;
 
 public abstract class AbstractHandlerClient<T extends RestClientBase> {
 
-    private static final Logger LOG = Logger.getLogger(AbstractHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractHandlerClient.class);
 
     private String handle;
 

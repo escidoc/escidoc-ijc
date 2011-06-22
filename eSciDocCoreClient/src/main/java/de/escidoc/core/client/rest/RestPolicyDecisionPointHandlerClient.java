@@ -5,7 +5,8 @@ package de.escidoc.core.client.rest;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.aa.PolicyDecisionPoint;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -20,7 +21,7 @@ import de.escidoc.core.client.rest.serviceLocator.PolicyDecisionPointRestService
  */
 public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger.getLogger(RestPolicyDecisionPointHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RestPolicyDecisionPointHandlerClient.class);
 
     private PolicyDecisionPoint restClient;
 

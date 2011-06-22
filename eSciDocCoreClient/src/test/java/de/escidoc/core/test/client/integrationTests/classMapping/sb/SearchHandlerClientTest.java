@@ -44,13 +44,14 @@ import java.util.regex.Pattern;
 
 import junit.framework.Assert;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.SearchHandlerClient;
@@ -77,7 +78,7 @@ import de.escidoc.core.test.client.EscidocClientTestBase;
 @RunWith(Parameterized.class)
 public class SearchHandlerClientTest {
 
-    private static final Logger LOG = Logger.getLogger(SearchHandlerClientTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SearchHandlerClientTest.class);
 
     private static final StringBuilder out = new StringBuilder();
 

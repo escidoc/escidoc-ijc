@@ -33,7 +33,8 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -50,7 +51,7 @@ import de.escidoc.core.client.rest.serviceLocator.UserAccountRestServiceLocator;
  */
 public class RestUserAccountHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger.getLogger(RestUserAccountHandlerClient.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(RestUserAccountHandlerClient.class.getName());
 
     private UserAccountHandler restClient = null;
 

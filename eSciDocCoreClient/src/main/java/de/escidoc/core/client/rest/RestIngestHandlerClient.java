@@ -30,7 +30,8 @@ package de.escidoc.core.client.rest;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -47,7 +48,7 @@ import de.escidoc.core.om.IngestHandler;
  */
 public class RestIngestHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger.getLogger(RestIngestHandlerClient.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(RestIngestHandlerClient.class.getName());
 
     private IngestHandler restClient = null;
 

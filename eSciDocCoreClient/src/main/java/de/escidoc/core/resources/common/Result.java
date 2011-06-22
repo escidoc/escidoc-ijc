@@ -20,7 +20,7 @@ public class Result extends LinkedList<Element> {
      */
     private static final long serialVersionUID = 6147210897291035923L;
 
-    // private static final Logger LOGGER = Logger.getLogger(Result.class);
+    // private static final Logger LOG = LoggerFactory.getLogger(Result.class);
 
     private DateTime lmd;
 

@@ -6,8 +6,9 @@ import static org.junit.Assert.assertTrue;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,7 +34,7 @@ import de.escidoc.core.test.client.AbstractParameterizedTestBase;
  */
 public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
-    private static final Logger LOG = Logger.getLogger(TestContentXmlParser.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TestContentXmlParser.class);
 
     public TestContentXmlParser(final TransportProtocol transport) {
         super(transport);
@@ -51,35 +52,35 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         final String contentElementName = "admin-descriptor-content";
         final String adminDescriptorName = "AdminDescriptorDemoName";
 
-        Context context = new Context();
-        ContextProperties properties = new ContextProperties();
+        final Context context = new Context();
+        final ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        final OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
         organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
-        AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor(adminDescriptorName);
+        final AdminDescriptors adminDescriptors = new AdminDescriptors();
+        final AdminDescriptor adminDescriptor = new AdminDescriptor(adminDescriptorName);
         adminDescriptor.setContent("<" + contentElementName + "/>");
 
         adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        String contextXml =
+        final String contextXml =
             MarshallerFactory.getInstance(transport).getMarshaller(Context.class).marshalDocument(context);
 
-        Document contextDoc = XmlUtility.getDocument(contextXml);
+        final Document contextDoc = XmlUtility.getDocument(contextXml);
 
-        NodeList admDescNodes = contextDoc.getElementsByTagName("escidocContext:admin-descriptor");
+        final NodeList admDescNodes = contextDoc.getElementsByTagName("escidocContext:admin-descriptor");
         assertEquals("Wrong number of admin-descriptor elements", 1, admDescNodes.getLength());
-        Node admDescNode = admDescNodes.item(0);
+        final Node admDescNode = admDescNodes.item(0);
         assertEquals("Wrong attribute name of admin-descriptor", adminDescriptorName, admDescNode.getAttributes().item(
             0).getTextContent());
         assertTrue("Wrong number of attributes", admDescNode.getAttributes().getLength() == 1);
@@ -101,7 +102,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         assertTrue("Wrong content", admContentNode.getTextContent().length() == 0);
 
         // unmarshall
-        Context contextRev =
+        final Context contextRev =
             MarshallerFactory.getInstance(transport).getMarshaller(Context.class).unmarshalDocument(contextXml);
 
         assertEquals("Content failure", contentElementName, contextRev
@@ -122,39 +123,39 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         final String contentElementName = "admin-descriptor-content";
         final String adminDescriptorName = "AdminDescriptorDemoName";
 
-        Context context = new Context();
-        ContextProperties properties = new ContextProperties();
+        final Context context = new Context();
+        final ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        final OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
         organizationalUnitRefs.add(new OrganizationalUnitRef("escidoc:ex3"));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
-        AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor(adminDescriptorName);
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, contentElementName);
+        final AdminDescriptors adminDescriptors = new AdminDescriptors();
+        final AdminDescriptor adminDescriptor = new AdminDescriptor(adminDescriptorName);
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element element = doc.createElementNS(null, contentElementName);
         adminDescriptor.setContent(element);
 
         adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        String contextXml =
+        final String contextXml =
             MarshallerFactory.getInstance(transport).getMarshaller(Context.class).marshalDocument(context);
 
-        Document contextDoc = XmlUtility.getDocument(contextXml);
+        final Document contextDoc = XmlUtility.getDocument(contextXml);
 
-        NodeList admDescNodes = contextDoc.getElementsByTagName("escidocContext:admin-descriptor");
+        final NodeList admDescNodes = contextDoc.getElementsByTagName("escidocContext:admin-descriptor");
         assertEquals("Wrong number of admin-descriptor elements", 1, admDescNodes.getLength());
-        Node admDescNode = admDescNodes.item(0);
+        final Node admDescNode = admDescNodes.item(0);
         assertEquals("Wrong attribute name of admin-descriptor", adminDescriptorName, admDescNode.getAttributes().item(
             0).getTextContent());
         assertTrue("Wrong number of attributes", admDescNode.getAttributes().getLength() == 1);
@@ -176,7 +177,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         assertTrue("Wrong content", admContentNode.getTextContent().length() == 0);
 
         // unmarshall
-        Context contextRev =
+        final Context contextRev =
             MarshallerFactory.getInstance(transport).getMarshaller(Context.class).unmarshalDocument(contextXml);
 
         assertEquals("Content failue", contentElementName, contextRev
