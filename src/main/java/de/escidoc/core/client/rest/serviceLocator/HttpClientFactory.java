@@ -15,6 +15,7 @@ import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicHeader;
@@ -32,8 +33,8 @@ public final class HttpClientFactory {
 
     private static final Pattern HTTP_HOST_PATTERN = Pattern.compile("^(?:(.*)://)?([^:]*)(?::(\\d*))?$");
 
-    private static final Pattern INET_ADDRESS_PATTERN =
-        Pattern.compile("^(?:(.*)/)?(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
+    private static final Pattern INET_ADDRESS_PATTERN = Pattern
+        .compile("^(?:(.*)/)?(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
 
     private static HttpClient client;
 
@@ -334,7 +335,7 @@ public final class HttpClientFactory {
         if (connectionManager == null) {
             final SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-
+            schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
             connectionManager = new ThreadSafeClientConnManager(params, schemeRegistry);
         }
         return connectionManager;
