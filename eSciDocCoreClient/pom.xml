@@ -429,7 +429,7 @@
 
               String installPath = new String(project.properties.getProperty('installer.installpath'));
               File dir = new File(installPath);
-              if(dir.exists()) {
+              if (dir.exists()) {
                 if (dir.isDirectory()) {
                   project.properties.setProperty('skipInstaller', 'true');
                 }
@@ -1022,7 +1022,26 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>verify</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
+
     <resources>
       <resource>
         <directory>src/main/resources</directory>
