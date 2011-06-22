@@ -32,7 +32,8 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.aa.PolicyDecisionPoint;
 import de.escidoc.core.aa.PolicyDecisionPointServiceLocator;
@@ -50,7 +51,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapPolicyDecisionPointHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapPolicyDecisionPointHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapPolicyDecisionPointHandlerClient.class);
 
     private PolicyDecisionPoint soapClient = null;
 

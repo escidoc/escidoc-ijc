@@ -35,7 +35,8 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.net.URL;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -52,7 +53,7 @@ import de.escidoc.core.client.rest.serviceLocator.OrganizationalUnitRestServiceL
  */
 public class RestOrganizationalUnitHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger.getLogger(RestOrganizationalUnitHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RestOrganizationalUnitHandlerClient.class);
 
     private OrganizationalUnitHandler restClient = null;
 

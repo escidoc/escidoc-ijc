@@ -5,7 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
@@ -22,7 +23,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  */
 public class Marshaller<E> {
 
-    private static final Logger LOG = Logger.getLogger(Marshaller.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Marshaller.class);
 
     private final Class<E> resourceClass;
 

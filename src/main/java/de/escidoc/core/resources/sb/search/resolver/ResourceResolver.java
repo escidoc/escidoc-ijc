@@ -5,7 +5,8 @@ package de.escidoc.core.resources.sb.search.resolver;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.MarshallerFactory;
@@ -18,7 +19,7 @@ import de.escidoc.core.resources.ResourceType;
  */
 public class ResourceResolver extends ContentResolver<Resource> {
 
-    private static final Logger LOG = Logger.getLogger(ResourceResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceResolver.class);
 
     /**
      * 

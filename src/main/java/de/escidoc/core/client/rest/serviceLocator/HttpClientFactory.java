@@ -20,14 +20,15 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 public final class HttpClientFactory {
 
-    private static final Logger LOG = Logger.getLogger(HttpClientFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HttpClientFactory.class);
 
     private static final Pattern HTTP_HOST_PATTERN = Pattern.compile("^(?:(.*)://)?([^:]*)(?::(\\d*))?$");
 

@@ -9,7 +9,8 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 import java.net.URL;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -26,7 +27,7 @@ public class RestUserGroupHandlerClient extends RestClientBase {
 
     private UserGroupHandler client;
 
-    private static final Logger LOG = Logger.getLogger(RestUserGroupHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RestUserGroupHandlerClient.class);
 
     /**
      * @param serviceAddress

@@ -7,7 +7,8 @@ import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.resources.sb.search.resolver.ContentResolver;
 
@@ -19,7 +20,7 @@ import de.escidoc.core.resources.sb.search.resolver.ContentResolver;
  */
 public class SearchResult {
 
-    private static final Logger LOG = Logger.getLogger(SearchResult.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SearchResult.class);
 
     private Float score;
 

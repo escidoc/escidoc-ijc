@@ -5,7 +5,8 @@ package de.escidoc.core.client.rest;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.adm.AdminHandler;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -20,7 +21,7 @@ import de.escidoc.core.client.rest.serviceLocator.AdminRestServiceLocator;
  */
 public class RestAdminHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger.getLogger(RestAdminHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RestAdminHandlerClient.class);
 
     private AdminHandler restClient;
 
