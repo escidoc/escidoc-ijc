@@ -504,7 +504,7 @@ public class AdminHandlerClientTest {
      * @author MVO
      * 
      */
-    class ExceptionStatus {
+    private class ExceptionStatus {
         private Exception exception;
 
         public void setException(final Exception exception) {
