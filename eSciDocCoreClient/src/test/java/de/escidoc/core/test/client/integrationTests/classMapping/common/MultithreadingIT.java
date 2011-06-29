@@ -21,6 +21,7 @@ import org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -210,6 +211,7 @@ public class MultithreadingIT {
      * @throws Exception
      */
     @Test
+    @Ignore("Include test in eSciDoc Infrastructure v1.4")
     public void test01() throws Exception {
 
         /*
