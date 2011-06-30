@@ -8,7 +8,6 @@ import static org.junit.Assert.fail;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -71,10 +70,9 @@ public class StatisticDataHandlerClientTest {
      * 
      * @throws Exception
      */
-    @Ignore
     @Test
     public void testCreate01() throws Exception {
-        StatisticData sd = new StatisticData(new ScopeRef(scopeId));
+        final StatisticData sd = new StatisticData(new ScopeRef(scopeId));
         sd.getParameters().add(new StringParameter("name01", "Test String"));
         sd.getParameters().add(new DecimalParameter("name02", new Float(10.5)));
         sd.getParameters().add(new DateParameter("name03", new DateTime()));
@@ -92,9 +90,9 @@ public class StatisticDataHandlerClientTest {
      */
     private String createScope(final ScopeType type) throws EscidocException, InternalClientException,
         TransportException {
-        Scope scope = new Scope("AdminScope @" + System.currentTimeMillis(), type);
+        final Scope scope = new Scope("AdminScope @" + System.currentTimeMillis(), type);
 
-        ScopeHandlerClient shc = new ScopeHandlerClient(auth.getServiceAddress());
+        final ScopeHandlerClient shc = new ScopeHandlerClient(auth.getServiceAddress());
         shc.setHandle(auth.getHandle());
 
         return shc.create(scope).getObjid();
