@@ -8,12 +8,12 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.escidoc.core.client.AggregationDefinitionHandlerClient;
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ScopeHandlerClient;
+import de.escidoc.core.client.exceptions.system.SqlDatabaseSystemException;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.resources.sm.scope.ScopeType;
 import de.escidoc.core.test.client.EscidocClientTestBase;
@@ -50,9 +50,9 @@ public class ScopeHandlerClientTest {
      */
     @Test
     public void testCreateScope01() throws Exception {
-        Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
+        final Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
 
-        Scope adminScope = new Scope("AdminScope @ " + System.currentTimeMillis(), ScopeType.ADMIN);
+        final Scope adminScope = new Scope("AdminScope @ " + System.currentTimeMillis(), ScopeType.ADMIN);
 
         Scope resultScope = shc.create(normalScope);
 
@@ -73,8 +73,8 @@ public class ScopeHandlerClientTest {
      */
     @Test
     public void testDelete01() throws Exception {
-        Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
-        Scope createdScope = shc.create(normalScope);
+        final Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
+        final Scope createdScope = shc.create(normalScope);
 
         assertNotNull("Objid should not be null.", createdScope.getObjid());
 
@@ -82,20 +82,17 @@ public class ScopeHandlerClientTest {
     }
 
     /**
-     * See #INFR-1044.
-     * 
      * @throws Exception
      */
-    @Ignore
-    @Test
+    @Test(expected = SqlDatabaseSystemException.class)
     public void testDelete02() throws Exception {
-        Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
-        Scope createdScope = shc.create(normalScope);
+        final Scope normalScope = new Scope("NormalScope @ " + System.currentTimeMillis(), ScopeType.NORMAL);
+        final Scope createdScope = shc.create(normalScope);
 
         assertNotNull("Objid should not be null.", createdScope.getObjid());
 
         // Create an aggregation definition referring to this scope.
-        AggregationDefinitionHandlerClient c =
+        final AggregationDefinitionHandlerClient c =
             new AggregationDefinitionHandlerClient(EscidocClientTestBase.getDefaultInfrastructureURL());
         c.setHandle(auth.getHandle());
 
