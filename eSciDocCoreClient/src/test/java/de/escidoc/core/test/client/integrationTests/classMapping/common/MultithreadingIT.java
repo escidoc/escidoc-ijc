@@ -223,12 +223,8 @@ public class MultithreadingIT {
         // overwrite timeouts
         HttpClientFactory.getHttpClient().getParams().setParameter(ConfigurationProvider.HTTP_SOCKET_TIMEOUT, null);
         HttpClientFactory.getHttpClient().getParams().setParameter(ConfigurationProvider.HTTP_CONNECTION_TIMEOUT, null);
-        HttpClientFactory
-            .getHttpClient().getParams().setParameter(ConfigurationProvider.HTTP_CONN_MANAGER_TIMEOUT, null);
-        // overwrite and use default keep-alive-strategy (replace 30000ms with
-        // infinite)
-        ((DefaultHttpClient) HttpClientFactory.getHttpClient())
-            .setKeepAliveStrategy(new DefaultConnectionKeepAliveStrategy());
+        HttpClientFactory.getHttpClient().getParams().setParameter(ConfigurationProvider.HTTP_CONN_MANAGER_TIMEOUT,
+            null);
 
         final ThreadGroup group = new ThreadGroup("TestCase");
         final List<Runner> runners = new ArrayList<Runner>();
