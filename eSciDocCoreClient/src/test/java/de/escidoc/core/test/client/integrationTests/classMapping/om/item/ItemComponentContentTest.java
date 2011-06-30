@@ -7,12 +7,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
@@ -79,149 +76,150 @@ public class ItemComponentContentTest {
     }
 
     /**
-     * FIXME Fix component creation for version 1.3.1
      * 
      * @throws Exception
      */
-    @Ignore("EsciDoc v1.3 seems to be buggy.")
     @Test
     public void retrieveContentExternalManaged() throws Exception {
         final String itemId = EscidocClientTestBase.getStaticItemId();
 
-        Item item = ihc.retrieve(itemId);
+        final DateTime itemLMD = ihc.retrieve(itemId).getLastModificationDate();
 
-        /*
-         * Due to a bug in EsciDoc v1.3 we cannot use the createComponent
-         * sub-resource-method, which would be neat, because that way we would
-         * get the component id directly, instead of storing the IDs as done in
-         * this test. The implementation here is not save, since there could be
-         * another user creating a component at the same time and therefore this
-         * test could fail. This bug has been fixed for EsciDoc v1.3.1 and v1.4.
-         */
-        final List<String> alreadyExistingIds = new ArrayList<String>();
-        for (final Component c : item.getComponents()) {
-            alreadyExistingIds.add(c.getObjid());
-        }
-
-        final Component newComponent = new Component();
+        Component component = new Component();
         final ComponentContent content = new ComponentContent();
         content.setStorage(StorageType.EXTERNAL_MANAGED);
         content.setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString() + "/images/head-v0.1.png");
         content.setXLinkTitle("External resource");
-        newComponent.setContent(content);
+        component.setContent(content);
+        component.setLastModificationDate(itemLMD);
 
         final ComponentProperties properties = new ComponentProperties();
         properties.setDescription("External resource description");
         properties.setFileName("FIZ_logo_en.gif");
         properties.setVisibility("public");
         properties.setContentCategory("pre-print");
-        newComponent.setProperties(properties);
+        component.setProperties(properties);
 
-        item.getComponents().add(newComponent);
+        component = ihc.createComponent(itemId, component);
 
-        item = ihc.update(item);
+        assertEquals(component.getContent().getStorage(), StorageType.EXTERNAL_MANAGED);
+        // assertEquals(properties.getDescription(),
+        // c.getProperties().getDescription());
+        // assertEquals(properties.getFileName(),
+        // c.getProperties().getFileName());
+        assertEquals(properties.getVisibility(), component.getProperties().getVisibility());
+        assertEquals(properties.getContentCategory(), component.getProperties().getContentCategory());
 
-        for (final Component c : item.getComponents()) {
-            if (!alreadyExistingIds.contains(c.getObjid())) {
+        assertEquals("/ir/item/" + itemId + "/components/component/" + component.getObjid() + "/content", component
+            .getContent().getXLinkHref());
+        // assertEquals(content.getXLinkTitle(),
+        // c.getContent().getXLinkTitle());
+        assertEquals(content.getXLinkType(), component.getContent().getXLinkType());
 
-                assertEquals(c.getContent().getStorage(), StorageType.EXTERNAL_MANAGED);
-                // assertEquals(properties.getDescription(),
-                // c.getProperties().getDescription());
-                // assertEquals(properties.getFileName(),
-                // c.getProperties().getFileName());
-                assertEquals(properties.getVisibility(), c.getProperties().getVisibility());
-                assertEquals(properties.getContentCategory(), c.getProperties().getContentCategory());
+        final HttpInputStream stream = ihc.retrieveContent(itemId, component.getObjid());
 
-                assertEquals("/ir/item/" + itemId + "/components/component/" + c.getObjid() + "/content", c
-                    .getContent().getXLinkHref());
-                // assertEquals(content.getXLinkTitle(),
-                // c.getContent().getXLinkTitle());
-                assertEquals(content.getXLinkType(), c.getContent().getXLinkType());
+        assertNull(stream.getContentEncoding());
+        assertTrue("ContentLength not greater than 0.", stream.getContentLength() > 0);
 
-                final HttpInputStream stream = ihc.retrieveContent(itemId, c.getObjid());
+        // FIXME uncomment as soon as this bug [INFR-1171] has been
+        // fixed.
+        // assertEquals("image/gif", stream.getContentType());
 
-                assertNull(stream.getContentEncoding());
-                assertTrue(stream.getContentLength() > 0);
+        stream.close();
 
-                // FIXME uncomment as soon as this bug [INFR-1171] has been
-                // fixed.
-                // assertEquals("image/gif", stream.getContentType());
-
-                stream.close();
-
-                break;
-            }
-        }
     }
 
     /**
-     * FIXME Fix component creation for version 1.3.1
      * 
      * @throws Exception
      */
-    @Ignore("EsciDoc v1.3 seems to be buggy.")
     @Test
-    public void retrieveContentExternalUrl() throws Exception {
+    public void retrieveContentExternalUrlHTTPS() throws Exception {
         final String itemId = EscidocClientTestBase.getStaticItemId();
+        final DateTime itemLMD = ihc.retrieve(itemId).getLastModificationDate();
 
-        Item item = ihc.retrieve(itemId);
-
-        /*
-         * Due to a bug in EsciDoc v1.3 we cannot use the createComponent
-         * sub-resource-method, which would be neat, because that way we would
-         * get the component id directly, instead of storing the IDs as done in
-         * this test. The implementation here is not save, since there could be
-         * another user creating a component at the same time and therefore this
-         * test could fail. This bug has been fixed for EsciDoc v1.3.1 and v1.4.
-         */
-        final List<String> alreadyExistingIds = new ArrayList<String>();
-        for (final Component c : item.getComponents()) {
-            alreadyExistingIds.add(c.getObjid());
-        }
-
-        final Component newComponent = new Component();
+        Component component = new Component();
         final ComponentContent content = new ComponentContent();
         content.setStorage(StorageType.EXTERNAL_URL);
-        content.setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString() + "/images/head-v0.1.png");
+        content.setXLinkHref("https://www.escidoc.org/images/escidoc-logo.jpg");
         content.setXLinkTitle("External resource");
-        newComponent.setContent(content);
+        component.setContent(content);
+        component.setLastModificationDate(itemLMD);
 
         final ComponentProperties properties = new ComponentProperties();
         properties.setDescription("External resource description");
         properties.setFileName("image1234.jpg");
         properties.setVisibility("public");
         properties.setContentCategory("pre-print");
-        newComponent.setProperties(properties);
+        component.setProperties(properties);
 
-        item.getComponents().add(newComponent);
+        component = ihc.createComponent(itemId, component);
 
-        item = ihc.update(item);
+        assertEquals(component.getContent().getStorage(), StorageType.EXTERNAL_URL);
+        // assertEquals(properties.getDescription(),
+        // c.getProperties().getDescription());
+        // assertEquals(properties.getFileName(),
+        // c.getProperties().getFileName());
+        assertEquals(properties.getVisibility(), component.getProperties().getVisibility());
+        assertEquals(properties.getContentCategory(), component.getProperties().getContentCategory());
+        assertEquals(content.getXLinkHref(), component.getContent().getXLinkHref());
+        // assertEquals(content.getXLinkTitle(),
+        // c.getContent().getXLinkTitle());
+        assertEquals(content.getXLinkType(), component.getContent().getXLinkType());
 
-        for (final Component c : item.getComponents()) {
-            if (!alreadyExistingIds.contains(c.getObjid())) {
+        final HttpInputStream stream = ihc.retrieveContent(itemId, component.getObjid());
 
-                assertEquals(c.getContent().getStorage(), StorageType.EXTERNAL_URL);
-                // assertEquals(properties.getDescription(),
-                // c.getProperties().getDescription());
-                // assertEquals(properties.getFileName(),
-                // c.getProperties().getFileName());
-                assertEquals(properties.getVisibility(), c.getProperties().getVisibility());
-                assertEquals(properties.getContentCategory(), c.getProperties().getContentCategory());
-                assertEquals(content.getXLinkHref(), c.getContent().getXLinkHref());
-                // assertEquals(content.getXLinkTitle(),
-                // c.getContent().getXLinkTitle());
-                assertEquals(content.getXLinkType(), c.getContent().getXLinkType());
+        assertNull(stream.getContentEncoding());
+        assertTrue("ContentLength not greater than 0.", stream.getContentLength() > 0);
+        assertEquals("image/jpeg", stream.getContentType());
 
-                final HttpInputStream stream = ihc.retrieveContent(itemId, c.getObjid());
+        stream.close();
+    }
 
-                assertNull(stream.getContentEncoding());
-                assertTrue(stream.getContentLength() > 0);
-                assertEquals("image/gif", stream.getContentType());
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void retrieveContentExternalUrlHTTP() throws Exception {
+        final String itemId = EscidocClientTestBase.getStaticItemId();
+        final DateTime itemLMD = ihc.retrieve(itemId).getLastModificationDate();
 
-                stream.close();
+        Component component = new Component();
+        final ComponentContent content = new ComponentContent();
+        content.setStorage(StorageType.EXTERNAL_URL);
+        content.setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString() + "/images/head-v0.1.png");
+        content.setXLinkTitle("External resource");
+        component.setContent(content);
+        component.setLastModificationDate(itemLMD);
 
-                break;
-            }
-        }
+        final ComponentProperties properties = new ComponentProperties();
+        properties.setDescription("External resource description");
+        properties.setFileName("image1234.jpg");
+        properties.setVisibility("public");
+        properties.setContentCategory("pre-print");
+        component.setProperties(properties);
+
+        component = ihc.createComponent(itemId, component);
+
+        assertEquals(component.getContent().getStorage(), StorageType.EXTERNAL_URL);
+        // assertEquals(properties.getDescription(),
+        // c.getProperties().getDescription());
+        // assertEquals(properties.getFileName(),
+        // c.getProperties().getFileName());
+        assertEquals(properties.getVisibility(), component.getProperties().getVisibility());
+        assertEquals(properties.getContentCategory(), component.getProperties().getContentCategory());
+        assertEquals(content.getXLinkHref(), component.getContent().getXLinkHref());
+        // assertEquals(content.getXLinkTitle(),
+        // c.getContent().getXLinkTitle());
+        assertEquals(content.getXLinkType(), component.getContent().getXLinkType());
+
+        final HttpInputStream stream = ihc.retrieveContent(itemId, component.getObjid());
+
+        assertNull(stream.getContentEncoding());
+        assertTrue("ContentLength not greater than 0.", stream.getContentLength() > 0);
+        assertEquals("image/jpeg", stream.getContentType());
+
+        stream.close();
     }
 }
