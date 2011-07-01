@@ -5,13 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
 
@@ -34,6 +34,21 @@ public class Marshaller<E> {
     private static final String BINDING_IN_EXT = "_IN";
 
     private static final String BINDING_OUT_EXT = "_OUT";
+
+    static {
+        // define parser type (use StAX by default)
+        System.setProperty("org.jibx.runtime.impl.parser", "org.jibx.runtime.impl.StAXReaderFactory");
+
+        /*
+         * IJCs XML catalog implementation does not work for XMLPullParser
+         * because the XMLPullParser does not use the WSTX technologies
+         */
+        // System.setProperty("org.jibx.runtime.impl.parser",
+        // "org.jibx.runtime.impl.XMLPullReaderFactory");
+
+        // define factory for XML catalog implementation
+        System.setProperty("javax.xml.stream.XMLInputFactory", "de.escidoc.core.common.jibx.IJCWstxInputFactory");
+    }
 
     /**
      * 
@@ -82,9 +97,9 @@ public class Marshaller<E> {
         E result = null;
 
         try {
-            IBindingFactory bfact = getBindingFactory(BINDING_IN_EXT);
-            IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
-            ByteArrayInputStream in = new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
+            final IBindingFactory bfact = getBindingFactory(BINDING_IN_EXT);
+            final IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+            final ByteArrayInputStream in = new ByteArrayInputStream(xmlDocument.getBytes("UTF-8"));
 
             uctx.setDocument(in, "UTF-8");
             if (userContext != null)
@@ -92,14 +107,14 @@ public class Marshaller<E> {
 
             result = (E) uctx.unmarshalElement();
         }
-        catch (UnsupportedEncodingException e) {
+        catch (final UnsupportedEncodingException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
             throw new InternalClientException("Unmarshalling from XML document to " + resourceClass.getName()
                 + " failed! Document is not 'UTF-8' encoded! ", e);
         }
-        catch (JiBXException e) {
+        catch (final JiBXException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
@@ -130,14 +145,14 @@ public class Marshaller<E> {
         E result = null;
 
         try {
-            IBindingFactory bfact = getBindingFactory(BINDING_IN_EXT);
-            IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
+            final IBindingFactory bfact = getBindingFactory(BINDING_IN_EXT);
+            final IUnmarshallingContext uctx = bfact.createUnmarshallingContext();
             uctx.setDocument(xmlInputStream, "UTF-8");
             if (userContext != null)
                 uctx.setUserContext(userContext);
             result = (E) uctx.unmarshalElement();
         }
-        catch (JiBXException e) {
+        catch (final JiBXException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
@@ -167,21 +182,21 @@ public class Marshaller<E> {
         String result = null;
 
         try {
-            IBindingFactory bfact = getBindingFactory(BINDING_OUT_EXT);
-            IMarshallingContext mctx = bfact.createMarshallingContext();
+            final IBindingFactory bfact = getBindingFactory(BINDING_OUT_EXT);
+            final IMarshallingContext mctx = bfact.createMarshallingContext();
             mctx.setIndent(2);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            final ByteArrayOutputStream out = new ByteArrayOutputStream();
             mctx.marshalDocument(resource, "UTF-8", null, out);
             result = new String(out.toByteArray(), "UTF-8");
         }
-        catch (UnsupportedEncodingException e) {
+        catch (final UnsupportedEncodingException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
             throw new InternalClientException("Marshalling from " + resourceClass.getName()
                 + " to XML document failed due to wrong encoding ('UTF-8')!", e);
         }
-        catch (JiBXException e) {
+        catch (final JiBXException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(e.getMessage(), e);
             }
@@ -242,7 +257,7 @@ public class Marshaller<E> {
             try {
                 return BindingDirectory.getFactory(name, resourceClass);
             }
-            catch (JiBXException e) {
+            catch (final JiBXException e) {
                 return BindingDirectory.getFactory(bindingName, resourceClass);
             }
         }
