@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- 
+  URI definitions:
+  > ijc:<RELATIVE_PATH>     
+    The file is located in the ClassPath of the IJC and should be loaded via the ClassLoader of the IJC.
+  
+  > URL of any kind (file://<ABSOLUTE_PATH> or http://localhost:8080/dtd/myfile.dtd etc.)
+    The file will be handled as a normal URL reference. The URI should be a valid URL.
+-->
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <system systemId="http://java.sun.com/dtd/properties.dtd" uri="ijc:dtd/sun/properties.dtd"/>
+</catalog>
