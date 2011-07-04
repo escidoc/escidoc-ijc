@@ -96,7 +96,32 @@
 			<name>Java.net Maven 2 Repository</name>
 			<url>http://download.java.net/maven/2</url>
 		</repository>
+		<repository>
+			<id>jibx.sf.net</id>
+			<name>JiBX repository</name>
+			<url>http://jibx.sf.net/maven2</url>
+			<releases>
+			  <updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+			  <enabled>false</enabled>
+			</snapshots>
+		  </repository>
 	</repositories>
+
+	<pluginRepositories>
+	  <pluginRepository>
+		<id>jibx.sf.net</id>
+		<name>JiBX repository</name>
+		<url>http://jibx.sf.net/maven2</url>
+		<releases>
+		  <updatePolicy>never</updatePolicy>
+		</releases>
+		<snapshots>
+		  <enabled>false</enabled>
+		</snapshots>
+	  </pluginRepository>
+	</pluginRepositories>
 
   <reporting>
 		<plugins>
@@ -1105,34 +1130,42 @@
 				<artifactId>axis-jaxrpc</artifactId>
 				<version>1.4</version>
 			</dependency>
+      <dependency>
+        <groupId>org.jibx</groupId>
+        <artifactId>jibx-run</artifactId>
+        <version>1.2.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jibx</groupId>
+        <artifactId>jibx-extras</artifactId>
+        <version>1.2.3</version>
+      </dependency>
 			<dependency>
 				<groupId>sun-xacml</groupId>
 				<artifactId>sun-xacml</artifactId>
 				<version>1.0</version>
 			</dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
 			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.escidoc</groupId>
-				<artifactId>escidoc-core</artifactId>
-				<version>${escidoc.version}</version>
-				<type>ear</type>
-				<scope>provided</scope>
-			</dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${slf4j.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.8.1</version>
+        <scope>test</scope>
+      </dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.escidoc</groupId>
-			<artifactId>escidoc-core</artifactId>
-			<type>ear</type>
-			<scope>provided</scope>
-		</dependency>
 		<!-- Joda Time -->
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -1165,22 +1198,15 @@
 		<dependency>
 			<groupId>org.jibx</groupId>
 			<artifactId>jibx-run</artifactId>
-			<version>1.2.2</version>
 		</dependency>
+    <dependency>
+      <groupId>org.jibx</groupId>
+      <artifactId>jibx-extras</artifactId>
+    </dependency>
 		<dependency>
 			<groupId>org.codehaus.woodstox</groupId>
 			<artifactId>wstx-asl</artifactId>
 			<version>3.2.9</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jibx</groupId>
-			<artifactId>jibx-extras</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
 		</dependency>
 		<dependency>
 			<groupId>sun-xacml</groupId>
@@ -1209,10 +1235,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<scope>test</scope>
-		</dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
 
 	</dependencies>
 	
