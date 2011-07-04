@@ -101,19 +101,20 @@ public class ItemTestRest {
 
         // /item/@title == dc:title
         assertEquals("xlink:title not updated in root element", XPathAPI.selectSingleNode(itemTemplateDoc,
-            "/item/md-records/md-record[@name='escidoc']/dc-md/title").getTextContent(), XPathAPI.selectSingleNode(
-            itemCreatedDoc, "/item/@title").getTextContent());
+            "/item/md-records/md-record[@name='escidoc']/dc-md/title").getFirstChild().getNodeValue(), XPathAPI
+            .selectSingleNode(itemCreatedDoc, "/item/@title").getFirstChild().getNodeValue());
 
         // dc:title == dc:title
         assertEquals("xlink:title not updated in root element", XPathAPI.selectSingleNode(itemTemplateDoc,
-            "/item/md-records/md-record[@name='escidoc']/dc-md/title").getTextContent(), XPathAPI.selectSingleNode(
-            itemCreatedDoc, "/item/md-records/md-record[@name='escidoc']/dc-md/title").getTextContent());
+            "/item/md-records/md-record[@name='escidoc']/dc-md/title").getFirstChild().getNodeValue(), XPathAPI
+            .selectSingleNode(itemCreatedDoc, "/item/md-records/md-record[@name='escidoc']/dc-md/title")
+            .getFirstChild().getNodeValue());
 
         // description
         assertEquals("xlink:title not updated in root element", XPathAPI.selectSingleNode(itemTemplateDoc,
-            "/item/md-records/md-record[@name='escidoc']/dc-md/description").getTextContent(), XPathAPI
+            "/item/md-records/md-record[@name='escidoc']/dc-md/description").getFirstChild().getNodeValue(), XPathAPI
             .selectSingleNode(itemCreatedDoc, "/item/md-records/md-record[@name='escidoc']/dc-md/description")
-            .getTextContent());
+            .getFirstChild().getNodeValue());
     }
 
     /**
@@ -136,19 +137,20 @@ public class ItemTestRest {
 
         // /item/@title == dc:title
         assertEquals("xlink:title not updated in root element", XPathAPI.selectSingleNode(itemTemplateDoc,
-            "/item/md-records/md-record[@name='escidoc']/metadata/title").getTextContent(), XPathAPI.selectSingleNode(
-            itemCreatedDoc, "/item/@title").getTextContent());
+            "/item/md-records/md-record[@name='escidoc']/metadata/title").getFirstChild().getNodeValue(), XPathAPI
+            .selectSingleNode(itemCreatedDoc, "/item/@title").getFirstChild().getNodeValue());
 
         // dc:title == dc:title
         assertEquals("xlink:title not updated in root element", XPathAPI.selectSingleNode(itemTemplateDoc,
-            "/item/md-records/md-record[@name='escidoc']/metadata/title").getTextContent(), XPathAPI.selectSingleNode(
-            itemCreatedDoc, "/item/md-records/md-record[@name='escidoc']/metadata/title").getTextContent());
+            "/item/md-records/md-record[@name='escidoc']/metadata/title").getFirstChild().getNodeValue(), XPathAPI
+            .selectSingleNode(itemCreatedDoc, "/item/md-records/md-record[@name='escidoc']/metadata/title")
+            .getFirstChild().getNodeValue());
 
         // description
         assertEquals("xlink:title not updated in root element", XPathAPI.selectSingleNode(itemTemplateDoc,
-            "/item/md-records/md-record[@name='escidoc']/metadata/description").getTextContent(), XPathAPI
-            .selectSingleNode(itemCreatedDoc, "/item/md-records/md-record[@name='escidoc']/metadata/description")
-            .getTextContent());
+            "/item/md-records/md-record[@name='escidoc']/metadata/description").getFirstChild().getNodeValue(),
+            XPathAPI.selectSingleNode(itemCreatedDoc,
+                "/item/md-records/md-record[@name='escidoc']/metadata/description").getFirstChild().getNodeValue());
 
     }
 
@@ -168,13 +170,13 @@ public class ItemTestRest {
 
         final Document itemDoc = XmlUtility.getDocument(createdItemXml);
 
-        final String hrefPath = XPathAPI.selectSingleNode(itemDoc, "/item/@href").getTextContent();
+        final String hrefPath = XPathAPI.selectSingleNode(itemDoc, "/item/@href").getFirstChild().getNodeValue();
         final String objid = hrefPath.substring(hrefPath.lastIndexOf("/") + 1);
 
         // assumtion, there is only one ds:title element
         final Node dcTitle = itemDoc.getElementsByTagName("dc:title").item(0);
         final String titleNew = "New Item Description " + System.nanoTime();
-        dcTitle.setTextContent(titleNew);
+        dcTitle.replaceChild(itemDoc.createTextNode(titleNew), dcTitle.getFirstChild());
 
         // updateItemXml
         final String updateItemXml = XmlUtility.xmlToString(itemDoc);
@@ -184,10 +186,10 @@ public class ItemTestRest {
         final Document itemUpdatedDoc = XmlUtility.getDocument(updatedItemXml);
 
         assertEquals("xlink:title not updated in root element", titleNew, XPathAPI.selectSingleNode(itemUpdatedDoc,
-            "/item/@title").getTextContent());
+            "/item/@title").getFirstChild().getNodeValue());
 
         assertEquals("dc:title not updated in md-record", titleNew, itemUpdatedDoc
-            .getElementsByTagName("dc:title").item(0).getTextContent());
+            .getElementsByTagName("dc:title").item(0).getFirstChild().getNodeValue());
     }
 
     /**

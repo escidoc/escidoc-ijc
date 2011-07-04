@@ -268,7 +268,9 @@ public final class EscidocClientTestBase {
     public static final String obtainObjidByXPath(final String xPathToElement, final Document doc) throws DOMException,
         TransformerException {
         final String objidOrHref =
-            XPathAPI.selectSingleNode(doc, xPathToElement + "/@objid|" + xPathToElement + "/@href").getTextContent();
+            XPathAPI
+                .selectSingleNode(doc, xPathToElement + "/@objid|" + xPathToElement + "/@href").getFirstChild()
+                .getNodeValue();
         return objidOrHref.substring(objidOrHref.lastIndexOf('/') + 1);
     }
 

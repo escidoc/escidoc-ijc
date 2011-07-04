@@ -82,23 +82,23 @@ public class OuParentsTest {
     @Test
     public void testParentsUpdate01() throws Exception {
 
-        OrganizationalUnit ouParent = createOU("parent OU @ " + System.currentTimeMillis(), "parent description");
-        OrganizationalUnit ouChild = createOU("child OU @ " + System.currentTimeMillis(), "child description");
+        final OrganizationalUnit ouParent = createOU("parent OU @ " + System.currentTimeMillis(), "parent description");
+        final OrganizationalUnit ouChild = createOU("child OU @ " + System.currentTimeMillis(), "child description");
 
-        Parents p = new Parents();
+        final Parents p = new Parents();
         p.add(new Parent(ouParent.getObjid()));
 
-        Parents newP = ohc.updateParents(ouChild, p);
+        final Parents newP = ohc.updateParents(ouChild, p);
 
         // retrieve child
-        OrganizationalUnit ouChildNew = ohc.retrieve(ouChild.getObjid());
+        final OrganizationalUnit ouChildNew = ohc.retrieve(ouChild.getObjid());
         // test parents
         assertNotNull(ouChildNew.getParents());
         assertTrue(ouChildNew.getParents().size() == 1);
         assertEquals(p.get(0).getObjid(), ouChildNew.getParents().get(0).getObjid());
 
         // test if parents children got updated
-        List<OrganizationalUnit> ouChildren = ohc.retrieveChildObjectsAsList(ouParent.getObjid());
+        final List<OrganizationalUnit> ouChildren = ohc.retrieveChildObjectsAsList(ouParent.getObjid());
 
         assertTrue(ouChildren.size() == 1);
         assertEquals(ouChildNew.getObjid(), ouChildren.get(0).getObjid());
@@ -124,22 +124,22 @@ public class OuParentsTest {
     @Test
     public void testParentsUpdate02() throws Exception {
 
-        OrganizationalUnit A = createOU("OU A @ " + System.currentTimeMillis(), "parent description");
-        OrganizationalUnit B = createOU("OU B @ " + System.currentTimeMillis(), "child description");
-        OrganizationalUnit C = createOU("OU C @ " + System.currentTimeMillis(), "child description");
+        final OrganizationalUnit A = createOU("OU A @ " + System.currentTimeMillis(), "parent description");
+        final OrganizationalUnit B = createOU("OU B @ " + System.currentTimeMillis(), "child description");
+        final OrganizationalUnit C = createOU("OU C @ " + System.currentTimeMillis(), "child description");
 
-        Parents B2A = new Parents();
+        final Parents B2A = new Parents();
         B2A.add(new Parent(A.getObjid()));
 
-        Parents C2B = new Parents();
+        final Parents C2B = new Parents();
         C2B.add(new Parent(B.getObjid()));
 
         // initial constellation
         ohc.updateParents(B, B2A);
-        Parents newCParents = ohc.updateParents(C, C2B);
+        final Parents newCParents = ohc.updateParents(C, C2B);
 
         // test case: A <- C
-        Parents C2A = new Parents();
+        final Parents C2A = new Parents();
         C2A.add(new Parent(A.getObjid()));
         // this is required because C has been changed before
         C2A.setLastModificationDate(newCParents.getLastModificationDate());
@@ -169,22 +169,22 @@ public class OuParentsTest {
     @Test(expected = OptimisticLockingException.class)
     public void testParentsUpdate03() throws Exception {
 
-        OrganizationalUnit A = createOU("OU A @ " + System.currentTimeMillis(), "parent description");
-        OrganizationalUnit B = createOU("OU B @ " + System.currentTimeMillis(), "child description");
-        OrganizationalUnit C = createOU("OU C @ " + System.currentTimeMillis(), "child description");
+        final OrganizationalUnit A = createOU("OU A @ " + System.currentTimeMillis(), "parent description");
+        final OrganizationalUnit B = createOU("OU B @ " + System.currentTimeMillis(), "child description");
+        final OrganizationalUnit C = createOU("OU C @ " + System.currentTimeMillis(), "child description");
 
-        Parents B2A = new Parents();
+        final Parents B2A = new Parents();
         B2A.add(new Parent(A.getObjid()));
 
-        Parents C2B = new Parents();
+        final Parents C2B = new Parents();
         C2B.add(new Parent(B.getObjid()));
 
         // initial constellation
         ohc.updateParents(B, B2A);
-        Parents newCParents = ohc.updateParents(C, C2B);
+        final Parents newCParents = ohc.updateParents(C, C2B);
 
         // test case: A <- C
-        Parents C2A = new Parents();
+        final Parents C2A = new Parents();
         C2A.add(new Parent(A.getObjid()));
         /*
          * Either LMD of C2A should be set to the LMD of newCParents or instead
@@ -205,12 +205,12 @@ public class OuParentsTest {
     private OrganizationalUnit createOU(final String name, final String description) throws EscidocException,
         InternalClientException, TransportException, ParserConfigurationException {
 
-        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        final OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        final OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName(name);
         organizationalUnit.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
         mdRecords.add(createMdRecordDC("escidoc", "foo", name, description));
         organizationalUnit.setMetadataRecords(mdRecords);
@@ -232,28 +232,28 @@ public class OuParentsTest {
         throws ParserConfigurationException {
 
         // md-record
-        MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
+        final MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         factory.setCoalescing(true);
         factory.setValidating(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
 
-        Document doc = builder.newDocument();
-        Element mdRecordContent = doc.createElementNS(null, rootElementName);
+        final Document doc = builder.newDocument();
+        final Element mdRecordContent = doc.createElementNS(null, rootElementName);
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        final Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
-        titleElmt.setTextContent(title);
+        titleElmt.appendChild(doc.createTextNode(title));
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
-        Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
+        final Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
-        descriptionElmt.setTextContent(description);
+        descriptionElmt.appendChild(doc.createTextNode(description));
         mdRecordContent.appendChild(descriptionElmt);
         mdRecord.setContent(mdRecordContent);
 

@@ -95,16 +95,16 @@ public abstract class MarshallerTestBase<T> {
 
         checkNotEmpty(resourceFile);
 
-        InputStream in = Template.loadMockup(transport, basePath, xsdVersion, resourceFile);
+        final InputStream in = Template.loadMockup(transport, basePath, xsdVersion, resourceFile);
 
         checkNotNull(in);
 
-        StringBuilder sb = new StringBuilder();
-        char[] buffer = new char[1024];
+        final StringBuilder sb = new StringBuilder();
+        final char[] buffer = new char[1024];
         int read = -1;
 
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 
             while ((read = reader.read(buffer)) != -1) {
                 sb.append(buffer, 0, read);
@@ -131,8 +131,8 @@ public abstract class MarshallerTestBase<T> {
     @Test
     public void testLifecycle() throws Exception {
 
-        Marshaller<T> m = Marshaller.getMarshaller(clazz, transport.name());
-        T obj = m.unmarshalDocument(xml);
+        final Marshaller<T> m = Marshaller.getMarshaller(clazz, transport.name());
+        final T obj = m.unmarshalDocument(xml);
         checkMarshalledDoc = false;
         validate(obj);
 
@@ -189,7 +189,7 @@ public abstract class MarshallerTestBase<T> {
      */
     protected <U> U getTestSubResource(final Class<U> subClazz, final U subResource) throws InternalClientException {
 
-        Marshaller<U> m = Marshaller.getMarshaller(subClazz);
+        final Marshaller<U> m = Marshaller.getMarshaller(subClazz);
         return m.unmarshalDocument(m.marshalDocument(subResource));
     }
 
@@ -247,12 +247,14 @@ public abstract class MarshallerTestBase<T> {
 
         checkNotNull(xPath);
 
-        Node node = XPathAPI.selectSingleNode(getDocument(), xPath, getDocument().getDocumentElement());
+        final Node node = XPathAPI.selectSingleNode(getDocument(), xPath, getDocument().getDocumentElement());
 
         if (strict) {
             assertNotNull("No node found for XPath: " + xPath, node);
         }
-        String content = node == null ? null : node.getTextContent();
+        String content =
+            node != null && node.getFirstChild() != null && node.getFirstChild().getNodeType() == Node.TEXT_NODE ? node
+                .getFirstChild().getNodeValue() : null;
 
         if (content != null) {
             assertNotNull("Object value is null for XPath: " + xPath, valueToCheck);
@@ -291,7 +293,7 @@ public abstract class MarshallerTestBase<T> {
         checkNotNull(res);
 
         if (transport == TransportProtocol.SOAP) {
-            String objid = res.getObjid();
+            final String objid = res.getObjid();
 
             assertXPath(xPathContext + "/@objid", objid, true);
             // in some cases it is impossible to generate the XLink
@@ -502,7 +504,7 @@ public abstract class MarshallerTestBase<T> {
                 return null;
 
             if (e.getClass().isEnum()) {
-                for (XmlCompatibleEnum t : e.getClass().getEnumConstants()) {
+                for (final XmlCompatibleEnum t : e.getClass().getEnumConstants()) {
                     if (t.getXmlValue().equals(value)) {
                         return t.toString();
                     }

@@ -92,22 +92,22 @@ public class ItemUpdateTest {
     @Test
     public void testUpdateItem01() throws Exception {
 
-        Item item = createItem();
+        final Item item = createItem();
 
-        MetadataRecord mdRecord2 = new MetadataRecord("md-record2");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
-        element.setTextContent("2222222222");
+        final MetadataRecord mdRecord2 = new MetadataRecord("md-record2");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element element = doc.createElementNS(null, "myMdRecord");
+        element.appendChild(doc.createTextNode("2222222222"));
 
         mdRecord2.setContent(element);
 
         item.getMetadataRecords().add(mdRecord2);
-        Item updatedItem = ihc.update(item);
+        final Item updatedItem = ihc.update(item);
 
         // compare the new created Item with the Item from the request
-        String objId = updatedItem.getObjid();
+        final String objId = updatedItem.getObjid();
         assertNotNull("Object id is null", objId);
         assertEquals(item.getProperties().getContext().getObjid(), updatedItem.getProperties().getContext().getObjid());
         assertEquals(item.getProperties().getContentModel().getObjid(), updatedItem
@@ -129,30 +129,30 @@ public class ItemUpdateTest {
      *             Thrown if creation failed or non-volatile Item values differ.
      */
     private Item createItem() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
+        final Item item = new Item();
+        final ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff1");
-        element1.setTextContent("33333333333333333333");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element contentModelSpecific = doc.createElementNS(null, "cms");
+        final Element element1 = doc.createElement("some-other-stuff1");
+        element1.appendChild(doc.createTextNode("33333333333333333333"));
 
-        List<Element> cmsContent = new LinkedList<Element>();
+        final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
         cmsContent.add(element1);
-        ContentModelSpecific cms = new ContentModelSpecific();
+        final ContentModelSpecific cms = new ContentModelSpecific();
 
         cms.setContent(cmsContent);
 
         properties.setContentModelSpecific(cms);
         item.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
-        Element element = doc.createElementNS(null, "myMdRecord");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);
 

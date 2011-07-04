@@ -219,13 +219,13 @@ public class OrganizationalUnitHandlerClientTest {
         // title
         final Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
-        titleElmt.setTextContent(title);
+        titleElmt.appendChild(doc.createTextNode(title));
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
         final Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
-        descriptionElmt.setTextContent(description);
+        descriptionElmt.appendChild(doc.createTextNode(description));
         mdRecordContent.appendChild(descriptionElmt);
         mdRecord.setContent(mdRecordContent);
 

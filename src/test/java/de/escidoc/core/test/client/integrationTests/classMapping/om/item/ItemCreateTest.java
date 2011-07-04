@@ -115,7 +115,7 @@ public class ItemCreateTest {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem01() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
         ihc.create(item);
     }
 
@@ -130,7 +130,7 @@ public class ItemCreateTest {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem02() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
         ihc.create(item);
     }
 
@@ -143,8 +143,8 @@ public class ItemCreateTest {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem03() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
+        final Item item = new Item();
+        final ItemProperties properties = new ItemProperties();
         item.setProperties(properties);
 
         ihc.create(item);
@@ -159,8 +159,8 @@ public class ItemCreateTest {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem04() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
+        final Item item = new Item();
+        final ItemProperties properties = new ItemProperties();
         item.setProperties(properties);
         ihc.create(item);
     }
@@ -174,8 +174,8 @@ public class ItemCreateTest {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem05() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
+        final Item item = new Item();
+        final ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.setProperties(properties);
         ihc.create(item);
@@ -190,11 +190,11 @@ public class ItemCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateItem06() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
+        final Item item = new Item();
+        final ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
         item.setMetadataRecords(mdRecords);
 
         ihc.create(item);
@@ -211,12 +211,12 @@ public class ItemCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateItem08() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
+        final Item item = new Item();
+        final ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
@@ -234,28 +234,28 @@ public class ItemCreateTest {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem09() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
+        final Item item = new Item();
+        final ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff1");
-        element1.setTextContent("33333333333333333333");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element contentModelSpecific = doc.createElementNS(null, "cms");
+        final Element element1 = doc.createElement("some-other-stuff1");
+        element1.appendChild(doc.createTextNode("33333333333333333333"));
 
-        List<Element> cmsContent = new LinkedList<Element>();
+        final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
         cmsContent.add(element1);
-        ContentModelSpecific cms = new ContentModelSpecific();
+        final ContentModelSpecific cms = new ContentModelSpecific();
 
         cms.setContent(cmsContent);
         properties.setContentModelSpecific(cms);
         item.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
-        Document doc1 = builder.newDocument();
-        Element element = doc1.createElementNS(null, "myMdRecord");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final Document doc1 = builder.newDocument();
+        final Element element = doc1.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);
 
@@ -273,28 +273,28 @@ public class ItemCreateTest {
      */
     @Test
     public void testCreateItem10() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
-        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        final ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
         // create
-        Item createdItem = ihc.create(item);
+        final Item createdItem = ihc.create(item);
 
         /*
          * compare the new created Item with the Item from the request
          */
-        String objId = createdItem.getObjid();
+        final String objId = createdItem.getObjid();
 
         assertNotNull("Object id is null", objId);
         assertEquals(item.getProperties().getContext().getObjid(), createdItem.getProperties().getContext().getObjid());
@@ -310,31 +310,31 @@ public class ItemCreateTest {
      */
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
-        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        final ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord1);
 
-        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        final MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
         mdRecords.add(mdrecord2);
 
-        MetadataRecord mdrecord3 = ResourceUtility.getMdRecord("mdRecord3");
+        final MetadataRecord mdrecord3 = ResourceUtility.getMdRecord("mdRecord3");
         mdRecords.add(mdrecord3);
 
         item.setMetadataRecords(mdRecords);
 
         // create
-        Item createdItem = ihc.create(item);
+        final Item createdItem = ihc.create(item);
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
@@ -351,24 +351,24 @@ public class ItemCreateTest {
      */
     @Test
     public void testMDRecordsDeletion01() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord1);
 
-        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        final MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
         mdRecords.add(mdrecord2);
 
         item.setMetadataRecords(mdRecords);
 
         // create
-        Item createdItem = ihc.create(item);
+        final Item createdItem = ihc.create(item);
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
@@ -380,7 +380,7 @@ public class ItemCreateTest {
         // delete md-record
         createdItem.getMetadataRecords().del(mdrecord2.getName());
 
-        Item updatedItem = ihc.update(createdItem);
+        final Item updatedItem = ihc.update(createdItem);
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
@@ -397,24 +397,24 @@ public class ItemCreateTest {
      */
     @Test(expected = MissingMdRecordException.class)
     public void testMDRecordsDeletion02() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord1);
 
-        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        final MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
         mdRecords.add(mdrecord2);
 
         item.setMetadataRecords(mdRecords);
 
         // create
-        Item createdItem = ihc.create(item);
+        final Item createdItem = ihc.create(item);
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
@@ -426,7 +426,7 @@ public class ItemCreateTest {
         // delete required md-record
         createdItem.getMetadataRecords().del(mdrecord1.getName());
 
-        Item updatedItem = ihc.update(createdItem);
+        final Item updatedItem = ihc.update(createdItem);
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
@@ -443,24 +443,24 @@ public class ItemCreateTest {
      */
     @Test(expected = InvalidXmlException.class)
     public void testMDRecordsDeletion03() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord1);
 
-        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        final MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
         mdRecords.add(mdrecord2);
 
         item.setMetadataRecords(mdRecords);
 
         // create
-        Item createdItem = ihc.create(item);
+        final Item createdItem = ihc.create(item);
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
@@ -483,24 +483,24 @@ public class ItemCreateTest {
      */
     @Test
     public void testMDRecordsDeletion04() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecord mdrecord1 = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord1);
 
-        MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
+        final MetadataRecord mdrecord2 = ResourceUtility.getMdRecord("mdRecord2");
         mdRecords.add(mdrecord2);
 
         item.setMetadataRecords(mdRecords);
 
         // create
-        Item createdItem = ihc.create(item);
+        final Item createdItem = ihc.create(item);
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", createdItem.getObjid());
@@ -512,7 +512,7 @@ public class ItemCreateTest {
         // delete md-records
         createdItem.setMetadataRecords(null);
 
-        Item updatedItem = ihc.update(createdItem);
+        final Item updatedItem = ihc.update(createdItem);
 
         // compare the new created Item with the Item from the request
         assertNotNull("Object id is null", updatedItem.getObjid());
@@ -530,60 +530,60 @@ public class ItemCreateTest {
      */
     @Test
     public void testCreateItemWithOneComponent() throws Exception {
-        Item item = new Item();
-        ItemProperties properties = new ItemProperties();
+        final Item item = new Item();
+        final ItemProperties properties = new ItemProperties();
 
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
 
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff1");
-        element1.setTextContent("33333333333333333333");
+        final Element contentModelSpecific = doc.createElementNS(null, "cms");
+        final Element element1 = doc.createElement("some-other-stuff1");
+        element1.appendChild(doc.createTextNode("33333333333333333333"));
 
-        List<Element> cmsContent = new LinkedList<Element>();
+        final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
         cmsContent.add(element1);
-        ContentModelSpecific cms = new ContentModelSpecific();
+        final ContentModelSpecific cms = new ContentModelSpecific();
 
         cms.setContent(cmsContent);
 
         properties.setContentModelSpecific(cms);
 
         item.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
-        Document doc1 = builder.newDocument();
-        Element element = doc1.createElementNS(null, "myMdRecord");
+        final Document doc1 = builder.newDocument();
+        final Element element = doc1.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
-        Component component = new Component();
-        ComponentProperties componentProperties = new ComponentProperties();
+        final Component component = new Component();
+        final ComponentProperties componentProperties = new ComponentProperties();
         componentProperties.setContentCategory("content-category");
         componentProperties.setMimeType("text/xml");
         componentProperties.setValidStatus("valid");
         componentProperties.setVisibility("insitutional");
         component.setProperties(componentProperties);
-        ComponentContent content = new ComponentContent();
+        final ComponentContent content = new ComponentContent();
         content.setStorage(StorageType.INTERNAL_MANAGED);
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);
 
-        Components components = new Components();
+        final Components components = new Components();
         components.add(component);
         item.setComponents(components);
 
-        Marshaller<Item> m = MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
+        final Marshaller<Item> m = MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
         m.marshalDocument(item);
 
-        Item createdItem = ihc.create(item);
+        final Item createdItem = ihc.create(item);
         m.marshalDocument(createdItem);
     }
 
@@ -595,41 +595,41 @@ public class ItemCreateTest {
      */
     @Test
     public void testloginAndCreateItemWith02() throws Exception {
-        Item item = new Item();
+        final Item item = new Item();
 
         // Properties
-        ItemProperties properties = new ItemProperties();
+        final ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         properties.setContentModelSpecific(ResourceUtility.getContentModelSpecific());
         item.setProperties(properties);
 
         // Md-Record
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(ResourceUtility.getMdRecord("escidoc"));
         item.setMetadataRecords(mdRecords);
 
         // Components
-        Component component = new Component();
-        ComponentProperties componentProperties = new ComponentProperties();
+        final Component component = new Component();
+        final ComponentProperties componentProperties = new ComponentProperties();
         componentProperties.setContentCategory("content-category");
         componentProperties.setMimeType("text/xml");
         componentProperties.setValidStatus("valid");
         componentProperties.setVisibility("institutional");
         component.setProperties(componentProperties);
-        Components components = new Components();
+        final Components components = new Components();
         components.add(component);
         item.setComponents(components);
-        ComponentContent content = new ComponentContent();
+        final ComponentContent content = new ComponentContent();
         content.setStorage(StorageType.INTERNAL_MANAGED);
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);
 
         // only for debug
-        Marshaller<Item> m = MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
+        final Marshaller<Item> m = MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
         m.marshalDocument(item);
 
-        Item createdItem = ihc.create(item);
+        final Item createdItem = ihc.create(item);
 
         // only for debug
         m.marshalDocument(createdItem);
@@ -643,7 +643,7 @@ public class ItemCreateTest {
      */
     @Test
     public void testLifecycleItem01() throws Exception {
-        Item item = createItem();
+        final Item item = createItem();
 
         // submit --------------------------------------------------------------
         TaskParam taskParam = new TaskParam();
@@ -704,26 +704,26 @@ public class ItemCreateTest {
     @Test
     public void createItemWithComponentAndContent() throws Exception {
         // create file with random content
-        File file = ResourceUtility.createFileWithRandomContent();
+        final File file = ResourceUtility.createFileWithRandomContent();
 
-        StagingHandlerClientInterface sthc = new StagingHandlerClient(auth.getServiceAddress());
+        final StagingHandlerClientInterface sthc = new StagingHandlerClient(auth.getServiceAddress());
         sthc.setHandle(auth.getHandle());
 
-        URL contentRef = sthc.upload(file);
+        final URL contentRef = sthc.upload(file);
 
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
-        Component component = new Component();
-        ComponentContent content = new ComponentContent();
+        final Component component = new Component();
+        final ComponentContent content = new ComponentContent();
         content.setXLinkHref(contentRef.toString());
         content.setStorage(StorageType.INTERNAL_MANAGED);
         component.setContent(content);
@@ -732,12 +732,12 @@ public class ItemCreateTest {
         component.getProperties().setFileName(contentRef.getFile());
         component.getProperties().setVisibility("public");
         component.getProperties().setContentCategory("pre-print");
-        Components components = new Components();
+        final Components components = new Components();
         components.add(component);
         item.setComponents(components);
 
         // create
-        Item newItem = ihc.create(item);
+        final Item newItem = ihc.create(item);
     }
 
     @Test
@@ -758,10 +758,10 @@ public class ItemCreateTest {
     private Item createItem() throws EscidocClientException, InternalClientException, TransportException,
         ParserConfigurationException {
 
-        Item item = new Item();
+        final Item item = new Item();
 
         // Properties
-        ItemProperties properties = new ItemProperties();
+        final ItemProperties properties = new ItemProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
@@ -769,22 +769,22 @@ public class ItemCreateTest {
         item.setProperties(properties);
 
         // Md-Record
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(ResourceUtility.getMdRecord("escidoc"));
         item.setMetadataRecords(mdRecords);
 
         // Components
-        Component component = new Component();
-        ComponentProperties componentProperties = new ComponentProperties();
+        final Component component = new Component();
+        final ComponentProperties componentProperties = new ComponentProperties();
         componentProperties.setContentCategory("content-category");
         componentProperties.setMimeType("text/xml");
         componentProperties.setValidStatus("valid");
         componentProperties.setVisibility("institutional");
         component.setProperties(componentProperties);
-        Components components = new Components();
+        final Components components = new Components();
         components.add(component);
         item.setComponents(components);
-        ComponentContent content = new ComponentContent();
+        final ComponentContent content = new ComponentContent();
         content.setStorage(StorageType.INTERNAL_MANAGED);
         content.setBase64EncodedContent("skfjlfdf");
         component.setContent(content);

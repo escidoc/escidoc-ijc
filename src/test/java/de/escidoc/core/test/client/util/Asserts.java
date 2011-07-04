@@ -73,41 +73,41 @@ public class Asserts {
 
         assertEquals("Number of MetadataRecord(s) differs", master.size(), toCompare.size());
 
-        Iterator<MetadataRecord> it = master.iterator();
+        final Iterator<MetadataRecord> it = master.iterator();
 
         while (it.hasNext()) {
 
-            MetadataRecord mdMaster = it.next();
-            String masterName = mdMaster.getName();
-            String masterMdType = mdMaster.getMdType();
-            String masterSchema = mdMaster.getSchema();
+            final MetadataRecord mdMaster = it.next();
+            final String masterName = mdMaster.getName();
+            final String masterMdType = mdMaster.getMdType();
+            final String masterSchema = mdMaster.getSchema();
 
-            MetadataRecord mdToComp = toCompare.get(masterName);
+            final MetadataRecord mdToComp = toCompare.get(masterName);
             assertNotNull("MetadataRecord with name '" + masterName + "' is missing. ", mdToComp);
 
-            String toCompareMdType = mdToComp.getMdType();
+            final String toCompareMdType = mdToComp.getMdType();
             assertEquals("MetadataRecord types not equal.", masterMdType, toCompareMdType);
 
-            String toCompareSchema = mdToComp.getSchema();
+            final String toCompareSchema = mdToComp.getSchema();
             assertEquals("MetadataRecord Schemas not equal.", masterSchema, toCompareSchema);
 
-            Marshaller<MetadataRecord> m =
+            final Marshaller<MetadataRecord> m =
                 new Marshaller<MetadataRecord>(MetadataRecord.class, EscidocClientTestBase
                     .getDefaultTransportProtocol().name());
 
-            String xml1 = m.marshalDocument(mdMaster);
+            final String xml1 = m.marshalDocument(mdMaster);
 
-            Document mdRecordMaster = XmlUtility.getDocument(xml1);
-            Node mdRecordMasterNode = XPathAPI.selectSingleNode(mdRecordMaster, "/md-record");
-            Node mdRecordMasterContent = mdRecordMasterNode.getFirstChild();
+            final Document mdRecordMaster = XmlUtility.getDocument(xml1);
+            final Node mdRecordMasterNode = XPathAPI.selectSingleNode(mdRecordMaster, "/md-record");
+            final Node mdRecordMasterContent = mdRecordMasterNode.getFirstChild();
 
-            String xml2 = m.marshalDocument(mdToComp);
+            final String xml2 = m.marshalDocument(mdToComp);
 
-            Document mdRecordToCompare = XmlUtility.getDocument(xml2);
-            Node mdRecordToCompareNode = XPathAPI.selectSingleNode(mdRecordToCompare, "/md-record");
-            Node mdRecordToCompareContent = mdRecordToCompareNode.getFirstChild();
+            final Document mdRecordToCompare = XmlUtility.getDocument(xml2);
+            final Node mdRecordToCompareNode = XPathAPI.selectSingleNode(mdRecordToCompare, "/md-record");
+            final Node mdRecordToCompareContent = mdRecordToCompareNode.getFirstChild();
 
-            assertXmlEquals("Metadata Records differ", (Node) mdRecordToCompareContent, (Node) mdRecordMasterContent);
+            assertXmlEquals("Metadata Records differ", mdRecordToCompareContent, mdRecordMasterContent);
 
         }
     }
@@ -181,7 +181,7 @@ public class Asserts {
             return;
         }
 
-        String nodeName = getLocalName(expected);
+        final String nodeName = getLocalName(expected);
 
         String message = messageIn;
         if (!message.contains("-- Asserting ")) {
@@ -197,13 +197,13 @@ public class Asserts {
         assertEquals(message + " Type of nodes are different", expected.getNodeType(), toBeAsserted.getNodeType());
 
         if (expected.getNodeType() == Node.TEXT_NODE) {
-            assertEquals(message + " Text nodes are different. ", expected.getTextContent().trim(), toBeAsserted
-                .getTextContent().trim());
+            assertEquals(message + " Text nodes are different. ", expected.getFirstChild().getNodeValue().trim(),
+                toBeAsserted.getFirstChild().getNodeValue().trim());
         }
 
         // assert attributes
-        NamedNodeMap expectedAttributes = expected.getAttributes();
-        NamedNodeMap toBeAssertedAttributes = toBeAsserted.getAttributes();
+        final NamedNodeMap expectedAttributes = expected.getAttributes();
+        final NamedNodeMap toBeAssertedAttributes = toBeAsserted.getAttributes();
         if (expectedAttributes == null) {
             assertNull(message + " Unexpected attributes. [" + nodeName + "]", toBeAssertedAttributes);
         }
@@ -215,8 +215,8 @@ public class Asserts {
             // assertEquals(message + " Number of attributes differs. ",
             // expectedNumberAttributes, toBeAssertedNumberAttributes);
             for (int i = 0; i < expectedNumberAttributes; i++) {
-                Node expectedAttribute = expectedAttributes.item(i);
-                String expectedAttributeNamespace = expectedAttribute.getNamespaceURI();
+                final Node expectedAttribute = expectedAttributes.item(i);
+                final String expectedAttributeNamespace = expectedAttribute.getNamespaceURI();
                 Node toBeAssertedAttribute = null;
                 if (expectedAttributeNamespace != null) {
                     final String localName = expectedAttribute.getLocalName();
@@ -244,7 +244,8 @@ public class Asserts {
                 }
 
                 assertEquals(message + " Attribute value mismatch [" + expectedAttribute.getNodeName() + "] ",
-                    expectedAttribute.getTextContent(), toBeAssertedAttribute.getTextContent());
+                    expectedAttribute.getFirstChild().getNodeValue(), toBeAssertedAttribute
+                        .getFirstChild().getNodeValue());
             }
         }
 
@@ -253,18 +254,18 @@ public class Asserts {
         // Therefore, it is first tried to assert the children.
         // After that it is checked if children have been found. If this is not
         // the case, the text content is compared.
-        NodeList expectedChildren = expected.getChildNodes();
-        NodeList toBeAssertedChildren = toBeAsserted.getChildNodes();
+        final NodeList expectedChildren = expected.getChildNodes();
+        final NodeList toBeAssertedChildren = toBeAsserted.getChildNodes();
 
         int expectedNumberElementNodes = 0;
         int toBeAssertedNumberElementNodes = 0;
-        List<Node> previouslyAssertedChildren = new ArrayList<Node>();
+        final List<Node> previouslyAssertedChildren = new ArrayList<Node>();
         for (int i = 0; i < expectedChildren.getLength(); i++) {
-            Node expectedChild = expectedChildren.item(i);
+            final Node expectedChild = expectedChildren.item(i);
             if (expectedChild.getNodeType() == Node.ELEMENT_NODE) {
                 expectedNumberElementNodes++;
-                String expectedChildName = getLocalName(expectedChild);
-                String expectedUri = expectedChild.getNamespaceURI();
+                final String expectedChildName = getLocalName(expectedChild);
+                final String expectedUri = expectedChild.getNamespaceURI();
                 boolean expectedElementAsserted = false;
                 for (int j = 0; j < toBeAssertedChildren.getLength(); j++) {
                     final Node toBeAssertedChild = toBeAssertedChildren.item(j);
@@ -298,7 +299,7 @@ public class Asserts {
         // that has not been asserted. In this case, this element node
         // is unexpected!
         for (int i = 0; i < toBeAssertedChildren.getLength(); i++) {
-            Node toBeAssertedChild = toBeAssertedChildren.item(i);
+            final Node toBeAssertedChild = toBeAssertedChildren.item(i);
 
             // prevent previously asserted children from being
             // asserted again
@@ -315,8 +316,8 @@ public class Asserts {
 
         // if no children have been found, text content must be compared
         if (expectedNumberElementNodes == 0 && toBeAssertedNumberElementNodes == 0) {
-            String expectedContent = expected.getTextContent();
-            String toBeAssertedContent = toBeAsserted.getTextContent();
+            final String expectedContent = expected.getFirstChild().getNodeValue();
+            final String toBeAssertedContent = toBeAsserted.getFirstChild().getNodeValue();
             assertEquals(message, expectedContent, toBeAssertedContent);
         }
     }

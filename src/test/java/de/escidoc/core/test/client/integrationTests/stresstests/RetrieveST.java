@@ -2,10 +2,11 @@ package de.escidoc.core.test.client.integrationTests.stresstests;
 
 import static org.junit.Assert.fail;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContentModelHandlerClient;
@@ -24,7 +25,7 @@ public class RetrieveST {
 
     private Exception firstException;
 
-    private static final Logger LOG = Logger.getLogger(RetrieveST.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RetrieveST.class);
 
     @Before
     public void init() {

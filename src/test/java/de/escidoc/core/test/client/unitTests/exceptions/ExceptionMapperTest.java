@@ -5,9 +5,10 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.apache.log4j.Logger;
 import org.apache.ws.security.WSSecurityException;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -22,7 +23,7 @@ import de.escidoc.core.client.exceptions.application.invalid.ContextNotEmptyExce
  */
 public class ExceptionMapperTest {
 
-    private static final Logger LOG = Logger.getLogger(ExceptionMapperTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExceptionMapperTest.class);
 
     /**
      * 

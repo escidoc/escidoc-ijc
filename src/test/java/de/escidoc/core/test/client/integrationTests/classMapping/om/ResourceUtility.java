@@ -36,13 +36,13 @@ public class ResourceUtility {
      */
     public static MetadataRecord getMdRecord(final String name) throws ParserConfigurationException {
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
 
-        MetadataRecord mdRecord = new MetadataRecord(name);
+        final MetadataRecord mdRecord = new MetadataRecord(name);
 
-        Element element = doc.createElementNS(null, "myMdRecord");
+        final Element element = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         return mdRecord;
@@ -56,19 +56,19 @@ public class ResourceUtility {
      */
     public static ContentModelSpecific getContentModelSpecific() throws ParserConfigurationException {
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
 
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
-        Element element1 = doc.createElement("some-other-stuff");
-        element1.setTextContent("some content - " + System.nanoTime());
+        final Element contentModelSpecific = doc.createElementNS(null, "cms");
+        final Element element1 = doc.createElement("some-other-stuff");
+        element1.appendChild(doc.createTextNode("some content - " + System.nanoTime()));
 
-        List<Element> cmsContent = new LinkedList<Element>();
+        final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
         cmsContent.add(element1);
 
-        ContentModelSpecific cms = new ContentModelSpecific();
+        final ContentModelSpecific cms = new ContentModelSpecific();
         cms.setContent(cmsContent);
 
         return cms;
@@ -82,11 +82,11 @@ public class ResourceUtility {
      */
     public static File createFileWithRandomContent() throws IOException {
 
-        File temp = File.createTempFile("escidoc-binary-content-example", ".tmp");
+        final File temp = File.createTempFile("escidoc-binary-content-example", ".tmp");
         temp.deleteOnExit();
 
         // Write to temp file
-        BufferedWriter out = new BufferedWriter(new FileWriter(temp));
+        final BufferedWriter out = new BufferedWriter(new FileWriter(temp));
 
         out.write("A random String " + System.nanoTime());
         out.close();

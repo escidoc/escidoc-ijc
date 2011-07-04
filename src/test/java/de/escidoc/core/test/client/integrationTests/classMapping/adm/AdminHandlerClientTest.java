@@ -15,11 +15,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -60,7 +61,7 @@ import de.escidoc.core.test.client.integrationTests.classMapping.om.ResourceUtil
  */
 public class AdminHandlerClientTest {
 
-    private static final Logger LOG = Logger.getLogger(AdminHandlerClientTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AdminHandlerClientTest.class);
 
     private Authentication auth;
 
@@ -90,8 +91,8 @@ public class AdminHandlerClientTest {
      */
     @Test
     public void testLoadExamples() throws Exception {
-        MessagesResult<Entry> result = ahc.loadExamples();
-        for (Entry entry : result) {
+        final MessagesResult<Entry> result = ahc.loadExamples();
+        for (final Entry entry : result) {
             assertNotNull("Objid is null", entry.getObjid());
             assertNotNull("ResourceType is null", entry.getResourceType());
             assertNotNull("Message is null", entry.getMessage());
@@ -104,7 +105,7 @@ public class AdminHandlerClientTest {
      */
     @Test
     public void testPurgeStatus() throws Exception {
-        MessagesStatus status = ahc.getPurgeStatus();
+        final MessagesStatus status = ahc.getPurgeStatus();
         validateMessagesStatus(status);
     }
 
@@ -114,7 +115,7 @@ public class AdminHandlerClientTest {
      */
     @Test
     public void testRepositoryInfo() throws Exception {
-        RepositoryInfo info = ahc.getRepositoryInfo();
+        final RepositoryInfo info = ahc.getRepositoryInfo();
         // evaluate result
         assertNotNull(RepositoryInfo.KEY_ESCIDOC_CORE_ADMIN_EMAIL + " is null.", info
             .get(RepositoryInfo.KEY_ESCIDOC_CORE_ADMIN_EMAIL));
@@ -183,16 +184,16 @@ public class AdminHandlerClientTest {
                         // throw new InternalClientException("TEST");
                     }
                 }
-                catch (EscidocException e) {
+                catch (final EscidocException e) {
                     throw new RuntimeException(e);
                 }
-                catch (InternalClientException e) {
+                catch (final InternalClientException e) {
                     throw new RuntimeException(e);
                 }
-                catch (TransportException e) {
+                catch (final TransportException e) {
                     throw new RuntimeException(e);
                 }
-                catch (InterruptedException e) {
+                catch (final InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -220,7 +221,7 @@ public class AdminHandlerClientTest {
         }
         else {
             // test if recache info status is set to finished
-            MessagesStatus newStatus = ahc.getReindexStatus();
+            final MessagesStatus newStatus = ahc.getReindexStatus();
             assertTrue(newStatus.getStatusCode() == MessagesStatus.STATUS_FINISHED);
         }
     }
@@ -234,16 +235,17 @@ public class AdminHandlerClientTest {
     public void testPurge() throws Exception {
         // create some data to delete
         // initialize handler clients
-        ItemHandlerClientInterface ih = new ItemHandlerClient(auth.getServiceAddress());
+        final ItemHandlerClientInterface ih = new ItemHandlerClient(auth.getServiceAddress());
         ih.setHandle(auth.getHandle());
 
-        OrganizationalUnitHandlerClientInterface oh = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+        final OrganizationalUnitHandlerClientInterface oh =
+            new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         oh.setHandle(auth.getHandle());
 
-        ContainerHandlerClientInterface ch = new ContainerHandlerClient(auth.getServiceAddress());
+        final ContainerHandlerClientInterface ch = new ContainerHandlerClient(auth.getServiceAddress());
         ch.setHandle(auth.getHandle());
 
-        Collection<String> ids = new LinkedList<String>();
+        final Collection<String> ids = new LinkedList<String>();
 
         for (int i = 0; i < 20; i++) {
             ids.add(createItem(ih));
@@ -252,9 +254,9 @@ public class AdminHandlerClientTest {
         }
 
         // create task params
-        TaskParam param = new TaskParam();
+        final TaskParam param = new TaskParam();
         param.setKeepInSync(true);
-        for (String id : ids) {
+        for (final String id : ids) {
             param.addResourceRef(id);
         }
 
@@ -288,16 +290,16 @@ public class AdminHandlerClientTest {
                         // throw new InternalClientException("TEST");
                     }
                 }
-                catch (EscidocException e) {
+                catch (final EscidocException e) {
                     throw new RuntimeException(e);
                 }
-                catch (InternalClientException e) {
+                catch (final InternalClientException e) {
                     throw new RuntimeException(e);
                 }
-                catch (TransportException e) {
+                catch (final TransportException e) {
                     throw new RuntimeException(e);
                 }
-                catch (InterruptedException e) {
+                catch (final InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -325,7 +327,7 @@ public class AdminHandlerClientTest {
         }
         else {
             // test if recache info status is set to finished
-            MessagesStatus newStatus = ahc.getReindexStatus();
+            final MessagesStatus newStatus = ahc.getReindexStatus();
             assertTrue(newStatus.getStatusCode() == MessagesStatus.STATUS_FINISHED);
         }
     }
@@ -341,14 +343,14 @@ public class AdminHandlerClientTest {
      */
     private String createItem(final ItemHandlerClientInterface handler) throws EscidocException,
         InternalClientException, TransportException, ParserConfigurationException {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdRecord);
         item.setMetadataRecords(mdRecords);
 
@@ -368,17 +370,17 @@ public class AdminHandlerClientTest {
     private String createContainer(final ContainerHandlerClientInterface handler) throws EscidocException,
         InternalClientException, TransportException, ParserConfigurationException {
 
-        Container container = new Container();
+        final Container container = new Container();
 
         // properties
-        ContainerProperties properties = new ContainerProperties();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         container.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = ResourceUtility.getMdRecord("escidoc");
 
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
@@ -400,14 +402,14 @@ public class AdminHandlerClientTest {
         final String ouName = "Generic Organizational Unit " + System.currentTimeMillis();
         final String ouDescription = "Description of Organizational Unit.";
 
-        OrganizationalUnit organizationalUnit = new OrganizationalUnit();
-        OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
+        final OrganizationalUnit organizationalUnit = new OrganizationalUnit();
+        final OrganizationalUnitProperties properties = new OrganizationalUnitProperties();
         properties.setName("Organizational_Unit_Test_Name");
         organizationalUnit.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
+        final MetadataRecord mdRecord = createMdRecordDC("escidoc", "organization-details", ouName, ouDescription);
 
         mdRecords.add(mdRecord);
         organizationalUnit.setMetadataRecords(mdRecords);
@@ -435,28 +437,29 @@ public class AdminHandlerClientTest {
         throws ParserConfigurationException {
 
         // md-record
-        MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
+        final MetadataRecord mdRecord = new MetadataRecord(mdRecordName);
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         factory.setCoalescing(true);
         factory.setValidating(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
 
-        Document doc = builder.newDocument();
-        Element mdRecordContent = doc.createElementNS(null, rootElementName);
+        final Document doc = builder.newDocument();
+        final Element mdRecordContent = doc.createElementNS(null, rootElementName);
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        final Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
-        titleElmt.setTextContent(title);
+        // FIXME old method 'setTextContent' replaced by 'setNodeValue'
+        titleElmt.setNodeValue(title);
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
-        Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
+        final Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
-        descriptionElmt.setTextContent(description);
+        descriptionElmt.setNodeValue(description);
         mdRecordContent.appendChild(descriptionElmt);
         mdRecord.setContent(mdRecordContent);
 
@@ -468,10 +471,10 @@ public class AdminHandlerClientTest {
      * @param status
      */
     private void log(final MessagesStatus status) {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("\n");
         sb.append(status.getStatusMessage().replaceAll("(^\\s+)|(\\s+$)", ""));
-        for (String message : status.getMessages()) {
+        for (final String message : status.getMessages()) {
             sb.append("\n");
             sb.append(message.replaceAll("(^\\s+)|(\\s+$)", ""));
         }

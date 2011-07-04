@@ -117,45 +117,46 @@ public class SetupDataUtil {
         // organizationalUnit.setProperties(properties);
 
         // md-record "escidoc"
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         factory.setCoalescing(true);
         factory.setValidating(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
 
-        Document doc = builder.newDocument();
-        Element mdRecordContent = doc.createElementNS(null, "myMdRecord");
+        final Document doc = builder.newDocument();
+        final Element mdRecordContent = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(mdRecordContent);
 
         // title
-        Element title = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
-        title.setTextContent(ouName);
+        final Element title = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
+        title.appendChild(doc.createTextNode(ouName));
         mdRecordContent.appendChild(title);
 
         // dc:description
-        Element description = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
-        description.setTextContent(ouDescription);
+        final Element description = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
+        description.appendChild(doc.createTextNode(ouDescription));
         mdRecordContent.appendChild(description);
         mdRecord.setContent(mdRecordContent);
 
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
         mdRecords.add(mdRecord);
 
         organizationalUnit.setMetadataRecords(mdRecords);
 
-        OrganizationalUnitHandlerClientInterface ouhc = new OrganizationalUnitHandlerClient(auth.getServiceAddress());
+        final OrganizationalUnitHandlerClientInterface ouhc =
+            new OrganizationalUnitHandlerClient(auth.getServiceAddress());
         ouhc.setHandle(auth.getHandle());
 
         organizationalUnit = ouhc.create(organizationalUnit);
 
         if (setToOpen) {
-            TaskParam tp = new TaskParam();
+            final TaskParam tp = new TaskParam();
             tp.setComment("Open OU just after create");
             tp.setLastModificationDate(organizationalUnit.getLastModificationDate());
 
-            Result result = ouhc.open(organizationalUnit.getObjid(), tp);
+            final Result result = ouhc.open(organizationalUnit.getObjid(), tp);
             // get latest status of OU
             organizationalUnit = ouhc.retrieve(organizationalUnit.getObjid());
         }
@@ -174,32 +175,32 @@ public class SetupDataUtil {
     public static UserAccount createUserWithDepositorRole(
         final Authentication auth, final String password, final Reference assignOn) throws EscidocClientException {
 
-        UserAccount ua = new UserAccount();
+        final UserAccount ua = new UserAccount();
 
         // user properties
-        UserAccountProperties properties = new UserAccountProperties();
-        String login = String.valueOf(System.nanoTime());
+        final UserAccountProperties properties = new UserAccountProperties();
+        final String login = String.valueOf(System.nanoTime());
         properties.setName("Name " + login);
         properties.setLoginName(login);
 
         ua.setProperties(properties);
 
         // Get service handler (with authentication)
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient(auth.getServiceAddress());
+        final UserAccountHandlerClientInterface uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
 
         // create
-        UserAccount userAccount = uac.create(ua);
+        final UserAccount userAccount = uac.create(ua);
 
         // update password
-        TaskParam taskParam = new TaskParam();
+        final TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(userAccount.getLastModificationDate());
         taskParam.setPassword(password);
         uac.updatePassword(userAccount.getObjid(), taskParam);
 
         // add Grant
-        Grant grant = new Grant();
-        GrantProperties gProp = new GrantProperties();
+        final Grant grant = new Grant();
+        final GrantProperties gProp = new GrantProperties();
         gProp.setRole(new RoleRef("escidoc:role-depositor"));
         gProp.setAssignedOn(assignOn);
         grant.setGrantProperties(gProp);
@@ -226,17 +227,17 @@ public class SetupDataUtil {
         final Authentication auth, final OrganizationalUnit organizationalUnit, final boolean setToOpen)
         throws EscidocClientException {
 
-        ContextHandlerClientInterface cc = new ContextHandlerClient(auth.getServiceAddress());
+        final ContextHandlerClientInterface cc = new ContextHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
         Context context = new Context();
-        ContextProperties properties = new ContextProperties();
+        final ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        final OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
         organizationalUnitRefs.add(new OrganizationalUnitRef(organizationalUnit.getObjid()));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
@@ -246,7 +247,7 @@ public class SetupDataUtil {
         context = cc.create(context);
 
         if (setToOpen) {
-            TaskParam tp = new TaskParam();
+            final TaskParam tp = new TaskParam();
             tp.setComment("Open OU just after create");
             tp.setLastModificationDate(context.getLastModificationDate());
 
@@ -294,18 +295,18 @@ public class SetupDataUtil {
     public static Item createItem(final Authentication auth, final String contextId, final String contentModelId)
         throws EscidocClientException, ParserConfigurationException {
 
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(contextId));
         item.getProperties().setContentModel(new ContentModelRef(contentModelId));
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
-        ItemHandlerClientInterface ihc = new ItemHandlerClient(auth.getServiceAddress());
+        final ItemHandlerClientInterface ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
 
         return ihc.create(item);
@@ -326,22 +327,22 @@ public class SetupDataUtil {
     public static ContentModel createContentModel(final Authentication auth) throws EscidocClientException,
         URISyntaxException {
 
-        ContentModelHandlerClientInterface cc = new ContentModelHandlerClient(auth.getServiceAddress());
+        final ContentModelHandlerClientInterface cc = new ContentModelHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
-        ContentModel contentModel = new ContentModel();
-        ContentModelProperties properties = new ContentModelProperties();
+        final ContentModel contentModel = new ContentModel();
+        final ContentModelProperties properties = new ContentModelProperties();
         properties.setDescription("ContentModel Description");
         properties.setName("ContentModelName" + System.currentTimeMillis());
 
         contentModel.setProperties(properties);
 
         // resource definition
-        ResourceDefinition rd1 = new ResourceDefinition();
+        final ResourceDefinition rd1 = new ResourceDefinition();
         rd1.setName("transX" + System.nanoTime());
         rd1.setMetadataRecordName("escidoc");
         rd1.setXslt(new Xslt("http://localhost:8080/xsl/mapping-unknown2dc-onlyMD.xsl"));
-        ResourceDefinitions rds = new ResourceDefinitions();
+        final ResourceDefinitions rds = new ResourceDefinitions();
         rds.add(rd1);
         contentModel.setResourceDefinitions(rds);
 

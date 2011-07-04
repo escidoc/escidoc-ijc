@@ -117,7 +117,7 @@ public class ContainerCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer01() throws Exception {
-        Container container = new Container();
+        final Container container = new Container();
         cc.create(container);
     }
 
@@ -132,7 +132,7 @@ public class ContainerCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer02() throws Exception {
-        Container container = new Container();
+        final Container container = new Container();
         cc.create(container);
     }
 
@@ -145,8 +145,8 @@ public class ContainerCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer03() throws Exception {
-        Container container = new Container();
-        ContainerProperties properties = new ContainerProperties();
+        final Container container = new Container();
+        final ContainerProperties properties = new ContainerProperties();
         container.setProperties(properties);
         cc.create(container);
     }
@@ -160,8 +160,8 @@ public class ContainerCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer04() throws Exception {
-        Container container = new Container();
-        ContainerProperties properties = new ContainerProperties();
+        final Container container = new Container();
+        final ContainerProperties properties = new ContainerProperties();
         container.setProperties(properties);
         cc.create(container);
     }
@@ -175,8 +175,8 @@ public class ContainerCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer05() throws Exception {
-        Container container = new Container();
-        ContainerProperties properties = new ContainerProperties();
+        final Container container = new Container();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         container.setProperties(properties);
         cc.create(container);
@@ -193,12 +193,12 @@ public class ContainerCreateTest {
      */
     @Test(expected = XmlSchemaValidationException.class)
     public void testCreateContainer07() throws Exception {
-        Container container = new Container();
-        ContainerProperties properties = new ContainerProperties();
+        final Container container = new Container();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         container.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
@@ -220,22 +220,22 @@ public class ContainerCreateTest {
      */
     @Test(expected = InvalidXmlException.class)
     public void testCreateContainer08() throws Exception {
-        Container container = new Container();
+        final Container container = new Container();
 
         // properties
-        ContainerProperties properties = new ContainerProperties();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         container.setProperties(properties);
 
         // md-record
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
 
-        Element element = doc.createElementNS(null, "myMdRecord");
+        final Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);
 
@@ -253,43 +253,43 @@ public class ContainerCreateTest {
      */
     @Test
     public void testCreateContainer09() throws Exception {
-        Container container = new Container();
+        final Container container = new Container();
 
         // properties
-        ContainerProperties properties = new ContainerProperties();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model-specific
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element contentModelSpecific = doc.createElementNS(null, "cms");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element contentModelSpecific = doc.createElementNS(null, "cms");
 
-        List<Element> cmsContent = new LinkedList<Element>();
+        final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
-        ContentModelSpecific cms = new ContentModelSpecific();
+        final ContentModelSpecific cms = new ContentModelSpecific();
 
         cms.setContent(cmsContent);
 
         properties.setContentModelSpecific(cms);
         container.setProperties(properties);
 
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
 
-        Document docMdRecord = builder.newDocument();
-        Element element = docMdRecord.createElementNS(null, "myMdRecord");
+        final Document docMdRecord = builder.newDocument();
+        final Element element = docMdRecord.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
         container.setMetadataRecords(mdRecords);
 
-        Container createdContainer = cc.create(container);
+        final Container createdContainer = cc.create(container);
 
         // compare the new created Container with the Container from the
         // request
-        String objId = createdContainer.getObjid();
+        final String objId = createdContainer.getObjid();
 
         assertNotNull("Object id is null", objId);
         assertEquals(container.getProperties().getContext().getObjid(), createdContainer
@@ -297,21 +297,21 @@ public class ContainerCreateTest {
         assertEquals(container.getProperties().getContentModel().getObjid(), createdContainer
             .getProperties().getContentModel().getObjid());
 
-        Marshaller<MetadataRecord> m = MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
+        final Marshaller<MetadataRecord> m = MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
 
-        String xml1 = m.marshalDocument(container.getMetadataRecords().get("escidoc"));
+        final String xml1 = m.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
-        Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
-        Node mdRecordBeforeCreateNode = XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
-        Node mdRecordBeforeCreateContent = mdRecordBeforeCreateNode.getFirstChild();
+        final Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
+        final Node mdRecordBeforeCreateNode = XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
+        final Node mdRecordBeforeCreateContent = mdRecordBeforeCreateNode.getFirstChild();
 
-        MetadataRecord createdContainerMdRecord = createdContainer.getMetadataRecords().get("escidoc");
+        final MetadataRecord createdContainerMdRecord = createdContainer.getMetadataRecords().get("escidoc");
 
-        String xml2 = m.marshalDocument(createdContainerMdRecord);
+        final String xml2 = m.marshalDocument(createdContainerMdRecord);
 
-        Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
-        Node mdRecordAfterCreateNode = XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
-        Node mdRecordAfterCreateContent = mdRecordAfterCreateNode.getFirstChild();
+        final Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
+        final Node mdRecordAfterCreateNode = XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
+        final Node mdRecordAfterCreateContent = mdRecordAfterCreateNode.getFirstChild();
 
         Asserts.assertXmlEquals("Metadata Records differ", mdRecordAfterCreateContent, mdRecordBeforeCreateContent);
 
@@ -327,25 +327,25 @@ public class ContainerCreateTest {
      */
     @Test
     public void testCreateContainer10() throws Exception {
-        Container container = createContainerWithMinContent();
-        Relations relations = new Relations();
-        Relation relation = new Relation(new ItemRef(EscidocClientTestBase.getStaticItemId()));
+        final Container container = createContainerWithMinContent();
+        final Relations relations = new Relations();
+        final Relation relation = new Relation(new ItemRef(EscidocClientTestBase.getStaticItemId()));
         relation.setPredicate("http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf");
         relations.add(relation);
         container.setRelations(relations);
 
-        Container createdContainer = cc.create(container);
+        final Container createdContainer = cc.create(container);
 
         // test marshalling created Container.
-        Marshaller<Container> mContainer = MarshallerFactory.getInstance().getMarshaller(Container.class);
-        Marshaller<MetadataRecord> mMetadataRecord =
+        final Marshaller<Container> mContainer = MarshallerFactory.getInstance().getMarshaller(Container.class);
+        final Marshaller<MetadataRecord> mMetadataRecord =
             MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
 
-        String xmlc1 = mContainer.marshalDocument(createdContainer);
+        final String xmlc1 = mContainer.marshalDocument(createdContainer);
 
         // compare the new created Container with the Container from the
         // request
-        String objId = createdContainer.getObjid();
+        final String objId = createdContainer.getObjid();
         assertNotNull("Object id is null", objId);
         assertEquals(container.getProperties().getContext().getObjid(), createdContainer
             .getProperties().getContext().getObjid());
@@ -354,29 +354,29 @@ public class ContainerCreateTest {
 
         // MetadataRecords
 
-        String xml1 = mMetadataRecord.marshalDocument(container.getMetadataRecords().get("escidoc"));
+        final String xml1 = mMetadataRecord.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
-        Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
-        Node mdRecordBeforeCreateNode = XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
-        Node mdRecordBeforeCreateContent = mdRecordBeforeCreateNode.getFirstChild();
+        final Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
+        final Node mdRecordBeforeCreateNode = XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
+        final Node mdRecordBeforeCreateContent = mdRecordBeforeCreateNode.getFirstChild();
 
-        MetadataRecord createdContainerMdRecord = createdContainer.getMetadataRecords().get("escidoc");
+        final MetadataRecord createdContainerMdRecord = createdContainer.getMetadataRecords().get("escidoc");
 
-        String xml2 = mMetadataRecord.marshalDocument(createdContainerMdRecord);
+        final String xml2 = mMetadataRecord.marshalDocument(createdContainerMdRecord);
 
-        Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
-        Node mdRecordAfterCreateNode = XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
-        Node mdRecordAfterCreateContent = mdRecordAfterCreateNode.getFirstChild();
+        final Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
+        final Node mdRecordAfterCreateNode = XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
+        final Node mdRecordAfterCreateContent = mdRecordAfterCreateNode.getFirstChild();
 
         Asserts.assertXmlEquals("Metadata Records differ", mdRecordAfterCreateContent, mdRecordBeforeCreateContent);
 
         // Relations
-        Relations masterRelations = container.getRelations();
-        Relations compareRelations = createdContainer.getRelations();
+        final Relations masterRelations = container.getRelations();
+        final Relations compareRelations = createdContainer.getRelations();
 
         assertEquals("Number of Relations differ", masterRelations.size(), compareRelations.size());
         assertEquals("Missing Relations", 1, masterRelations.size());
-        Relations retrievedRelations = cc.retrieveRelations(objId);
+        final Relations retrievedRelations = cc.retrieveRelations(objId);
         assertEquals("Number of Relations differ", retrievedRelations.size(), compareRelations.size());
     }
 
@@ -391,28 +391,28 @@ public class ContainerCreateTest {
     @Test
     public void testCreateContainerWithMembers() throws Exception {
         // create test objects
-        Container container = createContainerWithMinContent();
-        Container memberContainer = createContainerWithMinContent();
-        Item memberItem = createItemWithMinContent();
+        final Container container = createContainerWithMinContent();
+        final Container memberContainer = createContainerWithMinContent();
+        final Item memberItem = createItemWithMinContent();
         // get ItemHandlerClient for item member creation
-        ItemHandlerClientInterface ihc = new ItemHandlerClient(auth.getServiceAddress());
+        final ItemHandlerClientInterface ihc = new ItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
         // create members
-        Container createdMemberContainer = cc.create(memberContainer);
-        Item createdMemberItem = ihc.create(memberItem);
+        final Container createdMemberContainer = cc.create(memberContainer);
+        final Item createdMemberItem = ihc.create(memberItem);
         // create struct-map (add container first, then item, which is invalid
         // due to schema definition)
-        StructMap structMap = new StructMap();
+        final StructMap structMap = new StructMap();
         structMap.add(new ContainerMemberRef(createdMemberContainer.getObjid()));
         structMap.add(new ItemMemberRef(createdMemberItem.getObjid()));
         container.setStructMap(structMap);
         // create parent
-        Container createdContainer = cc.create(container);
+        final Container createdContainer = cc.create(container);
 
         // validate resulting struct-map
-        StructMap createdStructMap = createdContainer.getStructMap();
+        final StructMap createdStructMap = createdContainer.getStructMap();
         assertEquals("Number of members is wrong", 2, createdStructMap.size());
-        Iterator<MemberRef> it = createdStructMap.iterator();
+        final Iterator<MemberRef> it = createdStructMap.iterator();
 
         // item should be returned first
         assertTrue(it.hasNext());
@@ -436,32 +436,32 @@ public class ContainerCreateTest {
      */
     @Test
     public void testCreateContainer20() throws Exception {
-        Container container = createContainerWithMinContent();
-        Container createdContainer = cc.create(container);
+        final Container container = createContainerWithMinContent();
+        final Container createdContainer = cc.create(container);
 
         // compare the new created Container with the Container from the
         // request
-        String objId = createdContainer.getObjid();
+        final String objId = createdContainer.getObjid();
         assertNotNull("Object id is null", objId);
         assertEquals(container.getProperties().getContext().getObjid(), createdContainer
             .getProperties().getContext().getObjid());
         assertEquals(container.getProperties().getContentModel().getObjid(), createdContainer
             .getProperties().getContentModel().getObjid());
 
-        Marshaller<MetadataRecord> m = MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
-        String xml1 = m.marshalDocument(container.getMetadataRecords().get("escidoc"));
+        final Marshaller<MetadataRecord> m = MarshallerFactory.getInstance().getMarshaller(MetadataRecord.class);
+        final String xml1 = m.marshalDocument(container.getMetadataRecords().get("escidoc"));
 
-        Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
-        Node mdRecordBeforeCreateNode = XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
-        Node mdRecordBeforeCreateContent = mdRecordBeforeCreateNode.getFirstChild();
+        final Document mdRecordBeforeCreate = XmlUtility.getDocument(xml1);
+        final Node mdRecordBeforeCreateNode = XPathAPI.selectSingleNode(mdRecordBeforeCreate, "/md-record");
+        final Node mdRecordBeforeCreateContent = mdRecordBeforeCreateNode.getFirstChild();
 
-        MetadataRecord createdContainerMdRecord = createdContainer.getMetadataRecords().get("escidoc");
+        final MetadataRecord createdContainerMdRecord = createdContainer.getMetadataRecords().get("escidoc");
 
-        String xml2 = m.marshalDocument(createdContainerMdRecord);
+        final String xml2 = m.marshalDocument(createdContainerMdRecord);
 
-        Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
-        Node mdRecordAfterCreateNode = XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
-        Node mdRecordAfterCreateContent = mdRecordAfterCreateNode.getFirstChild();
+        final Document mdRecordAfterCreate = XmlUtility.getDocument(xml2);
+        final Node mdRecordAfterCreateNode = XPathAPI.selectSingleNode(mdRecordAfterCreate, "/md-record");
+        final Node mdRecordAfterCreateContent = mdRecordAfterCreateNode.getFirstChild();
 
         Asserts.assertXmlEquals("Metadata Records differ", mdRecordAfterCreateContent, mdRecordBeforeCreateContent);
     }
@@ -474,12 +474,12 @@ public class ContainerCreateTest {
      */
     @Test
     public void testMultipleMetadataRecords01() throws Exception {
-        Container container = createContainerWithMinContent();
-        Container createdContainer = cc.create(container);
+        final Container container = createContainerWithMinContent();
+        final Container createdContainer = cc.create(container);
 
         // compare the new created Container with the Container from the
         // request
-        String objId = createdContainer.getObjid();
+        final String objId = createdContainer.getObjid();
         assertNotNull("Object id is null", objId);
         assertEquals(container.getProperties().getContext().getObjid(), createdContainer
             .getProperties().getContext().getObjid());
@@ -490,7 +490,7 @@ public class ContainerCreateTest {
 
         // now delete some metadataRecords
         createdContainer.getMetadataRecords().del("md-record2");
-        Container updatedContainer1 = cc.update(createdContainer);
+        final Container updatedContainer1 = cc.update(createdContainer);
 
         assertNotNull("Object id is null", objId);
         assertEquals(container.getProperties().getContext().getObjid(), createdContainer
@@ -554,34 +554,34 @@ public class ContainerCreateTest {
     private Container createContainerWithMinContent() throws ParserConfigurationException, TransportException,
         EscidocException, InternalClientException {
 
-        Container container = new Container();
-        ContainerProperties properties = new ContainerProperties();
+        final Container container = new Container();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         container.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecords mdRecords = new MetadataRecords();
 
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element element = doc.createElementNS(null, "myMdRecord");
 
         mdRecord.setContent(element);
         mdRecords.add(mdRecord);
-        MetadataRecord mdRecord2 = new MetadataRecord("md-record2");
-        Element element2 = doc.createElementNS(null, "myMdRecord");
-        element2.setTextContent("222222222");
+        final MetadataRecord mdRecord2 = new MetadataRecord("md-record2");
+        final Element element2 = doc.createElementNS(null, "myMdRecord");
+        element2.appendChild(doc.createTextNode("222222222"));
 
         mdRecord2.setContent(element2);
 
         mdRecords.add(mdRecord2);
 
-        MetadataRecord mdRecord3 = new MetadataRecord("md-record3");
-        Element element3 = doc.createElementNS(null, "myMdRecord");
-        Element element4 = doc.createElementNS(null, "some-other-stuff");
-        element2.setTextContent("33333333333333333333");
+        final MetadataRecord mdRecord3 = new MetadataRecord("md-record3");
+        final Element element3 = doc.createElementNS(null, "myMdRecord");
+        final Element element4 = doc.createElementNS(null, "some-other-stuff");
+        element2.appendChild(doc.createTextNode("33333333333333333333"));
         element2.appendChild(element4);
 
         mdRecord3.setContent(element3);
@@ -600,18 +600,18 @@ public class ContainerCreateTest {
      */
     private final Item createItemWithMinContent() throws TransportException, EscidocException, InternalClientException,
         ParserConfigurationException {
-        Item item = new Item();
+        final Item item = new Item();
 
         item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
-        ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        final ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
         // Metadata Record(s)
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
         mdRecords.add(mdrecord);
         item.setMetadataRecords(mdRecords);
 
