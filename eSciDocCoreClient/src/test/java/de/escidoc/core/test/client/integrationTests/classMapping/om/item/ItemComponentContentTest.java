@@ -218,7 +218,7 @@ public class ItemComponentContentTest {
 
         assertNull(stream.getContentEncoding());
         assertTrue("ContentLength not greater than 0.", stream.getContentLength() > 0);
-        assertEquals("image/jpeg", stream.getContentType());
+        assertEquals("image/png", stream.getContentType());
 
         stream.close();
     }
