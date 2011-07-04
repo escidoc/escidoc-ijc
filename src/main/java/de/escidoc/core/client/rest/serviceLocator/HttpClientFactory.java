@@ -33,8 +33,8 @@ public final class HttpClientFactory {
 
     private static final Pattern HTTP_HOST_PATTERN = Pattern.compile("^(?:(.*)://)?([^:]*)(?::(\\d*))?$");
 
-    private static final Pattern INET_ADDRESS_PATTERN = Pattern
-        .compile("^(?:(.*)/)?(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
+    private static final Pattern INET_ADDRESS_PATTERN =
+        Pattern.compile("^(?:(.*)/)?(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
 
     private static HttpClient client;
 
