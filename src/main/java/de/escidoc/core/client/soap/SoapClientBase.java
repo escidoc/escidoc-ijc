@@ -15,10 +15,11 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import org.apache.axis.EngineConfiguration;
 import org.apache.axis.client.Stub;
 import org.apache.axis.configuration.FileProvider;
-import org.apache.log4j.Logger;
 import org.apache.ws.security.WSConstants;
 import org.apache.ws.security.WSPasswordCallback;
 import org.apache.ws.security.handler.WSHandlerConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.ClientBase;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -35,7 +36,7 @@ public abstract class SoapClientBase extends ClientBase implements CallbackHandl
 
     private static final EngineConfiguration engineConfig = new FileProvider(ENGINE_CONFIG_FILE);
 
-    private final Logger LOG = Logger.getLogger(SoapClientBase.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapClientBase.class);
 
     /**
      * Create ClientBase.

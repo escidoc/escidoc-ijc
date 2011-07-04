@@ -114,9 +114,11 @@ public final class XmlUtility {
     public static Document getDocument(final String xml, final boolean namespaceAware)
         throws ParserConfigurationException, UnsupportedEncodingException, SAXException, IOException {
 
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        docBuilderFactory.setFeature("http://xml.org/sax/features/namespaces", namespaceAware);
-        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        // docBuilderFactory.setFeature("http://xml.org/sax/features/namespaces",
+        // namespaceAware);
+        docBuilderFactory.setNamespaceAware(namespaceAware);
+        final DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         return docBuilder.parse(new ByteArrayInputStream(xml.getBytes("UTF-8")));
     }
 
@@ -131,12 +133,12 @@ public final class XmlUtility {
      */
     public static String xmlToString(final Node node, final boolean omitXMLDeclaration) throws TransformerException {
 
-        Source source = new DOMSource(node);
-        StringWriter stringWriter = new StringWriter();
-        Result result = new StreamResult(stringWriter);
+        final Source source = new DOMSource(node);
+        final StringWriter stringWriter = new StringWriter();
+        final Result result = new StreamResult(stringWriter);
 
-        TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer();
+        final TransformerFactory factory = TransformerFactory.newInstance();
+        final Transformer transformer = factory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, omitXMLDeclaration ? "yes" : "no");
         transformer.transform(source, result);
 
@@ -200,5 +202,25 @@ public final class XmlUtility {
             result = PATTERN_ESC_AMPERSAND.matcher(result).replaceAll(AMPERSAND);
         }
         return result;
+    }
+
+    /**
+     * @param node
+     * @return
+     */
+    public static final String getTextContent(final Node node) {
+        return node != null && node.getFirstChild() != null && node.getFirstChild().getNodeType() == Node.TEXT_NODE ? node
+            .getFirstChild().getNodeValue() : null;
+    }
+
+    /**
+     * @param doc
+     * @param node
+     * @param text
+     */
+    public static final void setTextContent(final Document doc, final Node node, final String text) {
+        if (doc != null && node != null) {
+            node.appendChild(doc.createTextNode(text));
+        }
     }
 }

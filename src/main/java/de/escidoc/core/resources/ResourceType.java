@@ -3,7 +3,7 @@ package de.escidoc.core.resources;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
@@ -109,11 +109,11 @@ public enum ResourceType implements XmlCompatibleEnum {
             try {
                 result = new URI(ConfigurationProvider.getInstance().getProperty(nsConfig));
             }
-            catch (InternalClientException e) {
-                Logger.getLogger(ResourceType.class).debug(e.getMessage(), e);
+            catch (final InternalClientException e) {
+                LoggerFactory.getLogger(ResourceType.class).debug(e.getMessage(), e);
             }
-            catch (URISyntaxException e) {
-                Logger.getLogger(ResourceType.class).debug(e.getMessage(), e);
+            catch (final URISyntaxException e) {
+                LoggerFactory.getLogger(ResourceType.class).debug(e.getMessage(), e);
             }
             this.namespace = result;
         }
@@ -204,7 +204,7 @@ public enum ResourceType implements XmlCompatibleEnum {
             return null;
 
         for (int i = 0; i < ResourceType.values().length; i++) {
-            ResourceType type = ResourceType.values()[i];
+            final ResourceType type = ResourceType.values()[i];
             if (value.equals(type.name()) || value.equals(type.getXmlValue()) || value.equals(type.getPath()))
                 return type;
         }

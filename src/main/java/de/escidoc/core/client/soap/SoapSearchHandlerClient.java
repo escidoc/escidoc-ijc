@@ -44,7 +44,8 @@ import java.rmi.Remote;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -60,7 +61,7 @@ import de.escidoc.core.common.configuration.ConfigurationProvider;
  */
 public class SoapSearchHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapSearchHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapSearchHandlerClient.class);
 
     private SRWPort searchSoapClient = null;
 

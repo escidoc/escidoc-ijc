@@ -35,7 +35,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -67,7 +68,7 @@ import de.escidoc.core.client.exceptions.InternalClientException;
  */
 public final class ConfigurationProvider {
 
-    private final Logger logger = Logger.getLogger(ConfigurationProvider.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ConfigurationProvider.class.getName());
 
     /*
      * Namespace configuration

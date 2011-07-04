@@ -12,7 +12,8 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author MVO
@@ -20,7 +21,7 @@ import org.apache.log4j.Logger;
  */
 public class HttpInputStream extends InputStream {
 
-    private static final Logger LOG = Logger.getLogger(HttpInputStream.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HttpInputStream.class);
 
     private final HttpRequestBase requestBase;
 

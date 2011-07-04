@@ -36,7 +36,8 @@ import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.aa.RoleHandler;
 import de.escidoc.core.aa.RoleHandlerServiceLocator;
@@ -53,7 +54,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapRoleHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapRoleHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapRoleHandlerClient.class);
 
     private RoleHandler soapClient = null;
 

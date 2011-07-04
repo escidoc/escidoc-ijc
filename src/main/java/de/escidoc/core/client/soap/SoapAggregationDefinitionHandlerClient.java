@@ -11,7 +11,8 @@ import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -26,7 +27,7 @@ import de.escidoc.core.sm.AggregationDefinitionHandlerServiceLocator;
  */
 public class SoapAggregationDefinitionHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapAggregationDefinitionHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapAggregationDefinitionHandlerClient.class);
 
     private AggregationDefinitionHandler client;
 

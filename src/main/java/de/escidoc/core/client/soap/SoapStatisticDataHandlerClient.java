@@ -7,7 +7,8 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -22,7 +23,7 @@ import de.escidoc.core.sm.StatisticDataHandlerServiceLocator;
  */
 public class SoapStatisticDataHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapStatisticDataHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapStatisticDataHandlerClient.class);
 
     private StatisticDataHandler client;
 

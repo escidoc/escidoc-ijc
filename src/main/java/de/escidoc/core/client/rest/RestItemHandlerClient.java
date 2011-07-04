@@ -35,7 +35,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -54,7 +55,7 @@ import de.escidoc.core.resources.HttpInputStream;
  */
 public class RestItemHandlerClient extends RestClientBase {
 
-    private static final Logger LOG = Logger.getLogger(RestItemHandlerClient.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(RestItemHandlerClient.class.getName());
 
     private ItemHandler restClient = null;
 

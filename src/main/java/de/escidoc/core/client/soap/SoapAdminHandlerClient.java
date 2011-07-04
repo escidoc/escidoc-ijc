@@ -7,7 +7,8 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.adm.AdminHandler;
 import de.escidoc.core.adm.AdminHandlerServiceLocator;
@@ -22,7 +23,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapAdminHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapAdminHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapAdminHandlerClient.class);
 
     private AdminHandler soapClient = null;
 

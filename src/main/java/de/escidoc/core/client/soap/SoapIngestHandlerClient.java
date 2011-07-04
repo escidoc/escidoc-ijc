@@ -32,7 +32,8 @@ import java.net.URL;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
@@ -49,7 +50,7 @@ import de.escidoc.core.om.IngestHandlerServiceLocator;
  */
 public class SoapIngestHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapIngestHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapIngestHandlerClient.class);
 
     private IngestHandler soapClient = null;
 

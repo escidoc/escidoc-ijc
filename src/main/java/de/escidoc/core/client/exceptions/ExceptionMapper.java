@@ -5,7 +5,8 @@ import static de.escidoc.core.common.Precondition.checkNotNull;
 import java.lang.reflect.Constructor;
 import java.rmi.RemoteException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.exceptions.remote.system.SystemException;
@@ -38,7 +39,7 @@ public class ExceptionMapper extends Exception {
      */
     private static final long serialVersionUID = 263830560183559829L;
 
-    private static final Logger LOGGER = Logger.getLogger(ExceptionMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExceptionMapper.class);
 
     /**
      * Maps exceptions to an acceptable exception type.
@@ -111,14 +112,14 @@ public class ExceptionMapper extends Exception {
         RemoteExceptionWrapper result = null;
 
         try {
-            Marshaller<RemoteExceptionWrapper> m =
+            final Marshaller<RemoteExceptionWrapper> m =
                 MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(RemoteExceptionWrapper.class);
             m.setUserContext(new HttpStatusInfo(statusCode, redirectLocation));
             result = m.unmarshalDocument(exceptionXml);
         }
-        catch (Exception e) {
-            String msg = "Unable to map exception:\n" + exceptionXml;
-            LOGGER.debug(msg, e);
+        catch (final Exception e) {
+            final String msg = "Unable to map exception:\n" + exceptionXml;
+            LOG.debug(msg, e);
             throw new SystemException(500, msg, e.getMessage());
         }
         throw result.getRemoteException();
@@ -136,9 +137,9 @@ public class ExceptionMapper extends Exception {
 
         EscidocException result = null;
         try {
-            Class<?>[] parameterTypes = new Class[] { String.class, Throwable.class };
-            Class<?> exClass = Class.forName(commonE.getClass().getName().replace(PREFIX_REMOTE, PREFIX_CLIENT));
-            Constructor<?> constructor = exClass.getDeclaredConstructor(parameterTypes);
+            final Class<?>[] parameterTypes = new Class[] { String.class, Throwable.class };
+            final Class<?> exClass = Class.forName(commonE.getClass().getName().replace(PREFIX_REMOTE, PREFIX_CLIENT));
+            final Constructor<?> constructor = exClass.getDeclaredConstructor(parameterTypes);
 
             String msg = commonE.getMessage();
             if (msg == null) {
@@ -149,9 +150,9 @@ public class ExceptionMapper extends Exception {
             }
             result = (EscidocException) constructor.newInstance(msg, commonE);
         }
-        catch (Exception e) {
-            String msg = "Unable to map exception: " + commonE;
-            LOGGER.debug(msg, e);
+        catch (final Exception e) {
+            final String msg = "Unable to map exception: " + commonE;
+            LOG.debug(msg, e);
             throw new InternalClientException(msg, e);
         }
         throw result;

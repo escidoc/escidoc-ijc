@@ -36,7 +36,8 @@ import java.util.HashMap;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.aa.UserAccountHandler;
 import de.escidoc.core.aa.UserAccountHandlerServiceLocator;
@@ -54,7 +55,7 @@ import de.escidoc.core.client.exceptions.TransportException;
  */
 public class SoapUserAccountHandlerClient extends SoapClientBase {
 
-    private static final Logger LOG = Logger.getLogger(SoapUserAccountHandlerClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SoapUserAccountHandlerClient.class);
 
     private UserAccountHandler soapClient = null;
 

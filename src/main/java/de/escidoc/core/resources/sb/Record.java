@@ -1,6 +1,7 @@
 package de.escidoc.core.resources.sb;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.client.TransportProtocol;
@@ -15,7 +16,7 @@ import de.escidoc.core.resources.common.types.PositiveInteger;
 @JiBX
 public abstract class Record<T> {
 
-    protected static final Logger LOG = Logger.getLogger(Record.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(Record.class);
 
     protected String recordSchema;
 
