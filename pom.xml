@@ -9,7 +9,7 @@
 
 	<ciManagement>
 		<system>Jenkins</system>
-		<url>http://escidev2.fiz-karlsruhe.de:8484/job/IJC-1.3</url>
+		<url>http://escidev2.fiz-karlsruhe.de:8484/job/IJC-trunk</url>
 	</ciManagement>
 
 	<issueManagement>
