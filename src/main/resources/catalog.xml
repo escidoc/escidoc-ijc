@@ -8,5 +8,5 @@
     The file will be handled as a normal URL reference. The URI should be a valid URL.
 -->
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-  <system systemId="http://java.sun.com/dtd/properties.dtd" uri="ijc:dtd/properties.dtd"/>
+  <system systemId="http://java.sun.com/dtd/properties.dtd" uri="ijc:dtd/sun/properties.dtd"/>
 </catalog>
