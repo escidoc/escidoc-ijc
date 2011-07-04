@@ -45,11 +45,11 @@ public class IJCWstxInputFactory extends WstxInputFactory {
 
     private static final String FILE_CATALOG = "catalog.xml";
 
-    private static final String XPATH_ENTRIES = "/catalog/system | /catalog/public";
-
     private static final String NODE_PUBLIC = "public";
 
     private static final String NODE_SYSTEM = "system";
+
+    private static final String XPATH_ENTRIES = "/catalog/" + NODE_SYSTEM + " | /catalog/" + NODE_PUBLIC;
 
     private static final String ATTR_SYSTEM_ID = "systemId";
 
@@ -65,9 +65,7 @@ public class IJCWstxInputFactory extends WstxInputFactory {
     public IJCWstxInputFactory() {
         super();
         getConfig().setDtdResolver(new IJCDTDResolver());
-        getConfig().setConfigFlag(CFG_SUPPORT_DTD);
-        getConfig().setConfigFlag(CFG_VALIDATE_AGAINST_DTD);
-        getConfig().setConfigFlag(CFG_CACHE_DTDS);
+        getConfig().setConfigFlag(CFG_SUPPORT_DTD | CFG_VALIDATE_AGAINST_DTD | CFG_CACHE_DTDS);
 
         // read catalog
         try {
@@ -215,7 +213,7 @@ public class IJCWstxInputFactory extends WstxInputFactory {
             final String publicID, final String systemID, final String baseURI, final String namespace)
             throws XMLStreamException {
 
-            // TODO namespaces in DTDResolver should not exist, or?
+            // baseURI and namespace are irrelevant
 
             final Key key = new Key(publicID, systemID);
             final URI uri = catalog.get(key);
@@ -232,13 +230,14 @@ public class IJCWstxInputFactory extends WstxInputFactory {
                         // avoid future redundant checks
                         /*
                          * TODO: Could resources become available at runtime
-                         * later? If so, do not remove the entry from the
-                         * catalog. In case that the DTD has been loaded from
-                         * the external source, this DTD will be cached as
-                         * configured in the constructor. Therefore, this
-                         * resolver may no longer be called to resolve the DTD.
-                         * Because of this, it may be appropriate to delete the
-                         * entry though.
+                         * later like in auto-deploy of Tomcat or
+                         * plugin-technology of Eclipse? If so, do not remove
+                         * the entry from the catalog. In case that the DTD has
+                         * been loaded from the external source, this DTD will
+                         * be cached as configured in the constructor.
+                         * Therefore, this resolver may no longer be called to
+                         * resolve the DTD. Because of this, it may be
+                         * appropriate to delete the entry though.
                          */
                         catalog.remove(key);
                     }
