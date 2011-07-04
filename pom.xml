@@ -8,8 +8,8 @@
   <description>eSciDoc Infrastructure Java Connector for eSciDoc Infrastructure v1.3</description>
 
   <ciManagement>
-    <system>Hudson</system>
-    <url>http://escidev2.fiz-karlsruhe.de:8104/eSciDocCoreClient-1.3</url>
+    <system>Jenkins</system>
+    <url>http://escidev2.fiz-karlsruhe.de:8484/job/IJC-1.3</url>
   </ciManagement>
 
   <issueManagement>
