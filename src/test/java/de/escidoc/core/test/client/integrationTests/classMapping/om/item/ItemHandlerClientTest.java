@@ -165,9 +165,9 @@ public class ItemHandlerClientTest {
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document doc = builder.newDocument();
         final Element contentModelSpecific = doc.createElementNS(null, "props");
-        contentModelSpecific.appendChild(doc.createTextNode("3. 2. 1. "));
+        contentModelSpecific.setTextContent("3. 2. 1. ");
         final Element element1 = doc.createElement("some-other-stuff1");
-        element1.appendChild(doc.createTextNode("33333333333333333333"));
+        element1.setTextContent("33333333333333333333");
 
         item2 = ihc.update(item2);
 
@@ -207,8 +207,8 @@ public class ItemHandlerClientTest {
         assertNotNull("AssignObjectPid returns null", pidResult);
         assertTrue("AssignObjectPid returns empty result", !pidResult.isEmpty());
         assertTrue("AssignObjectPid returns invalid result", pidResult.get(0).getNodeName().equals("pid"));
-        LOG.debug(pidResult.get(0).getFirstChild().getNodeValue());
-        assertTrue("AssignObjectPid returns invalid result", !pidResult.get(0).getFirstChild().getNodeValue().isEmpty());
+        LOG.debug(pidResult.get(0).getTextContent());
+        assertTrue("AssignObjectPid returns invalid result", !pidResult.get(0).getTextContent().isEmpty());
 
         // retrieve
         resultItem = ihc.retrieve(resultItem.getObjid());

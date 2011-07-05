@@ -99,7 +99,7 @@ public class ItemUpdateTest {
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document doc = builder.newDocument();
         final Element element = doc.createElementNS(null, "myMdRecord");
-        element.appendChild(doc.createTextNode("2222222222"));
+        element.setTextContent("2222222222");
 
         mdRecord2.setContent(element);
 
@@ -138,7 +138,7 @@ public class ItemUpdateTest {
         final Document doc = builder.newDocument();
         final Element contentModelSpecific = doc.createElementNS(null, "cms");
         final Element element1 = doc.createElement("some-other-stuff1");
-        element1.appendChild(doc.createTextNode("33333333333333333333"));
+        element1.setTextContent("33333333333333333333");
 
         final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);

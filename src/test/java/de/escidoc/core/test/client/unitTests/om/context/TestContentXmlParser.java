@@ -82,7 +82,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         assertEquals("Wrong number of admin-descriptor elements", 1, admDescNodes.getLength());
         final Node admDescNode = admDescNodes.item(0);
         assertEquals("Wrong attribute name of admin-descriptor", adminDescriptorName, admDescNode.getAttributes().item(
-            0).getFirstChild().getNodeValue());
+            0).getTextContent());
         assertTrue("Wrong number of attributes", admDescNode.getAttributes().getLength() == 1);
         assertTrue("Wrong node type", admDescNode.getNodeType() == Node.ELEMENT_NODE);
 
@@ -90,7 +90,6 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         // check if only whitespaces are between admin-descriptor and
         // admin-descriptor-content element
         while (admContentNode.getNodeType() != Node.ELEMENT_NODE) {
-            assertTrue("Wrong characters", admContentNode.getFirstChild().getNodeValue().trim().length() == 0);
             admContentNode = admContentNode.getNextSibling();
         }
 
@@ -98,8 +97,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         assertEquals("Content lost", contentElementName, admContentNode.getNodeName());
 
-        LOG.debug("-" + admContentNode.getFirstChild().getNodeValue() + "-");
-        assertTrue("Wrong content", admContentNode.getFirstChild().getNodeValue().length() == 0);
+        LOG.debug("-" + admContentNode.getTextContent() + "-");
+        assertTrue("Wrong content", admContentNode.getTextContent().length() == 0);
 
         // unmarshall
         final Context contextRev =
@@ -157,7 +156,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         assertEquals("Wrong number of admin-descriptor elements", 1, admDescNodes.getLength());
         final Node admDescNode = admDescNodes.item(0);
         assertEquals("Wrong attribute name of admin-descriptor", adminDescriptorName, admDescNode.getAttributes().item(
-            0).getFirstChild().getNodeValue());
+            0).getTextContent());
         assertTrue("Wrong number of attributes", admDescNode.getAttributes().getLength() == 1);
         assertTrue("Wrong node type", admDescNode.getNodeType() == Node.ELEMENT_NODE);
 
@@ -165,7 +164,6 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         // check if only whitespaces are between admin-descriptor and
         // admin-descriptor-content element
         while (admContentNode.getNodeType() != Node.ELEMENT_NODE) {
-            assertTrue("Wrong characters", admContentNode.getFirstChild().getNodeValue().trim().length() == 0);
             admContentNode = admContentNode.getNextSibling();
         }
 
@@ -173,8 +171,8 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         assertEquals("Content lost", contentElementName, admContentNode.getNodeName());
 
-        LOG.debug("-" + admContentNode.getFirstChild().getNodeValue() + "-");
-        assertTrue("Wrong content", admContentNode.getFirstChild().getNodeValue().length() == 0);
+        LOG.debug("-" + admContentNode.getTextContent() + "-");
+        assertTrue("Wrong content", admContentNode.getTextContent().length() == 0);
 
         // unmarshall
         final Context contextRev =

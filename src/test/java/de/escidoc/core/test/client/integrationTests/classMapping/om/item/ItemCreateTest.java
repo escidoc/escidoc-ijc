@@ -242,7 +242,7 @@ public class ItemCreateTest {
         final Document doc = builder.newDocument();
         final Element contentModelSpecific = doc.createElementNS(null, "cms");
         final Element element1 = doc.createElement("some-other-stuff1");
-        element1.appendChild(doc.createTextNode("33333333333333333333"));
+        element1.setTextContent("33333333333333333333");
 
         final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);
@@ -543,7 +543,7 @@ public class ItemCreateTest {
 
         final Element contentModelSpecific = doc.createElementNS(null, "cms");
         final Element element1 = doc.createElement("some-other-stuff1");
-        element1.appendChild(doc.createTextNode("33333333333333333333"));
+        element1.setTextContent("33333333333333333333");
 
         final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);

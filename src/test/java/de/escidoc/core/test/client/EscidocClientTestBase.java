@@ -43,9 +43,10 @@ import java.util.regex.Pattern;
 
 import javax.xml.transform.TransformerException;
 
-import org.apache.xpath.XPathAPI;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
+
+import com.sun.org.apache.xpath.internal.XPathAPI;
 
 import de.escidoc.core.client.AdminHandlerClient;
 import de.escidoc.core.client.Authentication;

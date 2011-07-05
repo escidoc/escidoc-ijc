@@ -37,11 +37,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.xpath.XPathAPI;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.sun.org.apache.xpath.internal.XPathAPI;
 
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Marshaller;
@@ -197,8 +198,8 @@ public class Asserts {
         assertEquals(message + " Type of nodes are different", expected.getNodeType(), toBeAsserted.getNodeType());
 
         if (expected.getNodeType() == Node.TEXT_NODE) {
-            assertEquals(message + " Text nodes are different. ", expected.getFirstChild().getNodeValue().trim(),
-                toBeAsserted.getFirstChild().getNodeValue().trim());
+            assertEquals(message + " Text nodes are different. ", expected.getTextContent().trim(), toBeAsserted
+                .getTextContent().trim());
         }
 
         // assert attributes
@@ -244,8 +245,7 @@ public class Asserts {
                 }
 
                 assertEquals(message + " Attribute value mismatch [" + expectedAttribute.getNodeName() + "] ",
-                    expectedAttribute.getFirstChild().getNodeValue(), toBeAssertedAttribute
-                        .getFirstChild().getNodeValue());
+                    expectedAttribute.getTextContent(), toBeAssertedAttribute.getTextContent());
             }
         }
 
@@ -316,8 +316,8 @@ public class Asserts {
 
         // if no children have been found, text content must be compared
         if (expectedNumberElementNodes == 0 && toBeAssertedNumberElementNodes == 0) {
-            final String expectedContent = expected.getFirstChild().getNodeValue();
-            final String toBeAssertedContent = toBeAsserted.getFirstChild().getNodeValue();
+            final String expectedContent = expected.getTextContent();
+            final String toBeAssertedContent = toBeAsserted.getTextContent();
             assertEquals(message, expectedContent, toBeAssertedContent);
         }
     }

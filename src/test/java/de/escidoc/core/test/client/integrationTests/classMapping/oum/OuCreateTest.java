@@ -270,12 +270,12 @@ public class OuCreateTest {
 
         // title
         final Element title = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
-        title.appendChild(doc.createTextNode(ouName));
+        title.setTextContent(ouName);
         mdRecordContent.appendChild(title);
 
         // dc:description
         final Element description = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
-        description.appendChild(doc.createTextNode(ouDescription));
+        description.setTextContent(ouDescription);
         mdRecordContent.appendChild(description);
         mdRecord.setContent(mdRecordContent);
 
@@ -725,13 +725,13 @@ public class OuCreateTest {
         // title
         final Element titleElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
         titleElmt.setPrefix("dc");
-        titleElmt.appendChild(doc.createTextNode(title));
+        titleElmt.setTextContent(title);
         mdRecordContent.appendChild(titleElmt);
 
         // dc:description
         final Element descriptionElmt = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
         descriptionElmt.setPrefix("dc");
-        descriptionElmt.appendChild(doc.createTextNode(description));
+        descriptionElmt.setTextContent(description);
         mdRecordContent.appendChild(descriptionElmt);
         mdRecord.setContent(mdRecordContent);
 

@@ -5,8 +5,6 @@ package de.escidoc.core.resources.common;
 
 import org.w3c.dom.Element;
 
-import de.escidoc.core.common.XmlUtility;
-
 /**
  * @author MVO
  * 
@@ -21,7 +19,7 @@ public class SimpleMessagesResult extends MessagesResult<String> {
 
     @Override
     protected String extractMessage(final Element messageNode, final int messageCount) {
-        return XmlUtility.getTextContent(messageNode);
+        return messageNode.getTextContent();
     }
 
 }

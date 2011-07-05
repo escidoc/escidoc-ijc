@@ -203,24 +203,4 @@ public final class XmlUtility {
         }
         return result;
     }
-
-    /**
-     * @param node
-     * @return
-     */
-    public static final String getTextContent(final Node node) {
-        return node != null && node.getFirstChild() != null && node.getFirstChild().getNodeType() == Node.TEXT_NODE ? node
-            .getFirstChild().getNodeValue() : null;
-    }
-
-    /**
-     * @param doc
-     * @param node
-     * @param text
-     */
-    public static final void setTextContent(final Document doc, final Node node, final String text) {
-        if (doc != null && node != null) {
-            node.appendChild(doc.createTextNode(text));
-        }
-    }
 }

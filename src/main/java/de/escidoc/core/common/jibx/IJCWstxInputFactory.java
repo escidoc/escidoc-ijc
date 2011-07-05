@@ -17,7 +17,6 @@ import javax.xml.stream.XMLResolver;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
-import org.apache.xpath.XPathAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
@@ -27,6 +26,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.ctc.wstx.stax.WstxInputFactory;
+import com.sun.org.apache.xpath.internal.XPathAPI;
 
 /**
  * This {@link WstxInputFactory} extension will try to redirect DTD references

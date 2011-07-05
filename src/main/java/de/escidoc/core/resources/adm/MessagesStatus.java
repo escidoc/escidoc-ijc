@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
-import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.resources.common.Result;
 
 /**
@@ -32,14 +31,14 @@ public class MessagesStatus extends AdminStatus {
             statusCode = STATUS_INVALID_RESULT;
         }
         else if (result.size() == 1) {
-            statusMessage = XmlUtility.getTextContent(result.getFirst());
+            statusMessage = result.getFirst().getTextContent();
             statusCode = STATUS_FINISHED;
         }
         else {
             final Iterator<Element> it = result.iterator();
-            statusMessage = XmlUtility.getTextContent(it.next());
+            statusMessage = it.next().getTextContent();
             while (it.hasNext()) {
-                messages.add(XmlUtility.getTextContent(it.next()));
+                messages.add(it.next().getTextContent());
             }
             statusCode = STATUS_IN_PROGRESS;
         }

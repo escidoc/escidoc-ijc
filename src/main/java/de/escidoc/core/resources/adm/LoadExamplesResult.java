@@ -5,7 +5,6 @@ package de.escidoc.core.resources.adm;
 
 import org.w3c.dom.Element;
 
-import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MessagesResult;
 import de.escidoc.core.resources.common.Result;
@@ -31,7 +30,7 @@ public class LoadExamplesResult extends MessagesResult<LoadExamplesResult.Entry>
      */
     @Override
     protected Entry extractMessage(final Element messageNode, final int messageCount) {
-        final String message = XmlUtility.getTextContent(messageNode);
+        final String message = messageNode.getTextContent();
         final String type = message != null ? message.substring(8, message.indexOf(':')) : null;
         final String objid = message != null ? message.substring(message.indexOf(':') + 2) : null;
 

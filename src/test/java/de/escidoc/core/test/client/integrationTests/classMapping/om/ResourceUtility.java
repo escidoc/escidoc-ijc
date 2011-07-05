@@ -62,7 +62,7 @@ public class ResourceUtility {
 
         final Element contentModelSpecific = doc.createElementNS(null, "cms");
         final Element element1 = doc.createElement("some-other-stuff");
-        element1.appendChild(doc.createTextNode("some content - " + System.nanoTime()));
+        element1.setTextContent("some content - " + System.nanoTime());
 
         final List<Element> cmsContent = new LinkedList<Element>();
         cmsContent.add(contentModelSpecific);

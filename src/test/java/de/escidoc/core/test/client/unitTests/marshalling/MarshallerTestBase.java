@@ -18,7 +18,6 @@ import java.util.Collection;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import org.apache.xpath.XPathAPI;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +27,8 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+
+import com.sun.org.apache.xpath.internal.XPathAPI;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -252,9 +253,7 @@ public abstract class MarshallerTestBase<T> {
         if (strict) {
             assertNotNull("No node found for XPath: " + xPath, node);
         }
-        String content =
-            node != null && node.getFirstChild() != null && node.getFirstChild().getNodeType() == Node.TEXT_NODE ? node
-                .getFirstChild().getNodeValue() : null;
+        String content = node != null ? node.getTextContent() : null;
 
         if (content != null) {
             assertNotNull("Object value is null for XPath: " + xPath, valueToCheck);

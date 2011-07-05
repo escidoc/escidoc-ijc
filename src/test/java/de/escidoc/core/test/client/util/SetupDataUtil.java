@@ -131,12 +131,12 @@ public class SetupDataUtil {
 
         // title
         final Element title = doc.createElementNS("http://purl.org/dc/elements/1.1/", "title");
-        title.appendChild(doc.createTextNode(ouName));
+        title.setTextContent(ouName);
         mdRecordContent.appendChild(title);
 
         // dc:description
         final Element description = doc.createElementNS("http://purl.org/dc/elements/1.1/", "description");
-        description.appendChild(doc.createTextNode(ouDescription));
+        description.setTextContent(ouDescription);
         mdRecordContent.appendChild(description);
         mdRecord.setContent(mdRecordContent);
 

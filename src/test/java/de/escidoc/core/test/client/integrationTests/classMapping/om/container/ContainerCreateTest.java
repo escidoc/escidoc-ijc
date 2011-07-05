@@ -40,13 +40,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.xpath.XPathAPI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import com.sun.org.apache.xpath.internal.XPathAPI;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ContainerHandlerClient;
@@ -572,7 +573,7 @@ public class ContainerCreateTest {
         mdRecords.add(mdRecord);
         final MetadataRecord mdRecord2 = new MetadataRecord("md-record2");
         final Element element2 = doc.createElementNS(null, "myMdRecord");
-        element2.appendChild(doc.createTextNode("222222222"));
+        element2.setTextContent("222222222");
 
         mdRecord2.setContent(element2);
 
@@ -581,7 +582,7 @@ public class ContainerCreateTest {
         final MetadataRecord mdRecord3 = new MetadataRecord("md-record3");
         final Element element3 = doc.createElementNS(null, "myMdRecord");
         final Element element4 = doc.createElementNS(null, "some-other-stuff");
-        element2.appendChild(doc.createTextNode("33333333333333333333"));
+        element2.setTextContent("33333333333333333333");
         element2.appendChild(element4);
 
         mdRecord3.setContent(element3);

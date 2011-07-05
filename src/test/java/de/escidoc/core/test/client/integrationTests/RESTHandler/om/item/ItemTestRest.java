@@ -30,13 +30,14 @@ package de.escidoc.core.test.client.integrationTests.RESTHandler.om.item;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.xpath.XPathAPI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import com.sun.org.apache.xpath.internal.XPathAPI;
 
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
@@ -176,7 +177,7 @@ public class ItemTestRest {
         // assumtion, there is only one ds:title element
         final Node dcTitle = itemDoc.getElementsByTagName("dc:title").item(0);
         final String titleNew = "New Item Description " + System.nanoTime();
-        dcTitle.replaceChild(itemDoc.createTextNode(titleNew), dcTitle.getFirstChild());
+        dcTitle.setTextContent(titleNew);
 
         // updateItemXml
         final String updateItemXml = XmlUtility.xmlToString(itemDoc);
@@ -186,10 +187,10 @@ public class ItemTestRest {
         final Document itemUpdatedDoc = XmlUtility.getDocument(updatedItemXml);
 
         assertEquals("xlink:title not updated in root element", titleNew, XPathAPI.selectSingleNode(itemUpdatedDoc,
-            "/item/@title").getFirstChild().getNodeValue());
+            "/item/@title").getTextContent());
 
         assertEquals("dc:title not updated in md-record", titleNew, itemUpdatedDoc
-            .getElementsByTagName("dc:title").item(0).getFirstChild().getNodeValue());
+            .getElementsByTagName("dc:title").item(0).getTextContent());
     }
 
     /**
