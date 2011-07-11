@@ -882,7 +882,7 @@ public class ContainerHandlerClient extends AbstractHandlerClient<RestContainerH
 
         checkNotNull(resource);
 
-        return lock(resource.getObjid(), taskParam);
+        return unlock(resource.getObjid(), taskParam);
     }
 
     @Override
