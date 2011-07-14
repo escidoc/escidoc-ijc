@@ -39,6 +39,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.axis.types.NonNegativeInteger;
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
@@ -101,8 +102,8 @@ public class ContextFilterVersion12Test {
     public void testExplain() throws Exception {
         cc.create(createContext());
 
-        ExplainResponse response = cc.retrieveContexts(new ExplainRequestType());
-        Explain explain = response.getRecord().getRecordData();
+        final ExplainResponse response = cc.retrieveContexts(new ExplainRequestType());
+        final Explain explain = response.getRecord().getRecordData();
 
         assertEquals("Wrong version number", "1.1", response.getVersion());
         assertNotNull("No index definitions found", explain.getIndexInfo());
@@ -118,15 +119,47 @@ public class ContextFilterVersion12Test {
     @Test
     public void testFilter01() throws Exception {
         Context createdContext = cc.create(createContext());
+        // avoid LMD with 0z at the end
+        while (createdContext.getLastModificationDate().withZone(DateTimeZone.UTC).toString().endsWith("0Z")) {
+            createdContext = cc.create(createContext());
+        }
 
         // now check if at least this Context is in the list
 
-        SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
         srwFilter.setQuery("\"/properties/creation-date\"=\""
             + createdContext.getLastModificationDate().toDateTime(DateTimeZone.UTC) + "\"");
+        // srwFilter.setQuery("\"/properties/creation-date\"=\"2011-07-14T10:41:26.830Z\"");
         srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
 
-        SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
+        final SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
+
+        assertEquals("Wrong version number", "1.1", contextList.getVersion());
+        assertTrue("Wrong number of matching records [query=" + srwFilter.getQuery() + "]", contextList
+            .getNumberOfMatchingRecords() >= 1);
+        assertTrue("Wrong number of resulting records [query=" + srwFilter.getQuery() + "]", contextList
+            .getNumberOfResultingRecords() >= 1);
+        assertEquals("Wrong record position [query=" + srwFilter.getQuery() + "]", 1, contextList
+            .getRecords().iterator().next().getRecordPosition().intValue());
+    }
+
+    @Test
+    public void testFilter02TryZeroMilliLMD() throws Exception {
+        Context createdContext = cc.create(createContext());
+        // force LMD to have 0Z at the end
+        while (!createdContext.getLastModificationDate().withZone(DateTimeZone.UTC).toString().endsWith("0Z")) {
+            createdContext = cc.create(createContext());
+        }
+
+        // now check if at least this Context is in the list
+
+        final SearchRetrieveRequestType srwFilter = new SearchRetrieveRequestType();
+        srwFilter.setQuery("\"/properties/creation-date\"=\""
+            + createdContext.getLastModificationDate().toDateTime(DateTimeZone.UTC) + "\"");
+        // srwFilter.setQuery("\"/properties/creation-date\"=\"2011-07-14T10:41:26.830Z\"");
+        srwFilter.setMaximumRecords(new NonNegativeInteger("1"));
+
+        final SearchRetrieveResponse contextList = cc.retrieveContexts(srwFilter);
 
         assertEquals("Wrong version number", "1.1", contextList.getVersion());
         assertTrue("Wrong number of matching records [query=" + srwFilter.getQuery() + "]", contextList
@@ -147,26 +180,27 @@ public class ContextFilterVersion12Test {
      */
     private Context createContext() throws ParserConfigurationException, TransportException, EscidocException,
         InternalClientException {
-        Context context = new Context();
-        ContextProperties properties = new ContextProperties();
-        properties.setDescription("ContextDescription");
-        properties.setName("ContextName" + System.currentTimeMillis());
+        final Context context = new Context();
+        final ContextProperties properties = new ContextProperties();
+        properties.setDescription("@" + getClass().getName());
+        properties.setName("ContextName ("
+            + new DateTime(System.currentTimeMillis()).withZone(DateTimeZone.UTC).toString() + ")");
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        final OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
         organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
 
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
-        AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "admin-descriptor");
+        final AdminDescriptors adminDescriptors = new AdminDescriptors();
+        final AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element element = doc.createElementNS(null, "admin-descriptor");
         adminDescriptor.setContent(element);
 
         adminDescriptors.add(adminDescriptor);

@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.net.URLCodec;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -41,16 +39,17 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
 import de.escidoc.core.client.rest.RestService;
 import de.escidoc.core.client.rest.serviceLocator.callback.RestCallbackHandler;
 import de.escidoc.core.common.URLUtility;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
 import de.escidoc.core.resources.HttpInputStream;
 
 /**
@@ -94,7 +93,7 @@ public abstract class RestServiceMethod implements RestService {
      *             Thrown if request failed.
      * @throws EscidocException
      */
-    public String put(final String path, final String content) throws SystemException, RemoteException {
+    public String put(final String path, final String content) throws EscidocException {
 
         checkNotNull(content);
 
@@ -109,8 +108,8 @@ public abstract class RestServiceMethod implements RestService {
             entity = new StringEntity(content, "UTF-8");
             entity.setContentType("text/xml");
         }
-        catch (final UnsupportedEncodingException e1) {
-            throw new SystemException(500, e1.getMessage(), "");
+        catch (final UnsupportedEncodingException e) {
+            throw new SystemException(e.getMessage(), e, 500, null, e.getMessage());
         }
         put.setEntity(entity);
 
@@ -126,9 +125,9 @@ public abstract class RestServiceMethod implements RestService {
      *            InputStream of content
      * @return Response body as String
      * @throws IOException
-     * @throws EscidocException
+     * @throws SystemException
      */
-    public String put(final String path, final File f) throws IOException {
+    public String put(final String path, final File f) throws EscidocException {
 
         checkNotNull(f);
         final String checkedPath = checkPath(path);
@@ -155,8 +154,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws FileNotFoundException
      * @throws EscidocException
      */
-    public String put(final String path, final InputStream ins) throws SystemException, RemoteException,
-        FileNotFoundException {
+    public String put(final String path, final InputStream ins) throws EscidocException, FileNotFoundException {
 
         final String checkedPath = checkPath(path);
 
@@ -178,7 +176,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws EscidocException
      */
-    public String post(final String path, final String content) throws SystemException, RemoteException {
+    public String post(final String path, final String content) throws EscidocException {
 
         final String checkedPath = checkPath(path);
 
@@ -189,8 +187,8 @@ public abstract class RestServiceMethod implements RestService {
             entity = new StringEntity(content, "UTF-8");
             entity.setContentType("text/xml");
         }
-        catch (final UnsupportedEncodingException e1) {
-            throw new SystemException(500, e1.getMessage(), "");
+        catch (final UnsupportedEncodingException e) {
+            throw new SystemException(e.getMessage(), e, 500, null, e.getMessage());
         }
         post.setEntity(entity);
         return executeRequest(post);
@@ -204,7 +202,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws EscidocException
      */
-    public String get(final String path) throws SystemException, RemoteException {
+    public String get(final String path) throws EscidocException {
 
         final String checkedPath = checkPath(path);
 
@@ -220,7 +218,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws RemoteException
      */
-    public HttpInputStream getStream(final String path) throws SystemException, RemoteException {
+    public HttpInputStream getStream(final String path) throws SystemException {
 
         final String checkedPath = checkPath(path);
 
@@ -235,32 +233,7 @@ public abstract class RestServiceMethod implements RestService {
             return new HttpInputStream(get, response);
         }
         catch (final IOException e) {
-            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
-        }
-    }
-
-    /**
-     * Call HTTP GET to a filter method.
-     * 
-     * @param path
-     *            path to the filter method
-     * @param parameters
-     *            map containing the request parameters as key - value pairs
-     * 
-     * @return encoded GET URL
-     * @throws RemoteException
-     *             thrown if an internal error occurred
-     * @throws EscidocException
-     */
-    public String get(final String path, final Map<String, String[]> parameters) throws RemoteException {
-
-        final String url = prepareUrl(path, parameters);
-
-        try {
-            return get(new URLCodec().encode(url));
-        }
-        catch (final EncoderException e) {
-            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, e.getMessage(), e.toString());
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
         }
     }
 
@@ -272,7 +245,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws EscidocException
      */
-    public String del(final String path) throws SystemException, RemoteException {
+    public String del(final String path) throws EscidocException {
 
         final String checkedPath = checkPath(path);
 
@@ -289,10 +262,9 @@ public abstract class RestServiceMethod implements RestService {
      * 
      * @param response
      *            the HttpMethodBase which is being executed.
-     * @throws SystemException
+     * @throws EscidocException
      */
-    public void decideStatusCode(final HttpResponse response, final String body) throws SystemException,
-        RemoteException {
+    public void decideStatusCode(final HttpResponse response, final String body) throws EscidocException {
 
         if (response.getStatusLine().getStatusCode() / 100 != 2) {
             final Header header = response.getFirstHeader("Location");
@@ -391,44 +363,6 @@ public abstract class RestServiceMethod implements RestService {
     }
 
     /**
-     * Add a parameter map from an Map to an URL.
-     * 
-     * @param path
-     *            The plain path
-     * @param parameters
-     *            The parameter map
-     * @return URL with URL parameters (The URL is not URL encoded!)
-     */
-    private String prepareUrl(final String path, final Map<String, String[]> parameters) {
-
-        StringBuffer result;
-        if (path == null)
-            result = new StringBuffer();
-        else
-            result = new StringBuffer(path);
-
-        if (parameters != null) {
-            result.append('?');
-
-            boolean isFirstParameter = true;
-
-            for (final Entry<String, String[]> entry : parameters.entrySet()) {
-
-                if (entry.getValue() != null && entry.getValue().length > 0) {
-                    if (!isFirstParameter) {
-                        result.append('&');
-                    }
-                    result.append(entry.getKey());
-                    result.append('=');
-                    result.append(entry.getValue()[0]);
-                }
-                isFirstParameter = false;
-            }
-        }
-        return result.toString();
-    }
-
-    /**
      * Converts a SRW SearchRetrieveRequest to the data structure for filter
      * requests for eSciDoc (version 1.2).
      * 
@@ -517,7 +451,7 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      * @throws RemoteException
      */
-    private final String executeRequest(final HttpUriRequest request) throws SystemException, RemoteException {
+    private final String executeRequest(final HttpUriRequest request) throws EscidocException {
 
         String result = null;
         HttpResponse response = null;
@@ -530,7 +464,8 @@ public abstract class RestServiceMethod implements RestService {
                 }
             }
             catch (final IOException e) {
-                throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+                throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e
+                    .getMessage());
             }
             decideStatusCode(response, result);
         }
@@ -548,7 +483,7 @@ public abstract class RestServiceMethod implements RestService {
     private final void closeConnection(final HttpUriRequest request, final HttpResponse response) {
         if (response != null && response.getEntity() != null) {
             try {
-                response.getEntity().consumeContent();
+                EntityUtils.consume(response.getEntity());
             }
             catch (final IOException e) {
                 if (LOG.isDebugEnabled())
@@ -623,7 +558,7 @@ public abstract class RestServiceMethod implements RestService {
             closeConnection(redirected, response);
         }
         catch (final IOException e) {
-            throw new SystemException(HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
         }
         finally {
             closeConnection(get, response);
@@ -637,8 +572,8 @@ public abstract class RestServiceMethod implements RestService {
         }
 
         if (handle == null) {
-            throw new AuthenticationException(statusCode, "Authorization failed.", statusMsg, this.serviceAddress
-                + "/aa/login");
+            final String msg = "Authorization failed.";
+            throw new AuthenticationException(msg, null, statusCode, msg, statusMsg, this.serviceAddress + "/aa/login");
         }
         return handle;
     }

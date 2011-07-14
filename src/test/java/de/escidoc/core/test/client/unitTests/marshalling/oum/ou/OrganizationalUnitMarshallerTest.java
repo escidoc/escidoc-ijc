@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -31,9 +30,8 @@ public class OrganizationalUnitMarshallerTest extends MarshallerTestBase<Organiz
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public OrganizationalUnitMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(OrganizationalUnit.class, BASE, XSD, "organizational-unit_complete.xml", transport);
+    public OrganizationalUnitMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(OrganizationalUnit.class, BASE, XSD, "organizational-unit_complete.xml");
     }
 
     @Override

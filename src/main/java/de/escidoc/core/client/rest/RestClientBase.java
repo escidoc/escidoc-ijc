@@ -33,24 +33,13 @@ public abstract class RestClientBase extends ClientBase implements RestCallbackH
     }
 
     /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use {@link RestClientBase#RestClientBase(URL)} instead.
-     */
-    @Deprecated
-    public RestClientBase(final String serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
      * Adds cookie escidocCookie storing the eSciDoc user handle as the content
-     * of the cookie escidocCookie to to the provided http method object.<br>
-     * The adding is skipped, if the current user handle is <code>null</code> or
-     * equals to an empty <code>String</code>.<br/>
+     * of the cookie escidocCookie to to the provided HTTP method object.<br>
+     * The adding is skipped, if the current user handle is <tt>null</tt> or
+     * equals to an empty <tt>String</tt>.<br/>
      * 
      * @param method
-     *            The http method object to add the cookie to.
+     *            The HTTP method object to add the cookie to.
      */
     @Override
     public void handleHttpMethod(final HttpRequestBase method) {
@@ -59,17 +48,8 @@ public abstract class RestClientBase extends ClientBase implements RestCallbackH
             return;
         }
 
-        // method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-        // method.getParams().setParameter(ClientPNames.COOKIE_POLICY,
-        // CookiePolicy.ACCEPT_NONE);
-
-        // HttpClientParams.setCookiePolicy(method.getParams(), cookiePolicy);
-
         method.addHeader("Cookie", ESCIDOC_COOKIE_ENTRY + "=" + getHandle());
 
-        // method.setFollowRedirects(false);
-        // method
-        // .getParams().setParameter("http.protocol.handle-redirects", false);
         HttpClientParams.setRedirecting(method.getParams(), false);
     }
 }

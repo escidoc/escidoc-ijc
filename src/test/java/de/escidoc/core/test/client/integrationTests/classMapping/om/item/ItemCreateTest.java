@@ -232,6 +232,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if no or wrong exception is caught from the framework.
      */
+    @SuppressWarnings("deprecation")
     @Test(expected = InvalidXmlException.class)
     public void testCreateItem09() throws Exception {
         final Item item = new Item();
@@ -279,6 +280,7 @@ public class ItemCreateTest {
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
+        @SuppressWarnings("deprecation")
         final ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
@@ -316,6 +318,7 @@ public class ItemCreateTest {
         item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
 
         // Content-model
+        @SuppressWarnings("deprecation")
         final ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
         item.getProperties().setContentModelSpecific(cms);
 
@@ -528,6 +531,7 @@ public class ItemCreateTest {
      * @throws Exception
      *             Thrown if creation failed or non-volatile Item values differ.
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testCreateItemWithOneComponent() throws Exception {
         final Item item = new Item();
@@ -580,7 +584,7 @@ public class ItemCreateTest {
         components.add(component);
         item.setComponents(components);
 
-        final Marshaller<Item> m = MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
+        final Marshaller<Item> m = MarshallerFactory.getInstance().getMarshaller(Item.class);
         m.marshalDocument(item);
 
         final Item createdItem = ihc.create(item);
@@ -626,7 +630,7 @@ public class ItemCreateTest {
         component.setContent(content);
 
         // only for debug
-        final Marshaller<Item> m = MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class);
+        final Marshaller<Item> m = MarshallerFactory.getInstance().getMarshaller(Item.class);
         m.marshalDocument(item);
 
         final Item createdItem = ihc.create(item);
@@ -737,7 +741,7 @@ public class ItemCreateTest {
         item.setComponents(components);
 
         // create
-        final Item newItem = ihc.create(item);
+        ihc.create(item);
     }
 
     @Test

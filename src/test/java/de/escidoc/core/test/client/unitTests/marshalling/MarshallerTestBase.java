@@ -12,17 +12,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Collection;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -30,7 +25,6 @@ import org.xml.sax.SAXException;
 
 import com.sun.org.apache.xpath.internal.XPathAPI;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.DateTimeUtility;
 import de.escidoc.core.common.XmlUtility;
@@ -47,7 +41,6 @@ import de.escidoc.core.test.client.util.Template;
  * @author Marko Voß
  * 
  */
-@RunWith(Parameterized.class)
 public abstract class MarshallerTestBase<T> {
 
     private final String xml;
@@ -64,11 +57,6 @@ public abstract class MarshallerTestBase<T> {
 
     private static final EnumFormatter ENUM_FORMATTER = new EnumFormatter();
 
-    private static final Collection<Object[]> PARAMETERS =
-        Arrays.asList(new Object[][] { { TransportProtocol.REST }, { TransportProtocol.SOAP } });
-
-    private final TransportProtocol transport;
-
     /**
      * @param clazz
      * @param resourceFile
@@ -77,12 +65,10 @@ public abstract class MarshallerTestBase<T> {
      * @throws ParserConfigurationException
      */
     public MarshallerTestBase(final Class<T> clazz, final String basePath, final String xsdVersion,
-        final String resourceFile, final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        this.xml = loadResourceFile(transport, basePath, xsdVersion, resourceFile);
+        final String resourceFile) throws IOException, ParserConfigurationException, SAXException {
+        this.xml = loadResourceFile(basePath, xsdVersion, resourceFile);
         this.originDoc = XmlUtility.getDocument(this.xml, true);
         this.clazz = clazz;
-        this.transport = transport;
     }
 
     /**
@@ -90,13 +76,12 @@ public abstract class MarshallerTestBase<T> {
      * @return
      * @throws IOException
      */
-    private final String loadResourceFile(
-        final TransportProtocol transport, final String basePath, final String xsdVersion, final String resourceFile)
+    private final String loadResourceFile(final String basePath, final String xsdVersion, final String resourceFile)
         throws IOException {
 
         checkNotEmpty(resourceFile);
 
-        final InputStream in = Template.loadMockup(transport, basePath, xsdVersion, resourceFile);
+        final InputStream in = Template.loadMockup(basePath, xsdVersion, resourceFile);
 
         checkNotNull(in);
 
@@ -119,20 +104,12 @@ public abstract class MarshallerTestBase<T> {
     }
 
     /**
-     * @return
-     */
-    @Parameters
-    public static Collection<Object[]> data() {
-        return PARAMETERS;
-    }
-
-    /**
      * @throws Exception
      */
     @Test
     public void testLifecycle() throws Exception {
 
-        final Marshaller<T> m = Marshaller.getMarshaller(clazz, transport.name());
+        final Marshaller<T> m = Marshaller.getMarshaller(clazz);
         final T obj = m.unmarshalDocument(xml);
         checkMarshalledDoc = false;
         validate(obj);
@@ -291,19 +268,8 @@ public abstract class MarshallerTestBase<T> {
         checkNotNull(xPathContext);
         checkNotNull(res);
 
-        if (transport == TransportProtocol.SOAP) {
-            final String objid = res.getObjid();
-
-            assertXPath(xPathContext + "/@objid", objid, true);
-            // in some cases it is impossible to generate the XLink
-            if (checkXLink) {
-                assertNotNull("xlink:href is null.", res.getXLinkHref());
-            }
-        }
-        else if (transport == TransportProtocol.REST) {
-            assertXLinkResource(xPathContext, res);
-            assertNotNull(res.getObjid());
-        }
+        assertXLinkResource(xPathContext, res);
+        assertNotNull(res.getObjid());
     }
 
     /**
@@ -332,11 +298,9 @@ public abstract class MarshallerTestBase<T> {
         checkNotNull(xPathContext);
         checkNotNull(res);
 
-        if (checkAlways || transport == TransportProtocol.REST) {
-            assertXPath(xPathContext + "/@xlink:href", res.getXLinkHref(), true);
-            assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(), false);
-            assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(), false);
-        }
+        assertXPath(xPathContext + "/@xlink:href", res.getXLinkHref(), true);
+        assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(), false);
+        assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(), false);
     }
 
     /**
@@ -368,11 +332,9 @@ public abstract class MarshallerTestBase<T> {
             assertNotNull(res.getXLinkHref());
         }
 
-        if (transport == TransportProtocol.REST) {
-            assertXPath(xPathContext + "/@xlink:href", res.getXLinkHref(), true);
-            assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(), false);
-            assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(), false);
-        }
+        assertXPath(xPathContext + "/@xlink:href", res.getXLinkHref(), true);
+        assertXPath(xPathContext + "/@xlink:title", res.getXLinkTitle(), false);
+        assertXPath(xPathContext + "/@xlink:type", res.getXLinkType(), false);
 
         assertDateTime(xPathContext + "/@last-modification-date", res.getLastModificationDate(), false);
     }
@@ -452,13 +414,6 @@ public abstract class MarshallerTestBase<T> {
         assertXPath(xPathMdRecord + "/@schema", records.get(index).getSchema(), false);
 
         // TODO: validate DOM content
-    }
-
-    /**
-     * @return the transport
-     */
-    public TransportProtocol getTransport() {
-        return transport;
     }
 
     /**

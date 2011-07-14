@@ -7,7 +7,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.ReportDefinitionHandler;
+import de.escidoc.core.client.interfaces.handler.ReportDefinitionHandler;
 import de.escidoc.core.client.rest.serviceLocator.ReportDefinitionRestServiceLocator;
 
 /**
@@ -35,19 +34,6 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestReportDefinitionHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestReportDefinitionHandlerClient#RestReportDefinitionHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestReportDefinitionHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -137,28 +123,6 @@ public class RestReportDefinitionHandlerClient extends RestClientBase {
         String xml = null;
         try {
             xml = getClient().retrieve(id);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return xml;
-    }
-
-    /**
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    @Deprecated
-    public String retrieveReportDefinitions(final HashMap<String, String[]> filter) throws EscidocException,
-        InternalClientException, TransportException {
-
-        String xml = null;
-        try {
-            xml = getClient().retrieveReportDefinitions(filter);
         }
         catch (final Exception e) {
             ExceptionMapper.map(e, LOG);

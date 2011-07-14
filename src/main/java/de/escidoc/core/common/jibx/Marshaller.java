@@ -13,6 +13,7 @@ import org.jibx.runtime.JiBXException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 
 /**
@@ -275,7 +276,8 @@ public class Marshaller<E> {
      */
     @SuppressWarnings("deprecation")
     public static final <T> Marshaller<T> getMarshaller(final Class<T> clazz) {
-        return new Marshaller<T>(clazz);
+        // TODO remove transport
+        return new Marshaller<T>(clazz, TransportProtocol.REST.name());
     }
 
     /**

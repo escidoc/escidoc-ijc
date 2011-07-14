@@ -33,37 +33,36 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
 
-import de.escidoc.core.client.interfaces.ContentModelHandler;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingLicenceException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContentStreamNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyPublishedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.LockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidContentException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidStatusException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
+import de.escidoc.core.client.exceptions.application.missing.MissingAttributeValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingContentException;
+import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingLicenceException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMdRecordException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
+import de.escidoc.core.client.exceptions.application.notfound.ComponentNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContentModelNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContentStreamNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.FileNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ReferencedResourceNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.RelationPredicateNotFoundException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyExistsException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyPublishedException;
+import de.escidoc.core.client.exceptions.application.violated.LockingException;
+import de.escidoc.core.client.exceptions.application.violated.NotPublishedException;
+import de.escidoc.core.client.exceptions.application.violated.OptimisticLockingException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyAttributeViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyElementViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyVersionException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyViolationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
+import de.escidoc.core.client.interfaces.handler.ContentModelHandler;
 import de.escidoc.core.resources.HttpInputStream;
 
 /**
@@ -89,10 +88,10 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
      * @throws ContentModelNotFoundException
      * @throws AlreadyPublishedException
      * @throws AuthorizationException
-     * @see de.escidoc.core.om.ContentModelHandler#delete(String)
+     * @see de.escidoc.core.client.interfaces.handler.om.ContentModelHandler#delete(String)
      */
     @Override
-    public void delete(final String contentModelId) throws RemoteException, SystemException, LockingException,
+    public void delete(final String contentModelId) throws EscidocException, LockingException,
         MissingMethodParameterException, InvalidStatusException, AuthenticationException,
         ContentModelNotFoundException, AlreadyPublishedException, AuthorizationException {
 
@@ -125,16 +124,15 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
      * @throws ContentModelNotFoundException
      * @throws InvalidXmlException
      * @throws MissingElementValueException
-     * @see de.escidoc.core.om.ContentModelHandler#create(String)
+     * @see de.escidoc.core.client.interfaces.handler.om.ContentModelHandler#create(String)
      */
     @Override
-    public String create(final String contentModelXml) throws RemoteException, SystemException,
-        MissingAttributeValueException, MissingContentException, MissingMdRecordException,
-        ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
-        ContentModelNotFoundException, InvalidContentException, RelationPredicateNotFoundException,
-        ReadonlyAttributeViolationException, FileNotFoundException, MissingMethodParameterException,
-        InvalidStatusException, ReadonlyElementViolationException, ContentModelNotFoundException, InvalidXmlException,
-        MissingElementValueException {
+    public String create(final String contentModelXml) throws EscidocException, MissingAttributeValueException,
+        MissingContentException, MissingMdRecordException, ReferencedResourceNotFoundException,
+        AuthenticationException, AuthorizationException, ContentModelNotFoundException, InvalidContentException,
+        RelationPredicateNotFoundException, ReadonlyAttributeViolationException, FileNotFoundException,
+        MissingMethodParameterException, InvalidStatusException, ReadonlyElementViolationException,
+        ContentModelNotFoundException, InvalidXmlException, MissingElementValueException {
 
         checkNotNull(contentModelXml);
 
@@ -171,17 +169,17 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
      * @throws InvalidStatusException
      * @throws ReadonlyViolationException
      * @throws InvalidXmlException
-     * @see de.escidoc.core.om.ContentModelHandler#update(String, String)
+     * @see de.escidoc.core.client.interfaces.handler.om.ContentModelHandler#update(String,
+     *      String)
      */
     @Override
-    public String update(final String contentModelId, final String contentModelXml) throws RemoteException,
-        SystemException, MissingLicenceException, ReadonlyVersionException, LockingException,
-        ComponentNotFoundException, MissingContentException, MissingAttributeValueException, AlreadyExistsException,
-        InvalidContentException, MissingMdRecordException, ReferencedResourceNotFoundException,
-        AuthenticationException, AuthorizationException, ContentModelNotFoundException, InvalidContentException,
-        OptimisticLockingException, RelationPredicateNotFoundException, FileNotFoundException,
-        MissingMethodParameterException, NotPublishedException, InvalidStatusException, ReadonlyViolationException,
-        InvalidXmlException {
+    public String update(final String contentModelId, final String contentModelXml) throws EscidocException,
+        MissingLicenceException, ReadonlyVersionException, LockingException, ComponentNotFoundException,
+        MissingContentException, MissingAttributeValueException, AlreadyExistsException, InvalidContentException,
+        MissingMdRecordException, ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
+        ContentModelNotFoundException, InvalidContentException, OptimisticLockingException,
+        RelationPredicateNotFoundException, FileNotFoundException, MissingMethodParameterException,
+        NotPublishedException, InvalidStatusException, ReadonlyViolationException, InvalidXmlException {
 
         checkNotNull(contentModelId);
         checkNotNull(contentModelXml);
@@ -201,8 +199,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
      * @throws AuthorizationException
      */
     @Override
-    public String retrieve(final String contentModelId) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, ContentModelNotFoundException, AuthorizationException {
+    public String retrieve(final String contentModelId) throws EscidocException, MissingMethodParameterException,
+        AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
 
@@ -211,7 +209,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
 
     @Override
     public String retrieveContentStream(final String contentModelId, final String contentStreamName)
-        throws RemoteException, SystemException, ContentStreamNotFoundException, MissingMethodParameterException,
+        throws EscidocException, ContentStreamNotFoundException, MissingMethodParameterException,
         AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
@@ -220,23 +218,15 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
         return get(PATH + "/" + contentModelId + "/content-streams/content-stream/" + contentStreamName);
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param contentModelId
-     * @param contentStreamName
-     * @return
-     * @throws RemoteException
-     * @throws ContentModelNotFoundException
-     * @throws SystemException
-     * @throws AuthenticationException
-     * @throws AuthorizationException
-     * @throws MissingMethodParameterException
-     * @throws ContentStreamNotFoundException
-     * @throws InvalidStatusException
+     * @see de.escidoc.core.client.interfaces.handler.ContentModelHandler#
+     * retrieveContentStreamContent(java.lang.String, java.lang.String)
      */
     @Override
     public HttpInputStream retrieveContentStreamContent(final String contentModelId, final String contentStreamName)
-        throws RemoteException, ContentModelNotFoundException, SystemException, AuthenticationException,
+        throws EscidocException, ContentModelNotFoundException, SystemException, AuthenticationException,
         AuthorizationException, MissingMethodParameterException, ContentStreamNotFoundException, InvalidStatusException {
 
         checkNotNull(contentModelId);
@@ -246,7 +236,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
     }
 
     @Override
-    public String retrieveContentStreams(final String contentModelId) throws RemoteException, SystemException,
+    public String retrieveContentStreams(final String contentModelId) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
@@ -255,7 +245,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
     }
 
     @Override
-    public String retrieveProperties(final String contentModelId) throws RemoteException, SystemException,
+    public String retrieveProperties(final String contentModelId) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
@@ -264,21 +254,12 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
     }
 
     @Override
-    public String retrieveVersionHistory(final String contentModelId) throws RemoteException, SystemException,
+    public String retrieveVersionHistory(final String contentModelId) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, ContentModelNotFoundException, AuthorizationException {
 
         checkNotNull(contentModelId);
 
         return get(PATH + "/" + contentModelId + "/version-history");
-    }
-
-    @SuppressWarnings( { "rawtypes", "unchecked" })
-    @Override
-    @Deprecated
-    public String retrieveContentModels(final HashMap parameterMap) throws RemoteException, SystemException,
-        InvalidSearchQueryException {
-
-        return get(PATH + "s", parameterMap);
     }
 
     /**
@@ -289,9 +270,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
      * @throws RemoteException
      */
     @Override
-    public String retrieveContentModels(final SearchRetrieveRequestType request) throws RemoteException,
-        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
-        InvalidXmlException {
+    public String retrieveContentModels(final SearchRetrieveRequestType request) throws EscidocException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(request);
         return get(PATH + "s" + getEscidoc12Filter(request));
@@ -305,7 +285,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
      * @throws RemoteException
      */
     @Override
-    public String retrieveContentModels(final ExplainRequestType request) throws RemoteException, SystemException,
+    public String retrieveContentModels(final ExplainRequestType request) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(request);

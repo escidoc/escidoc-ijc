@@ -103,12 +103,12 @@ public class RoleHandlerClientTest {
      */
     @Test
     public void testCreateAndRetrieveSuccessfulRole() throws Exception {
-        Role role = createRole();
-        Role createdRole = rc.create(role);
+        final Role role = createRole();
+        final Role createdRole = rc.create(role);
 
-        String objId = createdRole.getObjid();
+        final String objId = createdRole.getObjid();
 
-        MarshallerFactory.getInstance(rc.getTransport()).getMarshaller(Role.class).marshalDocument(rc.retrieve(objId));
+        MarshallerFactory.getInstance().getMarshaller(Role.class).marshalDocument(rc.retrieve(objId));
 
     }
 
@@ -118,12 +118,12 @@ public class RoleHandlerClientTest {
      */
     @Test
     public void testUpdateSuccessfulRole() throws Exception {
-        Role role = createRole();
-        Role createdRole = rc.create(role);
-        String newName = "newName" + System.currentTimeMillis();
+        final Role role = createRole();
+        final Role createdRole = rc.create(role);
+        final String newName = "newName" + System.currentTimeMillis();
         createdRole.getProperties().setName(newName);
-        Role updatedRole = rc.update(createdRole);
-        String updatedName = updatedRole.getProperties().getName();
+        final Role updatedRole = rc.update(createdRole);
+        final String updatedName = updatedRole.getProperties().getName();
         assertEquals(updatedName, newName);
 
     }
@@ -134,17 +134,17 @@ public class RoleHandlerClientTest {
      */
     @Test
     public void testDeleteSuccessfulRole() throws Exception {
-        Role role = createRole();
+        final Role role = createRole();
 
-        Role createdRole = rc.create(role);
+        final Role createdRole = rc.create(role);
 
-        String objId = createdRole.getObjid();
+        final String objId = createdRole.getObjid();
         rc.delete(objId);
         try {
             rc.retrieve(objId);
             fail("Missing Exception");
         }
-        catch (EscidocException e) {
+        catch (final EscidocException e) {
             if (!(e instanceof RoleNotFoundException)) {
 
                 fail("Wrong exception.Excepted exception of type " + "RoleNotFoundException but was " + e.getClass());
@@ -162,8 +162,8 @@ public class RoleHandlerClientTest {
     @Test
     public void testSerializeRole() throws InternalClientException {
 
-        TaskParam filterParam = new TaskParam();
-        List<Filter> filters = filterParam.getFilters();
+        final TaskParam filterParam = new TaskParam();
+        final List<Filter> filters = filterParam.getFilters();
 
         filters.add(new Filter("limited", "false", null));
         filterParam.setFilters(filters);
@@ -182,10 +182,10 @@ public class RoleHandlerClientTest {
     @Test
     public void testRetrieveRoles() throws EscidocClientException {
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setMaximumRecords(new NonNegativeInteger("0"));
 
-        List<Role> roleList = rc.retrieveRolesAsList(request);
+        final List<Role> roleList = rc.retrieveRolesAsList(request);
 
         assertNotNull("No roles returned.", roleList);
     }
@@ -208,22 +208,22 @@ public class RoleHandlerClientTest {
      */
     private Role createRole() throws ParserConfigurationException, SAXException, IOException, InternalClientException {
 
-        Role role = new Role();
+        final Role role = new Role();
 
         // properties
-        RoleProperties properties = new RoleProperties();
+        final RoleProperties properties = new RoleProperties();
         properties.setName("name" + System.currentTimeMillis());
         properties.setDescription("description");
 
         // Scope
-        Scope scope = new Scope();
-        ScopeDef scopeDef1 =
+        final Scope scope = new Scope();
+        final ScopeDef scopeDef1 =
             new ScopeDef(ResourceType.ITEM, "info:escidoc/names:aa:1.0:resource:item:context", ResourceType.CONTEXT);
-        ScopeDef scopeDef2 =
+        final ScopeDef scopeDef2 =
             new ScopeDef(ResourceType.CONTAINER, "info:escidoc/names:aa:1.0:resource:item:context",
                 ResourceType.CONTEXT);
 
-        List<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
+        final List<ScopeDef> scopeDefinitions = new LinkedList<ScopeDef>();
         scopeDefinitions.add(scopeDef1);
         scopeDefinitions.add(scopeDef2);
         scope.setScopeDefinitions(scopeDefinitions);
@@ -232,21 +232,21 @@ public class RoleHandlerClientTest {
         role.setProperties(properties);
 
         // Policy
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc =
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc =
             builder
                 .parse(Template.load(TransportProtocol.REST.name().toLowerCase() + "/aa/role/policy_for_create.xml"));
-        Element root = doc.getDocumentElement();
+        final Element root = doc.getDocumentElement();
 
         role.setPolicyOrPolicySet(root);
 
         // FIXME done without result handling
-        Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
+        final Marshaller<Role> m = MarshallerFactory.getInstance().getMarshaller(Role.class);
 
-        String xml = m.marshalDocument(role);
+        final String xml = m.marshalDocument(role);
 
-        Role urole = m.unmarshalDocument(xml);
+        final Role urole = m.unmarshalDocument(xml);
 
         return urole;
     }

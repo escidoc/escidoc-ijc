@@ -33,39 +33,39 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
 
-import de.escidoc.core.client.interfaces.ContextHandler;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingLicenceException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.AdminDescriptorNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.StreamNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyPublishedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.LockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidContentException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidContextException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidStatusException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
+import de.escidoc.core.client.exceptions.application.missing.MissingAttributeValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingContentException;
+import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingLicenceException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMdRecordException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
+import de.escidoc.core.client.exceptions.application.notfound.AdminDescriptorNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ComponentNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContentModelNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.FileNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ReferencedResourceNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.RelationPredicateNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.StreamNotFoundException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyExistsException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyPublishedException;
+import de.escidoc.core.client.exceptions.application.violated.LockingException;
+import de.escidoc.core.client.exceptions.application.violated.NotPublishedException;
+import de.escidoc.core.client.exceptions.application.violated.OptimisticLockingException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyAttributeViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyElementViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyVersionException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyViolationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
+import de.escidoc.core.client.interfaces.handler.ContextHandler;
 
 /**
  * REST Service Connector.
@@ -78,7 +78,7 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
     public static final String PATH = "/ir/context";
 
     @Override
-    public String close(final String contextId, final String taskParam) throws RemoteException,
+    public String close(final String contextId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, MissingMethodParameterException, LockingException,
         InvalidStatusException, AuthenticationException, StreamNotFoundException, AuthorizationException,
         ContextNotFoundException, InvalidXmlException {
@@ -89,7 +89,7 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
     }
 
     @Override
-    public String open(final String contextId, final String taskParam) throws java.rmi.RemoteException,
+    public String open(final String contextId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, MissingMethodParameterException, LockingException,
         InvalidStatusException, AuthenticationException, StreamNotFoundException, AuthorizationException,
         ContextNotFoundException, InvalidXmlException {
@@ -99,7 +99,8 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
         return post(PATH + "/" + contextId + "/open", taskParam);
     }
 
-    public String retrieveMembers(final String contextId, final String filter) throws RemoteException, SystemException,
+    @Override
+    public String retrieveMembers(final String contextId, final String filter) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, ContextNotFoundException,
         InvalidXmlException {
 
@@ -108,32 +109,9 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
         return post(PATH + "/" + contextId + "/resources/members/filter", filter);
     }
 
-    @SuppressWarnings( { "rawtypes", "unchecked" })
-    @Override
-    @Deprecated
-    public String retrieveMembers(final String contextId, final HashMap filter) throws RemoteException,
-        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
-        ContextNotFoundException, InvalidXmlException {
-
-        checkNotNull(contextId);
-
-        return get(PATH + "/" + contextId + "/resources/members", filter);
-    }
-
     @Override
     public String retrieveMembers(final String contextId, final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException, MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
-
-        checkNotNull(contextId);
-        checkNotNull(filter);
-
-        return get(PATH + "/" + contextId + "/resources/members" + getEscidoc12Filter(filter));
-    }
-
-    @Override
-    public String retrieveMembers(final String contextId, final ExplainRequestType filter) throws RemoteException,
-        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
+        throws EscidocException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
         InvalidXmlException {
 
         checkNotNull(contextId);
@@ -143,8 +121,18 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
     }
 
     @Override
-    public String retrieveAdminDescriptor(final String contextId, final String admId) throws RemoteException,
-        SystemException, AdminDescriptorNotFoundException, MissingMethodParameterException, AuthenticationException,
+    public String retrieveMembers(final String contextId, final ExplainRequestType filter) throws EscidocException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
+
+        checkNotNull(contextId);
+        checkNotNull(filter);
+
+        return get(PATH + "/" + contextId + "/resources/members" + getEscidoc12Filter(filter));
+    }
+
+    @Override
+    public String retrieveAdminDescriptor(final String contextId, final String admId) throws EscidocException,
+        AdminDescriptorNotFoundException, MissingMethodParameterException, AuthenticationException,
         AuthorizationException, ContextNotFoundException {
 
         checkNotNull(contextId);
@@ -154,7 +142,7 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
     }
 
     @Override
-    public String retrieveAdminDescriptors(final String contextId) throws RemoteException, SystemException,
+    public String retrieveAdminDescriptors(final String contextId) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, ContextNotFoundException {
 
         checkNotNull(contextId);
@@ -163,7 +151,7 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
     }
 
     @Override
-    public String updateAdminDescriptor(final String id, final String xmlData) throws RemoteException,
+    public String updateAdminDescriptor(final String id, final String xmlData) throws EscidocException,
         OptimisticLockingException, SystemException, AdminDescriptorNotFoundException, MissingMethodParameterException,
         AuthenticationException, AuthorizationException, ContextNotFoundException, InvalidXmlException {
 
@@ -183,10 +171,10 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
      * @throws ContextNotFoundException
      * @throws AlreadyPublishedException
      * @throws AuthorizationException
-     * @see de.escidoc.core.om.ContextHandler#delete(String)
+     * @see de.escidoc.core.client.interfaces.handler.om.ContextHandler#delete(String)
      */
     @Override
-    public void delete(final String contextId) throws RemoteException, SystemException, LockingException,
+    public void delete(final String contextId) throws EscidocException, LockingException,
         MissingMethodParameterException, InvalidStatusException, AuthenticationException, ContextNotFoundException,
         AlreadyPublishedException, AuthorizationException {
 
@@ -219,16 +207,15 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
      * @throws ContentModelNotFoundException
      * @throws InvalidXmlException
      * @throws MissingElementValueException
-     * @see de.escidoc.core.om.ContextHandler#create(String)
+     * @see de.escidoc.core.client.interfaces.handler.om.ContextHandler#create(String)
      */
     @Override
-    public String create(final String contextXml) throws RemoteException, SystemException,
-        MissingAttributeValueException, MissingContentException, MissingMdRecordException,
-        ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException, ContextNotFoundException,
-        InvalidContentException, RelationPredicateNotFoundException, ReadonlyAttributeViolationException,
-        FileNotFoundException, MissingMethodParameterException, InvalidStatusException,
-        ReadonlyElementViolationException, ContentModelNotFoundException, InvalidXmlException,
-        MissingElementValueException {
+    public String create(final String contextXml) throws EscidocException, MissingAttributeValueException,
+        MissingContentException, MissingMdRecordException, ReferencedResourceNotFoundException,
+        AuthenticationException, AuthorizationException, ContextNotFoundException, InvalidContentException,
+        RelationPredicateNotFoundException, ReadonlyAttributeViolationException, FileNotFoundException,
+        MissingMethodParameterException, InvalidStatusException, ReadonlyElementViolationException,
+        ContentModelNotFoundException, InvalidXmlException, MissingElementValueException {
 
         checkNotNull(contextXml);
 
@@ -265,10 +252,10 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
      * @throws InvalidStatusException
      * @throws ReadonlyViolationException
      * @throws InvalidXmlException
-     * @see de.escidoc.core.om.ContextHandler#update(String, String)
+     * @see de.escidoc.core.client.interfaces.handler.om.ContextHandler#update(String, String)
      */
     @Override
-    public String update(final String contextId, final String contextXml) throws RemoteException, SystemException,
+    public String update(final String contextId, final String contextXml) throws EscidocException,
         MissingLicenceException, ReadonlyVersionException, LockingException, ComponentNotFoundException,
         MissingContentException, MissingAttributeValueException, AlreadyExistsException, InvalidContextException,
         MissingMdRecordException, ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
@@ -283,8 +270,8 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
     }
 
     @Override
-    public String retrieve(final String contextId) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, ContextNotFoundException, AuthorizationException {
+    public String retrieve(final String contextId) throws EscidocException, MissingMethodParameterException,
+        AuthenticationException, ContextNotFoundException, AuthorizationException {
 
         checkNotNull(contextId);
 
@@ -292,25 +279,16 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
     }
 
     @Override
-    public String retrieveProperties(final String contextId) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, ContextNotFoundException, AuthorizationException {
+    public String retrieveProperties(final String contextId) throws EscidocException, MissingMethodParameterException,
+        AuthenticationException, ContextNotFoundException, AuthorizationException {
 
         checkNotNull(contextId);
 
         return get(PATH + "/" + contextId + "/properties");
     }
 
-    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
-    @Deprecated
-    public String retrieveContexts(final HashMap filter) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
-
-        return get(PATH + "s", filter);
-    }
-
-    @Override
-    public String retrieveContexts(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+    public String retrieveContexts(final SearchRetrieveRequestType filter) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
@@ -319,7 +297,7 @@ public class ContextRestServiceLocator extends RestServiceMethod implements Cont
     }
 
     @Override
-    public String retrieveContexts(final ExplainRequestType filter) throws RemoteException, SystemException,
+    public String retrieveContexts(final ExplainRequestType filter) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);

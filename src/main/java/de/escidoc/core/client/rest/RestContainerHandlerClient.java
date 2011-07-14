@@ -32,7 +32,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.ContainerHandler;
+import de.escidoc.core.client.interfaces.handler.ContainerHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContainerRestServiceLocator;
 
 /**
@@ -62,19 +61,6 @@ public class RestContainerHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestContainerHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestContainerHandlerClient#RestContainerHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestContainerHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -585,28 +571,6 @@ public class RestContainerHandlerClient extends RestClientBase {
         InternalClientException, TransportException {
 
         evalRequest(filter, true);
-
-        String result = null;
-        try {
-            result = getClient().retrieveContainers(filter);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    @Deprecated
-    public String retrieveContainers(final HashMap<String, String[]> filter) throws EscidocException,
-        InternalClientException, TransportException {
 
         String result = null;
         try {

@@ -38,9 +38,9 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
 import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
 import de.escidoc.core.client.interfaces.UserManagementWrapperClientInterface;
 import de.escidoc.core.common.URLUtility;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
 
 /**
  * Authenticate against eSciDoc framework.
@@ -98,7 +98,7 @@ public class Authentication {
         try {
             url = new URL(serviceAddress);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
             throw new TransportException(e);
         }
 
@@ -157,13 +157,13 @@ public class Authentication {
         try {
             this.handle = getClient().getClient().getClient().login(username, password);
         }
-        catch (SystemException e) {
+        catch (final SystemException e) {
             throw new TransportException(e.getMessage(), e);
         }
-        catch (RemoteException e) {
+        catch (final RemoteException e) {
             throw new AuthenticationException(e.getMessage(), e);
         }
-        catch (InternalClientException e) {
+        catch (final InternalClientException e) {
             throw new TransportException(e.getMessage(), e);
         }
 
@@ -188,7 +188,7 @@ public class Authentication {
         try {
             url = new URL(serviceUrl);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
             throw new TransportException(e);
         }
 

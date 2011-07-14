@@ -12,8 +12,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.handler.StatisticDataHandler;
 import de.escidoc.core.client.rest.serviceLocator.StatisticDataRestServiceLocator;
-import de.escidoc.core.sm.StatisticDataHandler;
 
 /**
  * @author MVO
@@ -31,19 +31,6 @@ public class RestStatisticDataHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestStatisticDataHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestStatisticDataHandlerClient#RestStatisticDataHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestStatisticDataHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

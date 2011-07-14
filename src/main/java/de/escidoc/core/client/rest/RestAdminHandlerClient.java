@@ -8,11 +8,11 @@ import java.net.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.escidoc.core.adm.AdminHandler;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.handler.AdminHandler;
 import de.escidoc.core.client.rest.serviceLocator.AdminRestServiceLocator;
 
 /**
@@ -31,19 +31,6 @@ public class RestAdminHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestAdminHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestAdminHandlerClient#RestAdminHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestAdminHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

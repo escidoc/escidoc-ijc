@@ -4,7 +4,6 @@
 package de.escidoc.core.common.jibx.binding;
 
 import java.lang.reflect.Constructor;
-import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -17,6 +16,8 @@ import org.jibx.runtime.IUnmarshaller;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.UnmarshallingContext;
+
+import de.escidoc.core.client.exceptions.EscidocException;
 
 /**
  * @author MVO
@@ -52,9 +53,9 @@ public class ExceptionMarshaller extends MarshallingBase implements IMarshaller,
      * Common denominator of package names for exceptions inheriting from
      * AxisFault.
      */
-    private static final String PREFIX_REMOTE = "de.escidoc.core.common.exceptions.remote";
+    private static final String PREFIX_REMOTE = "de.escidoc.core.common.exceptions";
 
-    private static final String PREFIX_COMMON = "de.escidoc.core.common.exceptions";
+    private static final String PREFIX_CLIENT = "de.escidoc.core.client.exceptions";
 
     /**
      * Non-aliased constructor
@@ -110,12 +111,12 @@ public class ExceptionMarshaller extends MarshallingBase implements IMarshaller,
             throw new IllegalArgumentException(
                 "Unexpected type of the supplied user context object. Expected HttpStatusInfo class.");
 
-        UnmarshallingContext ctx = (UnmarshallingContext) ictx;
-        HttpStatusInfo httpInfo = (HttpStatusInfo) ctx.getUserContext();
+        final UnmarshallingContext ctx = (UnmarshallingContext) ictx;
+        final HttpStatusInfo httpInfo = (HttpStatusInfo) ctx.getUserContext();
 
         // wrap the result into a wrapper-class since we are not able
         // to compile JiBX into java.rmi.RemoteException.
-        return new RemoteExceptionWrapper((RemoteException) parseException(ctx, httpInfo, true));
+        return parseException(ctx, httpInfo, true);
     }
 
     /**
@@ -148,7 +149,7 @@ public class ExceptionMarshaller extends MarshallingBase implements IMarshaller,
         // get class (required)
         ctx.parsePastStartTag(getUri(), TAG_CLASS);
         className = ctx.parseElementText(getUri(), TAG_P);
-        className = className.replace(PREFIX_COMMON, PREFIX_REMOTE);
+        className = className.replace(PREFIX_REMOTE, PREFIX_CLIENT);
         ctx.parsePastEndTag(getUri(), TAG_CLASS);
 
         // get stack trace (optional)
@@ -212,7 +213,7 @@ public class ExceptionMarshaller extends MarshallingBase implements IMarshaller,
             try {
                 exClass = Class.forName(className);
             }
-            catch (ClassNotFoundException e) {
+            catch (final ClassNotFoundException e) {
                 /*
                  * If the class was not found, the Exception is no
                  * RemoteException and therefore not available in the class-path
@@ -236,25 +237,40 @@ public class ExceptionMarshaller extends MarshallingBase implements IMarshaller,
              * In order to instantiate such exceptions, we have to pass null as
              * a 4th parameter.
              */
-            if (de.escidoc.core.common.exceptions.remote.application.security.SecurityException.class
+            // if
+            // (de.escidoc.core.common.exceptions.remote.application.security.SecurityException.class
+            // .isAssignableFrom(exClass)) {
+            // Constructor<?> constructor =
+            // exClass.getDeclaredConstructor(new Class[] { int.class,
+            // String.class, String.class, String.class });
+            // result =
+            // (RemoteException)
+            // constructor.newInstance(httpInfo.getStatusCode(), null, message,
+            // httpInfo
+            // .getRedirectLocation());
+            // }
+            // else
+            if (de.escidoc.core.client.exceptions.application.security.SecurityException.class
                 .isAssignableFrom(exClass)) {
-                Constructor<?> constructor =
-                    exClass.getDeclaredConstructor(new Class[] { int.class, String.class, String.class, String.class });
+                final Constructor<?> constructor =
+                    exClass.getDeclaredConstructor(new Class[] { String.class, Throwable.class, int.class,
+                        String.class, String.class, String.class });
                 result =
-                    (RemoteException) constructor.newInstance(httpInfo.getStatusCode(), null, message, httpInfo
-                        .getRedirectLocation());
+                    (Exception) constructor.newInstance(message, null, httpInfo.getStatusCode(), null, message,
+                        httpInfo.getRedirectLocation());
             }
-            else if (RemoteException.class.isAssignableFrom(exClass)) {
-                Constructor<?> constructor =
-                    exClass.getDeclaredConstructor(new Class[] { int.class, String.class, String.class });
-                result = (RemoteException) constructor.newInstance(httpInfo.getStatusCode(), null, message);
+            else if (EscidocException.class.isAssignableFrom(exClass)) {
+                final Constructor<?> constructor =
+                    exClass.getDeclaredConstructor(new Class[] { String.class, Throwable.class, int.class,
+                        String.class, String.class });
+                result = (Exception) constructor.newInstance(message, null, httpInfo.getStatusCode(), null, message);
             }
             else {
-                Constructor<?> constructor = exClass.getDeclaredConstructor(new Class[] { String.class });
-                result = (Exception) constructor.newInstance(message);
+                final Constructor<?> constructor = exClass.getDeclaredConstructor(new Class[] { String.class });
+                result = (Exception) constructor.newInstance(message, null);
             }
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             throw new JiBXException("Unable to map Exception.", e);
         }
         return result;
@@ -266,13 +282,13 @@ public class ExceptionMarshaller extends MarshallingBase implements IMarshaller,
      * @return
      */
     private StackTraceElement[] getStackTraceElements(final String stackTrace) {
-        List<StackTraceElement> list = new LinkedList<StackTraceElement>();
+        final List<StackTraceElement> list = new LinkedList<StackTraceElement>();
 
-        String[] lines = stackTrace.split("[\\r\\n]+");
+        final String[] lines = stackTrace.split("[\\r\\n]+");
 
-        for (String line : lines) {
+        for (final String line : lines) {
 
-            Matcher m = STACK_TRACE_ELEMENT_PATTERN.matcher(line);
+            final Matcher m = STACK_TRACE_ELEMENT_PATTERN.matcher(line);
             if (m.find()) {
                 list.add(new StackTraceElement(m.group(1), m.group(3), m.group(4), Integer.valueOf(m.group(5))));
             }

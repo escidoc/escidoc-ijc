@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -31,9 +30,8 @@ public class UserAccountMarshallerTest extends MarshallerTestBase<UserAccount> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public UserAccountMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(UserAccount.class, BASE, XSD, "user-account_complete.xml", transport);
+    public UserAccountMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(UserAccount.class, BASE, XSD, "user-account_complete.xml");
     }
 
     @Override
@@ -47,7 +45,7 @@ public class UserAccountMarshallerTest extends MarshallerTestBase<UserAccount> {
         assertDateTime("/user-account:user-account/@last-modification-date", obj.getLastModificationDate());
 
         // UserAccountProperties
-        String path = "/user-account:user-account/user-account:properties";
+        final String path = "/user-account:user-account/user-account:properties";
         assertNotNull(obj.getProperties());
 
         assertDateTime(path + "/prop:creation-date", obj.getProperties().getCreationDate());

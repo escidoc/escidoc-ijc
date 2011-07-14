@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.aa.usergroup.UserGroup;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -31,9 +30,8 @@ public class UserGroupMarshallerTest extends MarshallerTestBase<UserGroup> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public UserGroupMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(UserGroup.class, BASE, XSD, "user-group_complete.xml", transport);
+    public UserGroupMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(UserGroup.class, BASE, XSD, "user-group_complete.xml");
     }
 
     @Override

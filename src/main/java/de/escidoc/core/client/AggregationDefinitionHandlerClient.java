@@ -76,7 +76,7 @@ public class AggregationDefinitionHandlerClient extends AbstractHandlerClient<Re
         checkNotNull(agDefinition);
 
         final Marshaller<AggregationDefinition> m =
-            MarshallerFactory.getInstance(getTransport()).getMarshaller(AggregationDefinition.class);
+            MarshallerFactory.getInstance().getMarshaller(AggregationDefinition.class);
 
         final String xml = getClient().create(m.marshalDocument(agDefinition));
         return m.unmarshalDocument(xml);

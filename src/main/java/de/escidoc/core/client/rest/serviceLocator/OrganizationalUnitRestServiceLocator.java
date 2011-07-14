@@ -5,41 +5,41 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
 
-import de.escidoc.core.client.interfaces.OrganizationalUnitHandler;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingLicenceException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.OrganizationalUnitNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.XmlSchemaNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyPublishedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.LockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OrganizationalUnitHierarchyViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidContentException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidContextException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidStatusException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
+import de.escidoc.core.client.exceptions.application.missing.MissingAttributeValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingContentException;
+import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingLicenceException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMdRecordException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
+import de.escidoc.core.client.exceptions.application.notfound.ComponentNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContentModelNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.FileNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.MdRecordNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ReferencedResourceNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.RelationPredicateNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.XmlSchemaNotFoundException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyExistsException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyPublishedException;
+import de.escidoc.core.client.exceptions.application.violated.LockingException;
+import de.escidoc.core.client.exceptions.application.violated.NotPublishedException;
+import de.escidoc.core.client.exceptions.application.violated.OptimisticLockingException;
+import de.escidoc.core.client.exceptions.application.violated.OrganizationalUnitHierarchyViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyAttributeViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyElementViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyVersionException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyViolationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
+import de.escidoc.core.client.interfaces.handler.OrganizationalUnitHandler;
 
 /**
  * REST Service Connector.
@@ -52,7 +52,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     public static final String PATH = "/oum/organizational-unit";
 
     @Override
-    public String close(final String ouId, final String taskParam) throws RemoteException, OptimisticLockingException,
+    public String close(final String ouId, final String taskParam) throws EscidocException, OptimisticLockingException,
         SystemException, OrganizationalUnitNotFoundException, MissingMethodParameterException, InvalidStatusException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
@@ -62,7 +62,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String open(final String ouId, final String taskParam) throws RemoteException, OptimisticLockingException,
+    public String open(final String ouId, final String taskParam) throws EscidocException, OptimisticLockingException,
         SystemException, OrganizationalUnitNotFoundException, MissingMethodParameterException, InvalidStatusException,
         AuthenticationException, AuthorizationException, InvalidXmlException {
 
@@ -72,7 +72,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String updateParents(final String ouId, final String xmlOfParents) throws RemoteException,
+    public String updateParents(final String ouId, final String xmlOfParents) throws EscidocException,
         OptimisticLockingException, SystemException, OrganizationalUnitNotFoundException,
         MissingMethodParameterException, OrganizationalUnitHierarchyViolationException, InvalidStatusException,
         AuthenticationException, AuthorizationException, InvalidXmlException, MissingElementValueException {
@@ -84,9 +84,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String retrieveParents(final String ouId) throws RemoteException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
-        AuthorizationException {
+    public String retrieveParents(final String ouId) throws EscidocException, OrganizationalUnitNotFoundException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException {
 
         checkNotNull(ouId);
 
@@ -94,7 +93,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String retrieveParentObjects(final String ouId) throws java.rmi.RemoteException, SystemException,
+    public String retrieveParentObjects(final String ouId) throws EscidocException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
@@ -104,7 +103,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String retrieveChildObjects(final String ouId) throws java.rmi.RemoteException, SystemException,
+    public String retrieveChildObjects(final String ouId) throws EscidocException, SystemException,
         OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
         AuthorizationException {
 
@@ -114,28 +113,26 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String retrievePathList(final String ouId) throws RemoteException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
-        AuthorizationException {
+    public String retrievePathList(final String ouId) throws EscidocException, OrganizationalUnitNotFoundException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException {
 
         checkNotNull(ouId);
 
         return get(PATH + "/" + ouId + "/resources/path-list");
     }
 
-    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
-    @Deprecated
-    public String retrieveOrganizationalUnits(final HashMap filter) throws RemoteException, SystemException,
+    public String retrieveOrganizationalUnits(final SearchRetrieveRequestType request) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        return get(PATH + "s", filter);
+        checkNotNull(request);
+
+        return get(PATH + "s" + getEscidoc12Filter(request));
     }
 
     @Override
-    public String retrieveOrganizationalUnits(final SearchRetrieveRequestType request) throws RemoteException,
-        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
-        InvalidXmlException {
+    public String retrieveOrganizationalUnits(final ExplainRequestType request) throws EscidocException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(request);
 
@@ -143,19 +140,9 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String retrieveOrganizationalUnits(final ExplainRequestType request) throws RemoteException,
-        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
-        InvalidXmlException {
-
-        checkNotNull(request);
-
-        return get(PATH + "s" + getEscidoc12Filter(request));
-    }
-
-    @Override
-    public void delete(final String ouId) throws RemoteException, SystemException, LockingException,
-        MissingMethodParameterException, InvalidStatusException, AuthenticationException,
-        OrganizationalUnitNotFoundException, AlreadyPublishedException, AuthorizationException {
+    public void delete(final String ouId) throws EscidocException, LockingException, MissingMethodParameterException,
+        InvalidStatusException, AuthenticationException, OrganizationalUnitNotFoundException,
+        AlreadyPublishedException, AuthorizationException {
 
         checkNotNull(ouId);
 
@@ -186,16 +173,15 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
      * @throws ContentModelNotFoundException
      * @throws InvalidXmlException
      * @throws MissingElementValueException
-     * @see de.escidoc.core.om.OrganizationalUnitHandler#create(String)
+     * @see de.escidoc.core.client.interfaces.handler.om.OrganizationalUnitHandler#create(String)
      */
     @Override
-    public String create(final String organizationalUnitXml) throws RemoteException, SystemException,
-        MissingAttributeValueException, MissingContentException, MissingMdRecordException,
-        ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException, ContextNotFoundException,
-        InvalidContentException, RelationPredicateNotFoundException, ReadonlyAttributeViolationException,
-        FileNotFoundException, MissingMethodParameterException, InvalidStatusException,
-        ReadonlyElementViolationException, ContentModelNotFoundException, InvalidXmlException,
-        MissingElementValueException {
+    public String create(final String organizationalUnitXml) throws EscidocException, MissingAttributeValueException,
+        MissingContentException, MissingMdRecordException, ReferencedResourceNotFoundException,
+        AuthenticationException, AuthorizationException, ContextNotFoundException, InvalidContentException,
+        RelationPredicateNotFoundException, ReadonlyAttributeViolationException, FileNotFoundException,
+        MissingMethodParameterException, InvalidStatusException, ReadonlyElementViolationException,
+        ContentModelNotFoundException, InvalidXmlException, MissingElementValueException {
 
         checkNotNull(organizationalUnitXml);
 
@@ -232,17 +218,16 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
      * @throws InvalidStatusException
      * @throws ReadonlyViolationException
      * @throws InvalidXmlException
-     * @see de.escidoc.core.om.OrganizationalUnitHandler#update(String, String)
+     * @see de.escidoc.core.client.interfaces.handler.om.OrganizationalUnitHandler#update(String, String)
      */
     @Override
-    public String update(final String ouId, final String organizationalUnitXml) throws RemoteException,
-        SystemException, MissingLicenceException, ReadonlyVersionException, LockingException,
-        ComponentNotFoundException, MissingContentException, MissingAttributeValueException, AlreadyExistsException,
-        InvalidContextException, MissingMdRecordException, ReferencedResourceNotFoundException,
-        AuthenticationException, AuthorizationException, OrganizationalUnitNotFoundException, InvalidContentException,
-        OptimisticLockingException, RelationPredicateNotFoundException, FileNotFoundException,
-        MissingMethodParameterException, NotPublishedException, InvalidStatusException, ReadonlyViolationException,
-        InvalidXmlException {
+    public String update(final String ouId, final String organizationalUnitXml) throws EscidocException,
+        MissingLicenceException, ReadonlyVersionException, LockingException, ComponentNotFoundException,
+        MissingContentException, MissingAttributeValueException, AlreadyExistsException, InvalidContextException,
+        MissingMdRecordException, ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
+        OrganizationalUnitNotFoundException, InvalidContentException, OptimisticLockingException,
+        RelationPredicateNotFoundException, FileNotFoundException, MissingMethodParameterException,
+        NotPublishedException, InvalidStatusException, ReadonlyViolationException, InvalidXmlException {
 
         checkNotNull(ouId);
         checkNotNull(organizationalUnitXml);
@@ -253,7 +238,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     /**
      * FIXME: No such method supported by the interface?
      */
-    public String lock(final String ouId, final String userId) throws RemoteException, OptimisticLockingException,
+    @Override
+    public String lock(final String ouId, final String userId) throws EscidocException, OptimisticLockingException,
         SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
         OrganizationalUnitNotFoundException, AuthorizationException, InvalidContentException, InvalidXmlException {
 
@@ -263,10 +249,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
         return post(PATH + "/" + ouId + "/lock", userId);
     }
 
-    /**
-     * FIXME: No such method supported by the interface?
-     */
-    public String unlock(final String ouId, final String userId) throws RemoteException, OptimisticLockingException,
+    @Override
+    public String unlock(final String ouId, final String userId) throws EscidocException, OptimisticLockingException,
         SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
         OrganizationalUnitNotFoundException, AuthorizationException, InvalidXmlException {
 
@@ -284,7 +268,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
      * @return XML representation of Organizational Unit
      */
     @Override
-    public String retrieve(final String ouId) throws RemoteException, SystemException, MissingMethodParameterException,
+    public String retrieve(final String ouId) throws EscidocException, MissingMethodParameterException,
         AuthenticationException, OrganizationalUnitNotFoundException, AuthorizationException {
 
         checkNotNull(ouId);
@@ -300,16 +284,16 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
      * @return list of successors
      */
     @Override
-    public String retrieveSuccessors(final String ouId) throws RemoteException, SystemException,
-        OrganizationalUnitNotFoundException, MissingMethodParameterException, AuthenticationException,
-        AuthorizationException {
+    public String retrieveSuccessors(final String ouId) throws EscidocException, OrganizationalUnitNotFoundException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException {
 
         checkNotNull(ouId);
 
         return get(PATH + "/" + ouId + "/resources/successors");
     };
 
-    public String createMdRecord(final String ouId, final String mdRecordXml) throws RemoteException, SystemException,
+    @Override
+    public String createMdRecord(final String ouId, final String mdRecordXml) throws EscidocException,
         LockingException, MissingAttributeValueException, MissingMethodParameterException, InvalidStatusException,
         AuthenticationException, XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
         AuthorizationException, InvalidXmlException {
@@ -321,7 +305,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String retrieveMdRecord(final String ouId, final String mdRecordId) throws RemoteException, SystemException,
+    public String retrieveMdRecord(final String ouId, final String mdRecordId) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, OrganizationalUnitNotFoundException,
         AuthorizationException, MdRecordNotFoundException {
 
@@ -335,7 +319,7 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
      * FIXME: Is there any need for this method?
      */
     @Override
-    public String updateMdRecords(final String ouId, final String mdRecordsXml) throws RemoteException,
+    public String updateMdRecords(final String ouId, final String mdRecordsXml) throws EscidocException,
         OptimisticLockingException, SystemException, OrganizationalUnitNotFoundException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException,
         MissingElementValueException {
@@ -347,9 +331,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String retrieveMdRecords(final String ouId) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, OrganizationalUnitNotFoundException,
-        AuthorizationException {
+    public String retrieveMdRecords(final String ouId) throws EscidocException, MissingMethodParameterException,
+        AuthenticationException, OrganizationalUnitNotFoundException, AuthorizationException {
 
         checkNotNull(ouId);
 
@@ -357,9 +340,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
     }
 
     @Override
-    public String retrieveProperties(final String ouId) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, OrganizationalUnitNotFoundException,
-        AuthorizationException {
+    public String retrieveProperties(final String ouId) throws EscidocException, MissingMethodParameterException,
+        AuthenticationException, OrganizationalUnitNotFoundException, AuthorizationException {
 
         checkNotNull(ouId);
 

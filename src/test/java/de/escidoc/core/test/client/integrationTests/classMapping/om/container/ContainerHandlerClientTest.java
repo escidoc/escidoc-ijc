@@ -92,28 +92,28 @@ public class ContainerHandlerClientTest {
     @Test
     public void testRetrieve() throws Exception {
         // create first a Container
-        Container containerNew = new Container();
-        ContainerProperties properties = new ContainerProperties();
+        final Container containerNew = new Container();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         containerNew.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element element = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
         containerNew.setMetadataRecords(mdRecords);
-        Container createdContainer = cc.create(containerNew);
-        String objid = createdContainer.getObjid();
+        final Container createdContainer = cc.create(containerNew);
+        final String objid = createdContainer.getObjid();
 
         // retrieve the created Container
-        Container container = cc.retrieve(objid);
+        final Container container = cc.retrieve(objid);
 
-        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Container.class).marshalDocument(container);
+        MarshallerFactory.getInstance().getMarshaller(Container.class).marshalDocument(container);
     }
 
     /**
@@ -135,10 +135,10 @@ public class ContainerHandlerClientTest {
      */
     @Test
     public void testRetrieveContainers() throws Exception {
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        List<Container> containerList = cc.retrieveContainersAsList(request);
+        final List<Container> containerList = cc.retrieveContainersAsList(request);
 
         // FIXME check containerList
         assertNotNull(containerList);
@@ -152,30 +152,30 @@ public class ContainerHandlerClientTest {
      */
     @Test
     public void testRetrieveMembers() throws Exception {
-        Container containerNew = new Container();
-        ContainerProperties properties = new ContainerProperties();
+        final Container containerNew = new Container();
+        final ContainerProperties properties = new ContainerProperties();
         properties.setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
         properties.setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
         containerNew.setProperties(properties);
-        MetadataRecords mdRecords = new MetadataRecords();
-        MetadataRecord mdRecord = new MetadataRecord("escidoc");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "myMdRecord");
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdRecord = new MetadataRecord("escidoc");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element element = doc.createElementNS(null, "myMdRecord");
         mdRecord.setContent(element);
 
         mdRecords.add(mdRecord);
         containerNew.setMetadataRecords(mdRecords);
-        Container createdContainer = cc.create(containerNew);
-        String objid = createdContainer.getObjid();
-        Container container = cc.retrieve(objid);
-        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Container.class).marshalDocument(container);
+        final Container createdContainer = cc.create(containerNew);
+        final String objid = createdContainer.getObjid();
+        final Container container = cc.retrieve(objid);
+        MarshallerFactory.getInstance().getMarshaller(Container.class).marshalDocument(container);
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        List<VersionableResource> memberList = cc.retrieveMembersAsList(objid, request);
+        final List<VersionableResource> memberList = cc.retrieveMembersAsList(objid, request);
 
         // FIXME check containerList
         assertNotNull(memberList);

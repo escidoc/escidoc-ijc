@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.sm.ad.AggregationDefinition;
 import de.escidoc.core.resources.sm.ad.Field;
 import de.escidoc.core.resources.sm.ad.FieldType;
@@ -29,9 +28,8 @@ public class AggregationDefinitionMarshallerTest extends MarshallerTestBase<Aggr
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public AggregationDefinitionMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(AggregationDefinition.class, BASE, XSD, "aggregation-definition_complete.xml", transport);
+    public AggregationDefinitionMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(AggregationDefinition.class, BASE, XSD, "aggregation-definition_complete.xml");
     }
 
     @Override
@@ -41,7 +39,7 @@ public class AggregationDefinitionMarshallerTest extends MarshallerTestBase<Aggr
         assertXPath("/agg-def:aggregation-definition/agg-def:name", obj.getName());
         assertResource("/agg-def:aggregation-definition/agg-def:scope", obj.getScope());
 
-        String path = "/agg-def:aggregation-definition/agg-def:aggregation-table[1]";
+        final String path = "/agg-def:aggregation-definition/agg-def:aggregation-table[1]";
         assertNotNull(obj.getAggregationTables());
         assertNotNull(obj.getAggregationTables().get(0));
         assertXPath(path + "/agg-def:name", obj.getAggregationTables().get(0).getName());

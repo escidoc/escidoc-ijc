@@ -32,7 +32,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.ContextHandler;
+import de.escidoc.core.client.interfaces.handler.ContextHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContextRestServiceLocator;
 
 /**
@@ -62,19 +61,6 @@ public class RestContextHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestContextHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestContextHandlerClient#RestContextHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestContextHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -267,29 +253,6 @@ public class RestContextHandlerClient extends RestClientBase {
         String result = null;
         try {
             result = getClient().close(id, taskParam);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param taskParam
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.ContextHandlerInterface#retrieveContexts(java.lang.String)
-     */
-    @Deprecated
-    public String retrieveContexts(final HashMap<String, String[]> taskParam) throws EscidocException,
-        InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveContexts(taskParam);
         }
         catch (final Exception e) {
             ExceptionMapper.map(e, LOG);

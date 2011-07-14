@@ -9,9 +9,11 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.rmi.RemoteException;
 
-import de.escidoc.core.client.interfaces.SearchHandler;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.client.exceptions.system.SystemException;
+import de.escidoc.core.client.interfaces.handler.SearchHandler;
 
 /**
  * @author MVO
@@ -31,18 +33,32 @@ public class SearchRestServiceLocator extends RestServiceMethod implements Searc
      * .srw.ExplainRequestType, java.lang.String)
      */
     @Override
-    public String explain(final ExplainRequestType explainRequestType) throws RemoteException {
+    public String explain(final ExplainRequestType explainRequestType) throws EscidocException, SystemException {
         return get(PATH + "/" + (this.database == null ? "" : database) + "/" + getExplainRequest(explainRequestType));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.handler.SearchHandler#search(gov.loc
+     * .www.zing.srw.SearchRetrieveRequestType)
+     */
     @Override
-    public String search(final SearchRetrieveRequestType searchRequestType) throws RemoteException,
-        UnsupportedEncodingException {
+    public String search(final SearchRetrieveRequestType searchRequestType) throws EscidocException,
+        InternalClientException {
         return get(PATH + "/" + (this.database == null ? "" : database) + "/" + getSearchRequest(searchRequestType));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.client.interfaces.handler.SearchHandler#scan(gov.loc.
+     * www.zing.srw.ScanRequestType)
+     */
     @Override
-    public String scan(final ScanRequestType scanRequestType) throws RemoteException, UnsupportedEncodingException {
+    public String scan(final ScanRequestType scanRequestType) throws EscidocException, InternalClientException {
         return get(PATH + "/" + (this.database == null ? "" : database) + "/" + getScanRequest(scanRequestType));
     }
 
@@ -71,13 +87,19 @@ public class SearchRestServiceLocator extends RestServiceMethod implements Searc
      * 
      * @param request
      * @return
+     * @throws InternalClientException
      * @throws UnsupportedEncodingException
      */
-    private String getSearchRequest(final SearchRetrieveRequestType request) throws UnsupportedEncodingException {
+    private String getSearchRequest(final SearchRetrieveRequestType request) throws InternalClientException {
         String result = "?operation=searchRetrieve";
 
         if (request.getQuery() != null) {
-            result += "&query=" + URLEncoder.encode(request.getQuery(), "UTF-8");
+            try {
+                result += "&query=" + URLEncoder.encode(request.getQuery(), "UTF-8");
+            }
+            catch (final UnsupportedEncodingException e) {
+                throw new InternalClientException(e.getMessage(), e);
+            }
         }
         if (request.getStartRecord() != null) {
             result += "&startRecord=" + String.valueOf(request.getStartRecord());
@@ -113,11 +135,16 @@ public class SearchRestServiceLocator extends RestServiceMethod implements Searc
      * @return
      * @throws UnsupportedEncodingException
      */
-    private String getScanRequest(final ScanRequestType request) throws UnsupportedEncodingException {
+    private String getScanRequest(final ScanRequestType request) throws InternalClientException {
         String result = "?operation=scan";
 
         if (request.getScanClause() != null) {
-            result += "&scanClause=" + URLEncoder.encode(request.getScanClause(), "UTF-8");
+            try {
+                result += "&scanClause=" + URLEncoder.encode(request.getScanClause(), "UTF-8");
+            }
+            catch (final UnsupportedEncodingException e) {
+                throw new InternalClientException(e.getMessage(), e);
+            }
         }
         if (request.getResponsePosition() != null) {
             result += "&responsePosition=" + String.valueOf(request.getResponsePosition());

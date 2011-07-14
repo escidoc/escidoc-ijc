@@ -8,7 +8,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.sm.report.ReportDefinition;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -24,9 +23,8 @@ public class ReportDefinitionMarshallerTest extends MarshallerTestBase<ReportDef
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ReportDefinitionMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(ReportDefinition.class, BASE, XSD, "report-definition_complete.xml", transport);
+    public ReportDefinitionMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(ReportDefinition.class, BASE, XSD, "report-definition_complete.xml");
     }
 
     @Override

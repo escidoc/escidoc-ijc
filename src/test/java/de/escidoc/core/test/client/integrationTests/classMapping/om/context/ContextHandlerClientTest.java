@@ -106,35 +106,35 @@ public class ContextHandlerClientTest {
      */
     @Test
     public void testRetrieve01() throws Exception {
-        Context context = new Context();
-        ContextProperties properties = new ContextProperties();
+        final Context context = new Context();
+        final ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        final OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
         organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
-        AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "admin-descriptor");
+        final AdminDescriptors adminDescriptors = new AdminDescriptors();
+        final AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element element = doc.createElementNS(null, "admin-descriptor");
         adminDescriptor.setContent(element);
 
         adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        Context createdContext = cc.create(context);
-        String objid = createdContext.getObjid();
-        Context retrievedContext = cc.retrieve(objid);
+        final Context createdContext = cc.create(context);
+        final String objid = createdContext.getObjid();
+        final Context retrievedContext = cc.retrieve(objid);
 
-        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Context.class).marshalDocument(retrievedContext);
+        MarshallerFactory.getInstance().getMarshaller(Context.class).marshalDocument(retrievedContext);
     }
 
     /**
@@ -145,40 +145,40 @@ public class ContextHandlerClientTest {
      */
     @Test
     public void testRetrieveUpdate() throws Exception {
-        Context context = new Context();
-        ContextProperties properties = new ContextProperties();
+        final Context context = new Context();
+        final ContextProperties properties = new ContextProperties();
         properties.setDescription("ContextDescription");
         properties.setName("ContextName" + System.currentTimeMillis());
         properties.setPublicStatus(PublicStatus.OPENED);
         properties.setPublicStatusComment("PublicStatusComment");
 
-        OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
+        final OrganizationalUnitRefs organizationalUnitRefs = new OrganizationalUnitRefs();
         organizationalUnitRefs.add(new OrganizationalUnitRef(EscidocClientTestBase.getStaticOrganizationalUnitId()));
         properties.setOrganizationalUnitRefs(organizationalUnitRefs);
         properties.setType("type");
         context.setProperties(properties);
 
-        AdminDescriptors adminDescriptors = new AdminDescriptors();
-        AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.newDocument();
-        Element element = doc.createElementNS(null, "admin-descriptor");
+        final AdminDescriptors adminDescriptors = new AdminDescriptors();
+        final AdminDescriptor adminDescriptor = new AdminDescriptor("AdminDescriptorDemoName");
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.newDocument();
+        final Element element = doc.createElementNS(null, "admin-descriptor");
         adminDescriptor.setContent(element);
 
         adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
         // create
-        Context createdContext = cc.create(context);
-        String objid = createdContext.getObjid();
+        final Context createdContext = cc.create(context);
+        final String objid = createdContext.getObjid();
 
         // retrieve
-        Context retrivedContext = cc.retrieve(objid);
+        final Context retrivedContext = cc.retrieve(objid);
 
         // update
         cc.update(retrivedContext);
-        MarshallerFactory.getInstance(cc.getTransport()).getMarshaller(Context.class).marshalDocument(retrivedContext);
+        MarshallerFactory.getInstance().getMarshaller(Context.class).marshalDocument(retrivedContext);
     }
 
     /**
@@ -190,15 +190,15 @@ public class ContextHandlerClientTest {
     @Test
     public void testRetrieveMembersNew() throws Exception {
         // just getting a valid objid of a user
-        UserAccountHandlerClientInterface uac = new UserAccountHandlerClient(auth.getServiceAddress());
+        final UserAccountHandlerClientInterface uac = new UserAccountHandlerClient(auth.getServiceAddress());
         uac.setHandle(auth.getHandle());
 
-        UserAccount me = uac.retrieveCurrentUser();
+        final UserAccount me = uac.retrieveCurrentUser();
 
-        SearchRetrieveRequestType filter = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType filter = new SearchRetrieveRequestType();
         filter.setQuery("\"/properties/created-by/id\"=" + me.getObjid());
 
-        Collection<VersionableResource> memberList =
+        final Collection<VersionableResource> memberList =
             cc.retrieveMembersAsList(EscidocClientTestBase.getStaticContextId(), filter);
 
         assertTrue("result list is empty, try another filter", memberList.size() != 0);

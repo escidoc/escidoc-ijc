@@ -4,14 +4,12 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
 import static de.escidoc.core.common.Precondition.checkNotNull;
-
-import java.rmi.RemoteException;
-
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidSearchQueryException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.interfaces.handler.AdminHandler;
 
 /**
  * TODO Exceptions
@@ -19,7 +17,7 @@ import de.escidoc.core.common.exceptions.remote.system.SystemException;
  * @author MVO
  * 
  */
-public class AdminRestServiceLocator extends RestServiceMethod implements de.escidoc.core.adm.AdminHandler {
+public class AdminRestServiceLocator extends RestServiceMethod implements AdminHandler {
 
     public static final String PATH = "/adm/admin";
 
@@ -29,8 +27,8 @@ public class AdminRestServiceLocator extends RestServiceMethod implements de.esc
      * @see de.escidoc.core.adm.AdminHandler#deleteObjects(java.lang.String)
      */
     @Override
-    public String deleteObjects(final String taskParam) throws RemoteException, SystemException,
-        AuthorizationException, AuthenticationException, InvalidXmlException {
+    public String deleteObjects(final String taskParam) throws EscidocException, AuthorizationException,
+        AuthenticationException, InvalidXmlException {
         return post(PATH + "/deleteobjects", taskParam);
     }
 
@@ -40,8 +38,7 @@ public class AdminRestServiceLocator extends RestServiceMethod implements de.esc
      * @see de.escidoc.core.adm.AdminHandler#getPurgeStatus()
      */
     @Override
-    public String getPurgeStatus() throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException {
+    public String getPurgeStatus() throws EscidocException, AuthorizationException, AuthenticationException {
         return get(PATH + "/deleteobjects");
     }
 
@@ -51,21 +48,8 @@ public class AdminRestServiceLocator extends RestServiceMethod implements de.esc
      * @see de.escidoc.core.adm.AdminHandler#getReindexStatus()
      */
     @Override
-    public String getReindexStatus() throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException {
+    public String getReindexStatus() throws EscidocException, AuthorizationException, AuthenticationException {
         return get(PATH + "/reindex");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.escidoc.core.adm.AdminHandler#decreaseReindexStatus(java.lang.String)
-     */
-    @Override
-    public void decreaseReindexStatus(final String taskParam) throws RemoteException, SystemException,
-        AuthorizationException, AuthenticationException, InvalidXmlException {
-        post(PATH + "/decrease-reindex-status", taskParam);
     }
 
     /*
@@ -75,8 +59,8 @@ public class AdminRestServiceLocator extends RestServiceMethod implements de.esc
      * java.lang.String)
      */
     @Override
-    public String reindex(final String clearIndex, final String indexNamePrefix) throws RemoteException,
-        SystemException, InvalidSearchQueryException, AuthorizationException, AuthenticationException {
+    public String reindex(final String clearIndex, final String indexNamePrefix) throws EscidocException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException {
 
         checkNotNull(clearIndex);
         checkNotNull(indexNamePrefix);
@@ -90,8 +74,7 @@ public class AdminRestServiceLocator extends RestServiceMethod implements de.esc
      * @see de.escidoc.core.adm.AdminHandler#getRepositoryInfo()
      */
     @Override
-    public String getRepositoryInfo() throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException {
+    public String getRepositoryInfo() throws EscidocException, AuthorizationException, AuthenticationException {
         return get(PATH + "/get-repository-info");
     }
 
@@ -101,8 +84,8 @@ public class AdminRestServiceLocator extends RestServiceMethod implements de.esc
      * @see de.escidoc.core.adm.AdminHandler#loadExamples(java.lang.String)
      */
     @Override
-    public String loadExamples(final String exampleSet) throws RemoteException, SystemException,
-        InvalidSearchQueryException, AuthorizationException, AuthenticationException {
+    public String loadExamples(final String exampleSet) throws EscidocException, InvalidSearchQueryException,
+        AuthorizationException, AuthenticationException {
 
         checkNotNull(exampleSet);
 
@@ -115,8 +98,7 @@ public class AdminRestServiceLocator extends RestServiceMethod implements de.esc
      * @see de.escidoc.core.adm.AdminHandler#getIndexConfiguration()
      */
     @Override
-    public String getIndexConfiguration() throws RemoteException, SystemException, AuthorizationException,
-        AuthenticationException {
+    public String getIndexConfiguration() throws EscidocException, AuthorizationException, AuthenticationException {
         return get(PATH + "/get-index-configuration");
     }
 

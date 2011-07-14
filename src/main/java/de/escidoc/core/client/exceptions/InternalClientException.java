@@ -1,6 +1,8 @@
 package de.escidoc.core.client.exceptions;
 
-public class InternalClientException extends EscidocClientException {
+import java.io.Serializable;
+
+public class InternalClientException extends EscidocClientException implements Serializable {
 
     /**
      *
@@ -11,15 +13,15 @@ public class InternalClientException extends EscidocClientException {
         super();
     }
 
-    public InternalClientException(String message) {
+    public InternalClientException(final String message) {
         super(message);
     }
 
-    public InternalClientException(Throwable cause) {
+    public InternalClientException(final Throwable cause) {
         super(cause);
     }
 
-    public InternalClientException(String message, Throwable cause) {
+    public InternalClientException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

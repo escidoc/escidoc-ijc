@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.om.container.Container;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
@@ -32,9 +31,8 @@ public class ContainerMarshallerTest extends MarshallerTestBase<Container> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ContainerMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Container.class, BASE, XSD, "container_complete.xml", transport);
+    public ContainerMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Container.class, BASE, XSD, "container_complete.xml");
     }
 
     /*

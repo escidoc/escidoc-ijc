@@ -7,7 +7,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.SetDefinitionHandler;
+import de.escidoc.core.client.interfaces.handler.SetDefinitionHandler;
 import de.escidoc.core.client.rest.serviceLocator.SetDefinitionRestServiceLocator;
 
 /**
@@ -35,38 +34,6 @@ public class RestSetDefinitionHandlerClient extends RestClientBase {
      */
     public RestSetDefinitionHandlerClient(final URL serviceAddress) throws InternalClientException {
         super(serviceAddress);
-    }
-
-    /**
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestSetDefinitionHandlerClient#RestSetDefinitionHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestSetDefinitionHandlerClient(final String serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String retrieveSetDefinitions(final HashMap<String, String> filter) throws EscidocException,
-        InternalClientException, TransportException {
-        String result = null;
-        try {
-            result = getClient().retrieveSetDefinitions(filter);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return result;
     }
 
     /**

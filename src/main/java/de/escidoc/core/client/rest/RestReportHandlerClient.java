@@ -12,8 +12,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.handler.ReportHandler;
 import de.escidoc.core.client.rest.serviceLocator.ReportRestServiceLocator;
-import de.escidoc.core.sm.ReportHandler;
 
 /**
  * @author MVO
@@ -30,18 +30,6 @@ public class RestReportHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestReportHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestReportHandlerClient#RestReportHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestReportHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

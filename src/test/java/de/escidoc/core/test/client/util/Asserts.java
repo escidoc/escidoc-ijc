@@ -48,7 +48,6 @@ import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
-import de.escidoc.core.test.client.EscidocClientTestBase;
 
 /**
  * A collection of eSciDoc resource asserts.
@@ -92,9 +91,7 @@ public class Asserts {
             final String toCompareSchema = mdToComp.getSchema();
             assertEquals("MetadataRecord Schemas not equal.", masterSchema, toCompareSchema);
 
-            final Marshaller<MetadataRecord> m =
-                new Marshaller<MetadataRecord>(MetadataRecord.class, EscidocClientTestBase
-                    .getDefaultTransportProtocol().name());
+            final Marshaller<MetadataRecord> m = Marshaller.getMarshaller(MetadataRecord.class);
 
             final String xml1 = m.marshalDocument(mdMaster);
 

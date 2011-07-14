@@ -89,15 +89,14 @@ public class UserAccountHandlerClientTest {
     @Test
     public void testCreateUserAccount() throws Exception {
 
-        UserAccount ua = createUserAccount();
+        final UserAccount ua = createUserAccount();
 
         // create
-        UserAccount createdUa = uac.create(ua);
+        final UserAccount createdUa = uac.create(ua);
 
         // test marshalling
-        String objId = createdUa.getObjid();
-        MarshallerFactory.getInstance(uac.getTransport()).getMarshaller(UserAccount.class).marshalDocument(
-            uac.retrieve(objId));
+        final String objId = createdUa.getObjid();
+        MarshallerFactory.getInstance().getMarshaller(UserAccount.class).marshalDocument(uac.retrieve(objId));
     }
 
     /**
@@ -122,28 +121,27 @@ public class UserAccountHandlerClientTest {
     @Test
     public void testUpdateUserAccount() throws Exception {
 
-        UserAccount ua = createUserAccount();
+        final UserAccount ua = createUserAccount();
 
-        UserAccount createdUa = uac.create(ua);
+        final UserAccount createdUa = uac.create(ua);
 
         // alter Properties
-        UserAccountProperties properties = createdUa.getProperties();
+        final UserAccountProperties properties = createdUa.getProperties();
 
         properties.setName("new Name");
-        String newLoginName = getUniqueLoginName();
+        final String newLoginName = getUniqueLoginName();
         properties.setLoginName(newLoginName);
 
         // update at infrastructure
-        UserAccount updatedUserAccont = uac.update(createdUa);
+        final UserAccount updatedUserAccont = uac.update(createdUa);
 
-        UserAccountProperties updatedProperties = updatedUserAccont.getProperties();
+        final UserAccountProperties updatedProperties = updatedUserAccont.getProperties();
 
         assertEquals("new Name", updatedProperties.getName());
         assertEquals(newLoginName, updatedProperties.getLoginName());
 
         // test marshalling
-        MarshallerFactory.getInstance(uac.getTransport()).getMarshaller(UserAccount.class).marshalDocument(
-            updatedUserAccont);
+        MarshallerFactory.getInstance().getMarshaller(UserAccount.class).marshalDocument(updatedUserAccont);
     }
 
     /**
@@ -157,20 +155,20 @@ public class UserAccountHandlerClientTest {
     @Test
     public void testDeactivateAndActivate() throws EscidocClientException {
 
-        UserAccount ua = createUserAccount();
+        final UserAccount ua = createUserAccount();
 
-        UserAccount createdUa = uac.create(ua);
+        final UserAccount createdUa = uac.create(ua);
 
         // prepare task param for deactivation of user account
-        TaskParam taskParam = new TaskParam();
+        final TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(createdUa.getLastModificationDate());
 
-        String objId = createdUa.getObjid();
+        final String objId = createdUa.getObjid();
         uac.deactivate(objId, taskParam);
 
         // check user account
-        UserAccount deactivatedUserAccount = uac.retrieve(objId);
-        UserAccountProperties properties = deactivatedUserAccount.getProperties();
+        final UserAccount deactivatedUserAccount = uac.retrieve(objId);
+        final UserAccountProperties properties = deactivatedUserAccount.getProperties();
 
         assertFalse(properties.isActive());
 
@@ -179,8 +177,8 @@ public class UserAccountHandlerClientTest {
         uac.activate(objId, taskParam);
 
         // check activated user account
-        UserAccount reactivatedUserAccount = uac.retrieve(objId);
-        UserAccountProperties propertiesReactivated = reactivatedUserAccount.getProperties();
+        final UserAccount reactivatedUserAccount = uac.retrieve(objId);
+        final UserAccountProperties propertiesReactivated = reactivatedUserAccount.getProperties();
 
         assertTrue(propertiesReactivated.isActive());
     }
@@ -194,10 +192,10 @@ public class UserAccountHandlerClientTest {
     @Test
     public void testRetrieveUserAccounts() throws Exception {
 
-        SearchRetrieveRequestType request = new SearchRetrieveRequestType();
+        final SearchRetrieveRequestType request = new SearchRetrieveRequestType();
         request.setQuery("\"http://escidoc.de/core/01/structural-relations/created-by\"=escidoc:user42");
 
-        List<UserAccount> userAccountList = uac.retrieveUserAccountsAsList(request);
+        final List<UserAccount> userAccountList = uac.retrieveUserAccountsAsList(request);
 
         assertNotNull("No user account list returned.", userAccountList);
     }
@@ -211,10 +209,10 @@ public class UserAccountHandlerClientTest {
     @Test
     public void testDeleteUserAccount() throws Exception {
 
-        UserAccount ua = createUserAccount();
+        final UserAccount ua = createUserAccount();
 
         // create
-        UserAccount createdUa = uac.create(ua);
+        final UserAccount createdUa = uac.create(ua);
 
         uac.delete(createdUa.getObjid());
 
@@ -222,7 +220,7 @@ public class UserAccountHandlerClientTest {
             uac.retrieve(createdUa.getObjid());
             fail("User Account still exists after delete.");
         }
-        catch (UserAccountNotFoundException e) {
+        catch (final UserAccountNotFoundException e) {
             return;
         }
 
@@ -236,15 +234,14 @@ public class UserAccountHandlerClientTest {
      */
     public void retrieveGrants() throws Exception {
 
-        UserAccount ua = createUserAccount();
+        final UserAccount ua = createUserAccount();
 
-        UserAccount createdUa = uac.create(ua);
-        String objId = createdUa.getObjid();
+        final UserAccount createdUa = uac.create(ua);
+        final String objId = createdUa.getObjid();
 
         // FIXME there are no grant, that's why the test is bad
 
-        MarshallerFactory.getInstance(uac.getTransport()).getMarshaller(Grants.class).marshalDocument(
-            uac.retrieveCurrentGrants(objId));
+        MarshallerFactory.getInstance().getMarshaller(Grants.class).marshalDocument(uac.retrieveCurrentGrants(objId));
     }
 
     /**
@@ -258,15 +255,15 @@ public class UserAccountHandlerClientTest {
     @Test
     public void updatePassword() throws Exception {
 
-        UserAccount ua = createUserAccount();
-        UserAccount createdUa = uac.create(ua);
+        final UserAccount ua = createUserAccount();
+        final UserAccount createdUa = uac.create(ua);
 
         final String objId = createdUa.getObjid();
 
         final String login = createdUa.getProperties().getLoginName();
         final String password = String.valueOf(System.nanoTime());
 
-        TaskParam taskParam = new TaskParam();
+        final TaskParam taskParam = new TaskParam();
         taskParam.setLastModificationDate(createdUa.getLastModificationDate());
         taskParam.setPassword(password);
 
@@ -274,9 +271,9 @@ public class UserAccountHandlerClientTest {
 
         // check login with a new password
         // it assumed that a user is allowed to retrieve its own account
-        Authentication auth2 = new Authentication(auth.getServiceAddress(), login, password);
+        final Authentication auth2 = new Authentication(auth.getServiceAddress(), login, password);
 
-        UserAccountHandlerClientInterface uac2 = new UserAccountHandlerClient(auth.getServiceAddress());
+        final UserAccountHandlerClientInterface uac2 = new UserAccountHandlerClient(auth.getServiceAddress());
         uac2.setHandle(auth2.getHandle());
 
         uac2.retrieve(objId);
@@ -289,11 +286,11 @@ public class UserAccountHandlerClientTest {
      */
     private UserAccount createUserAccount() {
 
-        UserAccount ua = new UserAccount();
+        final UserAccount ua = new UserAccount();
 
         // user properties
-        UserAccountProperties properties = new UserAccountProperties();
-        String login = getUniqueLoginName();
+        final UserAccountProperties properties = new UserAccountProperties();
+        final String login = getUniqueLoginName();
         properties.setName("Name " + login);
         properties.setLoginName(login);
 

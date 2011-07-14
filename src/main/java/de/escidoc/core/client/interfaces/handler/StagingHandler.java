@@ -1,13 +1,15 @@
-package de.escidoc.core.client.interfaces;
+package de.escidoc.core.client.interfaces.handler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.RemoteException;
+import java.rmi.Remote;
 
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
 
 /**
  * Staging Handler Interface.
@@ -15,7 +17,7 @@ import de.escidoc.core.common.exceptions.remote.application.security.Authorizati
  * @author SWA
  * 
  */
-public interface StagingHandler extends java.rmi.Remote {
+public interface StagingHandler extends Remote {
 
     /**
      * Uploading local file to Staging Service.
@@ -24,14 +26,14 @@ public interface StagingHandler extends java.rmi.Remote {
      *            Local file
      * @return framework response
      * 
-     * @throws RemoteException
+     * 
      * @throws AuthenticationException
      * @throws AuthorizationException
      * @throws FileNotFoundException
      * @throws IOException
      *             Thrown if handling of file stream failed
      */
-    String upload(File file) throws RemoteException, AuthenticationException, AuthorizationException,
+    String upload(File file) throws EscidocException, AuthenticationException, AuthorizationException,
         FileNotFoundException, IOException;
 
     /**
@@ -41,12 +43,12 @@ public interface StagingHandler extends java.rmi.Remote {
      *            Input Stream
      * @return framework response
      * 
-     * @throws RemoteException
+     * 
      * @throws AuthenticationException
      * @throws AuthorizationException
      * @throws FileNotFoundException
      */
-    String upload(InputStream ins) throws RemoteException, AuthenticationException, AuthorizationException,
-        FileNotFoundException;
+    String upload(InputStream ins) throws EscidocException, AuthenticationException, AuthorizationException,
+        FileNotFoundException, SystemException;
 
 }

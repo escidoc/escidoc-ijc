@@ -3,22 +3,18 @@ package de.escidoc.core.client.rest.serviceLocator;
 import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-
-import java.rmi.RemoteException;
-import java.util.HashMap;
-
-import de.escidoc.core.client.interfaces.RoleHandler;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.RoleNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.RoleInUseViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.UniqueConstraintViolationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
+import de.escidoc.core.client.exceptions.application.missing.MissingAttributeValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
+import de.escidoc.core.client.exceptions.application.notfound.RoleNotFoundException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.application.violated.OptimisticLockingException;
+import de.escidoc.core.client.exceptions.application.violated.RoleInUseViolationException;
+import de.escidoc.core.client.exceptions.application.violated.UniqueConstraintViolationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
+import de.escidoc.core.client.interfaces.handler.RoleHandler;
 
 /**
  * REST Service Connector.
@@ -31,7 +27,7 @@ public class RoleRestServiceLocator extends RestServiceMethod implements RoleHan
     public static final String PATH = "/aa/role";
 
     @Override
-    public void delete(final String roleId) throws RemoteException, SystemException, RoleNotFoundException,
+    public void delete(final String roleId) throws EscidocException, RoleNotFoundException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, RoleInUseViolationException {
 
         checkNotNull(roleId);
@@ -41,7 +37,7 @@ public class RoleRestServiceLocator extends RestServiceMethod implements RoleHan
     }
 
     @Override
-    public String create(final String roleXml) throws RemoteException, UniqueConstraintViolationException,
+    public String create(final String roleXml) throws EscidocException, UniqueConstraintViolationException,
         SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
         InvalidXmlException {
 
@@ -51,7 +47,7 @@ public class RoleRestServiceLocator extends RestServiceMethod implements RoleHan
     }
 
     @Override
-    public String update(final String roleId, final String roleXml) throws RemoteException,
+    public String update(final String roleId, final String roleXml) throws EscidocException,
         UniqueConstraintViolationException, OptimisticLockingException, SystemException, RoleNotFoundException,
         MissingAttributeValueException, MissingMethodParameterException, AuthenticationException,
         AuthorizationException, InvalidXmlException {
@@ -63,7 +59,7 @@ public class RoleRestServiceLocator extends RestServiceMethod implements RoleHan
     }
 
     @Override
-    public String retrieve(final String roleId) throws RemoteException, SystemException, RoleNotFoundException,
+    public String retrieve(final String roleId) throws EscidocException, RoleNotFoundException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException {
 
         checkNotNull(roleId);
@@ -71,17 +67,8 @@ public class RoleRestServiceLocator extends RestServiceMethod implements RoleHan
         return get(PATH + "/" + roleId);
     }
 
-    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
-    @Deprecated
-    public String retrieveRoles(final HashMap filter) throws RemoteException, SystemException,
-        MissingMethodParameterException, InvalidSearchQueryException, AuthenticationException, AuthorizationException {
-
-        return get(PATH + "s", filter);
-    }
-
-    @Override
-    public String retrieveRoles(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+    public String retrieveRoles(final SearchRetrieveRequestType filter) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
@@ -90,7 +77,7 @@ public class RoleRestServiceLocator extends RestServiceMethod implements RoleHan
     }
 
     @Override
-    public String retrieveRoles(final ExplainRequestType filter) throws RemoteException, SystemException,
+    public String retrieveRoles(final ExplainRequestType filter) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);

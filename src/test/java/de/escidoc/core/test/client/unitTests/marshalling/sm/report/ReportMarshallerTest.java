@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.sm.DateParameter;
 import de.escidoc.core.resources.sm.ParameterType;
 import de.escidoc.core.resources.sm.report.Report;
@@ -27,16 +26,15 @@ public class ReportMarshallerTest extends MarshallerTestBase<Report> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ReportMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Report.class, BASE, XSD, "report_complete.xml", transport);
+    public ReportMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Report.class, BASE, XSD, "report_complete.xml");
     }
 
     @Override
     protected void validate(final Report obj) throws Exception {
         assertResource("/report:report/report:report-definition", obj.getReportDefinition());
 
-        String path = "/report:report/report:report-record/report:parameter";
+        final String path = "/report:report/report:report-record/report:parameter";
 
         assertNotNull(obj.getReportRecord());
         assertNotNull(obj.getReportRecord().getParameters());

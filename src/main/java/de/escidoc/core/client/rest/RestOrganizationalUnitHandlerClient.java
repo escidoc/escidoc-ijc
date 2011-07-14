@@ -33,7 +33,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +41,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.OrganizationalUnitHandler;
+import de.escidoc.core.client.interfaces.handler.OrganizationalUnitHandler;
 import de.escidoc.core.client.rest.serviceLocator.OrganizationalUnitRestServiceLocator;
 
 /**
@@ -63,19 +62,6 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestOrganizationalUnitHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestOrganizationalUnitHandlerClient#RestOrganizationalUnitHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestOrganizationalUnitHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -245,29 +231,6 @@ public class RestOrganizationalUnitHandlerClient extends RestClientBase {
         String result = null;
         try {
             result = getClient().retrieveChildObjects(id);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param taskParam
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     * @see de.escidoc.core.om.service.interfaces.OrganizationalUnitHandlerInterface#retrieveOrganizationalUnits(java.lang.String)
-     */
-    @Deprecated
-    public String retrieveOrganizationalUnits(final HashMap<String, String[]> filter) throws EscidocException,
-        InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveOrganizationalUnits(filter);
         }
         catch (final Exception e) {
             ExceptionMapper.map(e, LOG);

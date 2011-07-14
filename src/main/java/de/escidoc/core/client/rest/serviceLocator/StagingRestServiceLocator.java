@@ -6,11 +6,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.RemoteException;
 
-import de.escidoc.core.client.interfaces.StagingHandler;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
+import de.escidoc.core.client.interfaces.handler.StagingHandler;
 
 /**
  * REST Service Connector.
@@ -23,8 +24,8 @@ public class StagingRestServiceLocator extends RestServiceMethod implements Stag
     public static final String PATH = "/st/staging-file";
 
     @Override
-    public String upload(final File f) throws RemoteException, AuthenticationException, AuthorizationException,
-        FileNotFoundException, IOException {
+    public String upload(final File f) throws EscidocException, AuthenticationException, AuthorizationException,
+        FileNotFoundException, IOException, SystemException {
 
         checkNotNull(f);
 
@@ -32,12 +33,11 @@ public class StagingRestServiceLocator extends RestServiceMethod implements Stag
     }
 
     @Override
-    public String upload(final InputStream ins) throws RemoteException, AuthenticationException,
-        AuthorizationException, FileNotFoundException {
+    public String upload(final InputStream ins) throws EscidocException, AuthenticationException,
+        AuthorizationException, FileNotFoundException, SystemException {
 
         checkNotNull(ins);
 
         return put(PATH, ins);
     }
-
 }

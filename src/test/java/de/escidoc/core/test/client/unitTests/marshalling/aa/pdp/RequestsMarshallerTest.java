@@ -19,7 +19,6 @@ import org.xml.sax.SAXException;
 import com.sun.xacml.ctx.Attribute;
 import com.sun.xacml.ctx.Subject;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -39,24 +38,23 @@ public class RequestsMarshallerTest extends MarshallerTestBase<Requests> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public RequestsMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Requests.class, BASE, XSD, "requests.xml", transport);
+    public RequestsMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Requests.class, BASE, XSD, "requests.xml");
     }
 
     @Override
     protected void validate(final Requests obj) throws Exception {
 
-        String path = "/requests:requests/xacml-context:Request";
+        final String path = "/requests:requests/xacml-context:Request";
 
         // RequestCtx
         assertNotNull(obj.get(0));
 
         // RequestCtx.Subject
         assertNotNull(obj.get(0).getSubjects());
-        Iterator<?> it = obj.get(0).getSubjects().iterator();
+        final Iterator<?> it = obj.get(0).getSubjects().iterator();
         assertTrue(it.hasNext());
-        Subject subject = (Subject) it.next();
+        final Subject subject = (Subject) it.next();
 
         assertXPath(path + "/xacml-context:Subject/@SubjectCategory", subject.getCategory());
 
@@ -79,9 +77,9 @@ public class RequestsMarshallerTest extends MarshallerTestBase<Requests> {
         TransformerException {
 
         assertNotNull(attributes);
-        Iterator<?> it = attributes.iterator();
+        final Iterator<?> it = attributes.iterator();
         assertTrue(it.hasNext());
-        Attribute attr = (Attribute) it.next();
+        final Attribute attr = (Attribute) it.next();
 
         assertXPath(xPathContext + "/xacml-context:Attribute/@AttributeId", attr.getId());
         assertXPath(xPathContext + "/xacml-context:Attribute/@DataType", attr.getType());

@@ -8,7 +8,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.aa.role.Role;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -24,9 +23,8 @@ public class RoleMarshallerTest extends MarshallerTestBase<Role> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public RoleMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Role.class, BASE, XSD, "role_complete.xml", transport);
+    public RoleMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Role.class, BASE, XSD, "role_complete.xml");
     }
 
     @Override

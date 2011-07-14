@@ -12,8 +12,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.handler.PreprocessingHandler;
 import de.escidoc.core.client.rest.serviceLocator.PreprocessingRestServiceLocator;
-import de.escidoc.core.sm.PreprocessingHandler;
 
 /**
  * @author MVO
@@ -31,19 +31,6 @@ public class RestPreprocessingHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestPreprocessingHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestPreprocessingHandlerClient#RestPreprocessingHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestPreprocessingHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

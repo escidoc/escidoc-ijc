@@ -1,113 +1,50 @@
-/**
- * AuthenticationException.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
- */
-
 package de.escidoc.core.client.exceptions.application.security;
 
-import java.lang.reflect.Field;
+import java.io.Serializable;
 
-public class AuthenticationException extends de.escidoc.core.client.exceptions.application.security.SecurityException
-    implements java.io.Serializable {
-    public AuthenticationException(String message, Throwable cause) {
-        super(message, cause);
-        try {
-            Class te = AuthenticationException.class;
-            Class cE =
-                Class.forName(te.getName().replace("de.escidoc.core.client.exceptions",
-                    "de.escidoc.core.common.exceptions.remote"));
-            Field[] tF = te.getDeclaredFields();
-            Field[] cF = cE.getDeclaredFields();
-            for (int i = 0; i < tF.length; ++i) {
-                tF[i].setAccessible(true);
-                cF[i].setAccessible(true);
-                tF[i].set(this, cF[i].get(cause));
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+public class AuthenticationException extends SecurityException implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6393479288677843005L;
+
+    /**
+     * 
+     */
     public AuthenticationException() {
     }
 
-    public AuthenticationException(int httpStatusCode, java.lang.String httpStatusLine, java.lang.String httpStatusMsg,
-        java.lang.String redirectLocation) {
+    /**
+     * @param message
+     * @param cause
+     */
+    public AuthenticationException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * @param httpStatusCode
+     * @param httpStatusLine
+     * @param httpStatusMsg
+     * @param redirectLocation
+     */
+    @Deprecated
+    public AuthenticationException(final int httpStatusCode, final String httpStatusLine, final String httpStatusMsg,
+        final String redirectLocation) {
         super(httpStatusCode, httpStatusLine, httpStatusMsg, redirectLocation);
     }
 
-    private java.lang.Object __equalsCalc = null;
-
-    public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof AuthenticationException))
-            return false;
-        AuthenticationException other = (AuthenticationException) obj;
-        if (obj == null)
-            return false;
-        if (this == obj)
-            return true;
-        if (__equalsCalc != null) {
-            return (__equalsCalc == obj);
-        }
-        __equalsCalc = obj;
-        boolean _equals;
-        _equals = super.equals(obj);
-        __equalsCalc = null;
-        return _equals;
-    }
-
-    private boolean __hashCodeCalc = false;
-
-    public synchronized int hashCode() {
-        if (__hashCodeCalc) {
-            return 0;
-        }
-        __hashCodeCalc = true;
-        int _hashCode = super.hashCode();
-        __hashCodeCalc = false;
-        return _hashCode;
-    }
-
-    // Type metadata
-    private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(AuthenticationException.class, true);
-
-    static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName(
-            "http://security.application.exceptions.common.core.escidoc.de", "AuthenticationException"));
-    }
-
     /**
-     * Return type metadata object
+     * @param message
+     * @param cause
+     * @param httpStatusCode
+     * @param httpStatusLine
+     * @param httpStatusMsg
+     * @param redirectLocation
      */
-    public static org.apache.axis.description.TypeDesc getTypeDesc() {
-        return typeDesc;
-    }
-
-    /**
-     * Get Custom Serializer
-     */
-    public static org.apache.axis.encoding.Serializer getSerializer(
-        java.lang.String mechType, java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-        return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-    }
-
-    /**
-     * Get Custom Deserializer
-     */
-    public static org.apache.axis.encoding.Deserializer getDeserializer(
-        java.lang.String mechType, java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-        return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-    }
-
-    /**
-     * Writes the exception data to the faultDetails
-     */
-    public void writeDetails(javax.xml.namespace.QName qname, org.apache.axis.encoding.SerializationContext context)
-        throws java.io.IOException {
-        context.serialize(qname, null, this);
+    public AuthenticationException(final String message, final Throwable cause, final int httpStatusCode,
+        final String httpStatusLine, final String httpStatusMsg, final String redirectLocation) {
+        super(message, cause, httpStatusCode, httpStatusLine, httpStatusMsg, redirectLocation);
     }
 }

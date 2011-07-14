@@ -8,11 +8,11 @@ import java.net.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.escidoc.core.aa.PolicyDecisionPoint;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.handler.PolicyDecisionPointHandler;
 import de.escidoc.core.client.rest.serviceLocator.PolicyDecisionPointRestServiceLocator;
 
 /**
@@ -23,7 +23,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
 
     private static final Logger LOG = LoggerFactory.getLogger(RestPolicyDecisionPointHandlerClient.class);
 
-    private PolicyDecisionPoint restClient;
+    private PolicyDecisionPointHandler restClient;
 
     /**
      * 
@@ -31,19 +31,6 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestPolicyDecisionPointHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestPolicyDecisionPointHandlerClient#RestPolicyDecisionPointHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestPolicyDecisionPointHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -73,7 +60,7 @@ public class RestPolicyDecisionPointHandlerClient extends RestClientBase {
      * @see de.escidoc.core.client.ClientBase#getClient()
      */
     @Override
-    public PolicyDecisionPoint getClient() throws InternalClientException {
+    public PolicyDecisionPointHandler getClient() throws InternalClientException {
         if (restClient == null) {
 
             final PolicyDecisionPointRestServiceLocator serviceLocator = new PolicyDecisionPointRestServiceLocator();

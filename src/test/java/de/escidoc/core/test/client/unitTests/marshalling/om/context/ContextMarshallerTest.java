@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -31,9 +30,8 @@ public class ContextMarshallerTest extends MarshallerTestBase<Context> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ContextMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Context.class, BASE, XSD, "context_complete.xml", transport);
+    public ContextMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Context.class, BASE, XSD, "context_complete.xml");
     }
 
     /*

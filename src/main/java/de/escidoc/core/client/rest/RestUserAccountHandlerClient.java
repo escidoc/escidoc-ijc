@@ -40,7 +40,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.UserAccountHandler;
+import de.escidoc.core.client.interfaces.handler.UserAccountHandler;
 import de.escidoc.core.client.rest.serviceLocator.UserAccountRestServiceLocator;
 
 /**
@@ -61,19 +61,6 @@ public class RestUserAccountHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestUserAccountHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestUserAccountHandlerClient#RestUserAccountHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestUserAccountHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

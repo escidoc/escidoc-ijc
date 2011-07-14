@@ -1,6 +1,8 @@
 package de.escidoc.core.client.exceptions;
 
-public class TransportException extends EscidocClientException {
+import java.io.Serializable;
+
+public class TransportException extends EscidocClientException implements Serializable {
 
     /**
      *
@@ -11,15 +13,15 @@ public class TransportException extends EscidocClientException {
         super();
     }
 
-    public TransportException(String message) {
+    public TransportException(final String message) {
         super(message);
     }
 
-    public TransportException(Throwable cause) {
+    public TransportException(final Throwable cause) {
         super(cause);
     }
 
-    public TransportException(String message, Throwable cause) {
+    public TransportException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

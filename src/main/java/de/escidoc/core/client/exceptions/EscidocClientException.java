@@ -28,7 +28,9 @@
  */
 package de.escidoc.core.client.exceptions;
 
-public abstract class EscidocClientException extends Exception {
+import java.io.Serializable;
+
+public abstract class EscidocClientException extends Exception implements Serializable {
 
     private static final long serialVersionUID = -1224004371386693078L;
 
@@ -36,16 +38,15 @@ public abstract class EscidocClientException extends Exception {
         super();
     }
 
-    public EscidocClientException(String message) {
+    public EscidocClientException(final String message) {
         super(message);
     }
 
-    public EscidocClientException(Throwable cause) {
+    public EscidocClientException(final Throwable cause) {
         super(cause);
     }
 
-    public EscidocClientException(String message, Throwable cause) {
+    public EscidocClientException(final String message, final Throwable cause) {
         super(message, cause);
     }
-
 }

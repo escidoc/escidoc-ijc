@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.sm.scope.Scope;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -29,9 +28,8 @@ public class ScopeMarshallerTest extends MarshallerTestBase<Scope> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ScopeMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Scope.class, BASE, XSD, "scope_complete.xml", transport);
+    public ScopeMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Scope.class, BASE, XSD, "scope_complete.xml");
     }
 
     @Override

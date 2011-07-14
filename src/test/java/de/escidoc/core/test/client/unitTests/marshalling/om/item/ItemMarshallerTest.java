@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.resources.om.item.Item;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
@@ -32,9 +31,8 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ItemMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Item.class, BASE, XSD, "item_complete.xml", transport);
+    public ItemMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Item.class, BASE, XSD, "item_complete.xml");
     }
 
     /*
@@ -121,7 +119,7 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
         assertXLinkList("/escidocItem:item/escidocComponents:components", obj.getComponents());
 
         // Item.Components.Component[1]
-        String componentXPath = "/escidocItem:item/escidocComponents:components/escidocComponents:component[1]";
+        final String componentXPath = "/escidocItem:item/escidocComponents:components/escidocComponents:component[1]";
         assertResource(componentXPath, obj.getComponents().get(0));
 
         // Item.Components.Component[1].Properties

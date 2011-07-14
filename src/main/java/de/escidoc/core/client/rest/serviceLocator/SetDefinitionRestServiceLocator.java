@@ -6,20 +6,17 @@ package de.escidoc.core.client.rest.serviceLocator;
 import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-
-import java.rmi.RemoteException;
-import java.util.HashMap;
-
-import de.escidoc.core.client.interfaces.SetDefinitionHandler;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidSearchQueryException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ResourceNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.UniqueConstraintViolationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidSearchQueryException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
+import de.escidoc.core.client.exceptions.application.notfound.ResourceNotFoundException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.application.violated.OptimisticLockingException;
+import de.escidoc.core.client.exceptions.application.violated.UniqueConstraintViolationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
+import de.escidoc.core.client.interfaces.handler.SetDefinitionHandler;
 
 /**
  * @author MVO
@@ -33,28 +30,12 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod implement
      * (non-Javadoc)
      * 
      * @see
-     * de.escidoc.core.oai.SetDefinitionHandler#retrieveSetDefinitions(java.
-     * util.HashMap)
-     */
-    @SuppressWarnings( { "unchecked", "rawtypes" })
-    @Override
-    public String retrieveSetDefinitions(final HashMap filter) throws RemoteException, SystemException,
-        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
-
-        return get(PATH + "s", filter);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
      * de.escidoc.core.client.interfaces.SetDefinitionHandler#retrieveSetDefinitions
      * (gov.loc.www.zing.srw.SearchRetrieveRequestType)
      */
     @Override
-    public String retrieveSetDefinitions(final SearchRetrieveRequestType request) throws RemoteException,
-        SystemException, InvalidSearchQueryException, AuthorizationException, AuthenticationException,
-        MissingMethodParameterException {
+    public String retrieveSetDefinitions(final SearchRetrieveRequestType request) throws EscidocException,
+        InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(request);
 
@@ -69,7 +50,7 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod implement
      * (gov.loc.www.zing.srw.ExplainRequestType)
      */
     @Override
-    public String retrieveSetDefinitions(final ExplainRequestType request) throws RemoteException, SystemException,
+    public String retrieveSetDefinitions(final ExplainRequestType request) throws EscidocException,
         InvalidSearchQueryException, AuthorizationException, AuthenticationException, MissingMethodParameterException {
 
         checkNotNull(request);
@@ -83,7 +64,7 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod implement
      * @see de.escidoc.core.oai.SetDefinitionHandler#delete(java.lang.String)
      */
     @Override
-    public void delete(final String setDefinitionId) throws RemoteException, SystemException, AuthorizationException,
+    public void delete(final String setDefinitionId) throws EscidocException, AuthorizationException,
         AuthenticationException, ResourceNotFoundException, MissingMethodParameterException {
 
         checkNotNull(setDefinitionId);
@@ -97,7 +78,7 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod implement
      * @see de.escidoc.core.oai.SetDefinitionHandler#create(java.lang.String)
      */
     @Override
-    public String create(final String xmlData) throws RemoteException, SystemException, AuthorizationException,
+    public String create(final String xmlData) throws EscidocException, AuthorizationException,
         AuthenticationException, UniqueConstraintViolationException, InvalidXmlException,
         MissingMethodParameterException {
 
@@ -113,7 +94,7 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod implement
      * java.lang.String)
      */
     @Override
-    public String update(final String setDefinitionId, final String xmlData) throws RemoteException,
+    public String update(final String setDefinitionId, final String xmlData) throws EscidocException,
         OptimisticLockingException, SystemException, AuthorizationException, AuthenticationException,
         ResourceNotFoundException, MissingMethodParameterException {
 
@@ -128,8 +109,8 @@ public class SetDefinitionRestServiceLocator extends RestServiceMethod implement
      * @see de.escidoc.core.oai.SetDefinitionHandler#retrieve(java.lang.String)
      */
     @Override
-    public String retrieve(final String setDefinitionId) throws RemoteException, SystemException,
-        AuthorizationException, AuthenticationException, ResourceNotFoundException, MissingMethodParameterException {
+    public String retrieve(final String setDefinitionId) throws EscidocException, AuthorizationException,
+        AuthenticationException, ResourceNotFoundException, MissingMethodParameterException {
 
         checkNotNull(setDefinitionId);
         return get(PATH + "/" + setDefinitionId);

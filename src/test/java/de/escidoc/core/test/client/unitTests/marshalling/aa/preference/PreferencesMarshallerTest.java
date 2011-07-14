@@ -11,7 +11,6 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.aa.useraccount.Preferences;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -31,9 +30,8 @@ public class PreferencesMarshallerTest extends MarshallerTestBase<Preferences> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public PreferencesMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(Preferences.class, BASE, XSD, "preferences_complete.xml", transport);
+    public PreferencesMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Preferences.class, BASE, XSD, "preferences_complete.xml");
     }
 
     @Override
@@ -62,7 +60,7 @@ public class PreferencesMarshallerTest extends MarshallerTestBase<Preferences> {
     private void validatePreference(final String xPathContext, final Preferences preferences, final int index)
         throws DOMException, TransformerException {
 
-        String path = xPathContext + "/preferences:preference[" + (index + 1) + "]";
+        final String path = xPathContext + "/preferences:preference[" + (index + 1) + "]";
 
         // Preferences within an attributes-tag may not have a LMD set.
         assertDateTime(path + "/@last-modification-date", preferences.get(index).getLastModificationDate(), false);

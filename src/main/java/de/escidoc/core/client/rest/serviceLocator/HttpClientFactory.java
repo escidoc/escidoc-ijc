@@ -334,9 +334,9 @@ public final class HttpClientFactory {
     private static final ThreadSafeClientConnManager getConnectionManager(final HttpParams params) {
         if (connectionManager == null) {
             final SchemeRegistry schemeRegistry = new SchemeRegistry();
-            schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-            schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
-            connectionManager = new ThreadSafeClientConnManager(params, schemeRegistry);
+            schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
+            schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
+            connectionManager = new ThreadSafeClientConnManager(schemeRegistry);
         }
         return connectionManager;
     }

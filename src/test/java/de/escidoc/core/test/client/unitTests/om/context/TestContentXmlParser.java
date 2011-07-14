@@ -14,7 +14,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.common.XmlUtility;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.properties.PublicStatus;
@@ -24,7 +23,6 @@ import de.escidoc.core.resources.om.context.AdminDescriptors;
 import de.escidoc.core.resources.om.context.Context;
 import de.escidoc.core.resources.om.context.ContextProperties;
 import de.escidoc.core.resources.om.context.OrganizationalUnitRefs;
-import de.escidoc.core.test.client.AbstractParameterizedTestBase;
 
 /**
  * Test admin descriptor content handling.
@@ -32,13 +30,9 @@ import de.escidoc.core.test.client.AbstractParameterizedTestBase;
  * @author SWA
  * 
  */
-public class TestContentXmlParser extends AbstractParameterizedTestBase {
+public class TestContentXmlParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(TestContentXmlParser.class);
-
-    public TestContentXmlParser(final TransportProtocol transport) {
-        super(transport);
-    }
 
     /**
      * Test setting content of admin descriptor as String.
@@ -73,8 +67,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        final String contextXml =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class).marshalDocument(context);
+        final String contextXml = MarshallerFactory.getInstance().getMarshaller(Context.class).marshalDocument(context);
 
         final Document contextDoc = XmlUtility.getDocument(contextXml);
 
@@ -102,7 +95,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         // unmarshall
         final Context contextRev =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class).unmarshalDocument(contextXml);
+            MarshallerFactory.getInstance().getMarshaller(Context.class).unmarshalDocument(contextXml);
 
         assertEquals("Content failure", contentElementName, contextRev
             .getAdminDescriptors().get(0).getContent().getNodeName());
@@ -147,8 +140,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
         adminDescriptors.add(adminDescriptor);
         context.setAdminDescriptors(adminDescriptors);
 
-        final String contextXml =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class).marshalDocument(context);
+        final String contextXml = MarshallerFactory.getInstance().getMarshaller(Context.class).marshalDocument(context);
 
         final Document contextDoc = XmlUtility.getDocument(contextXml);
 
@@ -176,7 +168,7 @@ public class TestContentXmlParser extends AbstractParameterizedTestBase {
 
         // unmarshall
         final Context contextRev =
-            MarshallerFactory.getInstance(transport).getMarshaller(Context.class).unmarshalDocument(contextXml);
+            MarshallerFactory.getInstance().getMarshaller(Context.class).unmarshalDocument(contextXml);
 
         assertEquals("Content failue", contentElementName, contextRev
             .getAdminDescriptors().get(0).getContent().getNodeName());

@@ -15,7 +15,6 @@ import org.jibx.runtime.impl.UnmarshallingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.sb.Record;
@@ -76,8 +75,8 @@ public class RecordDataMarshaller extends MarshallingBase implements IMarshaller
     @Override
     public Object unmarshal(final Object obj, final IUnmarshallingContext ictx) throws JiBXException {
 
-        UnmarshallingContext ctx = checkUnmarshaller(ictx);
-        Record<?> record = checkObject(Record.class, ictx.getStackTop());
+        final UnmarshallingContext ctx = checkUnmarshaller(ictx);
+        final Record<?> record = checkObject(Record.class, ictx.getStackTop());
 
         Object result = null;
 
@@ -88,7 +87,7 @@ public class RecordDataMarshaller extends MarshallingBase implements IMarshaller
          * an element on the next level. Otherwise, the parseContentText-method
          * will return an empty String. This may be a bug in JiBX.
          */
-        String contentText = ctx.parseContentText().trim();
+        final String contentText = ctx.parseContentText().trim();
 
         if (ctx.isStart() && ctx.getElementName() != null) {
             if (record.getRecordPacking() == RecordPacking.STRING) {
@@ -111,7 +110,7 @@ public class RecordDataMarshaller extends MarshallingBase implements IMarshaller
              * (decode it again) and use a new Marshaller instance to unmarshal
              * it.
              */
-            String bindingName = ctx.getFactory().getBindingName();
+            final String bindingName = ctx.getFactory().getBindingName();
             if (bindingName == null) {
                 throw new JiBXException("Unable to unmarshal SearchResultRecordRecord. "
                     + "No TransportProtocol defined for unmarshalling.");
@@ -123,11 +122,9 @@ public class RecordDataMarshaller extends MarshallingBase implements IMarshaller
                  * since both bindings are capable to handle both kinds of input
                  */
                 result =
-                    MarshallerFactory
-                        .getInstance(TransportProtocol.REST).getMarshaller(record.getClass()).unmarshalDocument(
-                            contentText);
+                    MarshallerFactory.getInstance().getMarshaller(record.getClass()).unmarshalDocument(contentText);
             }
-            catch (InternalClientException e) {
+            catch (final InternalClientException e) {
                 throw new JiBXException(e.getMessage(), e);
             }
         }

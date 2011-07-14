@@ -31,50 +31,47 @@ package de.escidoc.core.client.rest.serviceLocator;
 import static de.escidoc.core.common.Precondition.checkNotNull;
 import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
-
-import java.rmi.RemoteException;
-import java.util.HashMap;
-
-import de.escidoc.core.client.interfaces.ContainerHandler;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContentException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidContextStatusException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidItemStatusException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.XmlSchemaValidationException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingAttributeValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingContentException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingElementValueException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingLicenceException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMdRecordException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ComponentNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContainerNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContentModelNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContentRelationNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ContextNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.FileNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ItemNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.MdRecordNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ReferencedResourceNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.RelationPredicateNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.XmlSchemaNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AdminDescriptorViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyDeletedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyExistsException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyPublishedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.AlreadyWithdrawnException;
-import de.escidoc.core.common.exceptions.remote.application.violated.LockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.NotPublishedException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyAttributeViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyElementViolationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyVersionException;
-import de.escidoc.core.common.exceptions.remote.application.violated.ReadonlyViolationException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidContentException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidContextException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidContextStatusException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidItemStatusException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidStatusException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
+import de.escidoc.core.client.exceptions.application.invalid.XmlSchemaValidationException;
+import de.escidoc.core.client.exceptions.application.missing.MissingAttributeValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingContentException;
+import de.escidoc.core.client.exceptions.application.missing.MissingElementValueException;
+import de.escidoc.core.client.exceptions.application.missing.MissingLicenceException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMdRecordException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
+import de.escidoc.core.client.exceptions.application.notfound.ComponentNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContainerNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContentModelNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContentRelationNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ContextNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.FileNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ItemNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.MdRecordNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.ReferencedResourceNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.RelationPredicateNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.XmlSchemaNotFoundException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.application.violated.AdminDescriptorViolationException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyDeletedException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyExistsException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyPublishedException;
+import de.escidoc.core.client.exceptions.application.violated.AlreadyWithdrawnException;
+import de.escidoc.core.client.exceptions.application.violated.LockingException;
+import de.escidoc.core.client.exceptions.application.violated.NotPublishedException;
+import de.escidoc.core.client.exceptions.application.violated.OptimisticLockingException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyAttributeViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyElementViolationException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyVersionException;
+import de.escidoc.core.client.exceptions.application.violated.ReadonlyViolationException;
+import de.escidoc.core.client.exceptions.system.SystemException;
+import de.escidoc.core.client.interfaces.handler.ContainerHandler;
 
 /**
  * REST service for Container.
@@ -86,19 +83,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
 
     public static final String PATH = "/ir/container";
 
-    @SuppressWarnings( { "unchecked", "rawtypes" })
     @Override
-    public String retrieveTocs(final String containerId, final HashMap filter) throws RemoteException, SystemException,
-        MissingMethodParameterException, ContainerNotFoundException, AuthenticationException, AuthorizationException,
-        InvalidXmlException {
-
-        checkNotNull(containerId);
-
-        return get(PATH + "/" + containerId + "/tocs/filter", filter);
-    }
-
-    @Override
-    public String addTocs(final String containerId, final String taskParam) throws RemoteException,
+    public String addTocs(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, LockingException, MissingMethodParameterException,
         MissingAttributeValueException, ContainerNotFoundException, InvalidContextException, AuthenticationException,
         AuthorizationException, InvalidContentException {
@@ -109,12 +95,12 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String createContainer(final String containerId, final String containerXml) throws RemoteException,
-        SystemException, LockingException, MissingAttributeValueException, ContainerNotFoundException,
-        InvalidContextException, MissingMdRecordException, ReferencedResourceNotFoundException,
-        AuthenticationException, AuthorizationException, ContextNotFoundException, InvalidContentException,
-        RelationPredicateNotFoundException, MissingMethodParameterException, InvalidStatusException,
-        ContentModelNotFoundException, MissingElementValueException, InvalidXmlException {
+    public String createContainer(final String containerId, final String containerXml) throws EscidocException,
+        LockingException, MissingAttributeValueException, ContainerNotFoundException, InvalidContextException,
+        MissingMdRecordException, ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
+        ContextNotFoundException, InvalidContentException, RelationPredicateNotFoundException,
+        MissingMethodParameterException, InvalidStatusException, ContentModelNotFoundException,
+        MissingElementValueException, InvalidXmlException {
 
         checkNotNull(containerId);
         checkNotNull(containerXml);
@@ -123,7 +109,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String addMembers(final String containerId, final String taskParam) throws RemoteException,
+    public String addMembers(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, LockingException, MissingMethodParameterException,
         MissingAttributeValueException, ContainerNotFoundException, InvalidContextException, AuthenticationException,
         AuthorizationException, InvalidContentException {
@@ -134,7 +120,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String removeMembers(final String containerId, final String taskParam) throws RemoteException,
+    public String removeMembers(final String containerId, final String taskParam) throws EscidocException,
         InvalidItemStatusException, SystemException, LockingException, AdminDescriptorViolationException,
         ContainerNotFoundException, AuthenticationException, InvalidContextStatusException, ItemNotFoundException,
         AuthorizationException, ContextNotFoundException, InvalidContentException, XmlSchemaValidationException {
@@ -145,30 +131,18 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveStructMap(final String containerId) throws RemoteException, SystemException,
-        MissingMethodParameterException, ContainerNotFoundException, AuthenticationException, AuthorizationException {
+    public String retrieveStructMap(final String containerId) throws EscidocException, MissingMethodParameterException,
+        ContainerNotFoundException, AuthenticationException, AuthorizationException {
 
         checkNotNull(containerId);
 
         return get(PATH + "/" + containerId + "/struct-map");
     }
 
-    @SuppressWarnings( { "rawtypes", "unchecked" })
-    @Override
-    @Deprecated
-    public String retrieveMembers(final String containerId, final HashMap filter) throws RemoteException,
-        SystemException, MissingMethodParameterException, ContainerNotFoundException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
-
-        checkNotNull(containerId);
-
-        return get(PATH + "/" + containerId + "/members/filter", filter);
-    }
-
     @Override
     public String retrieveMembers(final String containerId, final SearchRetrieveRequestType filter)
-        throws RemoteException, SystemException, MissingMethodParameterException, AuthenticationException,
-        AuthorizationException, InvalidXmlException {
+        throws EscidocException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(containerId);
         checkNotNull(filter);
@@ -177,9 +151,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveMembers(final String containerId, final ExplainRequestType filter) throws RemoteException,
-        SystemException, MissingMethodParameterException, AuthenticationException, AuthorizationException,
-        InvalidXmlException {
+    public String retrieveMembers(final String containerId, final ExplainRequestType filter) throws EscidocException,
+        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(containerId);
         checkNotNull(filter);
@@ -189,10 +162,9 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
 
     @Override
     public String updateMetadataRecord(final String containerId, final String mdRecordId, final String mdRecordXml)
-        throws RemoteException, SystemException, XmlSchemaValidationException, ReadonlyVersionException,
-        LockingException, MissingMethodParameterException, InvalidStatusException, ContainerNotFoundException,
-        AuthenticationException, XmlSchemaNotFoundException, AuthorizationException, MdRecordNotFoundException,
-        InvalidXmlException {
+        throws EscidocException, XmlSchemaValidationException, ReadonlyVersionException, LockingException,
+        MissingMethodParameterException, InvalidStatusException, ContainerNotFoundException, AuthenticationException,
+        XmlSchemaNotFoundException, AuthorizationException, MdRecordNotFoundException, InvalidXmlException {
 
         checkNotNull(containerId);
         checkNotNull(mdRecordId);
@@ -202,7 +174,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String createItem(final String containerId, final String itemXml) throws RemoteException, SystemException,
+    public String createItem(final String containerId, final String itemXml) throws EscidocException,
         MissingContentException, MissingAttributeValueException, LockingException, InvalidContextException,
         ContainerNotFoundException, MissingMdRecordException, AuthenticationException,
         ReferencedResourceNotFoundException, AuthorizationException, ContextNotFoundException, InvalidContentException,
@@ -217,13 +189,12 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String create(final String containerXml) throws RemoteException, SystemException,
-        MissingAttributeValueException, MissingContentException, MissingMdRecordException,
-        ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException, ContextNotFoundException,
-        InvalidContentException, RelationPredicateNotFoundException, ReadonlyAttributeViolationException,
-        FileNotFoundException, MissingMethodParameterException, InvalidStatusException,
-        ReadonlyElementViolationException, ContentModelNotFoundException, InvalidXmlException,
-        MissingElementValueException {
+    public String create(final String containerXml) throws EscidocException, MissingAttributeValueException,
+        MissingContentException, MissingMdRecordException, ReferencedResourceNotFoundException,
+        AuthenticationException, AuthorizationException, ContextNotFoundException, InvalidContentException,
+        RelationPredicateNotFoundException, ReadonlyAttributeViolationException, FileNotFoundException,
+        MissingMethodParameterException, InvalidStatusException, ReadonlyElementViolationException,
+        ContentModelNotFoundException, InvalidXmlException, MissingElementValueException {
 
         checkNotNull(containerXml);
 
@@ -231,7 +202,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String update(final String containerId, final String containerXml) throws RemoteException, SystemException,
+    public String update(final String containerId, final String containerXml) throws EscidocException,
         MissingLicenceException, ReadonlyVersionException, LockingException, ComponentNotFoundException,
         MissingContentException, MissingAttributeValueException, AlreadyExistsException, InvalidContextException,
         MissingMdRecordException, ReferencedResourceNotFoundException, AuthenticationException, AuthorizationException,
@@ -246,7 +217,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public void delete(final String containerId) throws RemoteException, SystemException, LockingException,
+    public void delete(final String containerId) throws EscidocException, LockingException,
         MissingMethodParameterException, InvalidStatusException, AuthenticationException, ContainerNotFoundException,
         AlreadyPublishedException, AuthorizationException {
 
@@ -256,7 +227,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String lock(final String containerId, final String taskParam) throws RemoteException,
+    public String lock(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, LockingException, MissingMethodParameterException,
         AuthenticationException, ContainerNotFoundException, AuthorizationException, InvalidContentException,
         InvalidXmlException {
@@ -267,7 +238,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String unlock(final String containerId, final String taskParam) throws RemoteException,
+    public String unlock(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, LockingException, MissingMethodParameterException,
         AuthenticationException, ContainerNotFoundException, AuthorizationException, InvalidXmlException {
 
@@ -277,7 +248,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String release(final String containerId, final String taskParam) throws RemoteException,
+    public String release(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, ReadonlyVersionException, LockingException,
         MissingMethodParameterException, InvalidStatusException, ReadonlyViolationException, AuthenticationException,
         ContainerNotFoundException, AuthorizationException, InvalidXmlException {
@@ -288,8 +259,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieve(final String containerId) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, ContainerNotFoundException, AuthorizationException {
+    public String retrieve(final String containerId) throws EscidocException, MissingMethodParameterException,
+        AuthenticationException, ContainerNotFoundException, AuthorizationException {
 
         checkNotNull(containerId);
 
@@ -297,7 +268,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String submit(final String containerId, final String taskParam) throws RemoteException,
+    public String submit(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, ReadonlyVersionException, LockingException,
         MissingMethodParameterException, InvalidStatusException, ReadonlyViolationException, AuthenticationException,
         ContainerNotFoundException, AuthorizationException, InvalidXmlException {
@@ -308,10 +279,10 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String createMdRecord(final String containerId, final String xmlData) throws RemoteException,
-        SystemException, LockingException, MissingAttributeValueException, MissingMethodParameterException,
-        InvalidStatusException, AuthenticationException, XmlSchemaNotFoundException, ContainerNotFoundException,
-        AuthorizationException, InvalidXmlException {
+    public String createMdRecord(final String containerId, final String xmlData) throws EscidocException,
+        LockingException, MissingAttributeValueException, MissingMethodParameterException, InvalidStatusException,
+        AuthenticationException, XmlSchemaNotFoundException, ContainerNotFoundException, AuthorizationException,
+        InvalidXmlException {
 
         checkNotNull(containerId);
 
@@ -319,9 +290,9 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveMdRecord(final String containerId, final String mdRecordId) throws RemoteException,
-        SystemException, MissingMethodParameterException, AuthenticationException, ContainerNotFoundException,
-        AuthorizationException, MdRecordNotFoundException {
+    public String retrieveMdRecord(final String containerId, final String mdRecordId) throws EscidocException,
+        MissingMethodParameterException, AuthenticationException, ContainerNotFoundException, AuthorizationException,
+        MdRecordNotFoundException {
 
         checkNotNull(containerId);
         checkNotNull(mdRecordId);
@@ -330,8 +301,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveMdRecords(final String containerId) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, ContainerNotFoundException, AuthorizationException {
+    public String retrieveMdRecords(final String containerId) throws EscidocException, MissingMethodParameterException,
+        AuthenticationException, ContainerNotFoundException, AuthorizationException {
 
         checkNotNull(containerId);
 
@@ -339,7 +310,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveProperties(final String containerId) throws RemoteException, SystemException,
+    public String retrieveProperties(final String containerId) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, ContainerNotFoundException, AuthorizationException {
 
         checkNotNull(containerId);
@@ -348,7 +319,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveVersionHistory(final String containerId) throws RemoteException, SystemException,
+    public String retrieveVersionHistory(final String containerId) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, ContainerNotFoundException, AuthorizationException,
         MdRecordNotFoundException {
 
@@ -358,8 +329,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveRelations(final String containerId) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, ContainerNotFoundException, AuthorizationException {
+    public String retrieveRelations(final String containerId) throws EscidocException, MissingMethodParameterException,
+        AuthenticationException, ContainerNotFoundException, AuthorizationException {
 
         checkNotNull(containerId);
 
@@ -367,7 +338,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String revise(final String containerId, final String taskParam) throws RemoteException,
+    public String revise(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, ReadonlyVersionException, LockingException,
         MissingMethodParameterException, InvalidStatusException, ReadonlyViolationException, AuthenticationException,
         AuthorizationException, ContainerNotFoundException, InvalidContentException, InvalidXmlException {
@@ -378,7 +349,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String withdraw(final String containerId, final String taskParam) throws RemoteException, SystemException,
+    public String withdraw(final String containerId, final String taskParam) throws EscidocException,
         ReadonlyVersionException, LockingException, AlreadyWithdrawnException, AuthenticationException,
         ContainerNotFoundException, AuthorizationException, OptimisticLockingException,
         MissingMethodParameterException, NotPublishedException, InvalidStatusException, ReadonlyViolationException,
@@ -390,10 +361,9 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String moveToContext(final String containerId, final String taskParam) throws RemoteException,
-        SystemException, LockingException, MissingMethodParameterException, InvalidStatusException,
-        AuthenticationException, ContainerNotFoundException, AuthorizationException, ContextNotFoundException,
-        InvalidContentException {
+    public String moveToContext(final String containerId, final String taskParam) throws EscidocException,
+        LockingException, MissingMethodParameterException, InvalidStatusException, AuthenticationException,
+        ContainerNotFoundException, AuthorizationException, ContextNotFoundException, InvalidContentException {
 
         checkNotNull(containerId);
 
@@ -401,7 +371,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveContainers(final SearchRetrieveRequestType filter) throws RemoteException, SystemException,
+    public String retrieveContainers(final SearchRetrieveRequestType filter) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
@@ -410,7 +380,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveContainers(final ExplainRequestType filter) throws RemoteException, SystemException,
+    public String retrieveContainers(final ExplainRequestType filter) throws EscidocException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
         checkNotNull(filter);
@@ -418,17 +388,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
         return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
-    @SuppressWarnings( { "rawtypes", "unchecked" })
     @Override
-    @Deprecated
-    public String retrieveContainers(final HashMap filter) throws RemoteException, SystemException,
-        MissingMethodParameterException, AuthenticationException, AuthorizationException, InvalidXmlException {
-
-        return get(PATH + "s", filter);
-    }
-
-    @Override
-    public String assignVersionPid(final String containerId, final String taskParam) throws RemoteException,
+    public String assignVersionPid(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException, ContainerNotFoundException, AuthorizationException,
         InvalidXmlException {
@@ -439,7 +400,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String assignObjectPid(final String containerId, final String taskParam) throws RemoteException,
+    public String assignObjectPid(final String containerId, final String taskParam) throws EscidocException,
         OptimisticLockingException, SystemException, LockingException, MissingMethodParameterException,
         InvalidStatusException, AuthenticationException, ContainerNotFoundException, AuthorizationException,
         InvalidXmlException {
@@ -450,8 +411,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String addContentRelations(final String containerId, final String taskParam) throws RemoteException,
-        SystemException, ReadonlyVersionException, LockingException, AlreadyExistsException, AuthenticationException,
+    public String addContentRelations(final String containerId, final String taskParam) throws EscidocException,
+        ReadonlyVersionException, LockingException, AlreadyExistsException, AuthenticationException,
         ReferencedResourceNotFoundException, AuthorizationException, ContainerNotFoundException,
         InvalidContentException, OptimisticLockingException, RelationPredicateNotFoundException,
         ReadonlyAttributeViolationException, MissingMethodParameterException, InvalidStatusException,
@@ -463,11 +424,11 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String removeContentRelations(final String containerId, final String taskParam) throws RemoteException,
-        SystemException, ContentRelationNotFoundException, ReadonlyVersionException, LockingException,
-        AuthenticationException, ContainerNotFoundException, AuthorizationException, InvalidContentException,
-        OptimisticLockingException, MissingMethodParameterException, InvalidStatusException,
-        ReadonlyViolationException, AlreadyDeletedException, InvalidXmlException, MissingElementValueException {
+    public String removeContentRelations(final String containerId, final String taskParam) throws EscidocException,
+        ContentRelationNotFoundException, ReadonlyVersionException, LockingException, AuthenticationException,
+        ContainerNotFoundException, AuthorizationException, InvalidContentException, OptimisticLockingException,
+        MissingMethodParameterException, InvalidStatusException, ReadonlyViolationException, AlreadyDeletedException,
+        InvalidXmlException, MissingElementValueException {
 
         checkNotNull(containerId);
 
@@ -475,7 +436,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String createMetadataRecord(final String id, final String xmlData) throws RemoteException, SystemException,
+    public String createMetadataRecord(final String id, final String xmlData) throws EscidocException,
         AuthorizationException, AuthenticationException, InvalidXmlException, LockingException,
         ContainerNotFoundException, MissingMethodParameterException {
 
@@ -487,8 +448,8 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
     }
 
     @Override
-    public String retrieveParents(final String containerId) throws RemoteException, SystemException,
-        AuthorizationException, AuthenticationException, MissingMethodParameterException, ContainerNotFoundException {
+    public String retrieveParents(final String containerId) throws EscidocException, AuthorizationException,
+        AuthenticationException, MissingMethodParameterException, ContainerNotFoundException {
 
         checkNotNull(containerId);
 

@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.EscidocClientException;
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.InternalClientException;
@@ -42,14 +41,13 @@ public class RetrieveUserAccountsTest {
     @Test
     public void ShouldReturnUserAccount() throws InternalClientException, TransportException, EscidocClientException {
 
-        String objid = createTestUserAccount();
+        final String objid = createTestUserAccount();
         assertNotNull(objid);
 
         final String createdUser = uahc.retrieve(objid);
 
-        Marshaller<UserAccount> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(UserAccount.class);
-        UserAccount user = m.unmarshalDocument(createdUser);
+        final Marshaller<UserAccount> m = MarshallerFactory.getInstance().getMarshaller(UserAccount.class);
+        final UserAccount user = m.unmarshalDocument(createdUser);
         assertNotNull("Object Id should not be null. ", user.getObjid());
     }
 
@@ -62,20 +60,19 @@ public class RetrieveUserAccountsTest {
      */
     private String createTestUserAccount() throws EscidocException, InternalClientException, TransportException {
 
-        UserAccount ua = new UserAccount();
-        UserAccountProperties properties = new UserAccountProperties();
-        String login = "login" + System.currentTimeMillis();
+        final UserAccount ua = new UserAccount();
+        final UserAccountProperties properties = new UserAccountProperties();
+        final String login = "login" + System.currentTimeMillis();
         properties.setName("Name " + login);
         properties.setLoginName(login);
         ua.setProperties(properties);
 
-        Marshaller<UserAccount> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(UserAccount.class);
+        final Marshaller<UserAccount> m = MarshallerFactory.getInstance().getMarshaller(UserAccount.class);
         String xml = m.marshalDocument(ua);
 
         xml = uahc.create(xml);
 
-        UserAccount createdUser = m.unmarshalDocument(xml);
+        final UserAccount createdUser = m.unmarshalDocument(xml);
         return createdUser.getObjid();
     }
 }

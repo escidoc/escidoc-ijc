@@ -32,7 +32,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -43,7 +42,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.ItemHandler;
+import de.escidoc.core.client.interfaces.handler.ItemHandler;
 import de.escidoc.core.client.rest.serviceLocator.ItemRestServiceLocator;
 import de.escidoc.core.resources.HttpInputStream;
 
@@ -65,18 +64,6 @@ public class RestItemHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestItemHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use {@link RestItemHandlerClient#RestItemHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestItemHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -415,31 +402,6 @@ public class RestItemHandlerClient extends RestClientBase {
         String result = null;
         try {
             result = getClient().assignContentPid(id, componentId, taskParam);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param taskParam
-     * @return
-     * @throws EscidocException
-     *             Thrown in case of eSciDoc framework failures.
-     * @throws InternalClientException
-     *             Thrown in case of client internal failures.
-     * @throws TransportException
-     *             Thrown in case of failures on transport level.
-     */
-    @Deprecated
-    public String retrieveItems(final HashMap<String, String[]> taskParam) throws EscidocException,
-        InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveItems(taskParam);
         }
         catch (final Exception e) {
             ExceptionMapper.map(e, LOG);

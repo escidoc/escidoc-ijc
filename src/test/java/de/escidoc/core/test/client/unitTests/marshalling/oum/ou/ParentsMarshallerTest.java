@@ -6,7 +6,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.oum.Parents;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -22,9 +21,8 @@ public class ParentsMarshallerTest extends MarshallerTestBase<Parents> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ParentsMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Parents.class, BASE, XSD, "parents_complete.xml", transport);
+    public ParentsMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Parents.class, BASE, XSD, "parents_complete.xml");
     }
 
     /*

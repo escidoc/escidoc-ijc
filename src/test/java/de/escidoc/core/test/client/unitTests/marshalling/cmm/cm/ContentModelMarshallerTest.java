@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.cmm.ContentModel;
 import de.escidoc.core.resources.common.properties.VersionImpl;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
@@ -32,9 +31,8 @@ public class ContentModelMarshallerTest extends MarshallerTestBase<ContentModel>
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public ContentModelMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(ContentModel.class, BASE, XSD, "content-model_complete.xml", transport);
+    public ContentModelMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(ContentModel.class, BASE, XSD, "content-model_complete.xml");
     }
 
     @Override
@@ -48,7 +46,7 @@ public class ContentModelMarshallerTest extends MarshallerTestBase<ContentModel>
         assertDateTime("/escidocContentModel:content-model/@last-modification-date", obj.getLastModificationDate());
 
         // ContentModelProperties
-        String path = "/escidocContentModel:content-model/escidocContentModel:properties";
+        final String path = "/escidocContentModel:content-model/escidocContentModel:properties";
         assertNotNull(obj.getProperties());
         assertXLinkResource(path, obj.getProperties());
 

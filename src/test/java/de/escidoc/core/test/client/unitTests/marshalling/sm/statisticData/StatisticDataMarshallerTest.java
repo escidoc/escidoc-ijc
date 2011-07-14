@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.sm.DateParameter;
 import de.escidoc.core.resources.sm.ParameterType;
 import de.escidoc.core.resources.sm.sd.StatisticData;
@@ -27,16 +26,15 @@ public class StatisticDataMarshallerTest extends MarshallerTestBase<StatisticDat
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public StatisticDataMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(StatisticData.class, BASE, XSD, "statistic-data_complete.xml", transport);
+    public StatisticDataMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(StatisticData.class, BASE, XSD, "statistic-data_complete.xml");
     }
 
     @Override
     protected void validate(final StatisticData obj) throws Exception {
         assertResource("/sd:statistic-record/sd:scope", obj.getScope());
 
-        String path = "/sd:statistic-record/sd:parameter";
+        final String path = "/sd:statistic-record/sd:parameter";
 
         assertNotNull(obj.getParameters());
         assertNotNull(obj.getParameters().get(0));

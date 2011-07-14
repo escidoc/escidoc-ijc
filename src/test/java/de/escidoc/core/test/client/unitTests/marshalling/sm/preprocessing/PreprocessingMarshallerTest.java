@@ -6,7 +6,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.sm.preprocess.PreprocessingInformation;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -22,9 +21,8 @@ public class PreprocessingMarshallerTest extends MarshallerTestBase<Preprocessin
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public PreprocessingMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(PreprocessingInformation.class, BASE, XSD, "preprocessing_complete.xml", transport);
+    public PreprocessingMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(PreprocessingInformation.class, BASE, XSD, "preprocessing_complete.xml");
     }
 
     @Override

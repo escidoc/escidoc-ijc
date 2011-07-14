@@ -33,7 +33,6 @@ import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +41,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.ContentModelHandler;
+import de.escidoc.core.client.interfaces.handler.ContentModelHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContentModelRestServiceLocator;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
 import de.escidoc.core.resources.HttpInputStream;
 
 /**
@@ -65,19 +63,6 @@ public class RestContentModelHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestContentModelHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestContentModelHandlerClient#RestContentModelHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestContentModelHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -159,27 +144,6 @@ public class RestContentModelHandlerClient extends RestClientBase {
         String result = null;
         try {
             result = getClient().update(id, contentModel);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param parameterMap
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String retrieveContentModels(final HashMap<String, String[]> filter) throws EscidocException,
-        InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveContentModels(filter);
         }
         catch (final Exception e) {
             ExceptionMapper.map(e, LOG);

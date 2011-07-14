@@ -32,7 +32,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.RoleHandler;
+import de.escidoc.core.client.interfaces.handler.RoleHandler;
 import de.escidoc.core.client.rest.serviceLocator.RoleRestServiceLocator;
 
 /**
@@ -62,18 +61,6 @@ public class RestRoleHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestRoleHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use {@link RestRoleHandlerClient#RestRoleHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestRoleHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -170,31 +157,6 @@ public class RestRoleHandlerClient extends RestClientBase {
         String result = null;
         try {
             result = getClient().update(id, roleXml);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param taskParam
-     * @return
-     * @throws EscidocException
-     *             Thrown in case of eSciDoc framework failures.
-     * @throws InternalClientException
-     *             Thrown in case of client internal failures.
-     * @throws TransportException
-     *             Thrown in case of failures on transport level.
-     */
-    @Deprecated
-    public String retrieveRoles(final HashMap<String, String[]> taskParam) throws EscidocException,
-        InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveRoles(taskParam);
         }
         catch (final Exception e) {
             ExceptionMapper.map(e, LOG);

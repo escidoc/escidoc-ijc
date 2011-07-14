@@ -107,8 +107,7 @@ public class OrganizationalUnitHandlerClientTest {
     public void testRetrieve01() throws Exception {
         final OrganizationalUnit organizationUnit = ohc.retrieve(EscidocClientTestBase.getStaticOrganizationalUnitId());
 
-        MarshallerFactory.getInstance(ohc.getTransport()).getMarshaller(OrganizationalUnit.class).marshalDocument(
-            organizationUnit);
+        MarshallerFactory.getInstance().getMarshaller(OrganizationalUnit.class).marshalDocument(organizationUnit);
     }
 
     /**

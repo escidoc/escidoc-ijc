@@ -12,7 +12,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.UserManagementWrapper;
+import de.escidoc.core.client.interfaces.handler.UserManagementWrapper;
 import de.escidoc.core.client.rest.serviceLocator.UserManagementWrapperRestServiceLocator;
 
 /**
@@ -31,19 +31,6 @@ public class RestUserManagementWrapperClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestUserManagementWrapperClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestUserManagementWrapperClient#RestUserManagementWrapperClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestUserManagementWrapperClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

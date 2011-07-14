@@ -164,7 +164,7 @@ public final class MarshallerFactory {
     /**
      * The HashMap to store the Marshaller instances.
      */
-    private HashMap<Class<?>, Marshaller<?>> marshallers = new HashMap<Class<?>, Marshaller<?>>();
+    private Map<Class<?>, Marshaller<?>> marshallers = new HashMap<Class<?>, Marshaller<?>>();
 
     /**
      * 
@@ -187,31 +187,14 @@ public final class MarshallerFactory {
 
         if (marshallerFactoryMap.get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL) == null) {
 
-            MarshallerFactory resultFactory = new MarshallerFactory(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
+            final MarshallerFactory resultFactory =
+                new MarshallerFactory(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
 
             marshallerFactoryMap.put(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL, resultFactory);
 
             return resultFactory;
         }
         return marshallerFactoryMap.get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
-    }
-
-    /**
-     * 
-     * TODO Undo deprecation.
-     * 
-     * @param transport
-     * @return
-     * @throws InternalClientException
-     */
-    public static final MarshallerFactory getInstance(final TransportProtocol transport) throws InternalClientException {
-
-        if (marshallerFactoryMap.get(transport) == null) {
-            MarshallerFactory resultFactory = new MarshallerFactory(transport);
-            marshallerFactoryMap.put(transport, resultFactory);
-            return resultFactory;
-        }
-        return marshallerFactoryMap.get(transport);
     }
 
     /**
@@ -256,7 +239,7 @@ public final class MarshallerFactory {
         Marshaller<T> marshaller;
 
         if (!marshallers.containsKey(clazz)) {
-            marshaller = Marshaller.getMarshaller(clazz, transport.name());
+            marshaller = Marshaller.getMarshaller(clazz);
             marshallers.put(clazz, marshaller);
 
         }

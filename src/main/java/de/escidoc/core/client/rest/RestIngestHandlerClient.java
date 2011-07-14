@@ -37,8 +37,8 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
+import de.escidoc.core.client.interfaces.handler.IngestHandler;
 import de.escidoc.core.client.rest.serviceLocator.IngestRestServiceLocator;
-import de.escidoc.core.om.IngestHandler;
 
 /**
  * REST Handler for Ingest.
@@ -58,19 +58,6 @@ public class RestIngestHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestIngestHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestIngestHandlerClient#RestIngestHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestIngestHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

@@ -33,7 +33,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.Remote;
 import java.util.HashMap;
@@ -67,24 +66,6 @@ public abstract class ClientBase {
      */
     public ClientBase(final URL serviceAddress) throws InternalClientException {
         setServiceAddress(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use {@link ClientBase#ClientBase(URL)} instead.
-     */
-    @Deprecated
-    public ClientBase(final String serviceAddress) throws InternalClientException {
-        URL url;
-        try {
-            url = new URL(serviceAddress);
-        }
-        catch (final MalformedURLException e) {
-            throw new InternalClientException(e);
-        }
-        setServiceAddress(url);
     }
 
     /**

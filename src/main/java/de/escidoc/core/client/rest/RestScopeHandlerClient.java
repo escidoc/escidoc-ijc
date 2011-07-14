@@ -7,7 +7,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.ScopeHandler;
+import de.escidoc.core.client.interfaces.handler.ScopeHandler;
 import de.escidoc.core.client.rest.serviceLocator.ScopeRestServiceLocator;
 
 /**
@@ -35,19 +34,6 @@ public class RestScopeHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestScopeHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestScopeHandlerClient#RestScopeHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestScopeHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -151,27 +137,6 @@ public class RestScopeHandlerClient extends RestClientBase {
         InternalClientException, TransportException {
 
         evalRequest(request, true);
-
-        String resultXml = null;
-        try {
-            resultXml = getClient().retrieveScopes(request);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return resultXml;
-    }
-
-    /**
-     * @param request
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    @Deprecated
-    public String retrieveScopes(final HashMap<String, String[]> request) throws EscidocException,
-        InternalClientException, TransportException {
 
         String resultXml = null;
         try {

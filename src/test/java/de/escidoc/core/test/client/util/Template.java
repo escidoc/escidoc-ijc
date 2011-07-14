@@ -82,8 +82,7 @@ public class Template {
      * @return
      * @throws FileNotFoundException
      */
-    public static final InputStream loadMockup(
-        final TransportProtocol transport, final String basePath, final String xsdVersion, final String filename)
+    public static final InputStream loadMockup(final String basePath, final String xsdVersion, final String filename)
         throws FileNotFoundException {
 
         String base = null;
@@ -101,31 +100,24 @@ public class Template {
             base = "/";
         }
 
-        return load("/mockups/" + transport.name().toLowerCase() + base + filename);
+        // TODO remove TransportProtocol
+        return load("/mockups/" + TransportProtocol.REST.name().toLowerCase() + base + filename);
     }
 
-    /**
-     * @param transport
-     * @param basePath
-     * @param filename
-     * @return
-     * @throws FileNotFoundException
-     */
-    public static final InputStream loadMockup(
-        final TransportProtocol transport, final String basePath, final String filename) throws FileNotFoundException {
-
-        return loadMockup(transport, basePath, null, filename);
-    }
-
-    /**
-     * @param transport
-     * @param filename
-     * @return
-     * @throws FileNotFoundException
-     */
-    public static final InputStream loadMockup(final TransportProtocol transport, final String filename)
+    public static final InputStream loadMockup(final String basePath, final String filename)
         throws FileNotFoundException {
 
-        return loadMockup(transport, null, null, filename);
+        return loadMockup(basePath, null, filename);
+    }
+
+    /**
+     * @param transport
+     * @param filename
+     * @return
+     * @throws FileNotFoundException
+     */
+    public static final InputStream loadMockup(final String filename) throws FileNotFoundException {
+
+        return loadMockup(null, null, filename);
     }
 }

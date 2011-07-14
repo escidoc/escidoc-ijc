@@ -8,12 +8,10 @@ import java.rmi.RemoteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.escidoc.core.client.TransportProtocol;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
+import de.escidoc.core.client.exceptions.system.SystemException;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.common.jibx.binding.HttpStatusInfo;
-import de.escidoc.core.common.jibx.binding.RemoteExceptionWrapper;
 
 /**
  * Maps exceptions to an acceptable exception type.
@@ -26,7 +24,7 @@ public class ExceptionMapper extends Exception {
      * Common denominator of package names for exceptions inheriting from
      * AxisFault.
      */
-    private static final String PREFIX_REMOTE = "de.escidoc.core.common.exceptions.remote";
+    private static final String PREFIX_REMOTE = "de.escidoc.core.common.exceptions";
 
     /**
      * Common denominator of package names for exceptions inheriting from
@@ -84,8 +82,8 @@ public class ExceptionMapper extends Exception {
         if (exception instanceof InternalClientException) {
             throw (InternalClientException) exception;
         }
-        else if (exception instanceof de.escidoc.core.common.exceptions.remote.EscidocException) {
-            constructEscidocException((de.escidoc.core.common.exceptions.remote.EscidocException) exception);
+        else if (exception instanceof EscidocException) {
+            throw (EscidocException) exception;
         }
         else if (exception instanceof java.rmi.RemoteException) {
             throw new TransportException("Nested exception", exception);
@@ -106,23 +104,22 @@ public class ExceptionMapper extends Exception {
      * @throws EscidocException
      */
     public static void constructEscidocException(
-        final String exceptionXml, final int statusCode, final String redirectLocation) throws SystemException,
-        RemoteException {
+        final String exceptionXml, final int statusCode, final String redirectLocation) throws EscidocException {
 
-        RemoteExceptionWrapper result = null;
+        EscidocException result = null;
 
         try {
-            final Marshaller<RemoteExceptionWrapper> m =
-                MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(RemoteExceptionWrapper.class);
+            final Marshaller<EscidocException> m =
+                MarshallerFactory.getInstance().getMarshaller(EscidocException.class);
             m.setUserContext(new HttpStatusInfo(statusCode, redirectLocation));
             result = m.unmarshalDocument(exceptionXml);
         }
         catch (final Exception e) {
             final String msg = "Unable to map exception:\n" + exceptionXml;
             LOG.debug(msg, e);
-            throw new SystemException(500, msg, e.getMessage());
+            throw new SystemException(e.getMessage(), e, 500, msg, e.getMessage());
         }
-        throw result.getRemoteException();
+        throw result;
     }
 
     /**
@@ -131,8 +128,7 @@ public class ExceptionMapper extends Exception {
      * @throws InternalClientException
      * @throws EscidocException
      */
-    private static void constructEscidocException(
-        final de.escidoc.core.common.exceptions.remote.EscidocException commonE) throws InternalClientException,
+    private static void constructEscidocException(final EscidocException commonE) throws InternalClientException,
         EscidocException {
 
         EscidocException result = null;

@@ -32,7 +32,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.net.URL;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.ContentRelationHandler;
+import de.escidoc.core.client.interfaces.handler.ContentRelationHandler;
 import de.escidoc.core.client.rest.serviceLocator.ContentRelationRestServiceLocator;
 
 /**
@@ -62,19 +61,6 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestContentRelationHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestContentRelationHandlerClient#RestContentRelationHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestContentRelationHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
@@ -347,27 +333,6 @@ public class RestContentRelationHandlerClient extends RestClientBase {
      * @throws TransportException
      */
     public String retrieveContentRelations(final ExplainRequestType filter) throws EscidocException,
-        InternalClientException, TransportException {
-
-        String result = null;
-        try {
-            result = getClient().retrieveContentRelations(filter);
-        }
-        catch (final Exception e) {
-            ExceptionMapper.map(e, LOG);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param filter
-     * @return
-     * @throws EscidocException
-     * @throws InternalClientException
-     * @throws TransportException
-     */
-    public String retrieveContentRelations(final HashMap<String, String[]> filter) throws EscidocException,
         InternalClientException, TransportException {
 
         String result = null;

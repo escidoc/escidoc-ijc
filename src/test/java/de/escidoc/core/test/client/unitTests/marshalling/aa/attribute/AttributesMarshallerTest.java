@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.aa.useraccount.Attributes;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -29,9 +28,8 @@ public class AttributesMarshallerTest extends MarshallerTestBase<Attributes> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public AttributesMarshallerTest(final TransportProtocol transport) throws IOException,
-        ParserConfigurationException, SAXException {
-        super(Attributes.class, BASE, XSD, "attributes_complete.xml", transport);
+    public AttributesMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Attributes.class, BASE, XSD, "attributes_complete.xml");
     }
 
     @Override

@@ -106,7 +106,7 @@ public class ItemHandlerClientTest {
     public void testRetrieve01() throws Exception {
 
         final Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
-        MarshallerFactory.getInstance(ihc.getTransport()).getMarshaller(Item.class).marshalDocument(item);
+        MarshallerFactory.getInstance().getMarshaller(Item.class).marshalDocument(item);
     }
 
     /**

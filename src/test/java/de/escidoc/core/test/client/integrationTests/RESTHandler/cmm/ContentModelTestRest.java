@@ -33,7 +33,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.rest.RestContentModelHandlerClient;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.cmm.ContentModel;
@@ -74,13 +73,12 @@ public class ContentModelTestRest {
     @Test
     public void testRetrieveContentModel01() throws Exception {
         // load XML template of organizational unit
-        String ouXml =
+        final String ouXml =
             EscidocClientTestBase.getXmlFileAsString(Template.load("/rest/om/content-model/0.1/content-model.xml"));
         // create
-        String crtdOuXML = rcmhc.create(ouXml);
+        final String crtdOuXML = rcmhc.create(ouXml);
 
-        MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(ContentModel.class).unmarshalDocument(
-            crtdOuXML);
+        MarshallerFactory.getInstance().getMarshaller(ContentModel.class).unmarshalDocument(crtdOuXML);
     }
 
 }

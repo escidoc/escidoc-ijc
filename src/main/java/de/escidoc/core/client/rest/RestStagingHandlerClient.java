@@ -48,7 +48,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.StagingHandler;
+import de.escidoc.core.client.interfaces.handler.StagingHandler;
 import de.escidoc.core.client.rest.serviceLocator.StagingRestServiceLocator;
 
 /**
@@ -69,19 +69,6 @@ public class RestStagingHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestStagingHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestStagingHandlerClient#RestStagingHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestStagingHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 

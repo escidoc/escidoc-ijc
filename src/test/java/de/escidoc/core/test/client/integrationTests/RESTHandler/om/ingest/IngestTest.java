@@ -41,7 +41,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import de.escidoc.core.client.Authentication;
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.rest.RestContainerHandlerClient;
 import de.escidoc.core.client.rest.RestIngestHandlerClient;
 import de.escidoc.core.client.rest.RestItemHandlerClient;
@@ -94,7 +93,7 @@ public class IngestTest {
         final RestItemHandlerClient ihc = new RestItemHandlerClient(auth.getServiceAddress());
         ihc.setHandle(auth.getHandle());
 
-        final Marshaller<Item> m = MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Item.class);
+        final Marshaller<Item> m = MarshallerFactory.getInstance().getMarshaller(Item.class);
 
         final Item item = new Item();
 
@@ -139,8 +138,7 @@ public class IngestTest {
         final RestContainerHandlerClient cc = new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
-        final Marshaller<Container> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Container.class);
+        final Marshaller<Container> m = MarshallerFactory.getInstance().getMarshaller(Container.class);
 
         final Container container = new Container();
 
@@ -194,8 +192,7 @@ public class IngestTest {
         final RestContainerHandlerClient cc = new RestContainerHandlerClient(auth.getServiceAddress());
         cc.setHandle(auth.getHandle());
 
-        final Marshaller<Container> m =
-            MarshallerFactory.getInstance(TransportProtocol.REST).getMarshaller(Container.class);
+        final Marshaller<Container> m = MarshallerFactory.getInstance().getMarshaller(Container.class);
 
         final Container container = new Container();
 

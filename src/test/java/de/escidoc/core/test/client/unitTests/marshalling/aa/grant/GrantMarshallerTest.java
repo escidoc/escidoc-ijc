@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.resources.aa.useraccount.Grant;
 import de.escidoc.core.test.client.unitTests.marshalling.MarshallerTestBase;
 
@@ -31,9 +30,8 @@ public class GrantMarshallerTest extends MarshallerTestBase<Grant> {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public GrantMarshallerTest(final TransportProtocol transport) throws IOException, ParserConfigurationException,
-        SAXException {
-        super(Grant.class, BASE, XSD, "grant_complete.xml", transport);
+    public GrantMarshallerTest() throws IOException, ParserConfigurationException, SAXException {
+        super(Grant.class, BASE, XSD, "grant_complete.xml");
     }
 
     @Override
@@ -47,7 +45,7 @@ public class GrantMarshallerTest extends MarshallerTestBase<Grant> {
         assertDateTime("/grants:grant/@last-modification-date", obj.getLastModificationDate());
 
         // UserAccountProperties
-        String path = "/grants:grant/grants:properties";
+        final String path = "/grants:grant/grants:properties";
         assertNotNull(obj.getProperties());
 
         assertResource(path + "/srel:granted-to", obj.getProperties().getGrantedTo());

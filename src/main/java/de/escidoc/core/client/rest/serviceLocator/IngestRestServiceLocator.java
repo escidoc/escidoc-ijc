@@ -1,20 +1,17 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
 import static de.escidoc.core.common.Precondition.checkNotNull;
-
-import java.rmi.RemoteException;
-
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidStatusException;
-import de.escidoc.core.common.exceptions.remote.application.invalid.InvalidXmlException;
-import de.escidoc.core.common.exceptions.remote.application.missing.MissingMethodParameterException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.ResourceNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.notfound.StreamNotFoundException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthenticationException;
-import de.escidoc.core.common.exceptions.remote.application.security.AuthorizationException;
-import de.escidoc.core.common.exceptions.remote.application.violated.LockingException;
-import de.escidoc.core.common.exceptions.remote.application.violated.OptimisticLockingException;
-import de.escidoc.core.common.exceptions.remote.system.SystemException;
-import de.escidoc.core.om.IngestHandler;
+import de.escidoc.core.client.exceptions.EscidocException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidStatusException;
+import de.escidoc.core.client.exceptions.application.invalid.InvalidXmlException;
+import de.escidoc.core.client.exceptions.application.missing.MissingMethodParameterException;
+import de.escidoc.core.client.exceptions.application.notfound.ResourceNotFoundException;
+import de.escidoc.core.client.exceptions.application.notfound.StreamNotFoundException;
+import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
+import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
+import de.escidoc.core.client.exceptions.application.violated.LockingException;
+import de.escidoc.core.client.exceptions.application.violated.OptimisticLockingException;
+import de.escidoc.core.client.interfaces.handler.IngestHandler;
 
 /**
  * REST Service Connector.
@@ -27,7 +24,7 @@ public class IngestRestServiceLocator extends RestServiceMethod implements Inges
     public static final String PATH = "/ir/ingest";
 
     @Override
-    public String ingest(final String resourceXml) throws RemoteException, OptimisticLockingException, SystemException,
+    public String ingest(final String resourceXml) throws EscidocException, OptimisticLockingException,
         MissingMethodParameterException, LockingException, InvalidStatusException, AuthenticationException,
         StreamNotFoundException, AuthorizationException, ResourceNotFoundException, InvalidXmlException {
 

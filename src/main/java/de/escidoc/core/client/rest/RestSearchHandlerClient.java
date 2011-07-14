@@ -17,7 +17,7 @@ import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.ExceptionMapper;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.exceptions.TransportException;
-import de.escidoc.core.client.interfaces.SearchHandler;
+import de.escidoc.core.client.interfaces.handler.SearchHandler;
 import de.escidoc.core.client.rest.serviceLocator.SearchRestServiceLocator;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 
@@ -37,19 +37,6 @@ public class RestSearchHandlerClient extends RestClientBase {
      * @throws InternalClientException
      */
     public RestSearchHandlerClient(final URL serviceAddress) throws InternalClientException {
-        super(serviceAddress);
-    }
-
-    /**
-     * 
-     * @param serviceAddress
-     * @throws InternalClientException
-     * @deprecated Use
-     *             {@link RestSearchHandlerClient#RestSearchHandlerClient(URL)}
-     *             instead.
-     */
-    @Deprecated
-    public RestSearchHandlerClient(final String serviceAddress) throws InternalClientException {
         super(serviceAddress);
     }
 
