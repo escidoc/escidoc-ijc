@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.client.rest.RestClientBase;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.sb.search.SearchResult;
@@ -61,8 +60,9 @@ public abstract class AbstractHandlerClient<T extends RestClientBase> {
      * 
      * @return
      */
+    @Deprecated
     public TransportProtocol getTransport() {
-        return ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL;
+        return TransportProtocol.REST;
     }
 
     /**

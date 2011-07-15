@@ -3,9 +3,7 @@ package de.escidoc.core.common.jibx;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
-import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.resources.aa.pdp.Requests;
 import de.escidoc.core.resources.aa.pdp.Results;
 import de.escidoc.core.resources.aa.role.Role;
@@ -153,28 +151,19 @@ public final class MarshallerFactory {
 
     public static final Class<TaskParam> CLASS_TASK_PARAM = TaskParam.class;
 
-    private static final Map<TransportProtocol, MarshallerFactory> marshallerFactoryMap =
-        new HashMap<TransportProtocol, MarshallerFactory>();
-
-    /**
-     * The TransportProtocol used for this MarshallerFactory instance.
-     */
-    private final TransportProtocol transport;
+    private static MarshallerFactory instance;
 
     /**
      * The HashMap to store the Marshaller instances.
      */
-    private Map<Class<?>, Marshaller<?>> marshallers = new HashMap<Class<?>, Marshaller<?>>();
+    private final Map<Class<?>, Marshaller<?>> marshallers;
 
     /**
      * 
      * @param transport
      */
-    private MarshallerFactory(final TransportProtocol transport) {
-        if (transport == null)
-            throw new IllegalArgumentException("transport must not be null.");
-
-        this.transport = transport;
+    private MarshallerFactory() {
+        marshallers = new HashMap<Class<?>, Marshaller<?>>();
     }
 
     /**
@@ -185,16 +174,10 @@ public final class MarshallerFactory {
      */
     public static final MarshallerFactory getInstance() throws InternalClientException {
 
-        if (marshallerFactoryMap.get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL) == null) {
-
-            final MarshallerFactory resultFactory =
-                new MarshallerFactory(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
-
-            marshallerFactoryMap.put(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL, resultFactory);
-
-            return resultFactory;
+        if (instance == null) {
+            instance = new MarshallerFactory();
         }
-        return marshallerFactoryMap.get(ConfigurationProvider.DEFAULT_TRANSPORT_PROTOCOL);
+        return instance;
     }
 
     /**
@@ -204,13 +187,12 @@ public final class MarshallerFactory {
      * <br/>
      * Example:<br/>
      * <br/>
-     * <code>Factory.getMarshallerFactory(TransportProtocol.REST).getMarshaller(
-     * MarshallerFactory.SCOPE);</code><br/>
+     * <tt>MarshallerFactory.getInstance().getMarshaller(MarshallerFactory.SCOPE);</tt>
+     * <br/>
      * <br/>
      * or<br/>
      * <br/>
-     * <code>Factory.getMarshallerFactory(TransportProtocol.REST).getMarshaller(
-     * Scope.class);</code><br/>
+     * <tt>MarshallerFactory.getInstance().getMarshaller(Scope.class);</tt><br/>
      * <br/>
      * will return the classified Marshaller:<br/>
      * <br/>
@@ -218,11 +200,11 @@ public final class MarshallerFactory {
      * <br/>
      * for the Object:<br/>
      * <br/>
-     * <code>Scope</code>.
+     * <tt>Scope</tt>.
      * 
      * @param <T>
      *            The type of the class to be used to initialize the Marshaller.
-     *            <T> will be defined by <i>clazz</i>.
+     *            &lt;T&gt; will be defined by <tt>clazz</tt>.
      * @param clazz
      *            The class object of the Object to return a Marshaller for. All
      *            existing classes are declared within this factory as static

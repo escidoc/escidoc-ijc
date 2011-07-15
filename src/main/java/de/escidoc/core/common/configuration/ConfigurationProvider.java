@@ -38,7 +38,6 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
 
 /**
@@ -187,21 +186,19 @@ public final class ConfigurationProvider {
 
     public static final String HTTP_DEFAULT_HOST = "http.default-host";
 
-    /**
-     * @deprecated Configuration of the transport protocol is no longer
-     *             supported. REST transport protocol will be used for the main
-     *             handler clients.
-     */
-    @Deprecated
-    public static final String PROP_SERVICE_PROTOCOL = "service_protocol";
-
-    public static final TransportProtocol DEFAULT_TRANSPORT_PROTOCOL = TransportProtocol.REST;
-
     public static final String PROP_SEARCH_DATABASE = "search.database";
+
+    public static final String PROP_JIBX_PARSER_IMPL = "org.jibx.runtime.impl.parser";
+
+    private static final String PROP_JIBX_PARSER_IMPL_DEFAULT = "org.jibx.runtime.impl.StAXReaderFactory";
+
+    public static final String PROP_XML_INPUT_FACTORY = "javax.xml.stream.XMLInputFactory";
+
+    private static final String PROP_XML_INPUT_FACTORY_DEFAULT = "de.escidoc.core.common.jibx.IJCWstxInputFactory";
 
     private static ConfigurationProvider instance = null;
 
-    private Properties properties = null;
+    private final Properties properties;
 
     private final List<String> mandatoryFiles;
 
@@ -219,6 +216,8 @@ public final class ConfigurationProvider {
 
         this.mandatoryFiles = new LinkedList<String>();
         this.optionalFiles = new LinkedList<String>();
+        this.properties = new Properties();
+
         addFile("client.default.properties", true);
 
         // to load any of the optional file the directory they reside must be
@@ -228,7 +227,16 @@ public final class ConfigurationProvider {
         if (currentUser != null) {
             addFile(currentUser + ".properties", false);
         }
-        init();
+        try {
+            init();
+        }
+        finally {
+            // initialize system properties as early as possible
+            System.setProperty(PROP_JIBX_PARSER_IMPL, this.properties.getProperty(PROP_JIBX_PARSER_IMPL,
+                PROP_JIBX_PARSER_IMPL_DEFAULT));
+            System.setProperty(PROP_XML_INPUT_FACTORY, this.properties.getProperty(PROP_XML_INPUT_FACTORY,
+                PROP_XML_INPUT_FACTORY_DEFAULT));
+        }
     }
 
     /**
@@ -282,24 +290,23 @@ public final class ConfigurationProvider {
      */
     private void init() throws InternalClientException {
 
-        final Properties result = new Properties();
         final Iterator<String> mandatoryFilesIter = mandatoryFiles.iterator();
         while (mandatoryFilesIter.hasNext()) {
             final String next = mandatoryFilesIter.next();
-            result.putAll(loadProperties(next));
+            this.properties.putAll(loadProperties(next));
         }
         final Iterator<String> optionalFilesIter = optionalFiles.iterator();
         while (optionalFilesIter.hasNext()) {
             try {
                 final String next = optionalFilesIter.next();
-                result.putAll(loadProperties(next));
+                this.properties.putAll(loadProperties(next));
             }
             catch (final Exception e) {
                 // ignore, it is no error if an optional properties file is not
                 // available
             }
         }
-        this.properties = result;
+
     }
 
     /**
