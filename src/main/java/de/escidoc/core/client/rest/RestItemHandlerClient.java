@@ -424,6 +424,61 @@ public class RestItemHandlerClient extends RestClientBase {
 
     /**
      * 
+     * &lt;param last-modification-date="1967-08-13T12:00:00.000+01:00"&gt;<br/>
+     * &nbsp;&nbsp;&lt;relation&gt;<br/>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;targetId&gt;escidoc:xyz&lt;/targetId&gt;<br/>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;predicate&gt;http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isAnnotationOf&lt;/predicate&gt;<br/>
+     * &nbsp;&nbsp;&lt;/relation&gt;<br/>
+     * &nbsp;&nbsp;&lt;relation&gt;<br/>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;targetId&gt;escidoc:xyz&lt;/targetId&gt;<br/>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;predicate&gt;http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isRevisionOf&lt;/predicate&gt;<br/>
+     * &nbsp;&nbsp;&lt;/relation&gt;<br/>
+     * &lt;/param&gt;
+     * 
+     * @param itemId
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException 
+     */
+    public String addContentRelations(final String itemId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().addContentRelations(itemId, taskParam);
+        }
+        catch (final Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param itemId
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException 
+     */
+    public String removeContentRelations(final String itemId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
+
+        String result = null;
+        try {
+            result = getClient().removeContentRelations(itemId, taskParam);
+        }
+        catch (final Exception e) {
+            ExceptionMapper.map(e, LOG);
+        }
+        return result;
+    }
+
+    /**
+     * 
      * @param taskParam
      * @return
      * @throws EscidocException
