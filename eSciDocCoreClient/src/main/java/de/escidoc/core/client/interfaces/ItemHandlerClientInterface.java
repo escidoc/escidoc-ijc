@@ -141,7 +141,6 @@ public interface ItemHandlerClientInterface
     /*
      * COMPONENTS
      */
-
     /**
      * 
      * @param id
@@ -251,7 +250,6 @@ public interface ItemHandlerClientInterface
     /*
      * CONTENT
      */
-
     /**
      * 
      * @param id
@@ -304,4 +302,52 @@ public interface ItemHandlerClientInterface
      */
     Result assignContentPid(final Item item, final String componentId, final TaskParam taskParam)
         throws EscidocException, InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param itemId
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException 
+     */
+    Result addContentRelations(final String itemId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException 
+     */
+    Result addContentRelations(final Item item, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param itemId
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException 
+     */
+    Result removeContentRelations(final String itemId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException;
+
+    /**
+     * 
+     * @param item
+     * @param taskParam
+     * @return
+     * @throws EscidocException
+     * @throws InternalClientException
+     * @throws TransportException 
+     */
+    Result removeContentRelations(final Item item, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException;
 }

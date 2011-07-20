@@ -644,6 +644,45 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         return assignContentPid(item.getObjid(), componentId, taskParam);
     }
 
+    @Override
+    public Result addContentRelations(final String itemId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(itemId);
+        checkNotNull(taskParam);
+
+        String xml = getClient().addContentRelations(itemId, taskParam);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+    }
+
+    @Override
+    public Result addContentRelations(final Item item, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
+        checkNotNull(item);
+
+        return addContentRelations(item.getObjid(), taskParam);
+    }
+
+    @Override
+    public Result removeContentRelations(final String itemId, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(itemId);
+        checkNotNull(taskParam);
+
+        String xml = getClient().addContentRelations(itemId, taskParam);
+        return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
+    }
+
+    @Override
+    public Result removeContentRelations(final Item item, final String taskParam) throws EscidocException,
+        InternalClientException, TransportException {
+
+        checkNotNull(item);
+
+        return removeContentRelations(item.getObjid(), taskParam);
+    }
+
     /*
      * (non-Javadoc)
      * 
