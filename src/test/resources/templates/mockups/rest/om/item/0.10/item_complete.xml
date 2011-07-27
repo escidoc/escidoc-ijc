@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Item -->
-<escidocItem:item xmlns:relations="http://www.escidoc.de/schemas/relations/0.3"
+<escidocItem:item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.escidoc.de/schemas/item/0.10 ../../common_logic/misc/xsd/rest/item/0.10/item.xsd" 
+  xmlns:relations="http://www.escidoc.de/schemas/relations/0.3"
   xmlns:escidocMetadataRecords="http://www.escidoc.de/schemas/metadatarecords/0.5"
   xmlns:escidocContentStreams="http://www.escidoc.de/schemas/contentstreams/0.7"
   xmlns:escidocComponents="http://www.escidoc.de/schemas/components/0.9"
