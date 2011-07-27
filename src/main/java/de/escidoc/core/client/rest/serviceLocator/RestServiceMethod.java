@@ -396,6 +396,9 @@ public abstract class RestServiceMethod implements RestService {
         if (filter.getRecordPacking() != null) {
             filter12 += "&recordPacking=" + filter.getRecordPacking();
         }
+        if (filter.getRecordSchema() != null) {
+            filter12 += "&recordSchema=" + filter.getRecordSchema();
+        }
 
         return filter12;
     }
