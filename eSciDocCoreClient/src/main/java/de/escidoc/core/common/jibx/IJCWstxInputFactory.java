@@ -35,6 +35,34 @@ import com.ctc.wstx.stax.WstxInputFactory;
  * redirect fails for ANY reason, NO exceptions thrown by methods of this class
  * or any sub-class shall interrupt the parsing mechanism.
  * 
+ * <h2>Enabling the IJC XML catalog implementation:</h2><br/>
+ * In order to enable the catalog implementation, the JAR has to contain the
+ * file:<br/>
+ * <tt>META-INF/services/javax.xml.stream.XMLInputFactory</tt><br/>
+ * with the content:<br/>
+ * <tt>de.escidoc.core.common.jibx.IJCWstxInputFactory</tt><br/>
+ * <br/>
+ * If the application, which is using the IJC, is a web application deployed in
+ * a container, it should be isolated within this container, in order to avoid
+ * the class loading of the other web applications in this container to be
+ * affected by this setting, because they may not have the IJCWstxInputFactory
+ * in their class path. This setup will only take effect, if and only if the
+ * system property <tt>javax.xml.stream.XMLInputFactory</tt> is <b>not</b> set
+ * and if there is <b>no</b> setup in the file <tt>lib/stax.properties</tt> in
+ * the JRE directory.<br/>
+ * If you like to extend the XML catalog for any reason, you can extend the
+ * IJCWstxInputFactory. Your JAR/WAR etc. should supply the file:<br/>
+ * <tt>META-INF/services/javax.xml.stream.XMLInputFactory</tt><br/>
+ * with the content:<br/>
+ * <tt>my.package.MyWstxInputFactory</tt><br/>
+ * <br/>
+ * <b>Note:</b> If the system property <tt>org.jibx.runtime.impl.parser</tt>
+ * (see above) is not set to <tt>org.jibx.runtime.impl.StAXReaderFactory</tt> or
+ * any extension of <tt>the org.jibx.runtime.impl.StAXReaderFactory</tt>, the
+ * setting of <tt>javax.xml.stream.XMLInputFactory</tt> may not be used. (For
+ * example using the XMLPullParser instead.) The parser implementation has to
+ * call {@link javax.xml.stream.XMLInputFactory#newInstance()} at least.
+ * 
  * @author Marko Voß
  */
 public class IJCWstxInputFactory extends WstxInputFactory {

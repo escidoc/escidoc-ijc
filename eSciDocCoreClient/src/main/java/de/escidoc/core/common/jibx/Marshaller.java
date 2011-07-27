@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 /**
  * 
@@ -34,21 +35,6 @@ public class Marshaller<E> {
     private static final String BINDING_IN_EXT = "_IN";
 
     private static final String BINDING_OUT_EXT = "_OUT";
-
-    static {
-        // define parser type (use StAX by default)
-        System.setProperty("org.jibx.runtime.impl.parser", "org.jibx.runtime.impl.StAXReaderFactory");
-
-        /*
-         * IJCs XML catalog implementation does not work for XMLPullParser
-         * because the XMLPullParser does not use the WSTX technologies
-         */
-        // System.setProperty("org.jibx.runtime.impl.parser",
-        // "org.jibx.runtime.impl.XMLPullReaderFactory");
-
-        // define factory for XML catalog implementation
-        System.setProperty("javax.xml.stream.XMLInputFactory", "de.escidoc.core.common.jibx.IJCWstxInputFactory");
-    }
 
     /**
      * 
@@ -93,6 +79,8 @@ public class Marshaller<E> {
 
         if (xmlDocument == null)
             throw new IllegalArgumentException("xmlDocument must not be null.");
+        // ensure ConfigurationProvider has been initialized for XML catalog
+        ConfigurationProvider.getInstance();
 
         E result = null;
 
@@ -141,6 +129,8 @@ public class Marshaller<E> {
 
         if (xmlInputStream == null)
             throw new IllegalArgumentException("xmlInputStream must not be null.");
+        // ensure ConfigurationProvider has been initialized for XML catalog
+        ConfigurationProvider.getInstance();
 
         E result = null;
 
@@ -178,6 +168,8 @@ public class Marshaller<E> {
 
         if (resource == null)
             throw new IllegalArgumentException("resource must not be null.");
+        // ensure ConfigurationProvider has been initialized for XML catalog
+        ConfigurationProvider.getInstance();
 
         String result = null;
 
