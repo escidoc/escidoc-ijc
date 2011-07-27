@@ -199,6 +199,10 @@ public final class ConfigurationProvider {
 
     public static final String PROP_SEARCH_DATABASE = "search.database";
 
+    public static final String PROP_JIBX_PARSER_IMPL = "org.jibx.runtime.impl.parser";
+
+    private static final String PROP_JIBX_PARSER_IMPL_DEFAULT = "org.jibx.runtime.impl.StAXReaderFactory";
+
     private static ConfigurationProvider instance = null;
 
     private Properties properties = null;
@@ -228,7 +232,14 @@ public final class ConfigurationProvider {
         if (currentUser != null) {
             addFile(currentUser + ".properties", false);
         }
-        init();
+        try {
+            init();
+        }
+        finally {
+            // initialize system properties as early as possible
+            System.setProperty(PROP_JIBX_PARSER_IMPL, this.properties.getProperty(PROP_JIBX_PARSER_IMPL,
+                PROP_JIBX_PARSER_IMPL_DEFAULT));
+        }
     }
 
     /**

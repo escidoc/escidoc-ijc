@@ -119,7 +119,6 @@ public class ItemComponentContentTest {
 
         final HttpInputStream stream = ihc.retrieveContent(itemId, component.getObjid());
 
-        
         assertNull(stream.getContentEncoding());
         assertTrue("ContentLength not greater than 0.", stream.getContentLength() > 0);
 
