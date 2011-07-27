@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import de.escidoc.core.client.TransportProtocol;
 import de.escidoc.core.client.exceptions.InternalClientException;
+import de.escidoc.core.common.configuration.ConfigurationProvider;
 
 /**
  * 
@@ -79,6 +80,8 @@ public class Marshaller<E> {
 
         if (xmlDocument == null)
             throw new IllegalArgumentException("xmlDocument must not be null.");
+        // ensure ConfigurationProvider has been initialized for XML catalog
+        ConfigurationProvider.getInstance();
 
         E result = null;
 
@@ -127,6 +130,8 @@ public class Marshaller<E> {
 
         if (xmlInputStream == null)
             throw new IllegalArgumentException("xmlInputStream must not be null.");
+        // ensure ConfigurationProvider has been initialized for XML catalog
+        ConfigurationProvider.getInstance();
 
         E result = null;
 
@@ -164,6 +169,8 @@ public class Marshaller<E> {
 
         if (resource == null)
             throw new IllegalArgumentException("resource must not be null.");
+        // ensure ConfigurationProvider has been initialized for XML catalog
+        ConfigurationProvider.getInstance();
 
         String result = null;
 

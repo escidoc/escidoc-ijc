@@ -192,10 +192,6 @@ public final class ConfigurationProvider {
 
     private static final String PROP_JIBX_PARSER_IMPL_DEFAULT = "org.jibx.runtime.impl.StAXReaderFactory";
 
-    public static final String PROP_XML_INPUT_FACTORY = "javax.xml.stream.XMLInputFactory";
-
-    private static final String PROP_XML_INPUT_FACTORY_DEFAULT = "de.escidoc.core.common.jibx.IJCWstxInputFactory";
-
     private static ConfigurationProvider instance = null;
 
     private final Properties properties;
@@ -234,8 +230,6 @@ public final class ConfigurationProvider {
             // initialize system properties as early as possible
             System.setProperty(PROP_JIBX_PARSER_IMPL, this.properties.getProperty(PROP_JIBX_PARSER_IMPL,
                 PROP_JIBX_PARSER_IMPL_DEFAULT));
-            System.setProperty(PROP_XML_INPUT_FACTORY, this.properties.getProperty(PROP_XML_INPUT_FACTORY,
-                PROP_XML_INPUT_FACTORY_DEFAULT));
         }
     }
 
