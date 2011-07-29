@@ -108,10 +108,10 @@ public class PropertiesMarshaller extends MarshallingBase implements IMarshaller
 
         for (Map.Entry<String, String> entry : ((Properties) obj).entrySet()) {
             ctx.startTagAttributes(getIndex(), TAG_NAME_ENTRY);
-            ctx.attribute(getIndex(), ATTR_NAME_KEY, entry.getKey().toString());
+            ctx.attribute(getIndex(), ATTR_NAME_KEY, entry.getKey());
             ctx.closeStartContent();
 
-            ctx.content(entry.getValue().toString());
+            ctx.content(entry.getValue());
 
             ctx.endTag(getIndex(), TAG_NAME_ENTRY);
         }
