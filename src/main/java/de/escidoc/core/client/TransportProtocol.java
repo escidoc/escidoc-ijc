@@ -37,5 +37,11 @@ package de.escidoc.core.client;
  * 
  */
 public enum TransportProtocol {
-    REST, SOAP
+    REST,
+
+    /**
+     * Soap is no longer supported by the IJC.
+     */
+    @Deprecated
+    SOAP
 }

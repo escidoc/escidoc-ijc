@@ -40,10 +40,8 @@ public class Marshaller<E> {
     /**
      * 
      * @param resourceClass
-     * @deprecated Use Marshaller.getMarshaller(Class<E> resourceClass) instead.
      */
-    @Deprecated
-    public Marshaller(final Class<E> resourceClass) {
+    private Marshaller(final Class<E> resourceClass) {
         this(resourceClass, null);
     }
 
@@ -51,11 +49,8 @@ public class Marshaller<E> {
      * 
      * @param resourceClass
      * @param bindingName
-     * @deprecated Use Marshaller.getMarshaller(Class<E> resourceClass, String
-     *             bindingName) instead.
      */
-    @Deprecated
-    public Marshaller(final Class<E> resourceClass, final String bindingName) {
+    private Marshaller(final Class<E> resourceClass, final String bindingName) {
         if (resourceClass == null)
             throw new IllegalArgumentException("resourceClass must not be null.");
 
@@ -266,9 +261,7 @@ public class Marshaller<E> {
      * @param clazz
      * @return
      */
-    @SuppressWarnings("deprecation")
     public static final <T> Marshaller<T> getMarshaller(final Class<T> clazz) {
-        // TODO remove transport
         return new Marshaller<T>(clazz, TransportProtocol.REST.name());
     }
 
@@ -280,7 +273,6 @@ public class Marshaller<E> {
      * @param bindingName
      * @return
      */
-    @SuppressWarnings("deprecation")
     public static final <T> Marshaller<T> getMarshaller(final Class<T> clazz, final String bindingName) {
         return new Marshaller<T>(clazz, bindingName);
     }
