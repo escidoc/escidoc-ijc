@@ -5,7 +5,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.apache.ws.security.WSSecurityException;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,9 +100,9 @@ public class ExceptionMapperTest {
     public void testTransportException() {
 
         final Exception cause = new IndexOutOfBoundsException("foo != bar");
-        final WSSecurityException wse = new WSSecurityException("foo message", cause);
+        final TransportException te = new TransportException("foo message", cause);
         try {
-            ExceptionMapper.map(wse, LOG);
+            ExceptionMapper.map(te, LOG);
             fail("expected exception");
         }
         catch (final EscidocException e) {
@@ -114,9 +113,8 @@ public class ExceptionMapperTest {
         }
         catch (final TransportException e) {
             assertEquals(TransportException.class, e.getClass());
-            assertSame(wse, e.getCause());
-            assertSame(cause, e.getCause().getCause());
-            assertTrue(e.getCause().getMessage().startsWith("foo message"));
+            assertSame(cause, e.getCause());
+            assertTrue(e.getMessage().startsWith("foo message"));
         }
     }
 

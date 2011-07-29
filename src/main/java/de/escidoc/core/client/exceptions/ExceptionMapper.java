@@ -85,6 +85,9 @@ public class ExceptionMapper extends Exception {
         else if (exception instanceof EscidocException) {
             throw (EscidocException) exception;
         }
+        else if (exception instanceof TransportException) {
+            throw (TransportException) exception;
+        }
         else if (exception instanceof java.rmi.RemoteException) {
             throw new TransportException("Nested exception", exception);
         }
