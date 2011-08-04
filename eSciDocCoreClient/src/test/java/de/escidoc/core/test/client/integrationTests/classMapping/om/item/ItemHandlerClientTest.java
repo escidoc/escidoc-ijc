@@ -57,9 +57,12 @@ import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.Relation;
+import de.escidoc.core.resources.common.Relations;
 import de.escidoc.core.resources.common.Result;
 import de.escidoc.core.resources.common.TaskParam;
 import de.escidoc.core.resources.common.properties.ContentModelSpecific;
+import de.escidoc.core.resources.common.reference.ContainerRef;
 import de.escidoc.core.resources.common.reference.ContentModelRef;
 import de.escidoc.core.resources.common.reference.ContextRef;
 import de.escidoc.core.resources.common.versionhistory.VersionHistory;
@@ -118,6 +121,39 @@ public class ItemHandlerClientTest {
     @Test(expected = ItemNotFoundException.class)
     public void testRetrieve02() throws Exception {
         ihc.retrieve(EscidocClientTestBase.INVALID_RESOURCE_ID);
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testRelations01() throws Exception {
+        Item item = ihc.retrieve(EscidocClientTestBase.getStaticItemId());
+
+        Relations relations = new Relations();
+        relations.add(new Relation(new ContainerRef(EscidocClientTestBase.getStaticContainerId()),
+            "http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isAnnotationOf"));
+        item.setRelations(relations);
+
+        item = ihc.create(item);
+
+        assertNotNull(item);
+        assertNotNull(item.getRelations());
+        assertTrue(item.getRelations().size() > 0);
+        for (final Relation relation : item.getRelations()) {
+            // check if type has been generated
+            assertNotNull(relation.getResourceType());
+        }
+
+        // check if single method call also returns valid relation objects
+        relations = ihc.retrieveRelations(item.getObjid());
+        assertNotNull(relations);
+        assertTrue(relations.size() > 0);
+        for (final Relation relation : relations) {
+            // check if type has been generated
+            assertNotNull(relation.getResourceType());
+        }
     }
 
     /**

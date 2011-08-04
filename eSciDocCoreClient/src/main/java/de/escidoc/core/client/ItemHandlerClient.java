@@ -44,6 +44,7 @@ import de.escidoc.core.client.rest.RestItemHandlerClient;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
 import de.escidoc.core.resources.HttpInputStream;
+import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.ContentStream;
 import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecord;
@@ -214,8 +215,10 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         checkNotNull(id);
 
         final String xml = getClient().retrieveRelations(id);
-
-        return MarshallerFactory.getInstance().getMarshaller(Relations.class).unmarshalDocument(xml);
+        final Relations relations =
+            MarshallerFactory.getInstance().getMarshaller(Relations.class).unmarshalDocument(xml);
+        relations.generateXLinkHref(ResourceType.ITEM.getPath(id));
+        return relations;
     }
 
     /*
@@ -651,7 +654,7 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         checkNotNull(itemId);
         checkNotNull(taskParam);
 
-        String xml = getClient().addContentRelations(itemId, taskParam);
+        final String xml = getClient().addContentRelations(itemId, taskParam);
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
@@ -670,7 +673,7 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         checkNotNull(itemId);
         checkNotNull(taskParam);
 
-        String xml = getClient().addContentRelations(itemId, taskParam);
+        final String xml = getClient().addContentRelations(itemId, taskParam);
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
