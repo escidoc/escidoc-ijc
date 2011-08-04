@@ -68,6 +68,16 @@ public class Relation extends Reference {
     }
 
     /**
+     * 
+     * @param ref
+     * @param predicate
+     */
+    public Relation(final Reference ref, final String predicate) {
+        this(ref);
+        this.predicate = predicate;
+    }
+
+    /**
      * Get Predicate.
      * 
      * @return predicate
@@ -114,8 +124,8 @@ public class Relation extends Reference {
          * only supported, if REST is being used as the TransportProtocol.
          */
         if (getXLinkHref() != null && this.type == null) {
-            String prefixPath = getXLinkHref().substring(0, getXLinkHref().lastIndexOf('/'));
-            ResourceType type = ResourceType.getValue(prefixPath);
+            final String prefixPath = getXLinkHref().substring(0, getXLinkHref().lastIndexOf('/'));
+            final ResourceType type = ResourceType.getValue(prefixPath);
             if (type != null) {
                 this.type = type;
             }
