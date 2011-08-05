@@ -3,6 +3,16 @@
  */
 package de.escidoc.core.test.client.integrationTests.classMapping.om.item;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import de.escidoc.core.client.Authentication;
 import de.escidoc.core.client.ItemHandlerClient;
 import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
@@ -13,15 +23,6 @@ import de.escidoc.core.resources.om.item.component.Component;
 import de.escidoc.core.resources.om.item.component.ComponentContent;
 import de.escidoc.core.resources.om.item.component.ComponentProperties;
 import de.escidoc.core.test.client.EscidocClientTestBase;
-
-import org.joda.time.DateTime;
-import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 /**
  * @author Marko Voß
@@ -135,6 +136,7 @@ public class ItemComponentContentTest {
      * @throws Exception
      */
     @Test
+    @Ignore("Proxy settings on Jenkins still do not allow a connection to https://www.escidoc.org")
     public void retrieveContentExternalUrlHTTPS() throws Exception {
         final String itemId = EscidocClientTestBase.getStaticItemId();
         final DateTime itemLMD = ihc.retrieve(itemId).getLastModificationDate();
