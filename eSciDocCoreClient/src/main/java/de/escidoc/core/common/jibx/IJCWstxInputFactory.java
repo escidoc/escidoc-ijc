@@ -17,7 +17,6 @@ import javax.xml.stream.XMLResolver;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
-import org.apache.xpath.XPathAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
@@ -77,7 +76,7 @@ public class IJCWstxInputFactory extends WstxInputFactory {
 
     private static final String NODE_SYSTEM = "system";
 
-    private static final String XPATH_ENTRIES = "/catalog/" + NODE_SYSTEM + " | /catalog/" + NODE_PUBLIC;
+    private static final String NODE_ROOT = "catalog";
 
     private static final String ATTR_SYSTEM_ID = "systemId";
 
@@ -124,33 +123,37 @@ public class IJCWstxInputFactory extends WstxInputFactory {
             docBuilderFactory.setNamespaceAware(false);
             final DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             final Document doc = docBuilder.parse(in);
-            final NodeList nodes = XPathAPI.selectNodeList(doc, XPATH_ENTRIES);
-            if (nodes != null) {
-                for (int i = 0; i < nodes.getLength(); i++) {
-                    final Node node = nodes.item(i);
-                    if (node.getAttributes() != null) {
-                        URI uri = null;
-                        Key key = null;
-                        Node attr = null;
+            final Node root = doc.getDocumentElement();
 
-                        if ((attr = node.getAttributes().getNamedItem(ATTR_URI)) != null) {
-                            uri = new URI(attr.getNodeValue());
-                        }
+            if (root == null || !NODE_ROOT.equals(root.getNodeName())) {
+                return;
+            }
 
-                        if (NODE_SYSTEM.equals(node.getNodeName())) {
-                            if ((attr = node.getAttributes().getNamedItem(ATTR_SYSTEM_ID)) != null) {
-                                key = new Key(null, attr.getNodeValue());
-                            }
-                        }
-                        else if (NODE_PUBLIC.equals(node.getNodeName())) {
-                            if ((attr = node.getAttributes().getNamedItem(ATTR_PUBLIC_ID)) != null) {
-                                key = new Key(attr.getNodeValue(), null);
-                            }
-                        }
+            final NodeList children = root.getChildNodes();
+            for (int i = 0; i < children.getLength(); i++) {
+                final Node node = children.item(i);
+                if (node.getAttributes() != null) {
+                    URI uri = null;
+                    Key key = null;
+                    Node attr = null;
 
-                        if (uri != null && key != null) {
-                            catalog.put(key, uri);
+                    if ((attr = node.getAttributes().getNamedItem(ATTR_URI)) != null) {
+                        uri = new URI(attr.getNodeValue());
+                    }
+
+                    if (NODE_SYSTEM.equals(node.getNodeName())) {
+                        if ((attr = node.getAttributes().getNamedItem(ATTR_SYSTEM_ID)) != null) {
+                            key = new Key(null, attr.getNodeValue());
                         }
+                    }
+                    else if (NODE_PUBLIC.equals(node.getNodeName())) {
+                        if ((attr = node.getAttributes().getNamedItem(ATTR_PUBLIC_ID)) != null) {
+                            key = new Key(attr.getNodeValue(), null);
+                        }
+                    }
+
+                    if (uri != null && key != null) {
+                        catalog.put(key, uri);
                     }
                 }
             }
