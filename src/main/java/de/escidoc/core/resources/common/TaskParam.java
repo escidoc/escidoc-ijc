@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.common.DateTimeUtility;
+import de.escidoc.core.resources.aa.usergroup.Selector;
 
 /**
  * 
@@ -30,6 +31,8 @@ public class TaskParam {
     private String username;
 
     private List<Filter> filters = new LinkedList<Filter>();
+
+    private List<Selector> selectors = new LinkedList<Selector>();
 
     private List<String> ids = new LinkedList<String>();
 
@@ -108,6 +111,21 @@ public class TaskParam {
      */
     public void setFilters(final List<Filter> filters) {
         this.filters = filters;
+    }
+
+    /**
+     * @return the filters
+     */
+    public List<Selector> getSelectors() {
+        return selectors;
+    }
+
+    /**
+     * @param filters
+     *            the filters to set
+     */
+    public void setSelectors(final List<Selector> selectors) {
+        this.selectors = selectors;
     }
 
     /**

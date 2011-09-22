@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<param last-modification-date="2011-01-27T13:54:41.690Z">
+  <comment>Test comment.</comment>
+  <pid>Test PID</pid>
+  <password>Test password</password>
+  <url>http://www.escidoc.org</url>
+  <id>escidoc:1</id>
+  <id>escidoc:2</id>
+  <id>escidoc:3</id>
+  <id>escidoc:4</id>
+  <id>escidoc:5</id>
+  <selector name="user-account" type="internal">escidoc:123</selector>
+  <selector name="user-group" type="internal">escidoc:234</selector>
+  <selector name="foo:bar:attribute" type="user-attribute">abc</selector>
+  <keepInSync>true</keepInSync>
+</param>

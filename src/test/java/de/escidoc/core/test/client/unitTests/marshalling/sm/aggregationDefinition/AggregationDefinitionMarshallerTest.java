@@ -41,7 +41,7 @@ public class AggregationDefinitionMarshallerTest extends MarshallerTestBase<Aggr
         assertXPath("/agg-def:aggregation-definition/agg-def:name", obj.getName());
         assertResource("/agg-def:aggregation-definition/agg-def:scope", obj.getScope());
 
-        String path = "/agg-def:aggregation-definition/agg-def:aggregation-table[1]";
+        final String path = "/agg-def:aggregation-definition/agg-def:aggregation-table[1]";
         assertNotNull(obj.getAggregationTables());
         assertNotNull(obj.getAggregationTables().get(0));
         assertXPath(path + "/agg-def:name", obj.getAggregationTables().get(0).getName());
