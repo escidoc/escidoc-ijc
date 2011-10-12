@@ -11,16 +11,11 @@ import de.escidoc.core.resources.XLinkType;
 /**
  * This class represents a reference to a resource.
  * 
- * This class should be abstract but since there exists a content-relation
- * structure as XML (SOAP-only) using objids as subjects/objects without a type
- * definition, we have to enable a possibility to instantiate type-less
- * references.
- * 
  * @author MVO
  * 
  */
 @JiBX
-public class Reference extends Resource {
+public abstract class Reference extends Resource {
 
     @JiBX
     protected Reference() {
