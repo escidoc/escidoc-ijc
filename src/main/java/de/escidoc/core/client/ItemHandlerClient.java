@@ -673,7 +673,7 @@ public class ItemHandlerClient extends AbstractHandlerClient<RestItemHandlerClie
         checkNotNull(itemId);
         checkNotNull(taskParam);
 
-        final String xml = getClient().addContentRelations(itemId, taskParam);
+        final String xml = getClient().removeContentRelations(itemId, taskParam);
         return MarshallerFactory.getInstance().getMarshaller(Result.class).unmarshalDocument(xml);
     }
 
