@@ -1,8 +1,5 @@
 package de.escidoc.core.resources.common.reference;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.UnmarshallingContext;
@@ -47,42 +44,76 @@ public class ReferenceFactory {
         if (xLinkHref != null) {
             final String prefixPath = xLinkHref.substring(0, xLinkHref.lastIndexOf('/'));
             final ResourceType resourceType = ResourceType.getValue(prefixPath);
-            // automatically detect the Reference implementation
-            if (resourceType != null) {
-                for (final Type type : resourceType.getResourceClass().getGenericInterfaces()) {
-                    if (type instanceof ParameterizedType) {
-                        final ParameterizedType pType = (ParameterizedType) type;
 
-                        if (Referenceable.class.equals(pType.getRawType())) {
-                            /*
-                             * {@link Referenceable} should support only one
-                             * type argument
-                             */
-                            if (pType.getActualTypeArguments().length != 1
-                                && !Reference.class.equals(pType.getActualTypeArguments()[0])) {
-                                throw new JiBXException("The Referenceable class may have been changed.");
-                            }
-                            final Type refType = pType.getActualTypeArguments()[0];
-                            if (refType instanceof Class) {
-                                try {
-                                    return (Reference) ((Class<?>) refType).newInstance();
-                                }
-                                catch (final InstantiationException e) {
-                                    throw new JiBXException(
-                                        "Unable to create a new instance of the Reference implementation.");
-                                }
-                                catch (final IllegalAccessException e) {
-                                    throw new JiBXException(
-                                        "Unable to create a new instance of the Reference implementation.");
-                                }
-                            }
-
-                        }
-                    }
-                }
+            switch (resourceType) {
+                case AGGREGATION_DEFINITION:
+                    return new AggregationDefinitionRef();
+                case CONTAINER:
+                    return new ContainerRef();
+                case CONTENT_MODEL:
+                    return new ContentModelRef();
+                case CONTENT_RELATION:
+                    return new ContentRelationRef();
+                case CONTEXT:
+                    return new ContextRef();
+                case GRANT:
+                    return new GrantRef();
+                case ITEM:
+                    return new ItemRef();
+                case ORGANIZATIONAL_UNIT:
+                    return new OrganizationalUnitRef();
+                case REPORT_DEFINITION:
+                    return new ReportDefinitionRef();
+                case ROLE:
+                    return new RoleRef();
+                case SCOPE:
+                    return new ScopeRef();
+                case USERACCOUNT:
+                    return new UserAccountRef();
+                case USERGROUP:
+                    return new UserGroupRef();
+                case SET_DEFINITION:
+                    return new SetDefinitionRef();
             }
         }
 
         throw new JiBXException("Unable to resolve Reference implementation type.");
     }
+
+    // automatically detect the Reference implementation
+    // if (resourceType != null) {
+    // for (final Type type :
+    // resourceType.getResourceClass().getGenericInterfaces()) {
+    // if (type instanceof ParameterizedType) {
+    // final ParameterizedType pType = (ParameterizedType) type;
+    //
+    // if (Referenceable.class.equals(pType.getRawType())) {
+    // /*
+    // * {@link Referenceable} should support only one
+    // * type argument
+    // */
+    // if (pType.getActualTypeArguments().length != 1
+    // && !Reference.class.equals(pType.getActualTypeArguments()[0])) {
+    // throw new
+    // JiBXException("The Referenceable class may have been changed.");
+    // }
+    // final Type refType = pType.getActualTypeArguments()[0];
+    // if (refType instanceof Class) {
+    // try {
+    // return (Reference) ((Class<?>) refType).newInstance();
+    // }
+    // catch (final InstantiationException e) {
+    // throw new JiBXException(
+    // "Unable to create a new instance of the Reference implementation.");
+    // }
+    // catch (final IllegalAccessException e) {
+    // throw new JiBXException(
+    // "Unable to create a new instance of the Reference implementation.");
+    // }
+    // }
+    //
+    // }
+    // }
+    // }
+    // }
 }
