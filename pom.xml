@@ -42,12 +42,16 @@
     <triplestore.database>riTriples</triplestore.database>
     <escidoc.version>1.4-SNAPSHOT</escidoc.version>
     <escidoc.database>escidoc-core</escidoc.database>
+    <escidoc.database.host>localhost</escidoc.database.host>
+    <escidoc.database.port>5432</escidoc.database.port>
     <escidoc.database.user>escidoc</escidoc.database.user>
     <escidoc.database.password>escidoc</escidoc.database.password>
     <escidoc.host.protocol>http</escidoc.host.protocol>
     <escidoc.host.name>localhost</escidoc.host.name>
     <escidoc.host.port>8080</escidoc.host.port>
     <escidoc.host>${escidoc.host.protocol}://${escidoc.host.name}:${escidoc.host.port}</escidoc.host>
+    <jboss.auth.basic.user>escidoc</jboss.auth.basic.user>
+    <jboss.auth.basic.pass>escidoc</jboss.auth.basic.pass>
     <wsdl.location>/axis/services</wsdl.location>
     <wsdl.host>${escidoc.host}${wsdl.location}</wsdl.host>
     <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
