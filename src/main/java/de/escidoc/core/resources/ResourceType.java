@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import de.escidoc.core.client.exceptions.InternalClientException;
 import de.escidoc.core.common.configuration.ConfigurationProvider;
 import de.escidoc.core.resources.aa.useraccount.UserAccount;
+import de.escidoc.core.resources.aa.usergroup.UserGroup;
 import de.escidoc.core.resources.interfaces.XmlCompatibleEnum;
 import de.escidoc.core.resources.oum.OrganizationalUnit;
 
@@ -30,7 +31,7 @@ public enum ResourceType implements XmlCompatibleEnum {
     //
     USERACCOUNT(UserAccount.class, "user-account", ConfigurationProvider.NS_AA_USER_ACCOUNT, "/aa/user-account"),
     //
-    USERGROUP(UserAccount.class, "user-group", ConfigurationProvider.NS_AA_USER_GROUP, "/aa/user-group"),
+    USERGROUP(UserGroup.class, "user-group", ConfigurationProvider.NS_AA_USER_GROUP, "/aa/user-group"),
     //
     CONTENT_MODEL(de.escidoc.core.resources.cmm.ContentModel.class, "content-model",
         ConfigurationProvider.NS_CMM_CONTENT_MODEL, "/cmm/content-model"),
