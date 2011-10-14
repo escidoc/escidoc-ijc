@@ -33,7 +33,9 @@ import java.net.URI;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.reference.ContentRelationRef;
 import de.escidoc.core.resources.common.reference.Reference;
+import de.escidoc.core.resources.common.reference.Referenceable;
 
 /**
  * Content Relation.
@@ -41,7 +43,7 @@ import de.escidoc.core.resources.common.reference.Reference;
  * @author SWA
  * 
  */
-public class ContentRelation extends GenericResource {
+public class ContentRelation extends GenericResource implements Referenceable<ContentRelationRef> {
 
     private MetadataRecords mdRecords;
 
@@ -226,5 +228,10 @@ public class ContentRelation extends GenericResource {
     @Override
     public ResourceType getResourceType() {
         return ResourceType.CONTENT_RELATION;
+    }
+
+    @Override
+    public ContentRelationRef getReference() {
+        return new ContentRelationRef(getObjid());
     }
 }

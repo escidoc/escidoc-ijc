@@ -11,13 +11,15 @@ import java.util.regex.Pattern;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.common.reference.Referenceable;
+import de.escidoc.core.resources.common.reference.SetDefinitionRef;
 
 /**
  * @author Marko Voß
  * 
  */
 @JiBX
-public class SetDefinition extends GenericResource {
+public class SetDefinition extends GenericResource implements Referenceable<SetDefinitionRef> {
 
     private SetDefinitionProperties properties;
 
@@ -112,5 +114,16 @@ public class SetDefinition extends GenericResource {
         // if (getXLinkHref() != null) {
         //
         // }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    @Override
+    public SetDefinitionRef getReference() {
+        return new SetDefinitionRef(getObjid());
     }
 }
