@@ -6,13 +6,15 @@ package de.escidoc.core.resources.aa.usergroup;
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
+import de.escidoc.core.resources.common.reference.Referenceable;
+import de.escidoc.core.resources.common.reference.UserGroupRef;
 
 /**
  * @author MVO
  * 
  */
 @JiBX
-public class UserGroup extends GenericResource {
+public class UserGroup extends GenericResource implements Referenceable<UserGroupRef> {
 
     private UserGroupProperties properties;
 
@@ -81,5 +83,16 @@ public class UserGroup extends GenericResource {
          * Properties and selectors do not support xlink but each selector does
          * on its ownm therefore do nothing here.
          */
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    @Override
+    public UserGroupRef getReference() {
+        return new UserGroupRef(getObjid());
     }
 }
