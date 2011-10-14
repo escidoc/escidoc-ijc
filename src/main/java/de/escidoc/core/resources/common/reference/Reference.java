@@ -51,6 +51,8 @@ public abstract class Reference extends Resource {
      * (non-Javadoc)
      * 
      * @see de.escidoc.core.resources.Resource#getResourceType()
+     * 
+     * FIXME: Remove this method here!!!!!!!!!!!!
      */
     @Override
     public ResourceType getResourceType() {
