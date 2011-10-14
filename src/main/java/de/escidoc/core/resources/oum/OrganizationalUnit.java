@@ -32,6 +32,8 @@ import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.reference.OrganizationalUnitRef;
+import de.escidoc.core.resources.common.reference.Referenceable;
 
 /**
  * OrganizationalUnit of eSciDoc.
@@ -40,7 +42,7 @@ import de.escidoc.core.resources.common.MetadataRecords;
  * 
  */
 @JiBX
-public class OrganizationalUnit extends GenericResource {
+public class OrganizationalUnit extends GenericResource implements Referenceable<OrganizationalUnitRef> {
 
     private OrganizationalUnitProperties properties;
 
@@ -185,5 +187,16 @@ public class OrganizationalUnit extends GenericResource {
     @Override
     public ResourceType getResourceType() {
         return ResourceType.ORGANIZATIONAL_UNIT;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.common.reference.Referenceable#getReference()
+     */
+    @Override
+    public OrganizationalUnitRef getReference() {
+        return new OrganizationalUnitRef(getObjid());
     }
 }
