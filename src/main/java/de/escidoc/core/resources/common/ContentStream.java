@@ -29,8 +29,13 @@
 package de.escidoc.core.resources.common;
 
 import static de.escidoc.core.common.Precondition.checkNotNull;
+
+import org.w3c.dom.Element;
+
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.NamedSubResource;
+import de.escidoc.core.resources.XLinkType;
+import de.escidoc.core.resources.om.item.StorageType;
 
 /**
  * Content Stream.
@@ -42,9 +47,9 @@ public class ContentStream extends NamedSubResource {
 
     private String mimeType;
 
-    private String storage;
+    private StorageType storageType;
 
-    private String hrefOrBase64Content;
+    private Element content;
 
     private boolean inherited = false;
 
@@ -55,12 +60,10 @@ public class ContentStream extends NamedSubResource {
      * @param storage
      * @param mimeType
      */
-    public ContentStream(final String name, final String storage, final String mimeType) {
+    public ContentStream(final String name, final StorageType storageType, final String mimeType) {
         super(name);
-        checkNotNull(storage);
-        checkNotNull(mimeType);
-        this.storage = storage;
-        this.mimeType = mimeType;
+        setStorageType(storageType);
+        setMimeType(mimeType);
     }
 
     /**
@@ -68,6 +71,40 @@ public class ContentStream extends NamedSubResource {
      */
     @JiBX
     protected ContentStream() {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkHref(java.lang.String)
+     */
+    @Override
+    public void setXLinkHref(final String xLinkHref) {
+        super.setXLinkHref(xLinkHref);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkType(de.escidoc.core.
+     * resources.XLinkType)
+     */
+    @Override
+    public void setXLinkType(final XLinkType type) {
+        super.setXLinkType(type);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkTitle(java.lang.String)
+     */
+    @Override
+    public void setXLinkTitle(final String title) {
+        super.setXLinkTitle(title);
     }
 
     /**
@@ -82,22 +119,22 @@ public class ContentStream extends NamedSubResource {
      *            the mimeType to set
      */
     public void setMimeType(final String mimeType) {
-        this.mimeType = mimeType;
+        this.mimeType = checkNotNull(mimeType);
     }
 
     /**
-     * @return the storage
+     * @return the StorageType
      */
-    public String getStorage() {
-        return storage;
+    public StorageType getStorageType() {
+        return storageType;
     }
 
     /**
      * @param storage
      *            the storage to set
      */
-    public void setStorage(final String storage) {
-        this.storage = storage;
+    public void setStorageType(final StorageType storageType) {
+        this.storageType = checkNotNull(storageType);
     }
 
     /**
@@ -119,15 +156,15 @@ public class ContentStream extends NamedSubResource {
      * @param hrefOrBase64Content
      *            the hrefOrBase64Content to set
      */
-    public void setHrefOrBase64Content(final String hrefOrBase64Content) {
-        this.hrefOrBase64Content = hrefOrBase64Content;
+    public void setContent(final Element content) {
+        this.content = content;
     }
 
     /**
-     * @return the hrefOrBase64Content
+     * @return the content
      */
-    public String getHrefOrBase64Content() {
-        return hrefOrBase64Content;
+    public Element getContent() {
+        return content;
     }
 
     /*
