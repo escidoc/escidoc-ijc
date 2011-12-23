@@ -162,7 +162,8 @@
   </escidocMetadataRecords:md-records>
   <!-- Item.ContentStreams -->
   <escidocContentStreams:content-streams xlink:href="/ir/item/escidoc:40011:5/content-streams">
-    <escidocContentStreams:content-stream name="foo" inherited="true" storage="external" mime-type="application/octet-stream">http://www.google.de</escidocContentStreams:content-stream>
+    <escidocContentStreams:content-stream name="foo" inherited="true" storage="external-url" 
+      mime-type="application/octet-stream" xlink:href="http://localhost:8080/images/escidoc-logo.jpg"/>
   </escidocContentStreams:content-streams>
   <!-- Item.Components -->
   <escidocComponents:components xml:base="http://localhost:8080" xlink:href="/ir/item/escidoc:40011/components/">
