@@ -12,7 +12,7 @@ import de.escidoc.core.common.DateTimeUtility;
 import de.escidoc.core.resources.Resource.Identifier;
 
 /**
- * @author Marko Vo�
+ * @author Marko Voss
  * 
  */
 public abstract class NamedSubResource extends XLinkResource {
@@ -212,7 +212,7 @@ public abstract class NamedSubResource extends XLinkResource {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        NamedSubResource other = (NamedSubResource) obj;
+        final NamedSubResource other = (NamedSubResource) obj;
         if (identifier == null) {
             if (other.identifier != null)
                 return false;
