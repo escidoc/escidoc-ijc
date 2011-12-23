@@ -86,7 +86,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
 
     public static final String PATH = "/ir/container";
 
-    @SuppressWarnings( { "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public String retrieveTocs(final String containerId, final HashMap filter) throws RemoteException, SystemException,
         MissingMethodParameterException, ContainerNotFoundException, AuthenticationException, AuthorizationException,
@@ -153,7 +153,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
         return get(PATH + "/" + containerId + "/struct-map");
     }
 
-    @SuppressWarnings( { "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @Deprecated
     public String retrieveMembers(final String containerId, final HashMap filter) throws RemoteException,
@@ -198,7 +198,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
         checkNotNull(mdRecordId);
         checkNotNull(mdRecordXml);
 
-        return post(PATH + "/" + containerId + "/md-records/md-record/" + mdRecordId, mdRecordXml);
+        return put(PATH + "/" + containerId + "/md-records/md-record/" + mdRecordId, mdRecordXml);
     }
 
     @Override
@@ -418,7 +418,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
         return get(PATH + "s" + getEscidoc12Filter(filter));
     }
 
-    @SuppressWarnings( { "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @Deprecated
     public String retrieveContainers(final HashMap filter) throws RemoteException, SystemException,
