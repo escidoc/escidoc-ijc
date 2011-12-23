@@ -170,7 +170,7 @@ public class ContainerRestServiceLocator extends RestServiceMethod implements Co
         checkNotNull(mdRecordId);
         checkNotNull(mdRecordXml);
 
-        return post(PATH + "/" + containerId + "/md-records/md-record/" + mdRecordId, mdRecordXml);
+        return put(PATH + "/" + containerId + "/md-records/md-record/" + mdRecordId, mdRecordXml);
     }
 
     @Override
