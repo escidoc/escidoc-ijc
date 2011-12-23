@@ -19,7 +19,19 @@ import de.escidoc.core.client.exceptions.application.security.AuthorizationExcep
  */
 public interface ReportHandler extends Remote {
 
-    String retrieve(final String xml) throws EscidocException, InvalidSqlException, AuthorizationException,
-        AuthenticationException, ReportDefinitionNotFoundException, InvalidXmlException,
+    /**
+     * 
+     * @param reportParametersXml
+     * @return
+     * @throws EscidocException
+     * @throws InvalidSqlException
+     * @throws AuthorizationException
+     * @throws AuthenticationException
+     * @throws ReportDefinitionNotFoundException
+     * @throws InvalidXmlException
+     * @throws MissingMethodParameterException
+     */
+    String retrieve(final String reportParametersXml) throws EscidocException, InvalidSqlException,
+        AuthorizationException, AuthenticationException, ReportDefinitionNotFoundException, InvalidXmlException,
         MissingMethodParameterException;
 }
