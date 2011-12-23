@@ -62,6 +62,8 @@ import de.escidoc.core.client.interfaces.ItemHandlerClientInterface;
 import de.escidoc.core.client.interfaces.StagingHandlerClientInterface;
 import de.escidoc.core.common.jibx.Marshaller;
 import de.escidoc.core.common.jibx.MarshallerFactory;
+import de.escidoc.core.resources.common.ContentStream;
+import de.escidoc.core.resources.common.ContentStreams;
 import de.escidoc.core.resources.common.MetadataRecord;
 import de.escidoc.core.resources.common.MetadataRecords;
 import de.escidoc.core.resources.common.Result;
@@ -296,9 +298,7 @@ public class ItemCreateTest {
         /*
          * compare the new created Item with the Item from the request
          */
-        final String objId = createdItem.getObjid();
-
-        assertNotNull("Object id is null", objId);
+        assertNotNull("Object id is null", createdItem.getObjid());
         assertEquals(item.getProperties().getContext().getObjid(), createdItem.getProperties().getContext().getObjid());
         assertEquals(item.getProperties().getContentModel().getObjid(), createdItem
             .getProperties().getContentModel().getObjid());
@@ -526,6 +526,43 @@ public class ItemCreateTest {
     }
 
     /**
+     * 
+     */
+    @Test
+    public void testContentStream() throws Exception {
+        final Item item = new Item();
+        item.getProperties().setContext(new ContextRef(EscidocClientTestBase.getStaticContextId()));
+        item.getProperties().setContentModel(new ContentModelRef(EscidocClientTestBase.getStaticContentModelId()));
+        // Content-model
+        @SuppressWarnings("deprecation")
+        final ContentModelSpecific cms = ResourceUtility.getContentModelSpecific();
+        item.getProperties().setContentModelSpecific(cms);
+        // MetadataRecord(s)
+        final MetadataRecords mdRecords = new MetadataRecords();
+        final MetadataRecord mdrecord = ResourceUtility.getMdRecord("escidoc");
+        mdRecords.add(mdrecord);
+        item.setMetadataRecords(mdRecords);
+        // ContentStream
+        final ContentStream stream = new ContentStream("Test", StorageType.EXTERNAL_URL, "image/jpeg");
+        stream
+            .setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString() + "/images/escidoc-logo.jpg");
+        stream.setXLinkTitle("My Title");
+        final ContentStreams streams = new ContentStreams();
+        streams.add(stream);
+        item.setContentStreams(streams);
+        // create
+        final Item createdItem = ihc.create(item);
+        // assert
+        assertNotNull(createdItem.getContentStreams());
+        final ContentStream createdStream = createdItem.getContentStreams().get(stream.getName());
+        assertNotNull(createdStream);
+        assertEquals(stream.getStorageType(), createdStream.getStorageType());
+        assertEquals(stream.getXLinkHref(), createdStream.getXLinkHref());
+        assertEquals(stream.getXLinkType(), createdStream.getXLinkType());
+        assertEquals(stream.getXLinkTitle(), createdStream.getXLinkTitle());
+    }
+
+    /**
      * Test create an Item with one Component.
      * 
      * @throws Exception
@@ -576,8 +613,9 @@ public class ItemCreateTest {
         componentProperties.setVisibility("insitutional");
         component.setProperties(componentProperties);
         final ComponentContent content = new ComponentContent();
-        content.setStorage(StorageType.INTERNAL_MANAGED);
-        content.setBase64EncodedContent("skfjlfdf");
+        content.setStorageType(StorageType.INTERNAL_MANAGED);
+        // FIXME INFR-1377
+        // content.setContent();
         component.setContent(content);
 
         final Components components = new Components();
@@ -625,8 +663,9 @@ public class ItemCreateTest {
         components.add(component);
         item.setComponents(components);
         final ComponentContent content = new ComponentContent();
-        content.setStorage(StorageType.INTERNAL_MANAGED);
-        content.setBase64EncodedContent("skfjlfdf");
+        content.setStorageType(StorageType.INTERNAL_MANAGED);
+        // FIXME see INFR-1377
+        // content.setContent()
         component.setContent(content);
 
         // only for debug
@@ -729,7 +768,7 @@ public class ItemCreateTest {
         final Component component = new Component();
         final ComponentContent content = new ComponentContent();
         content.setXLinkHref(contentRef.toString());
-        content.setStorage(StorageType.INTERNAL_MANAGED);
+        content.setStorageType(StorageType.INTERNAL_MANAGED);
         component.setContent(content);
         component.setProperties(new ComponentProperties());
         component.getProperties().setDescription("Random content");
@@ -789,8 +828,9 @@ public class ItemCreateTest {
         components.add(component);
         item.setComponents(components);
         final ComponentContent content = new ComponentContent();
-        content.setStorage(StorageType.INTERNAL_MANAGED);
-        content.setBase64EncodedContent("skfjlfdf");
+        content.setStorageType(StorageType.INTERNAL_MANAGED);
+        // FIXME see INFR-1377
+        // content.setContent()
         component.setContent(content);
 
         return ihc.create(item);

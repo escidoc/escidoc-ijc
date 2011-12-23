@@ -62,7 +62,7 @@ public class ItemComponentContentTest {
         final Item item = ihc.retrieve(itemId);
         for (final Component c : item.getComponents()) {
             // get the origin component from loadExamples
-            if (c.getContent().getStorage() == StorageType.INTERNAL_MANAGED) {
+            if (c.getContent().getStorageType() == StorageType.INTERNAL_MANAGED) {
 
                 final HttpInputStream stream = ihc.retrieveContent(itemId, c.getObjid());
 
@@ -105,7 +105,7 @@ public class ItemComponentContentTest {
 
         final Component newComponent = new Component();
         final ComponentContent content = new ComponentContent();
-        content.setStorage(StorageType.EXTERNAL_MANAGED);
+        content.setStorageType(StorageType.EXTERNAL_MANAGED);
         content.setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString() + "/images/head-v0.1.png");
         content.setXLinkTitle("External resource");
         newComponent.setContent(content);
@@ -124,7 +124,7 @@ public class ItemComponentContentTest {
         for (final Component c : item.getComponents()) {
             if (!alreadyExistingIds.contains(c.getObjid())) {
 
-                assertEquals(c.getContent().getStorage(), StorageType.EXTERNAL_MANAGED);
+                assertEquals(c.getContent().getStorageType(), StorageType.EXTERNAL_MANAGED);
                 // assertEquals(properties.getDescription(),
                 // c.getProperties().getDescription());
                 // assertEquals(properties.getFileName(),
@@ -181,7 +181,7 @@ public class ItemComponentContentTest {
 
         final Component newComponent = new Component();
         final ComponentContent content = new ComponentContent();
-        content.setStorage(StorageType.EXTERNAL_URL);
+        content.setStorageType(StorageType.EXTERNAL_URL);
         content.setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString() + "/images/head-v0.1.png");
         content.setXLinkTitle("External resource");
         newComponent.setContent(content);
@@ -200,7 +200,7 @@ public class ItemComponentContentTest {
         for (final Component c : item.getComponents()) {
             if (!alreadyExistingIds.contains(c.getObjid())) {
 
-                assertEquals(c.getContent().getStorage(), StorageType.EXTERNAL_URL);
+                assertEquals(c.getContent().getStorageType(), StorageType.EXTERNAL_URL);
                 // assertEquals(properties.getDescription(),
                 // c.getProperties().getDescription());
                 // assertEquals(properties.getFileName(),

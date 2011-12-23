@@ -176,7 +176,7 @@ public class CreateItemTestWithOneComponent {
     private void setComponentContent(final Component component, final URL contentRef) {
         final ComponentContent content = new ComponentContent();
         content.setXLinkHref(contentRef.toString());
-        content.setStorage(StorageType.INTERNAL_MANAGED);
+        content.setStorageType(StorageType.INTERNAL_MANAGED);
         component.setContent(content);
     }
 
