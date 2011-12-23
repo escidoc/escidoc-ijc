@@ -232,7 +232,8 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
         checkNotNull(contentModelId);
         checkNotNull(contentStreamName);
 
-        return getStream(PATH + "/" + contentModelId + "/content-streams/content-stream/" + contentStreamName);
+        return getStream(PATH + "/" + contentModelId + "/content-streams/content-stream/" + contentStreamName
+            + "/content");
     }
 
     @Override
@@ -259,7 +260,7 @@ public class ContentModelRestServiceLocator extends RestServiceMethod implements
 
         checkNotNull(contentModelId);
 
-        return get(PATH + "/" + contentModelId + "/version-history");
+        return get(PATH + "/" + contentModelId + "/resources/version-history");
     }
 
     /**
