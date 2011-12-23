@@ -418,6 +418,9 @@ public abstract class RestServiceMethod implements RestService {
         if (filter.getVersion() != null) {
             filter12 += "&version=" + filter.getVersion();
         }
+        if (filter.getRecordPacking() != null) {
+            filter12 += "&recordPacking=" + filter.getRecordPacking();
+        }
 
         return filter12;
     }
@@ -449,10 +452,9 @@ public abstract class RestServiceMethod implements RestService {
     }
 
     /**
-     * @param put
+     * @param request
      * @return
-     * @throws SystemException
-     * @throws RemoteException
+     * @throws EscidocException
      */
     private final String executeRequest(final HttpUriRequest request) throws EscidocException {
 
