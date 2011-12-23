@@ -42,17 +42,4 @@ public interface Version extends LatestRelease {
      */
     void setComment(String comment);
 
-    /**
-     * @return The object pid.
-     */
-    String getPid();
-
-    /**
-     * Set the new object pid.
-     * 
-     * @param pid
-     *            The new object pid.
-     */
-    void setPid(String pid);
-
 }
