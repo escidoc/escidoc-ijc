@@ -4,7 +4,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import de.escidoc.core.client.exceptions.EscidocException;
@@ -56,8 +55,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param filter
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -69,8 +68,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param filter
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -83,8 +82,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param contentStreamId
      * @return
-     
-     
+     * 
+     * 
      * @throws ContentStreamNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -99,8 +98,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param componentId
      * @return
-     
-     
+     * 
+     * 
      * @throws ComponentNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -117,8 +116,8 @@ public interface ItemHandler extends Remote {
      * @param transformer
      * @param transParams
      * @return
-     
-     
+     * 
+     * 
      * @throws ComponentNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -132,8 +131,8 @@ public interface ItemHandler extends Remote {
 
     /**
      * @param itemId
-     
-     
+     * 
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
@@ -149,8 +148,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemXml
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingAttributeValueException
      * @throws MissingContentException
      * @throws MissingMdRecordException
@@ -180,8 +179,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param itemXml
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingLicenceException
      * @throws ReadonlyVersionException
      * @throws LockingException
@@ -215,11 +214,11 @@ public interface ItemHandler extends Remote {
 
     /**
      * @param itemId
-     * @param userId
+     * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -228,17 +227,17 @@ public interface ItemHandler extends Remote {
      * @throws InvalidContentException
      * @throws InvalidXmlException
      */
-    String lock(final String itemId, final String userId) throws EscidocException, OptimisticLockingException,
+    String lock(final String itemId, final String taskParam) throws EscidocException, OptimisticLockingException,
         SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException, InvalidContentException, InvalidXmlException;
 
     /**
      * @param itemId
-     * @param userId
+     * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -246,7 +245,7 @@ public interface ItemHandler extends Remote {
      * @throws AuthorizationException
      * @throws InvalidXmlException
      */
-    String unlock(final String itemId, final String userId) throws EscidocException, OptimisticLockingException,
+    String unlock(final String itemId, final String taskParam) throws EscidocException, OptimisticLockingException,
         SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
         ItemNotFoundException, AuthorizationException, InvalidXmlException;
 
@@ -254,9 +253,9 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param param
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws ReadonlyVersionException
      * @throws LockingException
      * @throws MissingMethodParameterException
@@ -275,8 +274,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws ItemNotFoundException
@@ -289,9 +288,9 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param param
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws ReadonlyVersionException
      * @throws LockingException
      * @throws MissingMethodParameterException
@@ -311,8 +310,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param componentXml
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingAttributeValueException
      * @throws MissingContentException
      * @throws LockingException
@@ -338,8 +337,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param componentId
      * @return
-     
-     
+     * 
+     * 
      * @throws ComponentNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -354,8 +353,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param componentId
      * @return
-     
-     
+     * 
+     * 
      * @throws ComponentNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -371,8 +370,8 @@ public interface ItemHandler extends Remote {
      * @param componentId
      * @param mdRecordId
      * @return
-     
-     
+     * 
+     * 
      * @throws ComponentNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -389,8 +388,8 @@ public interface ItemHandler extends Remote {
      * @param componentId
      * @param componentXml
      * @return
-     
-     
+     * 
+     * 
      * @throws ReadonlyVersionException
      * @throws MissingContentException
      * @throws ComponentNotFoundException
@@ -416,8 +415,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @return
-     
-     
+     * 
+     * 
      * @throws ComponentNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -431,8 +430,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param componentId
      * @return
-     
-     
+     * 
+     * 
      * @throws ComponentNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -447,8 +446,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param mdRecordXml
      * @return
-     
-     
+     * 
+     * 
      * @throws LockingException
      * @throws MissingAttributeValueException
      * @throws MissingMethodParameterException
@@ -468,8 +467,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param mdRecordId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws ItemNotFoundException
@@ -485,8 +484,8 @@ public interface ItemHandler extends Remote {
      * @param mdRecordId
      * @param mdRecordXml
      * @return
-     
-     
+     * 
+     * 
      * @throws ReadonlyVersionException
      * @throws LockingException
      * @throws AuthenticationException
@@ -510,8 +509,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws ItemNotFoundException
@@ -523,8 +522,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws ItemNotFoundException
@@ -537,8 +536,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param contentStreamId
      * @return
-     
-     
+     * 
+     * 
      * @throws ContentStreamNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -552,8 +551,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws ItemNotFoundException
@@ -565,8 +564,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws ItemNotFoundException
@@ -578,8 +577,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws ItemNotFoundException
@@ -592,9 +591,9 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws ReadonlyVersionException
      * @throws LockingException
      * @throws MissingMethodParameterException
@@ -615,8 +614,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param taskParam
      * @return
-     
-     
+     * 
+     * 
      * @throws ReadonlyVersionException
      * @throws LockingException
      * @throws AlreadyWithdrawnException
@@ -638,8 +637,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @param componentId
-     
-     
+     * 
+     * 
      * @throws ComponentNotFoundException
      * @throws LockingException
      * @throws MissingMethodParameterException
@@ -656,8 +655,8 @@ public interface ItemHandler extends Remote {
      * @param id
      * @param taskParam
      * @return
-     
-     
+     * 
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
@@ -675,9 +674,9 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
@@ -695,9 +694,9 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
@@ -716,9 +715,9 @@ public interface ItemHandler extends Remote {
      * @param componentId
      * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws ComponentNotFoundException
@@ -737,8 +736,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param taskParam
      * @return
-     
-     
+     * 
+     * 
      * @throws ReadonlyVersionException
      * @throws LockingException
      * @throws AlreadyExistsException
@@ -767,8 +766,8 @@ public interface ItemHandler extends Remote {
      * @param itemId
      * @param taskParam
      * @return
-     
-     
+     * 
+     * 
      * @throws ContentRelationNotFoundException
      * @throws ReadonlyVersionException
      * @throws LockingException
@@ -793,8 +792,8 @@ public interface ItemHandler extends Remote {
     /**
      * @param itemId
      * @return
-     
-     
+     * 
+     * 
      * @throws AuthorizationException
      * @throws AuthenticationException
      * @throws ItemNotFoundException

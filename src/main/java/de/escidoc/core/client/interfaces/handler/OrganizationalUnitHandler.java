@@ -4,7 +4,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidContentException;
@@ -52,8 +51,8 @@ public interface OrganizationalUnitHandler extends Remote {
     /**
      * @param filter
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -65,8 +64,8 @@ public interface OrganizationalUnitHandler extends Remote {
     /**
      * @param filter
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -79,9 +78,9 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
@@ -97,9 +96,9 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
@@ -115,9 +114,9 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @param xmlOfParents
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws OrganizationalUnitHierarchyViolationException
@@ -135,8 +134,8 @@ public interface OrganizationalUnitHandler extends Remote {
     /**
      * @param ouId
      * @return
-     
-     
+     * 
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -149,7 +148,7 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @return
      * @throws java.rmi.RemoteException
-     
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -163,7 +162,7 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @return
      * @throws java.rmi.RemoteException
-     
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -176,8 +175,8 @@ public interface OrganizationalUnitHandler extends Remote {
     /**
      * @param ouId
      * @return
-     
-     
+     * 
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -188,8 +187,8 @@ public interface OrganizationalUnitHandler extends Remote {
 
     /**
      * @param ouId
-     
-     
+     * 
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
@@ -205,8 +204,8 @@ public interface OrganizationalUnitHandler extends Remote {
     /**
      * @param organizationalUnitXml
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingAttributeValueException
      * @throws MissingContentException
      * @throws MissingMdRecordException
@@ -236,8 +235,8 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @param organizationalUnitXml
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingLicenceException
      * @throws ReadonlyVersionException
      * @throws LockingException
@@ -271,11 +270,11 @@ public interface OrganizationalUnitHandler extends Remote {
 
     /**
      * @param ouId
-     * @param userId
+     * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -284,17 +283,17 @@ public interface OrganizationalUnitHandler extends Remote {
      * @throws InvalidContentException
      * @throws InvalidXmlException
      */
-    String lock(final String ouId, final String userId) throws EscidocException, OptimisticLockingException,
+    String lock(final String ouId, final String taskParam) throws EscidocException, OptimisticLockingException,
         SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
         OrganizationalUnitNotFoundException, AuthorizationException, InvalidContentException, InvalidXmlException;
 
     /**
      * @param ouId
-     * @param userId
+     * @param taskParam
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws LockingException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -302,15 +301,15 @@ public interface OrganizationalUnitHandler extends Remote {
      * @throws AuthorizationException
      * @throws InvalidXmlException
      */
-    String unlock(final String ouId, final String userId) throws EscidocException, OptimisticLockingException,
+    String unlock(final String ouId, final String taskParam) throws EscidocException, OptimisticLockingException,
         SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
         OrganizationalUnitNotFoundException, AuthorizationException, InvalidXmlException;
 
     /**
      * @param ouId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws OrganizationalUnitNotFoundException
@@ -322,8 +321,8 @@ public interface OrganizationalUnitHandler extends Remote {
     /**
      * @param ouId
      * @return
-     
-     
+     * 
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -336,8 +335,8 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @param mdRecordXml
      * @return
-     
-     
+     * 
+     * 
      * @throws LockingException
      * @throws MissingAttributeValueException
      * @throws MissingMethodParameterException
@@ -357,8 +356,8 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @param mdRecordId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws OrganizationalUnitNotFoundException
@@ -373,9 +372,9 @@ public interface OrganizationalUnitHandler extends Remote {
      * @param ouId
      * @param mdRecordsXml
      * @return
-     
+     * 
      * @throws OptimisticLockingException
-     
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
@@ -391,8 +390,8 @@ public interface OrganizationalUnitHandler extends Remote {
     /**
      * @param ouId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws OrganizationalUnitNotFoundException
@@ -404,8 +403,8 @@ public interface OrganizationalUnitHandler extends Remote {
     /**
      * @param ouId
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws OrganizationalUnitNotFoundException
