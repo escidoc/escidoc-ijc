@@ -4,7 +4,6 @@ import gov.loc.www.zing.srw.ExplainRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 import de.escidoc.core.client.exceptions.application.invalid.InvalidStatusException;
@@ -39,8 +38,8 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param filter
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -52,8 +51,8 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param filter
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -65,8 +64,8 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param filter
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -78,8 +77,8 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param filter
      * @return
-     
-     
+     * 
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -90,9 +89,9 @@ public interface UserAccountHandler extends Remote {
 
     /**
      * @param accountId
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -103,9 +102,9 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param userAccountXml
      * @return
-     
+     * 
      * @throws UniqueConstraintViolationException
-     
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
@@ -121,11 +120,11 @@ public interface UserAccountHandler extends Remote {
      * @param accountId
      * @param userAccountXml
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws UniqueConstraintViolationException
      * @throws OptimisticLockingException
-     
+     * 
      * @throws OrganizationalUnitNotFoundException
      * @throws MissingMethodParameterException
      * @throws MissingAttributeValueException
@@ -142,9 +141,9 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -155,10 +154,10 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @param taskParam
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws OptimisticLockingException
-     
+     * 
      * @throws AlreadyActiveException
      * @throws MissingMethodParameterException
      * @throws MissingAttributeValueException
@@ -174,10 +173,10 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @param taskParam
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws OptimisticLockingException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws MissingAttributeValueException
      * @throws AuthenticationException
@@ -193,10 +192,10 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @param taskParam
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws OptimisticLockingException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws InvalidStatusException
      * @throws AuthenticationException
@@ -210,9 +209,9 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -224,9 +223,9 @@ public interface UserAccountHandler extends Remote {
      * @param accountId
      * @param grantId
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws GrantNotFoundException
      * @throws AuthenticationException
@@ -237,12 +236,12 @@ public interface UserAccountHandler extends Remote {
         AuthenticationException, AuthorizationException;
 
     /**
-     * @param objid
-     * @param userAccountXml
+     * @param userId
+     * @param grantXml
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws RoleNotFoundException
      * @throws MissingMethodParameterException
      * @throws AlreadyExistsException
@@ -250,7 +249,7 @@ public interface UserAccountHandler extends Remote {
      * @throws AuthorizationException
      * @throws InvalidXmlException
      */
-    String createGrant(final String objid, final String userAccountXml) throws EscidocException,
+    String createGrant(final String userId, final String grantXml) throws EscidocException,
         UserAccountNotFoundException, SystemException, RoleNotFoundException, MissingMethodParameterException,
         AlreadyExistsException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
@@ -258,9 +257,9 @@ public interface UserAccountHandler extends Remote {
      * @param accountId
      * @param grantId
      * @param taskParam
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingAttributeValueException
      * @throws MissingMethodParameterException
      * @throws GrantNotFoundException
@@ -277,9 +276,9 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @param taskParam
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingAttributeValueException
      * @throws MissingMethodParameterException
      * @throws GrantNotFoundException
@@ -296,9 +295,9 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -308,50 +307,50 @@ public interface UserAccountHandler extends Remote {
 
     /**
      * @param accountId
-     * @param body
+     * @param preferenceXML
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws PreferenceNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AlreadyExistsException
      * @throws AuthenticationException
      * @throws AuthorizationException
      * @throws InvalidXmlException
      */
-    String createPreference(final String accountId, final String body) throws EscidocException,
+    String createPreference(final String accountId, final String preferenceXML) throws EscidocException,
         UserAccountNotFoundException, PreferenceNotFoundException, SystemException, MissingMethodParameterException,
         AlreadyExistsException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
     /**
      * @param accountId
-     * @param body
+     * @param preferencesXml
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws OptimisticLockingException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws MissingAttributeValueException
      * @throws AuthenticationException
      * @throws AuthorizationException
      * @throws InvalidXmlException
      */
-    String updatePreferences(final String accountId, final String body) throws EscidocException,
+    String updatePreferences(final String accountId, final String preferencesXml) throws EscidocException,
         UserAccountNotFoundException, OptimisticLockingException, SystemException, MissingMethodParameterException,
         MissingAttributeValueException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
     /**
      * @param accountId
      * @param prefName
-     * @param body
+     * @param preferenceXml
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws PreferenceNotFoundException
      * @throws OptimisticLockingException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws MissingAttributeValueException
      * @throws AlreadyExistsException
@@ -359,19 +358,19 @@ public interface UserAccountHandler extends Remote {
      * @throws AuthorizationException
      * @throws InvalidXmlException
      */
-    String updatePreference(final String accountId, final String prefName, final String body) throws EscidocException,
-        UserAccountNotFoundException, PreferenceNotFoundException, OptimisticLockingException, SystemException,
-        MissingMethodParameterException, MissingAttributeValueException, AlreadyExistsException,
+    String updatePreference(final String accountId, final String prefName, final String preferenceXml)
+        throws EscidocException, UserAccountNotFoundException, PreferenceNotFoundException, OptimisticLockingException,
+        SystemException, MissingMethodParameterException, MissingAttributeValueException, AlreadyExistsException,
         AuthenticationException, AuthorizationException, InvalidXmlException;
 
     /**
      * @param accountId
      * @param prefName
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws PreferenceNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -383,10 +382,10 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @param prefName
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws PreferenceNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -397,28 +396,28 @@ public interface UserAccountHandler extends Remote {
 
     /**
      * @param accountId
-     * @param body
+     * @param attributeXml
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AlreadyExistsException
      * @throws AuthenticationException
      * @throws AuthorizationException
      * @throws InvalidXmlException
      */
-    String createAttribute(final String accountId, final String body) throws EscidocException,
+    String createAttribute(final String accountId, final String attributeXml) throws EscidocException,
         UserAccountNotFoundException, SystemException, MissingMethodParameterException, AlreadyExistsException,
         AuthenticationException, AuthorizationException, InvalidXmlException;
 
     /**
      * @param accountId
      * @param attId
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws UserAttributeNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws ReadonlyElementViolationException
      * @throws AuthenticationException
@@ -432,10 +431,10 @@ public interface UserAccountHandler extends Remote {
      * @param accountId
      * @param attId
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws UserAttributeNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -447,9 +446,9 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -461,10 +460,10 @@ public interface UserAccountHandler extends Remote {
      * @param accountId
      * @param attName
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws UserAttributeNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws AuthenticationException
      * @throws AuthorizationException
@@ -476,29 +475,29 @@ public interface UserAccountHandler extends Remote {
     /**
      * @param accountId
      * @param attId
-     * @param body
+     * @param attributeXml
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
      * @throws OptimisticLockingException
      * @throws UserAttributeNotFoundException
-     
+     * 
      * @throws MissingMethodParameterException
      * @throws ReadonlyElementViolationException
      * @throws AuthenticationException
      * @throws AuthorizationException
      * @throws InvalidXmlException
      */
-    String updateAttribute(final String accountId, final String attId, final String body) throws EscidocException,
-        UserAccountNotFoundException, OptimisticLockingException, UserAttributeNotFoundException, SystemException,
-        MissingMethodParameterException, ReadonlyElementViolationException, AuthenticationException,
-        AuthorizationException, InvalidXmlException;
+    String updateAttribute(final String accountId, final String attId, final String attributeXml)
+        throws EscidocException, UserAccountNotFoundException, OptimisticLockingException,
+        UserAttributeNotFoundException, SystemException, MissingMethodParameterException,
+        ReadonlyElementViolationException, AuthenticationException, AuthorizationException, InvalidXmlException;
 
     /**
      * @return
-     
+     * 
      * @throws UserAccountNotFoundException
-     
+     * 
      * @throws AuthenticationException
      * @throws AuthorizationException
      */
