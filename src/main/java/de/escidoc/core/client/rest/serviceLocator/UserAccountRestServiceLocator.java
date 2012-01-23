@@ -190,13 +190,13 @@ public class UserAccountRestServiceLocator extends RestServiceMethod implements 
      * java.lang.String)
      */
     @Override
-    public String createGrant(final String objid, final String userAccountXml) throws EscidocException,
+    public String createGrant(final String userId, final String grantXml) throws EscidocException,
         UserAccountNotFoundException, SystemException, RoleNotFoundException, MissingMethodParameterException,
         AlreadyExistsException, AuthenticationException, AuthorizationException, InvalidXmlException {
 
-        checkNotNull(objid);
+        checkNotNull(userId);
 
-        return put(PATH + "/" + objid + "/resources/grants/grant", userAccountXml);
+        return put(PATH + "/" + userId + "/resources/grants/grant", grantXml);
     }
 
     /*
