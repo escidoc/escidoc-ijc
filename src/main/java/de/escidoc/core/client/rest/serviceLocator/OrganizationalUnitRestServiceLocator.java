@@ -25,7 +25,6 @@ import de.escidoc.core.client.exceptions.application.notfound.MdRecordNotFoundEx
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
 import de.escidoc.core.client.exceptions.application.notfound.ReferencedResourceNotFoundException;
 import de.escidoc.core.client.exceptions.application.notfound.RelationPredicateNotFoundException;
-import de.escidoc.core.client.exceptions.application.notfound.XmlSchemaNotFoundException;
 import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
 import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
 import de.escidoc.core.client.exceptions.application.violated.AlreadyExistsException;
@@ -218,7 +217,8 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
      * @throws InvalidStatusException
      * @throws ReadonlyViolationException
      * @throws InvalidXmlException
-     * @see de.escidoc.core.client.interfaces.handler.om.OrganizationalUnitHandler#update(String, String)
+     * @see de.escidoc.core.client.interfaces.handler.om.OrganizationalUnitHandler#update(String,
+     *      String)
      */
     @Override
     public String update(final String ouId, final String organizationalUnitXml) throws EscidocException,
@@ -233,31 +233,6 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
         checkNotNull(organizationalUnitXml);
 
         return put(PATH + "/" + ouId, organizationalUnitXml);
-    }
-
-    /**
-     * FIXME: No such method supported by the interface?
-     */
-    @Override
-    public String lock(final String ouId, final String userId) throws EscidocException, OptimisticLockingException,
-        SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
-        OrganizationalUnitNotFoundException, AuthorizationException, InvalidContentException, InvalidXmlException {
-
-        checkNotNull(ouId);
-        checkNotNull(userId);
-
-        return post(PATH + "/" + ouId + "/lock", userId);
-    }
-
-    @Override
-    public String unlock(final String ouId, final String userId) throws EscidocException, OptimisticLockingException,
-        SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
-        OrganizationalUnitNotFoundException, AuthorizationException, InvalidXmlException {
-
-        checkNotNull(ouId);
-        checkNotNull(userId);
-
-        return post(PATH + "/" + ouId + "/unlock", userId);
     }
 
     /**
@@ -291,18 +266,6 @@ public class OrganizationalUnitRestServiceLocator extends RestServiceMethod impl
 
         return get(PATH + "/" + ouId + "/resources/successors");
     };
-
-    @Override
-    public String createMdRecord(final String ouId, final String mdRecordXml) throws EscidocException,
-        LockingException, MissingAttributeValueException, MissingMethodParameterException, InvalidStatusException,
-        AuthenticationException, XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
-        AuthorizationException, InvalidXmlException {
-
-        checkNotNull(ouId);
-        checkNotNull(mdRecordXml);
-
-        return put(PATH + "/" + ouId + "/md-records/md-record", mdRecordXml);
-    }
 
     @Override
     public String retrieveMdRecord(final String ouId, final String mdRecordId) throws EscidocException,

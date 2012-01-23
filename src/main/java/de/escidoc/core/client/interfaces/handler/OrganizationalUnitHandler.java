@@ -24,7 +24,6 @@ import de.escidoc.core.client.exceptions.application.notfound.MdRecordNotFoundEx
 import de.escidoc.core.client.exceptions.application.notfound.OrganizationalUnitNotFoundException;
 import de.escidoc.core.client.exceptions.application.notfound.ReferencedResourceNotFoundException;
 import de.escidoc.core.client.exceptions.application.notfound.RelationPredicateNotFoundException;
-import de.escidoc.core.client.exceptions.application.notfound.XmlSchemaNotFoundException;
 import de.escidoc.core.client.exceptions.application.security.AuthenticationException;
 import de.escidoc.core.client.exceptions.application.security.AuthorizationException;
 import de.escidoc.core.client.exceptions.application.violated.AlreadyExistsException;
@@ -270,43 +269,6 @@ public interface OrganizationalUnitHandler extends Remote {
 
     /**
      * @param ouId
-     * @param taskParam
-     * @return
-     * 
-     * @throws OptimisticLockingException
-     * 
-     * @throws LockingException
-     * @throws MissingMethodParameterException
-     * @throws AuthenticationException
-     * @throws OrganizationalUnitNotFoundException
-     * @throws AuthorizationException
-     * @throws InvalidContentException
-     * @throws InvalidXmlException
-     */
-    String lock(final String ouId, final String taskParam) throws EscidocException, OptimisticLockingException,
-        SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
-        OrganizationalUnitNotFoundException, AuthorizationException, InvalidContentException, InvalidXmlException;
-
-    /**
-     * @param ouId
-     * @param taskParam
-     * @return
-     * 
-     * @throws OptimisticLockingException
-     * 
-     * @throws LockingException
-     * @throws MissingMethodParameterException
-     * @throws AuthenticationException
-     * @throws OrganizationalUnitNotFoundException
-     * @throws AuthorizationException
-     * @throws InvalidXmlException
-     */
-    String unlock(final String ouId, final String taskParam) throws EscidocException, OptimisticLockingException,
-        SystemException, LockingException, MissingMethodParameterException, AuthenticationException,
-        OrganizationalUnitNotFoundException, AuthorizationException, InvalidXmlException;
-
-    /**
-     * @param ouId
      * @return
      * 
      * 
@@ -330,27 +292,6 @@ public interface OrganizationalUnitHandler extends Remote {
      */
     String retrieveSuccessors(final String ouId) throws EscidocException, OrganizationalUnitNotFoundException,
         MissingMethodParameterException, AuthenticationException, AuthorizationException;
-
-    /**
-     * @param ouId
-     * @param mdRecordXml
-     * @return
-     * 
-     * 
-     * @throws LockingException
-     * @throws MissingAttributeValueException
-     * @throws MissingMethodParameterException
-     * @throws InvalidStatusException
-     * @throws AuthenticationException
-     * @throws XmlSchemaNotFoundException
-     * @throws OrganizationalUnitNotFoundException
-     * @throws AuthorizationException
-     * @throws InvalidXmlException
-     */
-    String createMdRecord(final String ouId, final String mdRecordXml) throws EscidocException, LockingException,
-        MissingAttributeValueException, MissingMethodParameterException, InvalidStatusException,
-        AuthenticationException, XmlSchemaNotFoundException, OrganizationalUnitNotFoundException,
-        AuthorizationException, InvalidXmlException;
 
     /**
      * @param ouId
