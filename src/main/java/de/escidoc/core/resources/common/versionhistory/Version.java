@@ -71,7 +71,9 @@ public class Version extends Reference {
 
     /**
      * @param date
+     * @deprecated
      */
+    @Deprecated
     protected void setTimestamp(final DateTime date) {
         this.timestamp = DateTimeUtility.normalize(date);
     }
