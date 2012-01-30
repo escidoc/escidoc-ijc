@@ -30,8 +30,11 @@
     <value name="mime-type" usage="required" style="attribute"
       set-method="setMimeType" get-method="getMimeType"/>
     
-    <value style="text" usage="required"
-      set-method="setHrefOrBase64Content" get-method="getHrefOrBase64Content"/>
+    <structure set-method="setContent" get-method="getContent" 
+      type="org.w3c.dom.Element"
+      marshaller="org.jibx.extras.DomElementMapper" 
+      unmarshaller="org.jibx.extras.DomElementMapper"
+      usage="optional" />
   </mapping>
 
 	<!-- CONCRETE MAPPINGS -->

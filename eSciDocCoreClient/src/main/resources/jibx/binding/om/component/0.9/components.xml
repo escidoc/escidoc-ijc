@@ -43,9 +43,12 @@
     <value name="storage" style="attribute" usage="optional"
 			set-method="setStorage" get-method="getStorage"
 			enum-value-method="getXmlValue"/>
-		<value field="base64EncodedContent" style="text" usage="optional"
-			set-method="setBase64EncodedContent" 
-			get-method="getBase64EncodedContent"/>
+		
+    <structure set-method="setContent" get-method="getContent" 
+      type="org.w3c.dom.Element"
+      marshaller="org.jibx.extras.DomElementMapper" 
+      unmarshaller="org.jibx.extras.DomElementMapper"
+      usage="optional" />
   </mapping>
 
 	<!-- CONCRETE MAPPINGS -->

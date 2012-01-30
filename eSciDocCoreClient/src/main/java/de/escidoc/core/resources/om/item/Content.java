@@ -28,6 +28,8 @@
  */
 package de.escidoc.core.resources.om.item;
 
+import org.w3c.dom.Element;
+
 import de.escidoc.core.resources.XLinkResource;
 
 /**
@@ -39,6 +41,8 @@ import de.escidoc.core.resources.XLinkResource;
 public abstract class Content extends XLinkResource {
 
     private StorageType storage;
+
+    private Element content;
 
     /**
      * Content.
@@ -60,5 +64,21 @@ public abstract class Content extends XLinkResource {
      */
     public void setStorage(final StorageType storage) {
         this.storage = storage;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public Element getContent() {
+        return content;
+    }
+
+    /**
+     * 
+     * @param content
+     */
+    public void setContent(final Element content) {
+        this.content = content;
     }
 }
