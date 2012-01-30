@@ -76,7 +76,6 @@ public class MetadataRecord extends NamedSubResource {
      *            the record to set
      */
     public void setContent(final Element content) {
-
         this.content = content;
     }
 

@@ -112,7 +112,12 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
         // Item.ContentStreams
         assertNotNull(obj.getContentStreams());
         assertXLinkList("/escidocItem:item/escidocContentStreams:content-streams", obj.getContentStreams());
-        // TODO
+        final String contentStreamXPath =
+            "/escidocItem:item/escidocContentStreams:content-streams/escidocContentStreams:content-stream[1]";
+        assertNamedSubResource(contentStreamXPath, obj.getContentStreams().get(0));
+        assertNotNull(obj.getContentStreams().get(0).getContent());
+        // TODO: test content (XPath cannot resolve the namspace for foo:bar
+        // because it is not part of the namespace-node.
 
         // Item.Components
         assertNotNull(obj.getComponents());

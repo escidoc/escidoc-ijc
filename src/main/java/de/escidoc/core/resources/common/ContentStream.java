@@ -153,8 +153,8 @@ public class ContentStream extends NamedSubResource {
     }
 
     /**
-     * @param hrefOrBase64Content
-     *            the hrefOrBase64Content to set
+     * @param content
+     *            the content to set
      */
     public void setContent(final Element content) {
         this.content = content;
