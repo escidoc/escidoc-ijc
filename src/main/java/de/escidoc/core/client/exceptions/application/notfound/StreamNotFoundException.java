@@ -2,9 +2,7 @@ package de.escidoc.core.client.exceptions.application.notfound;
 
 import java.io.Serializable;
 
-import de.escidoc.core.client.exceptions.EscidocException;
-
-public class StreamNotFoundException extends EscidocException implements Serializable {
+public class StreamNotFoundException extends ResourceNotFoundException implements Serializable {
 
     /**
      * 
