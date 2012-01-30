@@ -43,13 +43,11 @@ public abstract class RestClientBase extends ClientBase implements RestCallbackH
      */
     @Override
     public void handleHttpMethod(final HttpRequestBase method) {
+        HttpClientParams.setRedirecting(method.getParams(), false);
 
         if (getHandle() == null || "".equals(getHandle())) {
             return;
         }
-
         method.addHeader("Cookie", ESCIDOC_COOKIE_ENTRY + "=" + getHandle());
-
-        HttpClientParams.setRedirecting(method.getParams(), false);
     }
 }
