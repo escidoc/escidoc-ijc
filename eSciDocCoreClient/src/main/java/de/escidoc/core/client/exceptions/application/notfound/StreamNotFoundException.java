@@ -9,24 +9,25 @@ package de.escidoc.core.client.exceptions.application.notfound;
 
 import java.lang.reflect.Field;
 
-public class StreamNotFoundException extends de.escidoc.core.client.exceptions.EscidocException
+public class StreamNotFoundException
+    extends de.escidoc.core.client.exceptions.application.notfound.ResourceNotFoundException
     implements java.io.Serializable {
-    public StreamNotFoundException(String message, Throwable cause) {
+    public StreamNotFoundException(final String message, final Throwable cause) {
         super(message, cause);
         try {
-            Class te = StreamNotFoundException.class;
-            Class cE =
+            final Class te = StreamNotFoundException.class;
+            final Class cE =
                 Class.forName(te.getName().replace("de.escidoc.core.client.exceptions",
                     "de.escidoc.core.common.exceptions.remote"));
-            Field[] tF = te.getDeclaredFields();
-            Field[] cF = cE.getDeclaredFields();
+            final Field[] tF = te.getDeclaredFields();
+            final Field[] cF = cE.getDeclaredFields();
             for (int i = 0; i < tF.length; ++i) {
                 tF[i].setAccessible(true);
                 cF[i].setAccessible(true);
                 tF[i].set(this, cF[i].get(cause));
             }
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -34,22 +35,24 @@ public class StreamNotFoundException extends de.escidoc.core.client.exceptions.E
     public StreamNotFoundException() {
     }
 
-    public StreamNotFoundException(int httpStatusCode, java.lang.String httpStatusLine, java.lang.String httpStatusMsg) {
+    public StreamNotFoundException(final int httpStatusCode, final java.lang.String httpStatusLine,
+        final java.lang.String httpStatusMsg) {
         super(httpStatusCode, httpStatusLine, httpStatusMsg);
     }
 
     private java.lang.Object __equalsCalc = null;
 
-    public synchronized boolean equals(java.lang.Object obj) {
+    @Override
+    public synchronized boolean equals(final java.lang.Object obj) {
         if (!(obj instanceof StreamNotFoundException))
             return false;
-        StreamNotFoundException other = (StreamNotFoundException) obj;
+        final StreamNotFoundException other = (StreamNotFoundException) obj;
         if (obj == null)
             return false;
         if (this == obj)
             return true;
         if (__equalsCalc != null) {
-            return (__equalsCalc == obj);
+            return __equalsCalc == obj;
         }
         __equalsCalc = obj;
         boolean _equals;
@@ -60,19 +63,20 @@ public class StreamNotFoundException extends de.escidoc.core.client.exceptions.E
 
     private boolean __hashCodeCalc = false;
 
+    @Override
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
             return 0;
         }
         __hashCodeCalc = true;
-        int _hashCode = super.hashCode();
+        final int _hashCode = super.hashCode();
         __hashCodeCalc = false;
         return _hashCode;
     }
 
     // Type metadata
-    private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(StreamNotFoundException.class, true);
+    private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
+        StreamNotFoundException.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName(
@@ -90,7 +94,7 @@ public class StreamNotFoundException extends de.escidoc.core.client.exceptions.E
      * Get Custom Serializer
      */
     public static org.apache.axis.encoding.Serializer getSerializer(
-        java.lang.String mechType, java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
+        final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
         return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
     }
 
@@ -98,14 +102,16 @@ public class StreamNotFoundException extends de.escidoc.core.client.exceptions.E
      * Get Custom Deserializer
      */
     public static org.apache.axis.encoding.Deserializer getDeserializer(
-        java.lang.String mechType, java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
+        final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
         return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
     }
 
     /**
      * Writes the exception data to the faultDetails
      */
-    public void writeDetails(javax.xml.namespace.QName qname, org.apache.axis.encoding.SerializationContext context)
+    @Override
+    public void writeDetails(
+        final javax.xml.namespace.QName qname, final org.apache.axis.encoding.SerializationContext context)
         throws java.io.IOException {
         context.serialize(qname, null, this);
     }
