@@ -28,7 +28,7 @@
  */
 package de.escidoc.core.resources.om.item.component;
 
-import org.apache.commons.codec.binary.Base64;
+import org.w3c.dom.Element;
 
 import de.escidoc.core.resources.XLinkType;
 import de.escidoc.core.resources.om.item.Content;
@@ -40,24 +40,6 @@ import de.escidoc.core.resources.om.item.Content;
  * 
  */
 public class ComponentContent extends Content {
-
-    private String base64EncodedContent;
-
-    /**
-     * 
-     * @param base64EncodedContent
-     */
-    public void setBase64EncodedContent(final String base64EncodedContent) {
-        this.base64EncodedContent = base64EncodedContent;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public String getBase64EncodedContent() {
-        return base64EncodedContent;
-    }
 
     /*
      * (non-Javadoc)
@@ -93,6 +75,26 @@ public class ComponentContent extends Content {
         super.setXLinkTitle(title);
     }
 
+    /**
+     * @see de.escidoc.core.resources.om.item.Content#setContent(Element)
+     * @deprecated See INFR-1377
+     */
+    @Override
+    @Deprecated
+    public void setContent(final Element content) {
+        super.setContent(content);
+    }
+
+    /**
+     * @see de.escidoc.core.resources.om.item.Content#getContent()
+     * @deprecated See INFR-1377
+     */
+    @Deprecated
+    @Override
+    public Element getContent() {
+        return super.getContent();
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -108,43 +110,5 @@ public class ComponentContent extends Content {
          * item resource or by the infrastructure in order to return the href
          * for the content for retrieval.
          */
-    }
-
-    /**
-     * Encode binary content.
-     * 
-     * @param inlineContent
-     * @return base64 encoded content as String
-     */
-    public static final String encodeBinaryContent(final String inlineContent) {
-        return Base64.encodeBase64String(inlineContent.getBytes());
-    }
-
-    /**
-     * 
-     * @param inlineContent
-     * @return base64 encoded content as String
-     */
-    public static final byte[] encodeBinaryContent(final byte[] inlineContent) {
-        return Base64.encodeBase64(inlineContent);
-    }
-
-    /**
-     * Decode binary content.
-     * 
-     * @param base64EncodedContent
-     * @return base64 decoded content as String
-     */
-    public static final String decodeBinaryContent(final String base64EncodedContent) {
-        return new String(Base64.decodeBase64(base64EncodedContent.getBytes()));
-    }
-
-    /**
-     * 
-     * @param base64EncodedContent
-     * @return base64 decoded content as byte[]
-     */
-    public static final byte[] decodeBinaryContent(final byte[] base64EncodedContent) {
-        return Base64.decodeBase64(base64EncodedContent);
     }
 }

@@ -29,8 +29,12 @@
 package de.escidoc.core.resources.common;
 
 import static de.escidoc.core.common.Precondition.checkNotNull;
+
+import org.w3c.dom.Element;
+
 import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.NamedSubResource;
+import de.escidoc.core.resources.XLinkType;
 
 /**
  * Content Stream.
@@ -44,7 +48,7 @@ public class ContentStream extends NamedSubResource {
 
     private String storage;
 
-    private String hrefOrBase64Content;
+    private Element content;
 
     private boolean inherited = false;
 
@@ -68,6 +72,40 @@ public class ContentStream extends NamedSubResource {
      */
     @JiBX
     protected ContentStream() {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkHref(java.lang.String)
+     */
+    @Override
+    public void setXLinkHref(final String xLinkHref) {
+        super.setXLinkHref(xLinkHref);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkType(de.escidoc.core.
+     * resources.XLinkType)
+     */
+    @Override
+    public void setXLinkType(final XLinkType type) {
+        super.setXLinkType(type);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.escidoc.core.resources.XLinkResource#setXLinkTitle(java.lang.String)
+     */
+    @Override
+    public void setXLinkTitle(final String title) {
+        super.setXLinkTitle(title);
     }
 
     /**
@@ -118,16 +156,37 @@ public class ContentStream extends NamedSubResource {
     /**
      * @param hrefOrBase64Content
      *            the hrefOrBase64Content to set
+     * @deprecated Use {@link ContentStream#setContent(Element)} instead.
      */
+    @Deprecated
     public void setHrefOrBase64Content(final String hrefOrBase64Content) {
-        this.hrefOrBase64Content = hrefOrBase64Content;
+
+    }
+
+    /**
+     * 
+     * @param content
+     *            The content to add.
+     */
+    public void setContent(final Element content) {
+        this.content = content;
+    }
+
+    /**
+     * 
+     * @return The content
+     */
+    public Element getContent() {
+        return this.content;
     }
 
     /**
      * @return the hrefOrBase64Content
+     * @deprecated Use {@link ContentStream#getContent()} instead.
      */
+    @Deprecated
     public String getHrefOrBase64Content() {
-        return hrefOrBase64Content;
+        return null;
     }
 
     /*
