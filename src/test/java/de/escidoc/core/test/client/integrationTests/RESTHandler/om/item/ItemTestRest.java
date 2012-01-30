@@ -68,7 +68,9 @@ public class ItemTestRest {
 
     @After
     public void post() throws Exception {
-        auth.logout();
+        if (auth != null) {
+            auth.logout();
+        }
     }
 
     /**
