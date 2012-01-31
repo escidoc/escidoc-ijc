@@ -1,10 +1,8 @@
 package de.escidoc.core.client.exceptions.system;
 
-import java.io.Serializable;
-
 import de.escidoc.core.client.exceptions.EscidocException;
 
-public class SystemException extends EscidocException implements Serializable {
+public class SystemException extends EscidocException {
 
     /**
      * 

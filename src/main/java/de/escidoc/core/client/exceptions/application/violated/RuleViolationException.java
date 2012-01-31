@@ -1,10 +1,8 @@
 package de.escidoc.core.client.exceptions.application.violated;
 
-import java.io.Serializable;
-
 import de.escidoc.core.client.exceptions.application.ApplicationException;
 
-public class RuleViolationException extends ApplicationException implements Serializable {
+public class RuleViolationException extends ApplicationException {
 
     /**
      * 

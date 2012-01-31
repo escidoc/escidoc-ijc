@@ -1,10 +1,8 @@
 package de.escidoc.core.client.exceptions.application.notfound;
 
-import java.io.Serializable;
-
 import de.escidoc.core.client.exceptions.application.ApplicationException;
 
-public class ResourceNotFoundException extends ApplicationException implements Serializable {
+public class ResourceNotFoundException extends ApplicationException {
 
     /**
      * 

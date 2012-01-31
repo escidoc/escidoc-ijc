@@ -1,14 +1,12 @@
 package de.escidoc.core.client.exceptions.application.invalid;
 
-import java.io.Serializable;
-
 import de.escidoc.core.client.exceptions.application.ApplicationException;
 
 /**
  * @author Marko Voß
  * 
  */
-public class TmeException extends ApplicationException implements Serializable {
+public class TmeException extends ApplicationException {
 
     /**
      * 

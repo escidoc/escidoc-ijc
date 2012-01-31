@@ -1,8 +1,6 @@
 package de.escidoc.core.client.exceptions.system;
 
-import java.io.Serializable;
-
-public class WebserverSystemException extends SystemException implements Serializable {
+public class WebserverSystemException extends SystemException {
 
     /**
      * 

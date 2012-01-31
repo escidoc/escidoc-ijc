@@ -1,12 +1,10 @@
 package de.escidoc.core.client.exceptions.application.missing;
 
-import java.io.Serializable;
-
 /**
  * @author Marko Voß
  * 
  */
-public class MissingContentException extends MissingParameterException implements Serializable {
+public class MissingContentException extends MissingParameterException {
 
     /**
      * 

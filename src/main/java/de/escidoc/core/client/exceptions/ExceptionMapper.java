@@ -126,11 +126,13 @@ public class ExceptionMapper extends Exception {
     }
 
     /**
+     * TODO: remove method?
      * 
      * @param commonE
      * @throws InternalClientException
      * @throws EscidocException
      */
+    @SuppressWarnings("unused")
     private static void constructEscidocException(final EscidocException commonE) throws InternalClientException,
         EscidocException {
 

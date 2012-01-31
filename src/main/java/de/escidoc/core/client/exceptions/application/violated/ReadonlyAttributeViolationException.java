@@ -1,8 +1,6 @@
 package de.escidoc.core.client.exceptions.application.violated;
 
-import java.io.Serializable;
-
-public class ReadonlyAttributeViolationException extends ReadonlyViolationException implements Serializable {
+public class ReadonlyAttributeViolationException extends ReadonlyViolationException {
 
     /**
      * 

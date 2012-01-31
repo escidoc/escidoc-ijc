@@ -1,8 +1,6 @@
 package de.escidoc.core.client.exceptions.application.security;
 
-import java.io.Serializable;
-
-public class AuthenticationException extends SecurityException implements Serializable {
+public class AuthenticationException extends SecurityException {
 
     /**
      * 

@@ -1,12 +1,10 @@
 package de.escidoc.core.client.exceptions.application.missing;
 
-import java.io.Serializable;
-
 /**
  * @author Marko Voß
  * 
  */
-public class MissingAttributeValueException extends MissingParameterException implements Serializable {
+public class MissingAttributeValueException extends MissingParameterException {
 
     /**
      * 

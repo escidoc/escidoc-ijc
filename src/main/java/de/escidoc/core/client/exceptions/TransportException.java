@@ -1,8 +1,6 @@
 package de.escidoc.core.client.exceptions;
 
-import java.io.Serializable;
-
-public class TransportException extends EscidocClientException implements Serializable {
+public class TransportException extends EscidocClientException {
 
     /**
      *

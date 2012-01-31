@@ -1,8 +1,6 @@
 package de.escidoc.core.client.exceptions.application.invalid;
 
-import java.io.Serializable;
-
-public class InvalidPidException extends ValidationException implements Serializable {
+public class InvalidPidException extends ValidationException {
 
     /**
      * 

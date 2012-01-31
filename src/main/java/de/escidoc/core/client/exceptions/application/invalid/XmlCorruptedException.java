@@ -1,12 +1,10 @@
 package de.escidoc.core.client.exceptions.application.invalid;
 
-import java.io.Serializable;
-
 /**
  * @author Marko Voß
  * 
  */
-public class XmlCorruptedException extends InvalidXmlException implements Serializable {
+public class XmlCorruptedException extends InvalidXmlException {
 
     /**
      * 

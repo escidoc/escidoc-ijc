@@ -1,8 +1,6 @@
 package de.escidoc.core.client.exceptions;
 
-import java.io.Serializable;
-
-public abstract class EscidocException extends EscidocClientException implements Serializable {
+public abstract class EscidocException extends EscidocClientException {
 
     /**
      * 

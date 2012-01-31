@@ -3,13 +3,11 @@
  */
 package de.escidoc.core.client.exceptions.application.invalid;
 
-import java.io.Serializable;
-
 /**
  * @author Marko Voß
  * 
  */
-public class InvalidScopeException extends ValidationException implements Serializable {
+public class InvalidScopeException extends ValidationException {
 
     /**
      * 

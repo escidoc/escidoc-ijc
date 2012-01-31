@@ -28,9 +28,7 @@
  */
 package de.escidoc.core.client.exceptions;
 
-import java.io.Serializable;
-
-public abstract class EscidocClientException extends Exception implements Serializable {
+public abstract class EscidocClientException extends Exception {
 
     private static final long serialVersionUID = -1224004371386693078L;
 

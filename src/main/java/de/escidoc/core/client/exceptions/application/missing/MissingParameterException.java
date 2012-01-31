@@ -1,10 +1,8 @@
 package de.escidoc.core.client.exceptions.application.missing;
 
-import java.io.Serializable;
-
 import de.escidoc.core.client.exceptions.application.ApplicationException;
 
-public class MissingParameterException extends ApplicationException implements Serializable {
+public class MissingParameterException extends ApplicationException {
 
     /**
      * 

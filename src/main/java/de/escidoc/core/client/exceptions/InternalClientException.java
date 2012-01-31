@@ -1,8 +1,6 @@
 package de.escidoc.core.client.exceptions;
 
-import java.io.Serializable;
-
-public class InternalClientException extends EscidocClientException implements Serializable {
+public class InternalClientException extends EscidocClientException {
 
     /**
      *

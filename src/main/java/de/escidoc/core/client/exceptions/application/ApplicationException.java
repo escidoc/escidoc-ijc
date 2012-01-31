@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import de.escidoc.core.client.exceptions.EscidocException;
 
-public abstract class ApplicationException extends EscidocException implements Serializable {
+public abstract class ApplicationException extends EscidocException {
 
     /**
      * 

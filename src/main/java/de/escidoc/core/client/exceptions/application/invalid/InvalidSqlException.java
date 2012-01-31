@@ -1,12 +1,10 @@
 package de.escidoc.core.client.exceptions.application.invalid;
 
-import java.io.Serializable;
-
 /**
  * @author Marko Voß
  * 
  */
-public class InvalidSqlException extends ValidationException implements Serializable {
+public class InvalidSqlException extends ValidationException {
 
     /**
      * 

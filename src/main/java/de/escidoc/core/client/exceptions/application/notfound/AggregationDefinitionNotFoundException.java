@@ -1,8 +1,6 @@
 package de.escidoc.core.client.exceptions.application.notfound;
 
-import java.io.Serializable;
-
-public class AggregationDefinitionNotFoundException extends ResourceNotFoundException implements Serializable {
+public class AggregationDefinitionNotFoundException extends ResourceNotFoundException {
 
     /**
      * 
