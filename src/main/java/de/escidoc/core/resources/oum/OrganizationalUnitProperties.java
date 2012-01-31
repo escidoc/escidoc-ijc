@@ -28,6 +28,9 @@
  */
 package de.escidoc.core.resources.oum;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.escidoc.core.resources.common.properties.CommonProperties;
 import de.escidoc.core.resources.common.properties.PublicStatus;
 import de.escidoc.core.resources.common.properties.interfaces.DescriptionProperties;
@@ -55,7 +58,7 @@ public class OrganizationalUnitProperties extends CommonProperties
 
     private String description;
 
-    private String externalIds;
+    private List<String> externalIds;
 
     private Boolean hasChildren = false;
 
@@ -180,22 +183,22 @@ public class OrganizationalUnitProperties extends CommonProperties
     }
 
     /**
-     * Get externalIds of OrganizationalUnit.
      * 
-     * @return externalIds
+     * @param externalIds
      */
-    public String getExternalIds() {
-        return this.externalIds;
+    public void setExternalIds(final List<String> externalIds) {
+        this.externalIds = externalIds;
     }
 
     /**
-     * Set externalIds of OrganizationalUnit.
      * 
-     * @param externalIds
-     *            The new externalIds.
+     * @return
      */
-    public void setExternalIds(final String externalIds) {
-        this.externalIds = externalIds;
+    public List<String> getExternalIds() {
+        if (this.externalIds == null) {
+            this.externalIds = new ArrayList<String>();
+        }
+        return this.externalIds;
     }
 
     /**
