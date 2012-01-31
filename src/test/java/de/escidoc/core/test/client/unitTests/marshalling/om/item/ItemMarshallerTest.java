@@ -121,7 +121,7 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
         assertXLinkList("/escidocItem:item/escidocComponents:components", obj.getComponents());
 
         // Item.Components.Component[1]
-        String componentXPath = "/escidocItem:item/escidocComponents:components/escidocComponents:component[1]";
+        final String componentXPath = "/escidocItem:item/escidocComponents:components/escidocComponents:component[1]";
         assertResource(componentXPath, obj.getComponents().get(0));
 
         // Item.Components.Component[1].Properties
@@ -154,8 +154,6 @@ public class ItemMarshallerTest extends MarshallerTestBase<Item> {
         assertXLinkResource(componentXPath + "/escidocComponents:content", obj.getComponents().get(0).getContent());
         assertEnum(componentXPath + "/escidocComponents:content/@storage", obj
             .getComponents().get(0).getContent().getStorage());
-        assertXPath(componentXPath + "/escidocComponents:content", obj
-            .getComponents().get(0).getContent().getBase64EncodedContent());
 
         // Item.Components.Component[1].MdRecords
         assertNotNull(obj.getComponents().get(0).getMetadataRecords());
