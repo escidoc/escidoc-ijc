@@ -80,8 +80,8 @@ public class OrganizationalUnitMarshallerTest extends MarshallerTestBase<Organiz
         assertXLinkList(path + "/escidocOrganizationalUnit:predecessors", obj.getPredecessors());
 
         // Predecessor[1]
-        assertResource(path + "/escidocOrganizationalUnit:predecessors/srel:predecessor[1]",
-            obj.getPredecessors().get(0));
+        assertResource(path + "/escidocOrganizationalUnit:predecessors/srel:predecessor[1]", obj.getPredecessors().get(
+            0));
         assertEnum(path + "/escidocOrganizationalUnit:predecessors/srel:predecessor[1]/@form", obj
             .getPredecessors().get(0).getForm());
     }
