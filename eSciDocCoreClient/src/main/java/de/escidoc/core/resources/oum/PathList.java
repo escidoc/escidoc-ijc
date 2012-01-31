@@ -28,15 +28,27 @@
  */
 package de.escidoc.core.resources.oum;
 
+import de.escidoc.core.resources.XLinkList;
+
 /**
  * 
- * @author SWA
+ * @author Marko Voss (marko.voss@fiz-karlsruhe.de)
  * 
  */
-public class PathList {
+public class PathList extends XLinkList<Path> {
 
-    public PathList() {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6811107606412111402L;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.escidoc.core.resources.XLinkList#getListXLinkPath()
+     */
+    @Override
+    protected String getListXLinkPath() {
+        return null;
     }
-
 }
