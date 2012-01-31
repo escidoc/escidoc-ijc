@@ -3,6 +3,7 @@
  */
 package de.escidoc.core.test.client.unitTests.marshalling.oum.ou;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -58,7 +59,10 @@ public class OrganizationalUnitMarshallerTest extends MarshallerTestBase<Organiz
         assertXPath(path + "/prop:public-status-comment", obj.getProperties().getPublicStatusComment());
         assertXPath(path + "/prop:name", obj.getProperties().getName());
         assertXPath(path + "/prop:description", obj.getProperties().getDescription());
-        assertXPath(path + "/prop:external-ids", obj.getProperties().getExternalIds());
+        assertNotNull(obj.getProperties().getExternalIds());
+        assertEquals(2, obj.getProperties().getExternalIds().size());
+        assertXPath(path + "/prop:external-ids/prop:external-id[1]", obj.getProperties().getExternalIds().get(0));
+        assertXPath(path + "/prop:external-ids/prop:external-id[2]", obj.getProperties().getExternalIds().get(1));
         assertXPath(path + "/prop:has-children", obj.getProperties().getHasChildren());
 
         path = "/escidocOrganizationalUnit:organizational-unit";
