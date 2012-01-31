@@ -41,9 +41,13 @@
       ns="http://escidoc.de/core/01/properties/"
       set-method="setDescription" get-method="getDescription"/>
 
-    <value name="external-ids" usage="optional"
-      ns="http://escidoc.de/core/01/properties/"
-      set-method="setExternalIds" get-method="getExternalIds"/>
+    <collection name="external-ids" usage="optional"
+      ns="http://escidoc.de/core/01/properties/" 
+      field="externalIds" create-type="java.util.ArrayList" item-type="java.lang.String">
+      <structure name="external-id" ns="http://escidoc.de/core/01/properties/">
+        <value style="text"/>
+      </structure>
+    </collection>
 
     <value name="has-children" usage="optional"
       ns="http://escidoc.de/core/01/properties/"
