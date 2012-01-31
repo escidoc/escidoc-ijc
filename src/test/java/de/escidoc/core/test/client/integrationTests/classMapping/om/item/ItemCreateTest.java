@@ -614,8 +614,8 @@ public class ItemCreateTest {
         component.setProperties(componentProperties);
         final ComponentContent content = new ComponentContent();
         content.setStorageType(StorageType.INTERNAL_MANAGED);
-        // FIXME INFR-1377
-        // content.setContent();
+        content.setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString()
+            + "/images/escidoc-logo.jpg");
         component.setContent(content);
 
         final Components components = new Components();
@@ -664,8 +664,8 @@ public class ItemCreateTest {
         item.setComponents(components);
         final ComponentContent content = new ComponentContent();
         content.setStorageType(StorageType.INTERNAL_MANAGED);
-        // FIXME see INFR-1377
-        // content.setContent()
+        content.setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString()
+            + "/images/escidoc-logo.jpg");
         component.setContent(content);
 
         // only for debug
@@ -829,8 +829,8 @@ public class ItemCreateTest {
         item.setComponents(components);
         final ComponentContent content = new ComponentContent();
         content.setStorageType(StorageType.INTERNAL_MANAGED);
-        // FIXME see INFR-1377
-        // content.setContent()
+        content.setXLinkHref(EscidocClientTestBase.getDefaultInfrastructureURL().toString()
+            + "/images/escidoc-logo.jpg");
         component.setContent(content);
 
         return ihc.create(item);
