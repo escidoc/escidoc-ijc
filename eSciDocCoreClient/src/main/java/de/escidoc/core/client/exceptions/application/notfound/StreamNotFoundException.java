@@ -75,8 +75,8 @@ public class StreamNotFoundException
     }
 
     // Type metadata
-    private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-        StreamNotFoundException.class, true);
+    private static org.apache.axis.description.TypeDesc typeDesc =
+        new org.apache.axis.description.TypeDesc(StreamNotFoundException.class, true);
 
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName(
