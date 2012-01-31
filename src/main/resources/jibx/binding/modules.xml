@@ -33,6 +33,7 @@
   <include path="oum/ou/0.8/properties.xml"/>
   <include path="oum/ou/0.8/parents.xml"/>
   <include path="oum/ou/0.8/predecessors.xml"/>
+  <include path="oum/ou/0.8/pathlist.xml"/>
   
   <!-- CMM -->
   <include path="cmm/cm/0.1/content-model.xml"/>
