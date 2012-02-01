@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.escidoc.core</groupId>
   <artifactId>escidoc-ijc</artifactId>
-  <version>1.4-SNAPSHOT</version>
+  <version>trunk-SNAPSHOT</version>
   <name>eSciDoc Infrastructure Java Connector</name>
   <description>eSciDoc Infrastructure Java Connector for eSciDoc Infrastructure v1.4</description>
 
@@ -40,7 +40,7 @@
     <fedora.database.user>fedoraAdmin</fedora.database.user>
     <fedora.database.password>fedoraAdmin</fedora.database.password>
     <triplestore.database>riTriples</triplestore.database>
-    <escidoc.version>1.4-SNAPSHOT</escidoc.version>
+    <escidoc.version>trunk-SNAPSHOT</escidoc.version>
     <escidoc.database>escidoc-core</escidoc.database>
     <escidoc.database.host>localhost</escidoc.database.host>
     <escidoc.database.port>5432</escidoc.database.port>
