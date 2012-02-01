@@ -40,7 +40,7 @@
     <fedora.database.user>fedoraAdmin</fedora.database.user>
     <fedora.database.password>fedoraAdmin</fedora.database.password>
     <triplestore.database>riTriples</triplestore.database>
-    <escidoc.version>1.4.0</escidoc.version>
+    <escidoc.version>1.4</escidoc.version>
     <escidoc.database>escidoc-core</escidoc.database>
     <escidoc.database.host>localhost</escidoc.database.host>
     <escidoc.database.port>5432</escidoc.database.port>
