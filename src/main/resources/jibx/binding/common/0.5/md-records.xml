@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5"
+    prefix="escidocMetadataRecords"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- md-records -->
+	<mapping class="de.escidoc.core.resources.common.MetadataRecords" 
+    abstract="true" type-name="common.md-records">
+    
+    <structure map-as="de.escidoc.core.resources.XLinkResourceList"/>
+
+    <collection create-type="de.escidoc.core.resources.common.MetadataRecords"
+      item-type="de.escidoc.core.resources.common.MetadataRecord"/>
+  </mapping>
+  
+  <!-- md-record -->
+  <mapping class="de.escidoc.core.resources.common.MetadataRecord"
+    abstract="true" type-name="common.md-record">
+    
+    <structure map-as="de.escidoc.core.resources.NamedSubResource"/>
+    
+    <value name="md-type" set-method="setMdType" get-method="getMdType"
+      style="attribute" usage="optional" />
+    <value name="schema" set-method="setSchema" get-method="getSchema"
+      style="attribute" usage="optional" />
+      
+    <structure field="content" type="org.w3c.dom.Element"
+      marshaller="org.jibx.extras.DomElementMapper" 
+      unmarshaller="org.jibx.extras.DomElementMapper"
+      usage="optional" />
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- md-records -->
+  <mapping name="md-records"
+    ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
+    class="de.escidoc.core.resources.common.MetadataRecords">
+    <structure map-as="common.md-records"/>
+  </mapping>
+  
+	<!-- md-record -->
+	<mapping name="md-record"
+    ns="http://www.escidoc.de/schemas/metadatarecords/0.5"
+    class="de.escidoc.core.resources.common.MetadataRecord">
+    <structure map-as="common.md-record"/>
+  </mapping>
+
+</binding>

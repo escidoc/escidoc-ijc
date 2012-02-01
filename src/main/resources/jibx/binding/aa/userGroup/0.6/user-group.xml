@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/usergroup/0.6" prefix="user-group"/>
+	<namespace uri="http://escidoc.de/core/01/properties/" prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.aa.usergroup.UserGroup"
+    abstract="true" type-name="aa.user-group"
+    post-set="generateXLinkHref">
+    
+    <structure map-as="de.escidoc.core.resources.GenericResource"/>
+      
+    <structure field="properties" usage="optional"/>
+     
+    <structure field="selectors" usage="optional"/>
+    
+    <!-- ignore -->
+    <structure name="resources" usage="optional"
+      ns="http://www.escidoc.de/schemas/usergroup/0.6"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="user-group" ns="http://www.escidoc.de/schemas/usergroup/0.6" 
+    class="de.escidoc.core.resources.aa.usergroup.UserGroup">
+    <structure map-as="aa.user-group"/>
+  </mapping>
+
+</binding>

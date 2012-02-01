@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/role/0.5" prefix="role"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- scope (alias scope-definitions) -->
+	<mapping class="de.escidoc.core.resources.aa.role.Scope" 
+    abstract="true" type-name="aa.role.scope">
+    
+    <value name="unlimited" style="attribute" usage="optional"
+      set-method="setUnlimited" get-method="isUnlimited"/>
+    
+    <collection field="scopeDefinitions" create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.aa.role.ScopeDef"/>
+  </mapping>
+
+  <!-- scope-definition -->
+  <mapping class="de.escidoc.core.resources.aa.role.ScopeDef"
+    abstract="true" type-name="aa.role.scope-definition">
+    
+    <value name="resource-type" style="attribute"
+      field="resourceType" enum-value-method="getXmlValue"/>
+    <value name="relation-attribute-id" style="attribute" usage="optional"
+      field="relationAttributeId"/>
+    <value name="relation-attribute-object-type" style="attribute" usage="optional" 
+      field="relationAttributeObjectType" enum-value-method="getXmlValue"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- scope (alias scope-definitions) -->
+  <mapping name="scope" ns="http://www.escidoc.de/schemas/role/0.5"
+    class="de.escidoc.core.resources.aa.role.Scope">
+    <structure map-as="aa.role.scope"/>
+  </mapping>
+  
+  <!-- scope-definition -->
+  <mapping name="scope-def" ns="http://www.escidoc.de/schemas/role/0.5"
+    class="de.escidoc.core.resources.aa.role.ScopeDef">
+    <structure map-as="aa.role.scope-definition"/>
+  </mapping>
+
+</binding>

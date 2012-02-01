@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/usergroup/0.6" prefix="user-group"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- selectors -->
+  <mapping class="de.escidoc.core.resources.aa.usergroup.Selectors"
+    abstract="true" type-name="aa.user-group.selectors">
+    
+    <collection create-type="de.escidoc.core.resources.aa.usergroup.Selectors"
+      item-type="de.escidoc.core.resources.aa.usergroup.Selector"/>
+  </mapping>
+	
+	<!-- selector -->
+	<mapping class="de.escidoc.core.resources.aa.usergroup.Selector"
+    abstract="true" type-name="aa.user-group.selector"
+    post-set="generateXLinkHref">
+    
+    <structure map-as="de.escidoc.core.resources.Resource"/>
+    
+    <value name="name" style="attribute" field="name"/>
+    <value name="type" style="attribute" field="type" enum-value-method="getXmlValue"/>
+    <value style="text" field="content"/>    
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- selectors -->
+  <mapping name="selectors" ns="http://www.escidoc.de/schemas/usergroup/0.6"
+    class="de.escidoc.core.resources.aa.usergroup.Selectors">
+    <structure map-as="aa.user-group.selectors"/>
+  </mapping>
+	
+	<!-- selector -->
+  <mapping name="selector" ns="http://www.escidoc.de/schemas/usergroup/0.6"
+    class="de.escidoc.core.resources.aa.usergroup.Selector">
+    <structure map-as="aa.user-group.selector"/>
+  </mapping>
+
+</binding>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<escidocContainer:container xmlns:struct-map="http://www.escidoc.de/schemas/structmap/0.4"
+  xmlns:relations="http://www.escidoc.de/schemas/relations/0.3"
+  xmlns:escidocMetadataRecords="http://www.escidoc.de/schemas/metadatarecords/0.5"
+  xmlns:version="http://escidoc.de/core/01/properties/version/"
+  xmlns:release="http://escidoc.de/core/01/properties/release/"
+  xmlns:escidocContainer="http://www.escidoc.de/schemas/container/0.9"
+  xmlns:prop="http://escidoc.de/core/01/properties/" 
+  xmlns:srel="http://escidoc.de/core/01/structural-relations/"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xlink:type="simple"
+  xlink:href="/ir/container/escidoc:188602"
+  last-modification-date="2010-07-08T14:22:25.199Z">
+  <escidocContainer:properties xlink:href="/ir/container/escidoc:188602/properties">
+    <prop:creation-date>2010-07-08T14:22:25.199Z</prop:creation-date>
+    <srel:created-by xlink:type="simple"
+      xlink:href="/aa/user-account/escidoc:exuser1" />
+    <prop:public-status>pending</prop:public-status>
+    <prop:public-status-comment>Object escidoc:188602 created.</prop:public-status-comment>
+    <prop:name>Container escidoc:188602</prop:name>
+    <prop:description>Container escidoc:188602 Description</prop:description>
+    <srel:context xlink:type="simple" xlink:href="/ir/context/escidoc:ex1" />
+    <srel:content-model xlink:type="simple"
+      xlink:href="/ir/content-model/escidoc:ex4" />
+    <prop:lock-status>locked</prop:lock-status>
+    <prop:lock-date>2010-07-09T12:24:19.314Z</prop:lock-date>
+    <srel:lock-owner xlink:type="simple"
+      xlink:href="/aa/user-account/escidoc:10001" />
+    <prop:pid>hdl:someHandle/test/escidoc:12345</prop:pid>
+    
+    <prop:version xlink:type="simple" xlink:href="/ir/container/escidoc:188602:1">
+      <version:number>1</version:number>
+      <version:date>2010-07-08T14:22:25.199Z</version:date>
+      <version:status>pending</version:status>
+      <srel:modified-by xlink:type="simple"
+        xlink:href="/aa/user-account/escidoc:exuser1" />
+      <version:comment>Object escidoc:188602 created.</version:comment>
+      <version:pid>hdl:someHandle/test/escidoc:40011:1</version:pid>
+    </prop:version>
+    
+    <prop:latest-version xlink:type="simple" xlink:href="/ir/container/escidoc:188602:1">
+      <version:number>1</version:number>
+      <version:date>2010-07-08T14:22:25.199Z</version:date>
+    </prop:latest-version>
+  
+    <prop:latest-release xlink:href="/ir/container/escidoc:188602:1" xlink:type="simple">
+      <release:number>1</release:number>
+      <release:date>2010-07-06T13:10:16.536Z</release:date>
+      <release:pid>hdl:someHandle/test/escidoc:40011:1</release:pid>
+    </prop:latest-release>
+  
+    <prop:content-model-specific xmlns:prop="http://escidoc.de/core/01/properties/">
+      <cms></cms>
+      <some-other-stuff>some content - 1276014285368018000</some-other-stuff>
+    </prop:content-model-specific>
+  </escidocContainer:properties>
+  <escidocMetadataRecords:md-records xlink:href="/ir/container/escidoc:188602/md-records">
+    <escidocMetadataRecords:md-record name="md-record2" xlink:href="/ir/container/escidoc:188602/md-records/md-record/md-record2">
+      <myMdRecord>
+        33333333333333333333
+        <some-other-stuff></some-other-stuff>
+      </myMdRecord>
+    </escidocMetadataRecords:md-record>
+
+    <escidocMetadataRecords:md-record name="md-record3" xlink:href="/ir/container/escidoc:188602/md-records/md-record/md-record3">
+      <myMdRecord></myMdRecord>
+    </escidocMetadataRecords:md-record>
+
+    <escidocMetadataRecords:md-record name="escidoc" xlink:href="/ir/container/escidoc:188602/md-records/md-record/escidoc">
+      <myMdRecord></myMdRecord>
+    </escidocMetadataRecords:md-record>
+  </escidocMetadataRecords:md-records>
+  <struct-map:struct-map xlink:href="/ir/container/escidoc:188602/struct-map">
+    <srel:item xlink:type="simple" xlink:href="/ir/item/escidoc:198576"/>
+    <srel:item xlink:type="simple" xlink:href="/ir/item/escidoc:198577"/>
+    <srel:container xlink:type="simple" xlink:href="/ir/container/escidoc:188601"/>
+  </struct-map:struct-map>
+  <relations:relations xlink:href="/ir/container/escidoc:188602/relations">
+    <relations:relation xlink:href="/ir/item/escidoc:rel1234" xlink:type="simple" predicate="test:foo:bar"/>
+    <relations:relation xlink:href="/oum/organizational-unit/escidoc:rel4567" xlink:type="simple" predicate="test:foo:bar"/>
+  </relations:relations>
+  <escidocContainer:resources>
+  </escidocContainer:resources>
+</escidocContainer:container>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/organizationalunit/0.8" prefix="escidocOrganizationalUnit"/>
+  <namespace uri="http://escidoc.de/core/01/properties/" prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+  <namespace uri="http://escidoc.de/core/01/properties/version/" prefix="version"/>
+  <namespace uri="http://escidoc.de/core/01/properties/release/" prefix="release"/>
+  <namespace uri="http://www.escidoc.de/schemas/relations/0.3" prefix="relations"/>
+  <namespace uri="http://www.escidoc.de/schemas/metadatarecords/0.5" prefix="escidocMetadataRecords"/>
+  <namespace uri="http://www.escidoc.de/schemas/structmap/0.4" prefix="struct-map"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.oum.OrganizationalUnit"
+    abstract="true" type-name="oum.organizational-unit"
+    post-set="generateXLinkHref">
+
+    <structure map-as="de.escidoc.core.resources.GenericResource"/>
+
+    <structure field="properties" usage="optional"/>
+
+    <structure ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
+      name="resources" usage="optional"/>
+
+    <structure field="mdRecords" usage="optional"/>
+
+    <structure field="parents" usage="optional"/>
+
+    <structure field="predecessors" usage="optional"/>
+  </mapping>
+  
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="organizational-unit" ns="http://www.escidoc.de/schemas/organizationalunit/0.8"
+    class="de.escidoc.core.resources.oum.OrganizationalUnit">
+    <structure map-as="oum.organizational-unit"/>
+  </mapping>
+
+</binding>

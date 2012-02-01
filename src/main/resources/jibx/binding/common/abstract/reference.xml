@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- super type Reference -->
+	<mapping class="de.escidoc.core.resources.common.reference.Reference"
+		 abstract="true"
+     factory="de.escidoc.core.resources.common.reference.ReferenceFactory.createReference">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- AggregationDefinitionRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.AggregationDefinitionRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- ContainerRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.ContainerRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- ContentModelRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.ContentModelRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- ContextRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.ContextRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- GrantRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.GrantRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- ItemRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.ItemRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- OrganizationalUnitRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.OrganizationalUnitRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- Relation -->
+  <!-- /common/0.3/relations.xml -->
+  
+  <!-- ReportDefinitionRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.ReportDefinitionRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- RoleRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.RoleRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- ScopeRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.ScopeRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- UserAccountRef -->
+  <mapping class="de.escidoc.core.resources.common.reference.UserAccountRef"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- Version (VersionHistory) -->
+  <!-- /common/0.3/version-history.xml -->
+  
+  <!-- VersionImpl (Version, LatestVersion & LatestRelease) -->
+  <!-- /common/version.xml -->
+  
+	<!-- CONCRETE MAPPINGS -->
+	<!-- none -->
+
+</binding>

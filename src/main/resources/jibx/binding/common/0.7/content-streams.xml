@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.escidoc.de/schemas/contentstreams/0.7"
+    prefix="escidocContentStreams"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+  
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- content-streams -->
+	<mapping class="de.escidoc.core.resources.common.ContentStreams"
+    abstract="true" type-name="common.content-streams">
+    
+    <structure map-as="de.escidoc.core.resources.XLinkResourceList"/>
+    
+    <collection create-type="de.escidoc.core.resources.common.ContentStreams"
+      item-type="de.escidoc.core.resources.common.ContentStream"/>
+  </mapping>
+  
+  <!-- content-stream -->
+  <mapping class="de.escidoc.core.resources.common.ContentStream"
+    abstract="true" type-name="common.content-stream">
+
+    <structure map-as="de.escidoc.core.resources.NamedSubResource"/>
+
+    <value name="inherited" usage="optional" style="attribute"
+      set-method="setInherited" get-method="isInherited"/>
+    <value name="storage" usage="required" style="attribute"
+      set-method="setStorageType" get-method="getStorageType"
+      enum-value-method="getXmlValue"/>
+    <value name="mime-type" usage="required" style="attribute"
+      set-method="setMimeType" get-method="getMimeType"/>
+    
+    <structure set-method="setContent" get-method="getContent" 
+      type="org.w3c.dom.Element"
+      marshaller="org.jibx.extras.DomElementMapper" 
+      unmarshaller="org.jibx.extras.DomElementMapper"
+      usage="optional" />
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- content-streams -->
+	<mapping name="content-streams"
+    ns="http://www.escidoc.de/schemas/contentstreams/0.7"
+    class="de.escidoc.core.resources.common.ContentStreams">
+    <structure map-as="common.content-streams"/>
+  </mapping>
+  
+	<!-- content-stream -->
+	<mapping name="content-stream"
+    ns="http://www.escidoc.de/schemas/contentstreams/0.7"
+    class="de.escidoc.core.resources.common.ContentStream">
+    <structure map-as="common.content-stream"/>
+  </mapping>
+
+</binding>
