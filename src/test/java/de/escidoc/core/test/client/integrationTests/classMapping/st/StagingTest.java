@@ -82,7 +82,7 @@ public class StagingTest {
     @Test
     public void uploadFileTest() throws Exception {
 
-        InputStream inputStream = Template.load("/soap/om/item/0.6/item.xml");
+        InputStream inputStream = Template.load("/rest/om/item/0.10/item01.xml");
         URL url = sthc.upload(inputStream);
 
         // assert file
@@ -94,7 +94,7 @@ public class StagingTest {
             stagingFile += s;
         }
 
-        inputStream = Template.load("/soap/om/item/0.6/item.xml");
+        inputStream = Template.load("/rest/om/item/0.10/item01.xml");
 
         String localFile = "";
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
