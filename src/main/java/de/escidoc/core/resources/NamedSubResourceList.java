@@ -15,14 +15,14 @@ public abstract class NamedSubResourceList<E extends NamedSubResource> extends X
     private static final long serialVersionUID = -2260136681238295873L;
 
     /**
-     * Get a AdminDescriptor.
+     * Get a sub-resource.
      * 
      * @param name
      *            The name of the AdminDescriptor.
      * @return AdminDescriptor object.
      */
     public E get(final String name) {
-        for (E element : this) {
+        for (final E element : this) {
             if (element.getName().equals(name)) {
                 return element;
             }
@@ -33,10 +33,10 @@ public abstract class NamedSubResourceList<E extends NamedSubResource> extends X
     /**
      * 
      * @param name
-     *            The name of the AdminDescriptor.
+     *            The name of the sub-resource.
      */
     public void del(final String name) {
-        for (E element : this) {
+        for (final E element : this) {
             if (element.getName().equals(name)) {
                 this.remove(element);
                 break;
