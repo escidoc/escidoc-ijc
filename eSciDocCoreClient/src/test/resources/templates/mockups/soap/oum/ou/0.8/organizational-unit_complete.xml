@@ -17,7 +17,10 @@
 		<prop:public-status-comment>Opened Organizational Unit</prop:public-status-comment>
 		<prop:name>Generic Organizational Unit</prop:name>
 		<prop:description>Generic Organizational Unit Description</prop:description>
-		<prop:external-ids></prop:external-ids>
+		<prop:external-ids>
+      <prop:external-id>foo:bar:1</prop:external-id>
+      <prop:external-id>foo:bar:2</prop:external-id>
+    </prop:external-ids>
 		<prop:has-children>false</prop:has-children>
 	</escidocOrganizationalUnit:properties>
 	
