@@ -237,8 +237,8 @@ public final class ConfigurationProvider {
         }
         finally {
             // initialize system properties as early as possible
-            System.setProperty(PROP_JIBX_PARSER_IMPL, this.properties.getProperty(PROP_JIBX_PARSER_IMPL,
-                PROP_JIBX_PARSER_IMPL_DEFAULT));
+            System.setProperty(PROP_JIBX_PARSER_IMPL,
+                this.properties.getProperty(PROP_JIBX_PARSER_IMPL, PROP_JIBX_PARSER_IMPL_DEFAULT));
         }
     }
 
@@ -372,8 +372,10 @@ public final class ConfigurationProvider {
         InputStream result = null;
 
         final String search = concatenatePath(path, filename);
-        // search = concatenatePath(search.replace(".", "/"), filename);
         result = getClass().getResourceAsStream(search);
+        if (result == null) {
+            result = Thread.currentThread().getContextClassLoader().getResourceAsStream(search);
+        }
         if (result == null) {
             throw new IOException("Resource not found [" + search + "]");
         }
