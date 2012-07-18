@@ -80,7 +80,7 @@ public class MarshallingBase {
     protected String getContentOfElementAsXml(final IUnmarshallingContext ictx, final String element)
         throws JiBXException {
         StringBuffer result = new StringBuffer();
-        UnmarshallingContext ctx = (UnmarshallingContext) ictx;
+        final UnmarshallingContext ctx = (UnmarshallingContext) ictx;
 
         boolean finished = false;
         // ctx.isStart();
@@ -121,11 +121,11 @@ public class MarshallingBase {
             throw new JiBXException("Expected start tag.");
 
         StringBuffer result = new StringBuffer();
-        UnmarshallingContext ctx = checkUnmarshaller(ictx);
+        final UnmarshallingContext ctx = checkUnmarshaller(ictx);
         boolean finished = false;
 
-        String root = ctx.getElementName();
-        String rootNS = ctx.getElementNamespace();
+        final String root = ctx.getElementName();
+        final String rootNS = ctx.getElementNamespace();
 
         while (!finished) {
             if (ctx.isStart()) {
@@ -160,11 +160,11 @@ public class MarshallingBase {
      * @throws JiBXException
      */
     private StringBuffer getStartElement(final IUnmarshallingContext ictx) throws JiBXException {
-        StringBuffer result = new StringBuffer("<");
+        final StringBuffer result = new StringBuffer("<");
 
-        UnmarshallingContext ctx = (UnmarshallingContext) ictx;
+        final UnmarshallingContext ctx = (UnmarshallingContext) ictx;
 
-        String prefix = ctx.getPrefix();
+        final String prefix = ctx.getPrefix();
         if (prefix != null && prefix.length() != 0) {
             result.append(prefix).append(":");
             result.append(new StringBuffer(ctx.getElementName()));
@@ -174,10 +174,10 @@ public class MarshallingBase {
         }
 
         // namespaces
-        StringBuffer namespaces = new StringBuffer();
+        final StringBuffer namespaces = new StringBuffer();
         for (int i = 0; i < ctx.getNamespaceCount(); ++i) {
             namespaces.append(" xmlns");
-            String currentNSPrefix = ctx.getNamespacePrefix(i);
+            final String currentNSPrefix = ctx.getNamespacePrefix(i);
             if (currentNSPrefix != null && currentNSPrefix.length() != 0) {
                 namespaces.append(":").append(currentNSPrefix);
             }
@@ -186,14 +186,16 @@ public class MarshallingBase {
         result.append(namespaces);
 
         // attributes
-        StringBuffer attributes = new StringBuffer();
+        final StringBuffer attributes = new StringBuffer();
         for (int i = 0; i < ctx.getAttributeCount(); ++i) {
-            String attrPrefix = ctx.getAttributePrefix(i);
+            final String attrPrefix = ctx.getAttributePrefix(i);
             attributes.append(" ");
             if (attrPrefix != null && attrPrefix.length() != 0) {
                 attributes.append(attrPrefix).append(":");
             }
-            attributes.append(ctx.getAttributeName(i)).append("=\"").append(ctx.getAttributeValue(i)).append("\"");
+            attributes.append(ctx.getAttributeName(i)).append("=\"");
+            attributes.append(XmlUtility.escapeForbiddenXmlCharacters(ctx.getAttributeValue(i)));
+            attributes.append("\"");
         }
         result.append(attributes);
 
@@ -227,9 +229,9 @@ public class MarshallingBase {
      */
     private StringBuffer getEndElement(final IUnmarshallingContext ictx) throws JiBXException {
         StringBuffer result = new StringBuffer("</");
-        UnmarshallingContext ctx = (UnmarshallingContext) ictx;
+        final UnmarshallingContext ctx = (UnmarshallingContext) ictx;
 
-        String prefix = ctx.getPrefix();
+        final String prefix = ctx.getPrefix();
         if (prefix != null && !"".equals(prefix)) {
             result = result.append(prefix).append(":");
             result = result.append(new StringBuffer(ctx.getElementName()));
@@ -252,7 +254,7 @@ public class MarshallingBase {
         IOException {
         String modifiedContentArray[] = null;
         String modifiedContent = null;
-        Matcher xmlDeclaration = XML_DECLARATION_PATTERN.matcher(content);
+        final Matcher xmlDeclaration = XML_DECLARATION_PATTERN.matcher(content);
         if (xmlDeclaration.find()) {
             modifiedContentArray = XML_DECLARATION_PATTERN.split(content);
             modifiedContent = modifiedContentArray[1];
@@ -261,15 +263,15 @@ public class MarshallingBase {
             modifiedContent = content;
         }
 
-        Matcher m = CDATA_PATTERN.matcher(modifiedContent);
-        Vector<String> cDataSections = new Vector<String>();
+        final Matcher m = CDATA_PATTERN.matcher(modifiedContent);
+        final Vector<String> cDataSections = new Vector<String>();
         while (m.find()) {
             String result = m.group();
             result = result.substring(9, result.length() - 3);
             cDataSections.add(result);
         }
         m.reset();
-        String[] text = CDATA_PATTERN.split(modifiedContent);
+        final String[] text = CDATA_PATTERN.split(modifiedContent);
         for (int i = 0; i < text.length; i++) {
             ctx.content(text[i]);
             if (i < text.length - 1) {
@@ -361,7 +363,7 @@ public class MarshallingBase {
         checkNotNull(enumClass);
         checkNotNull(value);
 
-        for (T t : enumClass.getEnumConstants()) {
+        for (final T t : enumClass.getEnumConstants()) {
             if (value.equals(t.getXmlValue()))
                 return t;
         }

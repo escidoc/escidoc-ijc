@@ -71,6 +71,18 @@ public abstract class MarshallerTestBase<T> {
         this.clazz = clazz;
     }
 
+    protected Class<T> getResultType() {
+        return this.clazz;
+    }
+
+    protected String getXML() {
+        return this.xml;
+    }
+
+    protected void setCheckMarshalledDoc(final boolean checked) {
+        this.checkMarshalledDoc = checked;
+    }
+
     /**
      * @param resourceFile
      * @return
