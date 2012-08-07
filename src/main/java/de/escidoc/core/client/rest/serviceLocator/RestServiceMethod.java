@@ -13,8 +13,9 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -97,9 +98,15 @@ public abstract class RestServiceMethod implements RestService {
 
         checkNotNull(content);
 
-        final String checkedPath = checkPath(path);
+        URI uri;
+        try {
+            uri = createEncodedURI(path);
+        }
+        catch (final URISyntaxException e) {
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+        }
 
-        final HttpPut put = new HttpPut(this.serviceAddress + checkedPath);
+        final HttpPut put = new HttpPut(uri.toASCIIString());
 
         invokeCallbackHandlers(put);
 
@@ -128,11 +135,17 @@ public abstract class RestServiceMethod implements RestService {
      * @throws SystemException
      */
     public String put(final String path, final File f) throws EscidocException {
-
         checkNotNull(f);
-        final String checkedPath = checkPath(path);
 
-        final HttpPut put = new HttpPut(this.serviceAddress + checkedPath);
+        URI uri;
+        try {
+            uri = createEncodedURI(path);
+        }
+        catch (final URISyntaxException e) {
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+        }
+
+        final HttpPut put = new HttpPut(uri.toASCIIString());
 
         invokeCallbackHandlers(put);
 
@@ -155,10 +168,15 @@ public abstract class RestServiceMethod implements RestService {
      * @throws EscidocException
      */
     public String put(final String path, final InputStream ins) throws EscidocException, FileNotFoundException {
+        URI uri;
+        try {
+            uri = createEncodedURI(path);
+        }
+        catch (final URISyntaxException e) {
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+        }
 
-        final String checkedPath = checkPath(path);
-
-        final HttpPut put = new HttpPut(this.serviceAddress + checkedPath);
+        final HttpPut put = new HttpPut(uri.toASCIIString());
         invokeCallbackHandlers(put);
 
         put.setEntity(new InputStreamEntity(ins, -1));
@@ -177,10 +195,15 @@ public abstract class RestServiceMethod implements RestService {
      * @throws EscidocException
      */
     public String post(final String path, final String content) throws EscidocException {
+        URI uri;
+        try {
+            uri = createEncodedURI(path);
+        }
+        catch (final URISyntaxException e) {
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+        }
 
-        final String checkedPath = checkPath(path);
-
-        final HttpPost post = new HttpPost(this.serviceAddress + checkedPath);
+        final HttpPost post = new HttpPost(uri.toASCIIString());
         invokeCallbackHandlers(post);
         StringEntity entity;
         try {
@@ -203,12 +226,16 @@ public abstract class RestServiceMethod implements RestService {
      * @throws EscidocException
      */
     public String get(final String path) throws EscidocException {
+        URI uri;
+        try {
+            uri = createEncodedURI(path);
+        }
+        catch (final URISyntaxException e) {
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+        }
 
-        final String checkedPath = checkPath(path);
-
-        final HttpGet get = new HttpGet(this.serviceAddress + checkedPath);
+        final HttpGet get = new HttpGet(uri.toASCIIString());
         invokeCallbackHandlers(get);
-
         return executeRequest(get);
     }
 
@@ -220,9 +247,15 @@ public abstract class RestServiceMethod implements RestService {
      */
     public HttpInputStream getStream(final String path) throws SystemException {
 
-        final String checkedPath = checkPath(path);
+        URI uri;
+        try {
+            uri = createEncodedURI(path);
+        }
+        catch (final URISyntaxException e) {
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+        }
 
-        final HttpGet get = new HttpGet(this.serviceAddress + checkedPath);
+        final HttpGet get = new HttpGet(uri.toASCIIString());
         invokeCallbackHandlers(get);
         HttpClientParams.setRedirecting(get.getParams(), true);
 
@@ -246,10 +279,15 @@ public abstract class RestServiceMethod implements RestService {
      * @throws EscidocException
      */
     public String del(final String path) throws EscidocException {
+        URI uri;
+        try {
+            uri = createEncodedURI(path);
+        }
+        catch (final URISyntaxException e) {
+            throw new SystemException(e.getMessage(), e, HttpURLConnection.HTTP_INTERNAL_ERROR, null, e.getMessage());
+        }
 
-        final String checkedPath = checkPath(path);
-
-        final HttpDelete del = new HttpDelete(this.serviceAddress + checkedPath);
+        final HttpDelete del = new HttpDelete(uri.toASCIIString());
         invokeCallbackHandlers(del);
 
         return executeRequest(del);
@@ -381,14 +419,7 @@ public abstract class RestServiceMethod implements RestService {
             filter12 += "&startRecord=" + String.valueOf(filter.getStartRecord());
         }
         if (filter.getQuery() != null) {
-            filter12 += "&query=";
-            try {
-                filter12 += URLEncoder.encode(filter.getQuery(), "UTF-8");
-
-            }
-            catch (final UnsupportedEncodingException e) {
-                // This should never happen.
-            }
+            filter12 += "&query=" + filter.getQuery();
         }
         if (filter.getVersion() != null) {
             filter12 += "&version=" + filter.getVersion();
@@ -596,5 +627,22 @@ public abstract class RestServiceMethod implements RestService {
             return null;
         else
             return cookies[0].getValue();
+    }
+
+    private URI createEncodedURI(final String path) throws URISyntaxException {
+        final String checkedPath = checkPath(path);
+        final String[] pathAndQuery = checkedPath.split("[?]");
+        String finalPath = pathAndQuery.length > 0 ? pathAndQuery[0] : "";
+        String finalQuery = pathAndQuery.length > 1 ? pathAndQuery[1] : "";
+
+        final URI uri = this.serviceAddress.toURI();
+        if (uri.getPath() != null) {
+            finalPath = uri.getPath() + finalPath;
+        }
+        if (uri.getQuery() != null) {
+            finalQuery = uri.getQuery() + finalQuery;
+        }
+        return new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(), finalPath, finalQuery, uri
+            .getFragment());
     }
 }
