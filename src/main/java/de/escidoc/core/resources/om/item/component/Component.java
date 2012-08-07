@@ -32,6 +32,8 @@ import de.escidoc.core.annotations.JiBX;
 import de.escidoc.core.resources.GenericResource;
 import de.escidoc.core.resources.ResourceType;
 import de.escidoc.core.resources.common.MetadataRecords;
+import de.escidoc.core.resources.common.reference.ComponentRef;
+import de.escidoc.core.resources.common.reference.Referenceable;
 
 /**
  * Component.
@@ -40,7 +42,7 @@ import de.escidoc.core.resources.common.MetadataRecords;
  * 
  */
 @JiBX
-public class Component extends GenericResource {
+public class Component extends GenericResource implements Referenceable<ComponentRef> {
 
     private ComponentProperties properties;
 
@@ -150,5 +152,10 @@ public class Component extends GenericResource {
                 content.generateXLinkHref(getXLinkHref());
             }
         }
+    }
+
+    @Override
+    public ComponentRef getReference() {
+        return new ComponentRef(this.getObjid());
     }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://qa-coreservice.mpdl.mpg.de/xsl/Resource2Html.xsl"?>
+<grants:current-grants xmlns:grants="http://www.escidoc.de/schemas/grants/0.5" xmlns:prop="http://escidoc.de/core/01/properties/"
+  xmlns:srel="http://escidoc.de/core/01/structural-relations/" xmlns:xlink="http://www.w3.org/1999/xlink" xml:base="http://qa-coreservice.mpdl.mpg.de"
+  xlink:type="simple" xlink:title="Grants of MPI_EVA" xlink:href="/aa/user-group/escidoc:266919/resources/current-grants"
+  last-modification-date="2010-06-28T14:57:36.744Z">
+  <grants:grant xlink:type="simple" xlink:title="Audience of Dummy.pdf"
+    xlink:href="/aa/user-group/escidoc:266919/resources/grants/grant/escidoc:266924">
+    <grants:properties>
+      <srel:granted-to resource="user-group" xlink:type="simple" xlink:title="MPI_EVA"
+        xlink:href="/aa/user-group/escidoc:266919" />
+      <prop:creation-date>2010-06-28T15:13:38.257Z</prop:creation-date>
+      <srel:created-by xlink:type="simple" xlink:title="Martin Boosen" xlink:href="/aa/user-account/escidoc:251960" />
+      <srel:role xlink:type="simple" xlink:title="Audience" xlink:href="/aa/role/escidoc:role-audience" />
+      <srel:assigned-on xlink:type="simple" xlink:title="Dummy.pdf"
+        xlink:href="/ir/item/escidoc:265904/components/component/escidoc:265905" />
+    </grants:properties>
+  </grants:grant>
+  <grants:grant xlink:type="simple" xlink:title="Audience of image011.jpg"
+    xlink:href="/aa/user-group/escidoc:266919/resources/grants/grant/escidoc:294898">
+    <grants:properties>
+      <srel:granted-to resource="user-group" xlink:type="simple" xlink:title="MPI_EVA"
+        xlink:href="/aa/user-group/escidoc:266919" />
+      <prop:creation-date>2010-12-06T11:57:38.106Z</prop:creation-date>
+      <srel:created-by xlink:type="simple" xlink:title="linglit" xlink:href="/aa/user-account/escidoc:266906" />
+      <srel:role xlink:type="simple" xlink:title="Audience" xlink:href="/aa/role/escidoc:role-audience" />
+      <srel:assigned-on xlink:type="simple" xlink:title="image011.jpg"
+        xlink:href="/ir/item/escidoc:290895/components/component/escidoc:290894" />
+    </grants:properties>
+  </grants:grant>
+  <grants:grant xlink:type="simple" xlink:title="Audience of crise_lacombe1874_o.pdf"
+    xlink:href="/aa/user-group/escidoc:266919/resources/grants/grant/escidoc:294899">
+    <grants:properties>
+      <srel:granted-to resource="user-group" xlink:type="simple" xlink:title="MPI_EVA"
+        xlink:href="/aa/user-group/escidoc:266919" />
+      <prop:creation-date>2010-12-06T15:43:46.053Z</prop:creation-date>
+      <srel:created-by xlink:type="simple" xlink:title="linglit" xlink:href="/aa/user-account/escidoc:266906" />
+      <srel:role xlink:type="simple" xlink:title="Audience" xlink:href="/aa/role/escidoc:role-audience" />
+      <srel:assigned-on xlink:type="simple" xlink:title="crise_lacombe1874_o.pdf"
+        xlink:href="/ir/item/escidoc:292902/components/component/escidoc:292900" />
+    </grants:properties>
+  </grants:grant>
+  <grants:grant xlink:type="simple" xlink:title="Audience of jakutengrammatik_boehtlingk1851_o.pdf"
+    xlink:href="/aa/user-group/escidoc:266919/resources/grants/grant/escidoc:294900">
+    <grants:properties>
+      <srel:granted-to resource="user-group" xlink:type="simple" xlink:title="MPI_EVA"
+        xlink:href="/aa/user-group/escidoc:266919" />
+      <prop:creation-date>2010-12-06T15:51:17.118Z</prop:creation-date>
+      <srel:created-by xlink:type="simple" xlink:title="linglit" xlink:href="/aa/user-account/escidoc:266906" />
+      <srel:role xlink:type="simple" xlink:title="Audience" xlink:href="/aa/role/escidoc:role-audience" />
+      <srel:assigned-on xlink:type="simple" xlink:title="jakutengrammatik_boehtlingk1851_o.pdf"
+        xlink:href="/ir/item/escidoc:292915/components/component/escidoc:292914" />
+    </grants:properties>
+  </grants:grant>
+  <grants:grant xlink:type="simple" xlink:title="Audience of huastec_edmonson1988_o.pdf"
+    xlink:href="/aa/user-group/escidoc:266919/resources/grants/grant/escidoc:294901">
+    <grants:properties>
+      <srel:granted-to resource="user-group" xlink:type="simple" xlink:title="MPI_EVA"
+        xlink:href="/aa/user-group/escidoc:266919" />
+      <prop:creation-date>2010-12-07T14:29:43.893Z</prop:creation-date>
+      <srel:created-by xlink:type="simple" xlink:title="linglit" xlink:href="/aa/user-account/escidoc:266906" />
+      <srel:role xlink:type="simple" xlink:title="Audience" xlink:href="/aa/role/escidoc:role-audience" />
+      <srel:assigned-on xlink:type="simple" xlink:title="huastec_edmonson1988_o.pdf"
+        xlink:href="/ir/item/escidoc:292923/components/component/escidoc:292922" />
+    </grants:properties>
+  </grants:grant>
+  <grants:grant xlink:type="simple" xlink:title="Audience of View PDF in Firefox.pdf"
+    xlink:href="/aa/user-group/escidoc:266919/resources/grants/grant/escidoc:325892">
+    <grants:properties>
+      <srel:granted-to resource="user-group" xlink:type="simple" xlink:title="MPI_EVA"
+        xlink:href="/aa/user-group/escidoc:266919" />
+      <prop:creation-date>2011-08-02T08:56:42.205Z</prop:creation-date>
+      <srel:created-by xlink:type="simple" xlink:title="Martin Boosen" xlink:href="/aa/user-account/escidoc:251960" />
+      <srel:role xlink:type="simple" xlink:title="Audience" xlink:href="/aa/role/escidoc:role-audience" />
+      <srel:assigned-on xlink:type="simple" xlink:title="View PDF in Firefox.pdf"
+        xlink:href="/ir/item/escidoc:324957/components/component/escidoc:324956" />
+    </grants:properties>
+  </grants:grant>
+  <grants:grant xlink:type="simple" xlink:title="User-Group-Inspector of MPI_EVA"
+    xlink:href="/aa/user-group/escidoc:266919/resources/grants/grant/escidoc:266920">
+    <grants:properties>
+      <srel:granted-to resource="user-group" xlink:type="simple" xlink:title="MPI_EVA"
+        xlink:href="/aa/user-group/escidoc:266919" />
+      <prop:creation-date>2010-06-28T14:58:37.290Z</prop:creation-date>
+      <srel:created-by xlink:type="simple" xlink:title="roland" xlink:href="/aa/user-account/escidoc:user42" />
+      <srel:role xlink:type="simple" xlink:title="User-Group-Inspector" xlink:href="/aa/role/escidoc:role-user-group-inspector" />
+      <srel:assigned-on xlink:type="simple" xlink:title="MPI_EVA" xlink:href="/aa/user-group/escidoc:266919" />
+    </grants:properties>
+  </grants:grant>
+</grants:current-grants>

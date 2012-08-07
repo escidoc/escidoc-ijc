@@ -74,6 +74,8 @@ public class ReferenceFactory {
                     return new UserGroupRef();
                 case SET_DEFINITION:
                     return new SetDefinitionRef();
+                case COMPONENT:
+                    return new ComponentRef();
             }
         }
 

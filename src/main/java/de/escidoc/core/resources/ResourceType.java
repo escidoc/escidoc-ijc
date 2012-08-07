@@ -2,6 +2,8 @@ package de.escidoc.core.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +61,7 @@ public enum ResourceType implements XmlCompatibleEnum {
      */
     REPORT("report", "/statistic/report"),
     /**
-     * Preprocessing is no real Resource since it does not exist as an object.
+     * Pre-processing is no real Resource since it does not exist as an object.
      */
     PREPROCESSING("preprocessing", "/statistic/preprocessing"),
     //
@@ -74,7 +76,8 @@ public enum ResourceType implements XmlCompatibleEnum {
     // sub resources
     //
     COMPONENT(de.escidoc.core.resources.om.item.component.Component.class, "component",
-        ConfigurationProvider.NS_IR_COMPONENTS, "/component", false),
+        ConfigurationProvider.NS_IR_COMPONENTS, "/component",
+        "/ir/item/(\\w+[:]\\d+)/components/component(/\\w+[:]\\d+)?", false),
 
     // TODO: delete?
     USERACCOUNT_ATTRIBUTE("user-account-attribute", "/attribute");
@@ -89,6 +92,8 @@ public enum ResourceType implements XmlCompatibleEnum {
 
     private final String path;
 
+    private final Pattern hrefPattern;
+
     /**
      * @param clazz
      * @param xmlValue
@@ -97,12 +102,13 @@ public enum ResourceType implements XmlCompatibleEnum {
      * @param isRootResource
      */
     ResourceType(final Class<? extends Resource> clazz, final String xmlValue, final String nsConfig,
-        final String path, final boolean isRootResource) {
+        final String path, final String hrefPattern, final boolean isRootResource) {
 
         this.clazz = clazz;
         this.isRootResource = isRootResource;
         this.xmlValue = xmlValue;
         this.path = path;
+        this.hrefPattern = hrefPattern == null ? null : Pattern.compile(hrefPattern);
 
         if (nsConfig != null) {
 
@@ -130,7 +136,7 @@ public enum ResourceType implements XmlCompatibleEnum {
      * @param path
      */
     ResourceType(final Class<? extends Resource> clazz, final String xmlValue, final String nsConfig, final String path) {
-        this(clazz, xmlValue, nsConfig, path, true);
+        this(clazz, xmlValue, nsConfig, path, null, true);
     }
 
     /**
@@ -139,10 +145,11 @@ public enum ResourceType implements XmlCompatibleEnum {
      */
     ResourceType(final String xmlValue, final String path) {
         this.clazz = null;
-        this.isRootResource = false;
+        this.isRootResource = true;
         this.xmlValue = xmlValue;
         this.namespace = null;
         this.path = path;
+        this.hrefPattern = null;
     }
 
     /**
@@ -206,8 +213,21 @@ public enum ResourceType implements XmlCompatibleEnum {
 
         for (int i = 0; i < ResourceType.values().length; i++) {
             final ResourceType type = ResourceType.values()[i];
+            // simple recognition
             if (value.equals(type.name()) || value.equals(type.getXmlValue()) || value.equals(type.getPath()))
                 return type;
+            // try to identify xlink-href
+            final Pattern pattern;
+            if (type.hrefPattern != null) {
+                pattern = type.hrefPattern;
+            }
+            else {
+                pattern = Pattern.compile(type.path + "(/\\w+[:]\\d+)?");
+            }
+            final Matcher matcher = pattern.matcher(value);
+            if (matcher.matches()) {
+                return type;
+            }
         }
         return null;
     }
