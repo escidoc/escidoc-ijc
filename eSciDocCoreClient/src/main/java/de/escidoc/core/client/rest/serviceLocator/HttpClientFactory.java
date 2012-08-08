@@ -1,6 +1,7 @@
 package de.escidoc.core.client.rest.serviceLocator;
 
 import java.net.InetAddress;
+import java.net.ProxySelector;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.ProxySelectorRoutePlanner;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.BasicHttpParams;
@@ -33,8 +35,8 @@ public final class HttpClientFactory {
 
     private static final Pattern HTTP_HOST_PATTERN = Pattern.compile("^(?:(.*)://)?([^:]*)(?::(\\d*))?$");
 
-    private static final Pattern INET_ADDRESS_PATTERN =
-        Pattern.compile("^(?:(.*)/)?(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
+    private static final Pattern INET_ADDRESS_PATTERN = Pattern
+        .compile("^(?:(.*)/)?(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
 
     private static HttpClient client;
 
@@ -236,7 +238,13 @@ public final class HttpClientFactory {
             LOG.debug("Error getting Instance of ConfigurationProvider. No properties loaded.", e);
         }
 
-        client = new DefaultHttpClient(getConnectionManager(params), params);
+        final DefaultHttpClient client = new DefaultHttpClient(getConnectionManager(params), params);
+        // enable standard JRE proxy selector to obtain proxy information
+        final ProxySelectorRoutePlanner routePlanner =
+            new ProxySelectorRoutePlanner(client.getConnectionManager().getSchemeRegistry(), ProxySelector.getDefault());
+        client.setRoutePlanner(routePlanner);
+
+        HttpClientFactory.client = client;
     }
 
     /**
