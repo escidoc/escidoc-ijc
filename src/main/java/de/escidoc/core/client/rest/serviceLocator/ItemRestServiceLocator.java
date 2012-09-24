@@ -241,7 +241,7 @@ public class ItemRestServiceLocator extends RestServiceMethod implements ItemHan
         checkNotNull(itemId);
         checkNotNull(componentId);
 
-        return get(PATH + "/" + itemId + "/components/component" + componentId);
+        return get(PATH + "/" + itemId + "/components/component/" + componentId);
     }
 
     @Override
