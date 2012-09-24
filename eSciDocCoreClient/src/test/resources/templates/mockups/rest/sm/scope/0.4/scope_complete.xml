@@ -1,8 +1,0 @@
-<scope:scope xmlns:scope="http://www.escidoc.de/schemas/scope/0.4"
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-  xlink:href="/statistic/scope/escidoc:4001"
-  xlink:title="Foo Scope" xlink:type="simple"
-  last-modification-date="2011-02-09T16:05:07.585Z">
-	<scope:name>AdminScope @1296661691094</scope:name>
-	<scope:type>admin</scope:type>
-</scope:scope>
