@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding name="SOAP">
+
+  <!-- common -->
+  <include path="common/common-binding.xml"/>
+  <!-- common/SOAP -->
+	<include path="soap/common/task-param-binding.xml" />
+	<include path="soap/common/version-history-binding.xml" />
+	<include path="soap/common/0.1/result-binding.xml" />
+	<include path="soap/common/0.5/md-records-binding.xml" />
+	<include path="soap/common/0.4/struct-map-binding.xml" />
+	<include path="soap/common/0.3/relations-binding.xml" />
+	<include path="soap/common/0.10/member-list-binding.xml" />
+	<include path="soap/common/properties-binding.xml"/>
+
+	<!-- CMM -->
+	<include path="soap/cmm/0.1/content-model-binding.xml" />
+
+	<!-- OUM -->
+	<include path="soap/oum/0.8/organizational-unit-binding.xml" />
+
+	<!-- OM -->
+	<include path="soap/om/container/0.9/container-binding.xml" />
+	<include path="soap/om/context/0.7/context-binding.xml" />
+	<include path="soap/om/item/0.10/item-binding.xml" />
+	<include path="soap/om/contentRelation/0.1/content-relation-binding.xml" />
+
+	<!-- AA -->
+	<include path="soap/aa/0.7/user-account-binding.xml" />
+	<include path="soap/aa/0.5/grant-binding.xml" />
+	<include path="soap/aa/0.5/role-binding.xml" />
+	<include path="soap/aa/0.3/requests-binding.xml" />
+	<include path="rest/aa/0.3/results-binding.xml" />
+	<include path="soap/aa/0.1/preference-binding.xml" />
+	<include path="soap/aa/0.1/attribute-binding.xml" />
+
+	<!-- SB -->
+<!--	<include path="soap/sb/explain-response-binding.xml" />-->
+<!--	<include path="soap/sb/explain-data-binding.xml" />-->
+<!--	<include path="soap/sb/srw-response-binding.xml" />-->
+<!--	<include path="soap/sb/0.8/search-result-record-binding.xml" />-->
+	
+	<!-- SM -->
+  <include path="soap/sm/0.4/scope-binding.xml" />
+  <include path="soap/sm/0.4/aggregation-definition-binding.xml" />
+  <include path="soap/sm/0.4/report-definition-binding.xml" />
+  <include path="soap/sm/0.3/statistic-data-binding.xml" />
+  <include path="soap/sm/0.4/report-binding.xml" />
+  <include path="soap/sm/0.4/report-parameters-binding.xml" />
+  <include path="soap/sm/0.3/preprocessing-info-binding.xml" />
+  
+  <!-- FOR TESTS ONLY -->
+<!--  <include path="soap/test/root-binding.xml" />-->
+  <!-- TEST -->
+  <include path="common/identifier.xml" />
+  <include path="common/itemx.xml" />
+</binding>

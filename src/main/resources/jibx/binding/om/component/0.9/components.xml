@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://escidoc.de/core/01/properties/" 
+    prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" 
+    prefix="srel"/>
+  <namespace uri="http://www.escidoc.de/schemas/components/0.9" 
+    prefix="escidocComponents"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- components -->
+	<mapping class="de.escidoc.core.resources.om.item.component.Components"
+    abstract="true" type-name="om.item.components">
+    
+    <structure map-as="de.escidoc.core.resources.XLinkResourceList"/>
+    
+    <collection create-type="de.escidoc.core.resources.om.item.component.Components"
+      item-type="de.escidoc.core.resources.om.item.component.Component"/>
+  </mapping>
+  
+  <!-- component -->
+  <mapping class="de.escidoc.core.resources.om.item.component.Component"
+    abstract="true" type-name="om.item.component">
+    
+    <structure map-as="de.escidoc.core.resources.GenericResource"/>
+
+    <structure field="properties" usage="optional"/>
+
+    <structure field="content" usage="optional"/>
+
+    <structure field="mdRecords" usage="optional"/>    
+  </mapping>
+  
+  <!-- component content -->
+  <mapping class="de.escidoc.core.resources.om.item.component.ComponentContent"
+    abstract="true" type-name="om.item.component.content">
+    
+    <structure map-as="de.escidoc.core.resources.XLinkResource.force"/>
+    
+    <value name="storage" style="attribute" usage="optional"
+			set-method="setStorage" get-method="getStorage"
+			enum-value-method="getXmlValue"/>
+		
+    <structure set-method="setContent" get-method="getContent" 
+      type="org.w3c.dom.Element"
+      marshaller="org.jibx.extras.DomElementMapper" 
+      unmarshaller="org.jibx.extras.DomElementMapper"
+      usage="optional" />
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- components -->
+	<mapping name="components" ns="http://www.escidoc.de/schemas/components/0.9"
+    class="de.escidoc.core.resources.om.item.component.Components">
+    <structure map-as="om.item.components"/>
+  </mapping>
+	
+	<!-- component -->
+  <mapping name="component" ns="http://www.escidoc.de/schemas/components/0.9"
+    class="de.escidoc.core.resources.om.item.component.Component">
+    <structure map-as="om.item.component"/>
+  </mapping>
+  
+  <!-- component content -->
+  <mapping name="content" ns="http://www.escidoc.de/schemas/components/0.9"
+    class="de.escidoc.core.resources.om.item.component.ComponentContent">
+    <structure map-as="om.item.component.content"/>
+  </mapping>
+</binding>

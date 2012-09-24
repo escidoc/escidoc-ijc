@@ -1,0 +1,20 @@
+<binding>
+
+  <namespace uri="http://www.escidoc.de/schemas/scope/0.4"
+    default="elements" prefix="scope"/>
+
+	<mapping name="scope" ns="http://www.escidoc.de/schemas/scope/0.4"
+		class="de.escidoc.core.resources.sm.scope.Scope">
+
+    <value name="objid" style="attribute"
+      set-method="setObjid" get-method="getObjid" usage="optional" />
+
+		<structure name="name">
+			<value style="text" field="name" />
+		</structure>
+
+		<structure name="type">
+			<value style="text" field="scopeType" enum-value-method="getXmlValue"/>
+		</structure>
+	</mapping>
+</binding>

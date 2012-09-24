@@ -1,0 +1,14 @@
+
+ eSciDoc Core Client
+ ----------------------------
+ 
+ The eSciDoc core client library should hide network and request dependencies 
+ from the user. Interface and data structure complexity is encapsulate within 
+ this small library which makes it easy to create resources like Items, 
+ Container & co. with Java applications. 
+ 
+ This library provides the user with for all eSciDoc resources with Java 
+ classes. It is therefore not necessary to deal with XML data structures if 
+ its not payload ore metadata.
+ 
+  

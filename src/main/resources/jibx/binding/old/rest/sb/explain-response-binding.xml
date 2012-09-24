@@ -1,0 +1,33 @@
+<binding>
+	<!-- REST -->
+
+	<!-- Type mapping for Response class -->
+	<mapping name="explainResponse" class="de.escidoc.core.resources.sb.explain.ExplainResponse"
+		extends="de.escidoc.core.resources.sb.Response" ns="http://www.loc.gov/zing/srw/">
+		
+		<namespace uri="http://www.loc.gov/zing/srw/" default="elements"/>
+		
+		<!-- map abstract structure -->
+		<structure map-as="de.escidoc.core.resources.sb.Response"/>
+		
+		<!-- map type structure -->
+		<structure name="record" field="record"
+			type="de.escidoc.core.resources.sb.explain.ExplainRecord"
+			usage="optional"/>
+			
+	</mapping>
+	
+	<mapping abstract="true" ns="http://www.loc.gov/zing/srw/"
+    class="de.escidoc.core.resources.sb.explain.ExplainRecord">
+    
+    <namespace uri="http://www.loc.gov/zing/srw/" default="elements"/>
+    
+    <value name="recordSchema" field="recordSchema" usage="optional"/>
+    <value name="recordPacking" field="recordPacking" usage="optional"
+      format="RecordPacking.default"/>
+      
+    <structure name="recordData" field="recordData" usage="optional"
+      marshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"
+      unmarshaller="de.escidoc.core.common.jibx.binding.RecordDataMarshaller"/>
+	</mapping>
+</binding>

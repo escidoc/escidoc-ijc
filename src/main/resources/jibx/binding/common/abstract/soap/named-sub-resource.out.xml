@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding direction="output">
+
+  <!-- NAMESPACES -->
+  <!-- none -->
+
+	<!-- ABSTRACT MAPPINGS -->
+	<!-- NameIdentifier -->
+	<mapping class="de.escidoc.core.resources.NamedSubResource$NameIdentifier"
+    abstract="true">
+    
+    <value name="name" style="attribute" set-method="setName"
+      get-method="getName" usage="optional"/>
+  </mapping>
+  
+  <!-- NamedSubResource -->
+  <mapping class="de.escidoc.core.resources.NamedSubResource" abstract="true"
+    post-set="validateIdentifier">
+    
+    <structure field="identifier" usage="optional"
+      type="de.escidoc.core.resources.NamedSubResource$NameIdentifier"/>
+      
+    <value name="last-modification-date" style="attribute" usage="optional" 
+      set-method="setLastModificationDate"
+      get-method="getLastModificationDate"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<!-- none -->
+
+</binding>

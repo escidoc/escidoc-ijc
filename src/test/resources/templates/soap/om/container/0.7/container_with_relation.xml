@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container:container xmlns:relations="http://www.escidoc.de/schemas/relations/0.3" xmlns:escidocMetadataRecords="http://www.escidoc.de/schemas/metadatarecords/0.4" xmlns:version="http://escidoc.de/core/01/properties/version/" xmlns:release="http://escidoc.de/core/01/properties/release/" xmlns:container="http://www.escidoc.de/schemas/container/0.7" xmlns:prop="http://escidoc.de/core/01/properties/" xmlns:srel="http://escidoc.de/core/01/structural-relations/" xmlns:xml="http://www.w3.org/XML/1998/namespace" objid="escidoc:169062" last-modification-date="2008-07-16T08:54:39.452Z">
+	<container:properties>
+		<prop:creation-date>2008-07-16T08:54:36.168Z</prop:creation-date>
+		<srel:created-by objid="escidoc:user42"/>
+		<prop:public-status>pending</prop:public-status>
+		<prop:name>the title</prop:name>
+		<srel:context objid="escidoc:persistent3"/>
+		<srel:content-model objid="escidoc:persistent4"/>
+		<prop:lock-status>unlocked</prop:lock-status>
+		<prop:pid>hdl:123/container456</prop:pid>
+		<prop:version objid="escidoc:169062:2">
+			<version:number>2</version:number>
+			<version:date>2008-07-16T08:54:39.452Z</version:date>
+			<version:status>pending</version:status>
+			<srel:modified-by objid="escidoc:user42"/>
+			<version:comment>Container.addContentRelations</version:comment>
+		</prop:version>
+		<prop:latest-version objid="escidoc:169062:2">
+			<version:number>2</version:number>
+			<version:date>2008-07-16T08:54:39.452Z</version:date>
+		</prop:latest-version>
+		<prop:content-model-specific xmlns:prop="http://escidoc.de/core/01/properties/">
+			<xxx xmlns="http://www.escidoc.de/schemas/container/0.7"/>
+		</prop:content-model-specific>
+	</container:properties>
+	<escidocMetadataRecords:md-records>
+		<escidocMetadataRecords:md-record name="escidoc" schema="http://www.escidoc-project.de/metadata/schema/0.1">
+			<collection xmlns="http://escidoc.mpg.de/metadataprofile/schema/0.1/">
+				<prefix-dc:title xmlns:prefix-dc="http://purl.org/dc/elements/1.1/">the title</prefix-dc:title>
+			</collection>
+		</escidocMetadataRecords:md-record>
+	</escidocMetadataRecords:md-records>
+	<relations:relations>
+		<relations:relation predicate="http://www.escidoc.de/ontologies/mpdl-ontologies/content-relations#isPartOf" objid="escidoc:169063"/>
+	</relations:relations>
+</container:container>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Axis" basedir="../.." default="generate-axis-remote-classes">
+
+	<property name="server.url" value="${server.name}:${server.port}" />
+	<property name="server.services.basepath" value="axis/services" />
+
+	<path id="axis.classpath">
+		<fileset dir="lib/axis1.4" includes="**/*.jar" />
+	</path>
+
+	<property name="path" refid="axis.classpath" />
+	<echo level="info">Build classpath: ${path}</echo>
+
+
+	<target name="clean">
+		<delete dir="${axis.gen.dir}" />
+	</target>
+
+	<target name="prepare">
+		<mkdir dir="${axis.gen.dir}" />
+	</target>
+
+	<target name="generate-axis-remote-exceptions" depends="clean, prepare">
+
+		<antcall target="wsdl2java">
+			<param name="component" value="common" />
+			<param name="service" value="SoapExceptionGenerationService" />
+		</antcall>
+	</target>
+
+	<target name="generate-axis-remote-classes" depends="clean, prepare, generate-axis-remote-exceptions">
+
+		<!--<antcall target="wsdl2java">
+			<param name="component" value="common" />
+			<param name="service" value="SoapExceptionGenerationService" />
+		</antcall>-->
+
+
+		<antcall target="wsdl2java">
+			<param name="component" value="aa" />
+			<param name="service" value="ActionHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="aa" />
+			<param name="service" value="PolicyDecisionPointService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="aa" />
+			<param name="service" value="RoleHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="cmm" />
+			<param name="service" value="ContentModelHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="om" />
+			<param name="service" value="ContainerHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="om" />
+			<param name="service" value="ContentRelationHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="om" />
+			<param name="service" value="ContextHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="om" />
+			<param name="service" value="ItemHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="om" />
+			<param name="service" value="SemanticStoreHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="om" />
+			<param name="service" value="IngestHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="oum" />
+			<param name="service" value="OrganizationalUnitHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="cmm" />
+			<param name="service" value="ContentModelHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java-skip-basepath">
+			<param name="component" value="sb" />
+			<param name="service" value="srw/search" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="um" />
+			<param name="service" value="UserAccountHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="um" />
+			<param name="service" value="UserManagementWrapperService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="sm" />
+			<param name="service" value="StatisticDataHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="sm" />
+			<param name="service" value="AggregationDefinitionHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="sm" />
+			<param name="service" value="ReportDefinitionHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="sm" />
+			<param name="service" value="ReportHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="sm" />
+			<param name="service" value="ScopeHandlerService" />
+		</antcall>
+		<antcall target="wsdl2java">
+			<param name="component" value="tme" />
+			<param name="service" value="JhoveHandlerService" />
+		</antcall>
+	</target>
+
+
+
+	<!-- The Apache Axis framework wsdl2java task -->
+	<target name="wsdl2java">
+		<taskdef name="wsdl2java" classpathref="axis.classpath" classname="org.apache.axis.tools.ant.wsdl.Wsdl2javaAntTask" />
+
+		<wsdl2java output="${axis.gen.dir}" serverside="false" testcase="false" verbose="true" noimports="true" url="http://${server.url}/${server.services.basepath}/${service}?wsdl">
+			<mapping namespace="http://${server.url}/${server.services.basepath}/${service}" package="de.escidoc.core.${component}" />
+			<mapping namespace="http://www.escidoc.de/services/${service}/0.1" package="de.escidoc.core.${component}" />
+
+			<mapping namespace="http://vo.business.${component}.core.escidoc.de" package="de.escidoc.core.remote.${component}.business.vo" />
+			<mapping namespace="http://vo.${component}.core.escidoc.de" package="de.escidoc.core.remote.${component}.vo" />
+			
+			<mapping namespace="http://exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote" />
+			<mapping namespace="http://application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application" />
+			<mapping namespace="http://invalid.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.invalid" />
+			<mapping namespace="http://missing.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.missing" />
+			<mapping namespace="http://notfound.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.notfound" />
+			<mapping namespace="http://violated.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.violated" />
+			<mapping namespace="http://security.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.security" />
+
+			<mapping namespace="http://system.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.system" />
+			<mapping namespace="http://io.java" package="de.escidoc.core.java.io" />
+		</wsdl2java>
+	</target>
+
+	<!-- The Apache Axis framework wsdl2java task -->
+	<target name="wsdl2java-skip-basepath">
+		<taskdef name="wsdl2java" classpathref="axis.classpath" classname="org.apache.axis.tools.ant.wsdl.Wsdl2javaAntTask" />
+
+		<wsdl2java output="${axis.gen.dir}" serverside="false" testcase="false" verbose="true" noimports="true" url="http://${server.url}/${service}?wsdl">
+			<mapping namespace="http://${server.url}/${server.services.basepath}/${service}" package="de.escidoc.core.${component}" />
+			<mapping namespace="http://www.escidoc.de/services/${service}/0.1" package="de.escidoc.core.${component}" />
+
+			<mapping namespace="http://vo.business.${component}.core.escidoc.de" package="de.escidoc.core.remote.${component}.business.vo" />
+			<mapping namespace="http://vo.${component}.core.escidoc.de" package="de.escidoc.core.remote.${component}.vo" />
+
+			<mapping namespace="http://exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote" />
+			<mapping namespace="http://application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application" />
+			<mapping namespace="http://invalid.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.invalid" />
+			<mapping namespace="http://missing.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.missing" />
+			<mapping namespace="http://notfound.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.notfound" />
+			<mapping namespace="http://violated.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.violated" />
+
+			<mapping namespace="http://security.application.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.application.security" />
+
+			<mapping namespace="http://system.exceptions.common.core.escidoc.de" package="de.escidoc.core.common.exceptions.remote.system" />
+			<mapping namespace="http://io.java" package="de.escidoc.core.java.io" />
+		</wsdl2java>
+	</target>
+
+</project>

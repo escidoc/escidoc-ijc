@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+  <namespace uri="http://www.escidoc.de/schemas/organizationalunitref/0.4" prefix="organizational-unit-ref"/>
+  <namespace uri="http://www.escidoc.de/schemas/organizationalunitpathlist/0.4" prefix="organizational-unit-path-list"/>
+  
+  <!-- ABSTRACT MAPPINGS -->
+  <mapping class="de.escidoc.core.resources.oum.PathList"
+    abstract="true" type-name="oum.pathlist">
+
+    <structure map-as="de.escidoc.core.resources.XLinkList"/>
+
+    <collection create-type="de.escidoc.core.resources.oum.PathList"
+      item-type="de.escidoc.core.resources.oum.Path">
+      
+      <collection name="organizational-unit-path" ns="http://www.escidoc.de/schemas/organizationalunitpathlist/0.4"
+        create-type="de.escidoc.core.resources.oum.Path"
+        item-type="de.escidoc.core.resources.oum.PathElement">
+        <structure name="organizational-unit-ref"
+          ns="http://www.escidoc.de/schemas/organizationalunitref/0.4"/>
+      </collection>
+    </collection>    
+  </mapping>
+  
+  <mapping class="de.escidoc.core.resources.oum.PathElement"
+     abstract="true">
+     <structure map-as="de.escidoc.core.resources.Resource"/>
+  </mapping>
+  
+  <!-- CONCRETE MAPPINGS -->
+  <mapping name="organizational-unit-path-list" ns="http://www.escidoc.de/schemas/organizationalunitpathlist/0.4"
+    class="de.escidoc.core.resources.oum.PathList">
+    <structure map-as="oum.pathlist"/>
+  </mapping>
+</binding>

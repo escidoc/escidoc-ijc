@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <!-- none -->
+  
+  <!-- ABSTRACT MAPPINGS -->
+  <!-- none -->
+  
+  <!-- CONCRETE MAPPINGS -->
+  <mapping name="exception" class="de.escidoc.core.common.jibx.binding.RemoteExceptionWrapper"
+    marshaller="de.escidoc.core.common.jibx.binding.ExceptionMarshaller"
+    unmarshaller="de.escidoc.core.common.jibx.binding.ExceptionMarshaller"/>
+
+</binding>

@@ -1,0 +1,33 @@
+<binding>
+	<!-- start: binding of relations  -->
+<!-- *****************************************
+			Relations 
+			****************************************** -->
+			
+	<mapping name="relations" ns="http://www.escidoc.de/schemas/relations/0.3"
+		class="de.escidoc.core.resources.common.Relations">
+
+		<namespace uri="http://www.escidoc.de/schemas/relations/0.3"
+			prefix="relations" />
+		
+		<collection ns="http://www.escidoc.de/schemas/relations/0.3"
+			ordered="false" create-type="de.escidoc.core.resources.common.Relations"
+			usage="optional">
+
+			
+				<structure
+				ns="http://www.escidoc.de/schemas/relations/0.3"
+				name="relation" 
+				type="de.escidoc.core.resources.common.Relation">
+				<value name="objid" style="attribute"
+				set-method="setObjid" get-method="getObjid" usage="optional" />
+				<value name="predicate" style="attribute"
+				set-method="setPredicate" get-method="getPredicate" usage="optional" />
+				</structure>
+				
+			
+		</collection>
+
+	</mapping>
+	<!-- end: binding of relations-->
+</binding>

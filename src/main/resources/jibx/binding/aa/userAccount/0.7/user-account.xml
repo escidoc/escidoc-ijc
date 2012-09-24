@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- NAMESPACES -->
+	<namespace uri="http://www.escidoc.de/schemas/useraccount/0.7" prefix="user-account"/>
+  <namespace uri="http://escidoc.de/core/01/properties/" prefix="prop"/>
+  <namespace uri="http://escidoc.de/core/01/structural-relations/" prefix="srel"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink" />
+
+	<!-- ABSTRACT MAPPINGS -->
+	<mapping class="de.escidoc.core.resources.aa.useraccount.UserAccount"
+    abstract="true" type-name="aa.user-account"
+    post-set="generateXLinkHref">
+    
+    <structure map-as="de.escidoc.core.resources.GenericResource"/>
+
+    <structure field="properties" usage="optional"/>
+    
+    <structure name="resources" usage="optional"
+      ns="http://www.escidoc.de/schemas/useraccount/0.7"/>
+  </mapping>
+
+	<!-- CONCRETE MAPPINGS -->
+	<mapping name="user-account"
+    ns="http://www.escidoc.de/schemas/useraccount/0.7"
+    class="de.escidoc.core.resources.aa.useraccount.UserAccount">
+    <structure map-as="aa.user-account" />
+  </mapping>
+
+</binding>

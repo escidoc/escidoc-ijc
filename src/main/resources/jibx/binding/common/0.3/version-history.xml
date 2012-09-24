@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  <!-- NAMESPACES -->
+  <namespace uri="http://www.escidoc.de/schemas/versionhistory/0.3" prefix="escidocVersions" default="elements"/>
+  <namespace uri="http://www.loc.gov/standards/premis/v1" prefix="premis"/>
+  <namespace uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+
+  <!-- ABSTRACT MAPPINGS -->
+  <!-- version-history -->
+  <mapping class="de.escidoc.core.resources.common.versionhistory.VersionHistory"
+    abstract="true" type-name="common.version-history">
+    
+    <value name="last-modification-date" style="attribute"
+      set-method="setLastModificationDate" get-method="getLastModificationDate"/>
+
+    <collection field="versions" create-type="java.util.LinkedList"
+      item-type="de.escidoc.core.resources.common.versionhistory.Version"/>
+  </mapping>
+  
+  <!-- version -->
+  <mapping class="de.escidoc.core.resources.common.versionhistory.Version"
+    abstract="true" type-name="common.version-history.version">
+    
+    <structure map-as="de.escidoc.core.resources.common.reference.Reference"/>
+        
+		<value name="version-number" field="versionNumber" />
+		<value name="timestamp" set-method="setTimestamp" get-method="getTimestamp"/>
+		<value name="version-status" field="versionStatus" />
+		<value name="comment" field="comment" />
+		
+		<collection name="events" usage="optional" field="events"
+		  create-type="java.util.LinkedList"
+		  item-type="de.escidoc.core.resources.common.versionhistory.Event"/>
+  </mapping>
+  
+  <!-- event -->
+  <mapping class="de.escidoc.core.resources.common.versionhistory.Event"
+    abstract="true" type-name="common.version-history.event">
+      
+    <value name="xmlID" style="attribute" field="xmlID"/>
+      
+    <structure ns="http://www.loc.gov/standards/premis/v1"
+      name="eventIdentifier" field="eventIdentifier">
+      
+      <value ns="http://www.loc.gov/standards/premis/v1" name="eventIdentifierType"
+        field="eventIdentifierType"/>
+      <value ns="http://www.loc.gov/standards/premis/v1" name="eventIdentifierValue"
+        field="eventIdentifierValue"/>
+    </structure>
+    
+    <value ns="http://www.loc.gov/standards/premis/v1" name="eventType"
+      field="eventType"/>
+    <value ns="http://www.loc.gov/standards/premis/v1" name="eventDateTime"
+      field="eventDateTime"/>
+    <value ns="http://www.loc.gov/standards/premis/v1" name="eventDetail"
+      field="eventDetail"/>
+      
+    <structure ns="http://www.loc.gov/standards/premis/v1"
+      name="linkingAgentIdentifier"
+      field="linkingAgentIdentifier">
+        
+      <value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierType"
+        field="linkingAgentIdentifierType"/>
+      <value ns="http://www.loc.gov/standards/premis/v1" name="linkingAgentIdentifierValue"
+        field="linkingAgentIdentifierValue"/>
+    </structure>
+
+    <structure ns="http://www.loc.gov/standards/premis/v1"
+      name="linkingObjectIdentifier"
+      field="linkingObjectIdentifier">
+      
+      <value ns="http://www.loc.gov/standards/premis/v1" name="linkingObjectIdentifierType"
+        field="linkingObjectIdentifierType"/>
+      <value ns="http://www.loc.gov/standards/premis/v1" name="linkingObjectIdentifierValue"
+        field="linkingObjectIdentifierValue"/>
+    </structure>
+  </mapping>
+
+  <!-- CONCRETE MAPPINGS -->
+  <!-- version-history -->
+  <mapping name="version-history" ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+    class="de.escidoc.core.resources.common.versionhistory.VersionHistory">
+    <structure map-as="common.version-history"/>
+  </mapping>
+  
+  <!-- version -->
+  <mapping name="version" ns="http://www.escidoc.de/schemas/versionhistory/0.3"
+    class="de.escidoc.core.resources.common.versionhistory.Version">
+    <structure map-as="common.version-history.version"/>
+  </mapping>
+  
+  <!-- event -->
+  <mapping name="event" ns="http://www.loc.gov/standards/premis/v1"
+    class="de.escidoc.core.resources.common.versionhistory.Event">
+    <structure map-as="common.version-history.event"/>
+  </mapping>
+</binding>
