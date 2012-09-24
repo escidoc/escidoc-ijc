@@ -237,8 +237,8 @@ public final class ConfigurationProvider {
         }
         finally {
             // initialize system properties as early as possible
-            System.setProperty(PROP_JIBX_PARSER_IMPL,
-                this.properties.getProperty(PROP_JIBX_PARSER_IMPL, PROP_JIBX_PARSER_IMPL_DEFAULT));
+            System.setProperty(PROP_JIBX_PARSER_IMPL, this.properties.getProperty(PROP_JIBX_PARSER_IMPL,
+                PROP_JIBX_PARSER_IMPL_DEFAULT));
         }
     }
 
